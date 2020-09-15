@@ -116,6 +116,7 @@
     <Compile Remove="ClientApp\src\app\core\resolvers\datepicker-adapter.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClientApp\src\environments\" />
     <Folder Include="Controllers\Company\" />
     <Folder Include="Controllers\Branch\" />
     <Folder Include="ClientApp\src\app\models\" />
