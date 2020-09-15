@@ -1,0 +1,116 @@
+<form [formGroup]="addForm" (submit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Expense Request</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+    <div class="modal-body">
+        <div class="d-flex flex-wrap align-items-baseline">
+            
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="name">Expense Title</label>
+                <input type="text" class="form-control" formControlName="name">
+            </div>
+
+            <div class="form-group form-input-inline input-group col-6">
+                <label class="col-12 col-form-label px-0" for="expenseConfigurationId">Expense Type</label>
+                <select class="form-control w-75" formControlName="expenseConfigurationId" (change)="setExpenseType()">
+                    <option [ngValue]="null" disabled>Select Expense Type</option>
+                    <option *ngFor="let type of expenseTypes" [ngValue]="type.id">{{type.name}}</option>
+                </select>   
+                <button *ngIf="!isDisabled" (click)="resetForm()" class="card-link btn btn-outline-primary btn-sm ml-2">
+                    <i class="fal fa-sync"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-baseline">
+            
+            <div class="form-group form-input-inline input-group col-6">
+                <label class="col-12 col-form-label px-0" for="expenseDate">Expense Date</label>                
+                <input placeholder="Select Expense Date" readonly class="form-control w-75" name="expenseDate" ngbDatepicker [minDate]="minDate"
+                    [maxDate]="maxDate" #expenseDate="ngbDatepicker" formControlName="expenseDate">
+                
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="expenseDate.toggle()"
+                        type="button"></button>
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="addForm.get('expenseDate').dirty && addForm.get('expenseDate').errors && addForm.get('expenseDate').errors.expired">
+                    This expense has expired. Expense request must be submitted within {{ selectedExpenseType.daysPassed }} days.
+                </div>
+            </div>
+
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="currency">Currency</label>
+                <input type="text" class="form-control" formControlName="currency" readonly>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-baseline">
+            
+            <div class="form-input-line col-6">
+
+                <div class="form-group" *ngIf="!isMileageCategory">
+                    <label class="col-form-label" for="amount">Amount</label>
+                    <input type="number" class="form-control" formControlName="amount">
+                </div>
+
+                <div class="form-row" *ngIf="isMileageCategory">
+                    <div class="form-group col-6">
+                        <label class="col-form-label" for="mileageCovered">{{mileageUnit}} Covered</label>
+                        <input type="number" class="form-control" formControlName="mileageCovered">
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label class="col-form-label" for="amount">Amount {{ mileageFormula }}</label>
+                        <input type="number" class="form-control" readonly formControlName="amount">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="text-primary" formGroupName="document" [ngClass]="{ 'text-primary': !isDisabled, 'disabled': isDisabled}">
+                        <label>
+                            <input type="file" [disabled]="isDisabled" multiple style="display: none;" accept="application/msword, application/pdf, image/*"
+                            (change)="handleFileInput($event.target.files)">
+                            <div *ngIf="addForm.controls.document['controls'].size.errors?.filesize" class="invalid-feedback d-block">
+                                File size should be less than 2Mb
+                            </div>
+                            <div *ngIf="addForm.controls.document['controls'].extension.errors?.filetype" class="invalid-feedback d-block">
+                                Please upload file having extensions .jpeg/.jpg/.png/.pdf only.
+                            </div>
+                            <div *ngIf="isReceiptRequired" class="invalid-feedback d-block">
+                                Please upload a file.
+                            </div>
+                            <i class="fal fa-paperclip"></i>
+                            <a class="link">Add Attachment</a>
+                        </label>
+                    </div>
+                    <div class="upload-file" id="file-name">
+                        <span class="text-truncate">{{ fileName }}</span>
+                        <i class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl" *ngIf="fileName" (click)="removeFile()"></i> 
+                    </div>
+                    <small class="upload-size">
+                        Max file size allowed is 2MB
+                    </small>
+                </div>
+            </div>
+
+            <div class="form-group form-input-inline col-6">
+                <label class="col-12 col-form-label px-0" for="comment">Comments</label>                
+                <textarea type="text" rows="3" class="form-control col-12 px-0" formControlName="comment"></textarea>
+            </div>        
+        </div>
+
+        <!-- <div class="form-group">
+            <div class="invalid-feedback d-block" *ngIf="addForm.get('expenseConfigurationId').dirty && addForm.get('expenseConfigurationId').errors?.instanceLimit">
+                Expense request limit reached for this expense type.
+            </div>
+        </div> -->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Submit Claim</button>
+    </div>
+</form>

@@ -1,0 +1,62 @@
+    <div class="header-button-wrapper">
+        <div class="content-header">
+            {{selectedMonth}} {{selectedYear}} -  Payroll Processing (Basic Components)
+        </div>
+    </div>
+    <div class="">
+        <div class="input-group ">
+            <div class="input-group-addon border border-right-0 pt-2 px-2"><span class="fa fal fa-search form-control-feedback pt-1"></span></div>
+            <input (keyup)="filterArray()" class="border-left-0 border-square form-control pl-0" [(ngModel)]="searchParameter" type="text" name="searchroleName" id="searchroleName" placeholder="Search"/>
+        </div>
+    </div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Employee</th>
+                <th>Employee code</th>
+                <ng-container *ngFor="let component of componentsArray">
+                    <th>{{component}}</th>
+                </ng-container>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let salary of employeeComponentOnDisplay; let i= index;">
+                <td>{{i+1}}</td>
+                <td> {{salary.values[0].employeeName}}</td>
+                <td>{{salary.values[0].employeeCode}}</td>
+                <ng-container *ngFor="let component of componentsArray">
+                    <td>{{salary[component]| number : '1.0-2'}}</td>
+                </ng-container>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem" (click)="openEditSalaryConfiguration(salary)"><a class="dropdown-item">Edit</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!employeeComponentOnDisplay?.length">
+                <td [attr.colspan]="componentsArray.length + 3" class="text-center">
+                    No rows found
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <div class="button-right-wrapper mt-3 ">
+        <button class="btn btn-secondary mr-3" (click)="onSubmit('draft')">
+            Save and Draft
+        </button>
+        <button class="btn btn-primary" (click)="onSubmit('continue')">
+            Save and Next
+        </button>
+
+    </div>

@@ -1,0 +1,49 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        Branches
+    </h1>
+</div>
+<div class="row">
+    <div class="col-md-4 py-2">
+        <div class="card h-100 special-card">
+            <div class="row align-items-center h-100">
+                <div class="add-new-item mx-auto">
+                    <i class="fal fa-plus-square text-success" (click)="openCreateBranch()"></i>
+                    <p>Add Branch</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 py-2" *ngFor="let branch of branches">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="mr-3 fal fa-building"></i> <b>{{branch.shortName}}</b>
+                <i class="fa fal fa-trash text-danger float-right delete" (click)="deleteBranch(branch.id, branch.shortName)"></i>
+                <i class="fa fal mr-3 fa-edit text-primary float-right edit" (click)="openEditBranch(branch.id)"></i>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title"><i class="mr-2 fal fa-location-arrow"></i> Location Name: {{branch.city}}</h5>
+                <p class="card-text">
+                    <i class="fal mr-2 fa-address-card"></i>
+                    <b>Address:</b>
+                    {{branch.addressLine1}}
+                    {{branch.addressLine2}}
+                    {{branch.city}}
+                    {{branch.stateName}}
+                    {{branch.countryName}}
+                    {{branch.pincode}}
+                </p>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="text-primary col-sm text-center">
+                        <a class="link" (click)="openBanks(branch.id)">Banks</a>
+                    </div>
+                    <div class="text-primary col-sm border-left text-center">
+                        <a class="link" (click)="openSignatories(branch.id)">Signatories</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<!-- <div class="hidden-md-down">
+    <a
+      class="header-icon"
+      data-toggle="modal"
+      (click)="openModal($event)"
+    >
+    <i class="fal fa-bell"></i>
+    <span class="badge badge-icon">12</span>
+    </a>
+  </div> -->
+
+<div dropdown>
+  <a dropdownToggle data-toggle="dropdown" class="header-icon d-flex align-items-center justify-content-center ml-2">
+    <i class="fal fa-bell"></i>
+    <span *ngIf="notificationCount" class="badge badge-icon">{{notificationCount}}</span>
+  </a>
+  <div *dropdownMenu class="dropdown-menu dropdown-menu-animated-right dropdown-lg">
+    <ul *ngIf="notificationCount>0" class="list-unstyled">
+      <li *ngFor="let data of notificationList; let i=index;">
+        <a class="dropdown-item" data-action="app-reset">
+          <span>{{data.notificationType}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

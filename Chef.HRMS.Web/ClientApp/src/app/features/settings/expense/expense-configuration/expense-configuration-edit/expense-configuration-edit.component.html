@@ -1,0 +1,54 @@
+<div id="ExpenseConfiguration">
+    <div class="subheader">
+        <h1 class="subheader-title">
+            Expense Policy Configuration
+        </h1>
+    </div>
+
+    <div class="card p-3" id="configuration">
+        
+        <div class="header-button-wrapper">
+            <div *ngIf="expenseConfiguration" class="content-header text-capitalize"> {{ expenseType }}
+                Expense Configuration</div>
+            <a [routerLink]="['/settings/expense/expense-policy']" [queryParams]="{expensePolicyId: expenseConfiguration.expensePolicyId}">
+                <button class="btn btn-sm btn-outline-primary btn-redirect "><i
+                        class="fal fa-arrow-left mr-2"></i> Back to Expense Policy</button>
+            </a>
+        </div>
+
+        <div class="col-sm pl-0">
+            
+            <div [ngSwitch]="category" class="ml-2">
+
+                <div *ngSwitchCase="expenseCategoryTypes['General']">
+                    <hrms-expense-configuration-general
+                        (saveConfiguration)="onSubmit()" 
+                        [isView]="isView" 
+                        [expenseConfiguration]="expenseConfiguration"></hrms-expense-configuration-general>
+                </div>
+
+                <div *ngSwitchCase="expenseCategoryTypes['PerDiem']">
+                    <hrms-expense-configuration-perdiem 
+                        (saveConfiguration)="onSubmit()"
+                        [isView]="isView" 
+                        [expenseConfiguration]="expenseConfiguration"></hrms-expense-configuration-perdiem>
+                </div>
+
+                <div *ngSwitchCase="expenseCategoryTypes['Mileage']">
+                    <hrms-expense-configuration-mileage 
+                        (saveConfiguration)="onSubmit()"
+                        [isView]="isView" 
+                        [expenseConfiguration]="expenseConfiguration"></hrms-expense-configuration-mileage>
+                </div>
+
+                <div *ngSwitchCase="expenseCategoryTypes['CashAdvance']">
+                    <hrms-expense-configuration-cash-advance 
+                        (saveConfiguration)="onSubmit()"
+                        [isView]="isView" 
+                        [expenseConfiguration]="expenseConfiguration"></hrms-expense-configuration-cash-advance>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

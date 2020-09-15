@@ -1,0 +1,55 @@
+<form>
+    <div class="modal-header">
+        <h4 class="modal-title">Expense Request</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="name">Expense Title</label>
+                    <input type="text" class="form-control" disabled name="name" value="{{ expenseRequest.name }}">
+                </div>
+                <div class="form-group">
+                    <label for="expenseDate">Expense Date</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" disabled name="expenseDate" value="{{ expenseRequest.expenseDate | date }}">
+                    </div>                    
+                </div>
+                <div class="form-row form-group">
+                    <div class="col-sm" *ngIf="expenseRequest.mileageCovered > 0">
+                        <label for="mileageCovered">{{mileageUnitTypes[expenseRequest.mileageUnit]}} Covered</label>
+                        <input type="number" disabled class="form-control" name="mileageCovered" value="{{ expenseRequest.mileageCovered }}">
+                    </div>
+                    <div class="col-sm">    
+                        <label for="amount">Amount {{ mileageFormula }}</label>
+                        <input type="number" disabled class="form-control" name="amount" value="{{ expenseRequest.amount }}">
+                    </div>
+                </div>                
+                <div class="form-group" *ngIf="expenseRequest.isReceiptAttached">
+                    <div class="text-primary" disabled name="document">
+                        <i class="fal fa-paperclip px-1"></i>
+                        <a class="link" [href]="downloadPath" target="_blank" target="_blank">Download Receipt</a>
+                    </div>                    
+                </div>              
+            </div>
+            
+            <div class="col-sm">                 
+                <div class="form-group">
+                    <label for="expenseTypeId">Expense Type</label>
+                    <input type="text" class="form-control" disabled name="expenseTypeId" value="{{ expenseRequest.expenseTypeName }}">
+                </div>
+                <div class="form-group">
+                    <label for="currency">Currency</label>
+                    <input type="text" class="form-control" disabled name="currency" value="{{ expenseRequest.currency }}">
+                </div>
+                <div class="form-group">
+                    <label for="comment">Comments</label>
+                    <textarea type="text" rows="5" class="form-control" disabled name="comment"> {{ expenseRequest.comment }}</textarea> 
+                </div>                 
+            </div>   
+        </div>        
+    </div>
+</form>

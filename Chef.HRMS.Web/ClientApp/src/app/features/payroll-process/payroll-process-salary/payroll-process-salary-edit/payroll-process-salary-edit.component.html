@@ -1,0 +1,33 @@
+<form [formGroup]="editForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Salary</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex mb-3">
+            <div class="col-6">
+                <div class="h6">Name: {{salary.values[0].employeeName}}</div>
+            </div>
+            <div class="col-6">
+                <div class="h6">Employee Code: {{salary.values[0].employeeCode}}</div>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap" formArrayName="components">
+
+            <div class="form-group col-6" *ngFor="let component of salary.values;let i= index;" [formGroupName]="i">
+                <label for="monthly">{{component.shortCode}}</label>
+                <input formControlName="monthly" type="number" class="form-control">
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

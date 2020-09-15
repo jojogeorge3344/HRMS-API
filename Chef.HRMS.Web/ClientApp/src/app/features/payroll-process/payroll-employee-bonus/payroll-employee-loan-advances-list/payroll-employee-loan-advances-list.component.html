@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-between my-2 align-items-baseline">
+    <div class="h6 font-weight-bold fs-sm">
+        Loans and Advances
+    </div>
+    <button type="button" class="btn btn-sm btn-success btn-add" (click)="openAddLoans()">
+        <i class="fa fal fa-plus fa-plus mr-1"></i>
+        Add Loans</button>
+</div>
+<table class="table m-0">
+    <thead class="thead-themed">
+        <tr>
+            <th>#</th>
+            <th>Loan Number</th>
+            <th>Loan Type</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let employeeLoans of payrollEmployeeLoans; let i= index;">
+            <td>{{i+1}}</td>
+            <td>{{employeeLoans.loanNumber}}</td>
+            <td>{{loanTypes[employeeLoans.loanType]}}</td>
+            <td>{{employeeLoans.amount| number : '1.0-2'}}</td>
+            <td>
+                <div class="btn-group" dropdown container="main">
+                    <button id="button-basic" dropdownToggle type="button"
+                        class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                        aria-labelledby="button-basic">
+                        <li role="menuitem"><a class="dropdown-item" (click)="openViewLoans(employeeLoans)">View</a>
+                        </li>
+                        <li role="menuitem"><a class="dropdown-item" (click)="openEditLoans(employeeLoans)">Edit</a>
+                        </li>
+                        <li role="menuitem"><a class="dropdown-item" (click)="deleteLoans(employeeLoans)">Delete</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr *ngIf="!payrollEmployeeLoans?.length">
+            <td colspan="10" class="text-center">
+                No rows found
+            </td>
+        </tr>
+    </tbody>
+</table>

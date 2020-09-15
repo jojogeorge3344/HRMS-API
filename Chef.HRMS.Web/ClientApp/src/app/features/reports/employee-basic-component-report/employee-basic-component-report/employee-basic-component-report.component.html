@@ -1,0 +1,77 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        <div>
+            Employee Basic Component Breakup Report
+        </div>
+    </h1>
+</div>
+<div id="employee-list" class="panel">
+    <div class="card p-3">
+        <div class="button-right-wrapper">
+            <button (click)="exportAsXLSX()" class="btn btn-success btn-add">
+                <i class="fal fa-download mr-1"></i>Download Report
+            </button>
+        </div>
+        <div class="d-flex justify-content-start border border-bottom-0">
+            <div class="border-right">
+                <input (keyup)="filterLog()" [(ngModel)]="employeeCodeFilter"
+                    class="form-control border-0 border-square" placeholder="Employee Code">
+            </div>
+            <div class="border-right">
+                <input (keyup)="filterLog()" [(ngModel)]="employeeNameFilter"
+                    class="form-control border-0 border-square" placeholder="Employee Name">
+            </div>
+            <div class="border-right">
+                <select class="form-control border-0 border-square " [(ngModel)]="componentMonth"
+                    (change)="payrollMonths()">
+                    <option value="null" disabled> Select Month</option>
+                    <option *ngFor="let previousMonth of previousMonths" [value]='previousMonth.month'>
+                        {{months[previousMonth.month]}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="overflow-auto">
+            <table class="table m-0">
+                <thead class="thead-themed">
+                    <tr>
+                        <th>#</th>
+                        <th>Emp Code</th>
+                        <th>Emp Name</th>
+                        <th>Effective Date</th>
+                        <ng-container *ngFor="let component of componentsArray">
+                            <th>{{component}}</th>
+                        </ng-container>
+                        <th>Bonus Amount</th>
+                        <th>Monthly Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let employee of employeesBasicListOnDisplay| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i= index;">
+                        <td>{{i+1}}</td>
+                        <td>{{employee.values[0].employeeCode}}</td>
+                        <td>{{ employee.values[0].employeeName }}</td>
+                        <td>{{ employee.values[0].effectiveDate | date}} </td>
+                        <ng-container *ngFor="let component of componentsArray">
+                            <td>{{employee[component]| number : '1.0-2'}}</td>
+                        </ng-container>
+                        <td>{{ employee.values[0].bonusAmount }}</td>
+                        <td>{{ employee.values[0].monthlyAmount }}</td>
+                    </tr>
+                    <tr *ngIf="!employeesBasicListOnDisplay?.length">
+                        <td colspan="10" class="text-center">
+                            No rows found
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-3 d-flex justify-content-center">
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
+                [collectionSize]="employeesBasicListOnDisplay.length">
+                <ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+            </ngb-pagination>
+        </div>
+    </div>
+</div>

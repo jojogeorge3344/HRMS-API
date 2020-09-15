@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h4 class="modal-title">Bonus Status</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div>
+        <div class="d-flex ">
+            <div class="col-12">
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Employee Name:</div>
+                    <p class="col-7">{{bonus.name}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Employee Code:</div>
+                    <p class="col-7">{{bonus.employeeCode}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Bonus Name:</div>
+                    <p class="col-7">{{bonus.bonusType}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Amount:</div>
+                    <p class="col-7">{{bonus.amount}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Remarks:</div>
+                    <p class="col-7">{{bonus.remarks}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<form [formGroup]="addForm" id="holidayCategoryForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Holiday List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group form-input-line col-12">
+            <label class="col-form-label" for="name">Name</label>
+            <input formControlName="name" class="form-control" type="text">            
+        </div>
+        <div class="form-group form-input-line col-12">
+            <label class="col-form-label" for="year">Year</label>
+            <select formControlName="year" class="form-control">   
+                <option *ngFor="let year of years" [ngValue]='year'>
+                    {{year}}
+                </option>  
+            </select>         
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>
+

@@ -1,0 +1,37 @@
+<div class="subheader">
+  <h1 class="subheader-title">
+    <div>
+      Add Employee
+    </div>
+  </h1>
+</div>
+<div class="card p-3" id="addEmployee">
+
+  <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right" routerLink="/employee"><i
+      class="fal fa-arrow-left mr-2"></i> Back to Employee</button>
+
+  <ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav-tabs-clean nav nav-tabs" >
+    <li [ngbNavItem]="1" [disabled]="1>disableTabFrom ">
+      <a ngbNavLink>Basic Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-basic-details-create [basicDetails]="basicDetailsForm" (basicDetailsForm)="onSubmitBasicDetails($event, nav)">
+        </hrms-employee-basic-details-create>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2" [disabled]="2>disableTabFrom ">
+      <a ngbNavLink>Job Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-job-details-create [jobDetails]="jobDetailsForm" [dob]="basicDetailsForm?.dateOfBirth" (jobDetailsForm)="onSubmitJobDetails($event, nav)">
+        </hrms-employee-job-details-create>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3" [disabled]="3>disableTabFrom ">
+      <a ngbNavLink>Job Filings</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-job-filing-create [jobFilings] ="jobFilingsForm" (jobFilingsForm)="onSubmitJobFilings($event)">
+        </hrms-employee-job-filing-create>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</div>

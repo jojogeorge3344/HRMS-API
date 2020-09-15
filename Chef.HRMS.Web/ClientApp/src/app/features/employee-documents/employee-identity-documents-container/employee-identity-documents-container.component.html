@@ -1,0 +1,123 @@
+<div id="panel-2" class="p-3">
+
+    <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)" class="accordion accordion-outline">
+
+        <ngb-panel id="1" title="Driving License">
+            <ng-template ngbPanelHeader>
+
+                <div class="card-header d-inline-flex justify-content-between w-100">
+                    <button ngbPanelToggle class="card-title p-3 btn btn-link p-0 w-75 text-decoration-none">
+                        <i class="fal fa-list-alt width-2 fs-xl"></i>
+                        Driving License
+                        <i title="Verified" *ngIf="drivingLicense?.isApproved"
+                            class="fal fa-check-circle width-2 fs-xl text-success"></i>
+                        <i title="Pending Verification" *ngIf="drivingLicense?.isApproved===false"
+                            class="fal fa-exclamation-circle width-2 fs-xl text-warning"></i>
+                    </button>
+                    <hrms-employee-driving-license-actions class="p-3"
+                        (getData)="drivingLicense = $event; acc.expand('1')">
+                    </hrms-employee-driving-license-actions>
+                </div>
+            </ng-template>
+
+            <ng-template ngbPanelContent>
+                <hrms-employee-driving-license-view [drivingLicense]="drivingLicense">
+                </hrms-employee-driving-license-view>
+            </ng-template>
+
+        </ngb-panel>
+
+        <ngb-panel id="2" title="Passport">
+            <ng-template ngbPanelHeader>
+
+                <div class="card-header d-inline-flex justify-content-between w-100">
+                    <button ngbPanelToggle class="card-title p-3 btn btn-link p-0 w-75 text-decoration-none">
+                        <i class="fal fa-list-alt width-2 fs-xl"></i>
+                        Passport
+                        <i title="Verified" *ngIf="passport?.isApproved"
+                            class="fal fa-check-circle width-2 fs-xl text-success"></i>
+                        <i title="Pending Verification" *ngIf="passport?.isApproved===false"
+                            class="fal fa-exclamation-circle width-2 fs-xl text-warning"></i>
+                    </button>
+
+                    <hrms-employee-passport-actions class="p-3"
+                        (getData)="passport = $event; acc.expand('2')"></hrms-employee-passport-actions>
+                </div>
+
+            </ng-template>
+
+            <ng-template ngbPanelContent>
+                <hrms-employee-passport-view *ngIf="passport" [passport]="passport"></hrms-employee-passport-view>
+            </ng-template>
+
+        </ngb-panel>
+
+        <ngb-panel id="3" title="PAN Card">
+            <ng-template ngbPanelHeader>
+
+                <div class="card-header d-inline-flex justify-content-between w-100">
+                    <button ngbPanelToggle class="card-title p-3 btn btn-link p-0 w-75 text-decoration-none">
+                        <i class="fal fa-list-alt width-2 fs-xl"></i>
+                        PAN Card
+                        <i title="Verified" *ngIf="pan?.isApproved"
+                            class="fal fa-check-circle width-2 fs-xl text-success"></i>
+                        <i title="Pending Verification" *ngIf="pan?.isApproved===false"
+                            class="fal fa-exclamation-circle width-2 fs-xl text-warning"></i>
+                    </button>
+                    <hrms-employee-pan-card-actions class="p-3" (getData)="pan = $event; acc.expand('3')">
+                    </hrms-employee-pan-card-actions>
+                </div>
+
+            </ng-template>
+
+            <ng-template ngbPanelContent>
+                <hrms-employee-pan-card-view [pan]="pan"></hrms-employee-pan-card-view>
+            </ng-template>
+
+        </ngb-panel>
+
+        <ngb-panel id="4" title="Unique Identity Document">
+            <ng-template ngbPanelHeader>
+
+                <div class="card-header d-inline-flex justify-content-between w-100">
+                    <button ngbPanelToggle class="card-title p-3 btn btn-link p-0 w-75 text-decoration-none">
+                        <i class="fal fa-list-alt width-2 fs-xl"></i>
+                        Unique Identity Document
+                        <i title="Verified" *ngIf="uid?.isApproved"
+                            class="fal fa-check-circle width-2 fs-xl text-success"></i>
+                        <i title="Pending Verification" *ngIf="uid?.isApproved===false"
+                            class="fal fa-exclamation-circle width-2 fs-xl text-warning"></i>
+                    </button>
+                    <hrms-employee-uid-actions class="p-3" (getData)="uid = $event; acc.expand('4')">
+                    </hrms-employee-uid-actions>
+                </div>
+
+            </ng-template>
+
+            <ng-template ngbPanelContent>
+                <hrms-employee-uid-view [uid]="uid"></hrms-employee-uid-view>
+            </ng-template>
+
+        </ngb-panel>
+
+        <ngb-panel id="5" title="Bank Details">
+            <ng-template ngbPanelHeader>
+
+                <div class="card-header d-inline-flex justify-content-between w-100">
+                    <button ngbPanelToggle class="card-title p-3 btn btn-link p-0 w-75 text-decoration-none">
+                        <i class="fal fa-list-alt width-2 fs-xl"></i>
+                        Bank Details
+                    </button>
+                    <hrms-employee-bank-details-actions class="p-3" (getData)="bankDetails = $event; acc.expand('5')">
+                    </hrms-employee-bank-details-actions>
+                </div>
+
+            </ng-template>
+
+            <ng-template ngbPanelContent>
+                <hrms-employee-bank-details-view [bankDetails]="bankDetails"></hrms-employee-bank-details-view>
+            </ng-template>
+
+        </ngb-panel>
+    </ngb-accordion>
+</div>

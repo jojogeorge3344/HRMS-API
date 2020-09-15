@@ -1,0 +1,154 @@
+<div class="p-3" id="LeaveQuota">
+    <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+        <input type="hidden" formControlName="leaveStructureId" />
+        <input type="hidden" formControlName="leaveComponentId" />
+        <div class="card-body">
+            <div class="with-input row">
+                <label for="AnnualCasualLeaveQuota" class="col-sm-5 col-form-label">Annual Leave Quota</label>
+                <div class="col-sm-3 form-group form-input-inline">
+                    <input style="width: 100%;" type="number" class="form-control" formControlName="annualLeaveQuota">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="maxConsecutiveDays" class="col-sm-5 col-form-label">Maximum number of consecutive
+                    days</label>
+                <div class="col-sm-3 form-group form-input-inline">
+                    <input type="number" class="form-control" formControlName="maxConsecutiveDays">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="maxNumberOfDaysPerMonth" class="col-sm-5 col-form-label">Maximum number of days per
+                    month</label>
+                <div class="col-sm-3 form-group form-input-inline">
+                    <input type="number" class="form-control" (change)="onChange($event.target)" formControlName="maxNumberOfDaysPerMonth">
+                    <span style="color: red" *ngIf="isInvalid"><small>Cannot be greater than the annual leave quota.</small></span>
+                </div>
+                
+            </div>
+            <div class="form-group row">
+                <label for="numberOfDaysGapRequiredBetweenLeaves" class="col-sm-5 col-form-label">Number of days gap
+                    required between leaves</label>
+                <div class="col-sm-3 form-group form-input-inline">
+                    <input type="number" class="form-control" formControlName="numberOfDaysGapRequiredBetweenLeaves">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="LeaveQuotaAllocatedIntheJoiningMonthAfterDays" class="col-sm-5 col-form-label">Do not
+                    allocate leave quota if joining date is beyond</label>
+                <div class="col-sm-3 form-group form-input-inline">
+                    <input type="number" class="form-control" formControlName="noLeaveQuotaAfterJoiningDay">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="priorCalendarDays" class="col-sm-5 col-form-label">Require prior notice (in days)</label>
+                <div class="col-sm-3 form-group form-input-inline">
+                    <input type="number" class="form-control" formControlName="priorNoticeDays">
+                </div>
+            </div>
+            <hr />
+            <div class="form-group row align-items-center">
+                <label for="allocateLeaveQuotaAt" class="col-sm-5 col-form-label">Allocate leave quoata at </label>
+                <div class="col-sm-7">
+                    <div class="form-check-inline">
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="allocateLeaveQuotaAt1"
+                                name="allocateLeaveQuotaAt" formControlName="allocateLeaveQuotaAt" [value]="1">
+                            <label class="custom-control-label" for="allocateLeaveQuotaAt1">Joining Date</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="allocateLeaveQuotaAt2"
+                                name="allocateLeaveQuotaAt" formControlName="allocateLeaveQuotaAt" [value]="2">
+                            <label class="custom-control-label" for="allocateLeaveQuotaAt2">Monthly Interval</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="balanceRoundOff" class="col-sm-5 col-form-label">Round off the leave balance </label>
+                <div class="col-sm-7">
+                    <div class="form-check-inline">
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="balanceRoundOff1"
+                                name="balanceRoundOff" formControlName="balanceRoundOff" [value]="1">
+                            <label class="custom-control-label" for="balanceRoundOff1">Do not round-off</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="balanceRoundOff2"
+                                name="balanceRoundOff" formControlName="balanceRoundOff" [value]="2">
+                            <label class="custom-control-label" for="balanceRoundOff2">Round-off to full day</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group row align-items-center">
+                <label for="leaveBalancesAtTheYearEnd" class="col-sm-5 col-form-label">Leave balance(s) at the year end
+                </label>
+                <div class="col-sm-7">
+                    <div class="form-check-inline">
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="leaveBalancesAtTheYearEnd1"
+                                name="leaveBalancesAtTheYearEnd" formControlName="leaveBalancesAtTheYearEnd"
+                                [value]="1">
+                            <label class="custom-control-label" for="leaveBalancesAtTheYearEnd1">Expires</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="leaveBalancesAtTheYearEnd2"
+                                name="leaveBalancesAtTheYearEnd" formControlName="leaveBalancesAtTheYearEnd"
+                                [value]="2">
+                            <label class="custom-control-label" for="leaveBalancesAtTheYearEnd2">Encash</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="leaveBalancesAtTheYearEnd3"
+                                name="leaveBalancesAtTheYearEnd" formControlName="leaveBalancesAtTheYearEnd"
+                                [value]="3">
+                            <label class="custom-control-label" for="leaveBalancesAtTheYearEnd3">Carry forward</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row align-items-center" *ngIf="editForm.value.leaveBalancesAtTheYearEnd == 3">
+                <label for="maxCarryForwardDays" class="col-sm-5 col-form-label">Maximum carry forward leave (in
+                    days)</label>
+                <div class="col-sm-3">
+                    <input type="number" class="form-control" formControlName="maxCarryForwardDays">
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center">
+                <label for="negativeLeaveBalancesAtTheYearEnd" class="col-sm-5 col-form-label">Negative Leave balance(s)
+                    at the year end </label>
+                <div class="col-sm-7">
+                    <div class="form-check-inline">
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="negativeLeaveBalancesAtTheYearEnd1"
+                                name="negativeLeaveBalancesAtTheYearEnd"
+                                formControlName="negativeLeaveBalancesAtTheYearEnd" [value]="1">
+                            <label class="custom-control-label" for="negativeLeaveBalancesAtTheYearEnd1">Do
+                                nothing</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="negativeLeaveBalancesAtTheYearEnd2"
+                                name="negativeLeaveBalancesAtTheYearEnd"
+                                formControlName="negativeLeaveBalancesAtTheYearEnd" [value]="2">
+                            <label class="custom-control-label" for="negativeLeaveBalancesAtTheYearEnd2">Loss of
+                                pay</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline custom-radio-rounded">
+                            <input type="radio" class="custom-control-input" id="negativeLeaveBalancesAtTheYearEnd3"
+                                name="negativeLeaveBalancesAtTheYearEnd"
+                                formControlName="negativeLeaveBalancesAtTheYearEnd" [value]="3">
+                            <label class="custom-control-label" for="negativeLeaveBalancesAtTheYearEnd3">Adjust with
+                                next year</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-right-wrapper">
+            <button type="submit" class="btn btn-primary mb-3 mr-3">
+                <!-- <i class="mr-1 fal fa-save"></i>  -->
+                Save</button>
+        </div>
+    </form>
+</div>

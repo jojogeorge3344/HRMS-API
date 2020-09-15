@@ -1,0 +1,33 @@
+<form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Assign Expense Types</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name">Expense Policy Name</label>
+            <input type="text" class="form-control" id="expensePolicyName" name="expensePolicyName" disabled value="{{expensePolicy.name}}">
+        </div>
+
+        <div class="form-group" *ngIf="allExpenseTypes?.length">
+            <label class="py-2">Select Expense Types</label> 
+
+            <div class="custom-control custom-checkbox mb-1" formArrayName="types"
+                *ngFor="let component of allExpenseTypes; let i = index">
+                <input type="checkbox" class="custom-control-input" id="{{i}}" [formControlName]="i">
+                <label class="custom-control-label" for="{{i}}">{{allExpenseTypes[i].name}}</label>
+            </div>
+            
+            <div *ngIf="isEmpty" class="invalid-feedback d-block">
+                Please select atleast 1 expense type.
+            </div>
+        </div>            
+    </div>    
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+    </div>
+</form>
+

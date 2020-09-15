@@ -1,0 +1,35 @@
+<form [formGroup]="addForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Payroll Processing Methods</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="modeOfProcessing">Payroll Process Mode</label>
+                <select class="form-control" formControlName= "modeOfProcessing">
+                    <option [ngValue]="null" >Select Payroll Process Mode</option>
+                    <option *ngFor="let key of modeOfPayrollProcessTypeKeys" [ngValue]='key'  >{{modeOfPayrollProcessType[key]}}</option>
+                </select>
+            </div>
+            <div class="form-group my-6" *ngIf="addForm.controls.modeOfProcessing.value ==2">  
+                    <label for="employeeName">Employee Name</label>
+                        <input type="text" class="form-control" formControlName="employeeId" [ngbTypeahead]="search" 
+                      [inputFormatter]="nameFormatter" [resultFormatter]="nameFormatter" [editable]='false'>             
+            </div> 
+            <div class="form-group" *ngIf="addForm.controls.modeOfProcessing.value ==1">
+                <label for="name">Pay Group Name</label>
+                <select class="form-control" formControlName= "payGroupId">
+                    <option [ngValue]="null" >Select PayGroup Name</option>
+                    <option *ngFor="let type of paygroup" value='{{type.id}}'>
+                        {{type.name}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+            <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Next</button>
+        </div>
+</form>

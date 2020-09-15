@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-header">
+      Upload
+    </div>
+    <div class="card-body">
+        <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile01"
+                aria-describedby="inputGroupFileAddon01">
+              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="form-group col-sm">
+                <div formGroupName="document" [ngClass]="{ 'text-primary': !isDisabled, 'disabled': isDisabled}">
+                    <label>
+                        <input type="file" [disabled]="isDisabled" multiple style="display: none;" accept="application/msword, application/pdf, image/*"
+                        (change)="handleFileInput($event.target.files)">
+                        <div *ngIf="addForm.controls.document['controls'].size.errors?.filesize" class="invalid-feedback d-block">
+                            File size should be less than 2Mb
+                        </div>
+                        <div *ngIf="addForm.controls.document['controls'].extension.errors?.filetype" class="invalid-feedback d-block">
+                            Please upload file having extensions .jpeg/.jpg/.png/.pdf only.
+                        </div>
+                        <div *ngIf="addForm.controls.document['controls'].name.errors?.filename" class="invalid-feedback d-block">
+                            Please upload a file.
+                        </div>
+                        <i class="fal fa-paperclip"></i>
+                        <a class="link">Add Attachment</a>
+                    </label>
+                </div>
+                <div class="color-fusion-300 font-weight-bold" id="file-name">
+                    {{ fileName }}
+                    <i class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl" *ngIf="fileName" (click)="removeFile()"></i> 
+                </div>
+                <small class="color-fusion-300 small">
+                    Max file size allowed is 2MB
+                </small>
+            </div>
+        </div> -->
+    </div>
+  </div>

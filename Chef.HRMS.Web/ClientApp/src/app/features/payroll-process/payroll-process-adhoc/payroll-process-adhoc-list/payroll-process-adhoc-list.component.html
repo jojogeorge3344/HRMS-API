@@ -1,0 +1,64 @@
+<div>
+    <div class="header-button-wrapper">
+        <div class="content-header">
+            {{month}} {{selectedYear}} - Payroll Processing (Adhoc Deduction and Repayment details)
+        </div>
+
+    </div>
+    <div class="header-button-wrapper">
+        <div class="content-subheader">
+            Adhoc Deduction
+        </div>
+        <button type="button" class="btn btn-add btn-success" (click)="openAdd()">Add
+            Adhoc Deduction +</button>
+
+    </div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Employee Code</th>
+                <th>Employee Name</th>
+                <th>Deduction Name</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let adhocDeduction of payGroupProcessAdhocDeduction; let i= index;">
+                <td>{{i+1}}</td>
+                <td>{{adhocDeduction.employeeCode}}</td>
+                <td>{{adhocDeduction.name}}</td>
+                <td>{{adhocDeduction.deductionName}}</td>
+                <td>{{adhocDeduction.amount| number : '1.0-2'}}</td>
+                <td>{{adhocDeduction.description}}</td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item"
+                                    (click)="openViewDeduction(adhocDeduction)">View</a>
+                            </li>
+                            <li role="menuitem"><a class="dropdown-item"
+                                    (click)="openEditDeduction(adhocDeduction)">Edit</a>
+                            </li>
+                            <li role="menuitem"><a class="dropdown-item"
+                                    (click)="deleteAdhocDeduction(adhocDeduction.deductionId,adhocDeduction.name)">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!payGroupProcessAdhocDeduction?.length">
+                <td colspan="10" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

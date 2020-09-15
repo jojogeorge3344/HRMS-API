@@ -1,0 +1,38 @@
+<form [formGroup]="addForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Defer payment</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-sm">
+                <label for="deferPeriod">Defer by Payment</label>
+                <select class="form-control" formControlName="deferPeriod" >
+                    <option [ngValue]="null">Select a Defer Period</option>
+                    <option *ngFor="let period of deferPeriods" [ngValue]="period">
+                        {{period}}
+                    </option>
+                </select>
+            </div> 
+            <div class="form-group col-sm">
+                <label for="paymentPeriodType">Select Period</label>
+                <select class="form-control" formControlName="paymentPeriodType">
+                    <option [ngValue]="null" disabled>Select Payment Period</option>
+                    <option *ngFor="let key of generalPeriodTypeKeys" [ngValue]='key'>{{generalPeriodType[key]}}</option>
+                </select>
+            </div> 
+        </div>
+        <div class="row">
+            <div class="form-group col-sm">
+                <label for="description">Remarks</label>
+                <textarea type="text" class="form-control" formControlName="description" ></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

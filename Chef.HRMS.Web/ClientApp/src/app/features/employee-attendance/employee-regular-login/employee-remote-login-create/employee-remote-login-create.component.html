@@ -1,0 +1,20 @@
+<form [formGroup]="addForm" id="remoteClockInForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Remote Clock "In" Request</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="checkInComment">Reason</label>
+                <textarea type="textarea" class="form-control" id="checkInComment" name="checkInComment" formControlName="checkInComment" 
+                placeholder="Adding comment is made mandatory by your HR Manager"></textarea>
+        </div>   
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Request</button>
+    </div>
+</form>

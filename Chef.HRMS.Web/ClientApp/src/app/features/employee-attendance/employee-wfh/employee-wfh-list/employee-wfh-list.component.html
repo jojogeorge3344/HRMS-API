@@ -1,0 +1,30 @@
+<table class="table">
+    <thead class="thead-themed">
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Request Type</th>
+            <th>Requested On</th>
+            <th>Status</th>
+            <th>Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let workFromHome of workFromHomeRequest; let i= index;">
+            <td>{{i+1}}</td>
+            <td>{{workFromHome.fromDate | date}} - {{workFromHome.toDate | date}}</td>
+            <td>Work From Home</td>
+            <td>{{workFromHome.createdDate | date}}</td>
+            <td>
+                <span *ngIf="workFromHome.isApproved"><i class="fal fa-check-circle text-success"></i></span>
+                <span *ngIf="!workFromHome.isApproved"><i class="fal fa-times-circle text-danger"></i></span>
+            </td>
+            <td title="{{workFromHome.reason}}" class="text-ellipsis">{{workFromHome.reason}}</td>
+        </tr>
+        <tr *ngIf="!workFromHomeRequest?.length">
+            <td colspan="6" class="text-center">
+                No rows found
+            </td>
+        </tr>
+    </tbody>
+</table>

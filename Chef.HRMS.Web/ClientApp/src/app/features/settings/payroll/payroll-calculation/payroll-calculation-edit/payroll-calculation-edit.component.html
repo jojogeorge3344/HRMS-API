@@ -1,0 +1,74 @@
+<form [formGroup]="editForm" id="assignCalculationOvertimeForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Calculation : {{selectedComponentName}} ({{selectedComponentCode}})</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-5 variable-scroll">
+                    <!-- <div class="custom-control custom-checkbox custom-switch form-group">
+                        <label for="calculationVariable">Component</label>
+                        <input type="checkbox"  class="custom-control-input" (change)="onChange($event.target)"  id="calculationVariable" >
+                        <label class="custom-control-label" for="calculationVariable">
+                            System
+                        </label>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="calculationVariable">Component</label>                     
+                    </div>
+                    <ul class="list-group" *ngFor ="let variable of calculationVariables">
+                        <li class="list-group-item link list-link" (click)="passVariable(variable)">{{variable.payrollComponentName}}</li>
+                    </ul>
+                    <!-- <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="shortName">Available Component</label>
+                            <input type="text" class="form-control"  placeholder="Search for the salary component">
+                        </div>
+                    </div> -->
+                </div>
+                <div class="col-sm border-left" style="height: 350px;">
+                    <div class="form-group">
+                        <label for="city">Enter the formula to calculate per hour pay of an employee</label>
+                        <textarea type="text" class="form-control" id="formula" name="formula" formControlName="formula" ></textarea>
+                        <Span>Use standard javascript notification for the formula expressions</Span>
+                    </div>
+
+                    <!-- <div class="form-group" *ngIf="!preview">
+                        <a class="link preview-view-link mt-3" (click)="preview = !preview">Show preview</a>
+                    </div> -->
+                    <div class="form-group" *ngIf="preview">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Calculation preview for HRA</h5>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-8 col-form-label">Enter the basic pay value (BP)</label>
+                                <div class="col-sm-3">
+                                    <input type="number" class="form-control" >
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-8 col-form-label">HRA = BP * 25</label>
+                                <div class="col-sm-3">
+                                    <input type="number" class="form-control">
+                                </div>
+                            </div>                            
+                            <!-- <div class="modal-footer">
+                                <button type="button">Cancel</button>
+                                <button type="submit" >Compute</button>
+                            </div>                           -->
+                        </div>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="preview">
+                        <a class="link preview-view-link mt-3" (click)="preview = !preview">Hide preview</a>
+                    </div>
+                </div>
+            </div>   
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+            <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+        </div>
+</form>

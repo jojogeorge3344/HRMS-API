@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-heading">
+    Time Sheet {{minDate | date}}
+  </div>
+  <div class="card-body ">
+    <div class="d-flex flex-column align-items-stretch ">
+      <div class="mb-2 text-center" >{{ time | date: 'hh:mm:ss a' }}</div>
+        <button type="button" class="btn btn-md btn-outline-primary  mb-2" style="font-size: 0.8em;"
+          *ngIf="!isClockedIn && !isRemoteClockedIn" (click)="openWebClockIn()">Web Clock-In</button>
+        <button type="button" class="btn btn-md btn-outline-danger mb-2" style="font-size: 0.8em;"
+          *ngIf="isClockedIn && !isRemoteClockedIn" (click)="openWebClockOut()">Web Clock-Out</button>
+        <button type="button" class="btn btn-md btn-outline-primary  mb-2" style="font-size: 0.8em;"
+          *ngIf="!isRemoteClockedIn && !isClockedIn" (click)="openRemoteClockIn()">Remote Clock-In</button>
+        <button type="button" class="btn btn-md btn-outline-danger  mb-2" style="font-size: 0.8em;"
+          *ngIf="isRemoteClockedIn && !isClockedIn" (click)="openRemoteClockOut()">Remote Clock-Out</button>
+        <button type="button" class="btn btn-md btn-outline-primary  mb-2" style="font-size: 0.8em;"
+          *ngIf="isWFHEnabled" (click)="openWorkFromHome()">Work From Home</button>
+
+        <button type="button" class="btn btn-md btn-outline-primary  mb-2" style="font-size: 0.8em;"
+          (click)="openOnDuty()">On Duty</button>
+        <div class="row mt-1">
+          <div *ngIf="isClockedIn || isRemoteClockedIn" class="login" style="text-align: center;">{{showLogin()}}<span
+              class="sinceLogin ml-1">Since Last Login</span></div>
+        </div>
+    </div>
+  </div>
+</div>

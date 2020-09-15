@@ -1,0 +1,112 @@
+
+    <div class="header-button-wrapper">
+        <div class="content-header">
+            {{selectedMonth}} {{selectedYear}} -  Payroll Processing (Bonus, Loans and Advances)
+        </div>
+    </div>
+    <div class="header-button-wrapper">
+        <div class="content-subheader">Bonus</div>
+        <button class="btn btn-add btn-sm btn-success" (click)="openCreateBonus()">
+            Add Bonus +
+        </button>
+    </div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Employee</th>
+                <th>Employee code</th>
+                <th>Bonus type</th>
+                <th>Proposed Distribution Date</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let bonus of bonuses; let i= index;">
+                <td>{{i+1}}</td>
+                <td> {{bonus.name}}</td>
+                <td>{{bonus.employeeCode}}</td>
+                <td>{{bonus.bonusType}}</td>
+                <td>{{bonus.disburseOn | date}}</td>
+                <td>{{bonus.amount| number : '1.0-2'}}</td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more fs-xl" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem" (click)="viewEditBonus(bonus)"><a class="dropdown-item">View</a></li>
+                            <li role="menuitem" (click)="openEditBonus(bonus)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="deleteBonus(bonus)"><a class="dropdown-item">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!bonuses?.length">
+                <td colspan="7" class="text-center">
+                    No rows found
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <div class="header-button-wrapper">
+        <div class="content-subheader mt-4">Loans and Advances</div>
+        <button class="btn btn-add btn-sm btn-success" (click)="openCreateLoan()">
+            Add Loan +
+        </button>
+    </div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Employee</th>
+                <th>Employee code</th>
+                <th>Loan No</th>
+                <th>Loan Type</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let loan of loans; let i= index;">
+                <td>{{i+1}}</td>
+                <td>{{loan.name}}</td>
+                <td>{{loan.employeeCode}}</td>
+                <td>{{loan.loanNumber}}</td>
+                <td>{{loanTypes[loan.loanType]}}</td>
+                <td>{{loan.amount| number : '1.0-2'}}</td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more fs-xl" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem" (click)="viewEditLoan(loan)"><a class="dropdown-item">View</a></li>
+                            <li role="menuitem" (click)="openEditLoan(loan)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="deleteLoan(loan)"><a class="dropdown-item">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!loans?.length" >
+                <td colspan="7" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="button-right-wrapper mt-3 ">
+        <button class="btn btn-secondary mr-3" (click)="onSubmit('draft')">
+            Save as Draft
+        </button>
+        <button class="btn btn-primary" (click)="onSubmit('continue')">
+            Save and Next
+        </button>
+    </div>
+<!-- </div> -->

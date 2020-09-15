@@ -1,0 +1,36 @@
+<table class="table mb-0">
+    <thead class="thead-themed">
+        <tr>
+            <th>#</th>
+            <th>Component Name</th>
+            <th>Short Code</th>
+            <th>Formula</th>
+            <th>Amount(Monthly)</th>
+            <th>Amount(Yearly)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let component of salary;let i = index;">
+            <td>{{i+1}}</td>
+            <td class="text-capitalize">{{component.payrollComponentName}}</td>
+            <td>{{component.shortCode}}</td>
+            <td>{{component.formula || '--'}}</td>
+            <td>
+                {{component.monthlyAmount | number : '1.0-2'}}
+            </td>
+            <td>
+                {{component.yearlyAmount | number : '1.0-2'}}
+            </td>
+        </tr>
+        <tr *ngIf="salary?.length">
+            <td class="text-center" colspan="4">Total(in currency)</td>
+            <td>{{ monthlySum | number : '1.0-2' }}</td>
+            <td>{{ yearlySum | number : '1.0-2' }}</td>
+        </tr>
+        <tr *ngIf="!salary?.length">
+            <td colspan="6" class="text-center">
+                No rows found
+            </td>
+        </tr>
+    </tbody>
+</table>

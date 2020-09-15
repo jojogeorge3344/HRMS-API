@@ -1,0 +1,53 @@
+<div id="job-title-list" class="p-3">
+
+    <div class="button-right-wrapper">
+        <button (click)="openCreate()" class="btn btn-success btn-add">
+            <i class="fa fal fa-plus fa-plus mr-1"></i>Add Job Title
+        </button>
+    </div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Job Title</th>
+                <th>Description</th>
+                <th>No of assigned employees</th>
+                <th>Created On</th>
+                <th>Last Modified On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let jobTitle of jobTitles; let i= index;">
+                <td>{{i+1}}</td>
+                <td class="text-capitalize">{{ jobTitle.name }}</td>
+                <td class="text-ellipsis" title="{{ jobTitle.description }}"> {{ jobTitle.description }} </td>
+                <td *ngIf="jobTitle.numberOfEmployees > 0"> <a class="link text-primary mt-3"
+                        (click)="openViewList(jobTitle)">{{ jobTitle.numberOfEmployees }}</a> </td>
+                <td *ngIf="jobTitle.numberOfEmployees === 0">-</td>
+                <td> {{ jobTitle.createdDate | date }} </td>
+                <td> {{ jobTitle.modifiedDate | date }} </td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem" (click)="openEdit(jobTitle)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="!isDisabled(jobTitle) && delete(jobTitle)">
+                                <a [ngClass]="{'disabled': isDisabled(jobTitle)}" class="dropdown-item">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!jobTitles?.length">
+                <td colspan="7" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

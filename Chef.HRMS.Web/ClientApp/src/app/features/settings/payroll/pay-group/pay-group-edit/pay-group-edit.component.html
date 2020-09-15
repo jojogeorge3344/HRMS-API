@@ -1,0 +1,69 @@
+<form [formGroup]="editForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Edit Pay Group
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-wrap">
+
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="name">Name</label>
+                <input type="text" class="form-control" formControlName="name">   
+            </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="code">Code</label>
+                <input type="text" class="form-control" formControlName="code">
+            </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="payrollCalendarId">Payroll Calendar </label>
+                <select class="form-control" formControlName="payrollCalendarId">
+                    <option [ngValue]="null">Select a Payroll Calendar</option>
+                    <option *ngFor="let calender of calenders" [ngValue]="calender.id">
+                        {{calender.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="startingYear">Starting year </label>
+                <select class="form-control" formControlName="startingYear">
+                    <option [ngValue]="null">Select a starting year</option>
+                    <option *ngFor="let year of years" [ngValue]="year">
+                        {{year}}
+                    </option>
+                </select>
+            </div>
+            <div *ngIf="isStartingMonth" class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="startingMonth">
+                    <span>Starting Month </span>
+                </label>
+                <select class="form-control" formControlName="startingMonth">
+                    <option [ngValue]="0">Select a Starting month</option>
+                    <option *ngFor="let key of monthKeys" [ngValue]="key">
+                        {{months[key]}}
+                    </option>
+                </select>
+            </div>
+            <div *ngIf="!isStartingMonth" class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="startingWeek">
+                    <span>Starting Week </span>
+                </label>
+                <select class="form-control" formControlName="startingWeek">
+                    <option [ngValue]="0">Select a Starting week</option>
+                    <option *ngFor="let week of weeks" [ngValue]="week">
+                        week-{{week}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

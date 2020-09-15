@@ -1,0 +1,78 @@
+<div class="card p-3">
+    <div class="header-button-wrapper">
+        <div>
+
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-primary btn-redirect" [routerLink]="['/payroll-processing']"
+            routerLinkActive="router-link-active">
+            <i class="fal fa-arrow-left mr-2"></i>
+            Back to Payroll View
+        </button>
+    </div>
+    <div>
+        <form class="d-flex" [formGroup]="addForm" >
+            <div class="form-group mb-4 pl-0 col-lg-4 col-md-4 col-sm-6">
+                <label for="modeOfProcessing">Payroll Process Mode</label>
+                <select class="form-control" formControlName="modeOfProcessing">
+                    <option [ngValue]="null">Select Payroll Process Mode</option>
+                    <option *ngFor="let key of modeOfPayrollProcessTypeKeys" [ngValue]='key'>
+                        {{modeOfPayrollProcessType[key]}}</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-4 col-md-4 col-sm-6" *ngIf="addForm.controls.modeOfProcessing.value ==2">
+                <label for="employeeName">Employee Name</label>
+                <input type="text" class="form-control" placeholder="Type Employee name" formControlName="employeeId"
+                    [ngbTypeahead]="search" [inputFormatter]="nameFormatter" [resultFormatter]="nameFormatter"
+                    [editable]='false'>
+            </div>
+            <div class="form-group col-lg-4 col-md-4 col-sm-6" *ngIf="addForm.controls.modeOfProcessing.value ==1">
+                <label for="name">Pay Group Name</label>
+                <select class="form-control" formControlName="payGroupId">
+                    <option [ngValue]="0">Select PayGroup Name</option>
+                    <option *ngFor="let type of paygroup" value='{{type.id}}'>
+                        {{type.name}}
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="row h-100" style="min-height: 310px;" *ngIf="!(addForm.controls.payGroupId.value || addForm.controls.employeeId.value)"></div>
+    <div class="row h-100" style="min-height: 310px;" *ngIf="addForm.controls.payGroupId.value || addForm.controls.employeeId.value">
+        <div class="col-sm-2 border-right">
+            <ul class="list-group" style="box-sizing: border-box;">
+                <li *ngFor="let previousMonth of previousMonths" class="list-group-item link list-link"
+                    [ngStyle]="{'border-right': getBorders(previousMonth),'padding-right':getPadding(previousMonth)}"
+                    (click)="payrollMonths(previousMonth)">
+                    <div class="m-1">
+                        {{months[previousMonth.month]}}
+                        <i *ngIf="previousMonth.processed" class="bg-success-400 border-circle fa fa-check fal float-right fs-xl text-white"></i>
+                        <i *ngIf="!previousMonth.processed" class="bg-warning-400 border-circle fa fa-exclamation-circle fal float-right fs-xl text-white"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-10 ">
+
+            <div class="header-button-wrapper mt-3">
+                <div class="content-subheader">
+                    {{months[selectedMonth]}}, {{selectedYear}} - Payroll
+
+                </div>
+            </div>
+
+            <div class="d-flex align-items-baseline justify-content-start">
+                <div>
+                    <div class="py-2 ">No of calender Days</div>
+                    <div class="font-weight-bold">
+                        {{noOfCalendarDays}}
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-md btn-outline-primary btn-redirect ml-4"
+                    (click)="openPayrollProcessMonth()">Payroll
+                    Process</button>
+            </div>
+        </div>
+
+    </div>
+</div>

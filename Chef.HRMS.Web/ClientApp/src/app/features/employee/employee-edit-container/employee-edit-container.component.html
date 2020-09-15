@@ -1,0 +1,47 @@
+<div class="subheader">
+  <h1 class="subheader-title">
+    <div>
+      Edit Employee
+    </div>
+  </h1>
+</div>
+
+<div class="card p-3" id="editEmployee">
+
+  <button routerLink="/employee" class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"><i
+      class="fal fa-arrow-left mr-2"></i> Back to Employee</button>
+
+  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs-clean nav nav-tabs">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Basic Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-basic-details-edit></hrms-employee-basic-details-edit>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Job Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-job-details-edit></hrms-employee-job-details-edit>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Job Filings</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-job-filing-edit></hrms-employee-job-filing-edit>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <a ngbNavLink>Salary Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-salary-container></hrms-employee-salary-container>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="5">
+      <a ngbNavLink>WPS Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-wps-details></hrms-employee-wps-details>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</div>

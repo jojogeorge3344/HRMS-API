@@ -1,0 +1,61 @@
+<div class="p-3">
+    <div class="header-button-wrapper">
+        <div class="content-header">
+            Payroll processing - 
+            {{employee?.firstName}} {{employee?.middleName}} {{employee?.lastName}} ({{employee?.employeeNumber}})  
+        </div>
+    </div>
+    <div [formGroup]="editForm" >
+        <table class="table m-0">
+            <thead class="thead-themed">
+                <tr>
+                    <th>#</th>
+                    <th>ComponentName</th>
+                    <th>Component code</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody formArrayName="components">
+                <tr *ngFor="let component of salaryComponents; let i = index" [formGroupName]="i">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{component.payrollComponentName}}</td>
+                    <td>{{component.shortCode}}</td>
+                    <td style="width: 300px;"> <span *ngIf="rowOnEdit === i;else elseText">
+                            <input class="form-control" formControlName="monthly">
+                        </span>
+                        <ng-template #elseText>{{component.monthlyAmount| number : '1.0-2'}}</ng-template>
+
+                    </td>
+                    <td>
+                        <div class="btn-group" dropdown container="main">
+                            <button id="button-basic" dropdownToggle type="button"
+                                class="border-0 mr-2 pr-2 dropdown-toggle btn-more fs-xl"
+                                aria-controls="dropdown-basic">
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                                aria-labelledby="button-basic">
+                                <li role="menuitem" (click)="editRow(i)"><a class="dropdown-item">Edit</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="!salaryComponents?.length">
+                    <td colspan="4" class="text-center">
+                        No rows found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="button-right-wrapper mt-3 ">
+            <button class="btn btn-secondary mr-3" (click)="onSubmit('draft')">
+                Save and Draft
+            </button>
+            <button class="btn btn-primary" (click)="onSubmit('continue')">
+                Save and Next
+            </button>
+
+        </div>
+    </div>
+</div>

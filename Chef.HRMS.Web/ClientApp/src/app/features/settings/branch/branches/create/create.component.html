@@ -1,0 +1,80 @@
+<form [formGroup]="branchForm" id="branchForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Create New Branch</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" class="form-control" formControlName="companyId">
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group ">
+                    <label for="shortName">Name</label>
+                    <input type="text" class="form-control" formControlName="shortName">
+                </div>
+                <div class="form-group ">
+                    <label for="timeZoneId">Time Zone</label>
+                    <input type="text" class="form-control" formControlName="timeZoneId">
+                </div>
+                <div class="form-group ">
+                    <label for="email">Email </label>
+                    <input type="email" class="form-control" formControlName="email">
+                </div>
+                <div class="form-group ">
+                    <label for="phone">Phone</label>
+                    <div class="d-flex align-items-center">
+                        +<input type="number" class="form-control mx-1 width-10" formControlName="phoneCode">-
+                        <input type="number" class="form-control ml-1" formControlName="phone">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label for="addressLine1">Address 1</label>
+                    <input type="text" class="form-control" formControlName="addressLine1">
+                </div>
+                <div class="form-group ">
+                    <label for="addressLine2">Address 2</label>
+                    <input type="text" class="form-control" formControlName="addressLine2">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-group ">
+                    <label for="country">Country</label>
+                    <select class="form-control" formControlName="country"
+                        (change)="getStatesByCountry($event.target.selectedIndex)">
+                        <option value="">Select a country</option>
+                        <option *ngFor="let country of countries" [ngValue]='country.id'>
+                            {{country.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group ">
+                    <label for="stateOrProvince">State/Province</label>
+                    <select class="form-control" formControlName="stateOrProvince">
+                        <option value="0">Select a state</option>
+                        <option *ngFor="let state of statesByCountry" [ngValue]='state.id'>
+                            {{state.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group ">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" formControlName="city">
+                </div>
+                <div class="form-group ">
+                    <label for="pincode">Pin Code</label>
+                    <input class="form-control" formControlName="pincode">
+                </div>
+                <div class="form-group ">
+                    <label for="fax">Fax</label>
+                    <input type="number" class="form-control" formControlName="fax">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

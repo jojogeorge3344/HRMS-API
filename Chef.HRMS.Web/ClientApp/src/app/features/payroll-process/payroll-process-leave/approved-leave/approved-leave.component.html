@@ -1,0 +1,39 @@
+<div id="leaveSetting">
+    <div class="modal-header">
+        <h4 class="modal-title">Approved Leaves Status for {{employeeName}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table">
+            <thead class="thead-themed">
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Leave Type</th>
+                    <th>Remarks</th>
+                    <th>Status</th>
+                    <th>Approver</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let approvedLeave of approvedLeaveDetails; let i= index;">
+                    <td>{{i+1}}</td>
+                    <td class="text-nowrap">
+                        {{approvedLeave.fromDate | date}} - <span class="text-info small">{{approvedLeave.numberOfDays}} Days</span>
+                    </td>
+                    <td class="text-nowrap">{{approvedLeave.leaveType}}</td>
+                    <td class="text-ellipsis" title="{{approvedLeave.description}}">{{approvedLeave.description}}</td>
+                    <td>{{requestStatus[approvedLeave.leaveStatus]}}</td>
+                    <td>{{approvedLeave.approver}}</td>
+                </tr>
+                <tr *ngIf="!approvedLeaveDetails?.length" >
+                    <td colspan="5" class="text-center">
+                        No rows found                    
+                    </td>
+                </tr>
+            </tbody>
+        </table>        
+    </div>
+</div>

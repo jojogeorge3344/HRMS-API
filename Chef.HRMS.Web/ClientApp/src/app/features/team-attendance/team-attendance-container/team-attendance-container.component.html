@@ -1,0 +1,31 @@
+<div id="leaveComponentSettings">
+    <div class="subheader">
+        <h1 class="subheader-title">
+            <div>
+                Team Attendance
+            </div>
+        </h1>
+        
+    </div>
+    <div class="card p-3">
+        <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs-clean nav nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink>Attendance</a>
+              <ng-template ngbNavContent>
+                <div class="m-2 mt-4">
+                    <hrms-team-attendance-stats></hrms-team-attendance-stats>
+                    <hrms-team-attendance-log></hrms-team-attendance-log>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a ngbNavLink>Leave History</a>
+              <ng-template ngbNavContent>
+                <hrms-team-leave-log></hrms-team-leave-log>
+              </ng-template>
+            </li>
+          </ul>      
+          <div [ngbNavOutlet]="nav">            
+          </div>        
+    </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="mt-5">
+    <div class="d-flex justify-content-between border border-bottom-0">
+        <div class="d-flex justify-content-start">
+            <div class="border-right">
+                <select class="form-control border-0 border-square" [(ngModel)]="leaveFilter" (change)="filterLog()">
+                    <option value='null'>Leave type</option>
+                    <option *ngFor="let leaveType of leaveTypes" [value]='leaveType.id'>{{leaveType.name}}</option>
+                </select>
+            </div>
+            <div class="border-right">
+                <select class="form-control border-0 border-square" (change)="filterLog()"
+                    [(ngModel)]="departmentFilter">
+                    <option value='null'>Department</option>
+                    <option *ngFor="let departmentKey of departmentKeys" [value]='departmentKey'>
+                        {{departmentType[departmentKey]}}</option>
+                </select>
+            </div>
+            <div class="border-right">
+                <input (keyup)="filterLog()" [(ngModel)]="nameFilter" class="form-control border-0 border-square"
+                    placeholder="name">
+            </div>
+            <div class="border-right">
+                <div class="input-group">
+                    <input class="form-control border-0 border-square" [(ngModel)]="fromDateFilter"
+                        (ngModelChange)="filterbyDate()" placeholder="date" [minDate]="{year: 1900, month: 1, day: 1}"
+                        ngbDatepicker #df="ngbDatepicker">
+                    <div class="input-group-append border-0">
+                        <button class="btn btn-outline-secondary calendar border-0" (click)="df.toggle()" type="button">
+                            <i class="fal fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-right">
+                <div class="input-group">
+                    <input class="form-control border-0 border-square" [(ngModel)]="toDateFilter"
+                        (ngModelChange)="filterbyDate()" placeholder="date" [minDate]="{year: 1900, month: 1, day: 1}"
+                        ngbDatepicker #d="ngbDatepicker">
+                    <div class="input-group-append border-0">
+                        <button class="btn btn-outline-secondary calendar border-0" (click)="d.toggle()" type="button">
+                            <i class="fal fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 white-space-no-wrap"><span class="font-weight-bold pr-1">{{onLeaveToday}} </span>people on leave today</div>
+    </div>
+    <table class="table">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Applied Date</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Leave Type</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let leaveLog of leaveLogsOnDisplay; let i= index;">
+                <td>{{i+1}}</td>
+                <td class="text-capitalize">{{leaveLog.employeeName}}</td>
+                <td>{{leaveLog.appliedDate | date }}</td>
+                <td>{{leaveLog.fromDate | date }}</td>
+                <td>{{leaveLog.toDate | date }}</td>
+                <td>{{leaveLog.leaveType}}</td>
+                <td title="{{leaveLog.reason}}" class="text-ellipsis">{{leaveLog.reason}}</td>
+
+            </tr>
+            <tr *ngIf="!leaveLogsOnDisplay?.length" >
+                <td colspan="7" class="text-center">
+                    No rows found
+                </td>
+                
+            </tr>
+
+        </tbody>
+    </table>
+    <div>

@@ -1,0 +1,38 @@
+<form [formGroup]="addForm" id="wpsGroupForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">WPS Group</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row align-items-baseline">
+            <div class="form-group input-group form-input-inline col-sm-4">
+                <label class="col-form-label col-12 px-0" for="fromDate">WPS Group Code</label>
+                <input class="form-control" id="groupCode" name="groupCode"
+                    value="" formControlName="groupCode">
+            </div>
+            <div class="form-group input-group form-input-inline col-sm-4">
+                <label class="col-form-label col-12 px-0" for="fromDate">WPS Group Name</label>
+                <input class="form-control" id="groupName" name="groupName"
+                     value="" formControlName="groupName">
+            </div>
+            <div class="form-group input-group form-input-inline col-sm-4">
+                <label class="col-form-label col-12 px-0" for="toDate">Establishment ID</label>
+                <input class="form-control" id="establishmentId" name="establishmentId"
+                   value="" formControlName="establishmentId">
+            </div>
+        </div>
+  
+        <div class="form-group">
+            <label for="remarks">Note</label>
+            <textarea type="text" class="form-control" id="remarks" name="remarks"
+                placeholder="Please enter remarks" formControlName="remarks"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Update</button>
+    </div>
+</form>

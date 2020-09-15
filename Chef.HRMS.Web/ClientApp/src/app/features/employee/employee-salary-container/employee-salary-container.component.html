@@ -1,0 +1,63 @@
+<div class="p-3">
+    <div class="button-right-wrapper" *ngIf="!salary.salary?.length; else editButton">
+        <button class="btn btn-sm btn-success btn-add " routerLink="./salary-details/create">
+            <i class="fa fal fa-plus mr-1"></i>Add Salary Details</button>
+    </div>
+    <ng-template #editButton>
+        <div class="button-right-wrapper">
+            <button class="btn btn-sm btn-success btn-add" routerLink="./salary-details/edit">
+                <i class="fa fal fa-edit mr-1"></i>Edit Salary Details</button>
+        </div>
+    </ng-template>
+
+    <div class="py-2 bg-gray-400 d-flex justify-content-between">
+        <div>
+            <span class="ml-2 font-weight-bold">Annual pay:</span>
+            Annual amount + Bonus
+            <span class="ml-2 font-weight-bold" *ngIf="salary.salary?.length">INR {{salary.yearlySum + bonus.bonusTotal | number : '1.0-2'}}</span>
+            <span class="ml-2 font-weight-bold" *ngIf="!salary.salary?.length">INR {{0 + bonus.bonusTotal | number : '1.0-2'}}</span>
+        </div>
+        <div class="btn-group" dropdown *ngIf="salary.salary?.length">
+            <button id="button-basic" dropdownToggle type="button" class="border-0 mr-2 pr-2 dropdown-toggle btn-more"
+                aria-controls="dropdown-basic">
+                <span class="caret"></span>
+            </button>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                aria-labelledby="button-basic">
+                <li role="menuitem" (click)="salary.delete()"><a class="dropdown-item">Delete</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <hrms-employee-salary-view #salary></hrms-employee-salary-view>
+
+    <div class="py-2 bg-gray-400 d-flex justify-content-between">
+
+        <div>
+            <span class="ml-2 font-weight-bold">Bonus total:</span>
+            <span class="ml-2 font-weight-bold">INR {{bonus.bonusTotal | number : '1.0-2'}}</span>
+        </div>
+        <div class="btn-group" dropdown container="main">
+            <button id="button-basic" dropdownToggle type="button" class="border-0 mr-2 pr-2 dropdown-toggle btn-more"
+                aria-controls="dropdown-basic">
+                <span class="caret"></span>
+            </button>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                aria-labelledby="button-basic">
+                <li role="menuitem" (click)="bonus.openAdd()"><a class="dropdown-item">Add</a></li>
+                <li role="menuitem" (click)="bonus.deleteAll()" *ngIf="bonus.bonuses.length"><a
+                        class="dropdown-item">Delete all</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <hrms-employee-bonus-list #bonus></hrms-employee-bonus-list>
+    <div *ngIf="salary.salary?.length">
+        <div>
+            Monthly Pay: <span class="ml-2 font-weight-bold">{{salary.monthlySum | number : '1.0-2'}}</span>
+        </div>
+        <div>
+            Effective From: <span class="ml-2 font-weight-bold">{{salary.effectiveDate | date }}</span>
+        </div>
+    </div>
+</div>

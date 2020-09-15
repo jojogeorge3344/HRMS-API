@@ -1,0 +1,40 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        Signatories
+    </h1>
+    <a class="btn btn-outline-primary" routerLink="/settings/branches" routerLinkActive="active" ><i class="fal fa-arrow-left mr-2"></i>Back to Branch</a>
+</div>
+<div class="row">
+    <div class="col-md-4 py-2">
+        <div class="card h-100 special-card">
+            <div class="row align-items-center h-100">
+                <div class="add-new-item mx-auto">
+                    <i class="fal fa-plus-square text-success" (click)="openCreateSignatory()"></i>
+                    <p>Add Signatory</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 py-2" *ngFor="let signatory of signatories">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="mr-3 fal fa-building"></i> <b>{{signatory.fullName}}</b>
+                <i class="fa fal fa-trash text-danger float-right delete" (click)="deleteSignatory(signatory.id, signatory.fullName)"></i>
+                <i class="fa fal mr-3 fa-edit text-primary float-right edit" (click)="openEditSignatory(signatory.id)"></i>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title"><i class="mr-2 fal fa-location-arrow"></i> Designation: {{signatory.designation}}</h5>
+                <p class="card-text">
+                    <i class="fal mr-2 fa-address-card"></i>
+                    <b>Address:</b>
+                    {{signatory.addressLine1}}
+                    {{signatory.addressLine2}}
+                    {{signatory.city}}
+                    {{signatory.stateName}}
+                    {{signatory.countryName}}
+                    {{signatory.pincode}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

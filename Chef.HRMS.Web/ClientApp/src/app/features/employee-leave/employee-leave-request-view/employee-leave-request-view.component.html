@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h4 class="modal-title">Leave Request Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+<div *ngIf="leaveRequest">
+        <p>Leave Requested on {{leaveRequest.createdDate | date: 'MMM d, y, h:mm a'}} </p>
+    <div class="card-body">
+    <div class="card-text">
+        <div class="row ">
+            <div class="border border-circle p-1 " style="border-width: 2px!important; border-color:#9198AA">
+                <span class="px-1">{{leaveRequest.numberOfDays}}</span>
+            </div>
+            <div class="col-sm">
+                <div class="text-capitalize">
+                    day {{getLeaveBalanceName(leaveRequest.leaveComponentId)}} on <span style="font-weight: bold;">{{leaveRequest.fromDate | date}}</span>
+                </div>               
+            </div>
+        </div>
+    </div>
+    <div class="card-text pt-3">
+        <div class="row ">
+            <div class="">
+                <i class="fal cursor-pointer fa-check-circle fs-xxl color-success-700"></i>
+            </div>
+            <div class="col-sm">
+                <div>
+                    Approved On <small>{{leaveRequest.approvedDate | date }}</small>
+                </div>               
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>    

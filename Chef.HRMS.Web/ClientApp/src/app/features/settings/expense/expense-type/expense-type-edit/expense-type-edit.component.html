@@ -1,0 +1,35 @@
+<form [formGroup]="editForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Expense Type</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group form-input-line">
+            <label class="col-form-label" for="category">Expense Category</label>
+            <select class="form-control" formControlName="category">
+                <option [ngValue]="null" disabled>Select Expense Category</option>
+                <option *ngFor="let key of expenseCategoryTypeKeys" [ngValue]='key'>{{expenseCategoryType[key]}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group form-input-line">
+            <label class="col-form-label" for="name">Expense Type Name</label>
+            <input type="text" class="form-control" formControlName="name">
+        </div>
+        <div class="form-group form-input-line">
+            <label class="col-form-label" for="code">Expense A/C Code</label>
+            <input type="text" class="form-control" formControlName="code">
+        </div>
+        <div class="form-group form-textarea-line">
+            <label class="col-form-label" for="description">Description</label>
+            <textarea type="text" rows="3" class="form-control" formControlName="description"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

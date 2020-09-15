@@ -1,0 +1,65 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+         My Overtime Requests
+    </h1>
+  </div>
+<div id="payrollComponent" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content">
+            <div class="row">
+                <div class="col-md">
+                    <button (click)="openAdd()" class="btn btn-success mb-2 float-right"><i class="fa fal fa-plus fa-plus mr-1"></i>Request Overtime</button>
+                </div>
+            </div>        
+            <div class="frame-wrap">
+                <table class="table m-0">
+                    <thead class="thead-themed">
+                        <tr>
+                            <th>#</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Overtime Hours</th>
+                            <th>Status</th>
+                            <th>Comments</th>
+                            <th>Submitted On</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let overtimeRequest of overtimeRequests; let i= index;">
+                            <td>{{i+1}}</td>
+                            <td>{{overtimeRequest.fromDate | date }}</td>
+                            <td>{{overtimeRequest.toDate | date }}</td>
+                            <td>{{overtimeRequest.numberOfHours}} hours</td>
+                            <td>{{overtimeRequestStatusTypes[overtimeRequest.requestStatus]}}</td>
+                            <td>{{overtimeRequest.reason}}</td>
+                            <td>{{overtimeRequest.createdDate | date }}</td>
+                            <td>
+                                <div class="btn-group" dropdown container="main">
+                                    <button id="button-basic" dropdownToggle type="button"
+                                        class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                                        aria-labelledby="button-basic">
+                                        <li role="menuitem" (click)="isApplied(overtimeRequest.requestStatus) && openEdit(overtimeRequest)">
+                                            <a [ngClass]="{'disabled': !isApplied(overtimeRequest.requestStatus)}" class="dropdown-item">Edit</a>
+                                        </li>
+                                        <li role="menuitem" (click)="isApplied(overtimeRequest.requestStatus) && delete(overtimeRequest)">
+                                            <a [ngClass]="{'disabled': !isApplied(overtimeRequest.requestStatus)}" class="dropdown-item">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!overtimeRequests?.length">
+                            <td colspan="8" class="text-center">
+                                No rows found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+    </div>
+</div>

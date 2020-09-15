@@ -1,0 +1,30 @@
+<table class="table">
+    <thead class="thead-themed">
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Request Type</th>
+            <th>Requested On</th>
+            <th>Status</th>
+            <th>Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let onDuty of onDutyRequest; let i= index;">
+            <td>{{i+1}}</td>
+            <td>{{onDuty.fromDate | date}} - {{onDuty.toDate | date}}</td>
+            <td>On Duty Request</td>
+            <td>{{onDuty.createdDate | date}}</td>
+            <td>
+                <span *ngIf="onDuty.isApproved"><i class="fal fa-check-circle text-success"></i></span>
+                <span *ngIf="!onDuty.isApproved"><i class="fal fa-times-circle text-danger"></i></span>
+            </td>
+            <td title="{{onDuty.reason}}" class="text-ellipsis">{{onDuty.reason}}</td>
+        </tr>
+        <tr *ngIf="!onDutyRequest?.length">
+            <td colspan="6" class="text-center">
+                No rows found
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,67 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        <div>
+            Loan Request
+        </div>
+    </h1>
+        
+</div>
+<div class="card p-3">
+    <div class="d-flex justify-content-end my-2">
+        <button type="button" class="btn btn-success btn-add " (click)="openCreateLoanRequest()">
+            <i class="fa fal fa-plus fa-plus mr-1"></i>Request Loan</button>
+    </div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Loan No.</th>
+                <th>Requested On</th>
+                <th>Loan Type</th>
+                <th>Loan Amount</th>
+                <th>Payment Type</th>
+                <th>Expected On</th>
+                <th>EMI Starts from</th>
+                <th>Term</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let request of loanRequests; let i= index;">
+                <td>{{i+1}}</td>
+                <td>{{request.loanNo}}</td>
+                <td>{{request.requestedDate | date}}</td>
+                <td>{{loanTypes[request.loanType]}}</td>
+                <td>{{request.loanAmount}}</td>
+                <td>{{paymentTypes[request.paymentType]}}</td>
+                <td>{{request.expectedOn | date}}</td>
+                <td>{{request.emiStartsFromMonth}} / {{request.emiStartsFromYear}}</td>
+                <td>{{request.repaymentTerm}}</td>
+                <td>
+                    <span *ngIf="request.isApproved">Approved</span>
+                    <span *ngIf="!request.isApproved">Approval Pending</span>
+                </td>
+                <td class="d-flex justify-content-around">
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <!-- <li role="menuitem" (click)="openView(shift)"><a class="dropdown-item">View</a></li> -->
+                            <li role="menuitem" (click)="openEditLoanRequest(request.id)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="deleteLoanRequest(request)"><a class="dropdown-item">Cancel</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!loanRequests?.length">
+                <td colspan="11" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

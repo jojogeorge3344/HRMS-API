@@ -1,0 +1,32 @@
+<div class="d-flex py-3">
+    <div class="col-sm-4 p-0 px-3">
+        <div class="text-muted">Passport Number</div>
+        <div class=" pb-2">{{passport?.number || '--'}}</div>
+        <div class="text-muted">Address</div>
+        <div class="text-capitalize text-wrap pb-2">{{passport?.address || '--'}}</div>
+        <div class="text-muted">Place of Issue</div>
+        <div class="text-capitalize pb-2">{{passport?.placeOfIssue || '--'}}</div>        
+        <div class="text-muted">Father's Name</div>
+        <div class="text-capitalize pb-2">{{passport?.fatherName || '--'}}</div>      
+    </div>
+    <div class="col-sm-4 p-0 px-3">
+        <div class="text-muted">Given Name</div>
+        <div class="text-capitalize pb-2">{{passport?.name || '--'}}</div>
+        <div class="text-muted">Date of Birth</div>
+        <div class=" pb-2">{{passport?.dateOfBirth | date }}</div>  
+        <div class="text-muted">Date of Issue</div>
+        <div class=" pb-2">{{passport?.dateOfIssue | date }}</div>
+        <div class="text-muted">Mother's Name</div>
+        <div class="text-capitalize pb-2">{{passport?.motherName || '--'}}</div>
+    </div>    
+    <div class="col-sm-4 p-0 px-3">        
+        <div class="text-muted">Surame</div>
+        <div class="text-capitalize pb-2">{{passport?.surName || '--'}}</div>
+        <div class="text-muted">Place of Birth</div>
+        <div class="text-capitalize pb-2">{{passport?.placeOfBirth || '--'}}</div>
+        <div class="text-muted">Date of Expiry</div>
+        <div class=" pb-2">{{passport?.dateOfExpiry | date }}</div>
+        <div class="text-muted">Nationality</div>
+        <div class="text-capitalize pb-2">{{passport?.nationality || '--'}}</div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<form [formGroup]="editForm" id="updatePrimaryDetailsForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Update Primary Details </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body d-inline-flex flex-wrap">
+
+        <div class="form-group col-6 form-input-line">
+            <label class="col-form-label">First Name</label>
+            <input type="text" class="form-control" id="firstName" formControlName="firstName">
+
+        </div>
+        <div class="form-group col-6 form-input-line">
+            <label class="col-form-label">Last Name</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName">
+        </div>
+        <div class="form-group col-6 form-input-line">
+            <label class="col-form-label">Middle Name</label>
+            <input type="text" class="form-control" id="middleName" formControlName="middleName">
+
+        </div>
+        <div class="form-group col-6 form-input-line">
+            <label class="col-form-label">Display Name</label>
+            <input type="text" class="form-control" id="displayName" formControlName="displayName">
+
+        </div>
+        <div class="form-group col-6 form-input-line">
+            <label class="col-form-label">Gender</label>
+            <select class="form-control" formControlName="gender">
+                <option [ngValue]="null" disabled>Select a Gender Type</option>
+                <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderTypes[key]}}</option>
+            </select>
+        </div>
+        <div class="form-group form-input-inline input-group col-6">
+            <label class="col-12 col-form-label px-0">Date of birth</label>
+                <input class="form-control" formControlName="dateOfBirth" [minDate]="{year: 1900, month: 1, day: 1}"
+                    [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                        <i class="fal fa-calendar-alt"></i>
+                    </button>
+                </div>
+        </div>
+        <div class="form-group col-6 form-input-line">
+            <label class="col-form-label">Blood Group</label>
+            <select class="form-control" formControlName="bloodGroup">
+                <option [ngValue]="0" disabled>Select a Blood Group</option>
+                <option *ngFor="let key of bloodGroupTypeKeys" [ngValue]='key'>{{bloodGroupType[key]| splitByUpperCase}}</option>
+            </select>
+        </div>
+        <div class="form-group col-6 form-input-line">
+            <label class="col-form-label">Marital Status</label>
+            <select class="form-control" formControlName="maritalStatus">
+                <option [ngValue]="0" disabled>Select a Marital Status</option>
+                <option *ngFor="let key of maritalStatusTypeKeys" [ngValue]='key'>{{maritalStatusType[key]}}</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+    </div>
+</form>

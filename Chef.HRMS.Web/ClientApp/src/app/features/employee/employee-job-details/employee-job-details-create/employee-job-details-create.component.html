@@ -1,0 +1,137 @@
+<form [formGroup]="addForm" id="jobDetailsForm" (validSubmit)="onSubmit()">
+    <!-- <div class="modal-header">
+        <h4 class="modal-title">Add Job Fillings</h4>
+    </div> -->
+    <div class="p-3">
+
+        <div class="row align-items-baseline flex-row-reverse">
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="employeeNumber">Employee Number</label>
+                <input readonly class="form-control" id="employeeNumber" name="employeeNumber"
+                    [(ngModel)]="employeeNumber" value="" formControlName="employeeNumber">
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="numberSeriesId">Number Series</label>
+                <select class="form-control" formControlName="numberSeriesId"
+                    (change)="getNumberSeries($event.target.value)">
+                    <option value="" disabled>Select Number Series</option>
+                    <option *ngFor="let type of numberSeriesId" value='{{type.id}}'>
+                        {{type.name}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group form-input-inline input-group col">
+                <label class="col-12 col-form-label px-0" for="dateOfJoin">Date of Joining</label>
+                <input class="form-control w-75" name="newDate" formControlName="dateOfJoin" [minDate]="minDate"
+                    [maxDate]="maxDate" ngbDatepicker #dob="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="jobTitleId">Job Title</label>
+                <select class="form-control" formControlName="jobTitleId">
+                    <option value="" disabled>Select Job Title</option>
+                    <option *ngFor="let type of jobTitleId" [ngValue]='type.id'>
+                        {{type.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="secondaryJobTitle">Secondary Job Title</label>
+                <input type="text" class="form-control" id="secondaryJobTitle" name="secondaryJobTitle"
+                    formControlName="secondaryJobTitle">
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="businessUnit">Business Unit</label>
+                <select class="form-control" formControlName="businessUnit">
+                    <option value="" disabled>Select Business Unit</option>
+                    <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>
+                        {{businessUnitType[key]}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="department">Department</label>
+                <select class="form-control" formControlName="department">
+                    <option value="" disabled>Select Department Type</option>
+                    <option *ngFor="let key of departmentTypeKeys" [ngValue]='key'>
+                        {{departmentType[key]}}</option>
+                </select>
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="location">Location</label>
+                <select class="form-control" formControlName="location">
+                    <option value="" disabled>Select Location</option>
+                    <option *ngFor="let type of location" [ngValue]='type.id'>
+                        {{type.shortName}} - {{type.city}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="reportingManager">Reporting Manager</label>
+                <input type="text" class="form-control" id="reportingManager" name="reportingManager"
+                    [ngbTypeahead]="search" placeholder="Search Reporting Manager" #reportingManager
+                    formControlName="reportingManager" [inputFormatter]="formatter" [resultFormatter]="formatter"
+                    [editable]='false'>
+                <div class="form-control-feedback" style="color:red;" *ngIf="searchFailed"><small>Reporting manager does
+                        not exist.</small> </div>
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="workerType">Worker Type</label>
+                <select class="form-control" formControlName="workerType">
+                    <option value="" disabled>Select Work Type</option>
+                    <option *ngFor="let key of workerTypeKeys" [ngValue]='key'>
+                        {{workerType[key]}}</option>
+                </select>
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="timeType">Time Type</label>
+                <select class="form-control" formControlName="timeType">
+                    <option value="" disabled>Select Time Type</option>
+                    <option *ngFor="let key of timeTypeKeys" [ngValue]='key'>
+                        {{timeType[key]}}</option>
+                </select>
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="noticePeriod">Notice Period</label>
+                <select class="form-control" formControlName="noticePeriod">
+                    <option value="" disabled>Select Notice Period</option>
+                    <option *ngFor="let key of noticePeriodTypeKeys" [ngValue]='key'>
+                        {{noticePeriodType[key]}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2 form-group form-input-line">
+                <label class="col-form-label" for="probationPeriod">Probation Period</label>
+                <input type="number" class="form-control" id="probationPeriod" name="probationPeriod"
+                    formControlName="probationPeriod">
+            </div>
+
+            <div class="form-group form-input-line">
+                <div style="height: 36.4px;"></div>
+                <select class="form-control" formControlName="periodType">
+                    <option value="" disabled>Select Period</option>
+                    <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>
+                        {{periodType[key]}}</option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <a routerLink="/employee">
+            <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        </a>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Next</button>
+    </div>
+</form>

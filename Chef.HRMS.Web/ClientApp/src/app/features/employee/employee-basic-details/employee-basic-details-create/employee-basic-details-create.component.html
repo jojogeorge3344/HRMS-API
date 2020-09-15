@@ -1,0 +1,56 @@
+<form [formGroup]="addForm" id="basicDetailsForm" (validSubmit)="onSubmit()">
+    <div class="p-3">
+        
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName">
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="middleName">Middle Name</label>
+                <input type="text" class="form-control" id="middleName" name="middleName" formControlName="middleName">
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="lastName">Last Name</label>
+                <input type="test" class="form-control" id="lastName" name="lastName" formControlName="lastName">
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="displayName">Display Name</label>
+                <input type="text" class="form-control" id="displayName" name="displayName"
+                    formControlName="displayName">
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="gender">Select Gender</label>
+                <select class="form-control" formControlName="gender">
+                    <option [ngValue]="null" disabled>Select Gender</option>
+                    <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderType[key]}}</option>
+                </select>
+            </div>
+            <div class="form-group form-input-inline input-group col">
+                <label class="col-12 col-form-label px-0" for="dateOfBirth">Date of Birth</label>
+                <input class="form-control w-75" name="newDate" formControlName="dateOfBirth" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate"
+                     ngbDatepicker #dob="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label"  for="email">Email</label>
+                <input type="email" class="form-control" (change)="onChangeEmail()" formControlName="email">
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="modal-footer">
+        <a routerLink="/employee">
+            <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        </a>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Next</button>
+    </div>
+</form>

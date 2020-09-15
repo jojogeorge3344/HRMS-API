@@ -1,0 +1,112 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        <div>
+<<<<<<< HEAD
+            Employee List Report
+=======
+            Employee Register
+>>>>>>> ChefHRMS
+        </div>
+    </h1>
+</div>
+<div id="employee-list" class="panel">
+    <div class="card p-3">
+        <div class="button-right-wrapper">
+            <button (click)="exportAsXLSX()" class="btn btn-success btn-add">
+                <i class="fal fa-download mr-1"></i>Download Report
+            </button>
+        </div>
+        <div class="d-flex justify-content-start border border-bottom-0">
+            <div class="border-right">
+                <input (keyup)="filterLog()" [(ngModel)]="employeeCodeFilter"
+                    class="form-control border-0 border-square" placeholder="Employee Code">
+            </div>
+            <div class="border-right">
+                <input (keyup)="filterLog()" [(ngModel)]="employeeNameFilter"
+                    class="form-control border-0 border-square" placeholder="Employee Name">
+            </div>
+            <div class="border-right">
+                <select class="form-control border-0 border-square " (change)="filterLog()"
+                    [(ngModel)]="departmentFilter">
+                    <option value="null">Department</option>
+                    <option *ngFor="let departmentKey of departmentKeys" [value]='departmentKey'>
+                        {{departmentType[departmentKey]}}</option>
+                </select>
+            </div>
+            <div class="border-right">
+                <div class="input-group">
+                    <input class="form-control border-0 border-square" [(ngModel)]="dojFilter"
+                        (ngModelChange)="filterLog()" placeholder="Date of Joining"
+                        [minDate]="{year: 1900, month: 1, day: 1}" ngbDatepicker #df="ngbDatepicker">
+                    <div class="input-group-append border-0">
+                        <button class="btn btn-outline-secondary calendar border-0" (click)="df.toggle()" type="button">
+                            <i class="fal fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="overflow-auto"> -->
+        <table class="table m-0 table-responsive">
+            <thead class="thead-themed ">
+                <tr>
+                    <th>#</th>
+                    <th>Emp Code</th>
+                    <th>Emp Name</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>DOJ</th>
+                    <th>Exp in Comp.</th>
+                    <th>Job Title</th>
+                    <th>Dept.</th>
+                    <th>Worker Type</th>
+                    <th>Time Type</th>
+                    <th>Week Off</th>
+                    <th>Leave Structure</th>
+                    <th>Holiday List</th>
+                    <th>Shift</th>
+                    <th>Expense Policy</th>
+                    <th>Salary Structure</th>
+                    <th>Pay Group</th>
+                    <th>OT Policy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let employee of employeeReportsOnDisplay | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize;let i= index;">
+                    <td>{{i+1}}</td>
+                    <td>{{ employee.employeeNumber }}</td>
+                    <td>{{employee.employeeName}}</td>
+                    <td>{{ employee.dateOfBirth | date}} </td>
+                    <td>{{ genderType[employee.gender] }}</td>
+                    <td>{{ employee.dateOfJoin | date}}</td>
+                    <td>{{ employee.companyExperience }}</td>
+                    <td>{{ employee.jobTitle }}</td>
+                    <td>{{ (departmentType[employee.department]) }}</td>
+                    <td>{{ workerType[employee.workerType] }}</td>
+                    <td>{{ (timeType[employee.timeType ]|splitByUpperCase) }}</td>
+                    <td>{{ (weekOffType[employee.weekOff] |splitByUpperCase) }}</td>
+                    <td>{{ employee.leaveStructure }}</td>
+                    <td>{{ employee.holidayCategory }}</td>
+                    <td>{{ employee.shift }}</td>
+                    <td>{{ employee.expensePolicy }}</td>
+                    <td>{{ employee.payrollStructure }}</td>
+                    <td>{{ employee.payGroup }}</td>
+                    <td>{{ employee.overTimePolicy }}</td>
+                </tr>
+                <tr *ngIf="!employeeReportsOnDisplay?.length">
+                    <td colspan="18" class="text-center">
+                        No rows found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="mt-3 d-flex justify-content-center">
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
+                [collectionSize]="employeeReportsOnDisplay.length">
+                <ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+            </ngb-pagination>
+        </div>
+    </div>
+</div>

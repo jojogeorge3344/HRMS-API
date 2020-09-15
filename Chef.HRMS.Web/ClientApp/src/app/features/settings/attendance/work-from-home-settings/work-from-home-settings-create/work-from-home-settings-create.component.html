@@ -1,0 +1,51 @@
+<div id="work-from-home-settings-create" class="panel">
+    <form [formGroup]="addForm" (validSubmit)="onSubmit()">
+        <div class="panel-container show">
+            <div class="panel-content">
+                <div class="frame-wrap">
+                    <div class="col-sm">
+                        <div class="mt-5">
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="isEnabled" formControlName="isEnabled">
+                                    <label class="custom-control-label" for="isEnabled">Enable Work From Home(WFH)</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="isLimited" formControlName="isLimited">
+                                    <label class="custom-control-label" for="isLimited">
+                                        Do you wish to limit the number of work from home days that can be availed?
+                                    </label>
+                                </div>
+                            </div>    
+                    
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label class="sr-only" for="maximumLimit">Maximum Limit</label>
+                                    Maximum of 
+                                    <input type="number" class="form-control ml-2 mr-2" id="maximumLimit" formControlName="maximumLimit">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="sr-only" for="periodType">Period Type</label>
+                                    WFH requests in a 
+                                    <select class="form-control ml-2 mr-2" formControlName="periodType">
+                                        <option [ngValue]="null" disabled>Select a Period Type</option>
+                                        <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>
+                                            {{periodTypes[key]}}</option>                                                    
+                                    </select>  
+                                </div> 
+                            </div> 
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

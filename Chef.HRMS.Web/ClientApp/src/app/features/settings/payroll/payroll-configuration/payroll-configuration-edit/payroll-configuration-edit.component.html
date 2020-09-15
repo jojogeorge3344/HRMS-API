@@ -1,0 +1,63 @@
+<div id="PayrollConfiguration">
+    <div class="subheader">
+        <h1 class="subheader-title">
+            <div>
+                Payroll Structure Configuration
+            </div>
+        </h1>
+    </div>
+
+    <div class="card p-3" id="payrollconfiguration">
+        
+        <div class="header-button-wrapper">
+            <div *ngIf="payrollConfiguration" class="content-header text-capitalize"> {{ payrollComponent }}
+                Expense Configuration</div>
+            <a [routerLink]="['/settings/payroll/payroll-structure']" [queryParams]="{payrollStructureId: payrollConfiguration.payrollStructureId}">
+                <button class="btn btn-sm btn-outline-primary btn-redirect "><i
+                        class="fal fa-arrow-left mr-2"></i> Back to Payroll Structure</button>
+            </a>
+        </div>
+
+        <div class="col-sm pl-0">
+
+            <div class="ml-2" [ngSwitch]="payrollComponentType">   
+
+                <div *ngSwitchCase="payrollComponentTypes['StandardEarning']">
+                    <hrms-payroll-configuration-standard-earning
+                        (saveConfiguration)="onSubmit()"
+                        [payrollConfiguration] = "payrollConfiguration"
+                        [isView]="isView"></hrms-payroll-configuration-standard-earning>
+                </div>
+
+                <div *ngSwitchCase="payrollComponentTypes['StandardDeduction']">
+                    <hrms-payroll-configuration-standard-deduction
+                        (saveConfiguration)="onSubmit()"
+                        [payrollConfiguration] = "payrollConfiguration"
+                        [isView]="isView"></hrms-payroll-configuration-standard-deduction>
+                </div>
+
+                <div *ngSwitchCase="payrollComponentTypes['Allowance']">
+                    <hrms-payroll-configuration-allowance
+                        (saveConfiguration)="onSubmit()"
+                        [payrollConfiguration] = "payrollConfiguration"
+                        [isView]="isView"></hrms-payroll-configuration-allowance>
+                </div>
+
+                <div *ngSwitchCase="payrollComponentTypes['Reimbursable']">
+                    <hrms-payroll-configuration-reimbursable
+                        (saveConfiguration)="onSubmit()"
+                        [payrollConfiguration] = "payrollConfiguration"
+                        [isView]="isView"></hrms-payroll-configuration-reimbursable>
+                </div>
+
+                <div *ngSwitchCase="payrollComponentTypes['Fixed']">
+                    <hrms-payroll-configuration-fixed
+                        (saveConfiguration)="onSubmit()"
+                        [payrollConfiguration] = "payrollConfiguration"
+                        [isView]="isView"></hrms-payroll-configuration-fixed>
+                </div>
+            
+            </div> 
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+<div id="ExpenseConfiguration">
+    <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+        <div class="header-button-wrapper mt-3">
+            <div class="content-subheader text-capitalize">Mileage</div>
+        </div>
+        <div class="custom-control custom-checkbox with-input">
+            <input type="checkbox" class="custom-control-input" id="isExpenseLimitEnabled" #isExpenseLimitEnabled
+                formControlName="isExpenseLimitEnabled" (change)="onChange(isExpenseLimitEnabled)">
+            <label for="isExpenseLimitEnabled" class="custom-control-label align-items-baseline d-flex">
+                Limit the expense to {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumExpenseLimit" class="d-inline form-control ml-1 mr-3">
+                </div>
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <select formControlName="expensePeriodType" (change)="changePeriodType($event.target)"
+                        class="d-inline form-control">
+                        <option [ngValue]="0" disabled>Select Period Type</option>
+                        <option *ngFor="let key of expensePeriodTypeKeys" [ngValue]='key'>{{expensePeriodTypes[key]}}
+                        </option>
+                    </select>
+                    <div *ngIf="showRequiredPeriodType"><span style="color:red">Please select period type.</span> </div>
+                </div>
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox with-input">
+            <input type="checkbox" class="custom-control-input" id="isInstanceLimitEnabled" #isInstanceLimitEnabled
+                formControlName="isInstanceLimitEnabled" (change)="onChange(isInstanceLimitEnabled)">
+            <label for="isInstanceLimitEnabled" class="custom-control-label align-items-baseline d-flex">Limit number of
+                instances to
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumInstancesLimit"
+                        class="d-inline form-control ml-1 mr-3">
+                </div>
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <select formControlName="instancesPeriodType" (change)="changeInstancePeriodType($event.target)"
+                        class="d-inline form-control">
+                        <option [ngValue]="0" disabled>Select Period Type</option>
+                        <option *ngFor="let key of expensePeriodTypeKeys" [ngValue]='key'>{{expensePeriodTypes[key]}}
+                        </option>
+                    </select>
+                    <div *ngIf="showRequiredInstancePeriodType"><span style="color:red">Please select period
+                            type.</span> </div>
+                </div>
+            </label>
+        </div>
+        <div class="header-button-wrapper mt-3">
+            <div class="content-subheader"> Mileage Calculation</div>
+        </div>
+        <div class=" d-flex align-items-baseline">
+            <div class="text-nowrap with-input"> Unit </div>
+            <div class="form-input-inline form-group ml-1 mb-0">
+                <select type="number" (change)="setUnitType($event.target)" formControlName="mileageUnit"
+                    class="d-inline form-control ml-1 mr-4 width-fit-content">
+                    <option [ngValue]="0" disabled>Select Unit Type</option>
+                    <option *ngFor="let key of unitTypeKeys" [ngValue]='key'>{{unitTypes[key]}}</option>
+                </select>
+                <div *ngIf="showRequiredUnitType"><span style="color:red">Please select unit type.</span> </div>
+                        
+            </div>
+            <div class="text-nowrap">
+                Default Mileage Rate
+            </div>
+            <div class="form-input-inline form-group ml-1 mb-0">
+                <input type="number" formControlName="mileageRate" class="d-inline form-control mx-1 width-fit-content">
+            </div>
+
+            <div class="text-nowrap">
+                {{ expenseConfiguration.currency }} / {{ selectedMileageUnit }}
+            </div>
+
+        </div>
+        <div class="header-button-wrapper mt-3">
+            <div class="content-subheader"> Receipt and additional notes</div>
+        </div>
+        <div class="custom-control custom-checkbox with-input ">
+            <input type="checkbox" class="custom-control-input" id="isCommentRequired" #isCommentRequired
+                formControlName="isCommentRequired" (change)="onChange(isCommentRequired)">
+            <label for="isCommentRequired" class="custom-control-label align-items-baseline d-flex">
+                Requires comment when amount exceeds {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumLimitComment" class="d-inline form-control ml-1">
+                </div>
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox with-input ">
+            <input type="checkbox" class="custom-control-input" id="isReceiptRequired" #isReceiptRequired
+                formControlName="isReceiptRequired" (change)="onChange(isReceiptRequired)">
+            <label for="isReceiptRequired" class="custom-control-label align-items-baseline d-flex">
+                Requires receipts when amount exceeds {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumLimitReceipt" class="d-inline form-control ml-1">
+                </div>
+            </label>
+        </div>
+
+        <div class="button-right-wrapper mt-3" *ngIf="!isView">
+            <button type="submit" class="btn btn-primary">
+                Save
+            </button>
+        </div>
+    </form>
+</div>

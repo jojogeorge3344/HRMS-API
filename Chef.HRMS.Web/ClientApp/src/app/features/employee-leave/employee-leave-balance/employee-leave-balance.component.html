@@ -1,0 +1,31 @@
+
+<div class="row">
+    <ng-container *ngFor="let type of item">
+        <div class="col-md-4 pb-4" *ngIf= "type.shortCode !='LOP'">
+            <div class="card h-100">
+                <div class="card-heading text-capitalize" >
+                    {{type.leaveComponentName}}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 mt-2">
+                            <div #chartValue>
+                                <canvas id="{{type.leaveComponentId}}" style="width: 125px; height: 125px;"></canvas>
+                                <!-- <canvas id="canvas" style="width: 125px; height: 125px;"></canvas> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mt-4">    
+                            <div class="text-muted">Available</div>
+                            <div class=" pb-2">{{type.leaveBalance >= 0 ? type.leaveBalance: 0}}</div>
+                            <div class="text-muted">Consumed</div>
+                            <div class=" pb-2">{{type.annualLeaveQuota - type.leaveBalance}}</div>
+                            <div class="text-muted">Annual Quota</div>
+                            <div class=" pb-2">{{type.annualLeaveQuota}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+

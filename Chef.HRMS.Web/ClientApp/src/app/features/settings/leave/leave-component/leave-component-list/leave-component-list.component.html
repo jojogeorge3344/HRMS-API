@@ -1,0 +1,52 @@
+<div id="leaveComponent" class="p-3">
+
+    <div class="button-right-wrapper">
+        <button (click)="openCreateLeaveComponent()" class="btn btn-success btn-add">
+            <i class="fa fal fa-plus fa-plus mr-1"></i>Add Leave Component
+        </button>
+    </div>
+
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Leave Component Name</th>
+                <th>Leave Component Code</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let leaveComponent of leaveComponents; let i= index;">
+                <td>{{i+1}}</td>
+                <td class="text-capitalize">{{leaveComponent.name}}</td>
+                <td class="text-uppercase">{{leaveComponent.code}}</td>
+                <td class="text-ellipsis" title="{{ leaveComponent.description }}">{{ leaveComponent.description }}</td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <!-- <li role="menuitem" (click)="openView(leaveComponent)"><a class="dropdown-item">View</a></li> -->
+                            <li role="menuitem" (click)="openEditLeaveComponent(leaveComponent)"><a
+                                    class="dropdown-item">Edit</a></li>
+                            <li role="menuitem"
+                                (click)="!isDisabled(leaveComponent) && deleteLeaveComponent(leaveComponent)">
+                                <a [ngClass]="{'disabled': isDisabled(leaveComponent)}" class="dropdown-item">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!leaveComponents?.length">
+                <td colspan="5" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

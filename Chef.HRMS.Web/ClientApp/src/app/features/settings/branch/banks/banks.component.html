@@ -1,0 +1,35 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        Banks
+    </h1>
+    <a class="btn btn-outline-primary" routerLink="/settings/branches" routerLinkActive="active" ><i class="fal fa-arrow-left mr-2"></i> Back to Branch</a>
+</div>
+<div class="row">
+    <div class="col-md-4 py-2">
+        <div class="card h-100 special-card">
+            <div class="row align-items-center h-100">
+                <div class="add-new-item mx-auto">
+                    <i class="fal fa-plus-square text-success" (click)="openCreateBank()"></i>
+                    <p>Add Bank</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 py-2" *ngFor="let bank of banks">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="mr-3 fal fa-building"></i> <b>{{bank.bankName}}</b>
+                <i class="fa fal fa-trash text-danger float-right delete" (click)="deleteBank(bank.id, bank.bankName)"></i>
+                <i class="fa fal mr-3 fa-edit text-primary float-right edit" (click)="openEditBank(bank.id)"></i>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title"><i class="mr-2 fal fa-location-arrow"></i> Account Name: {{bank.accountName}}</h5>
+                <p class="card-text">
+                    <i class="fal mr-2 fa-address-card"></i>
+                    <b>Account Number:</b>
+                    {{bank.accountNumber}}                    
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

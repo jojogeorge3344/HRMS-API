@@ -1,0 +1,30 @@
+<div *ngIf="isEmpty" class="d-flex align-items-center">
+    <button (click)="openAdd()" class="card-link btn btn-success btn-add mr-2">
+        <i class="fa fal fa-plus fa-plus mr-1"></i>Add
+    </button>
+</div>
+
+<div class="btn-group" dropdown container="main" *ngIf="!isEmpty">
+
+    <button id="button-basic" dropdownToggle type="button"
+        class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+        <span class="caret"></span>
+    </button>
+
+    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+        aria-labelledby="button-basic">
+
+        <li role="menuitem">
+            <a class="dropdown-item" [href]="downloadPath" target="_blank">Download</a>
+        </li>
+        
+        <li role="menuitem" (click)="openEdit(uid)">
+            <a class="dropdown-item">Edit</a>
+        </li>
+
+        <li role="menuitem" (click)="canDelete && delete(uid)">
+            <a [ngClass]="{'disabled': !canDelete}" class="dropdown-item">Delete</a>
+        </li>
+
+    </ul>
+</div>

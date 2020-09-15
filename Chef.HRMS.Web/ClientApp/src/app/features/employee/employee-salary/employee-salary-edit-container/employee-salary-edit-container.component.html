@@ -1,0 +1,91 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        Edit Salary Details
+    </h1>
+</div>
+
+<div class="card p-3">
+
+    <button [routerLink]="['../..', {activeTabId:'4'}]"
+        class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right">
+        <i class="fal fa-arrow-left mr-2"></i>Back to Salary Details
+    </button>
+
+    <div id="EmployeeSalaryStructure">
+
+        <ul #salaryTabs ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav-tabs-clean nav nav-tabs">
+
+            <li [ngbNavItem]="1">
+                <a ngbNavLink><span>Payroll Structure <span
+                            class="bg-primary-500 border-circle ml-2 px-2">1</span></span></a>
+
+                <ng-template ngbNavContent>
+
+                    <hrms-employee-salary-form *ngIf="salaryStructure?.length" [returned]="returned"
+                        [salaryForm]="editForm" [salaryStructure]="salaryStructure"></hrms-employee-salary-form>
+
+                </ng-template>
+
+            </li>
+
+            <li [ngbNavItem]="2" [disabled]="isDisabled">
+                <a ngbNavLink><span>Confirmation <span
+                            class="bg-primary-500 border-circle ml-2 px-2">2</span></span></a>
+
+                <ng-template ngbNavContent>
+
+                    <hrms-employee-salary-view *ngIf="salaryStructure?.length" [effectiveDate]="effectiveDate"
+                        [salary]="salaryStructure"></hrms-employee-salary-view>
+
+                </ng-template>
+
+            </li>
+        </ul>
+        <div class="p-3">
+            <div class="header-button-wrapper">
+                <div class="content-header">
+                    {{salaryStructureName}}
+                </div>
+            </div>
+
+            <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+
+                <div [ngbNavOutlet]="nav"></div>
+
+                <div class="header-button-wrapper">
+                    <div class="content-subheader">
+                        Bonus/Perks
+                    </div>
+                    <button *ngIf="activeId==1" type="button" class=" btn btn-success btn -add"
+                        (click)="bonus.openAdd()">
+                        <i class="fa fal fa-plus mr-1"></i>Add Bonus/Perks</button>
+                </div>
+
+                <hrms-employee-bonus-list #bonus [showRemarks]="activeId==2"></hrms-employee-bonus-list>
+                <div class="align-items-end flex-row-reverse header-button-wrapper">
+                    <div class="" *ngIf="activeId==2">
+                        <button (click)="goBack()" class=" btn btn-secondary mr-2"> Back</button>
+                        <button type="button" (click)="save()" class=" btn btn-primary"> Save </button>
+                    </div>
+
+                    <div class="" *ngIf="activeId==1">
+                        <button type="button" (click)="clear()" class=" btn btn-secondary mr-2"> Clear</button>
+                        <button type="submit" class=" btn btn-primary "> Next</button>
+                    </div>
+                    <div class="form-group form-input-inline input-group col-4 pl-0 mb-0">
+                        <label class="col-form-label px-0"> Effective Date</label>
+                            <input class="form-control w-75 " [disabled]="activeId==2" formControlName="effectiveDate"
+                                name="effectiveDate" ngbDatepicker #d="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="d.toggle()"
+                                    type="button"></button>
+                            </div>
+                    </div>
+
+                    
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

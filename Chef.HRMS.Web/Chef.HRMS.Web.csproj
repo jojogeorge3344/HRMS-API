@@ -1,0 +1,185 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+    <!-- Set this to true if you enable server-side prerendering -->
+    <BuildServerSideRenderer>false</BuildServerSideRenderer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Content Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Remove="ClientApp\src\app\interfaces\WeatherForecast.ts" />
+    <None Remove="ClientApp\src\app\interfaces\company.ts" />
+    <None Remove="ClientApp\src\app\interfaces\common\model.ts" />
+    <None Remove="ClientApp\src\app\core\resolvers\datepicker-adapter.ts" />
+    <None Remove="ClientApp\src\app\features\settings\branchsettings\signatory\signatory.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\branchsettings\view-branch-details\view-branch-details.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\holidaysettings\holiday\single-holiday\single-holiday.component.spec.ts" />
+    <None Remove="ClientApp\src\app\services\settings\holiday\holiday.ts" />
+    <None Remove="ClientApp\src\app\services\settings\holiday\holidaycategory.ts" />
+    <None Remove="ClientApp\src\app\services\settings\company\company.service.ts" />
+    <None Remove="ClientApp\src\app\services\settings\branch\bank.service.ts" />
+    <None Remove="ClientApp\src\app\services\settings\branch\branch.service.ts" />
+    <None Remove="ClientApp\src\app\services\settings\branch\signatory.service.ts" />
+    <None Remove="ClientApp\src\app\services\settings\leave\leavetype.service.ts" />
+    <None Remove="ClientApp\src\app\models\company\company.ts" />
+    <None Remove="ClientApp\src\app\models\holiday\holidayCategory.ts" />
+    <None Remove="ClientApp\src\app\services\settings\holiday\holiday.service.ts" />
+    <None Remove="ClientApp\src\app\services\settings\holiday\holidaycategory.service.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leavesettings\leave-plan\create\create-leave-plan.component.spec.ts" />
+    <None Remove="ClientApp\src\app\services\settings\leave\leaveplan.service.ts" />
+    <None Remove="ClientApp\src\app\services\settings\leave\assignleavetype.service.ts" />
+    <None Remove="ClientApp\src\app\services\settings\leave\leaveplanleavetype.service.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leave-type-settings\apply-for-leave\leaveapplysettings.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leave-type-settings\leave-accrual\leaveaccrualsettings.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leave-type-settings\leave-quota\leavequotasettings.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leave-type-settings\leave-approval-settings\leaveapprovalsettings.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leave-type-settings\leave-restriction\leaverestrictionsettings.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leave-type-settings\leave-year-end-processing\leaveyearendsettings.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leave-type-settings\leavetypesettings.component.spec.ts" />
+    
+    <None Remove="ClientApp\src\app\features\settings\payrollsettings\payroll-settings\benefit-code\edit\edit.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\payrollsettings\payroll\benefit-code\benefit.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\payrollsettings\payroll\benefit\benefit.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\payrollsettings\payroll\benefit\edit\edit.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\payroll\payroll\salary-structure\edit\edit.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavesettings\leavesettings.component.spec.ts" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\assign\assign.component.html" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\assign\assign.component.scss" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\assign\assign.component.spec.ts" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\assign\assign.component.ts" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\create\create.component.html" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\create\create.component.scss" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\create\create.component.spec.ts" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\edit\edit.component.html" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\edit\edit.component.scss" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\edit\edit.component.spec.ts" />
+    <None Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\edit\edit.component.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\edit\edit.component.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\edit\edit.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\edit\edit.component.html" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\edit\edit.component.scss" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\assign\assign.component.html" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\assign\assign.component.scss" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\assign\assign.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\assign\assign.component.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\create\create.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\create\create.component.scss" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\create\create.component.ts" />
+    <None Remove="ClientApp\src\app\features\settings\leave\leavestructure\create\create.component.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Chef.Common\Chef.HRMS.Types\Chef.HRMS.Types.csproj" />
+    <ProjectReference Include="..\Chef.HRMS.Models\Chef.HRMS.Models.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Chef.HRMS.Repositories\Chef.HRMS.Repositories.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Chef.HRMS.Services\Chef.HRMS.Services.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Chef.Common\Chef.Common.Models\Chef.Common.Models.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Chef.Common\Chef.Common.Core\Chef.Common.Core.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="NLog" Version="4.7.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
+    <PackageReference Include="Scrutor" Version="3.2.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Controllers\CompanyBankAccountController %28copy%29.cs" />
+    <Compile Remove="Controllers\CompanyBankAccountController %28copy%29.cs" />
+    <Compile Remove="ClientApp\src\app\core\resolvers\datepicker-adapter.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\Company\" />
+    <Folder Include="Controllers\Branch\" />
+    <Folder Include="ClientApp\src\app\models\" />
+    <Folder Include="ClientApp\src\app\models\common\" />
+    <Folder Include="Controllers\Tenant\" />
+    <Folder Include="ClientApp\src\app\features\settings\branch\branches\create\" />
+    <Folder Include="ClientApp\src\app\features\settings\branch\branches\edit\" />
+    <Folder Include="ClientApp\src\app\services\settings\" />
+    <Folder Include="ClientApp\src\app\services\settings\company\" />
+    <Folder Include="ClientApp\src\app\services\settings\branch\" />
+    <Folder Include="ClientApp\src\app\services\settings\holiday\" />
+    <Folder Include="ClientApp\src\app\services\settings\leave\" />
+    <Folder Include="ClientApp\src\app\models\leave\" />
+    <Folder Include="ClientApp\src\app\models\company\" />
+    <Folder Include="ClientApp\src\app\models\branch\" />
+    <Folder Include="ClientApp\src\app\models\holiday\" />
+    <Folder Include="ClientApp\src\app\models\payroll\" />
+    <Folder Include="ClientApp\src\app\features\settings\leave\leave\leavecomponent\" />
+    <Folder Include="ClientApp\src\app\features\settings\leave\leave\leavecomponentsettings\" />
+    <Folder Include="ClientApp\src\app\features\settings\leave\leave\leavestructure\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\models\common\model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\holiday\holiday.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\holiday\holidaycategory.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\company\company.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\branch\bank.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\branch\branch.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\branch\signatory.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\leave\leavecomponent.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\company\company.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\holiday\holidayCategory.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\leave\leavestructure.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\settings\leave\leavestructureleavecomponent.service.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>

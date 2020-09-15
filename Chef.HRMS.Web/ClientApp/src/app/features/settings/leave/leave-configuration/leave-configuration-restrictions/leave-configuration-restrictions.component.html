@@ -1,0 +1,85 @@
+<div class="p-3" id="ApplyLeave">
+    <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+        <input type="hidden" formControlName="leaveStructureId" />
+        <input type="hidden" formControlName="leaveComponentId" />
+        <div class="card-body">
+            <div class="form-group row align-items-center">
+                <label for="isHalfDayAllowed" class="col-sm-5 col-form-label">Can employee apply leave for a half day?</label>
+                <div class="col-sm-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="canApplyHalfDay" formControlName="canApplyHalfDay">
+                        <label class="custom-control-label" for="canApplyHalfDay">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="canAllowEmoloyeeToApplyLeave" class="col-sm-5 col-form-label">Can employee apply leave for this leave-type?</label>
+                <div class="col-sm-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="canEmployeeApplyLeave" formControlName="canEmployeeApplyLeave">
+                        <label class="custom-control-label" for="canEmployeeApplyLeave">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="canApplyLeaveDuringProbation" class="col-sm-5 col-form-label">Can employee apply leave during probation?</label>
+                <div class="col-sm-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="canApplyLeaveDuringProbation" formControlName="canApplyLeaveDuringProbation">
+                        <label class="custom-control-label" for="canApplyLeaveDuringProbation">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="canApplyLeaveDuringNoticePeriod" class="col-sm-5 col-form-label">Can employee apply leave during notice period?</label>
+                <div class="col-sm-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="canApplyLeaveDuringNoticePeriod" formControlName="canApplyLeaveDuringNoticePeriod">
+                        <label class="custom-control-label" for="canApplyLeaveDuringNoticePeriod">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="canApplyForFutureDate" class="col-sm-5 col-form-label">Can employee apply leave for a future date?</label>
+                <div class="col-sm-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="canApplyForFutureDate" formControlName="canApplyForFutureDate">
+                        <label class="custom-control-label" for="canApplyForFutureDate">&nbsp;</label>
+                    </div>
+                </div>
+            </div>            
+            <div class="form-group row align-items-center">
+                <label for="canReportingManagerOverrideRestrictions" class="col-sm-5 col-form-label">Can reporting manager override restrictions?</label>
+                <div class="col-sm-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="canReportingManagerOverrideRestrictions" formControlName="canReportingManagerOverrideRestrictions">
+                        <label class="custom-control-label" for="canReportingManagerOverrideRestrictions">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="canManagerAwardCasualLeave" class="col-sm-5">Can reporting manager allocate leave credit?</label>
+                <div class="col-sm-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="canReportingManagerAllocateLeaveCredit" formControlName="canReportingManagerAllocateLeaveCredit">
+                        <label class="custom-control-label" for="canReportingManagerAllocateLeaveCredit">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row align-items-center">
+                <label for="isLeaveApprovalRequired" class="col-sm-5">Does require reporting manager approval?</label>
+                <div class="col-sm-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="isLeaveApprovalRequired" formControlName="isLeaveApprovalRequired">
+                        <label class="custom-control-label" for="isLeaveApprovalRequired">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="button-right-wrapper">
+                <button type="submit" class="btn btn-primary">
+                    <!-- <i class="mr-1 fal fa-save"></i> -->
+                     Save</button>
+            </div>
+    </form>
+</div>

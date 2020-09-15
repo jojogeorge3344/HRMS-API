@@ -1,0 +1,59 @@
+<div id="ExpensePolicyConfiguration">
+    <div class="subheader">
+        <h1 class="subheader-title">
+            Expense Policy Configuration
+        </h1>
+    </div>
+    <div class="card p-3">
+        <div class="row ">
+            <div class="col-sm-2 border-right">
+                <ul class="list-group" style="box-sizing: border-box;">
+                    <li class="list-group-item link list-link" (click)="selectExpenseType(i)"
+                        *ngFor="let expenseType of assignedExpenseTypes; let i= index;"
+                        [ngClass]="selected === i ? 'vertical-tab-selected' : 'vertical-tab'">
+                        <div class="m-1">
+                            {{ expenseType.name }}
+                            <i [ngClass]="expenseType.isConfigured ? 'text-success fa-check-circle' : 'text-warning fa-exclamation-circle'"
+                                class="fa fal float-right pt-1 color-fusion-100"
+                                title="{{expenseType.isConfigured ? 'Configured' : 'Not Configured'}}"></i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-10">
+                <div class="header-button-wrapper">
+                    <div class="content-header text-capitalize"> {{ currentExpenseConfiguration?.name }}
+                        Expense Configuration</div>
+
+                    <button class="btn btn-outline-primary btn-sm btn-redirect"
+                        [routerLink]="['/settings/expense/expense-policy']"
+                        [queryParams]="{expensePolicyId: expensePolicy?.id}">
+                        <i class="fal fa-arrow-left mr-2"></i> Back to Expense Policy
+                    </button>
+                </div>
+                <div [ngSwitch]="currentCategory">
+                    <div *ngSwitchCase="expenseCategoryTypes['General']">
+                        <hrms-expense-configuration-general (saveConfiguration)="onSubmit($event)"
+                            [expenseConfiguration]="currentExpenseConfiguration"></hrms-expense-configuration-general>
+                    </div>
+                    <div *ngSwitchCase="expenseCategoryTypes['PerDiem']">
+                        <hrms-expense-configuration-perdiem (saveConfiguration)="onSubmit($event)"
+                            [expenseConfiguration]="currentExpenseConfiguration"></hrms-expense-configuration-perdiem>
+                    </div>
+                    <div *ngSwitchCase="expenseCategoryTypes['Mileage']">
+                        <hrms-expense-configuration-mileage (saveConfiguration)="onSubmit($event)"
+                            [expenseConfiguration]="currentExpenseConfiguration"></hrms-expense-configuration-mileage>
+                    </div>
+                    <div *ngSwitchCase="expenseCategoryTypes['CashAdvance']">
+                        <hrms-expense-configuration-cash-advance (saveConfiguration)="onSubmit($event)"
+                            [expenseConfiguration]="currentExpenseConfiguration">
+                        </hrms-expense-configuration-cash-advance>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

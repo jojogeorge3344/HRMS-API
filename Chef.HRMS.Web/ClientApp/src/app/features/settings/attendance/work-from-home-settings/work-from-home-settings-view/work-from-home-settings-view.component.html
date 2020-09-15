@@ -1,0 +1,51 @@
+<div [ngSwitch]="type">
+    <hrms-work-from-home-settings-create *ngSwitchCase="'create'"></hrms-work-from-home-settings-create>
+    <hrms-work-from-home-settings-edit *ngSwitchCase="'edit'"></hrms-work-from-home-settings-edit>
+
+    <div id="work-from-home-settings-view" class="p-3" *ngSwitchDefault>
+        <form [formGroup]="viewForm">
+            <div class="col-sm">
+                <div class="mt-5">
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="isEnabled"
+                                formControlName="isEnabled">
+                            <label class="custom-control-label" for="isEnabled">Enable Work From Home(WFH)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="isLimited"
+                                formControlName="isLimited">
+                            <label class="custom-control-label" for="isLimited">
+                                Do you wish to limit the number of work from home days that can be availed?
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="sr-only" for="maximumLimit">Maximum Limit</label>
+                            Maximum of
+                            <input type="number" class="form-control ml-2 mr-2" id="maximumLimit"
+                                formControlName="maximumLimit">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="sr-only" for="periodType">Period Type</label>
+                            WFH requests in a
+                            <select class="form-control ml-2 mr-2" formControlName="periodType">
+                                <option [ngValue]="null" disabled>Select a Period Type</option>
+                                <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>
+                                    {{periodTypes[key]}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

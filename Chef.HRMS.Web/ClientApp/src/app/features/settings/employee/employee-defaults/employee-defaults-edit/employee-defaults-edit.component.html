@@ -1,0 +1,47 @@
+<div id="employee-defaults-settings" class="p-3">
+    <form [formGroup]="editForm" id="employeeDefaultForm" (validSubmit)="onSubmit()">
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="probationDuration">Probation Duration</label>
+                    <input type="number" class="form-control" id="probationDuration" name="probationDuration"
+                        formControlName="probationDuration">
+                </div>
+                <div class="form-group">
+                    <label for="probationPeriod">Probation Period</label>
+                    <select class="form-control" formControlName="periodType">
+                        <option value="" disabled>Select Period</option>
+                        <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>
+                            {{periodType[key]}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="workerType">Worker Type</label>
+                    <select class="form-control" formControlName="workerType">
+                        <option value="" disabled>Select Work Type</option>
+                        <option *ngFor="let key of workerTypeKeys" [ngValue]='key'>
+                            {{workerType[key]}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="timeType">Time Type</label>
+                    <select class="form-control" formControlName="timeType">
+                        <option value="" disabled>Select Time Type</option>
+                        <option *ngFor="let key of timeTypeKeys" [ngValue]='key'>
+                            {{timeType[key]}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="button-right-wrapper mt-3">
+            <button type="submit" class="btn btn-primary">
+                <!-- <i class="mr-1 fal fa-save"></i> -->
+                Save</button>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,58 @@
+<form [formGroup]="editForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Adhoc Deduction </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="subheader">
+            <h1 class="subheader-title">
+                <small>
+                    You can edit Adhoc Deduction for employees here
+                </small>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm">  
+                <label for="employeeName">Employee Name</label>
+                    <input type="text" class="form-control" formControlName="employeeName">             
+            </div> 
+            <div class="form-group col-sm">
+                <label for="employeeCode">Employee Code</label>
+                <input type="text" class="form-control" formControlName="employeeCode">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm">
+                <label for="deductionName">Deduction Name</label>
+                <input type="text" class="form-control" formControlName="deductionName">
+            </div>
+            <div class="form-group col-sm">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" formControlName="amount">
+            </div>
+            <!-- <div class="form-group col-sm">
+                <label for="currency">Currency</label>
+                    <select class="form-control" formControlName="currency">
+                        <option value="null" disabled>Select Currency</option>
+                        <option value="INR">INR</option>
+                        <option value="USD">USD</option>
+                        <option value="AED">AED</option>
+                    </select>
+            </div>  -->
+        </div>
+        <div class="row">
+            
+            <div class="form-group col-sm">
+                <label for="description">Description</label>
+                <textarea type="text" class="form-control" formControlName="description" ></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Update</button>
+    </div>
+</form>
+

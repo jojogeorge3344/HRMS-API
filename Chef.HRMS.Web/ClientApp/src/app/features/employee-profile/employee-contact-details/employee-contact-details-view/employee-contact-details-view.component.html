@@ -1,0 +1,25 @@
+<div class="d-flex py-3">
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">Work Phone</div>
+        <div class=" pb-2">{{contact?.workPhone || '--'}}</div>
+        <div class="text-muted">Work email</div>
+        <div class=" pb-2">{{contact?.workEmail || '--'}}</div>
+        <div class="text-muted">Emergency Contact Name</div>
+        <div class="text-capitalize">{{contact?.emergencyContactName || '--'}}</div>
+        
+    </div>
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">Mobile Phone</div>
+        <div class=" pb-2">{{contact?.mobile || '--'}}</div>
+        <div class="text-muted">Personal email</div>
+        <div class=" pb-2">{{contact?.personalEmail || '--'}}</div>
+        <div class="text-muted">Emergency Contact Number</div>
+        <div>{{contact?.emergencyContactNumber || '--'}}</div>
+    </div>
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">Residence Phone</div>
+        <div class="pb-2">{{contact?.homePhone || '--'}}</div>
+        <div class="text-muted">Skype</div>
+        <div>{{contact?.skype || '--'}}</div>        
+    </div>
+</div>

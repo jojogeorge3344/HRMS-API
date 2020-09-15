@@ -1,0 +1,59 @@
+<div id="LOPSettings" class="p-3">
+
+    <form [formGroup]="LopCalculationForm" (validSubmit)="onSubmit()">
+
+        <div class="form-group">
+            <label for="leaveBalancesAtTheYearEnd" class="col-sm-5 col-form-label">
+                Please select the LOP calculation method
+            </label>
+            <div class="custom-control custom-radio py-2">
+                <input type="radio" class="custom-control-input" id="leaveBalancesAtTheYearEnd1" name="lopCalculation"
+                    formControlName="lopCalculation" [value]="1">
+                <label class="custom-control-label" for="leaveBalancesAtTheYearEnd1">
+                    Actual Days in the month (including week offs and holidays)
+                </label>
+            </div>
+            <div class="custom-control custom-radio py-2">
+                <input type="radio" class="custom-control-input" id="leaveBalancesAtTheYearEnd2" name="lopCalculation"
+                    formControlName="lopCalculation" [value]="2">
+                <label class="custom-control-label" for="leaveBalancesAtTheYearEnd2">
+                    Actual working days in a month
+                </label>
+            </div>
+            <div class="custom-control custom-radio with-input py-2">
+                <input type="radio" class="custom-control-input" id="leaveBalancesAtTheYearEnd3" name="lopCalculation"
+                    formControlName="lopCalculation" [value]="3 ">
+                <label class="custom-control-label form-group" for="leaveBalancesAtTheYearEnd3">Fixed to
+                    <select class="d-inline form-control mr-1" name="fixedValue" formControlName="fixedValue">
+                        <option [ngValue]="0" disabled>Select value</option>
+                        <option *ngFor="let key of fixedSelectOptions" [ngValue]='key'>{{key}}</option>
+                    </select>
+                    days
+                </label>
+            </div>
+            <div class="custom-control custom-radio py-2">
+                <input type="radio" class="custom-control-input" id="leaveBalancesAtTheYearEnd4" name="lopCalculation"
+                    formControlName="lopCalculation" [value]="4">
+                <label class="custom-control-label" for="leaveBalancesAtTheYearEnd4">
+                    Calculation formula (click on button to enter)</label>
+            </div>
+            <div class="d-flex my-2">
+                <div class="form-group col-5 my-0">
+                    <input class="form-control " name="formula" formControlName="formula">
+                </div>
+                <div>
+                    <button type="button" [disabled]="LopCalculationForm.controls.lopCalculation.value!==4"
+                        (click)="openEdit()" class="btn btn-primary ml-3">
+                        Calculation formula
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="button-right-wrapper mt-3">
+            <button type="submit" class="btn btn-primary">
+                <!-- <i class="mr-1 fal fa-save"></i> -->
+                Save</button>
+        </div>
+    </form>
+
+</div>

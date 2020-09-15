@@ -1,0 +1,16 @@
+<div class="subheader">
+  <h1 class="subheader-title">
+    Attendance
+  </h1>
+</div>
+
+<div class="card p-3" id="attendanceSetting">
+
+  <ul ngbNav #nav="ngbNav" [activeId]="route.fragment | async" class="nav-tabs-clean nav nav-tabs">
+    <li [ngbNavItem]="tab.fragment" *ngFor="let tab of tabs">
+      <a ngbNavLink [routerLink]="tab.fragment">{{ tab.title }}</a>
+    </li>
+  </ul>
+
+  <router-outlet name="tab-content"></router-outlet>
+</div>

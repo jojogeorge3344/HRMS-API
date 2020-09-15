@@ -1,0 +1,78 @@
+<form [formGroup]="editLoanForm">
+    <div class="modal-header">
+        <h4 class="modal-title">View Loan</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="col-sm">
+            <div class="h5">Loan Reference No: {{loanNo}}</div>
+        </div>
+        <div class="d-flex flex-wrap">
+            <div class="form-group col-6">
+                <label for="name">Employee Name</label>
+
+                <input type="text" class="form-control" formControlName="employeeId" [ngbTypeahead]="search"
+                    [inputFormatter]="formatter" [resultFormatter]="formatter" editable=false >
+            </div>
+
+            <div class="form-group col-6">
+                <label for="loanType">Loan Type</label>
+                <select class="form-control" formControlName="loanType">
+                    <option [ngValue]="null" disabled>Select Loan Type</option>
+                    <option *ngFor="let key of loanTypeKeys" [ngValue]='key'>{{loanTypes[key]}}</option>
+                </select>
+            </div>
+            <div class="form-group col-6">
+                <label for="paymentType">Loan Disbursement Method</label>
+                <select class="form-control" formControlName="paymentType">
+                    <option [ngValue]="null" disabled>Select Disbursement Type</option>
+                    <option *ngFor="let key of paymentTypeKeys" [ngValue]='key'>
+                        {{paymentTypes[key] | splitByUpperCase}}</option>
+                </select>
+            </div>
+            <div class="form-group col-6">
+                <label for="repaymentTerm">Repayment Terms (Months)</label>
+                <input type="number" class="form-control repaymentTerm" id="repaymentTerm" name="repaymentTerm"
+                    placeholder="loan repayment terms in months" formControlName="repaymentTerm">
+            </div>
+            <div class="form-group col-6">
+                <label for="loanAmount">Loan Amount</label>
+                <input type="number" class="form-control" id="loanAmount" name="loanAmount"
+                    formControlName="loanAmount">
+            </div>
+            <div class="form-group col-6">
+                <label for="expectedOn">Disbursement Expected On</label>
+                <div class="input-group">
+                    <input  class="form-control" ngbDatepicker
+                        formControlName="expectedOn" #expectedOn="ngbDatepicker"
+                        [minDate]="{year: 1900, month: 1, day: 1}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="expectedOn.toggle()"
+                            type="button"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-6">
+                <label for="emiStartsFrom">EMI Starts from</label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <select class="col-5 form-control" formControlName="emiStartsFromMonth">
+                        <option [ngValue]="null" disabled>Select Month</option>
+                        <option *ngFor="let month of months; let i = index" value="{{i+1}}">{{month}}</option>
+                    </select>
+                    <select class="col-5 form-control" formControlName="emiStartsFromYear">
+                        <option [ngValue]="null" disabled>Select Year</option>
+                        <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-6">
+                <label for="comments">Comments</label>
+                <textarea type="text" rows="6" class="form-control" id="comments" name="comments"
+                    placeholder="Please provide the comment for applying loan" formControlName="comments"></textarea>
+            </div>
+        </div>
+    </div>
+</form>

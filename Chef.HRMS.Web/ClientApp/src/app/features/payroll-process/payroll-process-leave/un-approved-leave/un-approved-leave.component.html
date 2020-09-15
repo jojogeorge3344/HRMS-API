@@ -1,0 +1,44 @@
+<div id="leaveSetting">
+    <div class="modal-header">
+        <h4 class="modal-title">Unapproved Leaves Status for {{employeeName}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="this.activeModal.close('submit')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table">
+            <thead class="thead-themed">
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Leave Type</th>
+                    <th>Remarks</th>
+                    <th>Status</th>
+                    <th>Approver</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let unApprovedLeave of unapprovedLeaveDetails; let i= index;">
+                    <td>{{i+1}}</td>   
+                    <td class="text-nowrap">
+                        {{unApprovedLeave.fromDate | date}} - <span class="text-info small">>{{unApprovedLeave.numberOfDays}} Days</span>
+                    </td>
+                    <td class="text-nowrap">{{unApprovedLeave.leaveType}}</td>
+                    <td class="text-ellipsis" title="{{unApprovedLeave.description}}">{{unApprovedLeave.description}}</td>
+                    <td>{{requestStatus[unApprovedLeave.leaveStatus]}}</td>
+                    <td>{{unApprovedLeave.approver}}</td>
+                    <td>
+                        <i class="fa fal fa-check-circle m-1" (click)="approveLeave(unApprovedLeave)"></i>
+                        <i class="fa fal fa-times-circle" (click)="rejectLeave(unApprovedLeave)"></i>
+                    </td>
+                </tr>
+                <tr *ngIf="!unapprovedLeaveDetails?.length" >
+                    <td colspan="6" class="text-center">
+                        No rows found
+                    </td>
+                </tr>
+            </tbody>
+        </table>        
+    </div>
+</div>

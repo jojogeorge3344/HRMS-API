@@ -1,0 +1,85 @@
+<div id="PayrollConfiguration">
+    <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+
+        <div class="header-button-wrapper mt-3">
+
+            <div class="content-subheader">Standard Deduction</div>
+        </div>
+
+        <div class="custom-checkbox with-input">
+            <label class="align-items-baseline d-flex" for="maximumLimit">Maximum Limit per Annum
+                <div class="form-input-inline form-group ml-1">
+                    <input type="number" class="d-inline form-control mr-1" id="maximumLimit"
+                        formControlName="maximumLimit">
+                </div>
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox form-group">
+            <input type="checkbox" class="custom-control-input"
+                [checked]="payrollConfiguration.isPartOfArrearCalculation" id="isPartOfArrearCalculation"
+                formControlName="isPartOfArrearCalculation">
+            <label class="custom-control-label" for="isPartOfArrearCalculation">
+                Include this component in arrears calculation
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox form-group">
+            <input type="checkbox" class="custom-control-input" [checked]="payrollConfiguration.isRecurring"
+                id="isRecurring" formControlName="isRecurring">
+            <label class="custom-control-label" for="isRecurring">
+                This is a recurring deduction
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox form-group">
+            <input type="checkbox" class="custom-control-input"
+                [checked]="payrollConfiguration.isPartOfEarningsAndDeductions" id="isPartOfEarningsAndDeductions"
+                formControlName="isPartOfEarningsAndDeductions">
+            <label class="custom-control-label" for="isPartOfEarningsAndDeductions">
+                Mark this allowance as part of both earnings and deductions
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox form-group">
+            <input type="checkbox" class="custom-control-input" [checked]="payrollConfiguration.isVisibleInPayslip"
+                id="isVisibleInPayslip" formControlName="isVisibleInPayslip">
+            <label class="custom-control-label" for="isVisibleInPayslip">
+                Hide component in payslip (and exclude from gross earnings calculation in payslip)
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox custom-switch form-group">
+            <input type="checkbox" #isLossOfPayAffected class="custom-control-input" (change)="onChange($event.target)"
+                [checked]="payrollConfiguration.isLossOfPayAffected" id="isLossOfPayAffected"
+                formControlName="isLossOfPayAffected">
+            <label class="custom-control-label" for="isLossOfPayAffected">
+                Does Loss of Pay due to employee attendance effect the value of this component?
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox form-group" [hidden]="isLossOfPayAffected.checked">
+            <input type="checkbox" class="custom-control-input"
+                [(checked)]="payrollConfiguration.isDifferenceAmountAdjustable" id="isDifferenceAmountAdjustable"
+                formControlName="isDifferenceAmountAdjustable">
+            <label class="custom-control-label" for="isDifferenceAmountAdjustable">
+                Adjust the difference amount against special allowance
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox form-group">
+            <input type="checkbox" class="custom-control-input"
+                [checked]="payrollConfiguration.isCustomizedAndOverridenAtEmployeeLevel"
+                id="isCustomizedAndOverridenAtEmployeeLevel" formControlName="isCustomizedAndOverridenAtEmployeeLevel">
+            <label class="custom-control-label" for="isCustomizedAndOverridenAtEmployeeLevel">
+                Allow this component to be customized and overridden at employee level
+            </label>
+        </div>
+
+        <div class="button-right-wrapper mt-3" *ngIf="!isView">
+            <button type="submit" class="btn btn-primary">
+                Save
+            </button>
+        </div>
+    </form>
+</div>

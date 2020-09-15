@@ -1,0 +1,86 @@
+<div id="ExpenseConfiguration">
+    <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+
+        <div class="header-button-wrapper mt-3">
+            <div class="content-subheader text-capitalize">General</div>
+        </div>
+
+        <div class="custom-control custom-checkbox with-input">
+            <input type="checkbox" class="custom-control-input" id="isExpenseLimitEnabled" #isExpenseLimitEnabled
+                formControlName="isExpenseLimitEnabled" (change)="onChange(isExpenseLimitEnabled)">
+            <label for="isExpenseLimitEnabled" class="custom-control-label align-items-baseline d-flex">
+                Limit the expense to {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumExpenseLimit" class="form-control mr-3">
+                </div>
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <select formControlName="expensePeriodType" class="d-inline form-control">
+                        <option [ngValue]="0" disabled>Select Period Type</option>
+                        <option *ngFor="let key of expensePeriodTypeKeys" [ngValue]='key'>{{expensePeriodTypes[key]}}
+                        </option>
+                    </select>
+                </div>
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox with-input">
+            <input type="checkbox" class="custom-control-input" id="isInstanceLimitEnabled" #isInstanceLimitEnabled
+                formControlName="isInstanceLimitEnabled" (change)="onChange(isInstanceLimitEnabled)">
+            <label for="isInstanceLimitEnabled" class="custom-control-label align-items-baseline d-flex">Limit number of instances to
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumInstancesLimit"
+                        class="d-inline form-control mr-3">
+                </div>
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <select formControlName="instancesPeriodType" class="d-inline form-control">
+                        <option [ngValue]="0" disabled>Select Period Type</option>
+                        <option *ngFor="let key of expensePeriodTypeKeys" [ngValue]='key'>{{expensePeriodTypes[key]}}
+                        </option>
+                    </select>
+                </div>
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox with-input">
+            <input type="checkbox" class="custom-control-input" id="isExpiryMarked" #isExpiryMarked
+                formControlName="isExpiryMarked" (change)="onChange(isExpiryMarked)">
+            <label for="isExpiryMarked" class="custom-control-label align-items-baseline d-flex">Mark as expired if submitted beyond
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="daysPassed" class="d-inline form-control mr-1">
+                </div>
+                days
+            </label>
+        </div>
+        <div class="header-button-wrapper mt-3">
+            <div class="content-subheader"> Receipt and additional notes</div>
+        </div>
+
+        <div class="custom-control custom-checkbox with-input">
+            <input type="checkbox" class="custom-control-input" id="isCommentRequired" #isCommentRequired
+                formControlName="isCommentRequired" (change)="onChange(isCommentRequired)">
+            <label for="isCommentRequired" class="custom-control-label align-items-baseline d-flex">
+                Requires comment when amount exceeds {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumLimitComment" class="d-inline form-control ">
+                </div>
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox with-input">
+            <input type="checkbox" class="custom-control-input" id="isReceiptRequired" #isReceiptRequired
+                formControlName="isReceiptRequired" (change)="onChange(isReceiptRequired)">
+            <label for="isReceiptRequired" class="custom-control-label align-items-baseline d-flex">
+                Requires receipts when amount exceeds {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumLimitReceipt" class="d-inline form-control">
+                </div>
+            </label>
+        </div>
+
+        <div class="button-right-wrapper mt-3" *ngIf="!isView">
+            <button type="submit" class="btn btn-primary">
+                Save
+            </button>
+        </div>
+    </form>
+</div>

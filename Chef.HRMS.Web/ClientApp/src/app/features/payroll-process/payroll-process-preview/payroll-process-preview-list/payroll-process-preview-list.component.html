@@ -1,0 +1,69 @@
+
+    <div class="header-button-wrapper">
+        <div class="content-header">
+            {{month}} {{selectedYear}} - Payroll Processing (Review)
+        </div>
+    </div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th class="text-nowrap">Employee Code</th>
+                <th>Employee Name</th>
+                <th class="text-nowrap">Basic Component</th>
+                <th>LOP</th>
+                <th class="text-nowrap">LOP Deduction</th>
+                <th>Bonus</th>
+                <th>Loan</th>
+                <th class="text-nowrap">Adhoc Deduction</th>
+                <th>Repayment</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let preview of payrollPreview; let i= index;">
+                <td>{{i+1}}</td>
+                <td>{{preview.employeeCode}}</td>
+                <td>{{preview.employeeName}}</td>
+                <td>{{preview.basic| number : '1.0-2'}}</td>
+                <td>{{preview.lopCount}}</td>
+                <td>{{preview.lopAmount| number : '1.0-2'}}</td>
+                <td>{{preview.bonus| number : '1.0-2'}}</td>
+                <td>{{preview.loanAmount| number : '1.0-2'}}</td>
+                <td>{{preview.deduction| number : '1.0-2'}}</td>
+                <td>{{preview.emiAmount| number : '1.0-2'}}</td>
+                <td>
+                    {{(preview.basic + preview.bonus + preview.loanAmount -preview.lopAmount - preview.deduction -preview.emiAmount)| number : '1.0-2'}}
+                </td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item"
+                                    (click)="openPreview(preview,preview.employeeId)">Preview</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!payrollPreview?.length">
+                <td colspan="11" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="button-right-wrapper mt-3 ">
+        <button class="btn btn-secondary mr-3" routerLink="/payroll-processing" queryParamsHandling="merge">
+            Back
+        </button>
+        <button class="btn btn-primary" (click)="onSubmit()">
+            Complete Payroll Process
+        </button>
+    </div>
+<!-- </div> -->

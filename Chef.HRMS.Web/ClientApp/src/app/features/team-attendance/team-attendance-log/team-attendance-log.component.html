@@ -1,0 +1,80 @@
+<div class="button-header-wrapper mt-4">
+    <div class="content-header">
+        Attendance logs & Requests
+    </div>
+</div>
+<div class="d-flex justify-content-start border border-bottom-0">
+    <div class="border-right">
+        <select class="form-control border-0 border-square " [(ngModel)]="attendenceFilter" (change)="filterLog()">
+            <option value="null">Attendance type</option>
+            <option value="WFH">WFH</option>
+            <option value="Regular">Regular</option>
+            <option value="Remote">Remote</option>
+            <option value="On Duty">On Duty</option>
+        </select>
+    </div>
+    <div class="border-right">
+        <select class="form-control border-0 border-square " (change)="filterLog()" [(ngModel)]="departmentFilter">
+            <option value="null">Department</option>
+            <option *ngFor="let departmentKey of departmentKeys" [value]='departmentKey'>
+                {{departmentType[departmentKey]}}</option>
+        </select>
+    </div>
+    <div class="border-right">
+        <input (keyup)="filterLog()" [(ngModel)]="nameFilter" class="form-control border-0 border-square"
+            placeholder="name">
+    </div>
+    <div class="border-right">
+        <div class="input-group">
+            <input class="form-control border-0 border-square" [(ngModel)]="fromDateFilter"
+                (ngModelChange)="filterbyDate()" placeholder="date" [minDate]="{year: 1900, month: 1, day: 1}"
+                ngbDatepicker #df="ngbDatepicker">
+            <div class="input-group-append border-0">
+                <button class="btn btn-outline-secondary calendar border-0" (click)="df.toggle()" type="button">
+                    <i class="fal fa-calendar-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="border-right">
+        <div class="input-group">
+            <input class="form-control border-0 border-square" [(ngModel)]="toDateFilter"
+                (ngModelChange)="filterbyDate()" placeholder="date" [minDate]="{year: 1900, month: 1, day: 1}"
+                ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append border-0">
+                <button class="btn btn-outline-secondary calendar border-0" (click)="d.toggle()" type="button">
+                    <i class="fal fa-calendar-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead class="thead-themed">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>In time</th>
+            <th>Out Time</th>
+            <th>Working Hours</th>
+            <th>Attendance type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let attendance of attendanceLogOnDisplay; let i= index;">
+            <td>{{i+1}}</td>
+            <td class="text-capitalize">{{attendance.employeeName}}</td>
+            <td>{{attendance.clockIn | date }}</td>
+            <td>{{attendance.clockIn | date: 'h:mm a'}}</td>
+            <td>{{attendance.clockOut | date: 'h:mm a'}}</td>
+            <td>{{"9hr 0m"}}</td>
+            <td>{{attendance.attendanceType}}</td>
+        </tr>
+        <tr *ngIf="!attendanceLogOnDisplay?.length">
+            <td colspan="7" class="text-center">
+                No rows found
+            </td>
+        </tr>
+    </tbody>
+</table>

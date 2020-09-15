@@ -1,0 +1,31 @@
+<!-- <form [formGroup]="assignCalculationOvertimeForm" id="assignCalculationOvertimeForm" (validSubmit)="onSubmit()"> -->
+    <div class="modal-header">
+        <h4 class="modal-title">Lop Calculation Formula</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-5 variable-scroll">
+                <div class="h6">
+                    Component                    
+                </div>
+                <ul class="list-group" style="height: 200px; overflow-y: auto;" >
+                    <li *ngFor ="let component of components" class="list-group-item link list-link" (click)="addComponent(component)">{{component.name}}</li>
+                </ul>
+            </div>
+            <div class="col-sm border-left" >
+                <div class="form-group">
+                    <label for="city">Enter the formula to calculate per hour pay of an employee</label>
+                    <textarea type="text" class="form-control" id="formula" name="formula"[(ngModel)] ="editedFormula" ></textarea>
+                    <Span>Use standard javascript notification for the formula expressions</Span>
+                </div>
+            </div>
+        </div>   
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" (click)="onSubmit()" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+<!-- </form> -->

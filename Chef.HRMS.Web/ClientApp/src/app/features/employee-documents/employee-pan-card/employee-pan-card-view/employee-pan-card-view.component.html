@@ -1,0 +1,18 @@
+<div class="d-flex py-3">
+    <div class="col-sm-3 p-0 px-3">
+        <div class="text-muted">PAN Number</div>
+        <div class=" pb-2">{{pan?.number || '--'}}</div>             
+    </div>    
+    <div class="col-sm-3 p-0 px-3">
+        <div class="text-muted">Name</div>
+        <div class="text-capitalize pb-2">{{pan?.name || '--'}}</div>
+    </div>
+    <div class="col-sm-3 p-0 px-3">        
+        <div class="text-muted">Father's Name / Spouse's Name</div>
+        <div class="text-capitalize pb-2">{{pan?.fatherName || '--'}}</div>
+    </div>
+    <div class="col-sm-3 p-0 px-3">        
+        <div class="text-muted">Date of Birth</div>
+        <div class=" pb-2">{{pan?.dateOfBirth | date}}</div> 
+    </div>
+</div>

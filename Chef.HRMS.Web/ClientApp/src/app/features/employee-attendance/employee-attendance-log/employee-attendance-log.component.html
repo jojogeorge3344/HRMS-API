@@ -1,0 +1,122 @@
+<div class="header-button-container mt-4">
+    <!-- <div class="content-header">
+        Attendance logs & Requests
+    </div> -->
+    <div class="d-flex justify-content-between border border-bottom-0">
+        <div class="d-flex justify-content-start">
+            <!-- <div class="border-right">
+                <select class="form-control border-0 border-square " (change)="attendanceFilter($event.target.selectedIndex)">
+                    <option selected value=0 >30 Days</option>
+                    <option *ngFor="let previousMonth of previousMonths" value= "{{previousMonth.month}}" >{{months[previousMonth.month]}}</option>
+                </select>
+            </div> -->
+            <div class="border-right">
+                <select class="form-control border-0 border-square " [(ngModel)]="attendenceFilter"
+                    (change)="filterLog()">
+                    <option value="null">Attendance type</option>
+                    <option value="WFH">Work From Home</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Remote">Remote</option>
+                    <option value="On Duty">On Duty</option>
+                </select>
+            </div>
+            <div class="border-right">
+                <div class="input-group">
+                    <input class="form-control border-0 border-square" [(ngModel)]="fromDateFilter"
+                        (ngModelChange)="filterbyDate()" placeholder="date" [minDate]="minDateFrom" [maxDate]="maxDateFrom"
+                        ngbDatepicker #df="ngbDatepicker" (dateSelect)="onFromDateSelection()">
+                    <div class="input-group-append border-0">
+                        <button class="btn btn-outline-secondary calendar border-0" (click)="df.toggle()" type="button">
+                            <i class="fal fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-right">
+                <div class="input-group">
+                    <input class="form-control border-0 border-square" [(ngModel)]="toDateFilter"
+                        (ngModelChange)="filterbyDate()" placeholder="date" [minDate]="minDateTo" [maxDate]="maxDateTo"
+                        ngbDatepicker #d="ngbDatepicker" (dateSelect)="onToDateSelection()">
+                    <div class="input-group-append border-0">
+                        <button class="btn btn-outline-secondary calendar border-0" (click)="d.toggle()" type="button">
+                            <i class="fal fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-1 white-space-no-wrap">
+            <button type="button" class="btn btn-md btn-outline-primary mr-2" style="font-size: 0.8em;"
+                (click)="openRequestLogs()">Attendance Requests</button>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-themed">
+            <tr>
+                <th>Date</th>
+                <th>In time</th>
+                <th>Out Time</th>
+                <th>Working Hours</th>
+                <th>Gross Hours</th>
+                <th>Attendance type</th>
+                <th>Log</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let attendance of userAttendanceLogDisplay">
+                <ng-container [ngSwitch]="attendance.attendanceType">
+                    <tr *ngSwitchCase = "'Week Off'" class="bg-gray-300">
+                        <td>{{attendance.date | date}}
+                            <span class ="badge-warning badge-pill ml-1" style="font-size: x-small;">W-Off</span>
+                        </td> 
+                        <td colspan="6" class="text-center">
+                            Week Off
+                        </td>
+                    </tr>
+                    <tr *ngSwitchCase ="'Leave'" class="bg-gray-200">
+                        <td>{{attendance.date | date}}
+                            <span  class ="badge-dark badge-pill ml-1" style="font-size: x-small;">Leave</span>
+                        </td>
+                        <td colspan="6" class="text-center">
+                            On Leave
+                        </td>
+                    </tr>
+                    <tr *ngSwitchCase ="'Holiday'" class="bg-gray-200">
+                        <td>{{attendance.date | date}}
+                            <span  class ="badge-dark badge-pill ml-1" style="font-size: x-small;">Holiday</span>
+                        </td>
+                        <td colspan="6" class="text-center">
+                            Holiday
+                        </td>
+                    </tr>
+                    <tr *ngSwitchCase ="null" class="bg-gray-100">
+                        <td>{{attendance.date | date}}</td>
+                        <td colspan="6" class="text-center">
+                            Not Logged In
+                        </td>
+                    </tr>
+                    <tr *ngSwitchDefault>
+                        <td>
+                            {{attendance.date | date}}
+                            <span *ngIf="attendance.attendanceType == 'WFH'" class ="badge-info badge-pill ml-1" style="font-size: x-small;">WFH</span>
+                            <span *ngIf="attendance.attendanceType == 'On Duty'" class ="badge-info badge-pill ml-1" style="font-size: x-small;">On Duty</span>
+                        </td>
+                        <td>{{attendance.clockIn | date: 'hh:mm a'}}</td>
+                        <td>{{attendance.clockOut | date: 'hh:mm a'}}</td>
+                        <td>{{attendance.grossHours}}</td>
+                        <td>{{attendance.effectiveHours}}</td>
+                        <td>{{attendance.attendanceType}}</td>
+                        <td title="Approved">
+                            <span *ngIf="attendance.isApproved == 1"><i class="fal fa-check-circle text-success"></i></span>
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>    
+            <tr *ngIf="!userAttendanceLogDisplay?.length">
+                <td colspan="7" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

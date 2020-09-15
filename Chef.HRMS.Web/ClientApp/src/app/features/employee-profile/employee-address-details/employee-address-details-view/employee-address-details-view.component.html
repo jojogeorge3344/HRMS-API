@@ -1,0 +1,24 @@
+<div>
+    <div class="d-flex pt-3">
+        <div class="col-6 p-0 px-3">
+            <div class="text-muted">Current Address</div>
+        </div>
+        <div class="col-6 p-0 px-3">
+            <div class="text-muted">Permenant Address</div>
+        </div>
+    </div>
+    <div class="d-flex pb-3">
+
+        <div class="col-6 p-0 px-3">
+            <div class="text-capitalize text-wrap">{{address?.currentAddressLine1}} {{address?.currentAddressLine2}} {{address?.currentPinCode}}</div>
+            <div>{{currentState?.name}} {{currentCountry?.name}}</div>
+            <div *ngIf="!address">--</div>
+        </div>
+
+        <div class="col-6 p-0 px-3">
+            <div class="text-capitalize text-wrap">{{address?.permanentAddressLine1}} {{address?.permanentAddressLine2}} {{address?.permanentPinCode}}</div>
+            <div>{{permanentState?.name}}, {{permanentCountry?.name}}</div>
+            <div *ngIf="!address">--</div>
+        </div>
+    </div>
+</div>

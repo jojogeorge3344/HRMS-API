@@ -1,0 +1,72 @@
+<div class="p-3">
+    <div class="header-button-wrapper">
+        <div class="content-header">
+            Payroll processing -
+            {{employee?.firstName}} {{employee?.middleName}} {{employee?.lastName}} ({{employee?.employeeNumber}})
+        </div>
+    </div>
+    <div class="col-12 d-flex justify-content-between py-2 pl-0">
+        <div class="row col-12 col-lg-8 col-md-8 col-xl-5 pl-0 ">
+            <div class="col-6 py-2 align-self-center">No of working days</div>
+            <div class="p-1 my-1 col-6">
+                <div class="border border-rounded py-2 col-4 col-lg-3 text-center">
+                    {{payrollProcess?.numberOfWorkingDays || '--'}}
+                </div>
+            </div>
+            <div class="col-6 py-2 align-self-center">No of worked days</div>
+            <div class="p-1 my-1 col-6">
+                <div class="border border-rounded py-2 col-4 col-lg-3 text-center">
+                    {{payrollProcess?.numberOfWorkedDays || '--'}}
+                </div>
+            </div>
+            <div class="col-6 py-2 align-self-center">LOP</div>
+            <div class="p-1 my-1 col-6">
+                <div class="border border-rounded py-2 col-4 col-lg-3 text-center ">
+                    {{payrollProcess?.lop || '--'}}
+                </div>
+            </div>
+            <div class="col-6 py-2 align-self-center">Leaves Applied</div>
+            <div class="p-1 my-1 col-6">
+                <div class="border border-rounded py-2 col-4 col-lg-3 text-center">
+                    {{payrollProcess?.leaveApplied || '--'}}
+                </div>
+            </div>
+            <div class="col-6 py-2 align-self-center">Approved Leaves</div>
+            <div class="p-1 my-1 col-6">
+                <div (click)="payrollProcess?.approvedLeaves && openApprovedLeave()"
+                    [ngClass]="{'cursor-pointer': payrollProcess?.approvedLeaves}"
+                    class="border border-rounded py-2 col-4 col-lg-3 text-center text-primary">
+                    {{payrollProcess?.approvedLeaves || '--'}}
+                </div>
+            </div>
+            <div class="col-6 py-2 align-self-center">Unapproved Leaves</div>
+            <div class="p-1 my-1 col-6">
+                <div (click)="payrollProcess?.unapprovedLeaves && openUnApprovedLeave()"
+                    [ngClass]="{'cursor-pointer': payrollProcess?.unapprovedLeaves}"
+                    class="border border-rounded py-2 col-4 col-lg-3 text-center text-primary">
+                    {{payrollProcess?.unapprovedLeaves || '--'}}
+                </div>
+            </div>
+            <div class="col-6 py-2 align-self-center">Unmarked Attendance</div>
+            <div class="p-1 my-1 col-6">
+                <div (click)="payrollProcess?.unmarkedAttendance && openUnmarkedLeave()"
+                    [ngClass]="{'cursor-pointer': payrollProcess?.unmarkedAttendance}"
+                    class="border border-rounded py-2 col-4 col-lg-3 text-center text-primary">
+                    {{payrollProcess?.numberOfWorkingDays-( payrollProcess?.numberOfWorkedDays + payrollProcess?.leaveApplied ) || '--'}}
+                </div>
+            </div>
+        </div>
+        <div>
+            <button (click)="openRevertToEmployee()" class="btn btn-sm btn-outline-primary">Revert to employee</button>
+        </div>
+    </div>
+    <div class="button-right-wrapper mt-3 ">
+        <button class="btn btn-secondary mr-3" (click)="onSubmit('draft')">
+            Save and Draft
+        </button>
+        <button class="btn btn-primary" (click)="onSubmit('continue')">
+            Save and Next
+        </button>
+
+    </div>
+</div>

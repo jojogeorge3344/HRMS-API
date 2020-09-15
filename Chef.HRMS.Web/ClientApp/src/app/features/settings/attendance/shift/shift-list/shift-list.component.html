@@ -1,0 +1,51 @@
+<div id="shift-list" class="p-3">
+
+    <div class="button-right-wrapper">
+        <button (click)="openCreate()" class="btn btn-success btn-add">
+            <i class="fa fal fa-plus fa-plus mr-1"></i>Add Shift
+        </button>
+    </div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <th>Shift Name</th>
+                <th>Shift Time</th>
+                <th>Shift Duration and Break Timings</th>
+                <th>Number of Days/Week</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let shift of shifts; let i= index;">
+                <td>{{i+1}}</td>
+                <td class="text-capitalize">{{ shift.name }}</td>
+                <td>{{ shift.startTime | date:'shortTime' }} - {{ shift.endTime | date:'shortTime' }}</td>
+                <td>{{ getDuration(shift.startTime, shift.endTime) }} with {{ shift.breakDuration }} minutes break
+                </td>
+                <td>{{ shift.numberOfDays }}</td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem" (click)="openView(shift)"><a class="dropdown-item">View</a></li>
+                            <li role="menuitem" (click)="openEdit(shift)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="!isDisabled(shift) && delete(shift)">
+                                <a [ngClass]="{'disabled': isDisabled(shift)}" class="dropdown-item">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!shifts?.length">
+                <td colspan="6" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

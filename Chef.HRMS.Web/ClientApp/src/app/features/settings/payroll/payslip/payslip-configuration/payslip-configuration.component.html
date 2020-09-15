@@ -1,0 +1,79 @@
+
+<div class="p-3">
+    <form [formGroup]="paySlipForm" id="paySlipForm" (validSubmit)="onSubmit()">
+        <div class="custom-control custom-checkbox py-2">
+            <input type="checkbox" class="custom-control-input" id="includeFullNameOfComponents"
+                formControlName="includeFullNameOfComponents">
+            <label for="includeFullNameOfComponents" class=" custom-control-label">Include full name of components
+            </label>
+        </div>
+        <div class="custom-control custom-checkbox py-2">
+            <input type="checkbox" class="custom-control-input" id="includeNotApplicableComponents"
+                formControlName="includeNotApplicableComponents">
+            <label for="includeNotApplicableComponents" class=" custom-control-label">Include not applicable components
+            </label>
+        </div>
+        <div class="custom-control custom-checkbox py-2">
+            <input type="checkbox" class="custom-control-input" id="includeLoanOrAdvanceDetails"
+                formControlName="includeLoanOrAdvanceDetails">
+            <label for="includeLoanOrAdvanceDetails" class=" custom-control-label">Include Loan/advance details
+            </label>
+        </div>
+        <div class="custom-control custom-checkbox py-2">
+            <input type="checkbox" class="custom-control-input" id="enablePasswordProtection"
+                formControlName="enablePasswordProtection">
+            <label for="enablePasswordProtection" class=" custom-control-label">Enable password protection
+            </label>
+        </div>
+        <!-- <div>
+            <input type="text" class="d-inline form-control" >
+        </div> -->
+
+        <div class="pt-3">
+
+            <div class="d-flex justify-content-start">
+                <div class="col-sm-3  p-0 ">
+                    <div class=" card flex-grow-1 flex-shrink-0 h-100 ">
+                        <div class="py-2 pl-3 bg-gray-200">Available Fields</div>
+                        <div class="p-3 h-100">
+                            <ul style="min-height: 200px;" class="list-group h-100" dnd-droppable
+                                (onDropSuccess)="removeFields($event)">
+                                <li dnd-draggable [dragEnabled]="true" (click)="selectAvailable(item)"
+                                    [dropZones]="['source-dropZone']" [dragData]="item"
+                                    *ngFor="let item of source; let i = index"
+                                    [ngClass]="{'bg-primary-500' : checkIfSelected(item.id,'available')}"
+                                    class="list-unstyled border py-2 border-rounded my-1 pl-3 cursor-move">{{item.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="mx-3 d-flex align-items-center">
+                    <i (click)="interChange()" style="border-width: thick!important;" class=" cursor-pointer border fa-exchange fal mx-1 p-2 border-circle fa-3x"></i>
+                </div>
+                <div class="col-sm-3 p-0 ">
+                    <div class=" card flex-grow-1 flex-shrink-0 h-100 " dnd-sortable-container [sortableData]="target">
+                        <div class="py-2 pl-3 bg-gray-200">Selected Fields (Ordered)</div>
+                        <div class="p-3 h-100">
+                            <ul style="min-height: 200px;" class="list-group h-100" dnd-droppable
+                                (onDropSuccess)="addField($event)" [dropZones]="['source-dropZone']">
+                                <li dnd-sortable [sortableIndex]="i" dnd-draggable [dragEnabled]="true"
+                                    (click)="selectSelected(item)" [dragData]="item"
+                                    *ngFor="let item of target; let i = index"
+                                    [ngClass]="{'bg-primary-500' : checkIfSelected(item.id,'selected')}"
+                                    class="list-unstyled border py-2 border-rounded my-1 pl-3 cursor-move">
+                                    {{item.name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-right-wrapper mt-3">
+            <button type="submit" class="btn btn-primary">
+                <!-- <i class="mr-1 fal fa-save"></i> -->
+                Save</button>
+        </div>
+    </form>
+
+</div>

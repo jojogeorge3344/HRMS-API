@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h4 class="modal-title">Loan Status</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div>
+        <div class="d-flex ">
+            <div class="col-12">
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Employee Name:</div>
+                    <p class="col-7">{{employeeLoan.name}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Employee Code:</div>
+                    <p class="col-7">{{employeeLoan.employeeCode}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Loan Type:</div>
+                    <p class="col-7">{{loanTypes[employeeLoan.loanType]}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Disbursement Date:</div>
+                    <p class="col-7">{{employeeLoan.disbursementDate}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Amount:</div>
+                    <p class="col-7">{{employeeLoan.amount}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">EMI Amount:</div>
+                    <p class="col-7">{{employeeLoan.emiAmount}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-5">Remaining Tenure:</div>
+                    <p class="col-7">{{employeeLoan.remainingTenure}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<form [formGroup]="editForm" id="updateContactForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Update Contact </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body d-inline-flex flex-wrap">
+                <div class="form-group form-input-line col-6">
+                    <label class="col-form-label" >Work Email</label>
+                    <input type="email" class="form-control" id="workEmail"
+                        formControlName="workEmail">
+                </div>
+                <div class="form-group form-input-line col-6">
+                    <label class="col-form-label" >Personal Email</label>
+                    <input type="email" class="form-control" id="personalEmail"
+                        formControlName="personalEmail">
+                </div>
+
+                
+                <div class="form-group form-input-line col-6">
+                    
+                    <label class="col-form-label" >Work Phone</label>
+                    <div class="d-flex align-items-center">
+                    +<input type="number" class="form-control mx-1 width-10" formControlName="workPhoneCode" >-
+                    <input type="number" class="form-control ml-1" formControlName="workPhone">
+                    </div>
+                </div>
+                <div class="form-group form-input-line col-6">
+                    
+                    <label class="col-form-label">Mobile</label>
+                    <div class="d-flex align-items-center">
+                    +<input type="number" class="form-control mx-1 width-10" formControlName="mobileCode" >-
+                    <input type="number" class="form-control ml-1" formControlName="mobile">
+                    </div>
+                </div>
+                <div class="form-group form-input-line col-6">
+                    
+                    <label class="col-form-label" >Home Phone</label>
+                    <div class="d-flex align-items-center">
+                    +<input type="number" class="form-control mx-1 width-10" formControlName="homePhoneCode" >-
+                    <input type="number" class="form-control ml-1" formControlName="homePhone">
+                    </div>
+                </div>
+                <div class="form-group form-input-line col-6">
+                    <label class="col-form-label" >Skype</label>
+                    <input type="text" class="form-control" id="skype" 
+                    formControlName="skype">                
+                </div>
+                <div class="form-group form-input-line col-6">
+                    <label class="col-form-label" >Emergency Contact Name</label>
+                    <input type="text" class="form-control" id="emergencyContactName" 
+                    formControlName="emergencyContactName">                
+                </div>
+                <div class="form-group form-input-line col-6">
+                    <label class="col-form-label" >Emergency Contact Number</label>
+                    <div class="d-flex align-items-center">
+                        +<input type="number" class="form-control mx-1 width-10" formControlName="emergencyContactCode" >-
+                        <input type="number" class="form-control ml-1" formControlName="emergencyContactNumber">
+                        </div>                
+                </div>
+                
+                
+        </div> 
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+            <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+        </div>
+</form>

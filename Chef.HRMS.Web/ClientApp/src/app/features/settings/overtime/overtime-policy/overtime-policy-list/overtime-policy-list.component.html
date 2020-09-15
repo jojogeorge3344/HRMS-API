@@ -1,0 +1,72 @@
+<div class="subheader mt-3">
+    <h1 class="subheader-title mb-2">
+        <div>
+            Overtime Policy
+        </div>
+    </h1>
+</div>
+<div id="overtimePolicy" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content">
+            <div class="row">
+                <div class="col-md">
+                  <button (click)="openCreate()" class="btn btn-success mb-2 float-right"  >
+                      <i class="fa fal fa-plus fa-plus mr-1"></i>Add Overtime Policy
+                  </button>
+                </div>
+            </div> 
+            <div class="frame-wrap">
+                <table class="table m-0">
+                    <thead class="thead-themed">
+                        <tr>
+                            <th>#</th>
+                            <th>Overtime Policy Name</th>
+                            <th>Description</th>
+                            <th>No of assigned employees</th>
+                            <th>Created On</th>
+                            <th>Last Modified On</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let overtimePolicy of overtimePolicies; let i= index;">
+                            <td>{{i+1}}</td>
+                            <td class="text-capitalize">{{ overtimePolicy.name }}</td>
+                            <td class="text-ellipsis" title="{{ overtimePolicy.description }}">{{ overtimePolicy.description }}</td>
+                            <td>{{ overtimePolicy.numberOfEmployees > 0 ? overtimePolicy.numberOfEmployees : "-" }}</td>
+                            <td>{{ overtimePolicy.createdDate | date }}</td>
+                            <td>{{ overtimePolicy.modifiedDate | date }}</td>
+                            <td>
+                                <div class="btn-group" dropdown container="main">
+                                    <button id="button-basic" dropdownToggle type="button"
+                                        class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                                        aria-labelledby="button-basic">
+                                        <li role="menuitem" (click)="!isDisabled(overtimePolicy) && openConfigure(overtimePolicy)">
+                                            <a [ngClass]="{'disabled': isDisabled(overtimePolicy)}" class="dropdown-item">Configure</a>
+                                        <li role="menuitem" (click)="openView(overtimePolicy)">
+                                            <a class="dropdown-item">View</a>
+                                        </li>
+                                        <li role="menuitem" (click)="openEdit(overtimePolicy)">
+                                            <a class="dropdown-item">Edit</a>
+                                        </li>
+                                        <li role="menuitem" (click)="!isDisabled(overtimePolicy) && delete(overtimePolicy)">
+                                            <a [ngClass]="{'disabled': isDisabled(overtimePolicy)}" class="dropdown-item">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!overtimePolicies?.length">
+                            <td colspan="7" class="text-center">
+                                No rows found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>  
+    </div>
+</div>

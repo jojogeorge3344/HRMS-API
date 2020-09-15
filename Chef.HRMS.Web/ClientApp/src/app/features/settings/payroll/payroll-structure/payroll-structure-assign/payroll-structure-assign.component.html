@@ -1,0 +1,32 @@
+<form [formGroup]="addForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Assign Payroll Components to {{ payrollStructure.name }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="name">Payroll Structure Name</label>
+                <input type="text" class="form-control" id="payrollStructureName" name="payrollStructureName" disabled value="{{payrollStructure.name}}">
+            </div>
+
+            <div class="form-group" *ngIf="allPayrollComponents?.length">
+                <label class="py-2">Select Payroll Components</label>  
+                
+                <div class="custom-control custom-checkbox mb-1" formArrayName="types"
+                    *ngFor="let component of allPayrollComponents; let i = index">
+                    <input type="checkbox" class="custom-control-input" id="{{i}}" [formControlName]="i">
+                    <label class="custom-control-label" for="{{i}}">{{allPayrollComponents[i].name}}</label>
+                </div>
+
+                <div *ngIf="isEmpty" class="invalid-feedback d-block">
+                    Please select atleast 1 payroll component.
+                </div>
+            </div>              
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+            <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+        </div>
+</form>

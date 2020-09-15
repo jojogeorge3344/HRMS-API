@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="MailKit" Version="2.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.7" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+    <PackageReference Include="Npgsql" Version="4.1.4" />
+  </ItemGroup> 
+  <ItemGroup>
+    <Folder Include="Company\" />
+    <Folder Include="Branch\" />
+    <Folder Include="Tenant\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Base\IRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chef.HRMS.Models\Chef.HRMS.Models.csproj" />
+    <ProjectReference Include="..\..\Chef.Common\Chef.Common.Models\Chef.Common.Models.csproj" />
+    <ProjectReference Include="..\..\Chef.Common\Chef.Common.Core\Chef.Common.Core.csproj" />
+  </ItemGroup>
+</Project>

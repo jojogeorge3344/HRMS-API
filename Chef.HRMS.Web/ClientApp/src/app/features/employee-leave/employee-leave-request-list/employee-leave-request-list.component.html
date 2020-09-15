@@ -1,0 +1,68 @@
+<div class="header-button-wrapper mt-2">
+    <div class="content-header">
+        Leave History
+    </div>
+</div>
+<div class="d-flex justify-content-start border border-bottom-0">
+    <div class="d-flex justify-content-start">
+        <div class="border-right">
+            <select class="form-control border-0 border-square" [(ngModel)]="leaveFilter" (change)="filterHistory()">
+                <option value='null'>Leave type</option>
+                <option *ngFor="let leaveType of leaveComponent" [value]='leaveType.leaveComponentId'>
+                    {{leaveType.leaveComponentName}}</option>
+            </select>
+        </div>
+        <div class="border-right">
+            <select class="form-control border-0 border-square" (change)="filterHistory()"
+                [(ngModel)]="leaveStatusFilter">
+                <option value='null'>Status</option>
+                <option *ngFor="let leaveStatusKey of leaveStatusKeys" [value]='leaveStatusKey'>
+                    {{leaveStatus[leaveStatusKey]}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<table class="table m-0">
+    <thead class="thead-themed">
+        <tr>
+            <th>#</th>
+            <th>Leave Date</th>
+            <th>Leave Component</th>
+            <th>Status</th>
+            <th>Requested On</th>
+            <th>Leave Note</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let history of leaveLogsOnDisplay; let i= index;">
+            <td>{{i+1}}</td>
+            <td>
+                {{history.fromDate | date }} - <small style="color: #FB760D;">{{history.numberOfDays}} Days</small>
+            </td>
+            <td class="text-capitalize">{{getLeaveBalanceName(history.leaveComponentId)}}</td>
+            <td style="color: green;">{{leaveStatus[history.leaveStatus]}}</td>
+            <td>{{history.approvedDate | date }}</td>
+            <td title="{{history.description}}" class="text-ellipsis">{{history.description}}</td>
+            <td>
+                <div class="btn-group" dropdown container="main">
+                    <button id="button-basic" dropdownToggle type="button"
+                        class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                        aria-labelledby="button-basic">
+                        <li role="menuitem" (click)="openView(history.id)"><a class="dropdown-item">View</a></li>
+                        <!-- <li role="menuitem" (click)="openEdit(history)"><a class="dropdown-item">Edit</a></li> -->
+                        <li role="menuitem" (click)="delete(history)"><a class="dropdown-item">Cancel</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr *ngIf="!leaveLogsOnDisplay?.length">
+            <td colspan="7" class="text-center">
+                No rows found
+            </td>
+        </tr>
+    </tbody>
+</table>

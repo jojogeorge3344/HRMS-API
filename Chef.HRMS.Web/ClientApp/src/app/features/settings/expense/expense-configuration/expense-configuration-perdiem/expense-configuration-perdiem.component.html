@@ -1,0 +1,55 @@
+<div id="ExpenseConfiguration">
+    <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+        <div class="header-button-wrapper mt-3">
+            <div class="content-subheader text-capitalize">Per Diem</div>
+        </div>
+        <div class="custom-control custom-checkbox with-input">
+            <input type="checkbox" class="custom-control-input" id="isExpenseLimitEnabled" #isExpenseLimitEnabled
+                formControlName="isExpenseLimitEnabled" (change)="onChange(isExpenseLimitEnabled)">
+            <label for="isExpenseLimitEnabled" class="custom-control-label align-items-baseline d-flex ">
+                Limit the expense to {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumExpenseLimit" class="d-inline form-control ml-1 mr-1">
+                </div>
+                per day
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox ">
+            <input type="checkbox" class="custom-control-input" id="isProofRequired" formControlName="isProofRequired">
+            <label for="isProofRequired" class="custom-control-label">
+                Requires submission of proof
+            </label>
+        </div>
+        <div class="header-button-wrapper mt-5">
+            <div class="content-subheader"> Receipt and additional notes</div>
+        </div>
+        <div class="custom-control custom-checkbox with-input ">
+            <input type="checkbox" class="custom-control-input" id="isCommentRequired" #isCommentRequired
+                formControlName="isCommentRequired" (change)="onChange(isCommentRequired)">
+            <label for="isCommentRequired" class="custom-control-label align-items-baseline d-flex">
+                Requires comment when amount exceeds {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumLimitComment" class="d-inline form-control ml-1">
+                </div>
+            </label>
+        </div>
+
+        <div class="custom-control custom-checkbox with-input ">
+            <input type="checkbox" class="custom-control-input" id="isReceiptRequired" #isReceiptRequired
+                formControlName="isReceiptRequired" (change)="onChange(isReceiptRequired)">
+            <label for="isReceiptRequired" class="custom-control-label align-items-baseline d-flex">
+                Requires receipts when amount exceeds {{ expenseConfiguration.currency }}
+                <div class="form-input-inline form-group ml-1 mb-0">
+                    <input type="number" formControlName="maximumLimitReceipt" class="d-inline form-control ml-1">
+                </div>
+            </label>
+        </div>
+
+        <div class="button-right-wrapper mt-3" *ngIf="!isView">
+            <button type="submit" class="btn btn-primary">
+                Save
+            </button>
+        </div>
+    </form>
+</div>

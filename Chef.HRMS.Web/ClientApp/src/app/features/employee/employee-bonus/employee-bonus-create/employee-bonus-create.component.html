@@ -1,0 +1,47 @@
+<form [formGroup]="addForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Bonus</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <div class="form-group form-input-inline">
+            <label class=" col-form-label" for="bonusTypeId">Bonus Type </label>
+                <select class="form-control" formControlName="bonusTypeId">
+                    <option [ngValue]="null">Select a Bonus Type</option>
+                    <option *ngFor="let bonusType of bonusTypes" [ngValue]="bonusType.id">
+                        {{bonusType.name}}
+                    </option>
+                </select>
+        </div>
+        <div class="form-group form-input-inline">
+            <label class=" col-form-label" for="amount">Amount</label>
+                <input type="number" class="form-control" formControlName="amount">
+        </div>
+        <div class="form-group form-input-inline input-group col-12">
+            <label class="col-12 col-form-label px-0" for="disburseOn">Disburse On</label>
+            <input class="form-control" formControlName="disburseOn" name="newDate" [minDate]="minDate"
+                [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="d.toggle()"
+                    type="button"></button>
+            </div>
+        </div>
+
+        <div class="form-group form-input-inline">
+            <label class=" col-form-label" for="remarks">Remarks </label>
+                <textarea rows="4" class="form-control" formControlName="remarks">
+                </textarea>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

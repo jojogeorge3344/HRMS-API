@@ -1,0 +1,61 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        <div>
+            User Roles
+        </div>
+    </h1>
+</div>
+<div class="card p-3">
+    <div class="header-button-container ">
+        <div class="content-header"></div>
+    </div>
+    <div>
+        <div class=" d-flex col-12 bg-gray-200 card-header">
+            <div class="col-3">Roles</div>
+            <div class="col-9">Assign Employees</div>
+        </div>
+        <div class="d-flex flex-wrap">
+            <ng-container *ngFor="let role of roles">
+                <div class="border border-right-0 border-top-0 col-3 py-4 pl-4">
+                    {{role.name}}
+                    <button type="button" class="btn p-0" placement="top" ngbPopover='{{role.description}}'>
+                        <i class="fal fa-question-circle bg-fusion-200 border-circle"></i>
+                    </button>
+                </div>
+                <div class="border border-top-0 col-9 pl-3 py-1 d-flex align-items-baseline flex-wrap"
+                dnd-droppable (onDropSuccess)="roleChanged($event, role)" [dropZones]="['source-dropZone']">
+                    <ng-container *ngFor="let employee of role.employeesAdded">
+                        <span dnd-draggable [dragEnabled]="true"
+                        [dropZones]="['source-dropZone']" [dragData]="employee" class="badge border p-2 m-1 fs-sm">
+                            <span style="min-width: 25px;min-height: 25px;" class="bg-primary-500 border-circle p-1">{{employee.shortForm}}</span>
+                            {{employee.fullName}}
+                            <!-- <button (click)="removeEmployee(role,employee)" class="btn btn-outline-primary border-0 px-1 p-0">&times;</button> -->
+                        </span>
+                    </ng-container>
+                    <button *ngIf="selectedRole !== role.name" type="button" class="btn btn-outline-primary p-2 ml-2"
+                        (click)="showInput(role.name)">
+                        <i class="fal fa-plus"></i>
+                    </button>
+                    <input *ngIf="selectedRole === role.name" type="text" class="ml-2 form-control col-4"
+                        id="notifyPersonnel" name="notifyPersonnel" [ngbTypeahead]="search"
+                        (selectItem)="selected($event,employeesearch, role)" #employeesearch [inputFormatter]="formatter"
+                        [resultFormatter]="formatter" [editable]='false' placeholder="Type employee name">
+
+                </div>
+
+            </ng-container>
+        </div>
+
+    </div>
+    <div class="button-right-wrapper mt-3 ">
+        <!-- <button class="btn btn-secondary mr-3" (click)="onCancel()">
+            Cancel
+        </button> -->
+        <!-- <button class="btn btn-primary" (click)="onSubmit()">
+            Save
+        </button> -->
+
+    </div>
+
+
+</div>

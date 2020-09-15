@@ -1,0 +1,41 @@
+<form [formGroup]="editForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Bank Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="number">Bank Name</label>
+                    <input type="text" class="form-control" formControlName="bankName">
+                </div>
+                <div class="form-group">
+                <label for="fatherName">Name on account</label>
+                    <input type="text" class="form-control" formControlName="accountName">
+                </div>
+                <div class="form-group">
+                    <label for="address">Account Number</label>
+                    <input type="text" class="form-control" formControlName="accountNumber">                   
+                </div>                
+            </div>
+            
+            <div class="col-sm">                 
+                <div class="form-group">
+                    <label for="name">Brach Name</label>
+                    <input type="text" class="form-control" formControlName="branchName">
+                </div>
+                <div class="form-group">
+                    <label for="name">IFSC Code</label>
+                    <input type="text" class="form-control" formControlName="ifscCode">
+                </div>
+            </div>   
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

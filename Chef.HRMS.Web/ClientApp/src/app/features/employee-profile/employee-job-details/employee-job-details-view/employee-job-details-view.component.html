@@ -1,0 +1,31 @@
+<div class="p-3">
+    <!-- <img width="100%" src='assets\img\demo\avatars\avatar-admin-2.png'> -->
+    <img width="100%" src='assets\img\demo\avatars\avatar-admin-{{jobDetailsInfo?.gender}}.png'>
+    <!-- <img width="100%" *ngIf="jobDetailsInfo?.gender===2" src='assets\img\demo\avatars\avatar-admin-1.png'> -->
+</div>
+
+<div class="row">
+    <div class="h-100 w-100">
+        <div class="h6 text-center text-capitalize">
+            {{jobDetailsInfo?.firstName}} {{jobDetailsInfo?.middleName}} {{jobDetailsInfo?.lastName}}
+        </div>
+        <div class=" pl-4">
+            <div class="text-muted"><i class="mr-2 text-primary fal fa-briefcase"></i> Job Title </div>
+            <div class="ml-4 mb-2 text-capitalize">{{jobTitleName?.name || '--'}}</div>
+            <div class="text-muted"><i class="mr-2 text-primary fal fa-puzzle-piece"></i> Department </div>
+            <div class="ml-4 mb-2">{{(departmentType[jobDetailsInfo?.department] )|| '--'}}</div>
+            <div class="text-muted"><i class="mr-2 text-primary fal fa-bullseye"></i> Reporting to </div>
+            <div class="ml-4 mb-2 text-capitalize">{{jobDetailsInfo?.reportingTo || '--'}}</div>
+            <div class="text-muted"><i class="mr-2 text-primary fal fa-id-card"></i> Employee Number </div>
+            <div class="ml-4 mb-2">{{jobDetailsInfo?.employeeNumber || '--'}}</div>
+            <div class="text-muted"><i class="mr-2 text-primary fal fa-location-arrow"></i> Location </div>
+            <div class="ml-4 mb-2 text-capitalize">{{showLocation(jobDetailsInfo?.location) || '--'}}</div>
+            <div class="text-muted"><i class="mr-2 text-primary fal  fa-envelope"></i> Email </div>
+            <div class="ml-4 mb-2">{{jobDetailsInfo?.email || '--'}}</div>
+            <div class="text-muted"><i class="mr-2 text-primary fal fa-calendar-alt"></i> Joined On </div>
+            <div class="ml-4 mb-2">{{(jobDetailsInfo?.dateOfJoin | date ) || '--'}}</div>
+            <div class="text-muted"><i class="mr-2 text-primary fal fa-calendar-exclamation"></i> Notice Period </div>
+            <div class="ml-4 mb-2">{{(noticePeriodType[jobDetailsInfo?.noticePeriod] | splitByUpperCase) || '--'}}</div>
+        </div>
+    </div>
+</div>

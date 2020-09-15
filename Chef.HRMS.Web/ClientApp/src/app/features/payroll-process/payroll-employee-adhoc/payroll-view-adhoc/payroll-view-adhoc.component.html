@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h4 class="modal-title">Adhoc Deduction Status</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div>
+        <div class="d-flex ">
+            <div class="col-12">
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-4">Employee Name:</div>
+                    <p class="col-8">{{adhocDeduction.name}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-4">Employee Code:</div>
+                    <p class="col-8">{{adhocDeduction.employeeCode}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-4">Deduction Name:</div>
+                    <p class="col-8">{{adhocDeduction.deductionName}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-4">Amount:</div>
+                    <p class="col-8">{{adhocDeduction.currency}} {{adhocDeduction.amount}}</p>
+                </div>
+                <div class="px-3 pb-2 row">
+                    <div class="text-muted col-4">Description</div>
+                    <p class="col-8">{{adhocDeduction.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

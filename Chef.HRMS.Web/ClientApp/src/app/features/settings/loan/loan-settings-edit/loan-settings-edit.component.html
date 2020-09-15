@@ -1,0 +1,150 @@
+<div id="LoanSettings">
+    <div class="subheader">
+        <h1 class="subheader-title">
+            Loan Settings
+        </h1>
+    </div>
+    <div class="card p-3" id="configuration">
+        <div class="col-sm">
+            <div class="ml-2">
+                <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+
+                    <div class="header-button-wrapper mt-3">
+                        <div class="content-header ">Loan Eligibility</div>
+                    </div>
+
+                    <div>
+
+                        <label for="isEligibleinAfterProbationPeriod" class="mr-2 align-items-center d-flex flex-wrap">
+                            Employees are eligible for loan
+                        </label>
+
+                        <div class="form-check my-0">
+
+                            <div class="custom-control custom-radio with-input pb-0">
+                                <input type="radio" class="custom-control-input" id="afterDays"
+                                    formControlName="eligiblePeriod" [value]="1">
+                                <label class="custom-control-label d-flex align-items-baseline" for="afterDays">
+                                    <div class="form-group" style="min-height: 60px;">
+
+                                        <input type="number" formControlName="eligibleDaysFromJoining"
+                                            class="d-inline form-control mr-1">
+                                    </div>
+                                    days after joining date
+                                </label>
+
+                            </div>
+
+                            <div class="custom-control custom-radio ">
+
+                                <input type="radio" class="custom-control-input" id="afterProbation"
+                                    formControlName="eligiblePeriod" [value]="2">
+                                <label class="custom-control-label" for="afterProbation">after probation
+                                    period</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="custom-control custom-checkbox with-input">
+
+                        <input type="checkbox" class="custom-control-input" id="isEligibleBasedonAnnualGrossSalary"
+                            #isEligibleBasedonAnnualGrossSalary formControlName="isEligibleBasedonAnnualGrossSalary">
+
+                        <label for="isEligibleBasedonAnnualGrossSalary"
+                            class="align-items-baseline custom-control-label d-flex">
+                            Employees are eligible for loan if annual gross salary is between
+                            <div>
+                                <div class="d-flex align-items-baseline">
+                                    <div class="form-group ml-1 mb-0" style="min-height: 60px;">
+                                        <input type="number" class="d-inline form-control  mr-1"
+                                            formControlName="salaryFromRange">
+                                        <div *ngIf="!editForm.controls.salaryFromRange.errors && editForm.errors?.range && (editForm.touched || editForm.dirty)"
+                                            class="invalid-feedback d-block">
+                                            Incorrect salary range.
+                                        </div>
+                                    </div>
+                                    and
+                                    <div class="form-group ml-1 mb-0" style="min-height: 60px;">
+                                        <input type="number" class="d-inline form-control mr-1"
+                                            formControlName="salaryToRange">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </label>
+
+                    </div>
+
+                    <div class="custom-control custom-checkbox">
+
+                        <input type="checkbox" class="custom-control-input" id="isEligibleinNoticePeriod"
+                            formControlName="isEligibleinNoticePeriod">
+
+                        <label for="isEligibleinNoticePeriod" class="custom-control-label">
+                            Employees in notice period are eligible for loan
+                        </label>
+
+                    </div>
+                    <div class="header-button-wrapper mt-5 mb-0">
+                        <div class="content-header ">Loan and EMI calculations</div>
+                    </div>
+                    <div class="fs-xs text-muted">These settings can be overriden for individual loan applications
+                    </div>
+
+                    <div class="with-input pb-0 pt-3">
+                        <label for="standardInterestRate" class="mr-2 my-0 align-items-baseline d-flex flex-wrap">
+                            <span class="text-nowrap">Standard Interest Rate</span>
+                            <div class="form-group ml-2" style="min-height: 60px;">
+                                <input type="number" class="d-inline form-control  mr-2"
+                                    formControlName="standardInterestRate">%
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="with-input py-0">
+                        <label for="maxNumberofInstallments" class="mr-2 my-0 align-items-baseline d-flex flex-wrap">
+                            <span class="text-nowrap">Maximum number of installments</span>
+                            <div class="form-group ml-2" style="min-height: 60px;">
+                                <input type="number" class="d-inline form-control  mr-2"
+                                    formControlName="maxNumberofInstallments">
+                            </div>
+                        </label>
+                    </div>
+
+                    <div>
+
+                        <label for="interestCalcutationMethod" class="mr-2 align-items-center d-flex flex-wrap">
+                            Interest calculation method
+                        </label>
+
+                        <div class="form-check">
+
+                            <div class="custom-control custom-radio py-2">
+                                <input type="radio" class="custom-control-input" id="reducing"
+                                    formControlName="interestCalcutationMethod"
+                                    [value]="interestMethod['ReductionRate']">
+                                <label class="custom-control-label" for="reducing">
+                                    Reducing rate - Interest on outstanding balance
+                                </label>
+                            </div>
+
+                            <div class="custom-control custom-radio py-2">
+                                <input type="radio" class="custom-control-input" id="flat"
+                                    formControlName="interestCalcutationMethod" [value]="interestMethod['FlatRate']">
+                                <label class="custom-control-label" for="flat">
+                                    Flat rate - Interest calculated upfront and spread across installments
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

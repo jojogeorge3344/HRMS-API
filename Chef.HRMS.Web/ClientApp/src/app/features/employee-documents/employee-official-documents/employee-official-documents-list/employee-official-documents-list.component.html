@@ -1,0 +1,12 @@
+<div id="panel-1">
+    <div class="d-flex justify-content-between align-items-baseline">
+        <div>
+            <div class="small">
+               This section contains all generated employee letters
+            </div>
+        </div>
+    </div>
+    <div *ngIf="employeeLetter !== undefined && employeeLetter.length===0 " class="text-center pt-5">
+        Currently no employee letters are available
+    </div>
+</div>

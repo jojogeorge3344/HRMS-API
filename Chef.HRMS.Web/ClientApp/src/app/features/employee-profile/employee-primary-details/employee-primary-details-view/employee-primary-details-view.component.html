@@ -1,0 +1,24 @@
+<div class="d-flex py-3">
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">First Name</div>
+        <div class="text-capitalize pb-2">{{primarydetails?.firstName || '--'}}</div>  
+        <div class="text-muted">Date of Birth</div>
+        <div class="pb-2">{{(primarydetails?.dateOfBirth | date ) || '--'}}</div>      
+        <div class="text-muted">Display Name</div>
+        <div>{{primarydetails?.displayName || '--'}}</div>         
+    </div>
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">Middle Name</div>
+        <div class="text-capitalize pb-2">{{primarydetails?.middleName || '--'}}</div>
+        <div class="text-muted">Gender</div>
+        <div class=" pb-2">{{genderTypes[primarydetails?.gender] || '--'}}</div>
+        <div class="text-muted">Blood Group</div>
+        <div>{{((bloodGroupType[primarydetails?.bloodGroup]) | splitByUpperCase) || '--'}}</div>     
+    </div>
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">Last Name</div>
+        <div class="text-capitalize pb-2">{{primarydetails?.lastName || '--'}}</div>
+        <div class="text-muted">Marital Status</div>
+        <div>{{maritalStatusType[primarydetails?.maritalStatus] || '--'}}</div>        
+    </div>
+</div>

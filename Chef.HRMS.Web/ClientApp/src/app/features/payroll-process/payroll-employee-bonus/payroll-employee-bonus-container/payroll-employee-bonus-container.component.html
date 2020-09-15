@@ -1,0 +1,20 @@
+<div class="p-3">
+<div class="header-button-wrapper ">
+    <div class="content-header">
+        Payroll processing - 
+        {{employee?.firstName}} {{employee?.middleName}} {{employee?.lastName}} ({{employee?.employeeNumber}})
+    </div>
+</div>
+<div>
+    <hrms-payroll-employee-bonus-list></hrms-payroll-employee-bonus-list>
+    <hrms-payroll-employee-loan-advances-list [employee] = "employee"></hrms-payroll-employee-loan-advances-list>
+    <div class="button-right-wrapper mt-3 ">
+        <button class="btn btn-secondary mr-3" (click)="onSubmit('draft')">
+            Save as Draft
+        </button>
+        <button class="btn btn-primary" (click)="onSubmit('continue')">
+            Save and Next
+        </button>
+    </div>
+</div>
+</div>

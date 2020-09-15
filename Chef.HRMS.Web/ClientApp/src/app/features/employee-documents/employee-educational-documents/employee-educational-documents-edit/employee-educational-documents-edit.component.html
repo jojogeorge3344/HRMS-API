@@ -1,0 +1,88 @@
+<form [formGroup]="editForm" id="educationDetailsForm" (submit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Educational Document</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-sm">
+                <label for="degree">Degree</label>
+                <input type="text" class="form-control" id="degree" name="degree" formControlName="degree">
+            </div>
+            <div class="form-group col-sm">
+                <label for="specialization">Branch/Specialization</label>
+                <input type="text" class="form-control" id="specialization" name="specialization" formControlName="specialization">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm">
+                <label for="yearOfJoining">Year Of Joining</label>
+                <div class="">
+                    <div class="input-group">
+                        <input class="form-control" ngbDatepicker #yoj="ngbDatepicker" formControlName="yearOfJoining" [minDate]="{year: 1900, month: 1, day: 1}">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="yoj.toggle()"
+                                type="button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm">
+                <label for="yearOfCompletion">Year Of Completion</label>
+                <div class="">
+                    <div class="input-group">
+                        <input class="form-control" ngbDatepicker #yoc="ngbDatepicker" formControlName="yearOfCompletion" [minDate]="{year: 1900, month: 1, day: 1}">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="yoc.toggle()"
+                                type="button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm">
+                <label for="percentage">Percentage</label>
+                <input type="number" class="form-control" id="percentage" name="percentage" formControlName="percentage">
+            </div>
+            <div class="form-group col-sm">
+                <label for="university">University</label>
+                <input type="text" class="form-control" id="university" name="university" formControlName="university">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm">
+                <div formGroupName="document" [ngClass]="{ 'text-primary': !isDisabled, 'disabled': isDisabled}">
+                    <label>
+                        <input type="file" [disabled]="isDisabled" multiple style="display: none;" accept="application/msword, application/pdf, image/*"
+                        (change)="handleFileInput($event.target.files)">
+                        <div *ngIf="editForm.controls.document['controls'].size.errors?.filesize" class="invalid-feedback d-block">
+                            File size should be less than 2Mb
+                        </div>
+                        <div *ngIf="editForm.controls.document['controls'].extension.errors?.filetype" class="invalid-feedback d-block">
+                            Please upload file having extensions .jpeg/.jpg/.png/.pdf only.
+                        </div>
+                        <div *ngIf="editForm.controls.document['controls'].name.errors?.filename" class="invalid-feedback d-block">
+                            Please upload a file.
+                        </div>
+                        <i class="fal fa-paperclip"></i>
+                        <a class="link">Add Attachment</a>
+                    </label>
+                </div>
+                <div class="color-fusion-300 font-weight-bold" id="file-name">
+                    {{ fileName }}
+                    <i class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl" *ngIf="fileName" (click)="removeFile()"></i> 
+                </div>
+                <small class="color-fusion-300 small">
+                    Max file size allowed is 2MB
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning"  aria-label="Close" (click)="activeModal.dismiss('Cross click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

@@ -1,0 +1,111 @@
+<form [formGroup]="addForm" id="leaveRequestForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Leave Request</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      
+        <div class="row align-items-baseline">
+            <div class="form-group input-group form-input-inline col-sm">
+                <label class="col-form-label col-12 px-0" for="fromDate">From Date</label>
+                <input class="form-control" ngbDatepicker #fromDate="ngbDatepicker" formControlName="fromDate"
+                    >
+                <div class="input-group-append">
+                    <button disabled class="btn btn-outline-secondary fal fa-calendar-alt" (click)="fromDate.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+            
+            <div class="form-group input-group form-input-inline col-sm">
+                <label class="col-form-label col-12 px-0" for="toDate">To Date</label>
+                <input class="form-control"  ngbDatepicker #toDate="ngbDatepicker" formControlName="toDate" >
+                <div class="input-group-append">
+                    <button disabled class="btn btn-outline-secondary fal fa-calendar-alt" (click)="toDate.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="addForm.controls.numberOfDays.value > 0" style="height: 65px;">
+            <div class="form-group col-sm">
+                <div class="alert alert-info" role="alert">
+                    Applied leave for {{addForm.controls.numberOfDays.value}} Days
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="addForm.controls.numberOfDays.value ===1">
+            <div class="form-group col-12">
+                <div class="btn-group btn-group-toggle col-12 px-0" ngbRadioGroup name="radioBasic"
+                    formControlName="singleDay">
+                    <label ngbButtonLabel class="btn-primary" >
+                        <input  ngbButton type="radio" [value]="1"> Full Day
+                    </label>
+                    <label ngbButtonLabel class="btn-primary">
+                        <input  ngbButton type="radio" [value]="2"> First Half
+                    </label>
+                    <label ngbButtonLabel class="btn-primary">
+                        <input  ngbButton type="radio" [value]="3"> Second Half
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="addForm.controls.numberOfDays.value !==1">
+            <div class="form-group col-sm">
+                <div class="btn-group btn-group-toggle col-12 pl-0" ngbRadioGroup name="radioBasic"
+                    formControlName="firstDay">
+                    <label ngbButtonLabel class="btn-primary">
+                        <input ngbButton type="radio" [value]="1"> First Half
+                    </label>
+                    <label ngbButtonLabel class="btn-primary">
+                        <input ngbButton type="radio" [value]="2"> Second Half
+                    </label>
+                </div>
+            </div>
+            <div class="form-group col-sm">
+                <div class="btn-group btn-group-toggle col-12 pr-0" ngbRadioGroup name="radioBasic"
+                    formControlName="lastDay">
+                    <label ngbButtonLabel class="btn-primary">
+                        <input ngbButton type="radio" [value]="1"> First Half
+                    </label>
+                    <label ngbButtonLabel class="btn-primary">
+                        <input ngbButton type="radio" [value]="2"> Second Half
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <label for="leaveComponentId">Leave types</label>
+            <select class="form-control" formControlName="leaveComponentId">
+                <option [ngValue]="null">Select Leave Types</option>
+                <ng-container *ngFor="let type of leaveComponents">
+                    <option value="{{type?.id}}">
+                        {{type.name}} 
+                        <!-- <span *ngIf="type?.shortCode !='LOP'">({{type.leaveBalance}} days
+                            balance)</span> -->
+                    </option>
+                </ng-container>
+            </select>
+        </div>
+        <!-- <div class="form-group">
+            <span *ngFor="let item of selectedItems" class="badge border border-primary tag">{{ item.firstName }}
+                <span class="fal fa-times ml-1 text-primary mr-1 link" (click)="remove(item)"></span>
+            </span>
+            <input type="text" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 px-0"
+                id="notifyPersonnel" name="notifyPersonnel" [ngbTypeahead]="search" (selectItem)="selected($event)"
+                #notifyPersonnel [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]='false'
+                placeholder="Notify">
+        </div> -->
+        <div class="form-group">
+            <label for="description">Note</label>
+            <textarea type="text" class="form-control" id="description" name="description"
+                placeholder="Please enter reason for applying leave" formControlName="description"></textarea>
+        </div>
+</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-times"></i> Reject</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-check"></i>Approve</button>
+    </div>
+</form>
+

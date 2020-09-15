@@ -1,0 +1,111 @@
+<form [formGroup]="addForm" (submit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Passport</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="name">Given Name</label>
+                    <input type="text" class="form-control" formControlName="name">
+                </div>
+                <div class="form-group">
+                    <label for="number">Passport Number</label>
+                    <input type="text" class="form-control" formControlName="number">
+                </div>
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <div class="input-group">
+                        <input class="form-control" [minDate]="minDateDOB" [maxDate]="maxDateDOB" ngbDatepicker 
+                            #dateOfBirth="ngbDatepicker" formControlName="dateOfBirth" (dateSelect)="onDOBSelection($event)">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dateOfBirth.toggle()" type="button"></button>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="dateOfIssue">Date of Issue</label>
+                    <div class="input-group">
+                        <input class="form-control" [minDate]='minDateOfIssue' [maxDate]="maxDateOfIssue" ngbDatepicker #dateOfIssue="ngbDatepicker" formControlName="dateOfIssue">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dateOfIssue.toggle()" type="button"></button>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="fatherName">Father's Name</label>
+                    <input type="text" class="form-control" formControlName="fatherName">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea type="text" rows="5" class="form-control" formControlName="address"></textarea>                    
+                </div>               
+            </div>
+            
+            <div class="col-sm">                 
+                <div class="form-group">
+                    <label for="surName">Surname</label>
+                    <input type="text" class="form-control" formControlName="surName">
+                </div>
+                <div class="form-group">
+                    <label for="placeOfIssue">Place of Issue</label>
+                    <input type="text" class="form-control" formControlName="placeOfIssue">
+                </div> 
+                <div class="form-group">
+                    <label for="placeOfBirth">Place of Birth</label>
+                    <input type="text" class="form-control" formControlName="placeOfBirth">
+                </div>
+                <div class="form-group">
+                    <label for="dateOfExpiry">Date of Expiry</label>
+                    <div class="input-group">
+                        <input class="form-control" [minDate]="minDateOfExpiry" [maxDate]="maxDateOfExpiry" ngbDatepicker #dateOfExpiry="ngbDatepicker" formControlName="dateOfExpiry">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dateOfExpiry.toggle()" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="motherName">Mother's Name</label>
+                    <input type="text" class="form-control" formControlName="motherName">
+                </div>
+                <div class="form-group">
+                    <label for="nationality">Nationality</label>
+                    <input type="text" class="form-control" formControlName="nationality">
+                </div>
+                <div class="form-group col-sm">
+                    <div class="text-primary" formGroupName="document">
+                        <label>
+                            <input type="file" multiple style="display: none;" accept="application/msword, application/pdf, image/*"
+                            (change)="handleFileInput($event.target.files)">
+                            <div *ngIf="addForm.controls.document['controls'].size.errors?.filesize" class="invalid-feedback d-block">
+                                File size should be less than 2Mb
+                            </div>
+                            <div *ngIf="addForm.controls.document['controls'].extension.errors?.filetype" class="invalid-feedback d-block">
+                                Please upload file having extensions .jpeg/.jpg/.png/.pdf only.
+                            </div>
+                            <div *ngIf="addForm.controls.document['controls'].name.errors?.filename" class="invalid-feedback d-block">
+                                Please upload a file.
+                            </div>
+                            <i class="fal fa-paperclip"></i>
+                            <a class="link">Add Attachment</a>
+                        </label>
+                    </div>
+                    <div class="upload-file" id="file-name">
+                        {{ fileName }}
+                        <i class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl" *ngIf="fileName" (click)="removeFile()"></i> 
+                    </div>
+                    <small class="upload-size">
+                        Max file size allowed is 2MB
+                    </small>
+                </div>
+            </div>   
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    </div>
+</form>

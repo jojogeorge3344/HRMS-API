@@ -1,0 +1,67 @@
+<div class="subheader mt-3">
+    <h1 class="subheader-title mb-2">
+        <small>
+            These are the default settings which apply to new recruiter
+        </small>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6 col-xl-4 py-2" *ngFor="let employee of employeeDefaults">
+        <div class="card job-title-card">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-center">
+                    <div class="column">
+                        <div class=" col-sm text-center">
+                            <p class="title">Probation Period</p>
+                        </div>
+                        <div class="d-flex col-sm text-center">
+                            <div>
+                            {{employee.probationDuration}} 
+                            </div>
+                            <div class="ml-2" [ngSwitch]="employee.periodType">
+                                <span *ngSwitchCase="1">Days</span>
+                                <span *ngSwitchCase="2">Weeks</span>
+                                <span *ngSwitchCase="3">Months</span>
+                                <span *ngSwitchDefault>Probation period</span>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="column border-left">
+                        <div class=" col-sm text-center">
+                            <p class="title">Worker Type</p>
+                        </div>
+                        <div class="col-sm text-center">
+                            <div class="ml-2" [ngSwitch]="employee.workerType">
+                                <span *ngSwitchCase="1">Permanent</span>
+                                <span *ngSwitchCase="2">Contract</span>
+                                <span *ngSwitchCase="3">Intern</span>
+                                <span *ngSwitchDefault>Worker Type</span>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="column border-left">
+                        <div class=" col-sm  text-center">
+                            <p class="title">Time Type</p>
+                        </div>
+                        <div class="col-sm text-center">
+                            <div class="ml-2" [ngSwitch]="employee.timeType">
+                                <span *ngSwitchCase="1">FullTime</span>
+                                <span *ngSwitchCase="2">PartTime</span>
+                                <span *ngSwitchDefault>timeType</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class=" col-sm  text-center">
+                        <i class="fa fal mr-3 fa-edit text-primary float-right edit"
+                            (click)="openEditEmployeeSettings(employee.id)"></i>
+                    </div>
+                </div>
+            </div>            
+        </div>
+     </div>
+</div>

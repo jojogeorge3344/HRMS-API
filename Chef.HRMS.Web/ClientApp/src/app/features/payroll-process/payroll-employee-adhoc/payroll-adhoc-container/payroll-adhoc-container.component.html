@@ -1,0 +1,12 @@
+<div  class="p-3">
+    <hrms-payroll-adhoc-list [employee]="employee"></hrms-payroll-adhoc-list>
+    <hrms-payroll-loan-advance-list #loanList [employee]="employee"></hrms-payroll-loan-advance-list>
+    <div class="button-right-wrapper mt-3 ">
+        <button class="btn btn-secondary mr-3" (click)="onSubmit('draft')">
+            Save as Draft
+        </button>
+        <button class="btn btn-primary" (click)="onSubmit('continue')">
+            Save and Next
+        </button>
+    </div>
+</div>

@@ -1,0 +1,126 @@
+<div id="panel-2" class="p-3">
+    <div class="button-right-wrapper">
+        <button (click)="openCreateLeaveStructure()" class="btn btn-success btn-add"><i
+                class="fa fal fa-plus fa-plus mr-1"></i>Add Leave Structure</button>
+    </div>
+
+    <ngb-accordion [closeOthers]="true" activeIds="static-{{this.firstOpen}}" class="accordion accordion-outline">
+
+        <ngb-panel *ngFor="let leaveStructure of leaveStructures;" id="static-{{leaveStructure.id}}"
+            title="{{leaveStructure.name}}">
+        
+            <ng-template ngbPanelHeader let-opened="opened" >
+        
+                <div class="d-inline-flex justify-content-between align-items-center w-100">
+        
+                    <button ngbPanelToggle class="card-title btn w-100"
+                        (click)="getLeaveComponents(leaveStructure.id)">
+
+                        <i class="fal fa-list-alt width-2 fs-xl"></i>
+                        <span class="text-capitalize">{{leaveStructure.name}}</span>
+
+                        <i title="Configured" *ngIf="leaveStructure?.isConfigured"
+                            class="fal fa-check-circle width-2 fs-xl text-success"></i>
+
+                        <i title="Not Configured" *ngIf="!leaveStructure?.isConfigured"
+                            class="fal fa-exclamation-circle width-2 fs-xl text-warning"></i>
+                    </button>
+                    <button *ngIf="!isDisabled(leaveStructure)" class="btn btn-primary btn-sm text-nowrap mr-2" (click)="openAssignLeaveComponents(leaveStructure)">
+                        <i class="fa fal fa-cog mr-1"></i>Configure
+                    </button>
+        
+                    <div class="btn-group" dropdown container="main">
+        
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+        
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            
+                            <li role="menuitem" (click)="openEditLeaveStructure(leaveStructure)">
+                                <a class="dropdown-item">Edit</a>
+                            </li>
+        
+                            <li role="menuitem"
+                                (click)="!isDisabled(leaveStructure) && deleteLeaveStructure(leaveStructure)">
+                                <a [ngClass]="{'disabled': isDisabled(leaveStructure)}" class="dropdown-item">Delete</a>
+                            </li>
+                        </ul>
+        
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+                <!-- <div class="button-right-wrapper" >
+                    
+                </div> -->
+
+                <table class="table table-striped table-light">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Short Code</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let leaveComponent of assignedLeaveComponents; let i= index;">
+                            <td>{{i+1}}</td>
+                            <td class="text-capitalize">{{leaveComponent.name}}</td>
+                            <td class="text-uppercase">{{leaveComponent.code}}</td>
+                            <td>
+                                <div class="btn-group" dropdown container="main">
+                                    
+                                    <button id="button-basic" dropdownToggle type="button"
+                                        class="border-0 mr-2 pr-2 dropdown-toggle btn-more"
+                                        aria-controls="dropdown-basic">
+                                        <span class="caret"></span>
+                                    </button>
+                                    
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+                                        role="menu" aria-labelledby="button-basic">
+                                    
+                                        <ng-container *ngIf="leaveComponent.code.toLowerCase() !== 'lop'">
+                                            <li *ngIf="!isDisabled(leaveStructure)" role="menuitem"  (click)="openLeaveComponentConfiguration(leaveStructure.id, leaveComponent.id, false)">
+                                                <a class="dropdown-item">Edit</a>
+                                            </li>
+                                            
+                                            <li *ngIf="isDisabled(leaveStructure)" role="menuitem" (click)="openLeaveComponentConfiguration(leaveStructure.id, leaveComponent.id, true)">
+                                                <a class="dropdown-item">View</a>
+                                            </li>
+                                        </ng-container>    
+
+                                        <li role="menuitem"
+                                            (click)="!isDisabled(leaveStructure) && removeLeaveComponent(leaveStructure, leaveComponent)">
+                                            <a [ngClass]="{'disabled': isDisabled(leaveStructure)}"
+                                                class="dropdown-item">Remove</a>
+                                        </li>
+                                    </ul>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+                                        role="menu" aria-labelledby="button-basic">
+                                        <li role="menuitem"
+                                            (click)="openLeaveComponentConfiguration(leaveStructure.id, leaveComponent.id)">
+                                            <a class="dropdown-item">Configure</a></li>
+                                        <li role="menuitem"
+                                            (click)="removeLeaveComponent(leaveStructure, leaveComponent)"><a
+                                                class="dropdown-item">Remove</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!assignedLeaveComponents?.length">
+                            <td colspan="4" class="text-center">
+                                No rows found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+
+</div>

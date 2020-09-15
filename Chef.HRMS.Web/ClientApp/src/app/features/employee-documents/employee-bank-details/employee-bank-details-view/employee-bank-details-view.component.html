@@ -1,0 +1,18 @@
+<div class="d-flex py-3">
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">Name on Account</div>
+        <div class="text-capitalize pb-2">{{bankDetails?.accountName || '--'}}</div>
+        <div class="text-muted">Account Number</div>
+        <div>{{bankDetails?.accountNumber || '--'}}</div>        
+    </div>
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">Bank Name</div>
+        <div class="text-capitalize pb-2">{{bankDetails?.bankName || '--'}}</div>
+        <div class="text-muted">IFSC Code</div>
+        <div>{{bankDetails?.ifscCode || '--'}}</div>
+    </div>
+    <div class="col-4 p-0 px-3">
+        <div class="text-muted">Branch Name</div>
+        <div class="text-capitalize">{{bankDetails?.branchName || '--'}}</div>        
+    </div>
+</div>

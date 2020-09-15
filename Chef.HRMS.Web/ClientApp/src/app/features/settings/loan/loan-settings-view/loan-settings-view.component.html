@@ -1,0 +1,124 @@
+<div id="LoanSettings">
+    <div class="subheader">
+        <h1 class="subheader-title ">
+            Loan Settings
+        </h1>
+    </div>
+    <div class="card p-3 " id="configuration">
+        <div class="col-sm">
+            <div class="ml-2">
+                <form [formGroup]="viewForm">
+                    <div class="header-button-wrapper mt-3">
+                        <div class="content-header ">Loan Eligibility</div>
+                    </div>
+
+                    <div class="py-3">
+
+                        <label for="isEligibleinAfterProbationPeriod" class="mr-2 align-items-center d-flex flex-wrap">
+                            Employees are eligible for loan
+                        </label>
+
+                        <div class="form-check">
+
+                            <div class="custom-control custom-radio with-input py-2">
+
+                                <input type="radio" class="custom-control-input" id="afterDays"
+                                    formControlName="eligiblePeriod" [value]="1">
+
+                                <label class="custom-control-label" for="afterDays">
+                                    <input type="number" formControlName="eligibleDaysFromJoining"
+                                        class="d-inline form-control mr-1">
+                                    days after joining date
+                                </label>
+
+                            </div>
+
+                            <div class="custom-control custom-radio py-2">
+                                <input type="radio" class="custom-control-input" id="afterProbation"
+                                    formControlName="eligiblePeriod" [value]="2">
+                                <label class="custom-control-label" for="afterProbation">after probation period</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="custom-control custom-checkbox with-input">
+
+                        <input type="checkbox" class="custom-control-input" id="isEligibleBasedonAnnualGrossSalary"
+                            #isEligibleBasedonAnnualGrossSalary formControlName="isEligibleBasedonAnnualGrossSalary">
+
+                        <label for="isEligibleBasedonAnnualGrossSalary" class="custom-control-label">
+                            Employees are eligible for loan if annual gross salary is between
+                            <input type="number" class="d-inline form-control ml-1 mr-1"
+                                formControlName="salaryFromRange">
+                            and
+                            <input type="number" class="d-inline form-control ml-1 mr-1"
+                                formControlName="salaryToRange">
+                        </label>
+
+                    </div>
+
+                    <div class="custom-control custom-checkbox mt-3">
+
+                        <input type="checkbox" class="custom-control-input" id="isEligibleinNoticePeriod"
+                            formControlName="isEligibleinNoticePeriod">
+
+                        <label for="isEligibleinNoticePeriod" class="custom-control-label">
+                            Employees in notice period are eligible for loan
+                        </label>
+
+                    </div>
+                    <div class="header-button-wrapper mt-3 mb-0">
+                        <div class="content-header ">Loan and EMI calculations</div>
+                    </div>
+                    <div class="fs-xs text-muted">These settings can be overriden for individual loan applications
+                    </div>
+
+                    <div class="with-input">
+                        <label for="standardInterestRate" class="mr-2 align-items-center d-flex flex-wrap">
+                            <span class="text-nowrap">Standard Interest Rate</span>
+                            <input type="number" class="d-inline form-control ml-2 mr-2"
+                                formControlName="standardInterestRate">%
+                        </label>
+                    </div>
+
+                    <div class="with-input">
+                        <label for="maxNumberofInstallments" class="mr-2 align-items-center d-flex flex-wrap">
+                            <span class="text-nowrap">Maximum number of installments</span>
+                            <input type="number" class="d-inline form-control ml-2 mr-2"
+                                formControlName="maxNumberofInstallments">
+                        </label>
+                    </div>
+
+                    <div class="py-3">
+
+                        <label for="interestCalcutationMethod" class="mr-2 align-items-center d-flex flex-wrap">
+                            Interest calculation method
+                        </label>
+
+                        <div class="form-check">
+
+                            <div class="custom-control custom-radio py-2">
+                                <input type="radio" class="custom-control-input" id="reducing"
+                                    formControlName="interestCalcutationMethod"
+                                    [value]="interestMethod['ReductionRate']">
+                                <label class="custom-control-label" for="reducing">
+                                    Reducing rate - Interest on outstanding balance
+                                </label>
+                            </div>
+
+                            <div class="custom-control custom-radio py-2">
+                                <input type="radio" class="custom-control-input" id="flat"
+                                    formControlName="interestCalcutationMethod" [value]="interestMethod['FlatRate']">
+                                <label class="custom-control-label" for="flat">
+                                    Flat rate - Interest calculated upfront and spread across installments
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

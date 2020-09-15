@@ -1,0 +1,56 @@
+<div id="LeaveConfiguration">
+  <div class="subheader">
+    <h1 class="subheader-title">
+      <div>
+        Leave Structure Configuration
+      </div>
+    </h1>
+  </div>
+  
+  <div class="card p-3" id="leaveConfiguration">
+  
+    <div class="header-button-wrapper">
+
+      <div *ngIf="leaveComponent" class="content-header text-capitalize"> {{ leaveComponent?.name }} </div>
+      
+      <a [routerLink]="['/settings/leave/leave-structure']" [queryParams]="{leaveStructureId: leaveStructureId}">
+          <button class="btn btn-sm btn-outline-primary btn-redirect "><i
+                  class="fal fa-arrow-left mr-2"></i> Back to Leave Structure</button>
+      </a>
+
+    </div>
+    <div  *ngIf="leaveComponentId">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav-tabs-clean nav nav-tabs">
+        
+        <li [ngbNavItem]="1">
+          <a ngbNavLink>General Settings</a>
+
+          <ng-template ngbNavContent>
+            <hrms-leave-configuration-general
+              [leaveStructureId]="leaveStructureId"
+              [leaveComponentId]="leaveComponentId"
+              (saveConfiguration)="onSubmit()"
+              [isView]="isView"></hrms-leave-configuration-general>
+          </ng-template>
+
+        </li>
+        
+        <li [ngbNavItem]="2">
+          <a ngbNavLink>Leave Restrictions</a>
+          
+          <ng-template ngbNavContent>
+            <hrms-leave-configuration-restrictions
+              [leaveStructureId]="leaveStructureId"
+              [leaveComponentId]="leaveComponentId"
+              (saveConfiguration)="onSubmit()"
+              [isView]="isView"></hrms-leave-configuration-restrictions>
+          </ng-template>
+
+        </li>
+      
+      </ul>
+    
+      <div [ngbNavOutlet]="nav"></div>
+    </div>      
+  </div>
+</div>

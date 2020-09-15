@@ -1,0 +1,48 @@
+<div class="h6 font-weight-bold fs-sm">
+        Loans and Advances Repayment
+</div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>#</th>
+                <!-- <th>Employee Code</th> -->
+                <!-- <th>Employee Name</th> -->
+                <th>Loan Number</th>
+                <th>Disbursal Date</th>
+                <th>EMI Amount</th>
+                <th>Remaining Tenure</th>
+                <th>Balance Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let loanAdvances of payGroupLoans; let i= index;">
+                <td>{{i+1}}</td>
+                <!-- <td>{{loanAdvances.employeeCode}}</td> -->
+                <!-- <td>{{loanAdvances.name}}</td> -->
+                <td>{{loanAdvances.loanNumber}}</td>
+                <td>{{loanAdvances.disbursementDate | date}}</td>
+                <td>{{loanAdvances.emiAmount| number : '1.0-2'}}</td>
+                <td>{{loanAdvances.remainingTenure}}</td>
+                <td>{{loanAdvances.balanceAmount| number : '1.0-2'}}</td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item"
+                                    (click)="openDefermentPayment(loanAdvances)">Deffer Payment</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!payGroupLoans?.length">
+                <td colspan="7" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>

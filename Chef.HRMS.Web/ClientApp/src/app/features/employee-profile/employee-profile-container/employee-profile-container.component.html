@@ -1,0 +1,106 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        My Profile
+    </h1>
+</div>
+<div class="card p-3">
+    <div class="d-flex justify-content-start">
+        <div class="col-3">
+            <hrms-employee-job-details-view></hrms-employee-job-details-view>
+        </div>
+        <div class="col-9">
+            <div id="panel-2" class="py-3">
+
+                <ngb-accordion #acc="ngbAccordion" [activeIds]="'1,2,3,4,5'" class="accordion accordion-outline">
+
+                    <ngb-panel id="1" title="Primary Details">
+                        <ng-template ngbPanelHeader>
+
+                            <div class="align-items-center d-inline-flex justify-content-between w-100">
+                                <button ngbPanelToggle class="btn card-title text-decoration-none w-100">
+                                    <i class="fal fa-list-alt mr-2 fs-xl"></i>
+                                    Primary Details
+                                </button>
+                                <button (click)="primary?.openEdit()" class="btn btn-sm btn-success mr-2 text-nowrap">
+                                    <i class="fa fal fa-edit fa-edit mr-1"></i>Edit
+                                </button>
+                            </div>
+                        </ng-template>
+
+                        <ng-template ngbPanelContent>
+                            <hrms-employee-primary-details-view></hrms-employee-primary-details-view>
+                        </ng-template>
+
+                    </ngb-panel>
+
+                    <ngb-panel id="2" title="Contact Information">
+                        <ng-template ngbPanelHeader>
+
+                            <div class="align-items-center d-inline-flex justify-content-between w-100">
+                                <button ngbPanelToggle class="btn card-title text-decoration-none w-100">
+                                    <i class="fal fa-list-alt mr-2 fs-xl"></i>
+                                    Contact Information
+                                </button>
+                                <button (click)="contact?.openEdit()" class="btn btn-sm btn-success mr-2 text-nowrap">
+                                    <i class="fa fal fa-edit fa-edit mr-1"></i>Edit
+                                </button>
+                            </div>
+
+                        </ng-template>
+
+                        <ng-template ngbPanelContent>
+                            <hrms-employee-contact-details-view></hrms-employee-contact-details-view>
+                        </ng-template>
+
+                    </ngb-panel>
+
+                    <ngb-panel id="3" title="Address">
+                        <ng-template ngbPanelHeader>
+
+                            <div class="align-items-center d-inline-flex justify-content-between w-100">
+                                <button ngbPanelToggle class="btn card-title text-decoration-none w-100">
+                                    <i class="fal fa-list-alt mr-2 fs-xl"></i>
+                                    Address
+                                </button>
+                                <!-- <button (click)="address?.openEdit()" class="card-link btn btn-success btn-sm mr-2">
+                                                <i class="fa fal fa-plus fa-plus mr-1"></i>Add
+                                            </button> -->
+                                <button (click)="address?.openEdit()" class="btn btn-sm btn-success mr-2 text-nowrap">
+                                    <i class="fa fal fa-edit fa-edit mr-1"></i>Edit
+                                </button>
+                            </div>
+
+                        </ng-template>
+
+                        <ng-template ngbPanelContent>
+                            <hrms-employee-address-details-view></hrms-employee-address-details-view>
+                        </ng-template>
+
+                    </ngb-panel>
+
+                    <ngb-panel id="4" title="Dependent Details">
+                        <ng-template ngbPanelHeader>
+
+                            <div class="align-items-center d-inline-flex justify-content-between w-100">
+                                <button ngbPanelToggle class="btn card-title text-decoration-none w-100">
+                                    <i class="fal fa-list-alt mr-2 fs-xl"></i>
+                                    Dependent Details
+                                </button>
+                                <button (click)="dependent?.openAdd()" class="btn btn-sm btn-success mr-2 text-nowrap">
+                                    <i class="fa fal fa-plus fa-plus mr-1"></i>Add
+                                </button>
+                            </div>
+
+                        </ng-template>
+
+                        <ng-template ngbPanelContent>
+                            <hrms-employee-dependent-details-list></hrms-employee-dependent-details-list>
+                        </ng-template>
+
+                    </ngb-panel>
+                </ngb-accordion>
+
+            </div>
+        </div>
+    </div>
+</div>
