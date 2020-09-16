@@ -10,12 +10,13 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { NotificationPendingComponent } from './notification-pending/notification-pending.component';
 import { LeaveRequestViewComponent } from './leave-request-view/leave-request-view.component';
-
+import { ExpenseRequestViewComponent } from './expense-request-view/expense-request-view.component';
 
 @NgModule({
   declarations: [
     NotificationPendingComponent,
-    LeaveRequestViewComponent],
+    LeaveRequestViewComponent,
+    ExpenseRequestViewComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([

@@ -49,9 +49,6 @@ export class LeaveRequestViewComponent implements OnInit {
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
-    private employeeService: EmployeeService,
-    private signalrService: SignalrService,
-    private calendar: NgbCalendar,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
@@ -96,7 +93,7 @@ export class LeaveRequestViewComponent implements OnInit {
 
 
   onSubmit() {
-    let addForm = this.addForm.value;
+    let addForm = this.addForm.getRawValue();
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -114,7 +111,7 @@ export class LeaveRequestViewComponent implements OnInit {
     });
   }
   reject() {
-    let addForm = this.addForm.value;
+    let addForm = this.addForm.getRawValue();
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,

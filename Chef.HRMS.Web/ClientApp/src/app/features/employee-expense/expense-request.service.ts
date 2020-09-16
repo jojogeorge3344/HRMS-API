@@ -36,15 +36,20 @@ export class ExpenseRequestService {
     return this.http.get(this.baseUrl + 'getMaximumInstancesById/' + employeeId + '/' + expenseConfigurationId + '/' + periodType).pipe(map(response => { return response; }));
   }
 
-  add(expenseRequest:ExpenseRequest) {
+  add(expenseRequest: ExpenseRequest) {
     return this.http.post(this.baseUrl + 'insert', expenseRequest).pipe(map(response => { return response; }));
   }
 
-  update(expenseRequest:ExpenseRequest) {
+  update(expenseRequest: ExpenseRequest) {
     return this.http.post<number>(this.baseUrl + 'update', expenseRequest).pipe(map(response => { return response; }));
   }
 
   delete(id: number) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
+  }
+
+  getUnapprovedExpense(employeeId: number) {
+    return this.http.get<ExpenseRequest[]>(this.baseUrl + 'GetAllUnApprovedExpenseById/' + employeeId)
+      .pipe(map(response => response));
   }
 }

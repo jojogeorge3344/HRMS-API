@@ -11,9 +11,8 @@
             <tr>
                 <th>#</th>
                 <th>Employee</th>
-                <th>From</th>
-                <th>To</th>
-                <th>No</th>
+                <th>Type</th>
+                <th>Details</th>
 
                 <th>Actions</th>
             </tr>
@@ -22,9 +21,17 @@
             <tr *ngFor="let notification of notifications; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ notification.employee?.fullName }}</td>
-                <td>{{ notification.fromDate| date}}</td>
-                <td>{{ notification.toDate |date }} </td>
-                <td>{{ notification.numberOfDays }}</td>
+                <td>{{ notification.type }}</td>
+                <td>
+                    <span *ngIf="notification.type === 'Leave'">
+                        {{ notification.fromDate| date}} - {{ notification.toDate |date }}
+                        {{ notification.numberOfDays }}
+                        days 
+                    </span>
+                    <span *ngIf="notification.type === 'Expense'">
+                    {{ notification.expenseTypeName}} - {{notification.currency}} {{notification.amount}}
+                </span>
+                </td>
                 <td>
                     <div class="btn-group" dropdown container="main">
                         <button id="button-basic" dropdownToggle type="button"
@@ -38,7 +45,7 @@
                             </li>
                             <li role="menuitem" (click)="reject(notification)"><a class="dropdown-item">Reject</a>
                             </li>
-                            <li role="menuitem" (click)="openLeave(notification)"><a class="dropdown-item">View</a></li>
+                            <li role="menuitem" (click)="openView(notification)"><a class="dropdown-item">View</a></li>
 
                         </ul>
                     </div>

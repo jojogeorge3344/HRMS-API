@@ -9,18 +9,23 @@
     </a>
   </div> -->
 
-<div dropdown>
-  <a dropdownToggle data-toggle="dropdown" class="header-icon d-flex align-items-center justify-content-center ml-2">
-    <i class="fal fa-bell"></i>
-    <span *ngIf="notificationCount" class="badge badge-icon">{{notificationCount}}</span>
-  </a>
-  <div *dropdownMenu class="dropdown-menu dropdown-menu-animated-right dropdown-lg">
-    <ul *ngIf="notificationCount>0" class="list-unstyled">
-      <li *ngFor="let data of notificationList; let i=index;">
-        <a class="dropdown-item" data-action="app-reset">
-          <span>{{data.notificationType}}</span>
-        </a>
-      </li>
-    </ul>
+  <div dropdown>
+    <a dropdownToggle data-toggle="dropdown" class="header-icon d-flex align-items-center justify-content-center ml-2">
+      <i class="fal fa-bell"></i>
+      <span *ngIf="notificationCount" class="badge badge-icon">{{notificationCount}}</span>
+    </a>
+    <div *dropdownMenu class="dropdown-menu dropdown-menu-animated-right dropdown-lg" >
+      <ul class="list-unstyled mb-0">
+        <li *ngFor="let notification of notificationList; let i=index;">
+          <a routerLink="/notifications" class="dropdown-item" data-action="app-reset">
+            <span>{{notification.notificationType}}</span>
+            <span style="width: 1rem;" class="float-right bg-primary-400 text-center border-circle">{{notification.pendingRequest}}</span>
+          </a>
+        </li>
+        <li *ngIf="notificationCount" class="dropdown-divider"></li>
+        <li class="dropdown-item"  >
+          <a routerLink="/notifications"> All Notifications</a>
+          </li>
+      </ul>
+    </div>
   </div>
-</div>

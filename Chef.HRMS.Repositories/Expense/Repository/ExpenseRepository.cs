@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"SELECT l.* from expense e 
+                var sql = @"SELECT e.* from expense e 
 	                                        INNER JOIN jobdetails jd
                                             ON jd.employeeid = e.employeeid
                                             WHERE jd.reportingmanager = @employeeId

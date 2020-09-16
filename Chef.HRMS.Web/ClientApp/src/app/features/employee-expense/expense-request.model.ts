@@ -1,4 +1,5 @@
 import { Model } from '@shared/models/model';
+import { Employee } from '@features/employee/employee.model';
 
 export interface ExpenseRequest extends Model {
     name: string;
@@ -8,7 +9,7 @@ export interface ExpenseRequest extends Model {
     expensePolicyId: number;
     expensePolicyName: string;
     expenseDate: Date;
-    currency:string;
+    currency: string;
     mileageUnit: number;
     mileageCovered: number;
     mileageRate: number;
@@ -17,4 +18,8 @@ export interface ExpenseRequest extends Model {
     employeeId: number;
     requestStatus: number;
     isReceiptAttached: boolean;
+    approvedBy: number;
+    approvedDate: Date;
+    employee?: Employee;
+    type?: string;
 }
