@@ -39,7 +39,7 @@ export class PayrollEditAdhocComponent implements OnInit {
       if (result.id === -1) {
         this.toastr.showErrorMessage('Adhoc Deduction for user already exists!');
       } else {
-        this.toastr.showSuccessMessage('Adhoc Deduction Added successfully');
+        this.toastr.showSuccessMessage('Adhoc deduction updated successfully');
         this.activeModal.close('submit');
       }
     },
