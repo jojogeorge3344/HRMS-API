@@ -1,22 +1,65 @@
+<div class="d-flex justify-content-between border border-bottom-0">
+    <div class="d-flex justify-content-start">
+        <!-- <div class="border-right">
+            <select class="form-control border-0 border-square " (change)="attendanceFilter($event.target.selectedIndex)">
+                <option selected value=0 >30 Days</option>
+                <option *ngFor="let previousMonth of previousMonths" value= "{{previousMonth.month}}" >{{months[previousMonth.month]}}</option>
+            </select>
+        </div> -->
+        <div class="border-right">
+            <select class="form-control border-0 border-square" [(ngModel)]="attendanceFilter">
+                <option value="null">Attendance type</option>
+                <option value="WFH">Work From Home</option>
+                <option value="Regular">Regular</option>
+                <option value="Remote">Remote</option>
+                <option value="On Duty">On Duty</option>
+            </select>
+        </div>
+        <div class="border-right">
+            <div class="input-group">
+                <input readonly class="form-control border-0 border-square" [(ngModel)]="fromDateFilter"
+                     placeholder="date" [minDate]="minDateFrom" [maxDate]="maxDateFrom"
+                    ngbDatepicker #df="ngbDatepicker" >
+                <div class="input-group-append border-0">
+                    <button class="btn btn-outline-secondary calendar border-0" (click)="df.toggle()" type="button">
+                        <i class="fal fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="border-right">
+            <div class="input-group">
+                <input readonly class="form-control border-0 border-square" [(ngModel)]="toDateFilter"
+                     placeholder="date" [minDate]="minDateTo" [maxDate]="maxDateTo"
+                    ngbDatepicker #d="ngbDatepicker">
+                <div class="input-group-append border-0">
+                    <button class="btn btn-outline-secondary calendar border-0" (click)="d.toggle()" type="button">
+                        <i class="fal fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-1 white-space-no-wrap">
+        <button type="button" class="btn btn-md btn-outline-primary mr-2" style="font-size: 0.8em;"
+            >Sample Report
+            <i class="fal fa-download"></i>
+        </button>
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
       Upload
     </div>
     <div class="card-body">
-        <div class="input-group">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile01"
-                aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
-          </div>
-          <!-- <div class="row">
+          <div class="row">
             <div class="form-group col-sm">
-                <div formGroupName="document" [ngClass]="{ 'text-primary': !isDisabled, 'disabled': isDisabled}">
+                <div class="text-primary">
                     <label>
-                        <input type="file" [disabled]="isDisabled" multiple style="display: none;" accept="application/msword, application/pdf, image/*"
-                        (change)="handleFileInput($event.target.files)">
-                        <div *ngIf="addForm.controls.document['controls'].size.errors?.filesize" class="invalid-feedback d-block">
+                        <input type="file" 
+                        style="display: none;" (change)="addfile($event)"
+                        accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                        <!-- <div *ngIf="addForm.controls.document['controls'].size.errors?.filesize" class="invalid-feedback d-block">
                             File size should be less than 2Mb
                         </div>
                         <div *ngIf="addForm.controls.document['controls'].extension.errors?.filetype" class="invalid-feedback d-block">
@@ -24,7 +67,7 @@
                         </div>
                         <div *ngIf="addForm.controls.document['controls'].name.errors?.filename" class="invalid-feedback d-block">
                             Please upload a file.
-                        </div>
+                        </div> -->
                         <i class="fal fa-paperclip"></i>
                         <a class="link">Add Attachment</a>
                     </label>
@@ -37,6 +80,41 @@
                     Max file size allowed is 2MB
                 </small>
             </div>
-        </div> -->
+        </div>
     </div>
   </div>
+  <table class="table" *ngIf="userAttendance.length">
+    <thead class="thead-themed">
+        <tr>
+            <th>Date</th>
+            <th>In time</th>
+            <th>Out Time</th>
+            <th>Working Hours</th>
+            <th>Gross Hours</th>
+            <th>Attendance type</th>
+            <th>Log</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let attendance of userAttendance">
+            <td>
+                {{attendance.Date | date}}
+                <span *ngIf="attendance.attendanceType == 'WFH'" class ="badge-info badge-pill ml-1" style="font-size: x-small;">WFH</span>
+                <span *ngIf="attendance.attendanceType == 'On Duty'" class ="badge-info badge-pill ml-1" style="font-size: x-small;">On Duty</span>
+            </td>
+            <td>{{attendance.clockIn | date: 'hh:mm a'}}</td>
+            <td>{{attendance.clockOut | date: 'hh:mm a'}}</td>
+            <td>{{attendance.grossHours}}</td>
+            <td>{{attendance.effectiveHours}}</td>
+            <td>{{attendance.attendanceType}}</td>
+            <td title="Approved">
+                <span *ngIf="attendance.isApproved == 1"><i class="fal fa-check-circle text-success"></i></span>
+            </td>
+        </tr>
+        <tr *ngIf="!userAttendance?.length">
+            <td colspan="7" class="text-center">
+                No rows found
+            </td>
+        </tr>
+    </tbody>
+</table>
