@@ -1,16 +1,14 @@
 ﻿using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-   public  class EmployeeLetterDocumentService : AsyncService, IEmployeeLetterDocumentService
-    
-   {
+    public class EmployeeLetterDocumentService : AsyncService, IEmployeeLetterDocumentService
+
+    {
         private readonly IEmployeeLetterDocumentRepository employeeLetterDocumentRepository;
 
         public EmployeeLetterDocumentService(IEmployeeLetterDocumentRepository employeeLetterDocumentRepository)
@@ -42,5 +40,5 @@ namespace Chef.HRMS.Services
         {
             return await employeeLetterDocumentRepository.UpdateAsync(employeeLetterDocument);
         }
-   }
+    }
 }

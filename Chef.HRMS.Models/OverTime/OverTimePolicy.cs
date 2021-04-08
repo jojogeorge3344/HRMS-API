@@ -1,12 +1,11 @@
 ﻿using Chef.Common.Core;
-using Chef.HRMS.Types;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
-    public class OverTimePolicy:Model
+    public class OverTimePolicy : Model
     {
         /// <summary>
         /// Holds name of the overtime policy

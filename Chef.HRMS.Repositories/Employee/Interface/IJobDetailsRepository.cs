@@ -5,6 +5,6 @@ namespace Chef.HRMS.Repositories
 {
     public interface IJobDetailsRepository : IGenericRepository<JobDetails>
     {
-        
+
     }
 }

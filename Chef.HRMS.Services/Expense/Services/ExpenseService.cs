@@ -3,12 +3,11 @@ using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-   public class ExpenseService : AsyncService, IExpenseService
+    public class ExpenseService : AsyncService, IExpenseService
     {
         private readonly IExpenseRepository expenseRepository;
 
@@ -42,9 +41,9 @@ namespace Chef.HRMS.Services
             return await expenseRepository.GetAsync(id);
         }
 
-        public async Task<ExpenseView> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int expensePeriodType,DateTime currentDate)
+        public async Task<ExpenseView> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int expensePeriodType, DateTime currentDate)
         {
-            return await expenseRepository.GetMaximumExpenseAmountById(employeeId, expenseConfigurationId, expensePeriodType,currentDate);
+            return await expenseRepository.GetMaximumExpenseAmountById(employeeId, expenseConfigurationId, expensePeriodType, currentDate);
         }
 
         public async Task<ExpenseView> GetMaximumInstancesById(int employeeId, int expenseConfigurationId, int instancesPeriodType)

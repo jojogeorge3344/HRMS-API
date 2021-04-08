@@ -9,6 +9,6 @@ namespace Chef.HRMS.Repositories
     {
         Task<IEnumerable<int>> GetAllAssignedExpensePolicy();
         Task<IEnumerable<ExpensePolicy>> GetAllConfiguredExpensePolicies();
-        Task<bool> UpdateExpensePolicy(int id,bool isConfigured);
+        Task<bool> UpdateExpensePolicy(int id, bool isConfigured);
     }
 }

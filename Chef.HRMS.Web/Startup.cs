@@ -1,7 +1,6 @@
 using Chef.Common.Core;
 using Chef.Common.Repositories;
 using Chef.Common.Services;
-using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Builder;
@@ -95,7 +94,7 @@ namespace Chef.HRMS.Web
             app.UseCors("CorsPolicy");
             app.UseCors(options =>
             options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-           
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -44,7 +44,7 @@ namespace Chef.HRMS.Repositories
                                    SET isconfigured=@isConfigured
                                     WHERE id=@id";
 
-                return await Connection.ExecuteAsync(sql, new { id,  isConfigured });
+                return await Connection.ExecuteAsync(sql, new { id, isConfigured });
             }
         }
     }

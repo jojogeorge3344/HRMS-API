@@ -25,7 +25,7 @@ namespace Chef.HRMS.Services
             return await leaveStructureLeaveComponentRepository.DeleteAsync(leaveStructureLeaveComponent);
         }
 
-       
+
         public async Task<IEnumerable<LeaveStructureLeaveComponent>> GetAllAsync()
         {
             return await leaveStructureLeaveComponentRepository.GetAllAsync();

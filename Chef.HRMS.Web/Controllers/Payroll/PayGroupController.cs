@@ -56,7 +56,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(payGroups);
         }
         [HttpGet("GetAllEmployeeByPayGroupId/{paygroupId}/{year}/{month}")]
-        public async Task<ActionResult<IEnumerable<EmployeeView>>> GetAllEmployeeByPayGroupId(int paygroupId,int year,int month )
+        public async Task<ActionResult<IEnumerable<EmployeeView>>> GetAllEmployeeByPayGroupId(int paygroupId, int year, int month)
         {
             var payGroups = await payGroupService.GetAllEmployeeByPayGroupId(paygroupId, year, month);
 

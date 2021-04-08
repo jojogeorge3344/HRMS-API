@@ -1,14 +1,11 @@
 ﻿using Chef.Common.Core;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Chef.HRMS.Models
 {
-    public class LOPDeduction :Model
+    public class LOPDeduction : Model
     {
         /// <summary>
         /// Holds leave requested by user

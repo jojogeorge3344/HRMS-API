@@ -48,11 +48,11 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPut("UpdateExpensePolicy/{id}/{isConfigured}")]
-        public async Task<ActionResult<bool>> UpdateExpensePolicy(int id,bool isConfigured)
+        public async Task<ActionResult<bool>> UpdateExpensePolicy(int id, bool isConfigured)
         {
             var ExpensePolicy = await expensePolicyService.UpdateExpensePolicy(id, isConfigured);
 
-            
+
             return Ok(ExpensePolicy);
         }
 

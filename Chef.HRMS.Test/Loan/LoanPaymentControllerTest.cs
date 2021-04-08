@@ -1,12 +1,9 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Chef.HRMS.Web.Controllers;
-using Chef.HRMS.Web.Controllers.Loan;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

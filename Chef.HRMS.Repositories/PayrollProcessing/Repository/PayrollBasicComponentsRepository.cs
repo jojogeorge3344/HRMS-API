@@ -14,7 +14,7 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId,int year,int month)
+        public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId, int year, int month)
         {
             using (Connection)
             {
@@ -60,7 +60,7 @@ namespace Chef.HRMS.Repositories
                                                         AND
 													     ppm.year=@year)) )";
 
-                return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { paygoupId,year,month });
+                return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { paygoupId, year, month });
             }
         }
 

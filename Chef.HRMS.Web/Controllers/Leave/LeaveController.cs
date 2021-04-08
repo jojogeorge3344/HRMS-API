@@ -69,7 +69,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(leaves);
         }
-       
+
         [HttpGet("GetAllLeaveDetailsById/{id}")]
         public async Task<ActionResult<IEnumerable<Leave>>> GetAllLeaveDetailsById(int id)
         {

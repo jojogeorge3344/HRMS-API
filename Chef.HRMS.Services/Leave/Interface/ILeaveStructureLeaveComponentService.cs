@@ -7,7 +7,7 @@ namespace Chef.HRMS.Services
 {
     public interface ILeaveStructureLeaveComponentService : IAsyncService<LeaveStructureLeaveComponent>
     {
-       
+
         Task<int> DeleteAsync(LeaveStructureLeaveComponent leaveStructureLeaveComponent);
 
         Task<IEnumerable<LeaveStructureLeaveComponent>> GetAllAsync(int leaveStructureId);

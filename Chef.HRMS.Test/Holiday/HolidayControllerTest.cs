@@ -1,5 +1,4 @@
 ﻿using Chef.HRMS.Models;
-using Chef.HRMS.Repositories;
 using Chef.HRMS.Services;
 using Chef.HRMS.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;

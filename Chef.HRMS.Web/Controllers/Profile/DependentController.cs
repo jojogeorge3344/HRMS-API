@@ -70,7 +70,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(dependents);
         }
 
-       
+
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]

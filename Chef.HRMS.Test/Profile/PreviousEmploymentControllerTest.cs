@@ -113,7 +113,7 @@ namespace Chef.HRMS.Test
             {
                 Id = 1,
                 EmployeeId = 1,
-                
+
             };
         }
 
@@ -124,7 +124,7 @@ namespace Chef.HRMS.Test
             {
                 Id = 1,
                 EmployeeId = 1,
-                
+
             };
             previousEmploymentList.Add(previousEmployment);
             return previousEmploymentList;

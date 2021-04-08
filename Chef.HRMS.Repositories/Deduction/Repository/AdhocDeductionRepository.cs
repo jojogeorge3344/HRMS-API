@@ -12,7 +12,7 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId,int year, int month)
+        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId, int year, int month)
         {
             using (Connection)
             {
@@ -69,7 +69,7 @@ namespace Chef.HRMS.Repositories
                                            ON ad.employeeid = jf.employeeid 
                             WHERE  ad.payrollprocessingmethodid = @payrollProcessingMethodId";
 
-                return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId});
+                return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId });
             }
         }
     }

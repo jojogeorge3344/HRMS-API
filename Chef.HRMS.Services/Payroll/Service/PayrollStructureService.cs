@@ -51,7 +51,7 @@ namespace Chef.HRMS.Services
             return await payrollStructureRepository.UpdateAsync(payrollStructure);
         }
 
-        public async Task<int> UpdatePayrollStructure(int id,bool isConfigured)
+        public async Task<int> UpdatePayrollStructure(int id, bool isConfigured)
         {
             return await payrollStructureRepository.UpdatePayrollStructure(id, isConfigured);
         }

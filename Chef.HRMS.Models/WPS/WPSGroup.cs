@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Chef.HRMS.Models
 {
-    public class WPSGroup:Model
+    public class WPSGroup : Model
     {
         /// <summary>
         /// Holds Wps group code

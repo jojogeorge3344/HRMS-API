@@ -40,7 +40,7 @@ namespace Chef.HRMS.Services
             return await expensePolicyRepository.GetAsync(id);
         }
 
-       
+
         public async Task<ExpensePolicy> InsertAsync(ExpensePolicy expensePolicy)
         {
             return await expensePolicyRepository.InsertAsync(expensePolicy);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Services
             return await expensePolicyRepository.UpdateAsync(expensePolicy);
         }
 
-        public async Task<bool> UpdateExpensePolicy(int id,bool isConfigured)
+        public async Task<bool> UpdateExpensePolicy(int id, bool isConfigured)
         {
             return await expensePolicyRepository.UpdateExpensePolicy(id, isConfigured);
         }

@@ -1,10 +1,8 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers

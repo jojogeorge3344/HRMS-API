@@ -7,6 +7,6 @@ namespace Chef.HRMS.Repositories
     {
         public FeatureRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
         {
-        }         
+        }
     }
 }

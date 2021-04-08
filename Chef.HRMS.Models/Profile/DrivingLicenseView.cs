@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Chef.HRMS.Models
 {
-    public class DrivingLicenseView :IdentityDocument
+    public class DrivingLicenseView : IdentityDocument
     {
         /// <summary>
         /// Holds the  driving license id

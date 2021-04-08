@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace Chef.HRMS.Models
 {
-   public class UniqueIdentificationDetailView : IdentityDocument
+    public class UniqueIdentificationDetailView : IdentityDocument
     {
 
         /// <summary>

@@ -54,7 +54,7 @@ namespace Chef.HRMS.Services
                 await leaveComponentGeneralSettingsRepository.SetLeaveStructureIsConfigured(structureId);
 
             }
-            
+
             return data;
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Chef.HRMS.Services
+﻿namespace Chef.HRMS.Services
 {
     public interface IService
     {

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Chef.HRMS.Models
 {
     [TableType("junctiontable")]
-    public class PANDocument: Model
+    public class PANDocument : Model
     {
         /// <summary>
         /// Holds the  Pan id

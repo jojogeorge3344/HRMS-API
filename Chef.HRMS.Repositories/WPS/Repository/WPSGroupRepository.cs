@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
         public WPSGroupRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
         {
         }
-    
+
 
     }
 }

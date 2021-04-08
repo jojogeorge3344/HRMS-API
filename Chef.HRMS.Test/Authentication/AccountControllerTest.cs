@@ -11,7 +11,7 @@ namespace Chef.HRMS.Test
     {
         readonly AuthenticationRepository authenticationRepository;
         readonly AuthenticationServices authenticationServices;
-        
+
         readonly AccountController AccountController;
 
         public AccountControllerTest()
@@ -28,7 +28,7 @@ namespace Chef.HRMS.Test
             Authentication authentication = GetMockAuthDetails();
 
             // Act
-            var createdResponse = await  AccountController.Login(authentication) as CreatedAtActionResult;
+            var createdResponse = await AccountController.Login(authentication) as CreatedAtActionResult;
             var item = createdResponse.Value as Authentication;
 
             // Assert
@@ -54,8 +54,8 @@ namespace Chef.HRMS.Test
         {
             return new Authentication()
             {
-                Email ="durgak@thomsuninfocare.com",
-                Password="durga008"
+                Email = "durgak@thomsuninfocare.com",
+                Password = "durga008"
             };
         }
 
@@ -63,8 +63,8 @@ namespace Chef.HRMS.Test
         {
             return new Authentication()
             {
-               Email ="durgak@thomsuninfocare.com",
-               Password="durga008"
+                Email = "durgak@thomsuninfocare.com",
+                Password = "durga008"
             };
         }
     }

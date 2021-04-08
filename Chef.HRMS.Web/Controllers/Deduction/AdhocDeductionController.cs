@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers
 {
@@ -50,9 +48,9 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAllAdhocDeductionByPayrollProcessingMethodId/{id}/{year}/{month}")]
-        public async Task<ActionResult<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int id,int year,int month)
+        public async Task<ActionResult<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int id, int year, int month)
         {
-            var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionByPayrollProcessingMethodId(id,year,month);
+            var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionByPayrollProcessingMethodId(id, year, month);
 
             if (adhocDeduction == null)
             {

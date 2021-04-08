@@ -144,7 +144,7 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-        public async Task<int> AlreadyExistOrNot(DateTime fromDate, DateTime toDate,int employeeId)
+        public async Task<int> AlreadyExistOrNot(DateTime fromDate, DateTime toDate, int employeeId)
         {
             int result = 0;
             using (Connection)

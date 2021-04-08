@@ -1,5 +1,4 @@
 ﻿using Chef.Common.Repositories;
-using Chef.HRMS.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
-    public class LeaveSettingsViewModel: ViewModel
+    public class LeaveSettingsViewModel : ViewModel
     {
         /// <summary>
         /// Holds the leave component Id

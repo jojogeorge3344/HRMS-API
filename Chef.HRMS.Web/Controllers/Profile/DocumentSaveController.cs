@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers.Profile
@@ -17,7 +16,7 @@ namespace Chef.HRMS.Web.Controllers.Profile
         [HttpPost("FileUploadDelete")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Delete([FromForm]string path)
+        public IActionResult Delete([FromForm] string path)
         {
             try
             {
@@ -28,7 +27,7 @@ namespace Chef.HRMS.Web.Controllers.Profile
             {
                 Console.WriteLine(e.Message);
             }
-            return Ok(new {count=1});
+            return Ok(new { count = 1 });
         }
 
         [HttpPost("FileUpload")]
@@ -64,6 +63,6 @@ namespace Chef.HRMS.Web.Controllers.Profile
             // Process uploaded files
             return Ok(new { count = documentSave.Document.Count, size, filePaths });
         }
-       
+
     }
 }

@@ -47,7 +47,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(payrollComponentConfigurations);
         }
-        
+
         [HttpGet("GetAll/{id}")]
         public async Task<ActionResult<IEnumerable<PayrollComponentConfiguration>>> GetAllByPayrollStuctureId(int id)
         {
@@ -55,7 +55,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(payrollComponentConfigurations);
         }
-        
+
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -67,7 +67,7 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await payrollComponentConfigurationService.InsertAsync(payrollComponentConfigurationInsert.PayrollComponentConfiguration,payrollComponentConfigurationInsert.PayrollComponentConfigurationIds);
+            var result = await payrollComponentConfigurationService.InsertAsync(payrollComponentConfigurationInsert.PayrollComponentConfiguration, payrollComponentConfigurationInsert.PayrollComponentConfigurationIds);
 
             return Ok(result);
         }

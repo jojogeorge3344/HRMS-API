@@ -38,5 +38,5 @@ namespace Chef.HRMS.Services
             return await wpsGroupRepository.UpdateAsync(wpsGroup);
         }
     }
-   
+
 }

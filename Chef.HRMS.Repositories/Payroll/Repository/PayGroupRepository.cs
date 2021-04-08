@@ -41,7 +41,7 @@ namespace Chef.HRMS.Repositories
                                                         AND
 													     ppm.year=@year)) )";
 
-                return await Connection.QueryAsync<EmployeeView>(sql, new { paygroupId,year,month });
+                return await Connection.QueryAsync<EmployeeView>(sql, new { paygroupId, year, month });
             }
         }
     }

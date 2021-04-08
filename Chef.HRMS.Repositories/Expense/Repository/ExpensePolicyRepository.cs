@@ -36,7 +36,7 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-        public async Task<bool> UpdateExpensePolicy(int id,bool isConfigured)
+        public async Task<bool> UpdateExpensePolicy(int id, bool isConfigured)
         {
             using (Connection)
             {
@@ -44,8 +44,8 @@ namespace Chef.HRMS.Repositories
                                    SET isconfigured=@isConfigured
                                     WHERE id=@id";
 
-                var result= await Connection.ExecuteAsync(sql, new { id, isConfigured });
-                if(result==1)
+                var result = await Connection.ExecuteAsync(sql, new { id, isConfigured });
+                if (result == 1)
                 {
                     return true;
 

@@ -50,7 +50,7 @@ namespace Chef.HRMS.Repositories
                 sql = sql.Replace("RETURNING id", "");
                 sql += " ON CONFLICT ON CONSTRAINT leavecomponentrestrictionsettings_pkey DO ";
                 sql += new QueryBuilder<LeaveComponentRestrictionSettings>().GenerateUpdateQueryOnConflict();
-               
+
                 return await Connection.ExecuteAsync(sql, leaveComponentRestrictionSettings);
             }
         }

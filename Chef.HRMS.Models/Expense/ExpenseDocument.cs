@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
-    public class ExpenseDocument :Model
+    public class ExpenseDocument : Model
     {
         /// <summary>
         /// Holds the  expense request id

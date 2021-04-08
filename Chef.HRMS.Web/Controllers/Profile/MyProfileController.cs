@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers
 {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
-    public class WorkFromHomeNotifyPersonnel :Model
+    public class WorkFromHomeNotifyPersonnel : Model
     {
         /// <summary>
         /// Holds the requested id of work from home

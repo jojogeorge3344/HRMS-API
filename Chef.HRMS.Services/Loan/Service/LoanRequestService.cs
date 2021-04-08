@@ -27,7 +27,7 @@ namespace Chef.HRMS.Services
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-            return await loanRequestRepository.GetAllLoanByEmployeeId(employeeId,payrollProcessingMethodId);
+            return await loanRequestRepository.GetAllLoanByEmployeeId(employeeId, payrollProcessingMethodId);
         }
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByPayrollProcessingMethodId(int payrollProcessingMethodId)

@@ -1,7 +1,6 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories

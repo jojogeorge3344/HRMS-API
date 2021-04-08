@@ -1,6 +1,5 @@
 ﻿using Chef.Common.Core;
 using Chef.Common.Models;
-using Chef.HRMS.Types;
 using System;
 
 namespace Chef.HRMS.Models

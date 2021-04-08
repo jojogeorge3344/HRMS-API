@@ -9,6 +9,6 @@ namespace Chef.HRMS.Repositories
     {
         Task<IEnumerable<ExpensePayment>> GetAllApprovedExpense();
         Task<IEnumerable<ExpensePayment>> GetAllPaidOutExpense();
-        Task<int> UpdateExpenseStatus(int expenseRequestId,int paymentMode);
+        Task<int> UpdateExpenseStatus(int expenseRequestId, int paymentMode);
     }
 }

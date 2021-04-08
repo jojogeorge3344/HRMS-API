@@ -41,7 +41,7 @@ namespace Chef.HRMS.Repositories
                         var sql = new QueryBuilder<PayrollComponentConfiguration>().GenerateInsertQuery();
                         sql = sql.Replace("RETURNING id", "");
                         sql += " ON CONFLICT ON CONSTRAINT payrollcomponentconfiguration_ukey_payrollcomponentid_payrollst DO NOTHING";
-                        
+
                         var result = await Connection.ExecuteAsync(sql, payrollComponentConfiguration);
                         if (result != 0)
                         {

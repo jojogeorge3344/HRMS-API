@@ -73,7 +73,7 @@ namespace Chef.HRMS.Test
 
             // Act
             var createdResponse = await employeeController.Insert(employee) as CreatedAtActionResult;
-            var item = createdResponse.Value as Employee;;
+            var item = createdResponse.Value as Employee; ;
 
             // Assert
             Assert.IsType<Employee>(item);
@@ -109,7 +109,7 @@ namespace Chef.HRMS.Test
             Assert.IsType<ActionResult<int>>(okResult);
         }
 
-        private static Employee  GetMockEmployeeDetails()
+        private static Employee GetMockEmployeeDetails()
         {
             return new Employee()
             {

@@ -54,6 +54,6 @@ namespace Chef.HRMS.Services
         {
             return await loanPaymentRepository.UpdateAsync(loanPayment);
         }
-       
+
     }
 }

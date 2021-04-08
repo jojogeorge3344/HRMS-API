@@ -44,7 +44,7 @@ namespace Chef.HRMS.Repositories
 									   INNER JOIN subfeature sf 
                                                ON sf.id = rf.subfeatureid";
 
-                return await Connection.QueryAsync<UserRoleView>(sql,new {employeeId });
+                return await Connection.QueryAsync<UserRoleView>(sql, new { employeeId });
             }
         }
 

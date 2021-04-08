@@ -105,7 +105,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UpdateLeaveStructure(int id,bool isConfigured)
+        public async Task<ActionResult> UpdateLeaveStructure(int id, bool isConfigured)
         {
             if (!ModelState.IsValid)
             {

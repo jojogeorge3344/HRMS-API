@@ -102,7 +102,7 @@ namespace Chef.HRMS.Test
                 Name = "General payroll component",
                 ClaimFrequency = ClaimFrequencyType.Monthly,
                 ClaimLimit = 1000,
-                
+
             };
         }
 

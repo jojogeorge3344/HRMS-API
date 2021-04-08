@@ -1,5 +1,4 @@
 ﻿using Chef.Common.Core;
-using Chef.HRMS.Types;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models

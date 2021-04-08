@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Chef.HRMS.Models
+﻿namespace Chef.HRMS.Models
 {
-   public class RevertEmployee
+    public class RevertEmployee
     {
         /// <summary>
         /// Holds department Id of the employee

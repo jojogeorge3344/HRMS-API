@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Chef.HRMS.Models
 {
-    public class LOPCalculation:Model
+    public class LOPCalculation : Model
     {
         /// <summary>
         /// Holds lop calculation based on actual Days in the month (excluding Week-offs and Holidays)

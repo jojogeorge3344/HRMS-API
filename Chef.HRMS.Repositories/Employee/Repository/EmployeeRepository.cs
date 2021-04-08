@@ -65,7 +65,7 @@ namespace Chef.HRMS.Repositories
                             WHERE   e.id=@employeeId
                             ORDER BY e.id";
 
-                return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql,new { employeeId });
+                return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId });
             }
         }
 

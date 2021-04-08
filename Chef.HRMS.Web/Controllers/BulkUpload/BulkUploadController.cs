@@ -1,13 +1,10 @@
-﻿using Chef.Common.Models;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
-using Chef.HRMS.Types;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,16 +28,16 @@ namespace Chef.HRMS.Web.Controllers
             return enumVal;
         }
         [HttpPost("ExcelRead")]
-        public async Task<IActionResult> ExcelRead(IFormFile file, [FromForm]string path, [FromForm]int type)
+        public async Task<IActionResult> ExcelRead(IFormFile file, [FromForm] string path, [FromForm] int type)
         {
             var fileName = path;
             if (file == null)
                 return Content("file not selected");
-            var uploadDetails=0;
+            var uploadDetails = 0;
             if (file.Length > 0)
             {
-              
-                
+
+
                 // For .net core, the next line requires the NuGet package, 
                 // System.Text.Encoding.CodePages
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -50,7 +47,7 @@ namespace Chef.HRMS.Web.Controllers
                     stream.Position = 0;
                     using (var reader = ExcelReaderFactory.CreateReader(stream))
                     {
-                       
+
 
                         if (type == 1)
                         {
@@ -59,14 +56,14 @@ namespace Chef.HRMS.Web.Controllers
                             {
                                 leave.Add(new Leave
                                 {
-                                   
+
 
                                 });
 
                             }
                             uploadDetails = await bulkUploadService.BulkInsertLeave(leave);
                         }
-                        else if(type == 2)
+                        else if (type == 2)
                         {
                             List<OnDuty> onDuty = new List<OnDuty>();
                             while (reader.Read()) //Each row of the file
@@ -102,12 +99,12 @@ namespace Chef.HRMS.Web.Controllers
                                     ToDate = Convert.ToDateTime(reader?.GetValue(3)),
                                     IsFullDay = Convert.ToBoolean(isHalfDay),
                                     IsFirstDayFirstHalf = isFirstDayFirstHalf,
-                                    IsFirstDaySecondHalf= isFirstDaySecondHalf,
+                                    IsFirstDaySecondHalf = isFirstDaySecondHalf,
                                     IsSecondDayFirstHalf = false,
                                     IsSecondDaySecondHalf = false,
-                                    NumberOfDays=Convert.ToDecimal(numbersOfDays),
-                                    IsApproved=false,
-                                    Reason= reader?.GetValue(10)?.ToString()
+                                    NumberOfDays = Convert.ToDecimal(numbersOfDays),
+                                    IsApproved = false,
+                                    Reason = reader?.GetValue(10)?.ToString()
 
 
                                 });
@@ -139,7 +136,7 @@ namespace Chef.HRMS.Web.Controllers
                             }
                             uploadDetails = await bulkUploadService.BulkInsertRegularLogin(regularLogin);
                         }
-                        else if (type ==5)
+                        else if (type == 5)
                         {
                             List<WorkFromHome> workFromHome = new List<WorkFromHome>();
                             while (reader.Read()) //Each row of the file
@@ -188,13 +185,13 @@ namespace Chef.HRMS.Web.Controllers
                         }
                     }
                 }
-                
-                
+
+
 
             }
             return Ok(uploadDetails);
         }
 
-       
+
     }
 }

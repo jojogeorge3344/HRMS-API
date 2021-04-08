@@ -9,6 +9,6 @@ namespace Chef.HRMS.Repositories
     {
         Task<IEnumerable<int>> GetAllAssignedLeaveStructure();
         Task<IEnumerable<LeaveStructure>> GetAllConfiguredLeaveStructures();
-        Task<int> UpdateLeaveStructure(int id,bool isConfigured);
+        Task<int> UpdateLeaveStructure(int id, bool isConfigured);
     }
 }

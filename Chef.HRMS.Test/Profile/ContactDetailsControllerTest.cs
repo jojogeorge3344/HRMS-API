@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using Chef.HRMS.Services;
 using Chef.HRMS.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Chef.HRMS.Test
@@ -72,13 +72,13 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             //Arrange
-            Contact  contactDetails = GetMockContactDetails();
+            Contact contactDetails = GetMockContactDetails();
             mockService.Setup(service => service.InsertAsync(It.IsAny<Contact>())).Returns(Task.FromResult(GetMockContactDetails()));
 
 
             // Act
             var createdResponse = await contactDetailsController.Insert(contactDetails) as CreatedAtActionResult;
-            var item = createdResponse.Value as Contact;;
+            var item = createdResponse.Value as Contact; ;
 
             // Assert
             Assert.IsType<Contact>(item);
@@ -89,7 +89,7 @@ namespace Chef.HRMS.Test
         public async void Add_InvalidObjectPassed_ReturnsBadRequest()
         {
             //Arrange
-            Contact  nameMissingContactDetails = GetMockContactDetails();
+            Contact nameMissingContactDetails = GetMockContactDetails();
             nameMissingContactDetails.Mobile = null;
             contactDetailsController.ModelState.AddModelError("Mobile", "Required");
 
@@ -129,7 +129,7 @@ namespace Chef.HRMS.Test
             Assert.IsType<ActionResult<int>>(okResult);
         }
 
-        private static Contact  GetMockContactDetails()
+        private static Contact GetMockContactDetails()
         {
             return new Contact()
             {

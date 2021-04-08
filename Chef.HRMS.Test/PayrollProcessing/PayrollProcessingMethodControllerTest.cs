@@ -1,6 +1,5 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
-using Chef.HRMS.Types;
 using Chef.HRMS.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

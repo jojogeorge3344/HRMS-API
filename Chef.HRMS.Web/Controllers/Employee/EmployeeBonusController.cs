@@ -32,7 +32,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(employeeBonus);
         }
         [HttpGet("GetAllBonusByEmployeeIdAndPayrollProcessingMethodId/{employeeId}/{payrollProcessingMethodId}")]
-        public async Task<ActionResult<EmployeeBonusView>> GetAllBonusByEmployeeIdAndPayrollProcessingMethodId(int employeeId,int payrollProcessingMethodId)
+        public async Task<ActionResult<EmployeeBonusView>> GetAllBonusByEmployeeIdAndPayrollProcessingMethodId(int employeeId, int payrollProcessingMethodId)
         {
             var employeeBonus = await employeeBonusService.GetAllBonusByEmployeeIdAndPayrollProcessingMethodId(employeeId, payrollProcessingMethodId);
 

@@ -59,7 +59,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(pan);
         }
-        
+
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<PAN>>> GetAll()
         {

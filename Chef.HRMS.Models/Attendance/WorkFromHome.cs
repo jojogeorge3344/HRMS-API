@@ -37,7 +37,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds the value of if first day second half is workfromhome
         /// </summary>
-        
+
         [Description("Is first day second half of work  from home")]
         public bool IsFirstDaySecondHalf { get; set; }
 
@@ -74,7 +74,7 @@ namespace Chef.HRMS.Models
         [Description("Who is requested for work from home")]
         public int EmployeeId { get; set; }
 
-        
+
 
         /// <summary>
         /// Holds the approved status

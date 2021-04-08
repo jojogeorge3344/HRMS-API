@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
     public interface ILoanRequestRepository : IGenericRepository<LoanRequest>
     {
         Task<IEnumerable<EmployeeLoanView>> GetAllLoanByPayrollProcessingMethodId(int payrollProcessingMethodId);
-        Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId,int payrollProcessingMethodId);
+        Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId);
         Task<int> GetLoanLastRequestId();
     }
 }

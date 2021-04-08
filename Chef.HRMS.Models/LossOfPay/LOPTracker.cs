@@ -1,12 +1,11 @@
 ﻿using Chef.Common.Core;
-using Chef.HRMS.Types;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
-    public class LOPTracker:Model
+    public class LOPTracker : Model
     {
         /// <summary>
         /// Holds leave  id
@@ -51,6 +50,6 @@ namespace Chef.HRMS.Models
         /// Holds the number of days taking the leave
         /// </summary>
         public decimal NumberOfDays { get; set; }
-        
+
     }
 }

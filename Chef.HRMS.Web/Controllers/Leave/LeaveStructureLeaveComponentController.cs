@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Chef.HRMS.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers
 {
@@ -34,7 +32,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(leaveStructureTypes);
         }
 
-       
+
         [HttpPost("Update")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]

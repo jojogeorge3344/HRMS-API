@@ -8,6 +8,6 @@ namespace Chef.HRMS.Repositories
         public JobDetailsRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
         {
         }
-      
+
     }
 }

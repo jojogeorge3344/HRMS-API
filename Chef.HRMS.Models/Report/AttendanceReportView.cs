@@ -1,12 +1,10 @@
 ﻿using Chef.Common.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Chef.Common.Models;
+using System;
 
 namespace Chef.HRMS.Models
 {
-    public class AttendanceReportView: Model
+    public class AttendanceReportView : Model
     {
 
         /// <summary>

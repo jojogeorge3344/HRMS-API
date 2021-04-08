@@ -2,7 +2,6 @@
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 

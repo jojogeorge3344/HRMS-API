@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Chef.HRMS.Models;
+using Chef.HRMS.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using Chef.HRMS.Models;
-using Chef.HRMS.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Chef.HRMS.Web.Controllers
 {
@@ -73,7 +72,7 @@ namespace Chef.HRMS.Web.Controllers
             if (calculationexist.Count() == 0)
             {
                 var value = await lopCalculationServices.InsertAsync(lopCalculation);
-                if(value!=null)
+                if (value != null)
                 {
                     result = 1;
                 }

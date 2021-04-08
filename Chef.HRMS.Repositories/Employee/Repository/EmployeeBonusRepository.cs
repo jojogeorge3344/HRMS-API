@@ -98,7 +98,7 @@ namespace Chef.HRMS.Repositories
                                            AND Extract(month FROM disburseon) = pm.month 
                                            AND ( Extract(year FROM disburseon) = pm.year ) ) )";
 
-                return await Connection.QueryAsync<EmployeeBonusView>(sql, new {payrollProcessingMethodId });
+                return await Connection.QueryAsync<EmployeeBonusView>(sql, new { payrollProcessingMethodId });
             }
         }
     }

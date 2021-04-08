@@ -3,12 +3,11 @@ using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-   public class AttendanceReportService : AsyncService, IAttendanceReportService
+    public class AttendanceReportService : AsyncService, IAttendanceReportService
     {
         private readonly IAttendanceReportRepository attendanceReportRepository;
 

@@ -35,7 +35,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Country code as in the passport
         /// </summary>
-       
+
         [Description("Country code as in the passport")]
         public string CountryCode { get; set; }
 

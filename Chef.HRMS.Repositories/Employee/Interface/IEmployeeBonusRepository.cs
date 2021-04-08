@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<EmployeeBonusView>> GetAllBonusByPayGroupId(int payrollProcessingMethodId);
 
         Task<IEnumerable<EmployeeBonus>> GetAllBonusByEmployeeId(int employeeId);
-        Task<IEnumerable<EmployeeBonusView>> GetAllBonusByEmployeeIdAndPayrollProcessingMethodId(int employeeId,int payrollProcessingMethodId);
+        Task<IEnumerable<EmployeeBonusView>> GetAllBonusByEmployeeIdAndPayrollProcessingMethodId(int employeeId, int payrollProcessingMethodId);
 
         Task<int> DeleteAllBonusByEmployeeId(int employeeId);
     }

@@ -1,9 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
@@ -51,7 +49,7 @@ namespace Chef.HRMS.Repositories
 	                                      SET  ispaid=true, paymentmode=@paymentMode
 	                                      WHERE id=@expenseRequestId";
 
-                return await Connection.ExecuteAsync(sql,new { expenseRequestId , paymentMode });
+                return await Connection.ExecuteAsync(sql, new { expenseRequestId, paymentMode });
             }
         }
     }

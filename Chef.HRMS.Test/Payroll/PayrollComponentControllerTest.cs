@@ -53,8 +53,8 @@ namespace Chef.HRMS.Test
             //Arrange
             mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockPayrollComponentList()));
 
-             // Act
-             var okResult = await payrollComponentController.GetAll();
+            // Act
+            var okResult = await payrollComponentController.GetAll();
 
             // Assert
             var result = okResult.Result as OkObjectResult;

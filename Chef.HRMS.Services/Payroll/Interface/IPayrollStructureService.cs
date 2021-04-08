@@ -9,6 +9,6 @@ namespace Chef.HRMS.Services
     {
         Task<IEnumerable<int>> GetAllAssignedPayrollStructure();
         Task<IEnumerable<PayrollStructure>> GetAllConfiguredPayrollStructures();
-        Task<int> UpdatePayrollStructure(int id,bool isConfigured);
+        Task<int> UpdatePayrollStructure(int id, bool isConfigured);
     }
 }

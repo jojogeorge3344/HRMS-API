@@ -233,7 +233,7 @@ namespace Chef.HRMS.Repositories
                     {
                         return "Already Exist";
                     }
-                    else 
+                    else
                     {
                         var get = @"SELECT Distinct  ppm.id
 							                            FROM jobfiling  jf
@@ -258,16 +258,16 @@ namespace Chef.HRMS.Repositories
 
 
                     }
-                    
+
                 }
                 else
                 {
-                   
-                        var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                        var result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
-                        return result.ToString();
 
-                   
+                    var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
+                    var result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+                    return result.ToString();
+
+
                 }
             }
         }
@@ -295,7 +295,7 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-        public async Task<IEnumerable<Employee>> GetAllUnProcessedEmployees(int year,int month)
+        public async Task<IEnumerable<Employee>> GetAllUnProcessedEmployees(int year, int month)
         {
             using (Connection)
             {
@@ -306,7 +306,7 @@ namespace Chef.HRMS.Repositories
 							                            jf.employeeid=pm.employeeid)
 						                              AND(pm.year=@year AND pm.month=@month))";
 
-                return await Connection.QueryAsync<Employee>(sql ,new {year,month });
+                return await Connection.QueryAsync<Employee>(sql, new { year, month });
             }
         }
 

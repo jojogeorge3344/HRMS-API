@@ -71,9 +71,9 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAllLoanByEmployeeId/{employeeId}/{payrollProcessingMethodId}")]
-        public async Task<ActionResult<IEnumerable<EmployeeLoanView>>> GetAllLoanByEmployeeId(int employeeId,int payrollProcessingMethodId)
+        public async Task<ActionResult<IEnumerable<EmployeeLoanView>>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-            var loanRequests = await loanRequestServices.GetAllLoanByEmployeeId(employeeId,payrollProcessingMethodId);
+            var loanRequests = await loanRequestServices.GetAllLoanByEmployeeId(employeeId, payrollProcessingMethodId);
 
             return Ok(loanRequests);
         }

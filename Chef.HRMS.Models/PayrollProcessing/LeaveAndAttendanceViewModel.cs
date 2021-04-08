@@ -2,7 +2,7 @@
 
 namespace Chef.HRMS.Models
 {
-    public class LeaveAndAttendanceViewModel : Model 
+    public class LeaveAndAttendanceViewModel : Model
     {
         public int EmployeeId { get; set; }
 

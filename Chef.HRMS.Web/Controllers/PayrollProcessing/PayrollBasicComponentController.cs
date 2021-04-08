@@ -62,7 +62,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetBasicComponentsByPaygroup/{paygroupId}/{year}/{month}")]
-        public async Task<ActionResult<IEnumerable<EmployeeSalaryConfigurationView>>> GetBasicComponentsByPaygroup(int paygroupId,int year,int month)
+        public async Task<ActionResult<IEnumerable<EmployeeSalaryConfigurationView>>> GetBasicComponentsByPaygroup(int paygroupId, int year, int month)
         {
             var basicComponentsList = await payrollBasicComponentService.GetBasicComponentsByPaygroup(paygroupId, year, month);
 

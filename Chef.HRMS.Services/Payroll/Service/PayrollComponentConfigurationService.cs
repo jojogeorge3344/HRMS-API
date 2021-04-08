@@ -49,14 +49,14 @@ namespace Chef.HRMS.Services
 
             int data = await payrollComponentConfigurationRepository.UpdateAsync(payrollComponentConfiguration);
             var isFixed = payrollComponentConfiguration.PayrollComponentType;
-            if (data != 0 && isFixed.ToString()== "Fixed")
+            if (data != 0 && isFixed.ToString() == "Fixed")
             {
                 PayrollCalculation payrollCalculation = new PayrollCalculation();
                 payrollCalculation.PayrollStructureId = payrollComponentConfiguration.PayrollStructureId;
                 payrollCalculation.PayrollComponentId = payrollComponentConfiguration.PayrollComponentId;
                 payrollCalculation.IsComputed = false;
-                data= await payrollComponentConfigurationRepository.InsertPayrollFixedCalculation(payrollCalculation);
-               
+                data = await payrollComponentConfigurationRepository.InsertPayrollFixedCalculation(payrollCalculation);
+
             }
             var structureId = payrollComponentConfiguration.PayrollStructureId;
             await payrollComponentConfigurationRepository.SetPayrollStructureIsConfigured(structureId);

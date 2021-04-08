@@ -43,8 +43,8 @@ namespace Chef.HRMS.Web.Controllers
             {
                 string rootPath = hostingEnvironment.WebRootPath;
                 string emailHtml = client.DownloadString(rootPath + "/RevertAttendanceEmail.html");
-                banner= "https://thomsun.s3.ap-south-1.amazonaws.com/ThomsunBanner.jpg";
-                logoUrl= "https://thomsun.s3.ap-south-1.amazonaws.com/logo.png";
+                banner = "https://thomsun.s3.ap-south-1.amazonaws.com/ThomsunBanner.jpg";
+                logoUrl = "https://thomsun.s3.ap-south-1.amazonaws.com/logo.png";
 
                 emailHtml = emailHtml.Replace("#Logo#", logoUrl);
                 emailHtml = emailHtml.Replace("#Department#", RevertEmployee.Department);

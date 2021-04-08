@@ -57,14 +57,14 @@ namespace Chef.HRMS.Repositories
                         var sql = new QueryBuilder<ExpensePolicyConfiguration>().GenerateInsertQuery();
                         sql = sql.Replace("RETURNING id", "");
                         sql += " ON CONFLICT ON CONSTRAINT expensepolicyconfiguration_policy_type_ukey DO NOTHING";
-                        var result =await Connection.ExecuteAsync(sql, expensePolicyConfiguration);
+                        var result = await Connection.ExecuteAsync(sql, expensePolicyConfiguration);
                         if (result != 0)
                         {
                             var policyId = expensePolicyConfiguration.Select(x => x.ExpensePolicyId).FirstOrDefault();
                             var sqlnew = @"UPDATE public.expensepolicy
 	                                              SET isconfigured=false
 	                                               WHERE id=@policyId";
-                            await Connection.ExecuteAsync(sqlnew, new { policyId});
+                            await Connection.ExecuteAsync(sqlnew, new { policyId });
 
                         }
 
@@ -92,8 +92,8 @@ namespace Chef.HRMS.Repositories
                 try
                 {
                     var sql = @"SELECT public.setexpensepolicyisionfigured(@expensePolicyId)";
-                    var result=  await Connection.ExecuteAsync(sql, new { expensePolicyId });
-                    if(result==-1)
+                    var result = await Connection.ExecuteAsync(sql, new { expensePolicyId });
+                    if (result == -1)
                     {
 
                         return 1;
@@ -102,14 +102,14 @@ namespace Chef.HRMS.Repositories
                     {
                         return 0;
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {
 
                     throw ex;
                 }
-                
+
             }
         }
     }

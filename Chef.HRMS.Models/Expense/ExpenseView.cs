@@ -1,5 +1,4 @@
-﻿using Chef.HRMS.Types;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Chef.HRMS.Models
 {

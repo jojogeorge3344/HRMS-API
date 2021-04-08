@@ -30,7 +30,7 @@ namespace Chef.HRMS.Services
             return await jobTitleRepository.GetAsync(id);
         }
 
-       
+
         public async Task<JobTitle> InsertAsync(JobTitle jobTitle)
         {
             return await jobTitleRepository.InsertAsync(jobTitle);

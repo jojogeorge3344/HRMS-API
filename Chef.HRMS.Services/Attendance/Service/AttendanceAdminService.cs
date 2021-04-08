@@ -60,7 +60,7 @@ namespace Chef.HRMS.Services
 
         public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
         {
-            return await attendanceAdminRepository.MarkedDates(tablename,  employeeId);
+            return await attendanceAdminRepository.MarkedDates(tablename, employeeId);
         }
     }
 }

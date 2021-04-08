@@ -1,11 +1,8 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Chef.HRMS.Web.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace Chef.HRMS.Test
 {

@@ -3,7 +3,7 @@ using Chef.HRMS.Models;
 
 namespace Chef.HRMS.Repositories
 {
-    public  interface IPANDocumentRepository : IGenericRepository<PANDocument>
+    public interface IPANDocumentRepository : IGenericRepository<PANDocument>
     {
     }
 

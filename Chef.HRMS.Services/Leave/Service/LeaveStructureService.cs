@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chef.Common.Services;
+﻿using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
@@ -50,7 +50,7 @@ namespace Chef.HRMS.Services
             return await leaveStructureRepository.UpdateAsync(leaveStructure);
         }
 
-        public async Task<int> UpdateLeaveStructure(int id,bool isConfigured)
+        public async Task<int> UpdateLeaveStructure(int id, bool isConfigured)
         {
             return await leaveStructureRepository.UpdateLeaveStructure(id, isConfigured);
         }

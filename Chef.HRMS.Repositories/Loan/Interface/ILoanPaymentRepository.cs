@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
     {
         Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByPayrollProcessingMethodId(int payrollProcessingMethodId);
 
-        Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByEmployeeId(int employeeId,int payrollProcessingMethodId);
+        Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByEmployeeId(int employeeId, int payrollProcessingMethodId);
 
         Task<int> InsertAsync(IEnumerable<LoanPayment> loanPayment);
     }

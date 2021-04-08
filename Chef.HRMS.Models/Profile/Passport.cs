@@ -14,7 +14,7 @@ namespace Chef.HRMS.Models
         [Description("Address as in the passport")]
         public string Address { get; set; }
 
-       
+
 
         /// <summary>
         /// Holds the date of expiry
@@ -30,7 +30,7 @@ namespace Chef.HRMS.Models
         [Description("Date of issue of the passport")]
         public DateTime DateOfIssue { get; set; }
 
-       
+
         /// <summary>
         /// Holds the mother's name
         /// </summary>

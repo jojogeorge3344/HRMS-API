@@ -1,5 +1,4 @@
 ﻿using Chef.Common.Core;
-using Chef.Common.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 

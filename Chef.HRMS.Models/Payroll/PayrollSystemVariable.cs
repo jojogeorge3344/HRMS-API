@@ -2,7 +2,7 @@
 
 namespace Chef.HRMS.Models
 {
-    public class PayrollSystemVariable:Model
+    public class PayrollSystemVariable : Model
     {
         public string Name { get; set; }
     }

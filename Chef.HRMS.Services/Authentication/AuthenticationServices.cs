@@ -66,11 +66,11 @@ namespace Chef.HRMS.Services
         public async Task<Authentication> Login(Authentication credentials)
         {
             var result = await authenticationRepository.Login(credentials);
-            if (result!=null)
+            if (result != null)
             {
                 return await GenerateLoginToken(result);
             }
-            
+
             return null;
         }
 

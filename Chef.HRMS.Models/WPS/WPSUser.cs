@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
-    public class WPSUser:Model
+    public class WPSUser : Model
     {
         /// <summary>
         /// Holds Wps group id

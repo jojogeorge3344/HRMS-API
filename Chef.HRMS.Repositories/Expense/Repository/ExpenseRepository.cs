@@ -35,7 +35,7 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<Expense>(sql, new { employeeId });
             }
         }
-        public async Task<ExpenseView> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int expensePeriodType,DateTime currentDate)
+        public async Task<ExpenseView> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int expensePeriodType, DateTime currentDate)
         {
             using (Connection)
             {
@@ -74,7 +74,7 @@ namespace Chef.HRMS.Repositories
                             GROUP  BY expenseperiodtype, 
                                       maximumexpenselimit";
 
-                return await Connection.QueryFirstOrDefaultAsync<ExpenseView>(sql, new { employeeId , expenseConfigurationId, expensePeriodType, currentDate });
+                return await Connection.QueryFirstOrDefaultAsync<ExpenseView>(sql, new { employeeId, expenseConfigurationId, expensePeriodType, currentDate });
             }
         }
 

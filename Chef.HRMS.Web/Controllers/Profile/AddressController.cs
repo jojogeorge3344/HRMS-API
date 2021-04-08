@@ -74,7 +74,7 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await addressService.UpdateAsync(address);
-            
+
             return Ok(result);
         }
 

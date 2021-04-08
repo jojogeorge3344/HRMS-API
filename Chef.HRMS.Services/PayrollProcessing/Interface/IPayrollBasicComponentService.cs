@@ -7,7 +7,7 @@ namespace Chef.HRMS.Services
 {
     public interface IPayrollBasicComponentService : IAsyncService<PayrollBasicComponent>
     {
-        Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId,int year,int month);
+        Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId, int year, int month);
 
         Task<int> InsertPayrollBasicComponents(IEnumerable<PayrollBasicComponent> payrollBasicComponents);
 

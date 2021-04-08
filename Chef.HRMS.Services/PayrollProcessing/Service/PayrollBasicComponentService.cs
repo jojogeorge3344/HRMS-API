@@ -40,7 +40,7 @@ namespace Chef.HRMS.Services
             return await basicComponentRepository.UpdateAsync(basicComponent);
         }
 
-        public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId,int year,int month)
+        public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId, int year, int month)
         {
             return await basicComponentRepository.GetBasicComponentsByPaygroup(paygoupId, year, month);
         }
@@ -55,7 +55,7 @@ namespace Chef.HRMS.Services
             return await basicComponentRepository.GetPayrollBasicComponentByPayrollProcessingMethodId(payrollProcessingMethodId);
         }
 
-        public async Task<IEnumerable<PayrollBasicComponent>> GetPayrollBreakUpByEmployeeId(int employeeId,int payrollProcessingMethodId)
+        public async Task<IEnumerable<PayrollBasicComponent>> GetPayrollBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
             return await basicComponentRepository.GetPayrollBreakUpByEmployeeId(employeeId, payrollProcessingMethodId);
         }

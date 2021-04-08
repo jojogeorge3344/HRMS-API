@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Chef.HRMS.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Chef.HRMS.Test
@@ -58,7 +58,7 @@ namespace Chef.HRMS.Test
 
             // Assert
             var result = okResult.Result as OkObjectResult;
-           var items = Assert.IsType<List<Address>>(result.Value);
+            var items = Assert.IsType<List<Address>>(result.Value);
 
             Assert.True(items.Count > 0);
         }

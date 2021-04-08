@@ -9,7 +9,7 @@ namespace Chef.HRMS.Services
     {
         Task<IEnumerable<PayrollReview>> GetAllPayrollReviewByProcessingMethodId(int payrollProcessingMethodId);
         Task<IEnumerable<Employee>> GetAllUnProcessedEmployees(int year, int month);
-        Task<IEnumerable<PayrollReviewBreakup>> GetPayBreakUpByEmployeeId(int employeeId,int payrollProcessingMethodId);
+        Task<IEnumerable<PayrollReviewBreakup>> GetPayBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId);
         Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails();
         Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep);
         Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod);

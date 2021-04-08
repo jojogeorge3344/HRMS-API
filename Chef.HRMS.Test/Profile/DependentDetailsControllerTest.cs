@@ -1,8 +1,6 @@
-﻿using Chef.Common.Models;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using Chef.HRMS.Services;
-using Chef.HRMS.Types;
 using Chef.HRMS.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -145,7 +143,7 @@ namespace Chef.HRMS.Test
         private static IEnumerable<Dependent> GetMockDependentDetailsList()
         {
             List<Dependent> dependentList = new List<Dependent>();
-            Dependent dependent= new Dependent
+            Dependent dependent = new Dependent
             {
                 Name = "1",
                 Phone = "638504",

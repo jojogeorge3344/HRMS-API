@@ -79,7 +79,7 @@ namespace Chef.HRMS.Repositories
                         var sqlnew = @"UPDATE public.leavestructure
 	                                              SET isconfigured=false
 	                                              WHERE id=@leaveStructureId";
-                        await Connection.ExecuteAsync(sqlnew, new { leaveStructureId});
+                        await Connection.ExecuteAsync(sqlnew, new { leaveStructureId });
                     }
                     if (removeLeaveStructureLeaveComponents.Count() > 0)
                     {
@@ -97,6 +97,6 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-        
+
     }
 }

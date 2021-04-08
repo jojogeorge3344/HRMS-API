@@ -1,6 +1,5 @@
 ﻿using Chef.Common.Core;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
@@ -59,7 +58,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds the job ttitle Id
         /// </summary>
-        public int JobTitleId { get; set; }        
+        public int JobTitleId { get; set; }
 
         /// <summary>
         /// Holds the department Id

@@ -47,7 +47,7 @@ namespace Chef.HRMS.Repositories
                 leaveComponentGeneralSettings.CreatedDate = leaveComponentGeneralSettings.ModifiedDate = DateTime.UtcNow;
                 leaveComponentGeneralSettings.IsArchived = false;
                 var sql = new QueryBuilder<LeaveComponentGeneralSettings>().GenerateInsertQuery();
-                sql= sql.Replace("RETURNING id", "");
+                sql = sql.Replace("RETURNING id", "");
                 sql += " ON CONFLICT ON CONSTRAINT leavecomponentgeneralsettings_pkey DO ";
                 sql += new QueryBuilder<LeaveComponentGeneralSettings>().GenerateUpdateQueryOnConflict();
                 var result = await Connection.ExecuteAsync(sql, leaveComponentGeneralSettings);

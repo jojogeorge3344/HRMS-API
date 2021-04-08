@@ -1,15 +1,14 @@
 ﻿using Chef.Common.Core;
-using Chef.Common.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Chef.HRMS.Models
 {
     public class PayrollCalendar : Model
-    { 
+    {
         /// <summary>
-       /// Holds the payroll calendar name
-       /// </summary>
+        /// Holds the payroll calendar name
+        /// </summary>
         [Required]
         [StringLength(32)]
         [Description("Payroll calendar name")]

@@ -36,7 +36,7 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-        public async Task<int> UpdateLeaveStructure(int id,bool isConfigured)
+        public async Task<int> UpdateLeaveStructure(int id, bool isConfigured)
         {
             using (Connection)
             {

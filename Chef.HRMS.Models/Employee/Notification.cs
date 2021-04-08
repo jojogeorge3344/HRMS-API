@@ -1,14 +1,11 @@
 ﻿using Chef.Common.Core;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace Chef.HRMS.Models
 {
-   public class Notification:Model
+    public class Notification : Model
     {
-         /// <summary>
+        /// <summary>
         /// Holds the total count of pending request
         /// </summary>
         [Description("Pending request")]

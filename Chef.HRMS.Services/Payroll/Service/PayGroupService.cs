@@ -30,7 +30,7 @@ namespace Chef.HRMS.Services
             return await payGroupRepository.GetAllAsync();
         }
 
-        public async Task<IEnumerable<EmployeeView>> GetAllEmployeeByPayGroupId(int paygroupId,int year,int month )
+        public async Task<IEnumerable<EmployeeView>> GetAllEmployeeByPayGroupId(int paygroupId, int year, int month)
         {
             return await payGroupRepository.GetAllEmployeeByPayGroupId(paygroupId, year, month);
         }

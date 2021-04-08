@@ -13,7 +13,7 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Description("Date of birth as in the identity document")]
         public DateTime DateOfBirth { get; set; }
-        
+
         /// <summary>
         /// Holds the employee id
         /// </summary>
