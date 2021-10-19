@@ -19,15 +19,15 @@ namespace Chef.HRMS.Repositories
                                             jt.name, 
                                             jt.description, 
                                             (SELECT Count(*) 
-                                             FROM   jobdetails 
+                                             FROM   hrms.jobdetails 
                                              WHERE  jobtitleid = jd.jobtitleid) AS NumberOfEmployees, 
                                             jt.createddate, 
                                             jt.modifieddate, 
                                             jt.createdby, 
                                             jt.modifiedby,
                                             jt.isarchived
-                            FROM   jobtitle AS jt 
-                                   LEFT JOIN jobdetails AS jd 
+                            FROM   hrms.jobtitle AS jt 
+                                   LEFT JOIN hrms.jobdetails AS jd 
                                           ON jt.id = jd.jobtitleid ";
 
                 return await Connection.QueryAsync<JobTitleView>(sql);

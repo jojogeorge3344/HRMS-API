@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<EmployeeBonus>> GetAllBonusByEmployeeId(int employeeId)
         {
 
-                var sql = "SELECT * FROM  employeebonus WHERE employeeid = @employeeId";
+                var sql = "SELECT * FROM  hrms.employeebonus WHERE employeeid = @employeeId";
 
                 return await Connection.QueryAsync<EmployeeBonus>(sql, new { employeeId });
         }
@@ -32,15 +32,15 @@ namespace Chef.HRMS.Repositories
                                    amount, 
                                    disburseon, 
                                    remarks 
-                            FROM   employee e 
-                                   INNER JOIN jobdetails jd 
+                            FROM   hrms.employee e 
+                                   INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
-                                   INNER JOIN employeebonus eb 
+                                   INNER JOIN hrms.employeebonus eb 
                                            ON e.id = eb.employeeid 
-                                   INNER JOIN bonustype bt 
+                                   INNER JOIN hrms.bonustype bt 
                                            ON eb.bonustypeid = bt.id 
                                               AND eb.employeeid = @employeeId 
-                                   INNER JOIN payrollprocessingmethod pm 
+                                   INNER JOIN hrms.payrollprocessingmethod pm 
                                            ON 1 = 1 
                                               AND pm.id = @payrollProcessingMethodId 
                             WHERE  ( eb.payrollprocessingmethodid = @payrollProcessingMethodId 
@@ -55,7 +55,7 @@ namespace Chef.HRMS.Repositories
         public async Task<int> DeleteAllBonusByEmployeeId(int employeeId)
         {
 
-                var sql = @"Delete FROM employeebonus WHERE employeeId = @employeeId";
+                var sql = @"Delete FROM hrms.employeebonus WHERE employeeId = @employeeId";
 
                 return await Connection.ExecuteAsync(sql, employeeId);
 
@@ -74,19 +74,19 @@ namespace Chef.HRMS.Repositories
                                    eb.amount                             AS amount, 
                                    eb.disburseon                         AS disburseOn, 
                                    eb.remarks                            AS remarks 
-                            FROM   employee e 
-                                   INNER JOIN jobdetails jd 
+                            FROM   hrms.employee e 
+                                   INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
-                                   INNER JOIN employeebonus eb 
+                                   INNER JOIN hrms.employeebonus eb 
                                            ON e.id = eb.employeeid 
-                                   INNER JOIN bonustype bt 
+                                   INNER JOIN hrms.bonustype bt 
                                            ON bt.id = eb.bonustypeid 
-                                   INNER JOIN payrollprocessingmethod pm 
+                                   INNER JOIN hrms.payrollprocessingmethod pm 
                                            ON 1 = 1 
                                               AND pm.id =  @payrollProcessingMethodId
                                               
                             WHERE  (( eb.payrollprocessingmethodid = @payrollProcessingMethodId 
-                                      AND e.id NOT IN(Select ppm.employeeid from payrollprocessingmethod ppm 
+                                      AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm 
                                                        WHERE  (pm.month = ppm.month
                                                         AND pm.year = ppm.year)))
                                       OR (eb.payrollprocessingmethodid =0 

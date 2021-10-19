@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * FROM  dependent WHERE employeeId = @employeeId";
+                var sql = "SELECT * FROM  hrms.dependent WHERE employeeId = @employeeId";
 
                 return await Connection.QueryAsync<Dependent>(sql, new { employeeId });
             }

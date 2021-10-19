@@ -25,10 +25,10 @@ namespace Chef.HRMS.Repositories
                                     jd.location, 
                                     jd.employeenumber   AS employeenumber,
                                     jf.id               AS jobfilingid
-                            FROM employee AS e 
-                            LEFT JOIN jobdetails AS jd 
+                            FROM hrms.employee AS e 
+                            LEFT JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
-                            LEFT JOIN jobfiling AS jf 
+                            LEFT JOIN hrms.jobfiling AS jf 
                                     ON e.id = jf.employeeid
                             ORDER BY e.id";
 
@@ -54,10 +54,10 @@ namespace Chef.HRMS.Repositories
 									jf.expensepolicyid                AS expensepolicyid,
 									jf.payrollstructureid             AS payrollstructureid,
 									jf.overtimepolicyid               AS overtimepolicyid
-                            FROM employee AS e 
-                            LEFT JOIN jobdetails AS jd 
+                            FROM hrms.employee AS e 
+                            LEFT JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
-                            LEFT JOIN jobfiling AS jf 
+                            LEFT JOIN hrms.jobfiling AS jf 
                                     ON e.id = jf.employeeid
                             WHERE   e.id=@employeeId
                             ORDER BY e.id";
@@ -70,8 +70,8 @@ namespace Chef.HRMS.Repositories
 
                 var sql = @"SELECT Concat (e.firstname, ' ', e.lastname) AS employeename, 
                                    jd.employeenumber                     AS employeenumber 
-                            FROM   employee e 
-                                   INNER JOIN jobdetails jd 
+                            FROM   hrms.employee e 
+                                   INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                             WHERE  jd.jobtitleid = @jobtitleid ";
 
@@ -84,8 +84,8 @@ namespace Chef.HRMS.Repositories
                 var sql = @"(SELECT    j.reportingmanager     AS employeeid,
                                       COUNT(l.id)      AS pendingrequest,
 				                      'Leave Request'  AS notificationtype  
-				                                       FROM jobdetails j
-                                                       INNER JOIN leave l
+				                                       FROM hrms.jobdetails j
+                                                       INNER JOIN hrms.leave l
                                                        ON j.employeeid = l.employeeid
                                                        WHERE j.reportingmanager = @employeeId
 								                       AND l.leavestatus = 2
@@ -96,8 +96,8 @@ namespace Chef.HRMS.Repositories
                            (SELECT    j.reportingmanager     AS employeeid,
                                       COUNT(e.id)      AS pendingrequest,
 				                      'Expense Request'  AS notificationtype  
-				                                       FROM jobdetails j
-                                                       INNER JOIN expense e
+				                                       FROM hrms.jobdetails j
+                                                       INNER JOIN hrms.expense e
                                                        ON j.employeeid = e.employeeid
                                                        WHERE j.reportingmanager = @employeeId
 								                       AND e.requeststatus = 2

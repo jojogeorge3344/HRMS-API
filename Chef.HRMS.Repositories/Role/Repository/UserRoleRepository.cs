@@ -60,11 +60,11 @@ namespace Chef.HRMS.Repositories
                 if (userRole.Count() > 0)
                 {
                     string userIds = string.Join(",", userRole.ToList().Select(l => l.EmployeeId).ToArray());
-                    sql = "DELETE FROM userrole WHERE roleid = @roleId AND employeeid NOT IN (" + userIds + ")";
+                    sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId AND employeeid NOT IN (" + userIds + ")";
                 }
                 else
                 {
-                    sql = "DELETE FROM userrole WHERE roleid = @roleId";
+                    sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId";
                 }
 
                 return await Connection.ExecuteAsync(sql, new { roleId });

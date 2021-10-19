@@ -33,7 +33,7 @@ namespace Chef.HRMS.Repositories
         public async Task<int> DeleteByEmployeeId(int employeeId)
         {
 
-                var sql = @"Delete FROM employeesalaryconfigurationdetails WHERE employeeid = @employeeid";
+                var sql = @"Delete FROM hrms.employeesalaryconfigurationdetails WHERE employeeid = @employeeid";
 
                 return await Connection.ExecuteAsync(sql, employeeId);
 

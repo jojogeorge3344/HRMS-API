@@ -30,11 +30,11 @@ namespace Chef.HRMS.Repositories
                                    c.extension    AS extension, 
                                    c.NAME         AS filename, 
                                    c.path         AS path 
-                            FROM   drivinglicense A 
-                                   INNER JOIN drivinglicensedocument B 
+                            FROM   hrms.drivinglicense A 
+                                   INNER JOIN hrms.drivinglicensedocument B 
                                            ON a.id = b.drivinglicenseid 
                                               AND a.employeeid = @employeeId 
-                                   INNER JOIN document C 
+                                   INNER JOIN hrms.document C 
                                            ON b.documentid = c.id";
 
                 return await Connection.QueryAsync<DrivingLicenseView>(sql, new { employeeId });

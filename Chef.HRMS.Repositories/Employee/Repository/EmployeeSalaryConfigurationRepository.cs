@@ -41,14 +41,14 @@ namespace Chef.HRMS.Repositories
                                             esd.modifieddate  AS detailmodifieddate, 
                                             esd.createdby     AS detailcreatedby, 
                                             esd.modifiedby    AS detailmodifiedby 
-                            FROM   employeesalaryconfiguration es 
-                                   INNER JOIN employeesalaryconfigurationdetails esd 
+                            FROM   hrms.employeesalaryconfiguration es 
+                                   INNER JOIN hrms.employeesalaryconfigurationdetails esd 
                                            ON esd.employeesalaryconfigurationid = es.id 
-                                   INNER JOIN payrollcalculation pcalc 
+                                   INNER JOIN hrms.payrollcalculation pcalc 
                                            ON pcalc.id = esd.payrollcalculationid 
-                                   INNER JOIN payrollstructure ps 
+                                   INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
-                                   INNER JOIN payrollcomponentconfiguration pc 
+                                   INNER JOIN hrms.payrollcomponentconfiguration pc 
                                            ON pc.payrollcomponentid = pcalc.payrollcomponentid 
                             WHERE  es.employeeid = @employeeid
                             ORDER BY iscomputed";
@@ -60,7 +60,7 @@ namespace Chef.HRMS.Repositories
         public async Task<int> DeleteByEmployeeId(int employeeId)
         {
 
-                var sql = @"Delete FROM employeesalaryconfiguration WHERE employeeid = @employeeid";
+                var sql = @"Delete FROM hrms.employeesalaryconfiguration WHERE employeeid = @employeeid";
 
                 return await Connection.ExecuteAsync(sql, employeeId);
         }

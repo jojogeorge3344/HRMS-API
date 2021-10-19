@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<EmployeeNumberSeries>> GetAllActiveNumberSeries()
         {
 
-                string sql = @"SELECT * FROM employeenumberseries 
+                string sql = @"SELECT * FROM hrms.employeenumberseries 
                                         WHERE isactive=true";
 
                 return await Connection.QueryAsync<EmployeeNumberSeries>(sql);
@@ -25,7 +25,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<int>> GetAllAssignedNumberSeries()
         {
 
-                string sql = @"SELECT DISTINCT NumberSeriesId FROM JobDetails";
+                string sql = @"SELECT DISTINCT hrms.NumberSeriesId FROM JobDetails";
 
                 return await Connection.QueryAsync<int>(sql);
 

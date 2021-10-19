@@ -14,7 +14,7 @@ namespace Chef.HRMS.Repositories
         public async Task<int> GetWeekendPolicyById(int employeeId)
         {
 
-                string sql = @"SELECT weekoff FROM jobfiling where employeeid=@employeeid";
+                string sql = @"SELECT weekoff FROM hrms.jobfiling where employeeid=@employeeid";
 
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql, new { employeeId });
         }
