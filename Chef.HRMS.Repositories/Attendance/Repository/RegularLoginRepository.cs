@@ -9,23 +9,19 @@ namespace Chef.HRMS.Repositories
 {
     public class RegularLoginRepository : GenericRepository<RegularLogin>, IRegularLoginRepository
     {
-        public RegularLoginRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public RegularLoginRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<RegularLogin>> GetAllAttendanceById(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = "SELECT * FROM  regularlogin WHERE employeeid = @employeeId";
 
                 return await Connection.QueryAsync<RegularLogin>(sql, new { employeeId });
-            }
         }
         public async Task<IEnumerable<UserAttendanceViewModel>> GetAttendanceLog(int employeeId, DateTime startDate, DateTime endDate)
         {
-            using (Connection)
-            {
+
                 var sql = string.Format(@"WITH shiftdetails 
                                          ( 
                                               effectivehours, 
@@ -126,13 +122,10 @@ namespace Chef.HRMS.Repositories
                                     ORDER BY clockin DESC ", startDate.ToString("yyyy/MM/dd"), endDate.ToString("yyyy/MM/dd"));
 
                 return await Connection.QueryAsync<UserAttendanceViewModel>(sql, new { employeeId });
-            }
         }
 
         public async Task<decimal> GetAverageAttendanceById(int employeeId, int requestType)
         {
-            using (Connection)
-            {
                 var sql = "";
 
                 // If it is weekly
@@ -233,13 +226,11 @@ namespace Chef.HRMS.Repositories
                 }
 
                 return await Connection.QueryFirstOrDefaultAsync<decimal>(sql, new { Id = employeeId });
-            }
         }
 
         public async Task<decimal> GetAverageOnTimeDetails(int employeeId, int requestType)
         {
-            using (Connection)
-            {
+
                 var sql = "";
 
                 // If it is weekly
@@ -398,7 +389,6 @@ namespace Chef.HRMS.Repositories
                 }
 
                 return await Connection.QueryFirstOrDefaultAsync<decimal>(sql, new { Id = employeeId });
-            }
         }
     }
 }

@@ -8,17 +8,15 @@ namespace Chef.HRMS.Repositories
 {
     public class BranchSignatoryRepository : GenericRepository<HRMSBranchSignatory>, IBranchSignatoryRepository
     {
-        public BranchSignatoryRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public BranchSignatoryRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<HRMSBranchSignatory>> GetAllByBranchAsync(int branchId)
         {
-            using (Connection)
-            {
+
                 var sql = "SELECT * FROM  hrmsbranchsignatory WHERE branchid = @branchid";
                 return await Connection.QueryAsync<HRMSBranchSignatory>(sql, new { branchid = branchId });
-            }
         }
     }
 }

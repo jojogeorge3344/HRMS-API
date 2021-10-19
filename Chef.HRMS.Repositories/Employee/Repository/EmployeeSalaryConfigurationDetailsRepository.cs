@@ -8,38 +8,35 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeSalaryConfigurationDetailsRepository : GenericRepository<EmployeeSalaryConfigurationDetails>, IEmployeeSalaryConfigurationDetailsRepository
     {
-        public EmployeeSalaryConfigurationDetailsRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeSalaryConfigurationDetailsRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<int> InsertEmployeeSalaryConfigDetails(IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
         {
-            using (Connection)
-            {
+
                 var sql = new QueryBuilder<EmployeeSalaryConfigurationDetails>().GenerateInsertQuery();
 
                 return await Connection.ExecuteAsync(sql, employeeSalaryConfigurationDetails);
-            }
+
         }
 
         public async Task<int> UpdateEmployeeSalaryConfigDetails(IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
         {
-            using (Connection)
-            {
+
                 var sql = new QueryBuilder<EmployeeSalaryConfigurationDetails>().GenerateUpdateQuery();
 
                 return await Connection.ExecuteAsync(sql, employeeSalaryConfigurationDetails);
-            }
+
         }
 
         public async Task<int> DeleteByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"Delete FROM employeesalaryconfigurationdetails WHERE employeeid = @employeeid";
 
                 return await Connection.ExecuteAsync(sql, employeeId);
-            }
+
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeReportRepository : GenericRepository<EmployeeDetailView>, IEmployeeReportRepository
     {
-        public EmployeeReportRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeReportRepository(DbSession session) : base(session)
         {
         }
 

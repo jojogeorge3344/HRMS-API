@@ -8,14 +8,13 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeSalaryConfigurationRepository : GenericRepository<EmployeeSalaryConfiguration>, IEmployeeSalaryConfigurationRepository
     {
-        public EmployeeSalaryConfigurationRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeSalaryConfigurationRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetSalaryConfigurationByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT DISTINCT es.employeeid     AS employeeid, 
                                             es.id             AS employeesalaryconfigurationid, 
                                             esd.id            AS employeesalaryconfigurationdetailsid, 
@@ -55,17 +54,15 @@ namespace Chef.HRMS.Repositories
                             ORDER BY iscomputed";
 
                 return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { employeeId });
-            }
+
         }
 
         public async Task<int> DeleteByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"Delete FROM employeesalaryconfiguration WHERE employeeid = @employeeid";
 
                 return await Connection.ExecuteAsync(sql, employeeId);
-            }
         }
     }
 }

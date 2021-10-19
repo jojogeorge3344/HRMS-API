@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class OverTimePolicyConfigurationRepository : GenericRepository<OverTimePolicyConfiguration>, IOverTimePolicyConfigurationRepository
     {
-        public OverTimePolicyConfigurationRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public OverTimePolicyConfigurationRepository(DbSession session) : base(session)
         {
         }
 

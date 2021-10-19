@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LoanRequestRepository : GenericRepository<LoanRequest>, ILoanRequestRepository
     {
-        public LoanRequestRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public LoanRequestRepository(DbSession session) : base(session)
         {
         }
 

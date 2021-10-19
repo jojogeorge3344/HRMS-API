@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PANRepository : GenericRepository<PAN>, IPANRepository
     {
-        public PANRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PANRepository(DbSession session) : base(session)
         {
         }
 

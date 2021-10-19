@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollProcessingMethodRepository : GenericRepository<PayrollProcessingMethod>, IPayrollProcessingMethodRepository
     {
-        public PayrollProcessingMethodRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PayrollProcessingMethodRepository(DbSession session) : base(session)
         {
         }
 

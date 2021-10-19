@@ -8,26 +8,23 @@ namespace Chef.HRMS.Repositories
 {
     public class ShiftRepository : GenericRepository<Shift>, IShiftRepository
     {
-        public ShiftRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public ShiftRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<int>> GetAllAssignedShift()
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT DISTINCT shiftid 
                                     FROM PUBLIC.jobfiling
                                     ORDER  BY shiftid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
-            }
         }
 
         public async Task<Shift> GetShiftByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT s.id, 
                                    s.NAME, 
                                    s.starttime, 
@@ -39,7 +36,6 @@ namespace Chef.HRMS.Repositories
                                            ON s.id = jb.shiftid AND jb.employeeid = @employeeid ";
 
                 return await Connection.QueryFirstAsync<Shift>(sql, new { employeeId });
-            }
         }
     }
 }

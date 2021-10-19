@@ -22,7 +22,7 @@ namespace Chef.HRMS.Repositories
             new Country{ Name = "Oman" }
         };
 
-        public TenantRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public TenantRepository(DbSession session) : base(session)
         {
         }
 
@@ -118,9 +118,9 @@ namespace Chef.HRMS.Repositories
                 Connection.Execute(query);
                 fullQuery += query;
 
-                query = new QueryBuilder<Employee>().GenerateCreateTableQuery();
-                Connection.Execute(query);
-                fullQuery += query;
+                //query = new QueryBuilder<Employee>().GenerateCreateTableQuery();
+                //Connection.Execute(query);
+                //fullQuery += query;
 
                 query = new QueryBuilder<JobDetails>().GenerateCreateTableQuery();
                 Connection.Execute(query);

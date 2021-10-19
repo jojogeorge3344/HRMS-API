@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class BranchRepository : GenericRepository<HRMSBranch>, IBranchRepository
     {
-        public BranchRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public BranchRepository(DbSession session) : base(session)
         {
         }
     }

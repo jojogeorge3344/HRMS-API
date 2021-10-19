@@ -7,7 +7,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LOPTrackerRepository : GenericRepository<LOPTracker>, ILOPTrackerRepository
     {
-        public LOPTrackerRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public LOPTrackerRepository(DbSession session) : base(session)
         {
         }
 

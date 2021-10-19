@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollCalendarRepository : GenericRepository<PayrollCalendar>, IPayrollCalendarRepository
     {
-        public PayrollCalendarRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PayrollCalendarRepository(DbSession session) : base(session)
         {
         }
 

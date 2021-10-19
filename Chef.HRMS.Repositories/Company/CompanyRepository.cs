@@ -7,17 +7,16 @@ namespace Chef.HRMS.Repositories
 {
     public class CompanyRepository : GenericRepository<HRMSCompany>, ICompanyRepository
     {
-        public CompanyRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public CompanyRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<HRMSCompany> GetAsync()
         {
-            using (Connection)
-            {
+
                 var query = "SELECT * FROM hrmscompany";
                 return await Connection.QueryFirstOrDefaultAsync<HRMSCompany>(query);
-            }
+
         }
     }
 }

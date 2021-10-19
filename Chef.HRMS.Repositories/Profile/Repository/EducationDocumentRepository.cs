@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EducationDocumentRepository : GenericRepository<EducationDocument>, IEducationDocumentRepository
     {
-        public EducationDocumentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EducationDocumentRepository(DbSession session) : base(session)
         {
         }
     }

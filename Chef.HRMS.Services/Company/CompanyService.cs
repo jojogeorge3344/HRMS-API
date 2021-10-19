@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Models;
+using Chef.Common.Types;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;

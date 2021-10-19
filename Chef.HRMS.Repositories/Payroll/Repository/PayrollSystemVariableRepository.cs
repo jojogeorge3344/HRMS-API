@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollSystemVariableRepository : GenericRepository<PayrollSystemVariable>, IPayrollSystemVariableRepository
     {
-        public PayrollSystemVariableRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PayrollSystemVariableRepository(DbSession session) : base(session)
         {
         }
     }

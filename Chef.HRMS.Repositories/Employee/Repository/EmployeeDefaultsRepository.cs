@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeDefaultsRepository : GenericRepository<EmployeeDefaults>, IEmployeeDefaultsRepository
     {
-        public EmployeeDefaultsRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeDefaultsRepository(DbSession session) : base(session)
         {
         }
     }

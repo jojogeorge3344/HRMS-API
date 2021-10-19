@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class RoleRepository : GenericRepository<Role>, IRoleRepository
     {
-        public RoleRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public RoleRepository(DbSession session) : base(session)
         {
         }
     }

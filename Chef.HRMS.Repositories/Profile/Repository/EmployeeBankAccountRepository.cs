@@ -7,7 +7,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeBankAccountRepository : GenericRepository<EmployeeBankAccount>, IEmployeeBankAccountRepository
     {
-        public EmployeeBankAccountRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeBankAccountRepository(DbSession session) : base(session)
         {
         }
 

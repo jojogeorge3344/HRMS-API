@@ -7,18 +7,16 @@ namespace Chef.HRMS.Repositories
 {
     public class JobFilingRepository : GenericRepository<JobFiling>, IJobFilingRepository
     {
-        public JobFilingRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public JobFilingRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<int> GetWeekendPolicyById(int employeeId)
         {
-            using (Connection)
-            {
+
                 string sql = @"SELECT weekoff FROM jobfiling where employeeid=@employeeid";
 
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql, new { employeeId });
-            }
         }
     }
 }

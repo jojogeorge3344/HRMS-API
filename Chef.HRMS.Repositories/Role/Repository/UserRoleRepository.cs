@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class UserRoleRepository : GenericRepository<UserRole>, IUserRoleRepository
     {
-        public UserRoleRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public UserRoleRepository(DbSession session) : base(session)
         {
         }
         public async Task<int> AssignRolesToUser(IEnumerable<UserRole> userRole)
@@ -33,15 +33,15 @@ namespace Chef.HRMS.Repositories
                                        rf.featureid     AS featureid,
 									   rf.subfeatureid  AS subfeatureid,
 									   sf.subfeature    AS subfeaturename
-                                FROM   userrole ur 
-                                       INNER JOIN role r 
+                                FROM   hrms.userrole ur 
+                                       INNER JOIN hrms.role r 
                                                ON ur.roleid = r.id 
                                                   AND employeeid = @employeeid
-                                       INNER JOIN rolefeature rf 
+                                       INNER JOIN hrms.rolefeature rf 
                                                ON rf.roleid = r.id 
-                                       INNER JOIN feature f 
+                                       INNER JOIN hrms.feature f 
                                                ON rf.featureid = f.id
-									   INNER JOIN subfeature sf 
+									   INNER JOIN hrms.subfeature sf 
                                                ON sf.id = rf.subfeatureid";
 
                 return await Connection.QueryAsync<UserRoleView>(sql, new { employeeId });

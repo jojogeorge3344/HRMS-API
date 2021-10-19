@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class BonusTypeRepository : GenericRepository<BonusType>, IBonusTypeRepository
     {
-        public BonusTypeRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public BonusTypeRepository(DbSession session) : base(session)
         {
         }
     }

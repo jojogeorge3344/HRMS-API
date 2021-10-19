@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class UniqueIdentificationDetailRepository : GenericRepository<UniqueIdentificationDetail>, IUniqueIdentificationDetailRepository
     {
-        public UniqueIdentificationDetailRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public UniqueIdentificationDetailRepository(DbSession session) : base(session)
         {
         }
 

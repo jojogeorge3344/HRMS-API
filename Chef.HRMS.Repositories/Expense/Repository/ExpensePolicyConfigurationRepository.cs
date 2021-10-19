@@ -10,26 +10,24 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpensePolicyConfigurationRepository : GenericRepository<ExpensePolicyConfiguration>, IExpensePolicyConfigurationRepository
     {
-        public ExpensePolicyConfigurationRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public ExpensePolicyConfigurationRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<ExpensePolicyConfiguration>> GetAllAsync(int expensePolicyId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT * 
                             FROM   expensepolicyconfiguration 
                             WHERE  expensepolicyid = @expensePolicyId ORDER BY id";
 
                 return await Connection.QueryAsync<ExpensePolicyConfiguration>(sql, new { expensePolicyId });
-            }
+
         }
 
         public async Task<IEnumerable<ExpensePolicyConfiguration>> GetExpenseTypesById(int employeeid)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT A.* 
                             FROM   expensepolicyconfiguration A 
                                    INNER JOIN jobfiling B 
@@ -37,13 +35,12 @@ namespace Chef.HRMS.Repositories
                             WHERE  B.employeeid = @employeeid ORDER BY A.id";
 
                 return await Connection.QueryAsync<ExpensePolicyConfiguration>(sql, new { employeeid });
-            }
+
         }
 
         public async Task<int> InsertAsync(IEnumerable<ExpensePolicyConfiguration> expensePolicyConfiguration, IEnumerable<int> expensePolicyConfigurationIds)
         {
-            using (Connection)
-            {
+
                 try
                 {
                     if (expensePolicyConfiguration.Count() > 0)
@@ -82,13 +79,11 @@ namespace Chef.HRMS.Repositories
                 {
                     return -1;
                 }
-            }
         }
 
         public async Task<int> SetExpensePolicyIsConfigured(int expensePolicyId)
         {
-            using (Connection)
-            {
+
                 try
                 {
                     var sql = @"SELECT public.setexpensepolicyisionfigured(@expensePolicyId)";
@@ -110,7 +105,7 @@ namespace Chef.HRMS.Repositories
                     throw ex;
                 }
 
-            }
+
         }
     }
 }

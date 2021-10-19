@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class FeatureRepository : GenericRepository<Feature>, IFeatureRepository
     {
-        public FeatureRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public FeatureRepository(DbSession session) : base(session)
         {
         }
     }

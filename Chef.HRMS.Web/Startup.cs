@@ -62,6 +62,8 @@ namespace Chef.HRMS.Web
                 );
             });
             services.AddSignalR();
+            services.AddScoped<DbSession>();
+            services.AddTransient<ISimpleUnitOfWork, SimpleUnitOfWork>();
             services.AddCors();
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddSingleton<IEmailSendFactory, EmailSendFactory>();

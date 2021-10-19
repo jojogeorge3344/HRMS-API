@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PreviousEmploymentDocumentRepository : GenericRepository<PreviousEmploymentDocument>, IPreviousEmploymentDocumentRepository
     {
-        public PreviousEmploymentDocumentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PreviousEmploymentDocumentRepository(DbSession session) : base(session)
         {
         }
     }

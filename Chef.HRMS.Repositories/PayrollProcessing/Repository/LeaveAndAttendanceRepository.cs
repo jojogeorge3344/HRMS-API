@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance>, ILeaveAndAttendanceRepository
     {
-        public LeaveAndAttendanceRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public LeaveAndAttendanceRepository(DbSession session) : base(session)
         {
         }
 

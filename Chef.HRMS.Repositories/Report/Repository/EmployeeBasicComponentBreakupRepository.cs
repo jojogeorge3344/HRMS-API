@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeBasicComponentBreakupRepository : GenericRepository<EmployeeBasicComponentBreakupView>, IEmployeeBasicComponentBreakupRepository
     {
-        public EmployeeBasicComponentBreakupRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeBasicComponentBreakupRepository(DbSession session) : base(session)
         {
         }
 

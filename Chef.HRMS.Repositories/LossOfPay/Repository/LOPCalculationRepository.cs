@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LOPCalculationRepository : GenericRepository<LOPCalculation>, ILOPCalculationRepository
     {
-        public LOPCalculationRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public LOPCalculationRepository(DbSession session) : base(session)
         {
         }
     }

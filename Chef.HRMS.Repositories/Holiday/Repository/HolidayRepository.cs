@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class HolidayRepository : GenericRepository<Holiday>, IHolidayRepository
     {
-        public HolidayRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public HolidayRepository(DbSession session) : base(session)
         {
         }
 

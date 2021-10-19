@@ -9,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class AttendanceAdminRepository : GenericRepository<AttendanceAdminStatsView>, IAttendanceAdminRepository
     {
-        public AttendanceAdminRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public AttendanceAdminRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<AttendanceAdminStatsView>> GetTodaysAttendanceStats()
         {
-            using (Connection)
-            {
                 var sql = @" ( 
                              SELECT 'WFH'                 AS attendancetype, 
                                     COALESCE(Count(1), 0) AS count 
@@ -45,13 +43,10 @@ namespace Chef.HRMS.Repositories
                             ORDER BY attendancetype";
 
                 return await Connection.QueryAsync<AttendanceAdminStatsView>(sql);
-            }
         }
 
         public async Task<IEnumerable<AttendanceAdminLogsView>> GetAttendanceLogs(DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"(SELECT DISTINCT e.id                                     AS employeeid, 
                                              ( Concat(e.firstname, ' ', e.lastname) ) AS employeename, 
                                              jb.department, 
@@ -112,13 +107,10 @@ namespace Chef.HRMS.Repositories
                             ORDER  BY clockin DESC ";
 
                 return await Connection.QueryAsync<AttendanceAdminLogsView>(sql, new { fromDate, toDate });
-            }
         }
 
         public async Task<IEnumerable<AttendanceAdminLeaveLogsView>> GetLeaveLogs(DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT e.id                                              AS employeeid, 
                                    ( Concat(e.firstname, ' ', e.lastname) )          AS employeename, 
                                    jb.department, 
@@ -141,14 +133,11 @@ namespace Chef.HRMS.Repositories
                             WHERE  fromdate BETWEEN @fromDate AND @toDate ";
 
                 return await Connection.QueryAsync<AttendanceAdminLeaveLogsView>(sql, new { fromDate, toDate });
-            }
         }
 
         public async Task<int> AlreadyExistOrNot(DateTime fromDate, DateTime toDate, int employeeId)
         {
             int result = 0;
-            using (Connection)
-            {
                 var sql = @"SELECT get_date_exist_or_not(@fromDate,@toDate,@employeeId,'public.leave')";
                 result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
                 if (result == 0)
@@ -184,20 +173,16 @@ namespace Chef.HRMS.Repositories
                     result = 2;
                 }
                 return result;
-            }
         }
 
         public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
         {
-            using (Connection)
-            {
                 var sql = $@"WITH CTE (dates) AS (SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
                                                   FROM  {tablename} 
                                                   WHERE           employeeid=@employeeId)
                                                 SELECT dates FROM CTE WHERE date_trunc('year',dates)=date_trunc('year',NOW())";
                 return await Connection.QueryAsync<DateTime>(sql, new { tablename, employeeId });
 
-            }
         }
     }
 }

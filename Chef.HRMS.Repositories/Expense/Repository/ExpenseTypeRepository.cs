@@ -8,24 +8,21 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpenseTypeRepository : GenericRepository<ExpenseType>, IExpenseTypeRepository
     {
-        public ExpenseTypeRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public ExpenseTypeRepository(DbSession session) : base(session)
         {
         }
         public async Task<IEnumerable<int>> GetAllAssignedExpenseTypes()
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT DISTINCT expensetypeid 
                                     FROM PUBLIC.expensepolicyconfiguration
                                     ORDER  BY expensetypeid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
-            }
         }
         public async Task<IEnumerable<ExpenseType>> GetAllByExpensePolicyId(int policyId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT A.* 
                             FROM   expensetype A 
                                    INNER JOIN expensepolicyexpensetype B 
@@ -34,17 +31,16 @@ namespace Chef.HRMS.Repositories
                                    ORDER  BY B.id ASC";
 
                 return await Connection.QueryAsync<ExpenseType>(sql, new { policyId });
-            }
+
         }
 
         public async Task<IEnumerable<ExpenseType>> GetAllByExpenseCategory(int expenseCategoryId)
         {
-            using (Connection)
-            {
+
                 var sql = "SELECT * FROM  ExpenseType where Category=@expenseCategoryId  ORDER  BY id ASC";
 
                 return await Connection.QueryAsync<ExpenseType>(sql, new { expenseCategoryId });
-            }
+
         }
     }
 }

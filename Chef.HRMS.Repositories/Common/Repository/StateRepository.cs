@@ -8,17 +8,16 @@ namespace Chef.HRMS.Repositories
 {
     public class StateRepository : GenericRepository<State>, IStateRepository
     {
-        public StateRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public StateRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<State>> GetAllByCountry(int countryId)
         {
-            using (Connection)
-            {
+
                 var sql = "SELECT * FROM  state WHERE countryid = @countryId";
                 return await Connection.QueryAsync<State>(sql, new { countryId });
-            }
+
         }
     }
 }

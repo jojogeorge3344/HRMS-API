@@ -3,6 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.HRMS.Models", "Chef.HRMS.Models\Chef.HRMS.Models.csproj", "{50B2294C-C88B-4030-88D1-F714E1E5D5B9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{068920E5-401B-4471-B4ED-2BBED6E53C28} = {068920E5-401B-4471-B4ED-2BBED6E53C28}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.HRMS.Repositories", "Chef.HRMS.Repositories\Chef.HRMS.Repositories.csproj", "{CFEB87A1-3D94-45FF-B603-28CB56486705}"
 EndProject
@@ -29,6 +32,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.HRMS.Types", "..\Chef.Common\Chef.HRMS.Types\Chef.HRMS.Types.csproj", "{783E36DE-C0D7-4C89-A648-D4A8C21C20D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.Common.Types", "..\Chef.Common\Chef.Common.Types\Chef.Common.Types.csproj", "{78CEE46C-2C4C-46F5-BB0B-93E02F3D4A9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chef.HRMS.Types", "Chef.HRMS.Types\Chef.HRMS.Types.csproj", "{068920E5-401B-4471-B4ED-2BBED6E53C28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +77,10 @@ Global
 		{78CEE46C-2C4C-46F5-BB0B-93E02F3D4A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78CEE46C-2C4C-46F5-BB0B-93E02F3D4A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78CEE46C-2C4C-46F5-BB0B-93E02F3D4A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{068920E5-401B-4471-B4ED-2BBED6E53C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{068920E5-401B-4471-B4ED-2BBED6E53C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{068920E5-401B-4471-B4ED-2BBED6E53C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{068920E5-401B-4471-B4ED-2BBED6E53C28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

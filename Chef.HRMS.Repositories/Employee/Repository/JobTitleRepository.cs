@@ -8,14 +8,13 @@ namespace Chef.HRMS.Repositories
 {
     public class JobTitleRepository : GenericRepository<JobTitle>, IJobTitleRepository
     {
-        public JobTitleRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public JobTitleRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<JobTitleView>> GetAllJobTitleList()
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT DISTINCT jt.id, 
                                             jt.name, 
                                             jt.description, 
@@ -32,7 +31,6 @@ namespace Chef.HRMS.Repositories
                                           ON jt.id = jd.jobtitleid ";
 
                 return await Connection.QueryAsync<JobTitleView>(sql);
-            }
         }
     }
 }

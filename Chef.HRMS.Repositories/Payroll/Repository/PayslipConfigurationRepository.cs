@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayslipConfigurationRepository : GenericRepository<PayslipConfiguration>, IPayslipConfigurationRepository
     {
-        public PayslipConfigurationRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PayslipConfigurationRepository(DbSession session) : base(session)
         {
         }
     }

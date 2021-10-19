@@ -8,14 +8,13 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<EmployeeView>> GetAllEmployeeDetails()
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT  e.id, 
                                     e.firstname, 
                                     e.middlename, 
@@ -34,13 +33,11 @@ namespace Chef.HRMS.Repositories
                             ORDER BY e.id";
 
                 return await Connection.QueryAsync<EmployeeView>(sql);
-            }
         }
 
         public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT  e.id, 
                                     e.firstname, 
                                     e.middlename, 
@@ -66,13 +63,11 @@ namespace Chef.HRMS.Repositories
                             ORDER BY e.id";
 
                 return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId });
-            }
         }
 
         public async Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT Concat (e.firstname, ' ', e.lastname) AS employeename, 
                                    jd.employeenumber                     AS employeenumber 
                             FROM   employee e 
@@ -81,12 +76,11 @@ namespace Chef.HRMS.Repositories
                             WHERE  jd.jobtitleid = @jobtitleid ";
 
                 return await Connection.QueryAsync<EmployeeView>(sql, new { jobTitleId });
-            }
+
         }
         public async Task<IEnumerable<Notification>> GetAllNotificationById(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"(SELECT    j.reportingmanager     AS employeeid,
                                       COUNT(l.id)      AS pendingrequest,
 				                      'Leave Request'  AS notificationtype  
@@ -111,7 +105,7 @@ namespace Chef.HRMS.Repositories
 						                               j.reportingmanager)";
 
                 return await Connection.QueryAsync<Notification>(sql, new { employeeId });
-            }
+
         }
 
     }

@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class UserProfileRepository : GenericRepository<UserProfile>, IUserProfileRepository
     {
-        public UserProfileRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public UserProfileRepository(DbSession session) : base(session)
         {
         }
     }

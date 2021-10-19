@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class DependentRepository : GenericRepository<Dependent>, IDependentRepository
     {
-        public DependentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public DependentRepository(DbSession session) : base(session)
         {
         }
 

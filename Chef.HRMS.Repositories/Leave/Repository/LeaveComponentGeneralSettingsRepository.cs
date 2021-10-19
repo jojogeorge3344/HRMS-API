@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveComponentGeneralSettingsRepository : GenericRepository<LeaveComponentGeneralSettings>, ILeaveComponentGeneralSettingsRepository
     {
-        public LeaveComponentGeneralSettingsRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public LeaveComponentGeneralSettingsRepository(DbSession session) : base(session)
         {
         }
 

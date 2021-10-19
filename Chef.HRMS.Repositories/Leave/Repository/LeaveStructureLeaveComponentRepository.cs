@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveStructureLeaveComponentRepository : GenericRepository<LeaveStructureLeaveComponent>, ILeaveStructureLeaveComponentRepository
     {
-        public LeaveStructureLeaveComponentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public LeaveStructureLeaveComponentRepository(DbSession session) : base(session)
         {
         }
 

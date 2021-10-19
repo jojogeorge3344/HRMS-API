@@ -8,24 +8,21 @@ namespace Chef.HRMS.Repositories
 {
     public class WorkFromHomeRepository : GenericRepository<WorkFromHome>, IWorkFromHomeRepository
     {
-        public WorkFromHomeRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public WorkFromHomeRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<WorkFromHome>> GetAllWorkFromHomeById(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = "SELECT * FROM  workfromhome WHERE employeeid = @Id";
 
                 return await Connection.QueryAsync<WorkFromHome>(sql, new { Id = employeeId });
-            }
         }
 
         public async Task<WorkFromHomeView> GetTotalRequestedDaysById(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT periodtype, 
                                    maximumlimit, 
                                    Coalesce(totalrequest, 0) AS totalRequest 
@@ -48,18 +45,16 @@ namespace Chef.HRMS.Repositories
                                           ON 1 = 1 ";
 
                 return await Connection.QueryFirstAsync<WorkFromHomeView>(sql, new { employeeId });
-            }
         }
 
         public async Task<int> InsertNotifyPersonnel(IEnumerable<WorkFromHomeNotifyPersonnel> workFromHomeNotifyPersonnel)
         {
-            using (Connection)
-            {
+
                 var sql = new QueryBuilder<WorkFromHomeNotifyPersonnel>().GenerateInsertQuery();
                 sql = sql.Replace("RETURNING id", "");
 
                 return await Connection.ExecuteAsync(sql, workFromHomeNotifyPersonnel);
-            }
+
         }
     }
 }

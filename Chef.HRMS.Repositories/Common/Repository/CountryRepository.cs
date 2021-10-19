@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class CountryRepository : GenericRepository<Country>, ICountryRepository
     {
-        public CountryRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public CountryRepository(DbSession session) : base(session)
         {
         }
     }

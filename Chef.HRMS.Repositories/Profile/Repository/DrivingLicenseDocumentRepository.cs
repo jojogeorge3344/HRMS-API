@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class DrivingLicenseDocumentRepository : GenericRepository<DrivingLicenseDocument>, IDrivingLicenseDocumentRepository
     {
-        public DrivingLicenseDocumentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public DrivingLicenseDocumentRepository(DbSession session) : base(session)
         {
         }
     }

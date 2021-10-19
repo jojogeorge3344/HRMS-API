@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class WPSUserRepository : GenericRepository<WPSUser>, IWPSUserRepository
     {
-        public WPSUserRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public WPSUserRepository(DbSession session) : base(session)
         {
         }
 

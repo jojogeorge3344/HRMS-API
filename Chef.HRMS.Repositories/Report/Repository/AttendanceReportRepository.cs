@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class AttendanceReportRepository : GenericRepository<AttendanceReportView>, IAttendanceReportRepository
     {
-        public AttendanceReportRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public AttendanceReportRepository(DbSession session) : base(session)
         {
         }
 

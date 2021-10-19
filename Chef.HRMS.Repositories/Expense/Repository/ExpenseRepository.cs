@@ -9,23 +9,20 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpenseRepository : GenericRepository<Expense>, IExpenseRepository
     {
-        public ExpenseRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public ExpenseRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<Expense>> GetAllExpenseDetailsById(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = "SELECT * FROM  Expense WHERE employeeid = @employeeId  ORDER BY id";
 
                 return await Connection.QueryAsync<Expense>(sql, new { employeeId });
-            }
         }
         public async Task<IEnumerable<Expense>> GetAllUnApprovedExpenseById(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT e.* from expense e 
 	                                        INNER JOIN jobdetails jd
                                             ON jd.employeeid = e.employeeid
@@ -33,12 +30,10 @@ namespace Chef.HRMS.Repositories
 	                                        AND e.requeststatus = 2 and e.ispaid=false";
 
                 return await Connection.QueryAsync<Expense>(sql, new { employeeId });
-            }
         }
         public async Task<ExpenseView> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int expensePeriodType, DateTime currentDate)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT expenseperiodtype, 
                                    maximumexpenselimit, 
                                    CASE expenseperiodtype 
@@ -75,13 +70,12 @@ namespace Chef.HRMS.Repositories
                                       maximumexpenselimit";
 
                 return await Connection.QueryFirstOrDefaultAsync<ExpenseView>(sql, new { employeeId, expenseConfigurationId, expensePeriodType, currentDate });
-            }
+
         }
 
         public async Task<ExpenseView> GetMaximumInstancesById(int employeeId, int expenseConfigurationId, int instancesPeriodType)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT instancesperiodtype, 
                                    maximuminstanceslimit, 
                                    CASE instancesperiodtype 
@@ -118,7 +112,7 @@ namespace Chef.HRMS.Repositories
                                       maximuminstanceslimit";
 
                 return await Connection.QueryFirstOrDefaultAsync<ExpenseView>(sql, new { employeeId, expenseConfigurationId, instancesPeriodType });
-            }
+
         }
     }
 }

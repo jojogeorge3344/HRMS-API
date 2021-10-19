@@ -7,14 +7,13 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpenseDocumentRepository : GenericRepository<ExpenseDocument>, IExpenseDocumentRepository
     {
-        public ExpenseDocumentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public ExpenseDocumentRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<ExpenseDocumentDetails> GetDocumentById(int expenseId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT A.id AS ExpenseDocumentId, 
                                    A.*, 
                                    B.* 
@@ -24,7 +23,6 @@ namespace Chef.HRMS.Repositories
                             WHERE  A.expenseid = @expenseid";
 
                 return await Connection.QueryFirstOrDefaultAsync<ExpenseDocumentDetails>(sql, new { expenseId });
-            }
         }
     }
 }

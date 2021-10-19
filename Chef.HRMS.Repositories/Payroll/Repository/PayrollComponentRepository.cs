@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollComponentRepository : GenericRepository<PayrollComponent>, IPayrollComponentRepository
     {
-        public PayrollComponentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PayrollComponentRepository(DbSession session) : base(session)
         {
         }
         public async Task<IEnumerable<int>> GetAllAssignedPayrollComponents()

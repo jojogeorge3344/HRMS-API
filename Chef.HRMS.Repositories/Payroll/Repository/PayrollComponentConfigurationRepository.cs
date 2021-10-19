@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollComponentConfigurationRepository : GenericRepository<PayrollComponentConfiguration>, IPayrollComponentConfigurationRepository
     {
-        public PayrollComponentConfigurationRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PayrollComponentConfigurationRepository(DbSession session) : base(session)
         {
         }
 

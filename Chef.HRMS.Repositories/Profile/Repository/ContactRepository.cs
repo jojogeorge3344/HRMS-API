@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ContactRepository : GenericRepository<Contact>, IContactRepository
     {
-        public ContactRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public ContactRepository(DbSession session) : base(session)
         {
         }
 

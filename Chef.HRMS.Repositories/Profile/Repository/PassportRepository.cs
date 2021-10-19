@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PassportRepository : GenericRepository<Passport>, IPassportRepository
     {
-        public PassportRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PassportRepository(DbSession session) : base(session)
         {
         }
 

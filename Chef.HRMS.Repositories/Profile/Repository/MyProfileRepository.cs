@@ -7,7 +7,7 @@ namespace Chef.HRMS.Repositories
 {
     public class MyProfileRepository : GenericRepository<MyProfileView>, IMyProfileRepository
     {
-        public MyProfileRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public MyProfileRepository(DbSession session) : base(session)
         {
         }
 

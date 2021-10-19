@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ProcessedSalaryReportRepository : GenericRepository<ProcessedSalaryDetailsView>, IProcessedSalaryReportRepository
     {
-        public ProcessedSalaryReportRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public ProcessedSalaryReportRepository(DbSession session) : base(session)
         {
         }
 

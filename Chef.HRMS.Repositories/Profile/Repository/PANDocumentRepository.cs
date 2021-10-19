@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PANDocumentRepository : GenericRepository<PANDocument>, IPANDocumentRepository
     {
-        public PANDocumentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PANDocumentRepository(DbSession session) : base(session)
         {
         }
     }

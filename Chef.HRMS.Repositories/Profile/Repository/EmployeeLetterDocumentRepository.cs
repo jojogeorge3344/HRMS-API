@@ -5,7 +5,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeLetterDocumentRepository : GenericRepository<EmployeeLetterDocument>, IEmployeeLetterDocumentRepository
     {
-        public EmployeeLetterDocumentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeLetterDocumentRepository(DbSession session) : base(session)
         {
         }
     }

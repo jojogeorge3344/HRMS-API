@@ -8,24 +8,21 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeBonusRepository : GenericRepository<EmployeeBonus>, IEmployeeBonusRepository
     {
-        public EmployeeBonusRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public EmployeeBonusRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<EmployeeBonus>> GetAllBonusByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = "SELECT * FROM  employeebonus WHERE employeeid = @employeeId";
 
                 return await Connection.QueryAsync<EmployeeBonus>(sql, new { employeeId });
-            }
         }
 
         public async Task<IEnumerable<EmployeeBonusView>> GetAllBonusByEmployeeIdAndPayrollProcessingMethodId(int employeeId, int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT eb.employeeid                     AS employeeid, 
                                    Concat (firstname, ' ', lastname) AS NAME, 
                                    employeenumber                    AS employeecode, 
@@ -52,23 +49,21 @@ namespace Chef.HRMS.Repositories
                                            AND ( Extract(year FROM disburseon) = pm.year ) ) ) ";
 
                 return await Connection.QueryAsync<EmployeeBonusView>(sql, new { employeeId, payrollProcessingMethodId });
-            }
+
         }
 
         public async Task<int> DeleteAllBonusByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
+
                 var sql = @"Delete FROM employeebonus WHERE employeeId = @employeeId";
 
                 return await Connection.ExecuteAsync(sql, employeeId);
-            }
+
         }
 
         public async Task<IEnumerable<EmployeeBonusView>> GetAllBonusByPayGroupId(int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT pm.paygroupid                         AS paygroupid, 
                                    e.id                                  AS employeeid, 
                                    Concat (e.firstname, ' ', e.lastname) AS NAME, 
@@ -99,7 +94,6 @@ namespace Chef.HRMS.Repositories
                                            AND ( Extract(year FROM disburseon) = pm.year ) ) )";
 
                 return await Connection.QueryAsync<EmployeeBonusView>(sql, new { payrollProcessingMethodId });
-            }
         }
     }
 }

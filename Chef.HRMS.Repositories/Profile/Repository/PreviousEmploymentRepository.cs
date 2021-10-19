@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PreviousEmploymentRepository : GenericRepository<PreviousEmployment>, IPreviousEmploymentRepository
     {
-        public PreviousEmploymentRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public PreviousEmploymentRepository(DbSession session) : base(session)
         {
         }
 

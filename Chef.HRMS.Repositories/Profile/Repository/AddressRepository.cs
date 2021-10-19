@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class AddressRepository : GenericRepository<Address>, IAddressRepository
     {
-        public AddressRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public AddressRepository(DbSession session) : base(session)
         {
         }
 

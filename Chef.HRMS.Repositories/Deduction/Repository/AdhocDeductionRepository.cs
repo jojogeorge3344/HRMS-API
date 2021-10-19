@@ -8,14 +8,13 @@ namespace Chef.HRMS.Repositories
 {
     public class AdhocDeductionRepository : GenericRepository<AdhocDeduction>, IAdhocDeductionRepository
     {
-        public AdhocDeductionRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        public AdhocDeductionRepository(DbSession session) : base(session)
         {
         }
 
         public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId, int year, int month)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT DISTINCT ad.id                                    AS deductionId, 
                                             ad.employeeid                            AS employeeId, 
                                             ( Concat(e.firstname, ' ', e.lastname) ) AS name, 
@@ -41,12 +40,11 @@ namespace Chef.HRMS.Repositories
                                             WHERE  (ppm.month =@month AND  ppm.year=@year)))";
 
                 return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId, year, month });
-            }
+
         }
         public async Task<IEnumerable<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
+
                 var sql = @"SELECT DISTINCT ad.id                                    AS deductionId, 
                                             ad.employeeid                            AS employeeId, 
                                             ( Concat(e.firstname, ' ', e.lastname) ) AS name, 
@@ -70,7 +68,6 @@ namespace Chef.HRMS.Repositories
                             WHERE  ad.payrollprocessingmethodid = @payrollProcessingMethodId";
 
                 return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId });
-            }
         }
     }
 }
