@@ -208,15 +208,15 @@ namespace Chef.HRMS.Repositories
                         FROM   hrms.calendardays 
                         WHERE  actualdates NOT IN (WITH markeddays AS 
                                                    ( 
-                                                                   SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
+                                                                   SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
                                                                    FROM            hrms.onduty 
                                                                    WHERE           employeeid = @employeeId 
                                                                    UNION 
-                                                                   SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
+                                                                   SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
                                                                    FROM            hrms.workfromhome 
                                                                    WHERE           employeeid = @employeeId 
                                                                    UNION 
-                                                                   SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
+                                                                   SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
                                                                    FROM            hrms.leave 
                                                                    WHERE           employeeid = @employeeId 
                                                                    AND             leavestatus != 5 
@@ -227,9 +227,9 @@ namespace Chef.HRMS.Repositories
                                                                    UNION 
                                                                    SELECT     date::date AS markeddates 
                                                                    FROM       hrms.holiday 
-                                                                   INNER JOIN jobfiling jf 
+                                                                   INNER JOIN hrms.jobfiling jf 
                                                                    ON         jf.holidaycategoryid = holiday.holidaycategoryid
-                                                                   AND        jf.employeeid = @employeeId 
+                                                                   AND        jf.hrms. = @employeeId 
                                                                    WHERE      date BETWEEN @fromDate AND        @toDate)SELECT markeddates 
                                         FROM   hrms.markeddays 
                                         WHERE  markeddates >= @fromDate 
@@ -352,7 +352,7 @@ namespace Chef.HRMS.Repositories
                                                               ) 
                                                               AS 
                                                               ( 
-                                                                              SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days
+                                                                              SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS days
                                                                               FROM            hrms.onduty 
                                                                               WHERE           employeeid = @employeeId 
                                                                               AND             isapproved=true 
@@ -367,7 +367,7 @@ namespace Chef.HRMS.Repositories
                                                                  ) 
                                                                  AS 
                                                                  ( 
-                                                                                 SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days
+                                                                                 SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS days
                                                                                  FROM            hrms.workfromhome 
                                                                                  WHERE           employeeid = @employeeId 
                                                                                  AND             isapproved=true 
@@ -382,7 +382,7 @@ namespace Chef.HRMS.Repositories
                                                 ) 
                                                 AS 
                                                 ( 
-                                                                SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days
+                                                                SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS days
                                                                 FROM   hrms.leave l 
                                                                        INNER JOIN hrms.leavecomponent lc 
                                                                                ON l.leavecomponentid = lc.id 
@@ -400,7 +400,7 @@ namespace Chef.HRMS.Repositories
                                                    ) 
                                                    AS 
                                                    ( 
-                                                                   SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days
+                                                                   SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS days
                                                                    FROM            hrms.leave 
                                                                    WHERE           employeeid = @employeeId 
                                                    )SELECT 'appliedleave' AS type, 
@@ -416,7 +416,7 @@ namespace Chef.HRMS.Repositories
                                                       ) 
                                                       AS 
                                                       ( 
-                                                                      SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days,
+                                                                      SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS days,
                                                                                       leavestatus 
                                                                       FROM            hrms.leave 
                                                                       WHERE           employeeid = @employeeId 
@@ -434,7 +434,7 @@ namespace Chef.HRMS.Repositories
                                                          ) 
                                                          AS 
                                                          ( 
-                                                                         SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days,
+                                                                         SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS days,
                                                                                          leavestatus 
                                                                          FROM            hrms.leave 
                                                                          WHERE           employeeid = @employeeId 

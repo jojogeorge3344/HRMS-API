@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT overtimepolicyid 
-                                    FROM PUBLIC.overtimepolicyconfiguration
+                                    FROM hrms.overtimepolicyconfiguration
                                     ORDER  BY overtimepolicyid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -29,7 +29,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT * 
-                            FROM   overtimepolicyconfiguration 
+                            FROM   hrms.overtimepolicyconfiguration 
                             WHERE  overtimepolicyid = @overTimePolicyId";
 
                 return await Connection.QueryFirstOrDefaultAsync<OverTimePolicyConfiguration>(sql, new { overTimePolicyId });
@@ -41,8 +41,8 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT * 
-                            FROM   OverTimePolicyConfiguration A 
-                                   INNER JOIN jobfiling B 
+                            FROM   hrms.overtimepolicyconfiguration A 
+                                   INNER JOIN hrms.jobfiling B 
                                            ON A.overtimepolicyid = B.overtimepolicyid 
                             WHERE  B.employeeid = @employeeId";
 

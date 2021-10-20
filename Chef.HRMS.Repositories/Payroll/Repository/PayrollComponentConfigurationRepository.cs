@@ -76,7 +76,7 @@ namespace Chef.HRMS.Repositories
             {
                 try
                 {
-                    var sql = @"SELECT public.setpayrollstructureisconfigured(@payrollStructureId)";
+                    var sql = @"SELECT hrms.setpayrollstructureisconfigured(@payrollStructureId)";
                     var result = await Connection.ExecuteAsync(sql, new { payrollStructureId });
                     if (result == -1)
                     {

@@ -138,19 +138,19 @@ namespace Chef.HRMS.Repositories
         public async Task<int> AlreadyExistOrNot(DateTime fromDate, DateTime toDate, int employeeId)
         {
             int result = 0;
-                var sql = @"SELECT get_date_exist_or_not(@fromDate,@toDate,@employeeId,'public.leave')";
+                var sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.leave')";
                 result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
                 if (result == 0)
                 {
-                    sql = @"SELECT get_date_exist_or_not(@fromDate,@toDate,@employeeId,'public.ondyty')";
+                    sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.ondyty')";
                     result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
                     if (result == 0)
                     {
-                        sql = @"SELECT get_date_exist_or_not(@fromDate,@toDate,@employeeId,'public.workfromhome')";
+                        sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.workfromhome')";
                         result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
                         if (result == 0)
                         {
-                            sql = @"SELECT get_date_exist_or_not(@fromDate,@toDate,@employeeid,'public.regularlogin')";
+                            sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeid,'hrms.regularlogin')";
                             result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
                             if (result != 0)
                             {
@@ -177,8 +177,8 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
         {
-                var sql = $@"WITH CTE (dates) AS (SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
-                                                  FROM  {tablename} 
+                var sql = $@"WITH CTE (dates) AS (SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
+                                                  FROM  hrms.{tablename} 
                                                   WHERE           employeeid=@employeeId)
                                                 SELECT dates FROM CTE WHERE date_trunc('year',dates)=date_trunc('year',NOW())";
                 return await Connection.QueryAsync<DateTime>(sql, new { tablename, employeeId });

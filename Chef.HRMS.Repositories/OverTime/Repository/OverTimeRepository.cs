@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * FROM overtime WHERE employeeid=@Id";
+                var sql = "SELECT * FROM hrms.overtime WHERE employeeid=@Id";
                 return await Connection.QueryAsync<OverTime>(sql, new { Id = employeeId });
             }
         }
@@ -25,7 +25,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT overtimepolicyid 
-                                    FROM PUBLIC.jobfiling
+                                    FROM hrms.jobfiling
                                     WHERE employeeid=@employeeId
                                     ORDER  BY overtimepolicyid ASC";
 

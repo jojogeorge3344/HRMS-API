@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT overtimepolicyid 
-                                    FROM PUBLIC.jobfiling
+                                    FROM hrms.jobfiling
                                     ORDER  BY overtimepolicyid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -39,10 +39,10 @@ namespace Chef.HRMS.Repositories
                                    otp.attendancehourstype, 
                                    otp.isconfigured, 
                                    (SELECT Count(overtimepolicyid) 
-                                    FROM   PUBLIC.jobfiling jf 
+                                    FROM   hrms.jobfiling jf 
                                     WHERE  jf.overtimepolicyid = otp.id 
                                     GROUP  BY overtimepolicyid) AS NumberOfEmployees 
-                            FROM   overtimepolicy otp";
+                            FROM   hrms.overtimepolicy otp";
 
                 return await Connection.QueryAsync<OverTimePolicy>(sql);
             }
@@ -53,7 +53,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT * 
-                                    FROM PUBLIC.overtimepolicy
+                                    FROM hrms.overtimepolicy
                                     WHERE isconfigured=true";
 
                 return await Connection.QueryAsync<OverTimePolicy>(sql);
@@ -64,7 +64,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"UPDATE PUBLIC.overtimepolicy
+                var sql = @"UPDATE hrms.overtimepolicy
                                    SET isconfigured=true
                                     WHERE id=@id";
 

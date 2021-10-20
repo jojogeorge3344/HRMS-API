@@ -80,7 +80,7 @@ namespace Chef.HRMS.Repositories
 										   lossofpay, 
 										   lopdeduction 
 									FROM   cte, 
-										   Calculate_lop(cte.employeeid, cte.ppm))Q6
+										   hrms.Calculate_lop(cte.employeeid, cte.ppm))Q6
 									ON Q1.employeeid=Q6.employeeid";
 
                 return await Connection.QueryAsync<PayrollReview>(sql, new { payrollProcessingMethodId });
@@ -119,7 +119,7 @@ namespace Chef.HRMS.Repositories
                                                                 bt.NAME, 
                                                                 'NA' AS remarks, 
                                                                 COALESCE(amount, 0) 
-                                                         FROM   employeebonus eb 
+                                                         FROM   hrms.employeebonus eb 
                                                                 INNER JOIN hrms.bonustype bt 
                                                                         ON eb.bonustypeid = bt.id 
                                                                            AND eb.employeeid = @employeeId 
@@ -276,7 +276,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"UPDATE PUBLIC.payrollprocessingmethod 
+                var sql = @"UPDATE hrms.payrollprocessingmethod 
                             SET    processedstep = @completedStep 
                             WHERE  id = @payrollProcessingMethodId 
                                    AND processedstep < @completedStep";
@@ -299,9 +299,9 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM employee WHERE id NOT IN
-						                              (SELECT DISTINCT jf.employeeid from payrollprocessingmethod PM		
-						                              INNER JOIN jobfiling jf
+                var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.employee WHERE id NOT IN
+						                              (SELECT DISTINCT jf.employeeid from hrms.payrollprocessingmethod PM		
+						                              INNER JOIN hrms.jobfiling jf
 						                              ON (jf.paygroupid=pm.paygroupid OR
 							                            jf.employeeid=pm.employeeid)
 						                              AND(pm.year=@year AND pm.month=@month))";
@@ -314,7 +314,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"SELECT * FROM payrollprocessingmethod PM
+                var sql = @"SELECT * FROM hrms.payrollprocessingmethod PM
 		                             WHERE (pm.year=EXTRACT(YEAR FROM NOW())
 	                                 AND pm.month BETWEEN EXTRACT(MONTH FROM NOW() - INTERVAL '6 months')
                                      AND EXTRACT(MONTH FROM NOW()))
