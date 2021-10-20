@@ -26,23 +26,23 @@ namespace Chef.HRMS.Repositories
                                                            lr.id                                         AS loanid,
                                                            lr.expectedon                                 AS disbursementdate       
                                                           
-                                                    FROM   employee e 
-                                                           INNER JOIN jobdetails jd 
+                                                    FROM   hrms.employee e 
+                                                           INNER JOIN hrms.jobdetails jd 
                                                                    ON e.id = jd.employeeid 
-														   INNER JOIN jobfiling jf
+														   INNER JOIN hrms.jobfiling jf
 														           ON e.id=jf.employeeid
-														    INNER JOIN payrollProcessingMethod pm
+														    INNER JOIN hrms.payrollProcessingMethod pm
                                                                    ON jf.paygroupid=pm.paygroupid AND (pm.id = @payrollProcessingMethodId 
-                                                                                                       AND e.id NOT IN(Select ppm.employeeid from payrollprocessingmethod ppm
+                                                                                                       AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
                                                                                                        WHERE  (pm.month = ppm.month
                                                                                                        AND pm.year = ppm.year)))	   
-                                                             INNER JOIN loanrequest lr 
+                                                             INNER JOIN hrms.loanrequest lr 
                                                                    ON e.id = lr.employeeid 
 																   AND
                                                                     (extract(month FROM lr.expectedon) = pm.month)
                                                                    AND
 																   (extract(year FROM lr.expectedon) = pm.year)
-                                                           INNER JOIN loansetting ls 
+                                                           INNER JOIN hrms.loansetting ls 
                                                                    ON ls.id = lr.loansettingid 
 
                                                     GROUP  BY lr.loantype, 
@@ -70,12 +70,12 @@ namespace Chef.HRMS.Repositories
                                    jd.employeenumber                     AS employeecode, 
                                    lr.id                                 AS loanid,
                                    lr.expectedon                         AS disbursementdate
-                            FROM   loanrequest lr 
-                                   INNER JOIN employee e 
+                            FROM   hrms.loanrequest lr 
+                                   INNER JOIN hrms.employee e 
                                            ON lr.employeeid = e.id 
-                                   INNER JOIN jobdetails jd 
+                                   INNER JOIN hrms.jobdetails jd 
                                            ON lr.employeeid = jd.employeeid 
-                                   INNER JOIN payrollprocessingmethod pm 
+                                   INNER JOIN hrms.payrollprocessingmethod pm 
                                            ON 1 = 1 
                                               AND pm.id = @payrollProcessingMethodId 
                             WHERE  lr.employeeid = @employeeId 
@@ -90,7 +90,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT id 
-                            FROM   loanrequest 
+                            FROM   hrms.loanrequest 
 							ORDER BY id DESC
                             LIMIT  1";
 

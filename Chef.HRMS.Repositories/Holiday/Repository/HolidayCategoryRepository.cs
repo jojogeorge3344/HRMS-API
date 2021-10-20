@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT holidaycategoryid 
-                                    FROM PUBLIC.jobfiling
+                                    FROM hrms.jobfiling
                                     ORDER  BY holidaycategoryid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -28,7 +28,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"UPDATE PUBLIC.holidaycategory
+                var sql = @"UPDATE hrms.holidaycategory
                                    SET isconfigured=@isConfigured
                                     WHERE id=@id";
 

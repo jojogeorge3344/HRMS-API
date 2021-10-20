@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT leavecomponentid 
-                                    FROM PUBLIC.leavestructureleavecomponent
+                                    FROM hrms.leavestructureleavecomponent
                                     ORDER  BY leavecomponentid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -29,8 +29,8 @@ namespace Chef.HRMS.Repositories
                 using (Connection)
                 {
                     var sql = @"SELECT LC.* 
-                                FROM   leavecomponent LC 
-                                       INNER JOIN leavestructureleavecomponent LSLC 
+                                FROM   hrms.leavecomponent LC 
+                                       INNER JOIN hrms.leavestructureleavecomponent LSLC 
                                                ON LC.id = LSLC.leavecomponentid 
                                 WHERE  LSLC.leavestructureid = @leaveStructureId";
 

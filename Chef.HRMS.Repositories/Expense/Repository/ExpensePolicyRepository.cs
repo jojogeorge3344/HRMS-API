@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT DISTINCT expensepolicyid 
-                                    FROM PUBLIC.jobfiling
+                                    FROM hrms.jobfiling
                                     ORDER  BY expensepolicyid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -27,7 +27,7 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT * 
-                                    FROM PUBLIC.expensepolicy
+                                    FROM hrms.expensepolicy
                                     WHERE isconfigured=true";
 
                 return await Connection.QueryAsync<ExpensePolicy>(sql);
@@ -37,7 +37,7 @@ namespace Chef.HRMS.Repositories
         public async Task<bool> UpdateExpensePolicy(int id, bool isConfigured)
         {
 
-                var sql = @"UPDATE PUBLIC.expensepolicy
+                var sql = @"UPDATE hrms.expensepolicy
                                    SET isconfigured=@isConfigured
                                     WHERE id=@id";
 

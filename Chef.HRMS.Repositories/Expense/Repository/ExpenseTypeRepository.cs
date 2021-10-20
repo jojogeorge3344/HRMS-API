@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT DISTINCT expensetypeid 
-                                    FROM PUBLIC.expensepolicyconfiguration
+                                    FROM hrms.expensepolicyconfiguration
                                     ORDER  BY expensetypeid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -24,8 +24,8 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT A.* 
-                            FROM   expensetype A 
-                                   INNER JOIN expensepolicyexpensetype B 
+                            FROM   hrms.expensetype A 
+                                   INNER JOIN hrms.expensepolicyexpensetype B 
                                            ON A.id = B.expensetypeid 
                             WHERE  B.expensepolicyid = @policyId
                                    ORDER  BY B.id ASC";
@@ -37,7 +37,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<ExpenseType>> GetAllByExpenseCategory(int expenseCategoryId)
         {
 
-                var sql = "SELECT * FROM  ExpenseType where Category=@expenseCategoryId  ORDER  BY id ASC";
+                var sql = "SELECT * FROM  hrms.expensetype where category=@expenseCategoryId  ORDER  BY id ASC";
 
                 return await Connection.QueryAsync<ExpenseType>(sql, new { expenseCategoryId });
 

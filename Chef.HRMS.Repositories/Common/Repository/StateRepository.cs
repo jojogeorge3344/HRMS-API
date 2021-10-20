@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<State>> GetAllByCountry(int countryId)
         {
 
-                var sql = "SELECT * FROM  state WHERE countryid = @countryId";
+                var sql = "SELECT * FROM  hrms.state WHERE countryid = @countryId";
                 return await Connection.QueryAsync<State>(sql, new { countryId });
 
         }

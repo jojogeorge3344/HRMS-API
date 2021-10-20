@@ -30,13 +30,13 @@ namespace Chef.HRMS.Repositories
                                             ad.modifieddate                          AS modifieddate, 
                                             ad.createdby                             AS createdby, 
                                             ad.modifiedby                            AS modifiedby 
-                            FROM   adhocdeduction ad 
-                                   INNER JOIN employee e 
+                            FROM   hrms.adhocdeduction ad 
+                                   INNER JOIN hrms.employee e 
                                            ON ad.employeeid = e.id 
-                                   INNER JOIN jobfiling jf 
+                                   INNER JOIN hrms.jobfiling jf 
                                            ON ad.employeeid = jf.employeeid 
                             WHERE  (ad.payrollprocessingmethodid = @payrollProcessingMethodId 
-                                           AND e.id NOT IN(Select ppm.employeeid from payrollprocessingmethod ppm
+                                           AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
                                             WHERE  (ppm.month =@month AND  ppm.year=@year)))";
 
                 return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId, year, month });
@@ -60,10 +60,10 @@ namespace Chef.HRMS.Repositories
                                             ad.modifieddate                          AS modifieddate, 
                                             ad.createdby                             AS createdby, 
                                             ad.modifiedby                            AS modifiedby 
-                            FROM   adhocdeduction ad 
-                                   INNER JOIN employee e 
+                            FROM   hrms.adhocdeduction ad 
+                                   INNER JOIN hrms.employee e 
                                            ON ad.employeeid = e.id 
-                                   INNER JOIN jobfiling jf 
+                                   INNER JOIN hrms.jobfiling jf 
                                            ON ad.employeeid = jf.employeeid 
                             WHERE  ad.payrollprocessingmethodid = @payrollProcessingMethodId";
 

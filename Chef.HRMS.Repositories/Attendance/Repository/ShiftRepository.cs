@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT DISTINCT shiftid 
-                                    FROM PUBLIC.jobfiling
+                                    FROM hrms.jobfiling
                                     ORDER  BY shiftid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -31,8 +31,8 @@ namespace Chef.HRMS.Repositories
                                    s.endtime, 
                                    s.breakduration, 
                                    s.numberofdays 
-                            FROM   shift s 
-                                   INNER JOIN jobfiling jb 
+                            FROM   hrms.shift s 
+                                   INNER JOIN hrms.jobfiling jb 
                                            ON s.id = jb.shiftid AND jb.employeeid = @employeeid ";
 
                 return await Connection.QueryFirstAsync<Shift>(sql, new { employeeId });

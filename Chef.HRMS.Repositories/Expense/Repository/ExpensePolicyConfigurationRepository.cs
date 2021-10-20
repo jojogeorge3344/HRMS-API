@@ -18,7 +18,7 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT * 
-                            FROM   expensepolicyconfiguration 
+                            FROM   hrms.expensepolicyconfiguration 
                             WHERE  expensepolicyid = @expensePolicyId ORDER BY id";
 
                 return await Connection.QueryAsync<ExpensePolicyConfiguration>(sql, new { expensePolicyId });
@@ -29,8 +29,8 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT A.* 
-                            FROM   expensepolicyconfiguration A 
-                                   INNER JOIN jobfiling B 
+                            FROM   hrms.expensepolicyconfiguration A 
+                                   INNER JOIN hrms.jobfiling B 
                                            ON A.expensepolicyid = B.expensepolicyid 
                             WHERE  B.employeeid = @employeeid ORDER BY A.id";
 
@@ -58,7 +58,7 @@ namespace Chef.HRMS.Repositories
                         if (result != 0)
                         {
                             var policyId = expensePolicyConfiguration.Select(x => x.ExpensePolicyId).FirstOrDefault();
-                            var sqlnew = @"UPDATE public.expensepolicy
+                            var sqlnew = @"UPDATE hrms.expensepolicy
 	                                              SET isconfigured=false
 	                                               WHERE id=@policyId";
                             await Connection.ExecuteAsync(sqlnew, new { policyId });
@@ -69,7 +69,7 @@ namespace Chef.HRMS.Repositories
                     if (expensePolicyConfigurationIds.Count() > 0)
                     {
                         string expensePolicyConfigurationId = string.Join(",", expensePolicyConfigurationIds.ToList().Select(l => l.ToString()).ToArray());
-                        var sql = "DELETE FROM expensepolicyconfiguration WHERE id IN (" + expensePolicyConfigurationId + ")";
+                        var sql = "DELETE FROM hrms.expensepolicyconfiguration WHERE id IN (" + expensePolicyConfigurationId + ")";
                         await Connection.ExecuteAsync(sql, new { expensePolicyConfigurationId });
                     }
 
@@ -86,7 +86,7 @@ namespace Chef.HRMS.Repositories
 
                 try
                 {
-                    var sql = @"SELECT public.setexpensepolicyisionfigured(@expensePolicyId)";
+                    var sql = @"SELECT hrms.setexpensepolicyisionfigured(@expensePolicyId)";
                     var result = await Connection.ExecuteAsync(sql, new { expensePolicyId });
                     if (result == -1)
                     {

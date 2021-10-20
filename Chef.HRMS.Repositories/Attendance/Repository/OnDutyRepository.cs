@@ -14,7 +14,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<OnDuty>> GetTotalRequestedDaysById(int employeeId)
         {
-                var sql = "SELECT * FROM public.onduty WHERE employeeid=@employeeId";
+                var sql = "SELECT * FROM hrms.onduty WHERE employeeid=@employeeId";
 
                 return await Connection.QueryAsync<OnDuty>(sql, new { employeeId });
         }

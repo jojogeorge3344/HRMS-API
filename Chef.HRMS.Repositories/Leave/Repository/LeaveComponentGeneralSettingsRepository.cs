@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"DELETE FROM leavecomponentgeneralsettings 
+                var sql = @"DELETE FROM hrms.leavecomponentgeneralsettings 
                             WHERE  leavestructureid = @leaveStructureId 
                                    AND leavecomponentid = @leaveComponentId";
 
@@ -31,7 +31,7 @@ namespace Chef.HRMS.Repositories
                 using (Connection)
                 {
                     var sql = @"SELECT * 
-                                FROM   leavecomponentgeneralsettings 
+                                FROM   hrms.leavecomponentgeneralsettings 
                                 WHERE  leavestructureid = @leaveStructureId 
                                        AND leavecomponentid = @leaveComponentId";
 
@@ -55,7 +55,7 @@ namespace Chef.HRMS.Repositories
                 {
                     var leaveStructureId = leaveComponentGeneralSettings.LeaveStructureId;
                     var leaveComponentId = leaveComponentGeneralSettings.LeaveComponentId;
-                    var sqlnew = @"UPDATE public.leavestructureleavecomponent
+                    var sqlnew = @"UPDATE hrms.leavestructureleavecomponent
 	                                              SET isconfigured=true
 	                                              WHERE leavestructureid=@leaveStructureId 
                                                   AND leavecomponentid=@leaveComponentId";
@@ -72,7 +72,7 @@ namespace Chef.HRMS.Repositories
             {
                 try
                 {
-                    var sql = @"SELECT public.setleavestructureisconfigured(@leaveStructureId)";
+                    var sql = @"SELECT hrms.setleavestructureisconfigured(@leaveStructureId)";
                     var result = await Connection.ExecuteAsync(sql, new { leaveStructureId });
                     if (result == -1)
                     {

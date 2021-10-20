@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"SELECT * from calculate_LOP(@employeeId,@payrollProcessingMethodId) ";
+                var sql = @"SELECT * from hrms.calculate_LOP(@employeeId,@payrollProcessingMethodId) ";
 
                 return await Connection.QueryFirstOrDefaultAsync<LossOfPayView>(sql, new { employeeId, payrollProcessingMethodId });
             }

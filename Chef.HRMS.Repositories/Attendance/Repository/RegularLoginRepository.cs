@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<RegularLogin>> GetAllAttendanceById(int employeeId)
         {
-                var sql = "SELECT * FROM  regularlogin WHERE employeeid = @employeeId";
+                var sql = "SELECT * FROM  hrms.regularlogin WHERE employeeid = @employeeId";
 
                 return await Connection.QueryAsync<RegularLogin>(sql, new { employeeId });
         }
@@ -33,8 +33,8 @@ namespace Chef.HRMS.Repositories
                                                     SELECT     Concat(To_char(endtime - starttime, 'HH:MI'), ' hrs'), 
                                                                s.starttime, 
                                                                s.endtime 
-                                                    FROM       shift s 
-                                                    INNER JOIN jobfiling jf 
+                                                    FROM       hrms.shift s 
+                                                    INNER JOIN hrms.jobfiling jf 
                                                     ON         s.id = jf.shiftid 
                                                     AND        jf.employeeid = @employeeId 
                                          ) 
@@ -48,7 +48,7 @@ namespace Chef.HRMS.Repositories
                                          ( 
                                                 SELECT Get_inbetween_workingdates(fromdate :: date, todate :: date), 
                                                        isapproved 
-                                                FROM   workfromhome 
+                                                FROM   hrms.workfromhome 
                                                 WHERE  employeeid = @employeeId 
                                          ) 
                                          , 
@@ -61,7 +61,7 @@ namespace Chef.HRMS.Repositories
                                          ( 
                                                 SELECT Get_inbetween_workingdates(fromdate :: date, todate :: date), 
                                                        isapproved 
-                                                FROM   onduty 
+                                                FROM   hrms.onduty 
                                                 WHERE  employeeid = @employeeId 
                                          ) 
                                          , 
@@ -72,7 +72,7 @@ namespace Chef.HRMS.Repositories
                                          AS 
                                          ( 
                                                 SELECT Get_inbetween_workingdates(fromdate :: date, todate :: date) 
-                                                FROM   leave 
+                                                FROM   hrms.leave 
                                                 WHERE  employeeid = @employeeId 
                                          ) 
                                     SELECT wfhdates::date AS date, 
@@ -82,7 +82,7 @@ namespace Chef.HRMS.Repositories
                                            effectivehours AS grosshours, 
                                            'WFH'          AS attendancetype, 
                                            isapproved     AS isapproved 
-                                    FROM   shiftdetails, 
+                                    FROM   hrms.shiftdetails, 
                                            wfhdata 
                                     WHERE  wfhdates BETWEEN symmetric '{0}' AND    '{1}' 
                                     UNION 
@@ -93,7 +93,7 @@ namespace Chef.HRMS.Repositories
                                            effectivehours AS grosshours, 
                                            'On Duty'      AS attendancetype, 
                                            isapproved     AS isapproved 
-                                    FROM   shiftdetails, 
+                                    FROM   hrms.shiftdetails, 
                                            ondutydata 
                                     WHERE  ondutydates BETWEEN symmetric '{0}' AND    '{1}' 
                                     UNION 
@@ -104,7 +104,7 @@ namespace Chef.HRMS.Repositories
                                            effectivehours AS grosshours, 
                                            'Leave'        AS attendancetype, 
                                            true           AS isapproved 
-                                    FROM   shiftdetails, 
+                                    FROM   hrms.shiftdetails, 
                                            leavedata 
                                     WHERE  leavedates BETWEEN symmetric '{0}' AND    '{1}' 
                                     UNION 
@@ -115,7 +115,7 @@ namespace Chef.HRMS.Repositories
                                                       concat(to_char(format('%s:%s', round(extract('epoch' FROM checkouttime - checkintime) / 3600), to_char(checkouttime - checkintime, 'MI')) :: interval, 'HH24:MI'), ' hrs') AS grosshours,
                                              'Regular'                                                                                                                                                                           AS attendancetype,
                                              true                                                                                                                                                                                AS isapproved
-                                    FROM     shiftdetails, 
+                                    FROM     hrms.shiftdetails, 
                                              regularlogin 
                                     WHERE    employeeid = @employeeId 
                                     AND      checkintime BETWEEN symmetric '{0}' AND      '{1}' 
@@ -138,8 +138,8 @@ namespace Chef.HRMS.Repositories
                              AS 
                              ( 
                                         SELECT     EXTRACT(epoch FROM s.endtime-s.starttime)/3600 AS duration 
-                                        FROM       shift s 
-                                        INNER JOIN jobfiling jf 
+                                        FROM       hrms.shift s 
+                                        INNER JOIN hrms.jobfiling jf 
                                         ON         s.id=jf.shiftid 
                                         AND        jf.employeeid=@Id 
                              ) 
@@ -157,15 +157,15 @@ namespace Chef.HRMS.Repositories
                                        AS 
                                        ( 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   onduty 
+                                              FROM   hrms.onduty 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   workfromhome 
+                                              FROM   hrms.workfromhome 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT distinct checkintime 
-                                              FROM   regularlogin 
+                                              FROM   hrms.regularlogin 
                                               WHERE  employeeid = @Id 
                                        ) 
                                 SELECT Count(dates) 
@@ -186,8 +186,8 @@ namespace Chef.HRMS.Repositories
                              AS 
                              ( 
                                         SELECT     EXTRACT(epoch FROM s.endtime-s.starttime)/3600 AS duration 
-                                        FROM       shift s 
-                                        INNER JOIN jobfiling jf 
+                                        FROM       hrms.shift s 
+                                        INNER JOIN hrms.jobfiling jf 
                                         ON         s.id=jf.shiftid 
                                         AND        jf.employeeid=@Id 
                              ) 
@@ -205,15 +205,15 @@ namespace Chef.HRMS.Repositories
                                        AS 
                                        ( 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   onduty 
+                                              FROM   hrms.onduty 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   workfromhome 
+                                              FROM   hrms.workfromhome 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT distinct checkintime 
-                                              FROM   regularlogin 
+                                              FROM   hrms.regularlogin 
                                               WHERE  employeeid = @Id 
                                        ) 
                                 SELECT Count(dates) 
@@ -249,22 +249,22 @@ namespace Chef.HRMS.Repositories
                                        AS 
                                        ( 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   leave 
+                                              FROM   hrms.leave 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   onduty 
+                                              FROM   hrms.onduty 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   workfromhome 
+                                              FROM   hrms.workfromhome 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT     checkintime 
-                                              FROM       regularlogin r 
-                                              INNER JOIN jobfiling jf 
+                                              FROM       hrms.regularlogin r 
+                                              INNER JOIN hrms.jobfiling jf 
                                               ON         r.employeeid=jf.employeeid 
-                                              INNER JOIN shift s 
+                                              INNER JOIN hrms.shift s 
                                               ON         jf.shiftid=s.id 
                                               WHERE      r.employeeid = @Id 
                                               AND        r.checkintime::time<=s.starttime::time 
@@ -287,19 +287,19 @@ namespace Chef.HRMS.Repositories
                                        AS 
                                        ( 
                                               SELECT get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   leave 
+                                              FROM   hrms.leave 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   onduty 
+                                              FROM   hrms.onduty 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   workfromhome 
+                                              FROM   hrms.workfromhome 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT checkintime 
-                                              FROM   regularlogin 
+                                              FROM   hrms.regularlogin 
                                               WHERE  employeeid = @Id 
                                        ) 
                                 SELECT count(dates) 
@@ -326,22 +326,22 @@ namespace Chef.HRMS.Repositories
                                        AS 
                                        ( 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   leave 
+                                              FROM   hrms.leave 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   onduty 
+                                              FROM   hrms.onduty 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT Get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   workfromhome 
+                                              FROM   hrms.workfromhome 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT     checkintime 
-                                              FROM       regularlogin r 
-                                              INNER JOIN jobfiling jf 
+                                              FROM       hrms.regularlogin r 
+                                              INNER JOIN hrms.jobfiling jf 
                                               ON         r.employeeid=jf.employeeid 
-                                              INNER JOIN shift s 
+                                              INNER JOIN hrms.shift s 
                                               ON         jf.shiftid=s.id 
                                               WHERE      r.employeeid = @Id 
                                               AND        r.checkintime::time<=s.starttime::time 
@@ -364,19 +364,19 @@ namespace Chef.HRMS.Repositories
                                        AS 
                                        ( 
                                               SELECT get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   leave 
+                                              FROM   hrms.leave 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   onduty 
+                                              FROM   hrms.onduty 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT get_inbetween_workingdates(fromdate::date,todate::date) 
-                                              FROM   workfromhome 
+                                              FROM   hrms.workfromhome 
                                               WHERE  employeeid=@Id 
                                               UNION ALL 
                                               SELECT checkintime 
-                                              FROM   regularlogin 
+                                              FROM   hrms.regularlogin 
                                               WHERE  employeeid = @Id 
                                        ) 
                                 SELECT count(dates) 

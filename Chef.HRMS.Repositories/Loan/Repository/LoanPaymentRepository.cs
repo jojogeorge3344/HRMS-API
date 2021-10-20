@@ -33,24 +33,24 @@ namespace Chef.HRMS.Repositories
                                                              - ( Sum( 
                                                              COALESCE((Select lp.emiamount where lp.loanid=lr.id), 0)) ) )             AS balanceamount, 
                                                            ( lr.repaymentterm - Count((Select lp.tenurenumber where lp.loanid=lr.id)) ) AS remainingtenure 
-                                                    FROM   employee e 
-                                                           INNER JOIN jobdetails jd 
+                                                    FROM   hrms.employee e 
+                                                           INNER JOIN hrms.jobdetails jd 
                                                                    ON e.id = jd.employeeid 
-                                                           INNER JOIN jobfiling jf
+                                                           INNER JOIN hrms.jobfiling jf
 														           ON e.id=jf.employeeid
-														    INNER JOIN payrollProcessingMethod pm
+														    INNER JOIN hrms.payrollProcessingMethod pm
                                                                   ON pm.employeeId=@employeeId 
                                                                   AND pm.id=@payrollProcessingMethodId
-                                                            LEFT JOIN loanrequest lr 
+                                                            LEFT JOIN hrms.loanrequest lr 
                                                                    ON e.id = lr.employeeid 
 																   AND
                                                                      lr.emistartsfrommonth <= pm.month
                                                                    AND
 																     lr.emistartsfromyear <= pm.year 
-                                                            LEFT JOIN loanpayment lp 
+                                                            LEFT JOIN hrms.loanpayment lp 
                                                                   ON lr.id = lp.loanid
                                                                  AND lp.balanceamount > 0 AND remainingtenure >0 
-                                                            INNER JOIN loansetting ls 
+                                                            INNER JOIN hrms.loansetting ls 
                                                                    ON ls.id = lr.loansettingid       
                                                     GROUP  BY lr.loantype, 
                                                               e.id, 
@@ -92,29 +92,27 @@ namespace Chef.HRMS.Repositories
                                                              - ( Sum( 
                                                              COALESCE((Select lp.emiamount where lp.loanid=lr.id), 0)) ) )             AS balanceamount, 
                                                            ( lr.repaymentterm - Count((Select lp.tenurenumber where lp.loanid=lr.id)) ) AS remainingtenure 
-                                                    FROM   employee e 
-                                                           INNER JOIN jobdetails jd 
+                                                    FROM   hrms.employee e 
+                                                           INNER JOIN hrms.jobdetails jd 
                                                                    ON e.id = jd.employeeid 
-                                                           INNER JOIN jobfiling jf
+                                                           INNER JOIN hrms.jobfiling jf
 														           ON e.id=jf.employeeid
-														    INNER JOIN payrollProcessingMethod pm
+														    INNER JOIN hrms.payrollProcessingMethod pm
                                                                    ON jf.paygroupid=pm.paygroupid AND (pm.id = @payrollProcessingMethodId 	 
-                                                                                                    AND e.id NOT IN(Select ppm.employeeid from payrollprocessingmethod ppm
+                                                                                                    AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
                                                                                                     WHERE  (pm.month = ppm.month
                                                                                                     AND pm.year = ppm.year))) 	   
-                                                            LEFT JOIN loanrequest lr 
+                                                            LEFT JOIN hrms.loanrequest lr 
                                                                    ON e.id = lr.employeeid 
 																   AND
                                                                      lr.emistartsfrommonth <= pm.month
                                                                    AND
 																     lr.emistartsfromyear <= pm.year 
-                                                            LEFT JOIN loanpayment lp 
+                                                            LEFT JOIN hrms.loanpayment lp 
                                                                   ON lr.id = lp.loanid
                                                                   AND lp.balanceamount !=0
-                                                            INNER JOIN loansetting ls 
-                                                                   ON ls.id = lr.loansettingid 
-                                                          
-                                                                      
+                                                            INNER JOIN hrms.loansetting ls 
+                                                                   ON ls.id = lr.loansettingid  
                                                     GROUP  BY lr.loantype, 
                                                               e.id, 
                                                               lr.id, 

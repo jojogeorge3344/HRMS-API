@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<HRMSBranchBankAccount>> GetAllByBranchAsync(int branchId)
         {
 
-                var sql = "SELECT * FROM  hrmsbranchbankaccount WHERE branchid = @Id";
+                var sql = "SELECT * FROM  hrms.hrmsbranchbankaccount WHERE branchid = @Id";
                 return await Connection.QueryAsync<HRMSBranchBankAccount>(sql, new { Id = branchId });
         }
     }

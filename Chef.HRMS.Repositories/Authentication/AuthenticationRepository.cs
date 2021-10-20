@@ -31,7 +31,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<bool> ResetPassword(Authentication credentials)
         {
-            var query = "UPDATE authentication SET password = @password where emailid = @emailid";
+            var query = "UPDATE hrms.authentication SET password = @password where emailid = @emailid";
 
             using (var transaction = Connection.BeginTransaction())
             {

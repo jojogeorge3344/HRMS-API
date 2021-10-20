@@ -17,8 +17,8 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT A.id AS ExpenseDocumentId, 
                                    A.*, 
                                    B.* 
-                            FROM   expensedocument A 
-                                   INNER JOIN document B 
+                            FROM   hrms.expensedocument A 
+                                   INNER JOIN hrms.document B 
                                            ON A.documentid = B.id 
                             WHERE  A.expenseid = @expenseid";
 

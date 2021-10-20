@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * FROM  holiday WHERE holidaycategoryid = @categoryId ORDER BY id";
+                var sql = "SELECT * FROM  hrms.holiday WHERE holidaycategoryid = @categoryId ORDER BY id";
 
                 return await Connection.QueryAsync<Holiday>(sql, new { categoryId });
             }
@@ -28,8 +28,8 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT date::date 
-                            FROM holiday h
-                                 INNER JOIN jobfiling jf
+                            FROM hrms.holiday h
+                                 INNER JOIN hrms.jobfiling jf
                                          ON h.holidaycategoryid = jf.holidaycategoryid
                                               AND jf.employeeid = @employeeid
                             WHERE Date_part('year', date) = Date_part('year', CURRENT_TIMESTAMP) ";

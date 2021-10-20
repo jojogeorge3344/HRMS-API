@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories.Loan
             using (Connection)
             {
                 var sql = @"SELECT id 
-                            FROM   loansetting 
+                            FROM   hrms.loansetting 
                             LIMIT  1 ";
 
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql);
@@ -27,7 +27,7 @@ namespace Chef.HRMS.Repositories.Loan
         {
             using (Connection)
             {
-                var sql = @"SELECT * FROM  loansetting
+                var sql = @"SELECT * FROM  hrms.loansetting
                                      LIMIT 1";
 
                 return await Connection.QueryFirstOrDefaultAsync<LoanSetting>(sql);

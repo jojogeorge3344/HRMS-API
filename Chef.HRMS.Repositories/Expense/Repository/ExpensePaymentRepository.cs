@@ -17,8 +17,8 @@ namespace Chef.HRMS.Repositories
 
                 var sql = @"SELECT e.*,epc.name as expensetypename,epc.expensetypeid as expensetypeid,
                                   e.id as expenserequestid 
-                                      FROM  expense e 
-                                      INNER JOIN expensepolicyconfiguration epc
+                                      FROM  hrms.expense e 
+                                      INNER JOIN hrms.expensepolicyconfiguration epc
                                       ON e.expenseconfigurationid=epc.id
                                       WHERE e.requeststatus=3 and e.ispaid=false";
 
@@ -30,8 +30,8 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT e.*,et.name as expensetypename
-                                      FROM  expensepayment e 
-                                      INNER JOIN expensetype et
+                                      FROM  hrms.expensepayment e 
+                                      INNER JOIN hrms.expensetype et
                                       ON e.expensetypeid=et.id
                                       WHERE e.ispaid=true";
 
@@ -42,7 +42,7 @@ namespace Chef.HRMS.Repositories
         public async Task<int> UpdateExpenseStatus(int expenseRequestId, int paymentMode)
         {
 
-                var sql = @"UPDATE public.expense
+                var sql = @"UPDATE hrms.expense
 	                                      SET  ispaid=true, paymentmode=@paymentMode
 	                                      WHERE id=@expenseRequestId";
 

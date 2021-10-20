@@ -18,27 +18,27 @@ namespace Chef.HRMS.Repositories
                 var sql = @" ( 
                              SELECT 'WFH'                 AS attendancetype, 
                                     COALESCE(Count(1), 0) AS count 
-                             FROM   workfromhome 
+                             FROM   hrms.workfromhome 
                              WHERE  fromdate::date = CURRENT_DATE ) 
                             UNION 
                                   ( 
                                          SELECT 'Regular'             AS attendancetype, 
                                                 COALESCE(Count(1), 0) AS count 
-                                         FROM   regularlogin 
+                                         FROM   hrms.regularlogin 
                                          WHERE  checkintime::date = CURRENT_DATE 
                                          AND    NOT isremotelogin ) 
                             UNION 
                                   ( 
                                          SELECT 'Remote'              AS attendancetype, 
                                                 COALESCE(Count(1), 0) AS count 
-                                         FROM   regularlogin 
+                                         FROM   hrms.regularlogin 
                                          WHERE  checkintime::date = CURRENT_DATE 
                                          AND    isremotelogin ) 
                             UNION 
                                      ( 
                                             SELECT 'On Duty'             AS attendancetype, 
                                                    COALESCE(Count(1), 0) AS count 
-                                            FROM   onduty 
+                                            FROM   hrms.onduty 
                                             WHERE  fromdate::date = CURRENT_DATE) 
                             ORDER BY attendancetype";
 
@@ -53,10 +53,10 @@ namespace Chef.HRMS.Repositories
                                              wfh.fromdate                             AS clockin, 
                                              wfh.todate                               AS clockout, 
                                              'WFH'                                    AS attendancetype 
-                             FROM   employee e 
-                                    INNER JOIN jobdetails jb 
+                             FROM   hrms.employee e 
+                                    INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
-                                    INNER JOIN workfromhome wfh 
+                                    INNER JOIN hrms.workfromhome wfh 
                                             ON e.id = wfh.employeeid 
                              WHERE  wfh.fromdate :: date >= @fromdate 
                                     AND wfh.todate :: date <= @todate) 
@@ -67,10 +67,10 @@ namespace Chef.HRMS.Repositories
                                              cio.checkintime                          AS clockin, 
                                              cio.checkouttime                         AS clockout, 
                                              'Regular'                                AS attendancetype 
-                             FROM   employee e 
-                                    INNER JOIN jobdetails jb 
+                             FROM   hrms.employee e 
+                                    INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
-                                    INNER JOIN regularlogin cio 
+                                    INNER JOIN hrms.regularlogin cio 
                                             ON e.id = cio.employeeid 
                              WHERE  NOT cio.isremotelogin 
                                     AND cio.checkintime :: date >= @fromdate 
@@ -82,10 +82,10 @@ namespace Chef.HRMS.Repositories
                                              cio.checkintime                          AS clockin, 
                                              cio.checkouttime                         AS clockout, 
                                              'Remote'                                 AS attendancetype 
-                             FROM   employee e 
-                                    INNER JOIN jobdetails jb 
+                             FROM   hrms.employee e 
+                                    INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
-                                    INNER JOIN regularlogin cio 
+                                    INNER JOIN hrms.regularlogin cio 
                                             ON e.id = cio.employeeid 
                              WHERE  cio.isremotelogin 
                                     AND cio.checkintime :: date >= @fromdate 
@@ -97,10 +97,10 @@ namespace Chef.HRMS.Repositories
                                              od.fromdate                              AS clockin, 
                                              od.todate                                AS clockout, 
                                              'On Duty'                                AS attendancetype 
-                             FROM   employee e 
-                                    INNER JOIN jobdetails jb 
+                             FROM   hrms.employee e 
+                                    INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
-                                    INNER JOIN onduty od 
+                                    INNER JOIN hrms.onduty od 
                                             ON e.id = od.employeeid 
                              WHERE  od.fromdate :: date >= @fromdate 
                                     AND od.todate :: date <= @todate) 
@@ -121,14 +121,14 @@ namespace Chef.HRMS.Repositories
                                    l.leavecomponentid                                AS leavetypeid, 
                                    lc.NAME                                           AS leavetype, 
                                    (SELECT COALESCE(Count(1), 0) AS onleavetoday 
-                                    FROM   leave l 
+                                    FROM   hrms.leave l 
                                     WHERE  CURRENT_DATE BETWEEN fromdate AND todate) AS onleavetoday 
-                            FROM   employee e 
-                                   INNER JOIN jobdetails jb 
+                            FROM   hrms.employee e 
+                                   INNER JOIN hrms.jobdetails jb 
                                            ON e.id = jb.employeeid 
-                                   INNER JOIN leave l 
+                                   INNER JOIN hrms.leave l 
                                            ON e.id = l.employeeid 
-                                   INNER JOIN leavecomponent lc 
+                                   INNER JOIN hrms.leavecomponent lc 
                                            ON l.leavecomponentid = lc.id 
                             WHERE  fromdate BETWEEN @fromDate AND @toDate ";
 

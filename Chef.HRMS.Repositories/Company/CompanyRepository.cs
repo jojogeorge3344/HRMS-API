@@ -14,7 +14,7 @@ namespace Chef.HRMS.Repositories
         public async Task<HRMSCompany> GetAsync()
         {
 
-                var query = "SELECT * FROM hrmscompany";
+                var query = "SELECT * FROM hrms.hrmscompany";
                 return await Connection.QueryFirstOrDefaultAsync<HRMSCompany>(query);
 
         }

@@ -14,7 +14,7 @@ namespace Chef.HRMS.Repositories
         public async Task<WorkFromHomeSettings> GetTopOneWorkFromHomeSettings()
         {
 
-                var sql = @"SELECT * FROM  workfromhomesettings
+                var sql = @"SELECT * FROM  hrms.workfromhomesettings
                                      LIMIT 1";
 
                 return await Connection.QueryFirstOrDefaultAsync<WorkFromHomeSettings>(sql);

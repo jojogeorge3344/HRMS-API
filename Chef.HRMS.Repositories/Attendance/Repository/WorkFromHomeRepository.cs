@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<WorkFromHome>> GetAllWorkFromHomeById(int employeeId)
         {
 
-                var sql = "SELECT * FROM  workfromhome WHERE employeeid = @Id";
+                var sql = "SELECT * FROM  hrms.workfromhome WHERE employeeid = @Id";
 
                 return await Connection.QueryAsync<WorkFromHome>(sql, new { Id = employeeId });
         }
@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT periodtype, 
                                    maximumlimit, 
                                    Coalesce(totalrequest, 0) AS totalRequest 
-                            FROM   workfromhomesettings 
+                            FROM   hrms.workfromhomesettings 
                                    left join (WITH cte (periodtype) 
                                                    AS (SELECT CASE periodtype  
                                                                 WHEN 1 THEN 'week'
@@ -34,10 +34,10 @@ namespace Chef.HRMS.Repositories
                                                                 WHEN 4 THEN 'year' 
                                                               END, 
                                                               maximumlimit 
-                                                       FROM   workfromhomesettings) 
+                                                       FROM   hrms.workfromhomesettings) 
                                               SELECT SUM(numberofdays) AS totalRequest 
                                                FROM   cte, 
-                                                      workfromhome 
+                                                      hrms.workfromhome 
                                                WHERE  Date_part(periodtype, fromdate) = 
                                                       Date_part(periodtype, current_date) 
                                                       AND employeeid = @employeeId 

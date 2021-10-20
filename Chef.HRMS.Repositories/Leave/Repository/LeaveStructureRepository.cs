@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT leavestructureid 
-                                    FROM PUBLIC.jobfiling
+                                    FROM hrms.jobfiling
                                     ORDER  BY leavestructureid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -29,7 +29,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT * 
-                                    FROM PUBLIC.leavestructure
+                                    FROM hrms.leavestructure
                                     WHERE isconfigured=true";
 
                 return await Connection.QueryAsync<LeaveStructure>(sql);
@@ -40,7 +40,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"UPDATE PUBLIC.leavestructure
+                var sql = @"UPDATE hrms.leavestructure
                                    SET isconfigured=true
                                     WHERE id=@id";
 

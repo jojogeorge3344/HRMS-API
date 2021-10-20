@@ -44,22 +44,22 @@ namespace Chef.HRMS.Repositories
                                    lc.showleavedescription, 
                                    e.gender, 
                                    e.maritalstatus 
-                            FROM   employee e 
-                                   INNER JOIN jobdetails jd 
+                            FROM   hrms.employee e 
+                                   INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
-                                   INNER JOIN jobfiling jf 
+                                   INNER JOIN hrms.jobfiling jf 
                                            ON jd.employeeid = jf.employeeid 
-                                   INNER JOIN leavestructure ls 
+                                   INNER JOIN hrms.leavestructure ls 
                                            ON ls.id = jf.leavestructureid 
                                               AND jf.employeeid = @employeeId 
-                                   INNER JOIN leavestructureleavecomponent lslc 
+                                   INNER JOIN hrms.leavestructureleavecomponent lslc 
                                            ON jf.leavestructureid = lslc.leavestructureid 
-                                   LEFT JOIN leavecomponentgeneralsettings lgs 
+                                   LEFT JOIN hrms.leavecomponentgeneralsettings lgs 
                                           ON ( lslc.leavestructureid = lgs.leavestructureid 
                                                AND lslc.leavecomponentid = lgs.leavecomponentid ) 
-                                   INNER JOIN leavecomponent lc 
+                                   INNER JOIN hrms.leavecomponent lc 
                                            ON lslc.leavecomponentid = lc.id 
-                                   LEFT JOIN leave l 
+                                   LEFT JOIN hrms.leave l 
                                           ON ( lgs.leavestructureid = l.leavestructureid 
                                                AND lgs.leavecomponentid = l.leavecomponentid ) 
                                              AND l.employeeid = @employeeId 
@@ -87,7 +87,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * FROM  leave WHERE employeeid = @employeeId";
+                var sql = "SELECT * FROM  hrms.leave WHERE employeeid = @employeeId";
 
                 return await Connection.QueryAsync<Leave>(sql, new { employeeId });
             }
@@ -126,13 +126,13 @@ namespace Chef.HRMS.Repositories
                                        probationperiod, 
                                        periodtype, 
                                        noticeperiod 
-                                FROM   leavecomponentgeneralsettings lgs 
-                                       INNER JOIN leavecomponentrestrictionsettings lrs 
+                                FROM   hrms.leavecomponentgeneralsettings lgs 
+                                       INNER JOIN hrms.leavecomponentrestrictionsettings lrs 
                                                ON ( lgs.leavestructureid = lrs.leavestructureid 
                                                     AND lgs.leavecomponentid = lrs.leavecomponentid ) 
-                                       INNER JOIN jobfiling jf 
+                                       INNER JOIN hrms.jobfiling jf 
                                                ON lrs.leavestructureid = jf.leavestructureid 
-                                       INNER JOIN jobdetails jd 
+                                       INNER JOIN hrms.jobdetails jd 
                                                ON jf.employeeid = jd.employeeid 
                                                   AND jf.employeeid = @employeeId";
 
@@ -146,12 +146,12 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT jd.reportingmanager as reportingmanager,
-                                            (select count(le.id)  from jobdetails j
-                                            INNER JOIN leave le
+                                            (select count(le.id)  from hrms.jobdetails j
+                                            INNER JOIN hrms.leave le
                                             ON j.employeeid = le.employeeid
                                             WHERE j.reportingmanager = jd.reportingmanager AND l.leavestatus = 2
-                                            ) as pendingrequest FROM leave l
-                                            INNER JOIN jobdetails jd
+                                            ) as pendingrequest FROM hrms.leave l
+                                            INNER JOIN hrms.jobdetails jd
                                             ON jd.employeeid = l.employeeid
                                             WHERE l.id = @leaveRequestId";
 
@@ -164,7 +164,7 @@ namespace Chef.HRMS.Repositories
 
             using (Connection)
             {
-                var sql = "SELECT * FROM  leavenotifypersonnel WHERE leaveId = @leaveRequestId";
+                var sql = "SELECT * FROM  hrms.leavenotifypersonnel WHERE leaveId = @leaveRequestId";
 
                 return await Connection.QueryAsync<LeaveNotifyPersonnel>(sql, new { leaveRequestId });
             }
@@ -174,8 +174,8 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"SELECT l.* from leave l 
-	                                        INNER JOIN jobdetails jd
+                var sql = @"SELECT l.* from hrms.leave l 
+	                                        INNER JOIN hrms.jobdetails jd
                                             ON jd.employeeid = l.employeeid
                                             WHERE jd.reportingmanager = @employeeId
 	                                        AND l.leavestatus = 2";

@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"DELETE FROM leavestructureleavecomponent 
+                var sql = @"DELETE FROM hrms.leavestructureleavecomponent 
                             WHERE  leavestructureid = @LeaveStructureId 
                                    AND leavecomponentid = @LeaveComponentId";
 
@@ -34,7 +34,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT * 
-                            FROM   leavestructureleavecomponent 
+                            FROM   hrms.leavestructureleavecomponent 
                             WHERE  leavestructureid = @leaveStructureId";
 
                 return await Connection.QueryAsync<LeaveStructureLeaveComponent>(sql, new { leaveStructureId });
@@ -53,11 +53,11 @@ namespace Chef.HRMS.Repositories
                 if (leaveStructureLeaveComponents.Count() > 0)
                 {
                     string leaveComponentIds = string.Join(",", leaveStructureLeaveComponents.ToList().Select(l => l.LeaveComponentId).ToArray());
-                    sql = "DELETE FROM leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId AND leavecomponentid NOT IN (" + leaveComponentIds + ")";
+                    sql = "DELETE FROM hrms.leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId AND leavecomponentid NOT IN (" + leaveComponentIds + ")";
                 }
                 else
                 {
-                    sql = "DELETE FROM leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId";
+                    sql = "DELETE FROM hrms.leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId";
                 }
 
                 return await Connection.ExecuteAsync(sql, new { leaveStructureId });
@@ -76,7 +76,7 @@ namespace Chef.HRMS.Repositories
                         sql = sql.Replace("RETURNING id", "");
                         sql += " ON CONFLICT ON CONSTRAINT leavestructureleavecomponent_pkey DO NOTHING";
                         await Connection.ExecuteAsync(sql, leaveStructureLeaveComponents);
-                        var sqlnew = @"UPDATE public.leavestructure
+                        var sqlnew = @"UPDATE hrms.leavestructure
 	                                              SET isconfigured=false
 	                                              WHERE id=@leaveStructureId";
                         await Connection.ExecuteAsync(sqlnew, new { leaveStructureId });
@@ -84,7 +84,7 @@ namespace Chef.HRMS.Repositories
                     if (removeLeaveStructureLeaveComponents.Count() > 0)
                     {
                         string leaveComponentIds = string.Join(",", removeLeaveStructureLeaveComponents.ToList().Select(l => l.LeaveComponentId).ToArray());
-                        var sql = @"DELETE FROM leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");DELETE FROM leavecomponentgeneralsettings WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");DELETE FROM leavecomponentrestrictionsettings WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");";
+                        var sql = @"DELETE FROM hrms.leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");DELETE FROM leavecomponentgeneralsettings WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");DELETE FROM leavecomponentrestrictionsettings WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");";
                         await Connection.ExecuteAsync(sql, new { leaveStructureId });
                     }
 

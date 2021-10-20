@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"DELETE FROM leavecomponentrestrictionsettings 
+                var sql = @"DELETE FROM hrms.leavecomponentrestrictionsettings 
                             WHERE  leavestructureid = @leaveStructureId 
                                    AND leavecomponentid = @leaveComponentId";
 
@@ -31,7 +31,7 @@ namespace Chef.HRMS.Repositories
                 using (Connection)
                 {
                     var sql = @"SELECT * 
-                                FROM   leavecomponentrestrictionsettings 
+                                FROM   hrms.leavecomponentrestrictionsettings 
                                 WHERE  leavestructureid = @leaveStructureId 
                                        AND leavecomponentid = @leaveComponentId";
 
