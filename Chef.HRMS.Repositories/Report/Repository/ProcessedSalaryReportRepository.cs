@@ -28,23 +28,23 @@ namespace Chef.HRMS.Repositories
                                    COALESCE(Q1.loanoradvance, 0) loanoradvance,
                                    COALESCE(Sum(ad.amount), 0)   adhocdeduction, 
                                    COALESCE(Sum(lp.emiamount), 0)   loanrepayment
-                            FROM   payrollbasiccomponent pb 
-                                   INNER JOIN payrollprocessingmethod ppm 
+                            FROM   hrms.payrollbasiccomponent pb 
+                                   INNER JOIN hrms.payrollprocessingmethod ppm 
                                            ON pb.payrollprocessingmethodid = ppm.id 
-                                   INNER JOIN paygroup pg 
+                                   INNER JOIN hrms.paygroup pg 
                                            ON pb.paygroupid = pg.id 
-                                   LEFT JOIN lopdeduction ld 
+                                   LEFT JOIN hrms.lopdeduction ld 
                                           ON pb.employeeid = ld.employeeid 
-                                   LEFT JOIN employeebonus eb 
+                                   LEFT JOIN hrms.employeebonus eb 
                                           ON ppm.id = eb.payrollprocessingmethodid 
-                                   LEFT JOIN adhocdeduction ad 
+                                   LEFT JOIN hrms.adhocdeduction ad 
                                           ON ppm.id = ad.payrollprocessingmethodid 
-                                   LEFT JOIN loanpayment lp 
+                                   LEFT JOIN hrms.loanpayment lp 
                                           ON ppm.id = lp.payrollprocessingmethodid 
                                    LEFT JOIN (SELECT pm.id                        pid, 
                                                      Sum(COALESCE(loanamount, 0)) loanoradvance 
-                                              FROM   loanrequest lr 
-                                                     INNER JOIN payrollprocessingmethod pm 
+                                              FROM   hrms.loanrequest lr 
+                                                     INNER JOIN hrms.payrollprocessingmethod pm 
                                                              ON 1 = 1 
                                               WHERE  (( Extract(month FROM expectedon) = pm.month )) 
                                                      AND ( Extract(year FROM expectedon) = pm.year ) 

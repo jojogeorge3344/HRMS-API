@@ -28,10 +28,10 @@ namespace Chef.HRMS.Repositories
                                    d.extension   AS extension, 
                                    d.NAME        AS filename, 
                                    d.path        AS path 
-                            FROM   pan p 
-                                   INNER JOIN pandocument pd 
+                            FROM   hrms.pan p 
+                                   INNER JOIN hrms.pandocument pd 
                                            ON p.id = pd.panid AND p.employeeid = @employeeId
-                                   INNER JOIN document d 
+                                   INNER JOIN hrms.document d 
                                            ON pd.documentid = d.id ";
 
                 return await Connection.QueryAsync<PANView>(sql, new { employeeId });

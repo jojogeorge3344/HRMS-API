@@ -36,10 +36,10 @@ namespace Chef.HRMS.Repositories
                                    C.extension    AS Extension, 
                                    C.NAME         AS FileName, 
                                    C.path         AS Path 
-                            FROM   passport A 
-                                   INNER JOIN passportdocument B 
+                            FROM   hrms.passport A 
+                                   INNER JOIN hrms.passportdocument B 
                                            ON A.id = B.passportid AND A.employeeid = @employeeId
-                                   INNER JOIN document C 
+                                   INNER JOIN hrms.document C 
                                            ON B.documentid = C.id ";
 
                 return await Connection.QueryAsync<PassportView>(sql, new { employeeId });

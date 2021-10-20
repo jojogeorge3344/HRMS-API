@@ -27,15 +27,15 @@ namespace Chef.HRMS.Repositories
                                            employeename, 
                                            employeecode, 
                                            Sum(COALESCE(monthlyamount, 0)) basic 
-                                    FROM   payrollbasiccomponent 
+                                    FROM   hrms.payrollbasiccomponent 
                                     WHERE  payrollprocessingmethodid = @payrollProcessingMethodId 
                                     GROUP  BY employeeid, 
                                               employeename, 
                                               employeecode)Q1 
                                    LEFT JOIN (SELECT eb.employeeid, 
                                                      Sum(COALESCE(eb.amount, 0)) bonus 
-                                              FROM   employeebonus eb 
-                                                     INNER JOIN payrollprocessingmethod ppm 
+                                              FROM   hrms.employeebonus eb 
+                                                     INNER JOIN hrms.payrollprocessingmethod ppm 
                                                              ON 1 = 1 
                                                                 AND ppm.id = @payrollProcessingMethodId 
                                               WHERE  eb.payrollprocessingmethodid = @payrollProcessingMethodId 
@@ -49,8 +49,8 @@ namespace Chef.HRMS.Repositories
                                           ON Q1.employeeid = Q2.employeeid 
                                    LEFT JOIN (SELECT lr.employeeid, 
                                                      Sum(COALESCE(loanamount, 0)) loanamount 
-                                              FROM   loanrequest lr 
-                                                     INNER JOIN payrollprocessingmethod pm 
+                                              FROM   hrms.loanrequest lr 
+                                                     INNER JOIN hrms.payrollprocessingmethod pm 
                                                              ON 1 = 1 
                                                                 AND pm.id = @payrollProcessingMethodId 
                                               WHERE  (( Extract(month FROM expectedon) = pm.month )) 
@@ -59,20 +59,20 @@ namespace Chef.HRMS.Repositories
                                           ON Q1.employeeid = Q3.employeeid 
                                    LEFT JOIN (SELECT employeeid, 
                                                      Sum(COALESCE(emiamount, 0)) emi 
-                                              FROM   loanpayment 
+                                              FROM   hrms.loanpayment 
                                               WHERE  payrollprocessingmethodid = @payrollProcessingMethodId 
                                               GROUP  BY employeeid)Q4 
                                           ON Q1.employeeid = Q4.employeeid 
                                    LEFT JOIN (SELECT employeeid, 
                                                      Sum(COALESCE(amount, 0)) deduction 
-                                              FROM   adhocdeduction 
+                                              FROM   hrms.adhocdeduction 
                                               WHERE  payrollprocessingmethodid = @payrollProcessingMethodId 
                                               GROUP  BY employeeid)Q5 
                                           ON Q1.employeeid = Q5.employeeid 
                                    LEFT JOIN(WITH cte (employeeid, ppm) 
 										 AS (SELECT employeeid, 
 													payrollprocessingmethodid 
-											 FROM   leaveandattendance 
+											 FROM   hrms.leaveandattendance 
 											 WHERE  payrollprocessingmethodid = @payrollProcessingMethodId 
 											 GROUP  BY employeeid, 
 													   payrollprocessingmethodid) 
@@ -105,7 +105,7 @@ namespace Chef.HRMS.Repositories
                                                     payrollcomponentname, 
                                                     shortcode, 
                                                     monthlyamount 
-                                             FROM   payrollbasiccomponent 
+                                             FROM   hrms.payrollbasiccomponent 
                                              WHERE  employeeid=@employeeId 
                                              AND    payrollprocessingmethodid=@payrollprocessingmethodId 
                                       )SELECT   * 
@@ -120,10 +120,10 @@ namespace Chef.HRMS.Repositories
                                                                 'NA' AS remarks, 
                                                                 COALESCE(amount, 0) 
                                                          FROM   employeebonus eb 
-                                                                INNER JOIN bonustype bt 
+                                                                INNER JOIN hrms.bonustype bt 
                                                                         ON eb.bonustypeid = bt.id 
                                                                            AND eb.employeeid = @employeeId 
-                                                                INNER JOIN payrollprocessingmethod pm 
+                                                                INNER JOIN hrms.payrollprocessingmethod pm 
                                                                         ON 1 = 1 
                                                                            AND pm.id = @payrollprocessingmethodId 
                                                          WHERE  ( eb.payrollprocessingmethodid = @payrollprocessingmethodId 
@@ -151,8 +151,8 @@ namespace Chef.HRMS.Repositories
                                                                              END AS NAME, 
                                                                              loanno, 
                                                                              COALESCE(loanamount, 0) 
-                                                                  FROM       loanrequest lr 
-                                                                  INNER JOIN payrollprocessingmethod pm 
+                                                                  FROM       hrms.loanrequest lr 
+                                                                  INNER JOIN hrms.payrollprocessingmethod pm 
                                                                   ON         1=1 
                                                                   AND        pm.id=@payrollprocessingmethodId 
                                                                   WHERE      (( 
@@ -177,7 +177,7 @@ namespace Chef.HRMS.Repositories
                                                                         deductionname, 
                                                                         'NA' AS description, 
                                                                         COALESCE(amount, 0) 
-                                                                 FROM   adhocdeduction 
+                                                                 FROM   hrms.adhocdeduction 
                                                                  WHERE  employeeid = @employeeId 
                                                                  AND    payrollprocessingmethodid = @payrollprocessingmethodId 
                                                           )SELECT * 
@@ -200,7 +200,7 @@ namespace Chef.HRMS.Repositories
                                                                            END AS NAME, 
                                                                            loanno, 
                                                                            COALESCE(emiamount, 0) 
-                                                                    FROM   loanpayment 
+                                                                    FROM   hrms.loanpayment 
                                                                     WHERE  employeeid = @employeeId 
                                                                     AND    payrollprocessingmethodid = @payrollprocessingmethodId 
                                                              )SELECT * 
@@ -221,8 +221,8 @@ namespace Chef.HRMS.Repositories
                     var month = payrollProcessingMethod.Month;
 
                     var getEmp = @"SELECT distinct *
-							                            FROM payrollprocessingmethod  pm
-							                            INNER JOIN jobfiling jf
+							                            FROM hrms.payrollprocessingmethod  pm
+							                            INNER JOIN hrms.jobfiling jf
 							                            ON jf.paygroupid=pm.paygroupid
 							                            AND(year=@year AND month=@month)	
                                                         WHERE  jf.employeeid=@employeeId";
@@ -236,8 +236,8 @@ namespace Chef.HRMS.Repositories
                     else
                     {
                         var get = @"SELECT Distinct  ppm.id
-							                            FROM jobfiling  jf
-							                            INNER JOIN payrollprocessingmethod ppm
+							                            FROM hrms.jobfiling  jf
+							                            INNER JOIN hrms.payrollprocessingmethod ppm
 							                            ON jf.employeeid=ppm.employeeid
 							                            AND(year=@year AND month=@month)	
                                                         WHERE  jf.employeeid=@employeeId";

@@ -29,10 +29,10 @@ namespace Chef.HRMS.Repositories
                                    c.extension   AS extension, 
                                    c.NAME        AS filename, 
                                    c.path        AS path 
-                            FROM   uniqueidentificationdetail A 
-                                   INNER JOIN uniqueidentificationdocument B 
+                            FROM   hrms.uniqueidentificationdetail A 
+                                   INNER JOIN hrms.uniqueidentificationdocument B 
                                            ON a.id = b.uniqueidentificationdetailid AND a.employeeid = @employeeId
-                                   INNER JOIN document C 
+                                   INNER JOIN hrms.document C 
                                            ON b.documentid = c.id ";
 
                 return await Connection.QueryAsync<UniqueIdentificationDetailView>(sql, new { employeeId });

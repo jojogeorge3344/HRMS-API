@@ -35,26 +35,26 @@ namespace Chef.HRMS.Repositories
 									ot.name                           AS overtimepolicy,
 									pg.name                           AS paygroup,
 									jt.name                           AS jobtitle
-                            FROM employee AS e 
-                            INNER JOIN jobdetails AS jd 
+                            FROM hrms.employee AS e 
+                            INNER JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
-                            INNER JOIN jobfiling AS jf 
+                            INNER JOIN hrms.jobfiling AS jf 
                                     ON e.id = jf.employeeid
-							LEFT JOIN leavestructure AS ls 
+							LEFT JOIN hrms.leavestructure AS ls 
                                     ON ls.id = jf.leavestructureid
-							LEFT JOIN shift AS s 
+							LEFT JOIN hrms.shift AS s 
                                     ON s.id = jf.shiftid
-							LEFT JOIN holidaycategory AS hc 
+							LEFT JOIN hrms.holidaycategory AS hc 
                                     ON hc.id = jf.holidaycategoryid	
-							LEFT JOIN expensepolicy AS ep 
+							LEFT JOIN hrms.expensepolicy AS ep 
                                     ON ep.id = jf.expensepolicyid
-							LEFT JOIN payrollstructure AS ps 
+							LEFT JOIN hrms.payrollstructure AS ps 
                                     ON ps.id = jf.payrollstructureid
-							LEFT JOIN overtimepolicy AS ot 
+							LEFT JOIN hrms.overtimepolicy AS ot 
                                     ON ot.id = jf.overtimepolicyid
-							LEFT JOIN paygroup AS pg 
+							LEFT JOIN hrms.paygroup AS pg 
                                     ON pg.id = jf.paygroupid
-							LEFT JOIN jobtitle AS jt 
+							LEFT JOIN hrms.jobtitle AS jt 
                                     ON jt.id = jd.jobtitleid		
                             ORDER BY e.id
 							OFFSET {offSet} LIMIT 10";

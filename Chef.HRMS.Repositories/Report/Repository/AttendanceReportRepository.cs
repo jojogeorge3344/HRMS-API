@@ -29,14 +29,14 @@ namespace Chef.HRMS.Repositories
                                              Concat(To_char(endtime - starttime, 'HH:MI'), ' hrs')    AS workinghours,
                                              'WFH'                                                    AS attendancetype
  
-                             FROM   employee e 
-                                    INNER JOIN jobdetails jb 
+                             FROM   hrms.employee e 
+                                    INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
-                                    INNER JOIN workfromhome wfh 
+                                    INNER JOIN hrms.workfromhome wfh 
                                             ON e.id = wfh.employeeid 
-                                    INNER JOIN jobfiling jf
+                                    INNER JOIN hrms.jobfiling jf
                                             ON e.id=jf.employeeid
-                                    INNER JOIN  shift s
+                                    INNER JOIN  hrms.shift s
                                             ON  s.id = jf.shiftid 
                              WHERE  wfh.fromdate :: date >= @fromdate 
                                     AND wfh.todate :: date <=@todate) 
@@ -53,14 +53,14 @@ namespace Chef.HRMS.Repositories
                                               concat(to_char(format('%s:%s', round(extract('epoch' FROM checkouttime - checkintime) / 3600), to_char(checkouttime - checkintime, 'MI')) :: interval, 'HH24:MI'), ' hrs') AS workinghours,
                                              
                                             'Regular'                                                AS attendancetype 
-                             FROM   employee e 
-                                    INNER JOIN jobdetails jb 
+                             FROM   hrms.employee e 
+                                    INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
-                                    INNER JOIN regularlogin cio 
+                                    INNER JOIN hrms.regularlogin cio 
                                             ON e.id = cio.employeeid
-							        INNER JOIN jobfiling jf
+							        INNER JOIN hrms.jobfiling jf
                                             ON e.id=jf.employeeid
-                                    INNER JOIN  shift s
+                                    INNER JOIN  hrms.shift s
                                             ON  s.id = jf.shiftid 
                              WHERE  NOT cio.isremotelogin 
                                     AND cio.checkintime :: date >= @fromdate 
@@ -77,14 +77,14 @@ namespace Chef.HRMS.Repositories
 							                 s.name                                                   AS shift,
                                              Concat(To_char(endtime - starttime, 'HH:MI'), ' hrs')    AS workinghours,
                                              'Remote'                                                 AS attendancetype 
-                             FROM   employee e 
-                                    INNER JOIN jobdetails jb 
+                             FROM   hrms.employee e 
+                                    INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
-                                    INNER JOIN regularlogin cio 
+                                    INNER JOIN hrms.regularlogin cio 
                                             ON e.id = cio.employeeid 
-							         INNER JOIN jobfiling jf
+							         INNER JOIN hrms.jobfiling jf
                                             ON e.id=jf.employeeid
-                                    INNER JOIN  shift s
+                                    INNER JOIN  hrms.shift s
                                             ON  s.id = jf.shiftid 
                              WHERE  cio.isremotelogin 
                                     AND cio.checkintime :: date >= @fromdate 
@@ -101,14 +101,14 @@ namespace Chef.HRMS.Repositories
 							                 s.name                                                   AS shift,
                                              Concat(To_char(endtime - starttime, 'HH:MI'), ' hrs')    AS workinghours,
                                              'On Duty'                                                AS attendancetype 
-                             FROM   employee e 
-                                    INNER JOIN jobdetails jb 
+                             FROM   hrms.employee e 
+                                    INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
-                                    INNER JOIN onduty od 
+                                    INNER JOIN hrms.onduty od 
                                             ON e.id = od.employeeid 
-							         INNER JOIN jobfiling jf
+							         INNER JOIN hrms.jobfiling jf
                                             ON e.id=jf.employeeid
-                                    INNER JOIN  shift s
+                                    INNER JOIN  hrms.shift s
                                             ON  s.id = jf.shiftid 
                              WHERE  od.fromdate :: date >= @fromdate 
                                     AND od.todate :: date <= @todate) 

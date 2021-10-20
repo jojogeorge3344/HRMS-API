@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT payrollcomponentid 
-                                    FROM PUBLIC.payrollcomponentconfiguration
+                                    FROM hrms.payrollcomponentconfiguration
                                     ORDER  BY payrollcomponentid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -27,7 +27,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * FROM  payrollcomponent WHERE payrollcomponenttype = @payrollComponentType";
+                var sql = "SELECT * FROM  hrms.payrollcomponent WHERE payrollcomponenttype = @payrollComponentType";
 
                 return await Connection.QueryAsync<PayrollComponent>(sql, new { payrollComponentType });
             }
@@ -37,7 +37,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * FROM  payrollcomponent order by payrollcomponenttype";
+                var sql = "SELECT * FROM  hrms.payrollcomponent order by payrollcomponenttype";
 
                 return await Connection.QueryAsync<PayrollComponent>(sql);
             }

@@ -40,23 +40,23 @@ namespace Chef.HRMS.Repositories
                                             esd.yearlyamount                      AS yearlyamount, 
                                             es.effectivedate                      AS effectivedate, 
                                             es.version                            AS version 
-                            FROM   employeesalaryconfiguration es 
-                                   INNER JOIN employeesalaryconfigurationdetails esd 
+                            FROM   hrms.employeesalaryconfiguration es 
+                                   INNER JOIN hrms.employeesalaryconfigurationdetails esd 
                                            ON esd.employeesalaryconfigurationid = es.id 
-                                   INNER JOIN payrollcalculation pcalc 
+                                   INNER JOIN hrms.payrollcalculation pcalc 
                                            ON pcalc.id = esd.payrollcalculationid 
-                                   INNER JOIN payrollcomponent pc 
+                                   INNER JOIN hrms.payrollcomponent pc 
                                            ON pc.id = pcalc.payrollcomponentid 
-                                   INNER JOIN payrollstructure ps 
+                                   INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
-                                   INNER JOIN employee e 
+                                   INNER JOIN hrms.employee e 
                                            ON e.id = es.employeeid 
-                                   INNER JOIN jobfiling jf 
+                                   INNER JOIN hrms.jobfiling jf 
                                            ON jf.employeeid = e.id 
-                                   INNER JOIN jobdetails jd 
+                                   INNER JOIN hrms.jobdetails jd 
                                            ON jd.employeeid = e.id 
                             WHERE  jf.paygroupid = @paygoupId 
-                             AND (e.id NOT IN(Select ppm.employeeid from payrollprocessingmethod ppm where( ppm.month=@month 
+                             AND (e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm where( ppm.month=@month 
                                                         AND
 													     ppm.year=@year)) )";
 
@@ -78,7 +78,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"SELECT * FROM payrollbasiccomponent WHERE payrollProcessingMethodId = @payrollProcessingMethodId ";
+                var sql = @"SELECT * FROM hrms.payrollbasiccomponent WHERE payrollProcessingMethodId = @payrollProcessingMethodId ";
 
                 return await Connection.QueryAsync<PayrollBasicComponent>(sql, new { payrollProcessingMethodId });
             }
@@ -89,7 +89,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT * 
-                            FROM   payrollbasiccomponent 
+                            FROM   hrms.payrollbasiccomponent 
                             WHERE  employeeId = @employeeId
                                    AND payrollProcessingMethodid=@payrollProcessingMethodId";
                 return await Connection.QueryAsync<PayrollBasicComponent>(sql, new { employeeId, payrollProcessingMethodId });
@@ -122,21 +122,21 @@ namespace Chef.HRMS.Repositories
                                             esd.yearlyamount                      AS yearlyamount, 
                                             es.effectivedate                      AS effectivedate, 
                                             es.version                            AS version 
-                            FROM   employeesalaryconfiguration es 
-                                   INNER JOIN employeesalaryconfigurationdetails esd 
+                            FROM   hrms.employeesalaryconfiguration es 
+                                   INNER JOIN hrms.employeesalaryconfigurationdetails esd 
                                            ON esd.employeesalaryconfigurationid = es.id 
                                               AND esd.employeeid = @employeeId 
-                                   INNER JOIN payrollcalculation pcalc 
+                                   INNER JOIN hrms.payrollcalculation pcalc 
                                            ON pcalc.id = esd.payrollcalculationid 
-                                   INNER JOIN payrollcomponent pc 
+                                   INNER JOIN hrms.payrollcomponent pc 
                                            ON pc.id = pcalc.payrollcomponentid 
-                                   INNER JOIN payrollstructure ps 
+                                   INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
-                                   INNER JOIN employee e 
+                                   INNER JOIN hrms.employee e 
                                            ON e.id = es.employeeid 
-                                   INNER JOIN jobfiling jf 
+                                   INNER JOIN hrms.jobfiling jf 
                                            ON jf.employeeid = e.id 
-                                   INNER JOIN jobdetails jd 
+                                   INNER JOIN hrms.jobdetails jd 
                                            ON jd.employeeid = e.id ";
 
                 return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { employeeId });
@@ -150,7 +150,7 @@ namespace Chef.HRMS.Repositories
                 if (payrollBasicComponents.Select(x => x.PayGroupId).FirstOrDefault() == 0)
                 {
                     var employeeId = payrollBasicComponents.Select(x => x.EmployeeId).FirstOrDefault();
-                    var getEmp = "SELECT paygroupid from jobfiling where employeeid=@employeeId";
+                    var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
                     int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
                     if (data != 0)
                     {

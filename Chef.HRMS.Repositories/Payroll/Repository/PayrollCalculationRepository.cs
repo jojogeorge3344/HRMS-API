@@ -28,12 +28,12 @@ namespace Chef.HRMS.Repositories
                                             END            AS isfixed, 
                                             pcalc.iscomputed,
                                             pcalc.formula 
-                            FROM   payrollstructure ps 
-                                   INNER JOIN payrollcomponentconfiguration pc 
+                            FROM   hrms.payrollstructure ps 
+                                   INNER JOIN hrms.payrollcomponentconfiguration pc 
                                            ON ps.id = pc.payrollstructureid 
-                                   INNER JOIN payrollcomponent pcmp 
+                                   INNER JOIN hrms.payrollcomponent pcmp 
                                            ON pc.payrollcomponentid = pcmp.id 
-                                   LEFT JOIN payrollcalculation pcalc 
+                                   LEFT JOIN hrms.payrollcalculation pcalc 
                                           ON pcmp.id = pcalc.payrollcomponentid 
                                           AND ps.id=pcalc.payrollstructureid  
                             GROUP  BY ps.id, 
@@ -63,15 +63,15 @@ namespace Chef.HRMS.Repositories
                                             pcalc.iscomputed, 
                                             pcalc.formula, 
                                             pc.maximumlimit 
-                            FROM   payrollstructure ps 
-                                   INNER JOIN jobfiling jf 
+                            FROM   hrms.payrollstructure ps 
+                                   INNER JOIN hrms.jobfiling jf 
                                            ON ps.id = jf.payrollstructureid 
                                               AND jf.employeeid = @employeeid 
-                                   INNER JOIN payrollcomponentconfiguration pc 
+                                   INNER JOIN hrms.payrollcomponentconfiguration pc 
                                            ON ps.id = pc.payrollstructureid 
-                                   INNER JOIN payrollcomponent pcmp 
+                                   INNER JOIN hrms.payrollcomponent pcmp 
                                            ON pc.payrollcomponentid = pcmp.id 
-                                   LEFT JOIN payrollcalculation pcalc 
+                                   LEFT JOIN hrms.payrollcalculation pcalc 
                                           ON pcmp.id = pcalc.payrollcomponentid 
                                           AND ps.id=pcalc.payrollstructureid  
                             GROUP  BY ps.id, 
@@ -89,7 +89,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * from payrollcalculation where payrollstructureid=@id";
+                var sql = "SELECT * from hrms.payrollcalculation where payrollstructureid=@id";
 
                 return await Connection.QueryAsync<PayrollCalculation>(sql, new { id });
             }

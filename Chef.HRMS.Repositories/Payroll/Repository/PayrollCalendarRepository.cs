@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "select exists(select 1 from payrollcalendar where (lower(name))=(lower(@name)))";
+                var sql = "select exists(select 1 from hrms.payrollcalendar where (lower(name))=(lower(@name)))";
 
                 return await Connection.QueryFirstOrDefaultAsync<bool>(sql, new { name });
             }
@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT payrollcalendarid 
-                                    FROM PUBLIC.paygroup
+                                    FROM hrms.paygroup
                                     ORDER  BY payrollcalendarid ASC";
 
                 return await Connection.QueryAsync<int>(sql);

@@ -28,16 +28,16 @@ namespace Chef.HRMS.Repositories
                                                                sum(monthlyamount) AS total, 
                                                                sum(eb.amount)        bonus, 
                                                                es.effectivedate 
-                                                    FROM       payrollbasiccomponent pb 
-                                                    INNER JOIN employeesalaryconfiguration es 
+                                                    FROM       hrms.payrollbasiccomponent pb 
+                                                    INNER JOIN hrms.employeesalaryconfiguration es 
                                                     ON         pb.employeeid=es.employeeid 
-                                                    LEFT JOIN  employeebonus eb 
+                                                    LEFT JOIN  hrms.employeebonus eb 
                                                     ON         eb.employeeid = pb.employeeid 
                                                     AND        ( 
                                                                           extract(month FROM eb.disburseon) = @month 
                                                                AND        ( 
                                                                                      extract(year FROM eb.disburseon) = @year)) 
-                                                    INNER JOIN payrollprocessingmethod pp 
+                                                    INNER JOIN hrms.payrollprocessingmethod pp 
                                                     ON         pb.payrollprocessingmethodid=pp.id 
                                                     WHERE      pp.month=@month 
                                                     AND        pp.year=@year

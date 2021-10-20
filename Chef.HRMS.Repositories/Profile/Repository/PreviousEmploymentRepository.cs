@@ -29,10 +29,10 @@ namespace Chef.HRMS.Repositories
                                    d.extension       AS extension, 
                                    d.NAME            AS filename, 
                                    d.path            AS path 
-                            FROM   previousemployment p 
-                                   INNER JOIN previousemploymentdocument pd 
+                            FROM   hrms.previousemployment p 
+                                   INNER JOIN hrms.previousemploymentdocument pd 
                                            ON p.id = pd.previousemploymentid AND p.employeeid = @employeeId
-                                   INNER JOIN document d 
+                                   INNER JOIN hrms.document d 
                                            ON pd.documentid = d.id ";
 
                 return await Connection.QueryAsync<PreviousEmploymentView>(sql, new { employeeId });

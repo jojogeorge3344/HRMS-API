@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT DISTINCT paygroupid 
-                                    FROM PUBLIC.jobfiling
+                                    FROM hrms.jobfiling
                                     ORDER  BY paygroupid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
@@ -32,12 +32,12 @@ namespace Chef.HRMS.Repositories
                                    jd.employeenumber AS employeenumber, 
                                    Concat (e.firstname, ' ', e.lastname)     AS FirstName 
                             FROM   employee e 
-                                   INNER JOIN jobdetails jd 
+                                   INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
-                                   INNER JOIN jobfiling jf 
+                                   INNER JOIN hrms.jobfiling jf 
                                            ON jd.employeeid = jf.employeeid 
                                               AND jf.paygroupid = @paygroupId
-                                               WHERE (e.id NOT IN(Select ppm.employeeid from payrollprocessingmethod ppm where( ppm.month=@month 
+                                               WHERE (e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm where( ppm.month=@month 
                                                         AND
 													     ppm.year=@year)) )";
 

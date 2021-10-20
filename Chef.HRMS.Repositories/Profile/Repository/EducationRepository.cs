@@ -30,10 +30,10 @@ namespace Chef.HRMS.Repositories
                                    d.extension        AS extension, 
                                    d.NAME             AS filename, 
                                    d.path             AS path 
-                            FROM   education e 
-                                   INNER JOIN educationdocument ed 
+                            FROM   hrms.education e 
+                                   INNER JOIN hrms.educationdocument ed 
                                            ON e.id = ed.educationid AND e.employeeid = @employeeId
-                                   INNER JOIN document d 
+                                   INNER JOIN hrms.document d 
                                            ON ed.documentid = d.id";
 
                 return await Connection.QueryAsync<EducationView>(sql, new { employeeId });

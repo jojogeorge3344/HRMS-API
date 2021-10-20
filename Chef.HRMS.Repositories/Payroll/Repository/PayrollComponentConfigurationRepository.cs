@@ -18,7 +18,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * FROM  payrollcomponentconfiguration WHERE payrollstructureid = @payrollStructureId";
+                var sql = "SELECT * FROM  hrms.payrollcomponentconfiguration WHERE payrollstructureid = @payrollStructureId";
 
                 return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollStructureId });
             }
@@ -46,7 +46,7 @@ namespace Chef.HRMS.Repositories
                         if (result != 0)
                         {
                             var payrollStructureId = payrollComponentConfiguration.Select(x => x.PayrollStructureId).FirstOrDefault();
-                            var sqlnew = @"UPDATE public.payrollstructure
+                            var sqlnew = @"UPDATE hrms.payrollstructure
 	                                              SET isconfigured=false
 	                                               WHERE id=@payrollStructureId";
                             await Connection.ExecuteAsync(sqlnew, new { payrollStructureId });

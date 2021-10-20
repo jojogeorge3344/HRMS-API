@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                string sql = @"SELECT * FROM employeebankaccount 
+                string sql = @"SELECT * FROM hrms.employeebankaccount 
                                         WHERE employeeid=@employeeId";
 
                 return await Connection.QueryFirstOrDefaultAsync<EmployeeBankAccount>(sql, new { employeeId });

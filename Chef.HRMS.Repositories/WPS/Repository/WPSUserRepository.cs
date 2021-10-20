@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = "SELECT * FROM  WPSUser WHERE employeeid = @employeeId  ORDER BY id";
+                var sql = "SELECT * FROM  hrms.WPSUser WHERE employeeid = @employeeId  ORDER BY id";
 
                 return await Connection.QueryAsync<WPSUser>(sql, new { employeeId });
             }

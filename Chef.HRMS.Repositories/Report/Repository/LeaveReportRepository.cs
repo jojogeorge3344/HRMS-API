@@ -27,14 +27,14 @@ namespace Chef.HRMS.Repositories
                                    l.createddate appliedon, 
                                    ( Concat(em.firstname, ' ', em.lastname) ) approvedby, 
                                    l.approveddate :: DATE                     approvedon 
-                            FROM   leave l 
-                                   inner join jobdetails jd 
+                            FROM   hrms.leave l 
+                                   inner join hrms.jobdetails jd 
                                            ON l.employeeid = jd.employeeid 
-                                   inner join leavecomponent lc 
+                                   inner join hrms.leavecomponent lc 
                                            ON l.leavecomponentid = lc.id 
-                                   inner join employee e 
+                                   inner join hrms.employee e 
                                            ON l.employeeid = e.id 
-                                   inner join employee em 
+                                   inner join hrms.employee em 
                                            ON l.approvedby = em.id 
                             ORDER BY   l.employeeid offset {offSet} limit 10";
 

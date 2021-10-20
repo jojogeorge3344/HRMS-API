@@ -30,10 +30,10 @@ namespace Chef.HRMS.Repositories
                                    jb.employeenumber, 
                                    jb.dateofjoin, 
                                    jb.noticeperiod 
-                            FROM   employee AS e 
-                                   LEFT JOIN jobdetails AS jb 
+                            FROM   hrms.employee AS e 
+                                   LEFT JOIN hrms.jobdetails AS jb 
                                           ON e.id = jb.employeeid 
-                                   LEFT JOIN jobfiling AS jf 
+                                   LEFT JOIN hrms.jobfiling AS jf 
                                           ON e.id = jf.employeeid
                                     where e.id=@employeeId";
 

@@ -30,16 +30,16 @@ namespace Chef.HRMS.Repositories
                                            jd.employeenumber                                  employeecode, 
                                            jf.weekoff, 
                                            Count(h.date) numberOfholidays 
-                                    FROM   employee e 
-                                           INNER JOIN jobfiling jf 
+                                    FROM   hrms.employee e 
+                                           INNER JOIN hrms.jobfiling jf 
                                                    ON e.id = jf.employeeid 
                                                       AND jf.paygroupid = @paygroupId 
-                                           INNER JOIN jobdetails jd 
+                                           INNER JOIN hrms.jobdetails jd 
                                                    ON e.id = jd.employeeid 
-                                           LEFT JOIN holiday h 
+                                           LEFT JOIN hrms.holiday h 
                                                   ON jf.holidaycategoryid = h.holidaycategoryid 
                                                      AND ( h.date BETWEEN @fromDate AND @toDate ) 
-                                          WHERE e.id NOT IN(Select ppm.employeeid from payrollprocessingmethod ppm where((extract(month FROM @fromDate) = ppm.month)
+                                          WHERE e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm where((extract(month FROM @fromDate) = ppm.month)
                                                         AND
 													    (extract(year FROM @fromDate) = ppm.year)) )
                                     GROUP  BY e.id, 
@@ -48,8 +48,8 @@ namespace Chef.HRMS.Repositories
                                     ORDER  BY e.id)Q1 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*) total 
-                                              FROM   jobfiling jf 
-                                                     LEFT JOIN regularlogin rl 
+                                              FROM   hrms.jobfiling jf 
+                                                     LEFT JOIN hrms.regularlogin rl 
                                                             ON jf.employeeid = rl.employeeid 
                                                                AND jf.paygroupid = @paygroupId 
                                               WHERE  rl.checkintime BETWEEN @fromDate AND @toDate 
@@ -57,8 +57,8 @@ namespace Chef.HRMS.Repositories
                                               UNION 
                                               SELECT jf.employeeid, 
                                                      Count(*) total 
-                                              FROM   jobfiling jf 
-                                                     LEFT JOIN workfromhome wfh 
+                                              FROM   hrms.jobfiling jf 
+                                                     LEFT JOIN hrms.workfromhome wfh 
                                                             ON jf.employeeid = wfh.employeeid 
                                                                AND jf.paygroupid = @paygroupId 
                                               WHERE  wfh.fromdate >= @fromDate 
@@ -67,8 +67,8 @@ namespace Chef.HRMS.Repositories
                                               UNION 
                                               SELECT jf.employeeid, 
                                                      Count(*) total 
-                                              FROM   jobfiling jf 
-                                                     LEFT JOIN onduty od 
+                                              FROM   hrms.jobfiling jf 
+                                                     LEFT JOIN hrms.onduty od 
                                                             ON jf.employeeid = od.employeeid 
                                                                AND jf.paygroupid = @paygroupId 
                                               WHERE  od.fromdate >= @fromDate 
@@ -77,11 +77,11 @@ namespace Chef.HRMS.Repositories
                                           ON Q1.employeeid = Q2.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*)applied 
-                                              FROM   jobfiling jf 
-                                                     LEFT JOIN leave l 
+                                              FROM   hrms.jobfiling jf 
+                                                     LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
                                                                AND jf.paygroupid = @paygroupId 
-                                                     INNER JOIN leavecomponent lc 
+                                                     INNER JOIN hrms.leavecomponent lc 
                                                              ON l.leavecomponentid = lc.id 
                                               WHERE  l.fromdate >= @fromDate 
                                                      AND l.todate <= @toDate 
@@ -89,11 +89,11 @@ namespace Chef.HRMS.Repositories
                                           ON Q1.employeeid = Q3.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*)lop 
-                                              FROM   jobfiling jf 
-                                                     LEFT JOIN leave l 
+                                              FROM   hrms.jobfiling jf 
+                                                     LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
                                                                AND jf.paygroupid = @paygroupId 
-                                                     INNER JOIN leavecomponent lc 
+                                                     INNER JOIN hrms.leavecomponent lc 
                                                              ON l.leavecomponentid = lc.id 
                                               WHERE  ( l.fromdate >= @fromDate 
                                                        AND l.todate <= @toDate ) 
@@ -102,11 +102,11 @@ namespace Chef.HRMS.Repositories
                                           ON Q1.employeeid = Q4.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*)pending 
-                                              FROM   jobfiling jf 
-                                                     LEFT JOIN leave l 
+                                              FROM   hrms.jobfiling jf 
+                                                     LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
                                                                AND jf.paygroupid = @paygroupId 
-                                                     INNER JOIN leavecomponent lc 
+                                                     INNER JOIN hrms.leavecomponent lc 
                                                              ON l.leavecomponentid = lc.id 
                                               WHERE  ( l.fromdate >= @fromDate 
                                                        AND l.todate <= @toDate ) 
@@ -115,11 +115,11 @@ namespace Chef.HRMS.Repositories
                                           ON Q1.employeeid = Q5.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*)approved 
-                                              FROM   jobfiling jf 
-                                                     LEFT JOIN leave l 
+                                              FROM   hrms.jobfiling jf 
+                                                     LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
                                                                AND jf.paygroupid = @paygroupId 
-                                                     INNER JOIN leavecomponent lc 
+                                                     INNER JOIN hrms.leavecomponent lc 
                                                              ON l.leavecomponentid = lc.id 
                                               WHERE  ( l.fromdate >= @fromDate 
                                                        AND l.todate <= @toDate ) 
@@ -145,10 +145,10 @@ namespace Chef.HRMS.Repositories
                                             lc.description AS leavetype, 
                                             l.approvedby   AS approvedby,
                                             e.firstname    AS approver
-                            FROM            leave l 
-                            INNER JOIN      leavecomponent lc 
+                            FROM            hrms.leave l 
+                            INNER JOIN      hrms.leavecomponent lc 
                             ON              lc.id = l.leavecomponentid 
-                            INNER JOIN      employee e 
+                            INNER JOIN      hrms.employee e 
                             ON              l.approvedby = e.id 
                             WHERE           l.fromdate :: date >= @fromdate 
                             AND             l.todate ::   date <= @todate 
@@ -180,10 +180,10 @@ namespace Chef.HRMS.Repositories
                                             l.isseconddaysecondhalf, 
                                             l.approvedby   AS approvedby, 
                                             e.firstname    AS approver 
-                            FROM   LEAVE l 
-                                   INNER JOIN leavecomponent lc 
+                            FROM   hrms.LEAVE l 
+                                   INNER JOIN hrms.leavecomponent lc 
                                            ON lc.id = l.leavecomponentid 
-                                   INNER JOIN employee e 
+                                   INNER JOIN hrms.employee e 
                                            ON l.approvedby = e.id 
                             WHERE  l.fromdate :: date >= @fromdate 
                                    AND l.todate :: date <= @todate 
@@ -205,33 +205,33 @@ namespace Chef.HRMS.Repositories
                                FROM   generate_series(@fromDate, @toDate, interval '1 day' day) actualdates 
                                WHERE  extract('ISODOW' FROM actualdates) BETWEEN 1 AND    5) 
                         SELECT actualdates 
-                        FROM   calendardays 
+                        FROM   hrms.calendardays 
                         WHERE  actualdates NOT IN (WITH markeddays AS 
                                                    ( 
                                                                    SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
-                                                                   FROM            onduty 
+                                                                   FROM            hrms.onduty 
                                                                    WHERE           employeeid = @employeeId 
                                                                    UNION 
                                                                    SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
-                                                                   FROM            workfromhome 
+                                                                   FROM            hrms.workfromhome 
                                                                    WHERE           employeeid = @employeeId 
                                                                    UNION 
                                                                    SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
-                                                                   FROM            leave 
+                                                                   FROM            hrms.leave 
                                                                    WHERE           employeeid = @employeeId 
                                                                    AND             leavestatus != 5 
                                                                    UNION 
                                                                    SELECT DISTINCT checkintime::date AS markeddates 
-                                                                   FROM            regularlogin 
+                                                                   FROM            hrms.regularlogin 
                                                                    WHERE           employeeid = @employeeId 
                                                                    UNION 
                                                                    SELECT     date::date AS markeddates 
-                                                                   FROM       holiday 
+                                                                   FROM       hrms.holiday 
                                                                    INNER JOIN jobfiling jf 
                                                                    ON         jf.holidaycategoryid = holiday.holidaycategoryid
                                                                    AND        jf.employeeid = @employeeId 
                                                                    WHERE      date BETWEEN @fromDate AND        @toDate)SELECT markeddates 
-                                        FROM   markeddays 
+                                        FROM   hrms.markeddays 
                                         WHERE  markeddates >= @fromDate 
                                         AND    markeddates <= @toDate )";
 
@@ -244,7 +244,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = @"SELECT Count(*) 
-                            FROM   jobfiling 
+                            FROM   hrms.jobfiling 
                             WHERE  paygroupid = @paygroupId ";
 
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql, new { paygroupId });
@@ -258,7 +258,7 @@ namespace Chef.HRMS.Repositories
                 if (leaveAndAttendances.Count() == 1)
                 {
                     var employeeId = leaveAndAttendances.Select(x => x.EmployeeId).FirstOrDefault();
-                    var getEmp = "SELECT paygroupid from jobfiling where employeeid=@employeeId";
+                    var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
                     int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
                     if (data != 0)
                     {
@@ -304,7 +304,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"SELECT * FROM leaveandattendance WHERE payrollProcessingMethodId = @payrollProcessingMethodId ";
+                var sql = @"SELECT * FROM hrms.leaveandattendance WHERE payrollProcessingMethodId = @payrollProcessingMethodId ";
 
                 return await Connection.QueryAsync<LeaveAndAttendance>(sql, new { payrollProcessingMethodId });
             }
@@ -314,7 +314,7 @@ namespace Chef.HRMS.Repositories
         {
             using (Connection)
             {
-                var sql = @"SELECT * FROM leaveandattendance WHERE employeeId=@employeeId AND payrollProcessingMethodId = @payrollProcessingMethodId ";
+                var sql = @"SELECT * FROM hrms.leaveandattendance WHERE employeeId=@employeeId AND payrollProcessingMethodId = @payrollProcessingMethodId ";
 
                 return await Connection.QueryFirstAsync<LeaveAndAttendance>(sql, new { employeeId, payrollProcessingMethodId });
             }
@@ -331,8 +331,8 @@ namespace Chef.HRMS.Repositories
                             UNION ALL 
                             SELECT     'holidaycount' AS type, 
                                        count(*)          holidaycount 
-                            FROM       holiday h 
-                            INNER JOIN jobfiling jf 
+                            FROM       hrms.holiday h 
+                            INNER JOIN hrms.jobfiling jf 
                             ON         h.holidaycategoryid=jf.holidaycategoryid 
                             AND        jf.employeeid=@employeeId 
                             WHERE      date BETWEEN @fromDate AND        @toDate 
@@ -341,7 +341,7 @@ namespace Chef.HRMS.Repositories
                                    sum(attendance) 
                             FROM   ( 
                                           SELECT count(*) AS attendance 
-                                          FROM   regularlogin 
+                                          FROM   hrms.regularlogin 
                                           WHERE  employeeid = @employeeId 
                                           AND    checkintime BETWEEN @fromDate AND    @toDate 
                                           UNION ALL 
@@ -353,11 +353,11 @@ namespace Chef.HRMS.Repositories
                                                               AS 
                                                               ( 
                                                                               SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days
-                                                                              FROM            onduty 
+                                                                              FROM            hrms.onduty 
                                                                               WHERE           employeeid = @employeeId 
                                                                               AND             isapproved=true 
                                                               )SELECT Count(*) AS attendance 
-                                              FROM   onduty 
+                                              FROM   hrms.onduty 
                                               WHERE  days BETWEEN @fromDate AND    @toDate) 
                                              UNION ALL 
                                                        ( 
@@ -368,11 +368,11 @@ namespace Chef.HRMS.Repositories
                                                                  AS 
                                                                  ( 
                                                                                  SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days
-                                                                                 FROM            workfromhome 
+                                                                                 FROM            hrms.workfromhome 
                                                                                  WHERE           employeeid = @employeeId 
                                                                                  AND             isapproved=true 
                                                                  )SELECT Count(*) AS attendance 
-                                                 FROM   workfromhome 
+                                                 FROM   hrms.workfromhome 
                                                  WHERE  days BETWEEN @fromDate AND    @toDate))q1 
                             UNION ALL 
                                       ( 
@@ -383,8 +383,8 @@ namespace Chef.HRMS.Repositories
                                                 AS 
                                                 ( 
                                                                 SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days
-                                                                FROM   leave l 
-                                                                       INNER JOIN leavecomponent lc 
+                                                                FROM   hrms.leave l 
+                                                                       INNER JOIN hrms.leavecomponent lc 
                                                                                ON l.leavecomponentid = lc.id 
                                                                                   AND lc.code = 'LOP' 
                                                                 WHERE  employeeid = @employeeid 
@@ -401,11 +401,11 @@ namespace Chef.HRMS.Repositories
                                                    AS 
                                                    ( 
                                                                    SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days
-                                                                   FROM            leave 
+                                                                   FROM            hrms.leave 
                                                                    WHERE           employeeid = @employeeId 
                                                    )SELECT 'appliedleave' AS type, 
                                           Count(*) 
-                                   FROM   appliedleave 
+                                   FROM   hrms.appliedleave 
                                    WHERE  days BETWEEN @fromDate AND    @toDate) 
                                   UNION ALL 
                                             ( 
@@ -418,11 +418,11 @@ namespace Chef.HRMS.Repositories
                                                       ( 
                                                                       SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days,
                                                                                       leavestatus 
-                                                                      FROM            leave 
+                                                                      FROM            hrms.leave 
                                                                       WHERE           employeeid = @employeeId 
                                                       )SELECT 'approvedleave' AS type, 
                                              Count(*) 
-                                      FROM   approvedleave 
+                                      FROM   hrms.approvedleave 
                                       WHERE  days BETWEEN @fromDate AND    @toDate 
                                       AND    leavestatus=3) 
                                      UNION ALL 
@@ -436,11 +436,11 @@ namespace Chef.HRMS.Repositories
                                                          ( 
                                                                          SELECT DISTINCT get_inbetween_workingdates(fromdate::date,todate::date) AS days,
                                                                                          leavestatus 
-                                                                         FROM            leave 
+                                                                         FROM            hrms.leave 
                                                                          WHERE           employeeid = @employeeId 
                                                          )SELECT 'UnApprovedleave' AS type, 
                                                 Count(*) 
-                                         FROM   unapprovedleave 
+                                         FROM   hrms.unapprovedleave 
                                          WHERE  days BETWEEN @fromDate AND    @toDate 
                                          AND    ( 
                                                        leavestatus=1 
