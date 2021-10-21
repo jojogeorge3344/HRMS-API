@@ -76,11 +76,7 @@ namespace Chef.HRMS.Repositories
 
                 query = new QueryBuilder<Holiday>().GenerateCreateTableQuery();
                 Connection.Execute(query);
-                fullQuery += query;
-
-                query = new QueryBuilder<Leave>().GenerateCreateTableQuery();
-                Connection.Execute(query);
-                fullQuery += query;
+                fullQuery += query;               
 
                 query = new QueryBuilder<LeaveComponent>().GenerateCreateTableQuery();
                 Connection.Execute(query);
@@ -102,7 +98,11 @@ namespace Chef.HRMS.Repositories
                 Connection.Execute(query);
                 fullQuery += query;
 
-                query = new QueryBuilder<Country>().GenerateCreateTableQuery();
+                query = new QueryBuilder<Leave>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+                /*query = new QueryBuilder<Country>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
 
@@ -114,19 +114,26 @@ namespace Chef.HRMS.Repositories
                 Connection.Execute(query);
                 fullQuery += query;
 
-                query = new QueryBuilder<Authentication>().GenerateCreateTableQuery();
-                Connection.Execute(query);
-                fullQuery += query;
+                //query = new QueryBuilder<Authentication>().GenerateCreateTableQuery();
+                //Connection.Execute(query);
+                //fullQuery += query;
 
                 //query = new QueryBuilder<Employee>().GenerateCreateTableQuery();
                 //Connection.Execute(query);
                 //fullQuery += query;
 
-                query = new QueryBuilder<JobDetails>().GenerateCreateTableQuery();
+                query = new QueryBuilder<Address>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;*/
+
+                query = new QueryBuilder<JobTitle>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+                query = new QueryBuilder<EmployeeNumberSeries>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
 
-                query = new QueryBuilder<JobFiling>().GenerateCreateTableQuery();
+                query = new QueryBuilder<JobDetails>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
 
@@ -134,11 +141,33 @@ namespace Chef.HRMS.Repositories
                 Connection.Execute(query);
                 fullQuery += query;
 
-                query = new QueryBuilder<EmployeeBonus>().GenerateCreateTableQuery();
+                query = new QueryBuilder<JobFiling>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
 
                 query = new QueryBuilder<BonusType>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+                query = new QueryBuilder<PayrollProcessingMethod>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+                query = new QueryBuilder<EmployeeBonus>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+                query = new QueryBuilder<PayrollComponent>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+                query = new QueryBuilder<PayrollStructure>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+                query = new QueryBuilder<PayrollCalculation>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+                query = new QueryBuilder<PayrollCalendar>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
 
@@ -155,10 +184,6 @@ namespace Chef.HRMS.Repositories
                 fullQuery += query;
 
                 query = new QueryBuilder<IdentityDocument>().GenerateCreateTableQuery();
-                Connection.Execute(query);
-                fullQuery += query;
-
-                query = new QueryBuilder<Address>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
 
@@ -202,18 +227,6 @@ namespace Chef.HRMS.Repositories
                 Connection.Execute(query);
                 fullQuery += query;
 
-                query = new QueryBuilder<PayrollStructure>().GenerateCreateTableQuery();
-                Connection.Execute(query);
-                fullQuery += query;
-
-                query = new QueryBuilder<PayrollComponent>().GenerateCreateTableQuery();
-                Connection.Execute(query);
-                fullQuery += query;
-
-                query = new QueryBuilder<PayrollCalculation>().GenerateCreateTableQuery();
-                Connection.Execute(query);
-                fullQuery += query;
-
                 query = new QueryBuilder<PayrollComponentConfiguration>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
@@ -254,13 +267,36 @@ namespace Chef.HRMS.Repositories
                 Connection.Execute(query);
                 fullQuery += query;
 
-                query = new QueryBuilder<PayrollProcessingMethod>().GenerateCreateTableQuery();
+                query = new QueryBuilder<PayGroup>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
 
                 query = new QueryBuilder<PayrollBasicComponent>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
+
+                query = new QueryBuilder<Chef.HRMS.Models.Role>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+                query = new QueryBuilder<RoleFeature>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+                query = new QueryBuilder<Chef.HRMS.Models.UserRole>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+
+                query = new QueryBuilder<Feature>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+                query = new QueryBuilder<SubFeature>().GenerateCreateTableQuery();
+                Connection.Execute(query);
+                fullQuery += query;
+
+
+
 
                 System.IO.File.WriteAllText(@"HRMSTableQuery.sql", fullQuery);
             }

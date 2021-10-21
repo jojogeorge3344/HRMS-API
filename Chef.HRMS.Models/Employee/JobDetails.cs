@@ -36,14 +36,14 @@ namespace Chef.HRMS.Models
         /// Holds company id
         /// </summary>
         [Required]
-        [ForeignKey("Company")]
+        [ForeignKey("HRMSCompany")]
         public int CompanyId { get; set; }
 
         /// <summary>
         /// Holds branch id
         /// </summary>
         [Required]
-        [ForeignKey("Branch")]
+        [ForeignKey("HRMSBranch")]
         public int BranchId { get; set; }
 
         /// <summary>

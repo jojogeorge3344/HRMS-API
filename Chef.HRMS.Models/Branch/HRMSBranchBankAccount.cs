@@ -10,7 +10,7 @@ namespace Chef.HRMS.Models
         /// Holds the branch Id
         /// </summary>
         [Required]
-        [ForeignKey("Branch")]
+        [ForeignKey("HRMSBranch")]
         public int BranchId { get; set; }
 
         /// <summary>
