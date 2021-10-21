@@ -63,6 +63,11 @@ namespace Chef.HRMS.Web
             });
             services.AddSignalR();
             services.AddScoped<DbSession>();
+            services.AddSwaggerGen(config =>
+            {
+                //some swagger configuration code.//use fully qualified object names
+                config.CustomSchemaIds(x => x.FullName);
+            });
             services.AddTransient<ISimpleUnitOfWork, SimpleUnitOfWork>();
             services.AddCors();
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
@@ -96,6 +101,10 @@ namespace Chef.HRMS.Web
             app.UseCors("CorsPolicy");
             app.UseCors(options =>
             options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
+            app.UseSwaggerUI();
 
             app.UseEndpoints(endpoints =>
             {
@@ -109,19 +118,21 @@ namespace Chef.HRMS.Web
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
+            app.MapWhen(x => !x.Request.Path.Value.StartsWith("/swagger"), builder =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
+                builder.UseSpa(spa =>
                 {
-                    spa.Options.StartupTimeout = new TimeSpan(0, 0, 80);
-                    spa.UseAngularCliServer(npmScript: "start");
-                    //spa.Options.StartupTimeout = TimeSpan.FromSeconds(200);
-                }
+                    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                    // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                    spa.Options.SourcePath = "ClientApp";
+
+                    if (env.IsDevelopment())
+                    {
+                        spa.UseAngularCliServer(npmScript: "start");
+                        spa.Options.StartupTimeout = TimeSpan.FromSeconds(200);
+                    }
+                });
             });
         }
     }
