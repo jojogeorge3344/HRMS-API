@@ -2,6 +2,7 @@
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Chef.HRMS.Repositories
             new Country{ Name = "Oman" }
         };
 
-        public TenantRepository(DbSession session) : base(session)
+        public TenantRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

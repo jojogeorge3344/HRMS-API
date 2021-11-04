@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollComponentRepository : GenericRepository<PayrollComponent>, IPayrollComponentRepository
     {
-        public PayrollComponentRepository(DbSession session) : base(session)
+        public PayrollComponentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
         public async Task<IEnumerable<int>> GetAllAssignedPayrollComponents()

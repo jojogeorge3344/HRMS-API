@@ -1,11 +1,12 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Chef.HRMS.Repositories
 {
     public class PayslipConfigurationRepository : GenericRepository<PayslipConfiguration>, IPayslipConfigurationRepository
     {
-        public PayslipConfigurationRepository(DbSession session) : base(session)
+        public PayslipConfigurationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
     }

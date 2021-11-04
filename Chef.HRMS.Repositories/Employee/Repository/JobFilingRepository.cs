@@ -1,13 +1,14 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
     public class JobFilingRepository : GenericRepository<JobFiling>, IJobFilingRepository
     {
-        public JobFilingRepository(DbSession session) : base(session)
+        public JobFilingRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

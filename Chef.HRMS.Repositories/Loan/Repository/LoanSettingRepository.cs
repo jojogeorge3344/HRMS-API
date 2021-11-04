@@ -1,13 +1,14 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories.Loan
 {
     public class LoanSettingRepository : GenericRepository<LoanSetting>, ILoanSettingRepository
     {
-        public LoanSettingRepository(DbSession session) : base(session)
+        public LoanSettingRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

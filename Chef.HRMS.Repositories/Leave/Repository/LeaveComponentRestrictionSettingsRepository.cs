@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveComponentRestrictionSettingsRepository : GenericRepository<LeaveComponentRestrictionSettings>, ILeaveComponentRestrictionSettingsRepositry
     {
-        public LeaveComponentRestrictionSettingsRepository(DbSession session) : base(session)
+        public LeaveComponentRestrictionSettingsRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

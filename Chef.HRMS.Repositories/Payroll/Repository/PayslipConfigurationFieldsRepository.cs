@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayslipConfigurationFieldsRepository : GenericRepository<PayslipConfigurationFields>, IPayslipConfigurationFieldsRepository
     {
-        public PayslipConfigurationFieldsRepository(DbSession session) : base(session)
+        public PayslipConfigurationFieldsRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

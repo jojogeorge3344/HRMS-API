@@ -1,13 +1,14 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
     public class WorkFromHomeSettingsRepository : GenericRepository<WorkFromHomeSettings>, IWorkFromHomeSettingsRepository
     {
-        public WorkFromHomeSettingsRepository(DbSession session) : base(session)
+        public WorkFromHomeSettingsRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

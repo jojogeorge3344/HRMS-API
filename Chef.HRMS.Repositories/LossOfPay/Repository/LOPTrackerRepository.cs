@@ -1,13 +1,14 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
     public class LOPTrackerRepository : GenericRepository<LOPTracker>, ILOPTrackerRepository
     {
-        public LOPTrackerRepository(DbSession session) : base(session)
+        public LOPTrackerRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Models;
 using Chef.Common.Repositories;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class StateRepository : GenericRepository<State>, IStateRepository
     {
-        public StateRepository(DbSession session) : base(session)
+        public StateRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
