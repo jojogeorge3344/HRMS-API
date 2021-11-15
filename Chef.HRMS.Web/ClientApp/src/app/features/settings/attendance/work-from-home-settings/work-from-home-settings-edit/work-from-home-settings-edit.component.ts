@@ -122,9 +122,9 @@ export class WorkFromHomeSettingsEditComponent implements OnInit {
       ]],
       priorDays: [0, [Validators.max(31), Validators.min(1)]],
       subsequentDays: [0, [Validators.max(31), Validators.min(1)]],
-      createdBy: [],
+      // createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
+      // modifiedBy: [this.currentUserId]
     });
   }
 }

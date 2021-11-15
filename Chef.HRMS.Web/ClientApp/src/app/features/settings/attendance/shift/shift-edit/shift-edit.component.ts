@@ -119,9 +119,9 @@ export class ShiftEditComponent implements OnInit {
       comments: [null, [
         Validators.maxLength(256)
       ]],
-      createdBy: [],
+      // createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
+      // modifiedBy: [this.currentUserId]
     }, { validators: durationValidator });
   }
 }

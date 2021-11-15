@@ -107,8 +107,8 @@ export class WorkFromHomeSettingsCreateComponent implements OnInit {
       periodType: [{ value: null, disabled: true }, [
         Validators.required
       ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      // createdBy: [this.currentUserId],
+      // modifiedBy: [this.currentUserId]
     });
   }
 }

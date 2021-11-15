@@ -49,8 +49,8 @@ export class EmployeeWebLoginCreateComponent implements OnInit {
         Validators.maxLength(64),
       ]],
       isRemoteLogin: [false],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      // createdBy: [this.currentUserId],
+      // modifiedBy: [this.currentUserId]
     });
   }
 
