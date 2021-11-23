@@ -39,7 +39,6 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     this.leaveConfigurationGeneralService.get(this.leaveStructureId, this.leaveComponentId).subscribe((result: any) => {
       if (result) {
         this.editForm.patchValue(result);
-        this.editForm.patchValue({ modifiedBy: this.currentUserId });
       }
     },
       error => {
@@ -96,9 +95,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
       negativeLeaveBalancesAtTheYearEnd: [0],
       leaveStructureId: [0],
       leaveComponentId: [0],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 }

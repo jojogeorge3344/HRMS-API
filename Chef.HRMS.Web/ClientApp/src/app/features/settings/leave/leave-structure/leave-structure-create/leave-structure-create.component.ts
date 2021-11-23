@@ -73,9 +73,7 @@ export class LeaveStructureCreateComponent implements OnInit {
       ]],
       showLeavePolicyExplanation: false,
       isCustomLeavePolicyDocumentAvailable: false,
-      customDocumentPath: [''],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      customDocumentPath: ['']
     });
   }
 }

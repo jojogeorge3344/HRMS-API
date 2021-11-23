@@ -388,9 +388,9 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       isFirstDayFirstHalf: [false],
       isFirstDaySecondHalf: [false],
       isSecondDayFirstHalf: [false],
-      isSecondDaySecondHalf: [false],
-      createdBy: [this.requestId],
-      modifiedBy: [this.requestId]
+      isSecondDaySecondHalf: [false]
+      // createdBy: [this.requestId],
+      // modifiedBy: [this.requestId]
     });
   }
 

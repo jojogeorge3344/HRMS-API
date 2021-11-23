@@ -48,8 +48,8 @@ namespace Chef.HRMS.Repositories
                 leaveComponentRestrictionSettings.CreatedDate = leaveComponentRestrictionSettings.ModifiedDate = DateTime.UtcNow;
                 leaveComponentRestrictionSettings.IsArchived = false;
                 var sql = new QueryBuilder<LeaveComponentRestrictionSettings>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
-                sql += " ON CONFLICT ON CONSTRAINT leavecomponentrestrictionsettings_pkey DO ";
+                sql = sql.Replace("RETURNING Id", " ");
+                sql += "ON CONFLICT ON CONSTRAINT leavecomponentrestrictionsettings_pkey DO ";
                 sql += new QueryBuilder<LeaveComponentRestrictionSettings>().GenerateUpdateQueryOnConflict();
 
                 return await Connection.ExecuteAsync(sql, leaveComponentRestrictionSettings);

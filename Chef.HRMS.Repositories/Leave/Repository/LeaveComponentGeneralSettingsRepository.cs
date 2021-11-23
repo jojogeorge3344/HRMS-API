@@ -43,12 +43,12 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertOrUpdateAsync(LeaveComponentGeneralSettings leaveComponentGeneralSettings)
         {
-            using (Connection)
-            {
+            //using (Connection)
+            //{
                 leaveComponentGeneralSettings.CreatedDate = leaveComponentGeneralSettings.ModifiedDate = DateTime.UtcNow;
                 leaveComponentGeneralSettings.IsArchived = false;
                 var sql = new QueryBuilder<LeaveComponentGeneralSettings>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+                sql = sql.Replace("RETURNING Id", " ");
                 sql += " ON CONFLICT ON CONSTRAINT leavecomponentgeneralsettings_pkey DO ";
                 sql += new QueryBuilder<LeaveComponentGeneralSettings>().GenerateUpdateQueryOnConflict();
                 var result = await Connection.ExecuteAsync(sql, leaveComponentGeneralSettings);
@@ -64,35 +64,35 @@ namespace Chef.HRMS.Repositories
 
                 }
                 return result;
-            }
+            //}
         }
 
         public async Task<int> SetLeaveStructureIsConfigured(int leaveStructureId)
         {
-            using (Connection)
-            {
-                try
-                {
-                    var sql = @"SELECT hrms.setleavestructureisconfigured(@leaveStructureId)";
-                    var result = await Connection.ExecuteAsync(sql, new { leaveStructureId });
-                    if (result == -1)
+                //using (Connection)
+                //{
+                    try
+                    {
+                        var sql = @"SELECT hrms.setleavestructureisconfigured(@leaveStructureId)";
+                        var result = await Connection.ExecuteAsync(sql, new { leaveStructureId });
+                        if (result == -1)
+                        {
+
+                            return 1;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+
+                    }
+                    catch (Exception ex)
                     {
 
-                        return 1;
+                        throw ex;
                     }
-                    else
-                    {
-                        return 0;
-                    }
-
-                }
-                catch (Exception ex)
-                {
-
-                    throw ex;
-                }
-
-            }
+                //}
         }
+        
     }
 }

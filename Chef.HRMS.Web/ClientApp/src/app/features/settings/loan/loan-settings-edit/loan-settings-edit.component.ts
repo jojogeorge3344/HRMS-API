@@ -58,7 +58,6 @@ export class LoanSettingsEditComponent implements OnInit {
   getLoanSettings() {
     this.loanSettingsService.get().subscribe((result: LoanSettings) => {      
       this.editForm.patchValue(result);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
       if(result.isEligibleinAfterProbationPeriod) {
         this.editForm.patchValue( { eligiblePeriod: 2} );
         this.editForm.get('eligibleDaysFromJoining').disable();
@@ -112,9 +111,7 @@ export class LoanSettingsEditComponent implements OnInit {
         Validators.max(36)         
       ]],   
       interestCalcutationMethod: [this.interestMethod['ReductionRate']],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     }, { validators: rangeValidator });  
   }
 }
