@@ -47,7 +47,6 @@ export class EmployeeDefaultsEditComponent implements OnInit {
     this.employeeDefaultsService.getAll().subscribe(result => {
       this.employeeDefaults = result[0];
       this.editForm.patchValue(this.employeeDefaults);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
     },
     error => {
       console.error(error);
@@ -111,9 +110,7 @@ export class EmployeeDefaultsEditComponent implements OnInit {
       timeType: [1, [
         Validators.required
       ]],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 

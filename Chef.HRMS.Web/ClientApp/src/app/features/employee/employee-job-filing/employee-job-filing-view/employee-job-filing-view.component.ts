@@ -95,7 +95,6 @@ export class EmployeeJobFilingViewComponent implements OnInit {
   getJobFilingID() {
     this.employeeJobFilingService.get(this.jobFilingId).subscribe(result => {
       this.editForm.patchValue(result);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
     },
       error => {
         console.error(error);
@@ -210,9 +209,7 @@ export class EmployeeJobFilingViewComponent implements OnInit {
       paymentMode: ['', [
         Validators.required
       ]],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 
