@@ -51,7 +51,6 @@ export class PayGroupEditComponent implements OnInit {
       this.isStartingMonth = true;
     }
     this.editForm.patchValue(this.payGroup);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
     this.onChanges();
   }
 
@@ -92,10 +91,7 @@ export class PayGroupEditComponent implements OnInit {
       ]],
       startingMonth: [{ value: 0, disabled: this.isDisabled }, []],
       startingWeek: [{ value: 0, disabled: this.isDisabled }, []],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
-
     });
   }
   onSubmit() {

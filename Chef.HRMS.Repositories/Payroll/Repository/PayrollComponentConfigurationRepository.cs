@@ -40,7 +40,7 @@ namespace Chef.HRMS.Repositories
                              pbc.IsArchived = false;
                          });
                         var sql = new QueryBuilder<PayrollComponentConfiguration>().GenerateInsertQuery();
-                        sql = sql.Replace("RETURNING id", "");
+                        sql = sql.Replace("RETURNING Id", "");
                         sql += " ON CONFLICT ON CONSTRAINT payrollcomponentconfiguration_ukey_payrollcomponentid_payrollst DO NOTHING";
 
                         var result = await Connection.ExecuteAsync(sql, payrollComponentConfiguration);
@@ -77,7 +77,7 @@ namespace Chef.HRMS.Repositories
             {
                 try
                 {
-                    var sql = @"SELECT hrms.setpayrollstructureisconfigured(@payrollStructureId)";
+                    var sql = @"select @payrollstructureid from hrms.payrollcomponentconfiguration ";
                     var result = await Connection.ExecuteAsync(sql, new { payrollStructureId });
                     if (result == -1)
                     {

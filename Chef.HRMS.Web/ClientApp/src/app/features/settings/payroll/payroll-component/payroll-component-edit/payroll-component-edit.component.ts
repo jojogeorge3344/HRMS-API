@@ -41,7 +41,6 @@ export class PayrollComponentEditComponent implements OnInit {
     this.payrollComponentTypeKeys = Object.keys(this.payrollComponentTypes).filter(Number).map(Number);
     this.payrollComponentTypeKeys.splice(this.payrollComponentTypeKeys.indexOf(this.payrollComponentTypes['Fixed']), 1);
     this.editForm.patchValue(this.payrollComponent);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
   }
 
   get name() { return this.editForm.get('name'); }
@@ -85,9 +84,9 @@ export class PayrollComponentEditComponent implements OnInit {
         Validators.required,
         Validators.maxLength(128),
       ]],
-      createdBy: [],
+
       createdDate: [],
-      modifiedBy: [this.currentUserId]
+
     });
   }
 
