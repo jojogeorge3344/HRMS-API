@@ -107,8 +107,6 @@ export class ShiftCreateComponent implements OnInit {
       comments: [null, [
         Validators.maxLength(256)
       ]],
-      // createdBy: [this.currentUserId],
-      // modifiedBy: [this.currentUserId]
     }, { validators: durationValidator });
   }
 }

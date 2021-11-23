@@ -259,8 +259,6 @@ export class EmployeeOnDutyCreateComponent implements OnInit {
       isSecondDaySecondHalf: [false],
       numberOfDays: [''],
       notifyPersonnel: [''],
-      // createdBy: [this.currentUserId],
-      // modifiedBy: [this.currentUserId]
     });
   }
 }
