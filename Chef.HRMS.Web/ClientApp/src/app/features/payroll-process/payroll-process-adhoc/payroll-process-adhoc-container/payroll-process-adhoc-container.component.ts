@@ -47,9 +47,7 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
         emiAmount: loan.emiAmount,
         loanSettingId: loan.loanSettingId,
         remainingTenure: loan.remainingTenure,
-        balanceAmount: loan.balanceAmount,
-        createdBy: this.currentUser,
-        modifiedBy: this.currentUser
+        balanceAmount: loan.balanceAmount
       };
     });
     this.payrollLoanAdvancesService.insert(loans).subscribe(res => {

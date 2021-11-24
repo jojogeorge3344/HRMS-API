@@ -69,9 +69,9 @@ export class PayrollEmployeeCreateBonusComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      // employeeId: ['', [
-      //   Validators.required,
-      // ]],
+     // employeeId: ['', [
+     //   Validators.required,
+      //]],
       bonusTypeId: [null, [
         Validators.required,
       ]],
@@ -83,9 +83,7 @@ export class PayrollEmployeeCreateBonusComponent implements OnInit {
       disburseOn: ['', [
         Validators.required,
       ]],
-      remarks: ['', [Validators.maxLength(256)]],
-      createdBy: [this.currentUser],
-      modifiedBy: [this.currentUser]
+      remarks: ['', [Validators.maxLength(256)]]
     });
   }
 

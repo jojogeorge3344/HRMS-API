@@ -44,11 +44,11 @@ export class EmployeeBonusEditComponent implements OnInit {
     const bonusValue = this.bonus;
     bonusValue.disburseOn = new Date(bonusValue.disburseOn);
     this.editForm.patchValue(bonusValue);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
+    //this.editForm.patchValue({ modifiedBy: this.currentUserId });
   }
 
   createFormGroup(): FormGroup {
-    return this.formBuilder.group({
+       return this.formBuilder.group({
       id: [0],
       employeeId: [parseInt(this.employeeId, 10)],
       bonusTypeId: [null, [
@@ -63,12 +63,14 @@ export class EmployeeBonusEditComponent implements OnInit {
         Validators.required,
       ]],
       remarks: ['', [ Validators.maxLength(256)]],
-      createdBy: [],
+     
       createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdBy: [],
+    
+     modifiedBy: [this.currentUserId]
 
     });
-  }
+  }  
 
   onSubmit() {
     this.employeeBonusService.update(this.editForm.value)

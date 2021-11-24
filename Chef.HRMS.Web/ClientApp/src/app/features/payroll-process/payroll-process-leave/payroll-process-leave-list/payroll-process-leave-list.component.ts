@@ -172,9 +172,7 @@ export class PayrollProcessLeaveListComponent implements OnInit {
         approvedLeaves: component.approvedLeaves,
         unapprovedLeaves: component.unapprovedLeaves,
         unmarkedAttendance: component.unmarkedAttendance,
-        payrollProcessingStatus: 2,
-        createdBy: this.currentUser,
-        modifiedBy: this.currentUser
+        payrollProcessingStatus: 2
       };
     });
 

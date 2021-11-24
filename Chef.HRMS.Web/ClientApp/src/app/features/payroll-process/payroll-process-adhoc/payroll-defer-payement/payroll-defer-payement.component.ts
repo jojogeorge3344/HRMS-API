@@ -51,9 +51,7 @@ export class PayrollDeferPayementComponent implements OnInit {
       loanNumber: [this.loanAdvances.loanNumber],
       deferPeriod: [],
       paymentPeriodType: [],
-      description: [],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      description: []
     });
   }
 

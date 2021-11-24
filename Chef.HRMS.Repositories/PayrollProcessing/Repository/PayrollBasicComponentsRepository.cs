@@ -163,7 +163,7 @@ namespace Chef.HRMS.Repositories
                              pbc.IsArchived = false;
                          });
                         var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
-                        sql = sql.Replace("RETURNING id", "");
+                        sql = sql.Replace("RETURNING Id", " ");
                         sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
                         sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
 
@@ -183,7 +183,7 @@ namespace Chef.HRMS.Repositories
                          pbc.IsArchived = false;
                      });
                     var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
-                    sql = sql.Replace("RETURNING id", "");
+                    sql = sql.Replace("RETURNING Id", " ");
                     sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
                     sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
                     return await Connection.ExecuteAsync(sql, payrollBasicComponents);

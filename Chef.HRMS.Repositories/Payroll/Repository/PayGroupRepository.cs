@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,12 +28,15 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeView>> GetAllEmployeeByPayGroupId(int paygroupId, int year, int month)
         {
-            using (Connection)
-            {
-                var sql = @"SELECT e.id              AS id, 
+                   
+                using (Connection)
+                {
+                    try
+                    {
+                        var sql = @"SELECT e.id              AS id, 
                                    jd.employeenumber AS employeenumber, 
                                    Concat (e.firstname, ' ', e.lastname)     AS FirstName 
-                            FROM   employee e 
+                            FROM   hrms.employee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                                    INNER JOIN hrms.jobfiling jf 
@@ -42,8 +46,15 @@ namespace Chef.HRMS.Repositories
                                                         AND
 													     ppm.year=@year)) )";
 
-                return await Connection.QueryAsync<EmployeeView>(sql, new { paygroupId, year, month });
-            }
+                        return await Connection.QueryAsync<EmployeeView>(sql, new { paygroupId, year, month });
+                    }
+                    catch (Exception ex)
+                    {
+                        string msg = ex.Message;
+                        return null;
+                    }
+                }
+            
         }
     }
 }

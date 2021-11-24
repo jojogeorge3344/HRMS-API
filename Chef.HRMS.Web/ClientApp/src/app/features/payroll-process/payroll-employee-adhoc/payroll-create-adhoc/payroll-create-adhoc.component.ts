@@ -68,9 +68,7 @@ export class PayrollCreateAdhocComponent implements OnInit {
         Validators.required,
         Validators.max(999999999),
 
-      ]],
-      createdBy: [this.currentUser],
-      modifiedBy: [this.currentUser]
+      ]]
     });
 
   }

@@ -54,8 +54,6 @@ export class HolidayCategoryCreateComponent implements OnInit {
         Validators.required,
       ]],
       isConfigured: [false],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
-    });
+     });
   }
 }
