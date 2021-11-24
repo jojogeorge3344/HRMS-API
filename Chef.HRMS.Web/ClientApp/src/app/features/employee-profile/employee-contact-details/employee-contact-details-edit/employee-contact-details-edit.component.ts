@@ -28,7 +28,6 @@ export class EmployeeContactDetailsEditComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
     if (this.contact) {
       if (this.contact.workPhone && this.contact.workPhone.length) {
         this.contact.workPhoneCode = this.contact.workPhone.split('-')[0].substr(1);
@@ -77,9 +76,7 @@ export class EmployeeContactDetailsEditComponent implements OnInit {
 
       ]],
       emergencyContactCode: [null],
-      createdBy: [this.currentUserId],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
 
     });
 

@@ -32,7 +32,6 @@ export class EmployeeJobTitleEditComponent implements OnInit {
   this.editForm = this.createFormGroup();
   this.employeeJobTitleService.get(this.jobId).subscribe(result => {
     this.editForm.patchValue(result);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
   },
     error => {
       console.error(error);
@@ -70,9 +69,7 @@ export class EmployeeJobTitleEditComponent implements OnInit {
         Validators.required,
         Validators.maxLength(128)
       ]],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 }

@@ -50,7 +50,6 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
       result.dateOfBirth = new Date(result.dateOfBirth);
       this.editForm.patchValue(result);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
     },
       error => {
         console.error(error);
@@ -96,9 +95,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"),
         Validators.required
       ]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 

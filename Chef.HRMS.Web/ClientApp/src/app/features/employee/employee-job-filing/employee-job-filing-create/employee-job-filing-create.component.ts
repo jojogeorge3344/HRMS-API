@@ -135,9 +135,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       attendanceCaptureScheme: [null, [
         Validators.required
       ]],
-      createdBy: [this.currentUserId],
       createdDate: [new Date()],
-      modifiedBy: [this.currentUserId]
     });
   }
 

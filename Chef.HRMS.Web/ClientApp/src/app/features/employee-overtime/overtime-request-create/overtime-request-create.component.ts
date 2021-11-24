@@ -137,9 +137,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
         Validators.maxLength(128),
       ]],
       employeeId: [this.currentUserId],
-      requestStatus: [1],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      requestStatus: [1]
     });
   }
 

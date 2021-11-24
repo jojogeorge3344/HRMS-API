@@ -65,8 +65,6 @@ export class EmployeeDependentDetailsCreateComponent implements OnInit {
       profession: ['', [
 
       ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
   onSubmit() {
