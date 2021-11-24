@@ -133,10 +133,7 @@ export class PayrollProcessLoanEditComponent implements OnInit {
       repaymentTerm: ['', [Validators.max(36), Validators.required]],
       comments: ['', [Validators.required,
         Validators.maxLength(256)]],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
-
+      createdDate: []
     });
   }
   onSubmit() {

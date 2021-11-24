@@ -70,9 +70,7 @@ export class PayrollEditAdhocComponent implements OnInit {
         Validators.maxLength(18),
         Validators.required
       ]],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: this.currentUserId
+     createdDate: []
     });
   }
 

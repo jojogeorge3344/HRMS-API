@@ -47,7 +47,7 @@ export class EmployeeBonusEditComponent implements OnInit {
   }
 
   createFormGroup(): FormGroup {
-    return this.formBuilder.group({
+       return this.formBuilder.group({
       id: [0],
       employeeId: [parseInt(this.employeeId, 10)],
       bonusTypeId: [null, [
@@ -65,7 +65,7 @@ export class EmployeeBonusEditComponent implements OnInit {
       createdDate: [],
 
     });
-  }
+  }  
 
   onSubmit() {
     this.employeeBonusService.update(this.editForm.value)

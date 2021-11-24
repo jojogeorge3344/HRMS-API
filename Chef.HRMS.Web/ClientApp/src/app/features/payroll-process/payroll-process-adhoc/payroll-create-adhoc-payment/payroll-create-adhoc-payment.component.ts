@@ -140,9 +140,7 @@ export class PayrollCreateAdhocPaymentComponent implements OnInit {
       amount: [null, [
         Validators.required,
         Validators.max(999999999)
-      ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      ]]
     });
   }
 
