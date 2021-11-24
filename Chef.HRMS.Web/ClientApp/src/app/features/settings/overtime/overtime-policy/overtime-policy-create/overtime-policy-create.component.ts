@@ -68,9 +68,7 @@ export class OvertimePolicyCreateComponent implements OnInit {
       ]],
       attendanceHoursType: [1, [
         Validators.required
-      ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      ]]
     });
   }
 }
