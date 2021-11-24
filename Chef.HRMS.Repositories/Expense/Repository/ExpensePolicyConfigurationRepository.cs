@@ -76,8 +76,9 @@ namespace Chef.HRMS.Repositories
 
                     return 0;
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
+                string msg = ex.Message;
                     return -1;
                 }
         }
@@ -87,8 +88,8 @@ namespace Chef.HRMS.Repositories
 
                 try
                 {
-                    var sql = @"select @expensepolicyid from  hrms.expensepolicyconfiguration ";
-                    var result = await Connection.ExecuteAsync(sql, new { expensePolicyId });
+                   var sql = @"SELECT hrms.setexpensepolicyisionfigured(@expensePolicyId)";
+                   var result = await Connection.ExecuteAsync(sql, new { expensePolicyId });
                     if (result == -1)
                     {
 
