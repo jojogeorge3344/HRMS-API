@@ -26,7 +26,6 @@ export class WorkFromHomeSettingsService {
   }
 
   update(workFromHomeSettings: WorkFromHomeSettings){
-    debugger;
     return this.http.post<number>(this.baseUrl + 'update', workFromHomeSettings).pipe(map(response => { return response; }));
   }
 }
