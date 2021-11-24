@@ -29,7 +29,6 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
 
     if (this.address) {
       this.editForm.patchValue(this.address);
@@ -78,9 +77,8 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
         Validators.required,
       ]],
       ispermanentSameAsCurrent: [false],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
+     
 
     });
   }
@@ -132,7 +130,6 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
     if (this.address) {
       address.id = this.address.id;
     } else {
-      address.createdBy = this.currentUserId;
       address.createdDate = new Date();
     }
 

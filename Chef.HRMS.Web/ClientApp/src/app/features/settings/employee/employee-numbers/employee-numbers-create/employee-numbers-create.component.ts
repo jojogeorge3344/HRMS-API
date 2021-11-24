@@ -115,9 +115,7 @@ export class EmployeeNumbersCreateComponent implements OnInit {
         Validators.max(999999999998)
       ]],
       preview: [{ value: null, disabled: true }],
-      isActive: [false],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      isActive: [false]
     });
   }
 
