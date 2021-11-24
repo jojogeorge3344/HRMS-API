@@ -30,7 +30,6 @@ export class PayrollConfigurationAllowanceComponent implements OnChanges {
     if (changes.payrollConfiguration) {
       this.editForm = this.createFormGroup();
       this.editForm.patchValue(this.payrollConfiguration);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
     }
 
     if (this.isView) {
@@ -84,9 +83,7 @@ export class PayrollConfigurationAllowanceComponent implements OnChanges {
       name: [''],
       payrollComponentId: [],
       payrollStructureId: [],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 }
