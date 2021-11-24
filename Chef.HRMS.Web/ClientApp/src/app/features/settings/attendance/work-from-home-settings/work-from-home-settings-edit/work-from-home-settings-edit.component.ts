@@ -65,7 +65,6 @@ export class WorkFromHomeSettingsEditComponent implements OnInit {
   getWorkFromHomeSettings() {
     this.workFromHomeSettingsService.get().subscribe((result: WorkFromHomeSettings) => {
       this.editForm.patchValue(result);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
       if (!result.isLimited) {
         this.editForm.patchValue({ maximumLimit: '', periodType: null });
       }
@@ -122,9 +121,7 @@ export class WorkFromHomeSettingsEditComponent implements OnInit {
       ]],
       priorDays: [0, [Validators.max(31), Validators.min(1)]],
       subsequentDays: [0, [Validators.max(31), Validators.min(1)]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 }
