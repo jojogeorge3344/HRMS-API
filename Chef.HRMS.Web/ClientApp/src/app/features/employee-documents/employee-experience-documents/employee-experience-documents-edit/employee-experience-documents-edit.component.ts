@@ -196,9 +196,7 @@ export class EmployeeExperienceDocumentsEditComponent implements OnInit {
         extension: [this.previousEmployment.extension],
         size: [null],
       }),
-      createdBy: [this.previousEmployment.createdBy],
       createdDate: [this.previousEmployment.createdDate],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

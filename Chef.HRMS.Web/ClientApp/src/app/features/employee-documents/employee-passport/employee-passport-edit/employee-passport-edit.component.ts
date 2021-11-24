@@ -249,9 +249,7 @@ export class EmployeePassportEditComponent implements OnInit {
         extension: [this.passport.extension],
         size: [null],
       }),
-      createdBy: [this.passport.createdBy],
       createdDate: [this.passport.createdDate],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

@@ -57,8 +57,6 @@ export class EmployeeBankDetailsCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(16)
       ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

@@ -30,7 +30,6 @@ export class ExpenseConfigurationCashAdvanceComponent implements OnChanges {
     if (changes.expenseConfiguration) {
       this.editForm = this.createFormGroup();
       this.editForm.patchValue(this.expenseConfiguration);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
     }
 
     if (this.isView) {
@@ -88,9 +87,7 @@ export class ExpenseConfigurationCashAdvanceComponent implements OnChanges {
         Validators.min(1) ,
         Validators.max(365)
       ]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

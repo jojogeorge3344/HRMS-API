@@ -173,8 +173,6 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
         extension: ['png'],
         size: [null],
       }),
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
      });
   }
 
