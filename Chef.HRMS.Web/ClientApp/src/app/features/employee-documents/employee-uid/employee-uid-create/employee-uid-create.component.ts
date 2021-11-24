@@ -177,8 +177,6 @@ export class EmployeeUIDCreateComponent implements OnInit {
         extension: ['png'],
         size: [null],
       }),
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

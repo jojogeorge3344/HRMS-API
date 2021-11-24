@@ -104,7 +104,6 @@ export class ExpenseRequestEditComponent implements OnInit {
 
     this.editForm.patchValue(this.expenseRequest);
     this.editForm.patchValue({ expenseDate: new Date(this.expenseRequest.expenseDate) });
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
 
     this.setExpenseDate();
     this.setDocumentPath();
@@ -421,9 +420,7 @@ export class ExpenseRequestEditComponent implements OnInit {
       employeeId: [this.currentUserId],
       requestStatus: [1],
       isReceiptAttached: [false],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

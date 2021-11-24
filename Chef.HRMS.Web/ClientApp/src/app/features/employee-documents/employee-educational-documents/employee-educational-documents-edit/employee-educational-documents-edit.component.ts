@@ -192,9 +192,7 @@ export class EmployeeEducationalDocumentsEditComponent implements OnInit {
         extension: [this.educationDetails.extension],
         size: [null],
       }),
-      createdBy: [this.educationDetails.createdBy],
       createdDate: [this.educationDetails.createdDate],
-      modifiedBy: [this.currentUserId]
     });
   }
 

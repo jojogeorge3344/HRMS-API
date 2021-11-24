@@ -173,8 +173,6 @@ export class EmployeePANCardCreateComponent implements OnInit {
         extension: ['png'],
         size: [null],
       }),
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

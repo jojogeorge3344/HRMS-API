@@ -64,8 +64,6 @@ export class ExpensePolicyCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(3),
       ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }
