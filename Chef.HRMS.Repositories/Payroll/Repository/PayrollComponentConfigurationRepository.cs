@@ -58,7 +58,7 @@ namespace Chef.HRMS.Repositories
                     if (PayrollComponentConfigurationIds.Count() > 0)
                     {
                         string PayrollComponentConfigurationId = string.Join(",", PayrollComponentConfigurationIds.ToList().Select(l => l.ToString()).ToArray());
-                        var sql = "DELETE FROM payrollComponentConfiguration WHERE id IN (" + PayrollComponentConfigurationId + ")";
+                        var sql = "DELETE FROM hrms.payrollcomponentconfiguration WHERE id IN (" + PayrollComponentConfigurationId + ")";
 
                         await Connection.ExecuteAsync(sql, PayrollComponentConfigurationId);
                     }
@@ -77,7 +77,7 @@ namespace Chef.HRMS.Repositories
             {
                 try
                 {
-                    var sql = @"select @payrollstructureid from hrms.payrollcomponentconfiguration ";
+                    var sql = @"SELECT hrms.setpayrollstructureisconfigured(@payrollStructureId)";
                     var result = await Connection.ExecuteAsync(sql, new { payrollStructureId });
                     if (result == -1)
                     {

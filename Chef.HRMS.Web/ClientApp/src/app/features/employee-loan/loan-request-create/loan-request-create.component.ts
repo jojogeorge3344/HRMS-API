@@ -152,8 +152,6 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       comments: ['', [Validators.required]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
-      //createdBy: [this.currentUserId],
-      //modifiedBy: [this.currentUserId]
     });
   }
 }
