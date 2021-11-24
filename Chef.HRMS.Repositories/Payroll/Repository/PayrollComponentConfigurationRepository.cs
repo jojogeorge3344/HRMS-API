@@ -40,7 +40,7 @@ namespace Chef.HRMS.Repositories
                              pbc.IsArchived = false;
                          });
                         var sql = new QueryBuilder<PayrollComponentConfiguration>().GenerateInsertQuery();
-                        sql = sql.Replace("RETURNING id", "");
+                        sql = sql.Replace("RETURNING Id", "");
                         sql += " ON CONFLICT ON CONSTRAINT payrollcomponentconfiguration_ukey_payrollcomponentid_payrollst DO NOTHING";
 
                         var result = await Connection.ExecuteAsync(sql, payrollComponentConfiguration);
@@ -58,7 +58,7 @@ namespace Chef.HRMS.Repositories
                     if (PayrollComponentConfigurationIds.Count() > 0)
                     {
                         string PayrollComponentConfigurationId = string.Join(",", PayrollComponentConfigurationIds.ToList().Select(l => l.ToString()).ToArray());
-                        var sql = "DELETE FROM payrollComponentConfiguration WHERE id IN (" + PayrollComponentConfigurationId + ")";
+                        var sql = "DELETE FROM hrms.payrollcomponentconfiguration WHERE id IN (" + PayrollComponentConfigurationId + ")";
 
                         await Connection.ExecuteAsync(sql, PayrollComponentConfigurationId);
                     }

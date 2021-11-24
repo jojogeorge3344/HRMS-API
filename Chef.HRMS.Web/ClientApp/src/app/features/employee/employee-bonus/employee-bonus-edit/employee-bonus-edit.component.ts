@@ -44,7 +44,6 @@ export class EmployeeBonusEditComponent implements OnInit {
     const bonusValue = this.bonus;
     bonusValue.disburseOn = new Date(bonusValue.disburseOn);
     this.editForm.patchValue(bonusValue);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
   }
 
   createFormGroup(): FormGroup {
@@ -63,9 +62,7 @@ export class EmployeeBonusEditComponent implements OnInit {
         Validators.required,
       ]],
       remarks: ['', [ Validators.maxLength(256)]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
 
     });
   }

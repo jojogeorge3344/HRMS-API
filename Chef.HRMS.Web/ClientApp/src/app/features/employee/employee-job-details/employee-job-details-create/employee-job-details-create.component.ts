@@ -236,8 +236,6 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       branchId: [''],
       companyId: [''],
       createdDate: [new Date()],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 

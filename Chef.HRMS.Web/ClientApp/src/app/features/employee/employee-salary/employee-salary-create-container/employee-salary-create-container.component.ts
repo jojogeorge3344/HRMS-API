@@ -140,7 +140,7 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
         monthlyAmount: x.monthlyAmount,
         yearlyAmount: x.yearlyAmount,
         createdBy: this.currentUserId,
-        modifiedBy: this.currentUserId
+    modifiedBy: this.currentUserId
       };
     });
 

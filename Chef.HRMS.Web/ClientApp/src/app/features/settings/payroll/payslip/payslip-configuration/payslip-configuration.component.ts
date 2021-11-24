@@ -50,7 +50,7 @@ export class PayslipConfigurationComponent implements OnInit {
       });
   }
   getPaySlipConfiguration() {
-    this.payslipsService.get(1).subscribe(res => {
+    this.payslipsService.get(4).subscribe(res => {
       this.paySlipConfiguration = res;
       this.paySlipForm.patchValue(this.paySlipConfiguration);
     });

@@ -34,7 +34,6 @@ export class OvertimePolicyEditComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.editForm.patchValue(this.overtimePolicy);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
   }
 
   get name() { return this.editForm.get('name'); }
@@ -70,9 +69,7 @@ export class OvertimePolicyEditComponent implements OnInit {
       attendanceHoursType: [{value: null, disabled: this.isDisabled}, [
         Validators.required
       ]],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 }

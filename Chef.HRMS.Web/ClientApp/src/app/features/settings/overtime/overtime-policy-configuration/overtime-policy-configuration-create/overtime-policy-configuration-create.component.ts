@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -25,6 +25,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   periodTypeKeys: number[];
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     public modalService: NgbModal,
@@ -121,6 +122,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       this.overtimePolicy.isConfigured = true;
       this.overtimePolicyService.update(this.overtimePolicy).subscribe(() => {
         this.toastr.showSuccessMessage('Overtime Policy configured successfully!');
+        this.router.navigate(['./settings/overtime']);
       },
       error => {
         console.error(error);
@@ -187,9 +189,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       specialFormula: ['', [
         Validators.required,
         Validators.maxLength(256)
-      ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      ]]
     });
   }
 }

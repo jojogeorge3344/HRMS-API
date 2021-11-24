@@ -54,7 +54,7 @@ export class LoanRequestEditComponent implements OnInit {
       result.expectedOn = new Date(result.expectedOn);
       this.loanNo = result.loanNo;
       this.editForm.patchValue(result);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
+      
     },
       error => {
         console.error(error);
@@ -113,9 +113,9 @@ export class LoanRequestEditComponent implements OnInit {
       comments: ['', [Validators.required]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
-      createdBy: [],
+      
       createdDate: [],
-      modifiedBy: [this.currentUserId]
+      
     });
   }
 }

@@ -81,8 +81,6 @@ export class PayrollComponentCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(128),
       ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

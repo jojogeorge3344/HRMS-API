@@ -57,9 +57,7 @@ export class EmployeeBonusCreateComponent implements OnInit {
       disburseOn: [new Date(), [
         Validators.required,
       ]],
-      remarks: ['', [Validators.maxLength(256),]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      remarks: ['', [Validators.maxLength(256),]]
     });
   }
 

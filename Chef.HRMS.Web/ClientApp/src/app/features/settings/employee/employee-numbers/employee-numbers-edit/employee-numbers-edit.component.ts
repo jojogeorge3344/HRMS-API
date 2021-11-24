@@ -37,7 +37,6 @@ export class EmployeeNumbersEditComponent implements OnInit {
     this.onChanges();
 
     this.editForm.patchValue(this.employeeSeries);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
 
     this.editForm.patchValue({
       preview: `${this.employeeSeries.prefix}${padAtStrt(this.employeeSeries.nextNumber, this.employeeSeries.digitInNumber, 0)}${this.employeeSeries.suffix}`
@@ -144,9 +143,7 @@ export class EmployeeNumbersEditComponent implements OnInit {
       ]],
       preview: [{ value: null, disabled: true }],
       isActive: [false],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 }
