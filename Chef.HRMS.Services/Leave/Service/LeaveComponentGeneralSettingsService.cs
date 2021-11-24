@@ -46,13 +46,12 @@ namespace Chef.HRMS.Services
         }
 
         public async Task<int> InsertOrUpdateAsync(LeaveComponentGeneralSettings leaveComponentGeneralSettings)
-        {
+         {
             int data = await leaveComponentGeneralSettingsRepository.InsertOrUpdateAsync(leaveComponentGeneralSettings);
             if (data != 0)
             {
                 var structureId = leaveComponentGeneralSettings.LeaveStructureId;
                 await leaveComponentGeneralSettingsRepository.SetLeaveStructureIsConfigured(structureId);
-
             }
 
             return data;

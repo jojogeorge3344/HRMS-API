@@ -47,7 +47,7 @@ namespace Chef.HRMS.Repositories
             using (Connection)
             {
                 var sql = new QueryBuilder<LeaveStructureLeaveComponent>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+                sql = sql.Replace("RETURNING Id", " ");
                 sql += " ON CONFLICT ON CONSTRAINT leavestructureleavecomponent_pkey DO NOTHING";
                 await Connection.ExecuteAsync(sql, leaveStructureLeaveComponents);
 
@@ -74,8 +74,8 @@ namespace Chef.HRMS.Repositories
                     if (leaveStructureLeaveComponents.Count() > 0)
                     {
                         var sql = new QueryBuilder<LeaveStructureLeaveComponent>().GenerateInsertQuery();
-                        sql = sql.Replace("RETURNING id", "");
-                        sql += " ON CONFLICT ON CONSTRAINT leavestructureleavecomponent_pkey DO NOTHING";
+                        sql = sql.Replace("RETURNING Id", "");
+                        sql += "ON CONFLICT ON CONSTRAINT leavestructureleavecomponent_pkey DO NOTHING";
                         await Connection.ExecuteAsync(sql, leaveStructureLeaveComponents);
                         var sqlnew = @"UPDATE hrms.leavestructure
 	                                              SET isconfigured=false
@@ -91,8 +91,9 @@ namespace Chef.HRMS.Repositories
 
                     return 0;
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
+                    string msg = ex.Message;
                     return -1;
                 }
             }

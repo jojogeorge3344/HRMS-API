@@ -38,7 +38,6 @@ export class LeaveConfigurationRestrictionsComponent implements OnChanges {
     this.leaveConfigurationRestrictionsService.get(this.leaveStructureId, this.leaveComponentId).subscribe((result: any) => {
       if (result) {
         this.editForm.patchValue(result);
-        this.editForm.patchValue({ modifiedBy: this.currentUserId });
       }
     },
       error => {
@@ -76,9 +75,7 @@ export class LeaveConfigurationRestrictionsComponent implements OnChanges {
       isLeaveApprovalRequired: [false],
       leaveStructureId: this.leaveStructureId,
       leaveComponentId: this.leaveComponentId,
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 }

@@ -50,7 +50,6 @@ export class LeaveComponentEditComponent implements OnInit {
     this.toggleMaritalStatus(this.leaveComponent.isRestrictedToMaritalStatus);
 
     this.editForm.patchValue(this.leaveComponent);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
   }
 
   toggleGender(checked) {
@@ -113,9 +112,7 @@ export class LeaveComponentEditComponent implements OnInit {
       isStatutoryLeave: [{value: false, disabled: this.isDisabled}],
       isRestrictedToGender: [{value: false, disabled: this.isDisabled}],
       isRestrictedToMaritalStatus: [{value: false, disabled: this.isDisabled}],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 }
