@@ -57,8 +57,6 @@ export class ExpensePolicyAssignComponent implements OnInit {
           code: this.allExpenseTypes[i].code,
           currency: this.expensePolicy.currency,
           expensePolicyName: this.expensePolicy.name,
-          createdBy: this.currentUserId,
-          modifiedBy: this.currentUserId
         };
         selectedTypes.push(selectedType);
       } else if (!type && currentExpenseType) {

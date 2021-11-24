@@ -49,7 +49,6 @@ export class OvertimeRequestEditComponent implements OnInit {
       fromDate: new Date(this.overtimeRequest.fromDate),
       toDate: new Date(this.overtimeRequest.toDate)
     });
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
     this.getEmployeeList();
   }
 
@@ -123,9 +122,7 @@ export class OvertimeRequestEditComponent implements OnInit {
       ]],
       employeeId: [],
       requestStatus: [1],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 

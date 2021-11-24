@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<int>> GetAllAssignedNumberSeries()
         {
 
-                string sql = @"SELECT DISTINCT hrms.NumberSeriesId FROM JobDetails";
+                string sql = @"SELECT DISTINCT numberseriesid FROM hrms.jobdetails";
 
                 return await Connection.QueryAsync<int>(sql);
 

@@ -53,7 +53,7 @@ namespace Chef.HRMS.Repositories
                              pbc.IsArchived = false;
                          });
                         var sql = new QueryBuilder<ExpensePolicyConfiguration>().GenerateInsertQuery();
-                        sql = sql.Replace("RETURNING id", "");
+                        sql = sql.Replace("RETURNING Id", " ");
                         sql += " ON CONFLICT ON CONSTRAINT expensepolicyconfiguration_policy_type_ukey DO NOTHING";
                         var result = await Connection.ExecuteAsync(sql, expensePolicyConfiguration);
                         if (result != 0)
@@ -76,8 +76,9 @@ namespace Chef.HRMS.Repositories
 
                     return 0;
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
+                string msg = ex.Message;
                     return -1;
                 }
         }
@@ -87,8 +88,8 @@ namespace Chef.HRMS.Repositories
 
                 try
                 {
-                    var sql = @"SELECT hrms.setexpensepolicyisionfigured(@expensePolicyId)";
-                    var result = await Connection.ExecuteAsync(sql, new { expensePolicyId });
+                   var sql = @"SELECT hrms.setexpensepolicyisionfigured(@expensePolicyId)";
+                   var result = await Connection.ExecuteAsync(sql, new { expensePolicyId });
                     if (result == -1)
                     {
 

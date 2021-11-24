@@ -151,7 +151,9 @@ export class PayrollProcessMethodComponent implements OnInit {
       payGroupId: [0],
       employeeId: [''],
       payGroupOrEmployeeName: [],
-      status: [false]
+      status: [false],
+     // createdBy: [this.currentUser],
+     // modifiedBy: [this.currentUser]
     });
   }
 }

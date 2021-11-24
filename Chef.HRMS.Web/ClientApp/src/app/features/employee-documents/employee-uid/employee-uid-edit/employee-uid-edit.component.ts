@@ -199,9 +199,7 @@ export class EmployeeUIDEditComponent implements OnInit {
         extension: [this.uniqueIdentificationDetail.extension],
         size: [null],
       }),
-      createdBy: [this.uniqueIdentificationDetail.createdBy],
       createdDate: [this.uniqueIdentificationDetail.createdDate],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

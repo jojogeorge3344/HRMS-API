@@ -50,7 +50,6 @@ export class PayrollConfigurationReimbursableComponent implements OnChanges {
       }
 
       this.editForm.patchValue(this.payrollConfiguration);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
     }
 
     if (this.isView) {
@@ -132,9 +131,7 @@ export class PayrollConfigurationReimbursableComponent implements OnChanges {
       name: [''],
       payrollComponentId: [],
       payrollStructureId: [],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

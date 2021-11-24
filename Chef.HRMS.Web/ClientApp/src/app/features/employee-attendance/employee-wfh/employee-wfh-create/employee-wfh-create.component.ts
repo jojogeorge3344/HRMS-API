@@ -279,8 +279,6 @@ export class EmployeeWFHCreateComponent implements OnInit {
       isSecondDayFirstHalf: [false],
       isSecondDaySecondHalf: [false],
       numberOfDays: [null],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 

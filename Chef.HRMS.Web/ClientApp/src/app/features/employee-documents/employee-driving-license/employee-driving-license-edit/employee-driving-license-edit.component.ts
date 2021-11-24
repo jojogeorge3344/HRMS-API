@@ -202,9 +202,7 @@ export class EmployeeDrivingLicenseEditComponent implements OnInit {
         extension: [this.drivingLicense.extension],
         size: [null],
       }),
-      createdBy: [this.drivingLicense.createdBy],
       createdDate: [this.drivingLicense.createdDate],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

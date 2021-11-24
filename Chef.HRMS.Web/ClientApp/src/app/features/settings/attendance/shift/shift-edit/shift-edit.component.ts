@@ -50,7 +50,6 @@ export class ShiftEditComponent implements OnInit {
 
     this.editForm = this.createFormGroup();
     this.editForm.patchValue(this.shift);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
     this.setTime();
   }
 
@@ -119,9 +118,7 @@ export class ShiftEditComponent implements OnInit {
       comments: [null, [
         Validators.maxLength(256)
       ]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     }, { validators: durationValidator });
   }
 }

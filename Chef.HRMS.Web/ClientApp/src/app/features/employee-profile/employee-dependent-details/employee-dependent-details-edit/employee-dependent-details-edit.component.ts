@@ -57,7 +57,6 @@ export class EmployeeDependentDetailsEditComponent implements OnInit {
     tempObj.dateOfBirth = new Date(tempObj.dateOfBirth);
     this.editForm = this.createFormGroup();
     this.editForm.patchValue(tempObj);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
   }
 
   createFormGroup(): FormGroup {
@@ -81,9 +80,7 @@ export class EmployeeDependentDetailsEditComponent implements OnInit {
       profession: ['', [
 
       ]],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
   onSubmit() {

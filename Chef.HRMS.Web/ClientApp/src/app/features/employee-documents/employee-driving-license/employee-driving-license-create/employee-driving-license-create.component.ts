@@ -185,8 +185,6 @@ export class EmployeeDrivingLicenseCreateComponent implements OnInit {
         extension: [null],
         size: [null]
       }),
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

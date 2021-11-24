@@ -28,7 +28,6 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
    ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
-    // this.addJobTitleForm.patchValue({companyId: this.id});
   }
 
   get name() { return this.addForm.get('name'); }
@@ -61,8 +60,6 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
         Validators.required,
         Validators.maxLength(128)
       ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 

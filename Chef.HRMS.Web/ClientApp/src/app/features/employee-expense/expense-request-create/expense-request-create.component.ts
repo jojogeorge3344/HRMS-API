@@ -376,8 +376,6 @@ export class ExpenseRequestCreateComponent implements OnInit {
       employeeId: [this.currentUserId],
       requestStatus: [1],
       isReceiptAttached: [false],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }
