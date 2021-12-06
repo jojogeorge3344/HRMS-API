@@ -15,30 +15,21 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> DeleteAsync(int leaveStructureId, int leaveComponentId)
         {
-            using (Connection)
-            {
                 var sql = @"DELETE FROM hrms.leavecomponentgeneralsettings 
                             WHERE  leavestructureid = @leaveStructureId 
                                    AND leavecomponentid = @leaveComponentId";
 
                 return await Connection.ExecuteAsync(sql, new { leaveStructureId, leaveComponentId });
-            }
         }
 
         public async Task<LeaveComponentGeneralSettings> GetAsync(int leaveStructureId, int leaveComponentId)
         {
-            using (Connection)
-            {
-                using (Connection)
-                {
                     var sql = @"SELECT * 
                                 FROM   hrms.leavecomponentgeneralsettings 
                                 WHERE  leavestructureid = @leaveStructureId 
                                        AND leavecomponentid = @leaveComponentId";
 
                     return await Connection.QueryFirstOrDefaultAsync<LeaveComponentGeneralSettings>(sql, new { leaveStructureId, leaveComponentId });
-                }
-            }
         }
 
         public async Task<int> InsertOrUpdateAsync(LeaveComponentGeneralSettings leaveComponentGeneralSettings)
@@ -81,8 +72,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> SetLeaveStructureIsConfigured(int leaveStructureId)
         {
-                using (Connection)
-                {
                     try
                     {
                         var sql = @"SELECT hrms.setleavestructureisconfigured(@leaveStructureId)";
@@ -103,7 +92,6 @@ namespace Chef.HRMS.Repositories
 
                         throw ex;
                     }
-                }
         }
         
     }

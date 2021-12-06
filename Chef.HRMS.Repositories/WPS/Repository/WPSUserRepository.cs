@@ -15,12 +15,9 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<WPSUser>> GetAllByemployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = "SELECT * FROM  hrms.WPSUser WHERE employeeid = @employeeId  ORDER BY id";
 
                 return await Connection.QueryAsync<WPSUser>(sql, new { employeeId });
-            }
         }
     }
 }

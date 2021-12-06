@@ -15,12 +15,9 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> AssignRoleFeature(IEnumerable<RoleFeature> roleFeature)
         {
-            using (Connection)
-            {
                 var sql = new QueryBuilder<RoleFeature>().GenerateInsertQuery();
                 sql = sql.Replace("RETURNING id", "");
                 return await Connection.ExecuteAsync(sql, roleFeature);
-            }
         }
     }
 }

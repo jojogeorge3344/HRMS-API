@@ -30,21 +30,16 @@ namespace Chef.HRMS.Repositories
         public void CreateDatabase()
         {
             var tenant = Get();
-            using (Connection)
-            {
                 StringBuilder query = new StringBuilder();
                 query.Append($"DROP DATABASE IF EXISTS {tenant.Name};");
                 query.Append($"CREATE DATABASE {tenant.Name};");
                 Connection.Execute(query.ToString());
-            }
         }
 
         public void CreateSchemas()
         {
             string fullQuery = string.Empty;
 
-            using (Connection)
-            {
                 string query = new QueryBuilder<HRMSCompany>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
@@ -300,7 +295,7 @@ namespace Chef.HRMS.Repositories
 
 
                 System.IO.File.WriteAllText(@"HRMSTableQuery.sql", fullQuery);
-            }
+
         }
 
         public HRMSTenant Get()

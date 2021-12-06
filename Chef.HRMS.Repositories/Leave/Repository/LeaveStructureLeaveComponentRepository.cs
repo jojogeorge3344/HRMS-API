@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,8 +17,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> DeleteAsync(LeaveStructureLeaveComponent leaveStructureLeaveComponent)
         {
-            using (Connection)
-            {
                 var sql = @"DELETE FROM hrms.leavestructureleavecomponent 
                             WHERE  leavestructureid = @LeaveStructureId 
                                    AND leavecomponentid = @LeaveComponentId";
@@ -27,47 +26,57 @@ namespace Chef.HRMS.Repositories
                     leaveStructureLeaveComponent.LeaveStructureId,
                     leaveStructureLeaveComponent.LeaveComponentId
                 });
-            }
         }
 
         public async Task<IEnumerable<LeaveStructureLeaveComponent>> GetAllAsync(int leaveStructureId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * 
                             FROM   hrms.leavestructureleavecomponent 
                             WHERE  leavestructureid = @leaveStructureId";
 
                 return await Connection.QueryAsync<LeaveStructureLeaveComponent>(sql, new { leaveStructureId });
-            }
         }
 
         public async Task<int> UpdateAsync(int leaveStructureId, IEnumerable<LeaveStructureLeaveComponent> leaveStructureLeaveComponents)
         {
-            using (Connection)
+            int result = 0;
+
+            using (var transaction = Connection.BeginTransaction())
             {
-                var sql = new QueryBuilder<LeaveStructureLeaveComponent>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING Id", " ");
-                sql += " ON CONFLICT ON CONSTRAINT leavestructureleavecomponent_pkey DO NOTHING";
-                await Connection.ExecuteAsync(sql, leaveStructureLeaveComponents);
-
-                if (leaveStructureLeaveComponents.Count() > 0)
+                try
                 {
-                    string leaveComponentIds = string.Join(",", leaveStructureLeaveComponents.ToList().Select(l => l.LeaveComponentId).ToArray());
-                    sql = "DELETE FROM hrms.leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId AND leavecomponentid NOT IN (" + leaveComponentIds + ")";
-                }
-                else
-                {
-                    sql = "DELETE FROM hrms.leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId";
-                }
+                    var sql = new QueryBuilder<LeaveStructureLeaveComponent>().GenerateInsertQuery();
+                    sql = sql.Replace("RETURNING Id", " ");
+                    sql += " ON CONFLICT ON CONSTRAINT leavestructureleavecomponent_pkey DO NOTHING";
+                    await Connection.ExecuteAsync(sql, leaveStructureLeaveComponents);
 
-                return await Connection.ExecuteAsync(sql, new { leaveStructureId });
+                    if (leaveStructureLeaveComponents.Count() > 0)
+                    {
+                        string leaveComponentIds = string.Join(",", leaveStructureLeaveComponents.ToList().Select(l => l.LeaveComponentId).ToArray());
+                        sql = "DELETE FROM hrms.leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId AND leavecomponentid NOT IN (" + leaveComponentIds + ")";
+                    }
+                    else
+                    {
+                        sql = "DELETE FROM hrms.leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId";
+                    }
+
+                    await Connection.ExecuteAsync(sql, new { leaveStructureId });
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    string msg = ex.Message;
+                    transaction.Rollback();
+                }
             }
+            return result;
         }
 
         public async Task<int> InsertAsync(int leaveStructureId, IEnumerable<LeaveStructureLeaveComponent> leaveStructureLeaveComponents, IEnumerable<LeaveStructureLeaveComponent> removeLeaveStructureLeaveComponents)
         {
-            using (Connection)
+            int result = 0;
+
+            using (var transaction = Connection.BeginTransaction())
             {
                 try
                 {
@@ -88,15 +97,17 @@ namespace Chef.HRMS.Repositories
                         var sql = @"DELETE FROM hrms.leavestructureleavecomponent WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");DELETE FROM leavecomponentgeneralsettings WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");DELETE FROM leavecomponentrestrictionsettings WHERE leavestructureid = @leaveStructureId AND leavecomponentid IN (" + leaveComponentIds + ");";
                         await Connection.ExecuteAsync(sql, new { leaveStructureId });
                     }
-
-                    return 0;
+                    transaction.Commit();
+                    //return 0;
                 }
                 catch (System.Exception ex)
                 {
                     string msg = ex.Message;
-                    return -1;
+                    transaction.Rollback();
+                    //return -1;
                 }
             }
+            return result;
         }
 
 
