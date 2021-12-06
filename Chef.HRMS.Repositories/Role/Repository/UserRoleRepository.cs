@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,25 +52,38 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdateUserRoleGroup(int roleId, IEnumerable<UserRole> userRole)
         {
-            using (Connection)
+            int result = 0;
+
+            using (var transaction = Connection.BeginTransaction())
             {
-                var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
-                sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
-                await Connection.ExecuteAsync(sql, userRole);
-
-                if (userRole.Count() > 0)
+                try
                 {
-                    string userIds = string.Join(",", userRole.ToList().Select(l => l.EmployeeId).ToArray());
-                    sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId AND employeeid NOT IN (" + userIds + ")";
-                }
-                else
-                {
-                    sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId";
-                }
+                    var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
+                    sql = sql.Replace("RETURNING id", "");
+                    sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
+                    await Connection.ExecuteAsync(sql, userRole);
 
-                return await Connection.ExecuteAsync(sql, new { roleId });
+                    if (userRole.Count() > 0)
+                    {
+                        string userIds = string.Join(",", userRole.ToList().Select(l => l.EmployeeId).ToArray());
+                        sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId AND employeeid NOT IN (" + userIds + ")";
+                    }
+                    else
+                    {
+                        sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId";
+                       
+                    }
+                    await Connection.ExecuteAsync(sql, new { roleId });
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    string msg = ex.Message;
+                    transaction.Rollback();
+                }
             }
+            return result;
         }
 
         public async Task<int> UpdateUserRoleGroup(IEnumerable<UserRole> userRole)

@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollReview>> GetAllPayrollReviewByProcessingMethodId(int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT Q1.*, 
                                    COALESCE(Q2.bonus, 0)      bonus, 
                                    COALESCE(Q3.loanamount, 0) loanamount, 
@@ -85,13 +83,10 @@ namespace Chef.HRMS.Repositories
 									ON Q1.employeeid=Q6.employeeid";
 
                 return await Connection.QueryAsync<PayrollReview>(sql, new { payrollProcessingMethodId });
-            }
         }
 
         public async Task<IEnumerable<PayrollReviewBreakup>> GetPayBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"( 
                                  WITH ctebasic 
                                       ( 
@@ -208,13 +203,10 @@ namespace Chef.HRMS.Repositories
                                                       FROM   ctealrp)";
 
                 return await Connection.QueryAsync<PayrollReviewBreakup>(sql, new { employeeId, payrollProcessingMethodId });
-            }
         }
 
         public async Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
         {
-            using (Connection)
-            {
                 if (payrollProcessingMethod.PayGroupId == 0)
                 {
                     var employeeId = payrollProcessingMethod.EmployeeId;
@@ -270,36 +262,27 @@ namespace Chef.HRMS.Repositories
 
 
                 }
-            }
         }
 
         public async Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep)
         {
-            using (Connection)
-            {
                 var sql = @"UPDATE hrms.payrollprocessingmethod 
                             SET    processedstep = @completedStep 
                             WHERE  id = @payrollProcessingMethodId 
                                    AND processedstep < @completedStep";
 
                 return await Connection.ExecuteAsync(sql, new { payrollProcessingMethodId, completedStep });
-            }
         }
 
         public async Task<int> InsertLOPDeduction(IEnumerable<LOPDeduction> lopDeduction)
         {
-            using (Connection)
-            {
                 var sql = new QueryBuilder<LOPDeduction>().GenerateInsertQuery();
                 sql = sql.Replace("RETURNING id", "");
                 return await Connection.ExecuteAsync(sql, lopDeduction);
-            }
         }
 
         public async Task<IEnumerable<Employee>> GetAllUnProcessedEmployees(int year, int month)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.employee WHERE id NOT IN
 						                              (SELECT DISTINCT jf.employeeid from hrms.payrollprocessingmethod PM		
 						                              INNER JOIN hrms.jobfiling jf
@@ -308,13 +291,10 @@ namespace Chef.HRMS.Repositories
 						                              AND(pm.year=@year AND pm.month=@month))";
 
                 return await Connection.QueryAsync<Employee>(sql, new { year, month });
-            }
         }
 
         public async Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * FROM hrms.payrollprocessingmethod PM
 		                             WHERE (pm.year=EXTRACT(YEAR FROM NOW())
 	                                 AND pm.month BETWEEN EXTRACT(MONTH FROM NOW() - INTERVAL '6 months')
@@ -322,7 +302,6 @@ namespace Chef.HRMS.Repositories
                                      ORDER BY pm.month";
 
                 return await Connection.QueryAsync<PayrollProcessingMethod>(sql);
-            }
         }
     }
 }
