@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PassportView>> GetByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT A.id           AS PassportId, 
                                    C.id           AS DocumentId, 
                                    B.id           AS PassportDocumentId, 
@@ -44,7 +42,6 @@ namespace Chef.HRMS.Repositories
                                            ON B.documentid = C.id ";
 
                 return await Connection.QueryAsync<PassportView>(sql, new { employeeId });
-            }
         }
     }
 }

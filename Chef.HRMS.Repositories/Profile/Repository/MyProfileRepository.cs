@@ -14,8 +14,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<MyProfileView> GetMyProfileDetailsAsync(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT e.id, 
                                    e.firstname, 
                                    e.middlename, 
@@ -39,7 +37,6 @@ namespace Chef.HRMS.Repositories
                                     where e.id=@employeeId";
 
                 return await Connection.QueryFirstOrDefaultAsync<MyProfileView>(sql, new { employeeId });
-            }
         }
     }
 }

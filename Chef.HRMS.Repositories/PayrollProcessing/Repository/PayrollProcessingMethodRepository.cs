@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -213,63 +214,74 @@ namespace Chef.HRMS.Repositories
 
         public async Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
         {
-            using (Connection)
+            int result = 0;
+            using (var transaction = Connection.BeginTransaction())
             {
-                if (payrollProcessingMethod.PayGroupId == 0)
+                try
                 {
-                    var employeeId = payrollProcessingMethod.EmployeeId;
-                    var year = payrollProcessingMethod.Year;
-                    var month = payrollProcessingMethod.Month;
+                    if (payrollProcessingMethod.PayGroupId == 0)
+                    {
+                        var employeeId = payrollProcessingMethod.EmployeeId;
+                        var year = payrollProcessingMethod.Year;
+                        var month = payrollProcessingMethod.Month;
 
-                    var getEmp = @"SELECT distinct *
+                        var getEmp = @"SELECT distinct *
 							                            FROM hrms.payrollprocessingmethod  pm
 							                            INNER JOIN hrms.jobfiling jf
 							                            ON jf.paygroupid=pm.paygroupid
 							                            AND(year=@year AND month=@month)	
                                                         WHERE  jf.employeeid=@employeeId";
 
-                    var data = await Connection.QueryFirstOrDefaultAsync<string>(getEmp, new { employeeId, year, month });
+                        var data = await Connection.QueryFirstOrDefaultAsync<string>(getEmp, new { employeeId, year, month });
 
-                    if (data != null)
-                    {
-                        return "Already Exist";
-                    }
-                    else
-                    {
-                        var get = @"SELECT Distinct  ppm.id
+                        if (data != null)
+                        {
+                            return "Already Exist";
+                        }
+                        else
+                        {
+                            var get = @"SELECT Distinct  ppm.id
 							                            FROM hrms.jobfiling  jf
 							                            INNER JOIN hrms.payrollprocessingmethod ppm
 							                            ON jf.employeeid=ppm.employeeid
 							                            AND(year=@year AND month=@month)	
                                                         WHERE  jf.employeeid=@employeeId";
 
-                        var info = await Connection.QueryFirstOrDefaultAsync<string>(get, new { employeeId, year, month });
-                        if (info != null)
-                        {
-                            return "Already Exist";
-                        }
-                        else
-                        {
-                            var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                            var result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
-                            return result.ToString();
+                            var info = await Connection.QueryFirstOrDefaultAsync<string>(get, new { employeeId, year, month });
+                            if (info != null)
+                            {
+                                return "Already Exist";
+                            }
+                            else
+                            {
+                                var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
+                               await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+                               
+
+
+                            }
 
 
                         }
+
+                    }
+                    else
+                    {
+
+                        var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
+                        await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+                       
 
 
                     }
-
+                    transaction.Commit();
                 }
-                else
+                catch (Exception ex)
                 {
-
-                    var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                    var result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
-                    return result.ToString();
-
-
+                    string msg = ex.Message;
+                    transaction.Rollback();
                 }
+                return result.ToString(); 
             }
         }
 
