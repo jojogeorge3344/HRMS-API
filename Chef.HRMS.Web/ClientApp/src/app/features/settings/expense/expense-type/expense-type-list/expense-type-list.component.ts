@@ -62,7 +62,7 @@ export class ExpenseTypeListComponent implements OnInit {
 
   openCreateExpenseType() {
     const modalRef = this.modalService.open(ExpenseTypeCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'md-8', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.expenseCategoryType = this.expenseCategoryType;
     modalRef.componentInstance.expenseCategoryTypeKeys = this.expenseCategoryTypeKeys;
@@ -78,7 +78,7 @@ export class ExpenseTypeListComponent implements OnInit {
 
   openEditExpenseType(expenseType: ExpenseType) {
     const modalRef = this.modalService.open(ExpenseTypeEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'md-8', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.expenseType = expenseType;
     modalRef.componentInstance.expenseCategoryType = this.expenseCategoryType;

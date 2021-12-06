@@ -13,10 +13,12 @@ export class EmployeeProfileContainerComponent implements OnInit {
   @ViewChild(EmployeeContactDetailsViewComponent) contact: EmployeeContactDetailsViewComponent
   @ViewChild(EmployeeAddressDetailsViewComponent) address: EmployeeAddressDetailsViewComponent
   @ViewChild(EmployeeDependentDetailsListComponent) dependent: EmployeeDependentDetailsListComponent
+  //date = Date.now();
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

@@ -72,7 +72,7 @@ export class PayrollComponentListComponent implements OnInit {
 
   openCreatePayrollComponent() {
     const modalRef = this.modalService.open(PayrollComponentCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'md-8', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.payrollComponentTypes = this.payrollComponentTypes;
     modalRef.componentInstance.payrollComponentNames = this.payrollComponentNames;
@@ -87,7 +87,7 @@ export class PayrollComponentListComponent implements OnInit {
 
   openEditPayrollComponent(payrollComponent: PayrollComponent) {
     const modalRef = this.modalService.open(PayrollComponentEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'md-8', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.payrollComponent = payrollComponent;
     modalRef.componentInstance.payrollComponentTypes = this.payrollComponentTypes;

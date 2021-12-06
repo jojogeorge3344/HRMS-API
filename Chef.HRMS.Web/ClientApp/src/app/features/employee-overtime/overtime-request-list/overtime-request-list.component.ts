@@ -58,7 +58,7 @@ export class OvertimeRequestListComponent implements OnInit {
 
   openAdd() {
     const modalRef = this.modalService.open(OvertimeRequestCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'md-8', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.currentUserId = this.currentUserId;
     modalRef.componentInstance.policyId = this.overtimePolicyId;
@@ -72,7 +72,7 @@ export class OvertimeRequestListComponent implements OnInit {
 
   openEdit(overtimeRequest: OvertimeRequest) {
     const modalRef = this.modalService.open(OvertimeRequestEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'md-8', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.overtimeRequest = overtimeRequest;
 
