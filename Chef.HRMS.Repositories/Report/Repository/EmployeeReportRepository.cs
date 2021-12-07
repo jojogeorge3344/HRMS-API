@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeDetailView>> GetAllEmployeeDetailView(int offSet)
         {
-            using (Connection)
-            {
                 var sql = @$"SELECT  e.id, 
                                    Concat (e.firstname, ' ', e.lastname) AS employeename, 
 								    e.dateofbirth,
@@ -61,7 +59,7 @@ namespace Chef.HRMS.Repositories
 							OFFSET {offSet} LIMIT 10";
 
                 return await Connection.QueryAsync<EmployeeDetailView>(sql);
-            }
+           
         }
     }
 }

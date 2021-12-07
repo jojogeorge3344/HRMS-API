@@ -15,12 +15,9 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdatePayslipConfigurationFieldsAsync(IEnumerable<PayslipConfigurationFields> payslipConfigurationFields)
         {
-            using (Connection)
-            {
                 var sql = new QueryBuilder<PayslipConfigurationFields>().GenerateUpdateQuery();
 
                 return await Connection.ExecuteAsync(sql, payslipConfigurationFields);
-            }
         }
     }
 }

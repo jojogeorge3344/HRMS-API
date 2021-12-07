@@ -15,38 +15,29 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<int>> GetAllAssignedPayrollStructure()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT payrollstructureid 
                                     FROM hrms.jobfiling
                                     ORDER  BY payrollstructureid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
-            }
         }
 
         public async Task<IEnumerable<PayrollStructure>> GetAllConfiguredPayrollStructures()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * 
                                     FROM hrms.payrollstructure
                                     WHERE isconfigured=true";
 
                 return await Connection.QueryAsync<PayrollStructure>(sql);
-            }
         }
 
         public async Task<int> UpdatePayrollStructure(int id, bool isConfigured)
         {
-            using (Connection)
-            {
                 var sql = @"UPDATE hrms.payrollstructure
                                    SET isconfigured=@isConfigured
                                     WHERE id=@id";
 
                 return await Connection.ExecuteAsync(sql, new { id, isConfigured });
-            }
         }
     }
 }
