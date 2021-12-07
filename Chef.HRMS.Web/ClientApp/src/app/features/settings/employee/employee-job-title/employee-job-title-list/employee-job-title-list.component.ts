@@ -45,7 +45,7 @@ export class EmployeeJobTitleListComponent implements OnInit {
 
   openCreate() {
     const modalRef = this.modalService.open(EmployeeJobTitleCreateComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.jobTitleNames = this.jobTitleNames;
 
@@ -58,7 +58,7 @@ export class EmployeeJobTitleListComponent implements OnInit {
 
   openEdit(jobTitle: EmployeeJobTitle) {
     const modalRef = this.modalService.open(EmployeeJobTitleEditComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.jobId = jobTitle.id;
     modalRef.componentInstance.jobTitleNames = this.jobTitleNames.filter(v => v !== jobTitle.name.toLowerCase());

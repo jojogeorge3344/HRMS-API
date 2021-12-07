@@ -97,7 +97,7 @@ export class HolidayCategoryListComponent implements OnInit {
 
   openCreateCategory() {
     const modalRef = this.modalService.open(HolidayCategoryCreateComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
@@ -108,7 +108,7 @@ export class HolidayCategoryListComponent implements OnInit {
 
   openEditCategory(category) {
     const modalRef = this.modalService.open(HolidayCategoryEditComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.category = category;
     modalRef.componentInstance.isDisabled = this.isDisabled(category);
@@ -135,7 +135,7 @@ export class HolidayCategoryListComponent implements OnInit {
 
   openEditHoliday(holiday: Holiday, category) {
     const modalRef = this.modalService.open(HolidayEditComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.holiday = holiday;
     modalRef.componentInstance.year = category.year;
