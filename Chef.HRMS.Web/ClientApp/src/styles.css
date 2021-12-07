@@ -350,11 +350,11 @@ aside ::-webkit-scrollbar-thumb {
   }
 } */
 
-  .h-100 {
+  /* .h-100 {
     height: 20% !important;
     width:65%;
    
-  }
+  } */
   
 .row-style{
   align-items: flex-start;
