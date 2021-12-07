@@ -14,13 +14,10 @@ namespace Chef.HRMS.Repositories
 
         public async Task<EmployeeBankAccount> GetBankAccountByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 string sql = @"SELECT * FROM hrms.employeebankaccount 
                                         WHERE employeeid=@employeeId";
 
                 return await Connection.QueryFirstOrDefaultAsync<EmployeeBankAccount>(sql, new { employeeId });
-            }
         }
     }
 }

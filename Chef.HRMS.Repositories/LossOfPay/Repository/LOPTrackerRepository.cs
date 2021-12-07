@@ -14,12 +14,9 @@ namespace Chef.HRMS.Repositories
 
         public async Task<LossOfPayView> GetLossOfPayDeductionByEmployee(int employeeId, int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * from hrms.calculate_LOP(@employeeId,@payrollProcessingMethodId) ";
 
                 return await Connection.QueryFirstOrDefaultAsync<LossOfPayView>(sql, new { employeeId, payrollProcessingMethodId });
-            }
         }
     }
 }

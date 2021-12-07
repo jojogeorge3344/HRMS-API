@@ -14,25 +14,19 @@ namespace Chef.HRMS.Repositories.Loan
 
         public async Task<int> GetLoanSettingId()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT id 
                             FROM   hrms.loansetting 
                             LIMIT  1 ";
 
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql);
-            }
         }
 
         public async Task<LoanSetting> GetTopOneLoanSetting()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * FROM  hrms.loansetting
                                      LIMIT 1";
 
                 return await Connection.QueryFirstOrDefaultAsync<LoanSetting>(sql);
-            }
         }
     }
 }

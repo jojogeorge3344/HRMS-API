@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByPayrollProcessingMethodId(int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT 
                                                            lr.loantype                                   AS loantype, 
                                                            e.id                                          AS employeeid, 
@@ -56,13 +54,10 @@ namespace Chef.HRMS.Repositories
                                                               lr.expectedon";
 
                 return await Connection.QueryAsync<EmployeeLoanView>(sql, new { payrollProcessingMethodId });
-            }
         }
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT lr.employeeid                         AS employeeid, 
                                    lr.loantype                           AS loantype, 
                                    lr.loanno                             AS loanNumber, 
@@ -84,19 +79,15 @@ namespace Chef.HRMS.Repositories
                                          AND Extract(year FROM lr.expectedon) = pm.year )";
 
                 return await Connection.QueryAsync<EmployeeLoanView>(sql, new { employeeId, payrollProcessingMethodId });
-            }
         }
         public async Task<int> GetLoanLastRequestId()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT id 
                             FROM   hrms.loanrequest 
 							ORDER BY id DESC
                             LIMIT  1";
 
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql);
-            }
         }
     }
 }

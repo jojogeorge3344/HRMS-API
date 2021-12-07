@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PANView>> GetByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT p.id          AS panid, 
                                    d.id          AS documentid, 
                                    pd.id         AS pandocumentid, 
@@ -36,7 +34,6 @@ namespace Chef.HRMS.Repositories
                                            ON pd.documentid = d.id ";
 
                 return await Connection.QueryAsync<PANView>(sql, new { employeeId });
-            }
         }
     }
 }

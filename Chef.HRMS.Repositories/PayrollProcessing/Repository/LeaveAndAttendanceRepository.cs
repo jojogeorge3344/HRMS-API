@@ -240,17 +240,42 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertLeaveAndAttendanceDetails(IEnumerable<LeaveAndAttendance> leaveAndAttendances)
         {
-                if (leaveAndAttendances.Count() == 1)
+            int result = 0;
+            using (var transaction = Connection.BeginTransaction())
+            {
+                try
                 {
-                    var employeeId = leaveAndAttendances.Select(x => x.EmployeeId).FirstOrDefault();
-                    var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
-                    int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
-                    if (data != 0)
+                    if (leaveAndAttendances.Count() == 1)
+                    {
+                        var employeeId = leaveAndAttendances.Select(x => x.EmployeeId).FirstOrDefault();
+                        var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
+                        int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
+                        if (data != 0)
+                        {
+                            (from laa in leaveAndAttendances
+                             select laa).ToList().ForEach((laa) =>
+                             {
+                                 laa.PayGroupId = data;
+                                 laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
+                                 laa.IsArchived = false;
+                             });
+                            var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
+                            sql = sql.Replace("RETURNING id", "");
+                            sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
+                            sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
+                            return await Connection.ExecuteAsync(sql, leaveAndAttendances);
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+
+                    }
+                    else
                     {
                         (from laa in leaveAndAttendances
                          select laa).ToList().ForEach((laa) =>
                          {
-                             laa.PayGroupId = data;
                              laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
                              laa.IsArchived = false;
                          });
@@ -258,29 +283,19 @@ namespace Chef.HRMS.Repositories
                         sql = sql.Replace("RETURNING id", "");
                         sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
                         sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
-                        return await Connection.ExecuteAsync(sql, leaveAndAttendances);
-                    }
-                    else
-                    {
-                        return 0;
-                    }
 
+                        await Connection.ExecuteAsync(sql, leaveAndAttendances);
+                    }
+                    transaction.Commit();
                 }
-                else
+                catch (Exception ex)
                 {
-                    (from laa in leaveAndAttendances
-                     select laa).ToList().ForEach((laa) =>
-                     {
-                         laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
-                         laa.IsArchived = false;
-                     });
-                    var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
-                    sql = sql.Replace("RETURNING id", "");
-                    sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
-                    sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
-
-                    return await Connection.ExecuteAsync(sql, leaveAndAttendances);
+                    string msg = ex.Message;
+                    transaction.Rollback();
                 }
+
+            }
+            return result;
         }
 
         public async Task<IEnumerable<LeaveAndAttendance>> GetLeaveAndAttendanceByPayrollProcessingMethodId(int payrollProcessingMethodId)

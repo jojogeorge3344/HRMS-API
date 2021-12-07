@@ -131,17 +131,43 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertOrUpdateAsync(IEnumerable<PayrollBasicComponent> payrollBasicComponents)
         {
-                if (payrollBasicComponents.Select(x => x.PayGroupId).FirstOrDefault() == 0)
+            int result = 0;
+
+            using (var transaction = Connection.BeginTransaction())
+            {
+                try
                 {
-                    var employeeId = payrollBasicComponents.Select(x => x.EmployeeId).FirstOrDefault();
-                    var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
-                    int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
-                    if (data != 0)
+                    if (payrollBasicComponents.Select(x => x.PayGroupId).FirstOrDefault() == 0)
+                    {
+                        var employeeId = payrollBasicComponents.Select(x => x.EmployeeId).FirstOrDefault();
+                        var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
+                        int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
+                        if (data != 0)
+                        {
+                            (from pbc in payrollBasicComponents
+                             select pbc).ToList().ForEach((pbc) =>
+                             {
+                                 pbc.PayGroupId = data;
+                                 pbc.CreatedDate = pbc.ModifiedDate = DateTime.UtcNow;
+                                 pbc.IsArchived = false;
+                             });
+                            var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
+                            sql = sql.Replace("RETURNING Id", " ");
+                            sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
+                            sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
+
+                            return await Connection.ExecuteAsync(sql, payrollBasicComponents);
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                    else
                     {
                         (from pbc in payrollBasicComponents
                          select pbc).ToList().ForEach((pbc) =>
                          {
-                             pbc.PayGroupId = data;
                              pbc.CreatedDate = pbc.ModifiedDate = DateTime.UtcNow;
                              pbc.IsArchived = false;
                          });
@@ -149,28 +175,18 @@ namespace Chef.HRMS.Repositories
                         sql = sql.Replace("RETURNING Id", " ");
                         sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
                         sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
-
-                        return await Connection.ExecuteAsync(sql, payrollBasicComponents);
+                        await Connection.ExecuteAsync(sql, payrollBasicComponents);
                     }
-                    else
-                    {
-                        return 0;
-                    }
+                    transaction.Commit();
                 }
-                else
+                catch (Exception ex)
                 {
-                    (from pbc in payrollBasicComponents
-                     select pbc).ToList().ForEach((pbc) =>
-                     {
-                         pbc.CreatedDate = pbc.ModifiedDate = DateTime.UtcNow;
-                         pbc.IsArchived = false;
-                     });
-                    var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
-                    sql = sql.Replace("RETURNING Id", " ");
-                    sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
-                    sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
-                    return await Connection.ExecuteAsync(sql, payrollBasicComponents);
+                    string msg = ex.Message;
+                    transaction.Rollback();
                 }
+            }
+            return result;
         }
     }
 }
+

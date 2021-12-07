@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<DrivingLicenseView>> GetByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT a.id           AS drivinglicenseid, 
                                    c.id           AS documentid, 
                                    b.id           AS drivinglicensedocumentid, 
@@ -39,7 +37,6 @@ namespace Chef.HRMS.Repositories
                                            ON b.documentid = c.id";
 
                 return await Connection.QueryAsync<DrivingLicenseView>(sql, new { employeeId });
-            }
         }
     }
 }
