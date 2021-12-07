@@ -339,7 +339,7 @@ aside ::-webkit-scrollbar-thumb {
 /* pie gragh size reducing */
 .card-body {
   padding-bottom:1rem ;
-  display: flex;
+  /* display: flex; */
 }
 
 /* @media(max-width: 1024px) {
