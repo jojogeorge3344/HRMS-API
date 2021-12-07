@@ -48,7 +48,7 @@ export class ShiftListComponent implements OnInit {
 
   openCreate() {
     const modalRef = this.modalService.open(ShiftCreateComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.shiftNames = this.shiftNames;
     modalRef.result.then((result) => {
@@ -61,7 +61,7 @@ export class ShiftListComponent implements OnInit {
   openEdit(shift: Shift) {
 
     const modalRef = this.modalService.open(ShiftEditComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      {centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.shiftNames = this.shiftNames.filter(v => v !== shift.name.toLowerCase());
     modalRef.componentInstance.shift = shift;

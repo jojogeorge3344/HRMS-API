@@ -127,7 +127,7 @@ export class PayrollStructureListComponent implements OnInit {
 
   openCreatePayrollStructure() {
     const modalRef = this.modalService.open(PayrollStructureCreateComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      {centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.payrollStructureNames = this.payrollStructureNames;
 
@@ -141,7 +141,7 @@ export class PayrollStructureListComponent implements OnInit {
 
   openEditPayrollStructure(payrollStructure: PayrollStructure) {
     const modalRef = this.modalService.open(PayrollStructureEditComponent,
-      { size: 'md-8', centered: true, backdrop: 'static' });
+      {centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.payrollStructure = payrollStructure;
     modalRef.componentInstance.payrollStructureNames = this.payrollStructureNames.filter(v => v !== payrollStructure.name.toLowerCase());
