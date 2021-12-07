@@ -46,10 +46,11 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdateUserRoleGroup(int roleId, IEnumerable<UserRole> userRole)
         {
-                var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
-                sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
-                await Connection.ExecuteAsync(sql, userRole);
+            //var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
+            //sql = sql.Replace("RETURNING id", "");
+            // sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
+            // await Connection.ExecuteAsync(sql, userRole);
+            int result = 0;
 
             using (var transaction = Connection.BeginTransaction())
             {
@@ -68,7 +69,7 @@ namespace Chef.HRMS.Repositories
                     else
                     {
                         sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId";
-                       
+
                     }
                     await Connection.ExecuteAsync(sql, new { roleId });
 
@@ -80,7 +81,9 @@ namespace Chef.HRMS.Repositories
                     transaction.Rollback();
                 }
 
-                return await Connection.ExecuteAsync(sql, new { roleId });
+                //return await Connection.ExecuteAsync(sql, new { roleId });
+            }
+            return result;
         }
 
         public async Task<int> UpdateUserRoleGroup(IEnumerable<UserRole> userRole)
