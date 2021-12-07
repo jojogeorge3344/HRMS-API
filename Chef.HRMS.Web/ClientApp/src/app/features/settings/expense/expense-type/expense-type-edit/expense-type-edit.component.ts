@@ -78,9 +78,7 @@ export class ExpenseTypeEditComponent implements OnInit {
       category: [{ value: this.expenseType.category, disabled: this.isDisabled }, [
         Validators.required,
       ]],
-      createdBy: [this.expenseType.createdBy],
       createdDate: [this.expenseType.createdDate],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

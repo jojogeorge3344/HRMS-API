@@ -72,8 +72,6 @@ export class HolidayCreateComponent implements OnInit {
       date: [null, Validators.required],
       isFloating: [false],
       holidayCategoryId: this.holidayCategory.id,
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
-    });
+     });
   }
 }

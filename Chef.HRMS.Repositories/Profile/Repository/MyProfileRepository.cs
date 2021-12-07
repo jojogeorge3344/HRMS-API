@@ -1,20 +1,19 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
     public class MyProfileRepository : GenericRepository<MyProfileView>, IMyProfileRepository
     {
-        public MyProfileRepository(DbSession session) : base(session)
+        public MyProfileRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<MyProfileView> GetMyProfileDetailsAsync(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT e.id, 
                                    e.firstname, 
                                    e.middlename, 
@@ -38,7 +37,6 @@ namespace Chef.HRMS.Repositories
                                     where e.id=@employeeId";
 
                 return await Connection.QueryFirstOrDefaultAsync<MyProfileView>(sql, new { employeeId });
-            }
         }
     }
 }

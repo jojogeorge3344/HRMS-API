@@ -49,7 +49,7 @@ export class HolidayEditComponent implements OnInit {
 
   get name() { return this.editForm.get('name'); }
 
-  onSubmit() {
+  onSubmit() { 
     this.holidayService.update(this.editForm.value).subscribe((result: any) => {
       if (result === -1) {
         this.toastr.showErrorMessage('Holiday already exists!');
@@ -75,9 +75,7 @@ export class HolidayEditComponent implements OnInit {
       isFloating: [{value: this.holiday.isFloating, disabled: this.isDisabled}],
       holidayCategoryId: [this.holiday.holidayCategoryId],
       id: [this.holiday.id],
-      createdBy: [this.holiday.createdBy],
       createdDate: [this.holiday.createdDate],
-      modifiedBy: [this.currentUserId]
-    });
+     });
   }
 }

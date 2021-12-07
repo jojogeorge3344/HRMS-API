@@ -87,10 +87,8 @@ export class PayrollEmployeeEditBonusComponent implements OnInit {
       disburseOn: [new Date(), [
         Validators.required,
       ]],
-      remarks: ['', [Validators.maxLength(256)]],
-      // createdBy: [],
-      // createdDate: [],
-      modifiedBy: [this.currentUserId]
+      remarks: ['', [Validators.maxLength(256)]]
+      // createdDate: []
     });
   }
 

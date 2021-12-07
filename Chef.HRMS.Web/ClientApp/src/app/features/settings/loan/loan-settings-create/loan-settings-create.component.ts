@@ -96,8 +96,6 @@ export class LoanSettingsCreateComponent implements OnInit {
         Validators.max(36)
       ]],
       interestCalcutationMethod: [this.interestMethod.ReductionRate],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     }, { validators: rangeValidator });
   }
 }

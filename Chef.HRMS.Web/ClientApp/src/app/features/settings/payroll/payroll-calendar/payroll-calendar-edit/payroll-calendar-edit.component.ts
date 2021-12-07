@@ -43,7 +43,6 @@ export class PayrollCalendarEditComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.editForm.patchValue(this.payrollCalendar);
-    this.editForm.patchValue({ modifiedBy: this.currentUserId });
     this.update(this.payrollCalendar.periodType, false);
   }
 
@@ -105,9 +104,7 @@ export class PayrollCalendarEditComponent implements OnInit {
       processingDay: [{ value: null, disabled: this.isDisabled }, [
         Validators.required,
       ]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

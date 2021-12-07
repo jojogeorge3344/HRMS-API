@@ -230,9 +230,7 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
       payGroupId: [0],
       employeeId: [''],
       payGroupOrEmployeeName: [],
-      status: [false],
-      createdBy: [this.currentUser],
-      modifiedBy: [this.currentUser]
+      status: [false]
     });
   }
 }

@@ -55,9 +55,7 @@ export class ExpensePayoutComponent implements OnInit {
       amount: [{ value: null, disabled: true }, [Validators.required]],
       comment: ['', [Validators.maxLength(250)]],
       employeeId: [],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
 
   }

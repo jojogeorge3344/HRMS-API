@@ -32,7 +32,6 @@ export class ExpenseConfigurationPerdiemComponent implements OnChanges {
     if (changes.expenseConfiguration) {
       this.editForm = this.createFormGroup();
       this.editForm.patchValue(this.expenseConfiguration);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
     }
 
     if (this.isView) {
@@ -137,9 +136,7 @@ export class ExpenseConfigurationPerdiemComponent implements OnChanges {
         Validators.min(1),
         Validators.max(999999999)
       ]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

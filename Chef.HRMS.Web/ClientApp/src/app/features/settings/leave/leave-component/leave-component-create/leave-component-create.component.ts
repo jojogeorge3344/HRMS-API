@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { LeaveComponentService } from '../leave-component.service';
 import { GenderType } from '../../../../../models/common/types/gendertype';
 import { MaritalStatusType } from '../../../../../models/common/types/maritalstatustype';
@@ -104,9 +103,7 @@ export class LeaveComponentCreateComponent implements OnInit {
       isSickLeave: [false],
       isStatutoryLeave: [false],
       isRestrictedToGender: [false],
-      isRestrictedToMaritalStatus: [false],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      isRestrictedToMaritalStatus: [false]
     });
   }
 }

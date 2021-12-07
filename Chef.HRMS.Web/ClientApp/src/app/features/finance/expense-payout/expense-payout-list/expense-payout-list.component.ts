@@ -97,7 +97,7 @@ export class ExpensePayoutListComponent implements OnInit {
         ['Amount in words', this.numberToWordsPipe.transform(expense.amount)],
         ['Remarks', expense.comment],
         ['Approved By', `${modifiedBy.firstName || ''} ${modifiedBy.middleName || ''} ${modifiedBy.lastName || ''}`],
-        // ['Approved By \n', expense.modifiedBy.toString()],
+       // ['Approved By \n', expense.modifiedBy.toString()],
         ['Paid By', `${modifiedBy.firstName || ''} ${modifiedBy.middleName || ''} ${modifiedBy.lastName || ''}`],
         ['Paid Date', this.datePipe.transform(expense.modifiedDate)]
       ],

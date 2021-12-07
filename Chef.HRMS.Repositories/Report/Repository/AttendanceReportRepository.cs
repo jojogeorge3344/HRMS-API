@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,14 +10,12 @@ namespace Chef.HRMS.Repositories
 {
     public class AttendanceReportRepository : GenericRepository<AttendanceReportView>, IAttendanceReportRepository
     {
-        public AttendanceReportRepository(DbSession session) : base(session)
+        public AttendanceReportRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<AttendanceReportView>> GetAttendanceLogReport(DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"(SELECT DISTINCT e.id                                     AS employeeid,
                                               jb.employeenumber,
                                              ( Concat(e.firstname, ' ', e.lastname) )                AS employeename, 
@@ -115,7 +114,6 @@ namespace Chef.HRMS.Repositories
                             ORDER  BY intime DESC ";
 
                 return await Connection.QueryAsync<AttendanceReportView>(sql, new { fromDate, toDate });
-            }
         }
     }
 }

@@ -82,7 +82,6 @@ export class PayrollLOPSettingsEditComponent implements OnInit {
   getLOPSettings() {
     this.payrollLopSettingsService.get(1).subscribe(res => {
       this.LopCalculationForm.patchValue(res, { emitEvent: false });
-      this.LopCalculationForm.patchValue({ modifiedBy: this.currentUserId });
       if (res.canFullMonth) {
         this.LopCalculationForm.controls.lopCalculation.patchValue(1, { emitEvent: false });
       }
@@ -109,9 +108,7 @@ export class PayrollLOPSettingsEditComponent implements OnInit {
       fixedValue: [{ value: 0, disabled: true }, { validators: [Validators.required], emitEvent: false }],
       isFormulaBased: [false, { emitEvent: false }],
       formula: [{ value: '', disabled: true }],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
 
   }
@@ -137,8 +134,6 @@ export class PayrollLOPSettingsEditComponent implements OnInit {
     }
     if (this.LopCalculationForm.value.id === 0) {
       api = this.payrollLopSettingsService.add(LopSettings);
-      LopSettings.createdBy = this.currentUserId;
-      LopSettings.modifiedBy = this.currentUserId;
       LopSettings.createdDate = new Date();
       delete LopSettings.id;
     } else {

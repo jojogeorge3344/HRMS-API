@@ -118,7 +118,6 @@ export class EmployeeJobDetailsViewComponent implements OnInit {
       result.dateOfJoin = new Date(result.dateOfJoin);
       this.reportingManager = result.reportingManager;
       this.editForm.patchValue(result);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
     },
       error => {
         console.error(error);
@@ -220,9 +219,7 @@ export class EmployeeJobDetailsViewComponent implements OnInit {
       noticePeriod: ['', [
         Validators.required
       ]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 

@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollCalculationRepository : GenericRepository<PayrollCalculation>, IPayrollCalculationRepository
     {
-        public PayrollCalculationRepository(DbSession session) : base(session)
+        public PayrollCalculationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<PayrollCalculationViewModel>> GetAllCalculationDetails()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT ps.id          AS payrollstructureid, 
                                             ps.NAME        AS PayrollStructureName, 
                                             pcmp.id        AS PayrollComponentId, 
@@ -43,13 +42,10 @@ namespace Chef.HRMS.Repositories
                             ORDER  BY isfixed ASC";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
-            }
         }
 
         public async Task<IEnumerable<PayrollCalculationViewModel>> GetPayrollComponentsByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT ps.id          AS payrollstructureid, 
                                             ps.NAME        AS PayrollStructureName, 
                                             pcmp.id        AS PayrollComponentId, 
@@ -82,17 +78,13 @@ namespace Chef.HRMS.Repositories
                             ORDER BY isfixed";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql, new { employeeId });
-            }
         }
 
         public async Task<IEnumerable<PayrollCalculation>> GetAllCalculationDetailsById(int id)
         {
-            using (Connection)
-            {
                 var sql = "SELECT * from hrms.payrollcalculation where payrollstructureid=@id";
 
                 return await Connection.QueryAsync<PayrollCalculation>(sql, new { id });
-            }
         }
 
     }

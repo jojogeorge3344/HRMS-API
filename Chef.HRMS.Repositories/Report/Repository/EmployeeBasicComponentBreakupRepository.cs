@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeBasicComponentBreakupRepository : GenericRepository<EmployeeBasicComponentBreakupView>, IEmployeeBasicComponentBreakupRepository
     {
-        public EmployeeBasicComponentBreakupRepository(DbSession session) : base(session)
+        public EmployeeBasicComponentBreakupRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<EmployeeBasicComponentBreakupView>> GetAllEmployeeBasicComponentBreakupView(int month, int year)
         {
-            using (Connection)
-            {
                 var sql = @$"SELECT      employeename, 
                                          employeecode, 
                                          json_object_agg(shortcode,total order BY shortcode) basiccomponents, 
@@ -53,7 +52,6 @@ namespace Chef.HRMS.Repositories
                                 ORDER BY employeename;";
 
                 return await Connection.QueryAsync<EmployeeBasicComponentBreakupView>(sql, new { month, year });
-            }
         }
     }
 }

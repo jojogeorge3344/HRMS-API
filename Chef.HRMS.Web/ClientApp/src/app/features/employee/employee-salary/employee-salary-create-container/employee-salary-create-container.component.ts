@@ -85,7 +85,9 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
   }
 
   getEmployeeSalaryConfiguration() {
+
     this.payrollCalculationService.getByEmployeeId(this.employeeId).subscribe((payrollcalculation: EmployeeSalaryConfigurationView[]) => {
+
       this.salaryStructure = payrollcalculation;
 
       if (this.salaryStructure.length && this.salaryStructure[0].payrollStructureName) {
@@ -125,9 +127,9 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
     const employeeSalaryConfiguration: EmployeeSalaryConfiguration = {
     employeeId: this.employeeId,
     effectiveDate: this.effectiveDate,
-    version: 'Version 001',
-    createdBy: this.currentUserId,
-    modifiedBy: this.currentUserId
+    version: 'Version 001'
+    // createdBy: this.currentUserId,
+    // modifiedBy: this.currentUserId
     };
 
     let employeeSalaryConfigurationDetails: EmployeeSalaryConfigurationDetails[] = this.salaryStructure.map(x => {
@@ -138,9 +140,9 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
         payrollComponentId: x.payrollComponentId,
         payrollStructureId: x.payrollStructureId,
         monthlyAmount: x.monthlyAmount,
-        yearlyAmount: x.yearlyAmount,
-        createdBy: this.currentUserId,
-        modifiedBy: this.currentUserId
+        yearlyAmount: x.yearlyAmount
+        // createdBy: this.currentUserId,
+        // modifiedBy: this.currentUserId
       };
     });
 

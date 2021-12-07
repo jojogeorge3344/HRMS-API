@@ -12,6 +12,7 @@
         <button class="btn btn-success btn-add" (click)="openCreateCategory()"><i
                 class="fa fal fa-plus fa-plus mr-1"></i> Add Holiday List</button>
     </div>
+
     <ngb-accordion [closeOthers]="true" activeIds="static-{{this.firstOpen}}" class="accordion accordion-outline">
         
         <ngb-panel *ngFor="let category of holidayCategories;" id="static-{{category.id}}" title="{{category.name}}">
@@ -32,6 +33,11 @@
                             class="fal fa-exclamation-circle width-2 fs-xl text-warning"></i>
                             
                     </button>
+                    <div class="button-right-wrapper" *ngIf="!isDisabled(category)">
+                        <button class="btn btn-primary  btn-sm text-nowrap mr-2 mt-2" (click)="openCreateHoliday(category)">
+                        <i class="fa fal fa-cog mr-1"></i> Add Holiday
+                    </button>
+                </div> 
         
                     <div class="btn-group" dropdown container="main">
         
@@ -57,12 +63,6 @@
             </ng-template>
         
             <ng-template ngbPanelContent>
-
-                <div class="button-right-wrapper" *ngIf="!isDisabled(category)">
-                    <button class="btn btn-primary btn-redirect" (click)="openCreateHoliday(category)">
-                        <i class="fa fal fa-cog mr-1"></i>Add Holiday
-                    </button>
-                </div>
 
                 <table class="table table-striped table-light">
         

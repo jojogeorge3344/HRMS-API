@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class PassportRepository : GenericRepository<Passport>, IPassportRepository
     {
-        public PassportRepository(DbSession session) : base(session)
+        public PassportRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<PassportView>> GetByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT A.id           AS PassportId, 
                                    C.id           AS DocumentId, 
                                    B.id           AS PassportDocumentId, 
@@ -43,7 +42,6 @@ namespace Chef.HRMS.Repositories
                                            ON B.documentid = C.id ";
 
                 return await Connection.QueryAsync<PassportView>(sql, new { employeeId });
-            }
         }
     }
 }

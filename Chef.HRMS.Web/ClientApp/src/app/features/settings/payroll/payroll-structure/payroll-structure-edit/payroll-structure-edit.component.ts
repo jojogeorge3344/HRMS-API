@@ -62,9 +62,7 @@ export class PayrollStructureEditComponent implements OnInit {
         Validators.required,
         Validators.maxLength(128),
       ]],
-      createdBy: [this.payrollStructure.createdBy],
       createdDate: [this.payrollStructure.createdDate],
-      modifiedBy: [this.currentUserId]
     });
   }
 

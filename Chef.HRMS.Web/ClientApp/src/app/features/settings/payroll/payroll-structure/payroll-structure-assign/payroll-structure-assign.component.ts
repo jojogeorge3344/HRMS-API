@@ -63,8 +63,6 @@ export class PayrollStructureAssignComponent implements OnInit {
           payrollComponentType: this.allPayrollComponents[i].payrollComponentType,
           name: this.allPayrollComponents[i].name,
           shortCode: this.allPayrollComponents[i].shortCode,
-          createdBy: this.currentUserId,
-          modifiedBy: this.currentUserId
         };
         selectedTypes.push(selectedType);
       } else if (!type && currentPayrollComponent) {

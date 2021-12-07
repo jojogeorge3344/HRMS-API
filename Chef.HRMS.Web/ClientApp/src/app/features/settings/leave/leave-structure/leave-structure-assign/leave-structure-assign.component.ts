@@ -54,9 +54,7 @@ export class LeaveStructureAssignComponent implements OnInit {
         const selectedType = {
           leaveStructureId: this.leaveStructure.id,
           leaveComponentId: this.allLeaveComponents[i].id,
-          isConfigured: this.isConfigured(i),
-          createdBy: this.currentUserId,
-          modifiedBy: this.currentUserId
+          isConfigured: this.isConfigured(i)
         };
         selectedTypes.push(selectedType);
       } else if (!type && currentLeaveComponent) {

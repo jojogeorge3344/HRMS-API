@@ -191,9 +191,7 @@ export class EmployeePANCardEditComponent implements OnInit {
         extension: [this.panCard.extension],
         size: [null],
       }),
-      createdBy: [this.panCard.createdBy],
       createdDate: [this.panCard.createdDate],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

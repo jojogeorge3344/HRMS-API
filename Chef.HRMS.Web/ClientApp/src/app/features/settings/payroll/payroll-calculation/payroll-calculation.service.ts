@@ -49,6 +49,7 @@ export class PayrollCalculationService {
 
         ),
         map(things => things.sort(this.compareFn)),
+        
       );
   }
   compareFn = (a, b) => {

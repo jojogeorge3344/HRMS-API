@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpensePolicyConfigurationRepository : GenericRepository<ExpensePolicyConfiguration>, IExpensePolicyConfigurationRepository
     {
-        public ExpensePolicyConfigurationRepository(DbSession session) : base(session)
+        public ExpensePolicyConfigurationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
@@ -40,6 +41,10 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertAsync(IEnumerable<ExpensePolicyConfiguration> expensePolicyConfiguration, IEnumerable<int> expensePolicyConfigurationIds)
         {
+            int result = 0;
+
+            using (var transaction = Connection.BeginTransaction())
+            {
 
                 try
                 {
@@ -52,9 +57,9 @@ namespace Chef.HRMS.Repositories
                              pbc.IsArchived = false;
                          });
                         var sql = new QueryBuilder<ExpensePolicyConfiguration>().GenerateInsertQuery();
-                        sql = sql.Replace("RETURNING id", "");
+                        sql = sql.Replace("RETURNING Id", " ");
                         sql += " ON CONFLICT ON CONSTRAINT expensepolicyconfiguration_policy_type_ukey DO NOTHING";
-                        var result = await Connection.ExecuteAsync(sql, expensePolicyConfiguration);
+                        result = await Connection.ExecuteAsync(sql, expensePolicyConfiguration);
                         if (result != 0)
                         {
                             var policyId = expensePolicyConfiguration.Select(x => x.ExpensePolicyId).FirstOrDefault();
@@ -64,7 +69,7 @@ namespace Chef.HRMS.Repositories
                             await Connection.ExecuteAsync(sqlnew, new { policyId });
 
                         }
-
+                        
                     }
                     if (expensePolicyConfigurationIds.Count() > 0)
                     {
@@ -72,13 +77,17 @@ namespace Chef.HRMS.Repositories
                         var sql = "DELETE FROM hrms.expensepolicyconfiguration WHERE id IN (" + expensePolicyConfigurationId + ")";
                         await Connection.ExecuteAsync(sql, new { expensePolicyConfigurationId });
                     }
-
-                    return 0;
+                    transaction.Commit();
+                    //return 0;
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
-                    return -1;
+                    string msg = ex.Message;
+                    //return -1;
+                    transaction.Rollback();
                 }
+            }
+            return result;
         }
 
         public async Task<int> SetExpensePolicyIsConfigured(int expensePolicyId)
@@ -86,8 +95,8 @@ namespace Chef.HRMS.Repositories
 
                 try
                 {
-                    var sql = @"SELECT hrms.setexpensepolicyisionfigured(@expensePolicyId)";
-                    var result = await Connection.ExecuteAsync(sql, new { expensePolicyId });
+                   var sql = @"SELECT hrms.setexpensepolicyisionfigured(@expensePolicyId)";
+                   var result = await Connection.ExecuteAsync(sql, new { expensePolicyId });
                     if (result == -1)
                     {
 

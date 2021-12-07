@@ -165,10 +165,7 @@ export class PayrollProcessLoanCreateComponent implements OnInit {
       emiStartsFromMonth: [null, [Validators.required]],
       repaymentTerm: ['', [Validators.max(36), Validators.required]],
       comments: ['', [Validators.required,
-      Validators.maxLength(256)]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
-
+      Validators.maxLength(256)]]
     });
   }
   onSubmit() {

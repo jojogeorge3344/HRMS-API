@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class ProcessedSalaryReportRepository : GenericRepository<ProcessedSalaryDetailsView>, IProcessedSalaryReportRepository
     {
-        public ProcessedSalaryReportRepository(DbSession session) : base(session)
+        public ProcessedSalaryReportRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<ProcessedSalaryDetailsView>> GetProcessedSalaryDetails(int offSet)
         {
-            using (Connection)
-            {
                 var sql = @$"SELECT pb.employeecode, 
                                    pb.employeename, 
                                    pg.NAME                       paygroup, 
@@ -64,7 +63,6 @@ namespace Chef.HRMS.Repositories
                             OFFSET {offSet} LIMIT 10";
 
                 return await Connection.QueryAsync<ProcessedSalaryDetailsView>(sql);
-            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class EducationRepository : GenericRepository<Education>, IEducationRepository
     {
-        public EducationRepository(DbSession session) : base(session)
+        public EducationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<EducationView>> GetAllByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT e.id               AS educationid, 
                                    d.id               AS documentid, 
                                    ed.id              AS educationdocumentid, 
@@ -37,7 +36,6 @@ namespace Chef.HRMS.Repositories
                                            ON ed.documentid = d.id";
 
                 return await Connection.QueryAsync<EducationView>(sql, new { employeeId });
-            }
         }
     }
 }

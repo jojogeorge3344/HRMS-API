@@ -1,13 +1,14 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
     public class CompanyRepository : GenericRepository<HRMSCompany>, ICompanyRepository
     {
-        public CompanyRepository(DbSession session) : base(session)
+        public CompanyRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

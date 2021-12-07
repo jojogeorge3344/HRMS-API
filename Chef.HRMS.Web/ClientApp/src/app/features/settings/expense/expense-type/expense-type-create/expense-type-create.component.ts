@@ -75,8 +75,6 @@ export class ExpenseTypeCreateComponent implements OnInit {
       category: [null, [
         Validators.required,
       ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

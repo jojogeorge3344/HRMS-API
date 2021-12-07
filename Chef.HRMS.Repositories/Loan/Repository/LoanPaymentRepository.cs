@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class LoanPaymentRepository : GenericRepository<LoanPayment>, ILoanPaymentRepository
     {
-        public LoanPaymentRepository(DbSession session) : base(session)
+        public LoanPaymentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT 
                                                            lr.loantype                                   AS loantype, 
                                                            e.id                                          AS employeeid, 
@@ -68,13 +67,10 @@ namespace Chef.HRMS.Repositories
                                                               lp.tenurenumber";
 
                 return await Connection.QueryAsync<EmployeeLoanView>(sql, new { employeeId, payrollProcessingMethodId });
-            }
         }
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByPayrollProcessingMethodId(int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT 
                                                            lr.loantype                                   AS loantype, 
                                                            e.id                                          AS employeeid,
@@ -129,18 +125,14 @@ namespace Chef.HRMS.Repositories
                                                               lp.tenurenumber";
 
                 return await Connection.QueryAsync<EmployeeLoanView>(sql, new { payrollProcessingMethodId });
-            }
         }
 
         public async Task<int> InsertAsync(IEnumerable<LoanPayment> loanPayment)
         {
-            using (Connection)
-            {
                 var sql = new QueryBuilder<LoanPayment>().GenerateInsertQuery();
                 sql = sql.Replace("RETURNING id", "");
 
                 return await Connection.ExecuteAsync(sql, loanPayment);
-            }
         }
     }
 }

@@ -77,9 +77,7 @@ export class LeaveStructureEditComponent implements OnInit {
       showLeavePolicyExplanation: { value: this.leaveStructure.showLeavePolicyExplanation, disabled: this.isDisabled },
       isCustomLeavePolicyDocumentAvailable: { value: this.leaveStructure.isCustomLeavePolicyDocumentAvailable, disabled: this.isDisabled },
       customDocumentPath: { value: this.leaveStructure.customDocumentPath, disabled: this.isDisabled },
-      createdBy: [this.leaveStructure.createdBy],
-      createdDate: [this.leaveStructure.createdDate],
-      modifiedBy: [this.currentUserId]
+      createdDate: [this.leaveStructure.createdDate]
     });
   }
 }

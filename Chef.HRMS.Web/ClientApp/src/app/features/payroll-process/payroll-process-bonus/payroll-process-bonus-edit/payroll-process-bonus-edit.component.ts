@@ -97,10 +97,7 @@ export class PayrollProcessBonusEditComponent implements OnInit {
       ]],
       remarks: ['', [Validators.required,
       Validators.maxLength(256)]],
-      createdBy: [this.currentUserId],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
-
+      createdDate: []
     });
   }
   onSubmit() {

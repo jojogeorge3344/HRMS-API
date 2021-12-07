@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveReportRepository : GenericRepository<LeaveReportView>, ILeaveReportRepository
     {
-        public LeaveReportRepository(DbSession session) : base(session)
+        public LeaveReportRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<LeaveReportView>> GetLeaveReportDetails(int offSet)
         {
-            using (Connection)
-            {
                 var sql = @$"SELECT l.employeeid, 
                                    ( Concat(e.firstname, ' ', e.lastname) )   employeename, 
                                    jd.employeenumber                          employeecode, 
@@ -39,7 +38,6 @@ namespace Chef.HRMS.Repositories
                             ORDER BY   l.employeeid offset {offSet} limit 10";
 
                 return await Connection.QueryAsync<LeaveReportView>(sql);
-            }
         }
     }
 }

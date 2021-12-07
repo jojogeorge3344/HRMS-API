@@ -78,9 +78,6 @@ export class PayGroupCreateComponent implements OnInit {
       ]],
       startingMonth: [0, []],
       startingWeek: [0, []],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
-
     });
   }
 

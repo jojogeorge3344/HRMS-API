@@ -27,7 +27,7 @@ export class EmployeeBankDetailsEditComponent implements OnInit {
 
     if (this.bankDetails) {
       this.editForm.patchValue(this.bankDetails);
-      this.editForm.patchValue({ modifiedBy: this.currentUserId });
+      // this.editForm.patchValue({ modifiedBy: this.currentUserId });
     }
   }
 
@@ -49,9 +49,7 @@ export class EmployeeBankDetailsEditComponent implements OnInit {
       accountNumber: ['', [Validators.required, Validators.maxLength(36)]],
       branchName: ['', [Validators.required, Validators.maxLength(64)]],
       ifscCode: ['', [Validators.required, Validators.maxLength(16)]],
-      createdBy: [],
       createdDate: [],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

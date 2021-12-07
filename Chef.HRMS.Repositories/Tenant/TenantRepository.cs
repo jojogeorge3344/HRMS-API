@@ -2,6 +2,7 @@
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,28 +23,23 @@ namespace Chef.HRMS.Repositories
             new Country{ Name = "Oman" }
         };
 
-        public TenantRepository(DbSession session) : base(session)
+        public TenantRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public void CreateDatabase()
         {
             var tenant = Get();
-            using (Connection)
-            {
                 StringBuilder query = new StringBuilder();
                 query.Append($"DROP DATABASE IF EXISTS {tenant.Name};");
                 query.Append($"CREATE DATABASE {tenant.Name};");
                 Connection.Execute(query.ToString());
-            }
         }
 
         public void CreateSchemas()
         {
             string fullQuery = string.Empty;
 
-            using (Connection)
-            {
                 string query = new QueryBuilder<HRMSCompany>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
@@ -299,7 +295,7 @@ namespace Chef.HRMS.Repositories
 
 
                 System.IO.File.WriteAllText(@"HRMSTableQuery.sql", fullQuery);
-            }
+
         }
 
         public HRMSTenant Get()

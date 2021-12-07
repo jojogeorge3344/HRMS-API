@@ -1,13 +1,14 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
     public class ExpenseDocumentRepository : GenericRepository<ExpenseDocument>, IExpenseDocumentRepository
     {
-        public ExpenseDocumentRepository(DbSession session) : base(session)
+        public ExpenseDocumentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 

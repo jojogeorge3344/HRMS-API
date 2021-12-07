@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeNumberSeriesRepository : GenericRepository<EmployeeNumberSeries>, IEmployeeNumberSeriesRepository
     {
-        public EmployeeNumberSeriesRepository(DbSession session) : base(session)
+        public EmployeeNumberSeriesRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
@@ -25,7 +26,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<int>> GetAllAssignedNumberSeries()
         {
 
-                string sql = @"SELECT DISTINCT hrms.NumberSeriesId FROM JobDetails";
+                string sql = @"SELECT DISTINCT numberseriesid FROM hrms.jobdetails";
 
                 return await Connection.QueryAsync<int>(sql);
 

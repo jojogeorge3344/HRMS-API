@@ -73,9 +73,7 @@ export class PayrollEditAdhocPaymentComponent implements OnInit {
         Validators.maxLength(18),
         Validators.required
       ]],
-      createdBy: [],
-      createdDate: [],
-      modifiedBy: [this.currentUserId]
+      createdDate: []
     });
   }
 }

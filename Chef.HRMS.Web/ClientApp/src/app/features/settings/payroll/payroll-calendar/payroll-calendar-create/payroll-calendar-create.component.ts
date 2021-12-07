@@ -97,8 +97,6 @@ export class PayrollCalendarCreateComponent implements OnInit {
       processingDay: [null, [
         Validators.required,
       ]],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
     });
   }
 }

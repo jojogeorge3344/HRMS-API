@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,14 +9,12 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeReportRepository : GenericRepository<EmployeeDetailView>, IEmployeeReportRepository
     {
-        public EmployeeReportRepository(DbSession session) : base(session)
+        public EmployeeReportRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<EmployeeDetailView>> GetAllEmployeeDetailView(int offSet)
         {
-            using (Connection)
-            {
                 var sql = @$"SELECT  e.id, 
                                    Concat (e.firstname, ' ', e.lastname) AS employeename, 
 								    e.dateofbirth,
@@ -60,7 +59,7 @@ namespace Chef.HRMS.Repositories
 							OFFSET {offSet} LIMIT 10";
 
                 return await Connection.QueryAsync<EmployeeDetailView>(sql);
-            }
+           
         }
     }
 }

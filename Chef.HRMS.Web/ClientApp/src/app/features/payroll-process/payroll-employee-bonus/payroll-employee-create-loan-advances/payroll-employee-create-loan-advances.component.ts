@@ -205,9 +205,7 @@ export class PayrollEmployeeCreateLoanAdvancesComponent implements OnInit {
       comments: ['', [Validators.required,
       Validators.maxLength(256)]],
       employeeID: [{ value: this.employee, disabled: true}],
-      loanSettingId: [this.loanSettingId],
-      createdBy: [this.currentUserId],
-      modifiedBy: [this.currentUserId]
+      loanSettingId: [this.loanSettingId]
     });
   }
 
