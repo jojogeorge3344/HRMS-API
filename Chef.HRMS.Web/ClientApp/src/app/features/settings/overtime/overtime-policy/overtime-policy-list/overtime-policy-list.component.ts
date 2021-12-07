@@ -64,7 +64,7 @@ export class OvertimePolicyListComponent implements OnInit {
 
   openCreate() {
     const modalRef = this.modalService.open(OvertimePolicyCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.attendanceHoursTypes = this.attendanceHoursTypes;
     modalRef.componentInstance.attendanceHoursTypeKeys = this.attendanceHoursTypeKeys;
@@ -79,7 +79,7 @@ export class OvertimePolicyListComponent implements OnInit {
 
   openEdit(overtimePolicy: OvertimePolicy) {
     const modalRef = this.modalService.open(OvertimePolicyEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.overtimePolicy = overtimePolicy;
     modalRef.componentInstance.attendanceHoursTypes = this.attendanceHoursTypes;
@@ -96,7 +96,7 @@ export class OvertimePolicyListComponent implements OnInit {
 
   openView(overtimePolicy: OvertimePolicy) {
     const modalRef = this.modalService.open(OvertimePolicyViewComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.overtimePolicy = overtimePolicy;
     modalRef.componentInstance.attendanceHoursTypes = this.attendanceHoursTypes;
