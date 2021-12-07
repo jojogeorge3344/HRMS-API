@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollCalculationViewModel>> GetAllCalculationDetails()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT ps.id          AS payrollstructureid, 
                                             ps.NAME        AS PayrollStructureName, 
                                             pcmp.id        AS PayrollComponentId, 
@@ -44,13 +42,10 @@ namespace Chef.HRMS.Repositories
                             ORDER  BY isfixed ASC";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
-            }
         }
 
         public async Task<IEnumerable<PayrollCalculationViewModel>> GetPayrollComponentsByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT ps.id          AS payrollstructureid, 
                                             ps.NAME        AS PayrollStructureName, 
                                             pcmp.id        AS PayrollComponentId, 
@@ -83,17 +78,13 @@ namespace Chef.HRMS.Repositories
                             ORDER BY isfixed";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql, new { employeeId });
-            }
         }
 
         public async Task<IEnumerable<PayrollCalculation>> GetAllCalculationDetailsById(int id)
         {
-            using (Connection)
-            {
                 var sql = "SELECT * from hrms.payrollcalculation where payrollstructureid=@id";
 
                 return await Connection.QueryAsync<PayrollCalculation>(sql, new { id });
-            }
         }
 
     }

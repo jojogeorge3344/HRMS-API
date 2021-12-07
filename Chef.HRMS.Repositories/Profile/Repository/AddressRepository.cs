@@ -15,12 +15,9 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<Address>> GetAllByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = "SELECT * FROM  hrms.address WHERE employeeId = @employeeId";
 
                 return await Connection.QueryAsync<Address>(sql, new { employeeId });
-            }
         }
     }
 }

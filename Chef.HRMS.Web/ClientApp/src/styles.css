@@ -291,7 +291,7 @@ aside ::-webkit-scrollbar-thumb {
   font-size: 0.78125rem;
 }
 .card-heading {
-  padding: 1rem 1rem;
+  padding: 0.5rem 0.5rem;
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
@@ -335,3 +335,46 @@ aside ::-webkit-scrollbar-thumb {
 .toast-success {
   background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'><path fill='rgb(81, 163, 81)' d='M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z'/></svg>");
 } */
+
+/* pie gragh size reducing */
+.card-body {
+  padding-bottom:1rem ;
+  display: flex;
+}
+
+/* @media(max-width: 1024px) {
+  .h-100 {
+    height: 50% !important;
+    width:100%;
+    
+  }
+} */
+
+  .h-100 {
+    height: 20% !important;
+    width:65%;
+   
+  }
+  
+.row-style{
+  align-items: flex-start;
+  flex-direction: row;
+  /* flex-basis:30%; */
+  /* justify-content:center;*/
+} 
+
+
+.card-div-height{
+  height:250px;
+}
+
+.doughnut{
+  padding-top: 1.5rem;
+}
+.datechange{
+  margin-top: 27px;
+  margin-right: 3%;
+}
+.subheader {
+  margin-bottom: 1rem;
+}

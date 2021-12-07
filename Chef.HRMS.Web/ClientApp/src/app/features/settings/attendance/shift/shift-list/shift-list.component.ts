@@ -13,7 +13,8 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 
 @Component({
   selector: 'hrms-shift-list',
-  templateUrl: './shift-list.component.html'
+  templateUrl: './shift-list.component.html',
+  //styles:''
 })
 
 export class ShiftListComponent implements OnInit {
@@ -47,7 +48,7 @@ export class ShiftListComponent implements OnInit {
 
   openCreate() {
     const modalRef = this.modalService.open(ShiftCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.shiftNames = this.shiftNames;
     modalRef.result.then((result) => {
@@ -60,7 +61,7 @@ export class ShiftListComponent implements OnInit {
   openEdit(shift: Shift) {
 
     const modalRef = this.modalService.open(ShiftEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      {centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.shiftNames = this.shiftNames.filter(v => v !== shift.name.toLowerCase());
     modalRef.componentInstance.shift = shift;

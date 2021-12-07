@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EducationView>> GetAllByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT e.id               AS educationid, 
                                    d.id               AS documentid, 
                                    ed.id              AS educationdocumentid, 
@@ -38,7 +36,6 @@ namespace Chef.HRMS.Repositories
                                            ON ed.documentid = d.id";
 
                 return await Connection.QueryAsync<EducationView>(sql, new { employeeId });
-            }
         }
     }
 }

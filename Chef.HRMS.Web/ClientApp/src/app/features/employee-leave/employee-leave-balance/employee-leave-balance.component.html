@@ -1,24 +1,24 @@
 
-<div class="row">
+<div class="row row-style card-div-height">
     <ng-container *ngFor="let type of item">
-        <div class="col-md-4 pb-4" *ngIf= "type.shortCode !='LOP'">
-            <div class="card h-100">
+        <div class="col-lg-4 col-md-6 col-xl-2" *ngIf= "type.shortCode !='LOP'" style="min-width: 340px;">
+            <div class="card h-100 d-flex w-100 flex-wrap">
                 <div class="card-heading text-capitalize" >
                     {{type.leaveComponentName}}
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 mt-2">
+                <div class="card-body ">
+                    <div class="d-flex w-100">
+                        <div class="col-xs-6 col-sm-6 col-md-6 pb-1">
                             <div #chartValue>
                                 <canvas id="{{type.leaveComponentId}}" style="width: 125px; height: 125px;"></canvas>
                                 <!-- <canvas id="canvas" style="width: 125px; height: 125px;"></canvas> -->
                             </div>
                         </div>
-                        <div class="col-sm-6 mt-4">    
+                        <div class="col-xs-6 col-sm-6 col-md-6 pb-1">    
                             <div class="text-muted">Available</div>
-                            <div class=" pb-2">{{type.leaveBalance >= 0 ? type.leaveBalance: 0}}</div>
+                            <div class=" pb-1">{{type.leaveBalance >= 0 ? type.leaveBalance: 0}}</div>
                             <div class="text-muted">Consumed</div>
-                            <div class=" pb-2">{{type.annualLeaveQuota - type.leaveBalance}}</div>
+                            <div class=" pb-1">{{type.annualLeaveQuota - type.leaveBalance}}</div>
                             <div class="text-muted">Annual Quota</div>
                             <div class=" pb-2">{{type.annualLeaveQuota}}</div>
                         </div>
@@ -29,3 +29,33 @@
     </ng-container>
 </div>
 
+<!-- <div class="row row-style card-div-height">
+    <ng-container *ngFor="let type of item">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-4" *ngIf= "type.shortCode !='LOP'">
+            <div class="card h-100">
+                <div class="card-heading text-capitalize" >
+                    {{type.leaveComponentName}}
+                </div>
+                <div class="card-body ">
+                    <div class="row row-style">
+                        <div class="col-xs-6 col-sm-6 col-md-6 pb-1 doughnut">
+                            <div #chartValue>
+                                <canvas id="{{type.leaveComponentId}}" style="width: 125px; height: 125px;"></canvas>
+                               
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 pb-1">    
+                            <div class="text-muted">Available</div>
+                            <div class=" pb-1">{{type.leaveBalance >= 0 ? type.leaveBalance: 0}}</div>
+                            <div class="text-muted">Consumed</div>
+                            <div class=" pb-1">{{type.annualLeaveQuota - type.leaveBalance}}</div>
+                            <div class="text-muted">Annual Quota</div>
+                            <div class=" pb-2">{{type.annualLeaveQuota}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+ -->

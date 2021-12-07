@@ -117,7 +117,7 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
 
   openWebClockIn() {
     const modalRef = this.modalService.open(EmployeeWebLoginCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      {centered: true, backdrop: 'static' });
     modalRef.result.then((result) => {
       if (result == 'submit') {
         this.setClockInOut();
@@ -141,7 +141,7 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
 
   openRemoteClockIn() {
     const modalRef = this.modalService.open(EmployeeRemoteLoginCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      {centered: true, backdrop: 'static' });
     modalRef.result.then((result) => {
       if (result == 'submit') {
         this.setRemoteClockInOut();

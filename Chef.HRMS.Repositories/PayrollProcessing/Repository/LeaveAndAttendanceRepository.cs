@@ -17,8 +17,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT Q1.*, 
                                    Q2.total    numberofworkeddays, 
                                    Q3.applied  leaveapplied, 
@@ -129,13 +127,10 @@ namespace Chef.HRMS.Repositories
                                           ON Q1.employeeid = Q6.employeeid ";
 
                 return await Connection.QueryAsync<LeaveAndAttendanceViewModel>(sql, new { paygroupId, fromDate, toDate });
-            }
         }
 
         public async Task<IEnumerable<LeaveDetailsViewModel>> GetAllApprovedLeaveDetailsByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT l.id           AS id, 
                                             lc.id          AS leavecomponentid, 
                                             l.fromdate, 
@@ -157,13 +152,10 @@ namespace Chef.HRMS.Repositories
                             AND             l.leavestatus = 3";
 
                 return await Connection.QueryAsync<LeaveDetailsViewModel>(sql, new { employeeId, fromDate, toDate });
-            }
         }
 
         public async Task<IEnumerable<LeaveDetailsViewModel>> GetAllUnapprovedLeaveDetailsByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT l.id           AS id, 
                                             lc.id          AS leavecomponentid, 
                                             l.employeeid,
@@ -193,13 +185,10 @@ namespace Chef.HRMS.Repositories
                                           OR l.leavestatus = 2 ) ";
 
                 return await Connection.QueryAsync<LeaveDetailsViewModel>(sql, new { employeeId, fromDate, toDate });
-            }
         }
 
         public async Task<IEnumerable<DateTime>> GetAllUnmarkedAttendanceDetailsByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"WITH calendardays AS 
                         ( 
                                SELECT actualdates::date 
@@ -237,36 +226,56 @@ namespace Chef.HRMS.Repositories
                                         AND    markeddates <= @toDate )";
 
                 return await Connection.QueryAsync<DateTime>(sql, new { employeeId, fromDate, toDate });
-            }
+            
         }
 
         public async Task<int> GetNumberOfEmployeesByPaygroup(int paygroupId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT Count(*) 
                             FROM   hrms.jobfiling 
                             WHERE  paygroupid = @paygroupId ";
 
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql, new { paygroupId });
-            }
         }
 
         public async Task<int> InsertLeaveAndAttendanceDetails(IEnumerable<LeaveAndAttendance> leaveAndAttendances)
         {
-            using (Connection)
+            int result = 0;
+            using (var transaction = Connection.BeginTransaction())
             {
-                if (leaveAndAttendances.Count() == 1)
+                try
                 {
-                    var employeeId = leaveAndAttendances.Select(x => x.EmployeeId).FirstOrDefault();
-                    var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
-                    int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
-                    if (data != 0)
+                    if (leaveAndAttendances.Count() == 1)
+                    {
+                        var employeeId = leaveAndAttendances.Select(x => x.EmployeeId).FirstOrDefault();
+                        var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
+                        int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
+                        if (data != 0)
+                        {
+                            (from laa in leaveAndAttendances
+                             select laa).ToList().ForEach((laa) =>
+                             {
+                                 laa.PayGroupId = data;
+                                 laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
+                                 laa.IsArchived = false;
+                             });
+                            var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
+                            sql = sql.Replace("RETURNING id", "");
+                            sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
+                            sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
+                            return await Connection.ExecuteAsync(sql, leaveAndAttendances);
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+
+                    }
+                    else
                     {
                         (from laa in leaveAndAttendances
                          select laa).ToList().ForEach((laa) =>
                          {
-                             laa.PayGroupId = data;
                              laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
                              laa.IsArchived = false;
                          });
@@ -274,57 +283,37 @@ namespace Chef.HRMS.Repositories
                         sql = sql.Replace("RETURNING id", "");
                         sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
                         sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
-                        return await Connection.ExecuteAsync(sql, leaveAndAttendances);
-                    }
-                    else
-                    {
-                        return 0;
-                    }
 
+                        await Connection.ExecuteAsync(sql, leaveAndAttendances);
+                    }
+                    transaction.Commit();
                 }
-                else
+                catch (Exception ex)
                 {
-                    (from laa in leaveAndAttendances
-                     select laa).ToList().ForEach((laa) =>
-                     {
-                         laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
-                         laa.IsArchived = false;
-                     });
-                    var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
-                    sql = sql.Replace("RETURNING id", "");
-                    sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
-                    sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
-
-                    return await Connection.ExecuteAsync(sql, leaveAndAttendances);
+                    string msg = ex.Message;
+                    transaction.Rollback();
                 }
 
             }
+            return result;
         }
 
         public async Task<IEnumerable<LeaveAndAttendance>> GetLeaveAndAttendanceByPayrollProcessingMethodId(int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * FROM hrms.leaveandattendance WHERE payrollProcessingMethodId = @payrollProcessingMethodId ";
 
                 return await Connection.QueryAsync<LeaveAndAttendance>(sql, new { payrollProcessingMethodId });
-            }
         }
 
         public async Task<LeaveAndAttendance> GetLeaveAndAttendanceByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * FROM hrms.leaveandattendance WHERE employeeId=@employeeId AND payrollProcessingMethodId = @payrollProcessingMethodId ";
 
                 return await Connection.QueryFirstAsync<LeaveAndAttendance>(sql, new { employeeId, payrollProcessingMethodId });
-            }
         }
 
         public async Task<IEnumerable<EmployeeAttendanceViewModel>> GetAllLeaveAndAttendanceByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT 'totalworkingdays'                                            AS type, 
                                    Count(*)                                                      AS totalcount 
                             FROM   generate_series(@fromDate, @toDate, interval '1' day) AS t(dt) 
@@ -447,8 +436,7 @@ namespace Chef.HRMS.Repositories
                                                        leavestatus=1 
                                                 OR     leavestatus=2))";
 
-                return await Connection.QueryAsync<EmployeeAttendanceViewModel>(sql, new { employeeId, fromDate, toDate });
-            }
+                return await Connection.QueryAsync<EmployeeAttendanceViewModel>(sql, new { employeeId, fromDate, toDate }); 
         }
     }
 }
