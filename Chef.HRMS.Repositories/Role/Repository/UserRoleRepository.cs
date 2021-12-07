@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,14 +51,33 @@ namespace Chef.HRMS.Repositories
                 sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
                 await Connection.ExecuteAsync(sql, userRole);
 
-                if (userRole.Count() > 0)
+            using (var transaction = Connection.BeginTransaction())
+            {
+                try
                 {
-                    string userIds = string.Join(",", userRole.ToList().Select(l => l.EmployeeId).ToArray());
-                    sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId AND employeeid NOT IN (" + userIds + ")";
+                    var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
+                    sql = sql.Replace("RETURNING id", "");
+                    sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
+                    await Connection.ExecuteAsync(sql, userRole);
+
+                    if (userRole.Count() > 0)
+                    {
+                        string userIds = string.Join(",", userRole.ToList().Select(l => l.EmployeeId).ToArray());
+                        sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId AND employeeid NOT IN (" + userIds + ")";
+                    }
+                    else
+                    {
+                        sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId";
+                       
+                    }
+                    await Connection.ExecuteAsync(sql, new { roleId });
+
+                    transaction.Commit();
                 }
-                else
+                catch (Exception ex)
                 {
-                    sql = "DELETE FROM hrms.userrole WHERE roleid = @roleId";
+                    string msg = ex.Message;
+                    transaction.Rollback();
                 }
 
                 return await Connection.ExecuteAsync(sql, new { roleId });

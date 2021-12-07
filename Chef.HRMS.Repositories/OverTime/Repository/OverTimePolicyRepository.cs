@@ -15,20 +15,15 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<int>> GetAllAssignedOverTimePolicy()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT overtimepolicyid 
                                     FROM hrms.jobfiling
                                     ORDER  BY overtimepolicyid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
-            }
         }
 
         public async Task<IEnumerable<OverTimePolicy>> GetAllAssignedOverTimePolicyCount()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT otp.id, 
                                    otp.NAME, 
                                    otp.description, 
@@ -46,31 +41,24 @@ namespace Chef.HRMS.Repositories
                             FROM   hrms.overtimepolicy otp";
 
                 return await Connection.QueryAsync<OverTimePolicy>(sql);
-            }
         }
 
         public async Task<IEnumerable<OverTimePolicy>> GetAllConfiguredOvertimePolicies()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * 
                                     FROM hrms.overtimepolicy
                                     WHERE isconfigured=true";
 
                 return await Connection.QueryAsync<OverTimePolicy>(sql);
-            }
         }
 
         public async Task<int> UpdateOverTimePolicy(int id)
         {
-            using (Connection)
-            {
                 var sql = @"UPDATE hrms.overtimepolicy
                                    SET isconfigured=true
                                     WHERE id=@id";
 
                 return await Connection.ExecuteAsync(sql, new { id });
-            }
         }
     }
 }

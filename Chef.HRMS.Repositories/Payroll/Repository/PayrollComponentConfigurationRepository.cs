@@ -17,17 +17,16 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollStuctureId(int payrollStructureId)
         {
-            using (Connection)
-            {
                 var sql = "SELECT * FROM  hrms.payrollcomponentconfiguration WHERE payrollstructureid = @payrollStructureId";
 
                 return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollStructureId });
-            }
         }
 
         public async Task<int> InsertAsync(IEnumerable<PayrollComponentConfiguration> payrollComponentConfiguration, IEnumerable<int> PayrollComponentConfigurationIds)
         {
-            using (Connection)
+            int result = 0;
+
+            using (var transaction = Connection.BeginTransaction())
             {
                 try
                 {
@@ -43,7 +42,7 @@ namespace Chef.HRMS.Repositories
                         sql = sql.Replace("RETURNING Id", "");
                         sql += " ON CONFLICT ON CONSTRAINT payrollcomponentconfiguration_ukey_payrollcomponentid_payrollst DO NOTHING";
 
-                        var result = await Connection.ExecuteAsync(sql, payrollComponentConfiguration);
+                         result = await Connection.ExecuteAsync(sql, payrollComponentConfiguration);
                         if (result != 0)
                         {
                             var payrollStructureId = payrollComponentConfiguration.Select(x => x.PayrollStructureId).FirstOrDefault();
@@ -63,18 +62,20 @@ namespace Chef.HRMS.Repositories
                         await Connection.ExecuteAsync(sql, PayrollComponentConfigurationId);
                     }
 
-                    return 0;
+                    //return 0;
+                    transaction.Commit();
                 }
-                catch (System.Exception)
+                catch (Exception ex)
                 {
-                    return -1;
+                    string msg = ex.Message;
+                    transaction.Rollback();
+                    //return -1;
                 }
             }
+            return result;
         }
         public async Task<int> SetPayrollStructureIsConfigured(int payrollStructureId)
         {
-            using (Connection)
-            {
                 try
                 {
                     var sql = @"SELECT hrms.setpayrollstructureisconfigured(@payrollStructureId)";
@@ -95,19 +96,13 @@ namespace Chef.HRMS.Repositories
 
                     throw ex;
                 }
-
-            }
         }
         public async Task<int> InsertPayrollFixedCalculation(PayrollCalculation payrollCalculation)
         {
-            using (Connection)
-            {
-
                 var sql = new QueryBuilder<PayrollCalculation>().GenerateInsertQuery();
                 sql = sql.Replace("RETURNING id", "");
                 sql += " ON CONFLICT ON CONSTRAINT payrollcalculation_componentid_structureid_ukey DO NOTHING";
                 return await Connection.ExecuteAsync(sql, payrollCalculation);
-            }
         }
     }
 }
