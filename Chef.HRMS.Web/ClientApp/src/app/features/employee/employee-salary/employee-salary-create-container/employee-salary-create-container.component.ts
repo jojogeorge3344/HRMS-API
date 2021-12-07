@@ -87,12 +87,6 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
   getEmployeeSalaryConfiguration() {
 
     this.payrollCalculationService.getByEmployeeId(this.employeeId).subscribe((payrollcalculation: EmployeeSalaryConfigurationView[]) => {
-      // let a=payrollcalculation[5]//basic salary index changed from 5th to 2nd
-      // payrollcalculation[5]=payrollcalculation[2]
-      // payrollcalculation[2]=a
-      // let b=payrollcalculation[5]//special allowance index changed from 5th to 4th after 1st merge
-      //  payrollcalculation[5]=payrollcalculation[4]
-      //  payrollcalculation[4]=b
 
       this.salaryStructure = payrollcalculation;
 
