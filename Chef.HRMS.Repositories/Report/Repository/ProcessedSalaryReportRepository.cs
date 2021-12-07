@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<ProcessedSalaryDetailsView>> GetProcessedSalaryDetails(int offSet)
         {
-            using (Connection)
-            {
                 var sql = @$"SELECT pb.employeecode, 
                                    pb.employeename, 
                                    pg.NAME                       paygroup, 
@@ -65,7 +63,6 @@ namespace Chef.HRMS.Repositories
                             OFFSET {offSet} LIMIT 10";
 
                 return await Connection.QueryAsync<ProcessedSalaryDetailsView>(sql);
-            }
         }
     }
 }

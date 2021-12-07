@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<UniqueIdentificationDetailView>> GetByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT a.id          AS uniqueidentificationdetailid, 
                                    c.id          AS documentid, 
                                    b.id          AS uniqueidentificationdetaildocumentid, 
@@ -37,7 +35,6 @@ namespace Chef.HRMS.Repositories
                                            ON b.documentid = c.id ";
 
                 return await Connection.QueryAsync<UniqueIdentificationDetailView>(sql, new { employeeId });
-            }
         }
     }
 }

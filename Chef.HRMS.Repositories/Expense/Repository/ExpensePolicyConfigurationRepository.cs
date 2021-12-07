@@ -41,6 +41,10 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertAsync(IEnumerable<ExpensePolicyConfiguration> expensePolicyConfiguration, IEnumerable<int> expensePolicyConfigurationIds)
         {
+            int result = 0;
+
+            using (var transaction = Connection.BeginTransaction())
+            {
 
                 try
                 {
@@ -55,7 +59,7 @@ namespace Chef.HRMS.Repositories
                         var sql = new QueryBuilder<ExpensePolicyConfiguration>().GenerateInsertQuery();
                         sql = sql.Replace("RETURNING Id", " ");
                         sql += " ON CONFLICT ON CONSTRAINT expensepolicyconfiguration_policy_type_ukey DO NOTHING";
-                        var result = await Connection.ExecuteAsync(sql, expensePolicyConfiguration);
+                        result = await Connection.ExecuteAsync(sql, expensePolicyConfiguration);
                         if (result != 0)
                         {
                             var policyId = expensePolicyConfiguration.Select(x => x.ExpensePolicyId).FirstOrDefault();
@@ -65,7 +69,7 @@ namespace Chef.HRMS.Repositories
                             await Connection.ExecuteAsync(sqlnew, new { policyId });
 
                         }
-
+                        
                     }
                     if (expensePolicyConfigurationIds.Count() > 0)
                     {
@@ -73,14 +77,17 @@ namespace Chef.HRMS.Repositories
                         var sql = "DELETE FROM hrms.expensepolicyconfiguration WHERE id IN (" + expensePolicyConfigurationId + ")";
                         await Connection.ExecuteAsync(sql, new { expensePolicyConfigurationId });
                     }
-
-                    return 0;
+                    transaction.Commit();
+                    //return 0;
                 }
                 catch (System.Exception ex)
                 {
-                string msg = ex.Message;
-                    return -1;
+                    string msg = ex.Message;
+                    //return -1;
+                    transaction.Rollback();
                 }
+            }
+            return result;
         }
 
         public async Task<int> SetExpensePolicyIsConfigured(int expensePolicyId)

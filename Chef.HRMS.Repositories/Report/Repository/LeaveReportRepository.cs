@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveReportView>> GetLeaveReportDetails(int offSet)
         {
-            using (Connection)
-            {
                 var sql = @$"SELECT l.employeeid, 
                                    ( Concat(e.firstname, ' ', e.lastname) )   employeename, 
                                    jd.employeenumber                          employeecode, 
@@ -40,7 +38,6 @@ namespace Chef.HRMS.Repositories
                             ORDER BY   l.employeeid offset {offSet} limit 10";
 
                 return await Connection.QueryAsync<LeaveReportView>(sql);
-            }
         }
     }
 }

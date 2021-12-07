@@ -371,3 +371,10 @@ aside ::-webkit-scrollbar-thumb {
 .doughnut{
   padding-top: 1.5rem;
 }
+.datechange{
+  margin-top: 27px;
+  margin-right: 3%;
+}
+.subheader {
+  margin-bottom: 1rem;
+}

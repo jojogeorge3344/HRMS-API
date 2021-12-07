@@ -16,21 +16,21 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<int>> GetAllAssignedPayGroup()
         {
-            using (Connection)
-            {
+            //using (Connection)
+            //{
                 var sql = @"SELECT DISTINCT paygroupid 
                                     FROM hrms.jobfiling
                                     ORDER  BY paygroupid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
-            }
+            //}
         }
 
         public async Task<IEnumerable<EmployeeView>> GetAllEmployeeByPayGroupId(int paygroupId, int year, int month)
         {
                    
-                using (Connection)
-                {
+                //using (Connection)
+                //{
                     try
                     {
                         var sql = @"SELECT e.id              AS id, 
@@ -53,7 +53,7 @@ namespace Chef.HRMS.Repositories
                         string msg = ex.Message;
                         return null;
                     }
-                }
+               // }
             
         }
     }
