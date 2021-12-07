@@ -15,19 +15,14 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertNotifyPersonnel(IEnumerable<LeaveNotifyPersonnel> leaveNotifyPersonnel)
         {
-            using (Connection)
-            {
                 var sql = new QueryBuilder<LeaveNotifyPersonnel>().GenerateInsertQuery();
                 sql = sql.Replace("RETURNING id", "");
 
                 return await Connection.ExecuteAsync(sql, leaveNotifyPersonnel);
-            }
         }
 
         public async Task<IEnumerable<LeaveComponentLeaveBalanceViewModel>> GetAllLeaveBalanceById(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT lslc.leavestructureid, 
                                    lslc.leavecomponentid, 
                                    lc.NAME                                                     AS 
@@ -81,35 +76,24 @@ namespace Chef.HRMS.Repositories
                             ORDER  BY lc.NAME ";
 
                 return await Connection.QueryAsync<LeaveComponentLeaveBalanceViewModel>(sql, new { employeeId });
-            }
         }
 
         public async Task<IEnumerable<Leave>> GetAllLeaveDetailsById(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = "SELECT * FROM  hrms.leave WHERE employeeid = @employeeId";
 
                 return await Connection.QueryAsync<Leave>(sql, new { employeeId });
-            }
         }
 
         public async Task<int> InsertUnmarkedAttendance(IEnumerable<Leave> leave)
         {
-            using (Connection)
-            {
                 var sql = new QueryBuilder<Leave>().GenerateInsertQuery();
 
                 return await Connection.ExecuteAsync(sql, leave);
-            }
         }
 
         public async Task<IEnumerable<LeaveSettingsViewModel>> GetAllLeaveSettingsById(int employeeId)
         {
-            using (Connection)
-            {
-                using (Connection)
-                {
                     var sql = @"SELECT lgs.leavestructureid, 
                                        lgs.leavecomponentid, 
                                        maxconsecutivedays, 
@@ -138,14 +122,10 @@ namespace Chef.HRMS.Repositories
                                                   AND jf.employeeid = @employeeId";
 
                     return await Connection.QueryAsync<LeaveSettingsViewModel>(sql, new { employeeId });
-                }
-            }
         }
 
         public async Task<IEnumerable<LeaveNotificationView>> GetApproverById(int leaveRequestId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT jd.reportingmanager as reportingmanager,
                                             (select count(le.id)  from hrms.jobdetails j
                                             INNER JOIN hrms.leave le
@@ -157,24 +137,17 @@ namespace Chef.HRMS.Repositories
                                             WHERE l.id = @leaveRequestId";
 
                 return await Connection.QueryAsync<LeaveNotificationView>(sql, new { leaveRequestId });
-            }
         }
 
         public async Task<IEnumerable<LeaveNotifyPersonnel>> GetAllNotifyPersonnelById(int leaveRequestId)
         {
-
-            using (Connection)
-            {
                 var sql = "SELECT * FROM  hrms.leavenotifypersonnel WHERE leaveId = @leaveRequestId";
 
                 return await Connection.QueryAsync<LeaveNotifyPersonnel>(sql, new { leaveRequestId });
-            }
         }
 
         public async Task<IEnumerable<Leave>> GetAllUnApprovedLeaveById(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT l.* from hrms.leave l 
 	                                        INNER JOIN hrms.jobdetails jd
                                             ON jd.employeeid = l.employeeid
@@ -182,7 +155,6 @@ namespace Chef.HRMS.Repositories
 	                                        AND l.leavestatus = 2";
 
                 return await Connection.QueryAsync<Leave>(sql, new { employeeId });
-            }
         }
     }
 }

@@ -15,20 +15,15 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<int>> GetAllAssignedHolidayCategory()
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT holidaycategoryid 
                                     FROM hrms.jobfiling
                                     ORDER  BY holidaycategoryid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
-            }
         }
 
         public async Task<bool> UpdateHolidayCategory(int id, bool isConfigured)
         {
-            using (Connection)
-            {
                 var sql = @"UPDATE hrms.holidaycategory
                                    SET isconfigured=@isConfigured
                                     WHERE id=@id";
@@ -43,7 +38,6 @@ namespace Chef.HRMS.Repositories
                 {
                     return false;
                 }
-            }
         }
     }
 }
