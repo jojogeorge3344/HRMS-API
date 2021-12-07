@@ -16,14 +16,14 @@ namespace Chef.HRMS.Repositories
         }
         public async Task<int> AssignRolesToUser(IEnumerable<UserRole> userRole)
         {
-                var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
-                return await Connection.ExecuteAsync(sql, userRole);
+            var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, userRole);
         }
 
         public async Task<IEnumerable<UserRoleView>> GetUserRole(int employeeId)
         {
-                var sql = @"SELECT ur.employeeid AS employeeid, 
+            var sql = @"SELECT ur.employeeid AS employeeid, 
                                        ur.roleid        AS roleid, 
                                        r.NAME           AS rolename, 
                                        f.NAME           AS featurename, 
@@ -41,16 +41,13 @@ namespace Chef.HRMS.Repositories
 									   INNER JOIN hrms.subfeature sf 
                                                ON sf.id = rf.subfeatureid";
 
-                return await Connection.QueryAsync<UserRoleView>(sql, new { employeeId });
+            return await Connection.QueryAsync<UserRoleView>(sql, new { employeeId });
         }
 
         public async Task<int> UpdateUserRoleGroup(int roleId, IEnumerable<UserRole> userRole)
         {
-            //var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
-            //sql = sql.Replace("RETURNING id", "");
-            // sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
-            // await Connection.ExecuteAsync(sql, userRole);
             int result = 0;
+
 
             using (var transaction = Connection.BeginTransaction())
             {
@@ -80,16 +77,14 @@ namespace Chef.HRMS.Repositories
                     string msg = ex.Message;
                     transaction.Rollback();
                 }
-
-                //return await Connection.ExecuteAsync(sql, new { roleId });
             }
             return result;
         }
 
-        public async Task<int> UpdateUserRoleGroup(IEnumerable<UserRole> userRole)
-        {
+            public async Task<int> UpdateUserRoleGroup(IEnumerable<UserRole> userRole)
+            {
                 var sql = new QueryBuilder<UserRole>().GenerateUpdateQuery();
                 return await Connection.ExecuteAsync(sql, userRole);
+            }
         }
     }
-}
