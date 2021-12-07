@@ -17,8 +17,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId, int year, int month)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT es.employeeid                         AS employeeid, 
                                             Concat (e.firstname, ' ', e.lastname) AS employeename, 
                                             jd.employeenumber                     AS employeecode, 
@@ -62,45 +60,33 @@ namespace Chef.HRMS.Repositories
 													     ppm.year=@year)) )";
 
                 return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { paygoupId, year, month });
-            }
         }
 
         public async Task<int> InsertPayrollBasicComponents(IEnumerable<PayrollBasicComponent> payrollBasicComponents)
         {
-            using (Connection)
-            {
                 var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
 
                 return await Connection.ExecuteAsync(sql, payrollBasicComponents);
-            }
         }
 
         public async Task<IEnumerable<PayrollBasicComponent>> GetPayrollBasicComponentByPayrollProcessingMethodId(int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * FROM hrms.payrollbasiccomponent WHERE payrollProcessingMethodId = @payrollProcessingMethodId ";
 
                 return await Connection.QueryAsync<PayrollBasicComponent>(sql, new { payrollProcessingMethodId });
-            }
         }
 
         public async Task<IEnumerable<PayrollBasicComponent>> GetPayrollBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT * 
                             FROM   hrms.payrollbasiccomponent 
                             WHERE  employeeId = @employeeId
                                    AND payrollProcessingMethodid=@payrollProcessingMethodId";
                 return await Connection.QueryAsync<PayrollBasicComponent>(sql, new { employeeId, payrollProcessingMethodId });
-            }
         }
 
         public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetPayrollBasicComponentByEmployeeId(int employeeId)
         {
-            using (Connection)
-            {
                 var sql = @"SELECT DISTINCT es.employeeid                         AS employeeid, 
                                             Concat (e.firstname, ' ', e.lastname) AS employeename, 
                                             jd.employeenumber                     AS employeecode, 
@@ -141,7 +127,6 @@ namespace Chef.HRMS.Repositories
                                            ON jd.employeeid = e.id ";
 
                 return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { employeeId });
-            }
         }
 
         public async Task<int> InsertOrUpdateAsync(IEnumerable<PayrollBasicComponent> payrollBasicComponents)

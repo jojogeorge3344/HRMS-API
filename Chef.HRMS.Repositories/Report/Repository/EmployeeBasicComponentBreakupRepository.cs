@@ -15,8 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeBasicComponentBreakupView>> GetAllEmployeeBasicComponentBreakupView(int month, int year)
         {
-            using (Connection)
-            {
                 var sql = @$"SELECT      employeename, 
                                          employeecode, 
                                          json_object_agg(shortcode,total order BY shortcode) basiccomponents, 
@@ -54,7 +52,6 @@ namespace Chef.HRMS.Repositories
                                 ORDER BY employeename;";
 
                 return await Connection.QueryAsync<EmployeeBasicComponentBreakupView>(sql, new { month, year });
-            }
         }
     }
 }

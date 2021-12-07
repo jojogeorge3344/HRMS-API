@@ -16,8 +16,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AttendanceReportView>> GetAttendanceLogReport(DateTime fromDate, DateTime toDate)
         {
-            using (Connection)
-            {
                 var sql = @"(SELECT DISTINCT e.id                                     AS employeeid,
                                               jb.employeenumber,
                                              ( Concat(e.firstname, ' ', e.lastname) )                AS employeename, 
@@ -116,7 +114,6 @@ namespace Chef.HRMS.Repositories
                             ORDER  BY intime DESC ";
 
                 return await Connection.QueryAsync<AttendanceReportView>(sql, new { fromDate, toDate });
-            }
         }
     }
 }
