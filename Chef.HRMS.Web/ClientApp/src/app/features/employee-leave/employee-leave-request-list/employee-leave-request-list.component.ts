@@ -113,7 +113,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
   openRequestLeave() {
     const modalRef = this.modalService.open(EmployeeLeaveRequestCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      {centered: true, backdrop: 'static' });
     modalRef.componentInstance.requestId = this.currentUserId;
     modalRef.componentInstance.leaveBalance = this.leaveComponent;
     modalRef.componentInstance.leaveSettings = this.leaveSettings;

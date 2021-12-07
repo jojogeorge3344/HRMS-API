@@ -73,7 +73,7 @@ import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-con
     RouterModule.forChild([
       {
         path: '', component: EmployeeListComponent,
-        data: { breadcrumbs: ['Organization', 'Employee'], name: 'organization-employeedirectory ' }
+        //data: { breadcrumbs: ['Organization', 'Employee'], name: 'organization-employeedirectory ' }
       },
       {
         path: 'create', component: EmployeeCreateContainerComponent,
