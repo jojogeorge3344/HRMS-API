@@ -339,7 +339,7 @@ aside ::-webkit-scrollbar-thumb {
 /* pie gragh size reducing */
 .card-body {
   padding-bottom:1rem ;
-  
+  /* display: flex; */
 }
 
 /* @media(max-width: 1024px) {
@@ -350,11 +350,11 @@ aside ::-webkit-scrollbar-thumb {
   }
 } */
 
-  .h-100 {
+  /* .h-100 {
     height: 20% !important;
     width:65%;
    
-  }
+  } */
   
 .row-style{
   align-items: flex-start;

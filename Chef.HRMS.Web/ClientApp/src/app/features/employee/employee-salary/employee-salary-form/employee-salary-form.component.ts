@@ -1,6 +1,7 @@
 import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { EmployeeSalaryConfigurationView } from '../employee-salary-configuration-view.model';
+import { reverse, sortBy, sortedLastIndex } from 'lodash';
 
 @Component({
   selector: 'hrms-employee-salary-form',
@@ -17,6 +18,7 @@ export class EmployeeSalaryFormComponent implements OnInit {
   valueObject = {};
   salaryTotalMonthly: number = 0;
   salaryTotalYearly: number = 0;
+
   
   constructor(private fb: FormBuilder) { }
 

@@ -46,11 +46,12 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdateUserRoleGroup(int roleId, IEnumerable<UserRole> userRole)
         {
-            //var sql = /new QueryBuilder<UserRole>().GenerateInsertQuery();
+            //var sql = new QueryBuilder<UserRole>().GenerateInsertQuery();
             //sql = sql.Replace("RETURNING id", "");
-            //sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
-            //await Connection.ExecuteAsync(sql, userRole);
+            // sql += " ON CONFLICT ON CONSTRAINT userrole_ckey DO NOTHING";
+            // await Connection.ExecuteAsync(sql, userRole);
             int result = 0;
+
             using (var transaction = Connection.BeginTransaction())
             {
                 try
