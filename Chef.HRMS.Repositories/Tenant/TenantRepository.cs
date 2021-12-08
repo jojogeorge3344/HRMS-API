@@ -175,9 +175,9 @@ namespace Chef.HRMS.Repositories
                 Connection.Execute(query);
                 fullQuery += query;
 
-                query = new QueryBuilder<Document>().GenerateCreateTableQuery();
+                /*query = new QueryBuilder<Document>().GenerateCreateTableQuery();
                 Connection.Execute(query);
-                fullQuery += query;
+                fullQuery += query;*/
 
                 query = new QueryBuilder<IdentityDocument>().GenerateCreateTableQuery();
                 Connection.Execute(query);
