@@ -33,7 +33,7 @@ export class AssetTypeEditComponent implements OnInit {
   },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to fetch the asset Type');
+      this.toastr.showErrorMessage('Unable to fetch the Asset Type');
     });
   }
 
@@ -50,7 +50,7 @@ export class AssetTypeEditComponent implements OnInit {
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('There is an error in updating asset type');
+      this.toastr.showErrorMessage('There is an error in updating Asset Type');
     });
   }
 
