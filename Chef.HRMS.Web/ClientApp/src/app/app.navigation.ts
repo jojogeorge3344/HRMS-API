@@ -147,6 +147,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/settings/wps'
       },
+      {
+        title: 'Asset',
+        tags: 'settings-expense',
+        routerLink: '/settings/asset'
+      }
     ]
   },
   {
