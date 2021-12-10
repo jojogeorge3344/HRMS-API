@@ -1,5 +1,4 @@
 ﻿using Chef.HRMS.Models;
-using Chef.HRMS.Models.Asset;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Insert(IEnumerable<AssetType> assetType)
+        public async Task<IActionResult> Insert(AssetType assetType)
         {
             if (!ModelState.IsValid)
             {
@@ -32,6 +31,13 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetTypeService.InsertAsync(assetType);
+            return Ok(result);
+        }
+
+        [HttpGet("GetAllAssetTypeList")]
+        public async Task<ActionResult<IEnumerable<AssetType>>> GetAllAssetTypeList()
+        {
+            var result = await assetTypeService.GetAllAssetTypeList();
 
             return Ok(result);
         }

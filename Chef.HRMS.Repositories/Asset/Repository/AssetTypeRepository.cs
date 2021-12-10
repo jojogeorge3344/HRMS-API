@@ -1,6 +1,5 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
-using Chef.HRMS.Models.Asset;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -23,6 +22,13 @@ namespace Chef.HRMS.Repositories
             sql = sql.Replace("RETURNING id", "");
 
             return await Connection.ExecuteAsync(sql, assetType);
+        }
+        public async Task<IEnumerable<AssetType>> GetAllAssetTypeList()
+        {
+
+            var sql = @"select assettypename,description from hrms.assettype";
+
+            return await Connection.QueryAsync<AssetType>(sql);
         }
 
     }

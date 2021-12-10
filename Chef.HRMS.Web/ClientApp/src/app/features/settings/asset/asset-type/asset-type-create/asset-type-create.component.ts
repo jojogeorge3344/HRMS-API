@@ -47,7 +47,7 @@ export class AssetTypeCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      name: ['', [
+      assettypename: ['', [
         Validators.required,
         Validators.maxLength(32),
         // Validators.pattern('^([a-zA-Z0-9 ])+$'),

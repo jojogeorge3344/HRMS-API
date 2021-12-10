@@ -17,7 +17,7 @@
         <tbody>
             <tr *ngFor="let assetType of assetType; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize">{{ assetType.name }}</td>
+                <td class="text-capitalize">{{ assetType.assettypename }}</td>
                 <td class="text-ellipsis" title="{{ assetType.description }}"> {{ assetType.description }} </td>               
                 <td>
                     <div class="btn-group" dropdown container="main">

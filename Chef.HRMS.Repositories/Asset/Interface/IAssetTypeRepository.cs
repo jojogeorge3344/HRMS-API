@@ -1,5 +1,5 @@
 ﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models.Asset;
+using Chef.HRMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +11,7 @@ namespace Chef.HRMS.Repositories
     public interface IAssetTypeRepository: IGenericRepository<AssetType>
     {
         Task<int> InsertAsync(IEnumerable<AssetType> assetType);
+
+        Task<IEnumerable<AssetType>> GetAllAssetTypeList();
     }
 }

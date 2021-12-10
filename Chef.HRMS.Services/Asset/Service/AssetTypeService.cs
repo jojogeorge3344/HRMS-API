@@ -1,5 +1,5 @@
 ﻿using Chef.Common.Services;
-using Chef.HRMS.Models.Asset;
+using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
 using System.Collections.Generic;
@@ -46,6 +46,11 @@ namespace Chef.HRMS.Services
         public Task<int> UpdateAsync(AssetType obj)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<AssetType>>GetAllAssetTypeList()
+        {
+            return await assetTypeRepository.GetAllAssetTypeList();
         }
     }
 }
