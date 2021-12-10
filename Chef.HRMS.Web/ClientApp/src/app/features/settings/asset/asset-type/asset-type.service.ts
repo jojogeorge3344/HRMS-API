@@ -24,8 +24,8 @@ export class AssetTypeService {
     return this.http.get<AssetType[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
 
-  getAllJobTitleList(){
-    return this.http.get<AssetType[]>(this.baseUrl + 'getAllJobTitleList').pipe(map(response => { return response; }));
+  getAllAssetTypeList(){
+    return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeList').pipe(map(response => { return response; }));
   }
 
   update(assetType: AssetType){
