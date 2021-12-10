@@ -47,5 +47,10 @@ namespace Chef.HRMS.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<AssetType>>GetAllAssetTypeList()
+        {
+            return await assetTypeRepository.GetAllAssetTypeList();
+        }
     }
 }
