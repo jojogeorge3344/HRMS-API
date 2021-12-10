@@ -10,13 +10,14 @@ namespace Chef.HRMS.Models
     [Table("assettype")]
     public class AssetType:Model
     {
-       // [Required]
+        [Required]
         [StringLength(32)]
+        /// Holds the name of assettype
         public string Assettypename { get; set; }
 
         [Required]
         [StringLength(128)]
-       
+        /// Holds the description of assettype
         public string Description { get; set; }
 
     }
