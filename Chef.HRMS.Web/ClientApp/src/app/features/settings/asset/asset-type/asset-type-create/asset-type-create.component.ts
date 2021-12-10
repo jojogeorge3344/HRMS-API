@@ -23,7 +23,6 @@ export class AssetTypeCreateComponent implements OnInit {
       private toastr: ToasterDisplayService) {
    }
 
-
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
@@ -52,7 +51,7 @@ export class AssetTypeCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(32),
         // Validators.pattern('^([a-zA-Z0-9 ])+$'),
-        duplicateNameValidator(this.assetTypeNames)
+        // duplicateNameValidator(this.assetTypeNames)
       ]],
       description: ['', [
         Validators.required,
