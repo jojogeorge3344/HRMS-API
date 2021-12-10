@@ -5,15 +5,18 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Chef.HRMS.Models.Asset
+namespace Chef.HRMS.Models
 {
     [Table("assettype")]
     public class AssetType:Model
     {
-        [Required]
+       // [Required]
+        [StringLength(32)]
         public string Assettypename { get; set; }
 
-        [StringLength(32)]
+        [Required]
+        [StringLength(128)]
+       
         public string Description { get; set; }
 
     }

@@ -1,5 +1,5 @@
 ﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models.Asset;
+using Chef.HRMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,5 @@
 ﻿using Chef.Common.Services;
 using Chef.HRMS.Models;
-using Chef.HRMS.Models.Asset;
 using System;
 using System.Collections.Generic;
 using System.Linq;
