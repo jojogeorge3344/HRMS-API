@@ -31,6 +31,7 @@ export class AssetTypeCreateComponent implements OnInit {
 
   onSubmit() {
     this.assetTypeService.add(this.addForm.value).subscribe((result: any) => {
+      console.log("res",result)
       if (result.id === -1) {
         this.toastr.showErrorMessage('Asset Type already exists!');
       } else {
@@ -47,7 +48,7 @@ export class AssetTypeCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      name: ['', [
+      assettypename: ['', [
         Validators.required,
         Validators.maxLength(32),
         // Validators.pattern('^([a-zA-Z0-9 ])+$'),

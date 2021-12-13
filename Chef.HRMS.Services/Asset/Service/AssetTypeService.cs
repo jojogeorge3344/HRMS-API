@@ -18,21 +18,6 @@ namespace Chef.HRMS.Services
             this.assetTypeRepository = assetTypeRepository;
         }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<AssetType>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<AssetType> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<int> InsertAsync(IEnumerable<AssetType> assetType)
         {
             return await assetTypeRepository.InsertAsync(assetType);
@@ -43,9 +28,36 @@ namespace Chef.HRMS.Services
             return await assetTypeRepository.InsertAsync(assetType);
         }
 
-        public Task<int> UpdateAsync(AssetType obj)
+        public async Task<IEnumerable<AssetType>>GetAllAssetTypeList()
         {
-            throw new NotImplementedException();
+            return await assetTypeRepository.GetAllAssetTypeList();
+        }
+
+        public async Task<int> UpdateAsync(AssetType assetType)
+        {
+            return await assetTypeRepository.UpdateAsync(assetType);
+        }
+
+        public async Task<int> DeleteAsync(int id)
+        {
+            return await assetTypeRepository.DeleteAsync(id);
+        }
+
+        
+
+        public async Task<IEnumerable<AssetType>> GetAllAsync()
+        {
+            return await assetTypeRepository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<AssetType>> GetAllAssetTypeById(int id)
+        {
+            return await assetTypeRepository.GetAllAssetTypeById(id);
+        }
+
+        public async Task<AssetType> GetAsync(int id)
+        {
+            return await assetTypeRepository.GetAsync(id);
         }
     }
 }

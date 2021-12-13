@@ -23,6 +23,21 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.ExecuteAsync(sql, assetType);
         }
+        public async Task<IEnumerable<AssetType>> GetAllAssetTypeList()
+        {
+
+            var sql = @"select id,assettypename,description from hrms.assettype";
+
+            return await Connection.QueryAsync<AssetType>(sql);
+        }
+
+        public async Task<IEnumerable<AssetType>> GetAllAssetTypeById(int id)
+        {
+
+            var sql = "SELECT * FROM  hrms.assettype WHERE id = @id";
+
+            return await Connection.QueryAsync<AssetType>(sql, new { id });
+        }
 
     }
 }

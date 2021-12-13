@@ -23,7 +23,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Insert(IEnumerable<AssetType> assetType)
+        public async Task<IActionResult> Insert(AssetType assetType)
         {
             if (!ModelState.IsValid)
             {
@@ -31,8 +31,61 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetTypeService.InsertAsync(assetType);
+            return Ok(result);
+        }
+
+        [HttpGet("GetAllAssetTypeList")]
+        public async Task<ActionResult<IEnumerable<AssetType>>> GetAllAssetTypeList()
+        {
+            var result = await assetTypeService.GetAllAssetTypeList();
 
             return Ok(result);
+        }
+
+        [HttpPost("Update")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> UpdateAssetType(AssetType assetType)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetTypeService.UpdateAsync(assetType);
+
+            return Ok(result);
+        }
+        [HttpDelete("Delete/{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var AssetType = await assetTypeService.GetAsync(id);
+
+            if (AssetType == null)
+            {
+                return NotFound();
+            }
+
+            var result = await assetTypeService.DeleteAsync(id);
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<IEnumerable<AssetType>>> GetAll()
+        {
+            var AssetType = await assetTypeService.GetAllAsync();
+
+            return Ok(AssetType);
+        }
+
+        [HttpGet("GetAllAssetTypeById/{id}")]
+        public async Task<ActionResult<IEnumerable<AssetType>>> GetAllAssetTypeById(int id)
+        {
+            var AssetType = await assetTypeService.GetAllAssetTypeById(id);
+
+            return Ok(AssetType);
         }
 
     }

@@ -57,7 +57,7 @@ export class AssetTypeListComponent implements OnInit {
     const modalRef = this.modalService.open(AssetTypeEditComponent,
       { centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.assetTypeId = assetType.id;
+    modalRef.componentInstance.assetTypeId = assetType;
     modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.assettypename.toLowerCase());
 
     modalRef.result.then((result) => {
