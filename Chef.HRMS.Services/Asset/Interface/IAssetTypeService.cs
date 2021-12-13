@@ -13,5 +13,12 @@ namespace Chef.HRMS.Services
         Task<int> InsertAsync(IEnumerable<AssetType> assetType);
 
         Task<IEnumerable<AssetType>> GetAllAssetTypeList();
+
+        Task<IEnumerable<AssetType>> GetAllAssetTypeById(int id);
+
+
+
+
+
     }
 }
