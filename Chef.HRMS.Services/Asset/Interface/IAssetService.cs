@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-   public interface IAssetTypeService: IAsyncService<AssetType>
+    public interface IAssetService : IAsyncService<Asset>
     {
-        Task<int> InsertAsync(IEnumerable<AssetType> assetType);
+        Task<int> InsertAsync(IEnumerable<Asset> asset);
+
+        Task<IEnumerable<Asset>> GetAllAssetList();
     }
 }

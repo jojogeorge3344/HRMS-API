@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Chef.HRMS.Models.Asset
+namespace Chef.HRMS.Models
 {
     [Table("assettype")]
     public class AssetType:Model

@@ -1,6 +1,5 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
-using Chef.HRMS.Models.Asset;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using System;
