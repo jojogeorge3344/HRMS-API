@@ -32,6 +32,7 @@ export class AssetTypeCreateComponent implements OnInit {
 
   onSubmit() {
     this.assetTypeService.add(this.addForm.value).subscribe((result: any) => {
+      console.log("res",result)
       if (result.id === -1) {
         this.toastr.showErrorMessage('Asset Type already exists!');
       } else {

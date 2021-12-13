@@ -36,7 +36,7 @@ export class AssetTypeService {
     return this.http.delete<AssetType>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
   }
 
-  get(id) {
-    return this.http.get<AssetType>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
+  getAllAssetTypeById(id:number) {
+    return this.http.get<AssetType>(this.baseUrl + 'getAllAssetTypeById/' + id).pipe(map(response => { return response; }));
   }
 }
