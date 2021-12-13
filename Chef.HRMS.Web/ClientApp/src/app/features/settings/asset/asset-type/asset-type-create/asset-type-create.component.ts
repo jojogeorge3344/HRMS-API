@@ -51,8 +51,8 @@ export class AssetTypeCreateComponent implements OnInit {
       assettypename: ['', [
         Validators.required,
         Validators.maxLength(32),
-        // Validators.pattern('^([a-zA-Z0-9 ])+$'),
-        // duplicateNameValidator(this.assetTypeNames)
+        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        duplicateNameValidator(this.assetTypeNames)
       ]],
       description: ['', [
         Validators.required,
