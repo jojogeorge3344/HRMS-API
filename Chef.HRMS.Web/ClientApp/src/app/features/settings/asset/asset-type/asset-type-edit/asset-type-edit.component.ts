@@ -28,18 +28,13 @@ export class AssetTypeEditComponent implements OnInit {
   ngOnInit(): void {
   this.currentUserId = getCurrentUserId();
   this.editForm = this.createFormGroup();
-  this.assetTypeService.get(this.assetTypeId).subscribe(result => {
-    this.editForm.patchValue(result);
-  },
-    error => {
-      console.error(error);
-      this.toastr.showErrorMessage('Unable to fetch the asset Type');
-    });
+    this.editForm.patchValue(this.assetTypeId);
   }
 
-  get name() { return this.editForm.get('name'); }
+  get name() { return this.editForm.get('assettypename'); }
 
   onSubmit() {
+    console.log(this.editForm.value)
     this.assetTypeService.update(this.editForm.value).subscribe((result: any) => {
       if (result === -1) {
         this.toastr.showErrorMessage('Asset type already exists!');
@@ -50,14 +45,14 @@ export class AssetTypeEditComponent implements OnInit {
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('There is an error in updating asset type');
+      this.toastr.showErrorMessage('There is an error in updating Asset Type');
     });
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [''],
-      name: ['', [
+      assettypename: ['', [
         Validators.required,
         Validators.maxLength(32),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),

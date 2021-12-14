@@ -1,7 +1,6 @@
 import { Model } from '@shared/models/model';
 
 export interface AssetType extends Model {
-    name: string;
+    assettypename: string;
     description: string;
-    numberOfEmployees?: number;
   }

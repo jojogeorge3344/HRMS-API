@@ -11,8 +11,6 @@ import { AssetTypeEditComponent } from './asset-type-edit/asset-type-edit.compon
 import { AssetTypeCreateComponent } from './asset-type-create/asset-type-create.component';
 import { AssetTypeListComponent } from './asset-type-list/asset-type-list.component';
 
-
-
 @NgModule({
   declarations: [
     AssetTypeListComponent,
