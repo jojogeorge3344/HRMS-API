@@ -24,8 +24,8 @@ export class AssetTypeService {
     return this.http.get<AssetType[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
 
-  getAllJobTitleList(){
-    return this.http.get<AssetType[]>(this.baseUrl + 'getAllJobTitleList').pipe(map(response => { return response; }));
+  getAllAssetTypeList(){
+    return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeList').pipe(map(response => { return response; }));
   }
 
   update(assetType: AssetType){
@@ -36,7 +36,7 @@ export class AssetTypeService {
     return this.http.delete<AssetType>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
   }
 
-  get(id) {
-    return this.http.get<AssetType>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
+  getAllAssetTypeById(id:number) {
+    return this.http.get<AssetType>(this.baseUrl + 'getAllAssetTypeById/' + id).pipe(map(response => { return response; }));
   }
 }

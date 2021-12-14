@@ -23,7 +23,6 @@ export class AssetTypeCreateComponent implements OnInit {
       private toastr: ToasterDisplayService) {
    }
 
-
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
@@ -32,27 +31,28 @@ export class AssetTypeCreateComponent implements OnInit {
 
   onSubmit() {
     this.assetTypeService.add(this.addForm.value).subscribe((result: any) => {
+      console.log("res",result)
       if (result.id === -1) {
-        this.toastr.showErrorMessage('asset type already exists!');
+        this.toastr.showErrorMessage('Asset Type already exists!');
       } else {
-        this.toastr.showSuccessMessage('asset type added successfully!');
+        this.toastr.showSuccessMessage('Asset Type added successfully!');
         this.activeModal.close('submit');
       }
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to add the asset type');
+      this.toastr.showErrorMessage('Unable to add the Asset Type');
     });
 
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      name: ['', [
+      assettypename: ['', [
         Validators.required,
         Validators.maxLength(32),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
-        duplicateNameValidator(this.assetTypeNames)
+        // Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        // duplicateNameValidator(this.assetTypeNames)
       ]],
       description: ['', [
         Validators.required,
