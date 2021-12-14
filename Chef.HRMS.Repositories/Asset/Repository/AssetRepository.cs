@@ -34,7 +34,7 @@ namespace Chef.HRMS.Repositories
                                             jt.date,
                                             jt.description,
                                             jt.status,
-                                            jt.isactive 
+                                            jt.isactive, 
                                             jt.createddate, 
                                             jt.modifieddate, 
                                             jt.createdby, 
@@ -42,9 +42,9 @@ namespace Chef.HRMS.Repositories
                                             jt.isarchived
                             FROM   hrms.asset AS jt 
                                    INNER JOIN hrms.assettype
-                                           ON hrms.asset.assettypeid = hrms.assettype.id
+                                           ON jt.assettypeid = hrms.assettype.id
                                    INNER JOIN hrms.assettypemetadata
-                                           ON hrms.asset.assettypeid = hrms.assettypemetadata.assettypeid ";
+                                           ON jt.assettypeid = hrms.assettypemetadata.assettypeid ";
 
 
             return await Connection.QueryAsync<Asset>(sql);
