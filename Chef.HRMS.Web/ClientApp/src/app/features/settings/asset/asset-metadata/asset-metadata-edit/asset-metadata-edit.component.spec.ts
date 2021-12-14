@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetAssetsCreateComponent } from './asset-assets-create.component';
+import { AssetMetadataEditComponent } from './asset-metadata-edit.component';
 
-describe('AssetAssetsCreateComponent', () => {
-  let component: AssetAssetsCreateComponent;
-  let fixture: ComponentFixture<AssetAssetsCreateComponent>;
+describe('AssetMetadataEditComponent', () => {
+  let component: AssetMetadataEditComponent;
+  let fixture: ComponentFixture<AssetMetadataEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssetAssetsCreateComponent ]
+      declarations: [ AssetMetadataEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssetAssetsCreateComponent);
+    fixture = TestBed.createComponent(AssetMetadataEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
