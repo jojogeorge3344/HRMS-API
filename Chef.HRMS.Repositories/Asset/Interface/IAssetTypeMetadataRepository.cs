@@ -13,6 +13,6 @@ namespace Chef.HRMS.Repositories
         Task<int> InsertAsync(IEnumerable<AssetTypeMetadata> assetTypeMetadata);
         Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataList();
           
-        Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataDetailsById(int Id);
+        Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int Id);
     }
 }
