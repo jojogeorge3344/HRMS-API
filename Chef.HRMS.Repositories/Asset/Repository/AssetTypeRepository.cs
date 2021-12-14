@@ -31,7 +31,7 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetType>(sql);
         }
 
-        public async Task<IEnumerable<AssetType>> GetAllAssetTypeById(int id)
+        public async Task<IEnumerable<AssetType>> Get(int id)
         {
 
             var sql = "SELECT * FROM  hrms.assettype WHERE id = @id";
