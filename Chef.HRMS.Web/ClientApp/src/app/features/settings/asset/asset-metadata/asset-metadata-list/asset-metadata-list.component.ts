@@ -18,6 +18,15 @@ export class AssetMetadataListComponent implements OnInit {
 
   assetType: AssetType[];
   assetTypeNames: string[];
+  assetMetadata:AssetTypeMetadata[];
+  assetMetadataNames:string[];
+
+  public mySentences:Array<any> = [
+    {text: 'Sentence 1'},
+    {text: 'Sentence 2'},
+    {text: 'Sentence 3'},
+    {text: 'Sentenc4 '},
+];
 
   constructor(
     private assetMetadataService: AssetMetadataService,
@@ -28,16 +37,29 @@ export class AssetMetadataListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssetTypeList();
+    this.getAssetMetadataList();
   }
 
-  getAssetTypeList() {
+  getAssetTypeList() { 
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetType = result;
       this.assetTypeNames = this.assetType.map(a => a.assettypename.toLowerCase());
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to fetch the Job Title Details');
+      this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+    });
+  }
+
+ 
+  getAssetMetadataList() {
+    this.assetMetadataService.getAllMetadata().subscribe(result => {
+     this.assetMetadata=result;
+      this.assetMetadataNames = this.assetMetadata.map(a => a.assetmetadataname.toLowerCase());
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the metadata Details');
     });
   }
 
@@ -53,7 +75,7 @@ export class AssetMetadataListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getAssetTypeList();
+        this.getAssetMetadataList();
       }
     });
   }
@@ -67,7 +89,7 @@ export class AssetMetadataListComponent implements OnInit {
 
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getAssetTypeList();
+          this.getAssetMetadataList();
         }
     });
   }
@@ -80,7 +102,7 @@ export class AssetMetadataListComponent implements OnInit {
 
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getAssetTypeList();
+          this.getAssetMetadataList();
         }
     });
   }
@@ -94,7 +116,7 @@ export class AssetMetadataListComponent implements OnInit {
         if (userResponse == true) {
           this.assetTypeService.delete(assetType.id).subscribe(() => {
             this.toastr.showSuccessMessage('The asset type deleted successfully!');
-            this.getAssetTypeList();
+            this.getAssetMetadataList();
           });
         }
     });
