@@ -1,7 +1,14 @@
 import { Model } from '@shared/models/model';
 
-export interface EmployeeJobTitle extends Model {
-    name: string;
-    description: string;
-    numberOfEmployees?: number;
+export interface AssetAssets extends Model {  
+  AssetId:number;
+  AssetName:string;
+  AssetTypeId:number;
+  Date:Date;
+  Description:string;
+  Status:number;
+  IsActive:boolean;
+  AssetTypeMetadataId:number;
+  EmployeeId:number;
+
   }
