@@ -27,13 +27,13 @@ export class AssetMetadataListComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.getJobList();
+    this.getAssetTypeList();
   }
 
-  getJobList() {
-    this.assetTypeService.getAllJobTitleList().subscribe(result => {
+  getAssetTypeList() {
+    this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetType = result;
-      this.assetTypeNames = this.assetType.map(a => a.name.toLowerCase());
+      this.assetTypeNames = this.assetType.map(a => a.assettypename.toLowerCase());
     },
     error => {
       console.error(error);
@@ -53,7 +53,7 @@ export class AssetMetadataListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getJobList();
+        this.getAssetTypeList();
       }
     });
   }
@@ -63,11 +63,11 @@ export class AssetMetadataListComponent implements OnInit {
       { size:'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.assetTypeId = assetType.id;
-    modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.name.toLowerCase());
+    modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.assettypename.toLowerCase());
 
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getJobList();
+          this.getAssetTypeList();
         }
     });
   }
@@ -80,7 +80,7 @@ export class AssetMetadataListComponent implements OnInit {
 
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getJobList();
+          this.getAssetTypeList();
         }
     });
   }
@@ -89,12 +89,12 @@ export class AssetMetadataListComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the asset type ${assetType.name}?`;
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the asset type ${assetType.assettypename}?`;
     modalRef.result.then((userResponse) => {
         if (userResponse == true) {
           this.assetTypeService.delete(assetType.id).subscribe(() => {
             this.toastr.showSuccessMessage('The asset type deleted successfully!');
-            this.getJobList();
+            this.getAssetTypeList();
           });
         }
     });
