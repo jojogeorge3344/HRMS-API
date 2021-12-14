@@ -13,5 +13,6 @@ namespace Chef.HRMS.Repositories
         Task<int> InsertAsync(IEnumerable<Asset> asset);
 
         Task<IEnumerable<Asset>> GetAllAssetList();
+        Task<IEnumerable<Asset>> GetAssetById(int Id);
     }
 }
