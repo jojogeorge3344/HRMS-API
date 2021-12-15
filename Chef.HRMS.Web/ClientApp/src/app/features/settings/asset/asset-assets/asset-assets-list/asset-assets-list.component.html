@@ -19,10 +19,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let assetType of assetAssets; let i= index;">
+            <tr *ngFor="let assetType of assetList; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize">{{ assetAssets.AssetName }}</td>
-                <td class="text-ellipsis" title="{{ assetType.description }}"> {{ assetAssets.description }} </td>               
+                <td class="text-ellipsis" title="{{ assetType.date}}"> {{ assetType.date | date }} </td> 
+
+                <td class="text-capitalize">
+                    {{getAssetTypeName(assetType) }}</td>
+                 <td class="text-capitalize">{{ assetType.assetName }}</td>
+                <td class="text-ellipsis" title="{{ assetType.description }}"> {{ assetType.description }} </td>  
+                <td class="text-ellipsis" title="{{ assetType.status}}"> {{ assetType.status }} </td>   
+                <td class="text-capitalize">{{ assetType.isActive }}</td>           
                 <td>
                     <div class="btn-group" dropdown container="main">
                         <button id="button-basic" dropdownToggle type="button"
@@ -39,7 +45,7 @@
                     </div>
                 </td>
             </tr>
-            <tr *ngIf="!assetAssets?.length">
+            <tr *ngIf="!assetList?.length">
                 <td colspan="7" class="text-center">
                     No rows found
                 </td>

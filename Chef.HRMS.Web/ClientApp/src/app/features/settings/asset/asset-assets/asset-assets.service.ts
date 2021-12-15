@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AssetAssets } from './asset-assets.model';
 import { map } from 'rxjs/operators';
+import { AssetType } from '../asset-type/asset-type.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AssetAssetsService {
 
   constructor(http : HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.http = http;
-    this.baseUrl = baseUrl + "api/AssetAssets/";
+    this.baseUrl = baseUrl + "api/Asset/";
   }
 
   add(assetAssets: AssetAssets){
@@ -25,7 +26,7 @@ export class AssetAssetsService {
   }
 
   getAllAssetList(){
-    return this.http.get<AssetAssets[]>(this.baseUrl + 'getAllAssetList').pipe(map(response => { return response; }));
+    return this.http.get<AssetAssets[]>(this.baseUrl + 'GetAllAssetList').pipe(map(response => { return response; }));
   }
 
   update(assetAssets: AssetAssets){
@@ -40,11 +41,15 @@ export class AssetAssetsService {
     return this.http.get<AssetAssets>(this.baseUrl + '' + id).pipe(map(response => { return response; }));
   }
 
-  getAllAssetTypeById(id: number) {
-    return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetType/Get/' + id).pipe(map(response => { return response; }));
+  getAllAssetTypeList(){
+    return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeById').pipe(map(response => { return response; }));
   }
 
-  getAssetMetadataById(id: number) {
-    return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetTypeMetadata/GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
-  }
+  // getAllAssetTypeById(id: number) {
+  //   return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetType/Get/' + id).pipe(map(response => { return response; }));
+  // }
+
+  // getAssetMetadataById(id: number) {
+  //   return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetTypeMetadata/GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
+  // }
 }

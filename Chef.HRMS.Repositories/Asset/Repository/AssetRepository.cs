@@ -30,9 +30,11 @@ namespace Chef.HRMS.Repositories
         {
 
             var sql = @"SELECT DISTINCT jt.id, 
-                                            jt.assetname, 
+                                            jt.assetname,
+                                            jt.assettypeid,
+                                            jt.assettypemetadataid,
                                             jt.date,
-                                            jt.description,
+                                            jd.metadata,
                                             jt.status,
                                             jt.isactive, 
                                             jt.createddate, 
@@ -44,7 +46,9 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.assettype
                                            ON jt.assettypeid = hrms.assettype.id
                                    INNER JOIN hrms.assettypemetadata
-                                           ON jt.assettypeid = hrms.assettypemetadata.assettypeid ";
+                                           ON jt.assettypeid = hrms.assettypemetadata.assettypeid 
+                                      INNER JOIN hrms.assettypemetadata AS jd
+                                           ON jt.assettypemetadataid = jd.id ";
 
 
             return await Connection.QueryAsync<Asset>(sql);
