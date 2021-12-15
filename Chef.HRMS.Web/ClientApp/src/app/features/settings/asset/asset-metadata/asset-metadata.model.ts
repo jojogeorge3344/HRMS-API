@@ -5,3 +5,10 @@ export interface assetmetadata extends Model {
     description: string;
     numberOfEmployees?: number;
   }
+export interface AssetTypeMetadata extends Model {
+    assetmetadataname: string;
+    datatype: string;
+    ismandatory: boolean;
+  }
+
+  

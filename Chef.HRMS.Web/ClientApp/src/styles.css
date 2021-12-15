@@ -378,3 +378,14 @@ aside ::-webkit-scrollbar-thumb {
 .subheader {
   margin-bottom: 1rem;
 }
+
+/*Asset-metadata*/
+.dropdown-width{
+  width: 50% !important;
+  margin-left: 5rem;
+}
+
+.metadataCardHeader{
+  padding:0.5rem !important;
+}
+/*Asset-metadata*/
