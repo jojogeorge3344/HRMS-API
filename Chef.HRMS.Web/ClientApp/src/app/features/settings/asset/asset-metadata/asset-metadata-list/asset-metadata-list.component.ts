@@ -65,16 +65,17 @@ public mySentences:Array<any> = [
   }
 
 
-  displayMetadata(type){
-    return this.assetMetadata.find(val=>val.assettypeId==type.id)?this.assetMetadata.find(val=>val.id==type.id).metadata:'-'
-
-   }
-
   // displayMetadata(type){
-  //   var metData=this.assetMetadata.filter(item => item.id === type.id);
-  //     var data=metData.map(val=>val.assetmetadata)
-  //     return data ? data.join(",") : "-";
-  //   }
+
+  //   return this.assetMetadata.find(val=>val.assettypeId == type.id)?this.assetMetadata.find(val=>val.assettypeId==type.id).metadata:'-'
+
+  //  }
+
+  displayMetadata(type){
+    var metData=this.assetMetadata.filter(item => item.assettypeId === type.id);
+      var data=metData.map(val=>val.metadata)
+      return data ? data.join(",") : "-";
+    }
  
 
   getAssetMetadataList() {
@@ -83,7 +84,7 @@ public mySentences:Array<any> = [
      console.log(this.assetMetadata);
      console.log(result);
      
-      this.assetMetadataNames = this.assetMetadata.map(a => a.assetmetadata);
+      this.assetMetadataNames = this.assetMetadata.map(a => a.metadata);
       console.log(this.assetMetadataNames);
       
     },
