@@ -17,6 +17,13 @@ namespace Chef.HRMS.Repositories
 
         }
 
+        public async Task<IEnumerable<Asset>> GetAssetById(int Id)
+        {
+            var sql = "SELECT * FROM hrms.asset WHERE Id=@Id";
+            return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
+        }
+
+
         public async Task<int> InsertAsync(IEnumerable<Asset> asset)
         {
             var sql = new QueryBuilder<Asset>().GenerateInsertQuery();
