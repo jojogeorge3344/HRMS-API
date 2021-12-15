@@ -49,7 +49,8 @@ export class AssetMetadataCreateComponent implements OnInit {
     this.assetTypeName = this.addForm.get('assetType').value;
     //console.log(this.assetTypeName);
     this.assetTypeId=this.getAssetId(this.assetTypeName);
-
+    console.log( this.assetTypeId);
+    
     this.mdata = this.addForm.get('dataRows') as FormArray;
     this.assetMetadataService.add(this.assetTypeId, this.mdata).subscribe(result => {
 
@@ -66,16 +67,21 @@ export class AssetMetadataCreateComponent implements OnInit {
 
   getAssetId(assetName)
   {
-    return this.assetMetadataService.get(assetName).subscribe(result => {
+    
+    // console.log(assetName);
+    // return this.assetMetadataService.getAssetTypeId(assetName).subscribe(result => {
+    //   console.log(result);
+    //   console.log("helloooo");
+      
+      
+    //   this.toastr.showSuccessMessage('fetched asset id successfully');
+    //   this.activeModal.close('submit');
 
-      this.toastr.showSuccessMessage('Asset metadata added successfully!');
-      this.activeModal.close('submit');
-
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the asset metadata');
-      });
+    // },
+    //   error => {
+    //     console.error(error);
+    //     this.toastr.showErrorMessage('Unable to fetch asset id');
+    //   });
   }
 
   createFormGroup(): FormGroup {
@@ -90,9 +96,14 @@ export class AssetMetadataCreateComponent implements OnInit {
   createMetadata() {
 
     return this.formBuilder.group({
-      metadata: [],
-      datatype: [],
-      isMandatory: []
+      metadata: ['',[
+        Validators.required,
+        Validators.maxLength(32),
+        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        duplicateNameValidator(this.assetTypeNames)
+      ]],
+      datatype: ['',Validators.required],
+      isMandatory: ['',Validators.required]
     });
 
   }
@@ -113,7 +124,6 @@ export class AssetMetadataCreateComponent implements OnInit {
           found = i;
           break;
         }
-
       }
       if (found !== -1) {
         console.log("Metadata already entered.");

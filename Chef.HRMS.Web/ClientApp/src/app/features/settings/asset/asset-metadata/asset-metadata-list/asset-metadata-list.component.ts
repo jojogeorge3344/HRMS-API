@@ -22,10 +22,10 @@ export class AssetMetadataListComponent implements OnInit {
   assetMetadataNames:string[];
 
   public mySentences:Array<any> = [
-    {text: 'Sentence 1'},
-    {text: 'Sentence 2'},
-    {text: 'Sentence 3'},
-    {text: 'Sentenc4 '},
+    {id: 35,text: ['sameera1,sameera2']},
+    {id: 36,text: ['justin1,justin2']},
+    {id: 3,text: ['antony1','antony2']},
+    {id: 4,text: ['Sentence1','Sentence2']}
 ];
 
   constructor(
@@ -50,8 +50,15 @@ export class AssetMetadataListComponent implements OnInit {
       this.toastr.showErrorMessage('Unable to fetch the asset type Details');
     });
   }
-
- 
+  getMetaData(assetType) {
+    this.mySentences.forEach(val => {
+      if (val.id == assetType.id) 
+      { return val.text.join(',') }
+       else {
+        return '-'
+      }
+    })
+  }
   getAssetMetadataList() {
     this.assetMetadataService.getAllMetadata().subscribe(result => {
      this.assetMetadata=result;

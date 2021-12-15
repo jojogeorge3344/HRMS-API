@@ -21,10 +21,10 @@
                 <td class="text-ellipsis" >
                     <!-- <span *ngFor="let metadata of assetMetadataNames; let isLast=last">
                         {{metadata}}{{isLast ? '' : ', '}}
-                    </span> title="{{ assetMetadataNames.assetmetadatanames}}"-->
+                    </span>-->
 
-                    <span *ngFor="let metad of mySentences; let isLast=last">
-                        {{metad.text}}{{isLast ? '' : ', '}}
+                    <span>
+                        {{getMetaData(assetType)}}
                     </span>
 
                 </td>
