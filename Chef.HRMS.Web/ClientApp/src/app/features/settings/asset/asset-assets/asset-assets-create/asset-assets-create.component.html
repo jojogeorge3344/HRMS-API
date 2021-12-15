@@ -34,36 +34,30 @@
         <label class="col-12 col-form-label px-0"
           >Asset Type
             <select id="dataType" name="dataType" class="form-control w-75 mt-2" formControlName="selectedValue" (change)="getselectedvalue()">
-              <option *ngFor="let dtype of dataType" [value]="dtype.assettypename">
+              <option *ngFor="let dtype of dataType" [value]="dtype.id">
                 {{dtype.assettypename}}
               </option>
              </select>   
         </label>
-        <div class="form-group" *ngIf="selectedValue === 'Mouse'">
-          <label for="name">Seriel no:</label>
-          <input type="text" class="form-control" id="name" >
-          <label for="name">IMEI:</label>
-          <input type="text" class="form-control" id="name" >
-          <label for="name">Model:</label>
-          <input type="text" class="form-control" id="name" >
-        </div>
-
-         <!-- <div [ngSwitch]="selectedValue==='bluetooth'">
-          <div *ngSwitchCase="selectedValue.datatype=='date'">
-                    {{dtype.type}}
-                    <input type="date">
-                  </div>
-                  <div *ngSwitchCase="dtype.datatype=='number'">
-                    {{dtype.type}}
-                    <input type="number">
-                  </div>
-                  <div *ngSwitchDefault>
-                    {{dtype.type}}
-                    <input type="text">
-                  </div>
-                </div> -->
-
+        <div class="form-group"  *ngFor="let mdata of metadatas" [value]="mdata.assettypeid">
+          <div [ngSwitch]="selectedValue==='mdata.assettypeid'">
+            <div *ngSwitchCase="mdata.assetdatatype=='date'">
+                      {{dtype.type}}
+                      <input type="date">
+                    </div>
+                    <div *ngSwitchCase="mdata.assetdatatype=='number'">
+                      {{dtype.type}}
+                      <input type="number">
+                    </div>
+                    <div *ngSwitchDefault>
+                      {{dtype.type}}
+                      <input type="text">
+                    </div>
+             </div>
+  
+          </div>
       </div>
+        
 
       <div class="form-group form-input-inline col-6">
         <label class="col-12 col-form-label px-0" for="AssetName">Asset Name</label>

@@ -21,7 +21,8 @@ export class AssetAssetsCreateComponent implements OnInit {
   selectedValue: string = '';
   assetType: AssetType;
   currentUserId: number;
-  dataType: any[]  
+  dataType: any[];
+  metadatas: any[];
   date = Date.now();
   @Input() assetmetadata: assetmetadata
   @Input() assetTypeNames: AssetType;
@@ -32,6 +33,7 @@ export class AssetAssetsCreateComponent implements OnInit {
   constructor(
       private assestassetService: AssetAssetsService,
       private assetTypeService: AssetTypeService,
+      private assetMetadataService: AssetMetadataService,
       public activeModal: NgbActiveModal,
       private formBuilder: FormBuilder,
       private toastr: ToasterDisplayService) { }
@@ -40,6 +42,7 @@ export class AssetAssetsCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.assetForm = this.createFormGroup();
     this.getAssetType();
+    this.getMetadata();
   }
   onSubmit(){
     this.assestassetService.add(this.assetForm.value).subscribe((result: any) => {
@@ -96,11 +99,19 @@ export class AssetAssetsCreateComponent implements OnInit {
 
   getselectedvalue(){
     this.selectedValue= this.assetForm.get('selectedValue').value 
+    console.log(this.selectedValue);
+    
   }
 
   getAssetType(){
     this.assetTypeService.getAll().subscribe(result => {
       this.dataType=result;
+    })
+  }
+  
+  getMetadata(){
+    this.assetMetadataService.getAll().subscribe(result => {
+      this.metadatas=result;
     })
   }
 

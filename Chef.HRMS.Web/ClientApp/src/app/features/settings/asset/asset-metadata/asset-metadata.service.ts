@@ -14,28 +14,34 @@ export class AssetMetadataService {
 
   constructor(http : HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.http = http;
-    this.baseUrl = baseUrl + "api/assetMetadata/";
+    this.baseUrl = baseUrl + "api/assetTypeMetadata/";
   }
 
   getAllAssetTypeList(){
     return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeMetadataDetailsById').pipe(map(response => { return response; }));
   }
+
   add(assetId, metadata)
   {
     return this.http.post(this.baseUrl + 'insert', {assetId,metadata}).pipe(map(response => { return response; }));
   }
-  getAllMetadata(){
-    return this. http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAllAssetMetadata').pipe(map(response => { return response; }));
-  }
+  
+  // getAllMetadata(){
+  //   return this. http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAllAssetMetadata').pipe(map(response => { return response; }));
+  // }
 
   get(assetName){
     return this. http.get(this.baseUrl + 'getAssetTypeId/',assetName).pipe(map(response => { return response; }));
   }
 
 
-  // getAll(){
-  //   return this.http.get<AssetType[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
-  // }
+  getAll(){
+    return this.http.get<AssetType[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
+  }
+
+  getAllMetadata(){
+    return this. http.get<AssetTypeMetadata[]>(this.baseUrl+ 'getAll').pipe(map(response => { return response; }));
+  }
 
   
   // update(assetType: AssetType){
