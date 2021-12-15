@@ -17,8 +17,17 @@
         <tbody>
             <tr *ngFor="let assetType of assetType; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize">{{ assetType.name }}</td>
-                <td class="text-ellipsis" title="{{ assetType.description }}"> {{ assetType.description }} </td>               
+                <td class="text-capitalize">{{ assetType.assettypename }}</td>
+                <td class="text-ellipsis" >
+                    <!-- <span *ngFor="let metadata of assetMetadataNames; let isLast=last">
+                        {{metadata}}{{isLast ? '' : ', '}}
+                    </span> title="{{ assetMetadataNames.assetmetadatanames}}"-->
+
+                    <span *ngFor="let metad of mySentences; let isLast=last">
+                        {{metad.text}}{{isLast ? '' : ', '}}
+                    </span>
+
+                </td>
                 <td>
                     <div class="btn-group" dropdown container="main">
                         <button id="button-basic" dropdownToggle type="button"

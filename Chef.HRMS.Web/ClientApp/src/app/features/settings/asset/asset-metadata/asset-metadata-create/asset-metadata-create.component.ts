@@ -16,10 +16,11 @@ import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 export class AssetMetadataCreateComponent implements OnInit {
   addForm: FormGroup;
   mdata: FormArray;
-  assetTypes: AssetType;
+  assetTypes: AssetType[];
   metadata: AssetTypeMetadata[];
   // delButton=false;
   assetTypeId;
+  assetTypeName;
   metas: any;
   newMetadata: any;
 
@@ -35,7 +36,7 @@ export class AssetMetadataCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
-    this.assetMetadataService.getAllAssetType().subscribe(result => {
+    this.assetTypeService. getAllAssetTypeList().subscribe(result => {
       this.assetTypes = result;
     },
       error => {
@@ -45,8 +46,12 @@ export class AssetMetadataCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    this.assetTypeName = this.addForm.get('assetType').value;
+    //console.log(this.assetTypeName);
+    this.assetTypeId=this.getAssetId(this.assetTypeName);
+
     this.mdata = this.addForm.get('dataRows') as FormArray;
-    this.assetMetadataService.insertMetadata(this.assetTypeId, this.mdata).subscribe(result => {
+    this.assetMetadataService.add(this.assetTypeId, this.mdata).subscribe(result => {
 
       this.toastr.showSuccessMessage('Asset metadata added successfully!');
       this.activeModal.close('submit');
@@ -57,6 +62,20 @@ export class AssetMetadataCreateComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to add the asset metadata');
       });
 
+  }
+
+  getAssetId(assetName)
+  {
+    return this.assetMetadataService.get(assetName).subscribe(result => {
+
+      this.toastr.showSuccessMessage('Asset metadata added successfully!');
+      this.activeModal.close('submit');
+
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to add the asset metadata');
+      });
   }
 
   createFormGroup(): FormGroup {
