@@ -50,15 +50,15 @@ export class AssetMetadataListComponent implements OnInit {
       this.toastr.showErrorMessage('Unable to fetch the asset type Details');
     });
   }
-  getMetaData(assetType) {
-    this.mySentences.forEach(val => {
-      if (val.id == assetType.id) 
-      { return val.text.join(',') }
-       else {
-        return '-'
-      }
-    })
-  }
+
+
+  getMetaData(type){
+
+    return this.mySentences.find(val=>val.id==type.id)?this.mySentences.find(val=>val.id==type.id).text:'-'
+
+}
+
+
   getAssetMetadataList() {
     this.assetMetadataService.getAllMetadata().subscribe(result => {
      this.assetMetadata=result;
@@ -70,9 +70,9 @@ export class AssetMetadataListComponent implements OnInit {
     });
   }
 
-  isDisabled(assetType) {
-    return (assetType.numberOfEmployees > 0);
-  }
+  // isDisabled(assetType) {
+  //   return (assetType.numberOfEmployees > 0);
+  // }
 
   openCreate() {
     const modalRef = this.modalService.open(AssetMetadataCreateComponent,

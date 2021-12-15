@@ -14,18 +14,22 @@ export class AssetMetadataService {
 
   constructor(http : HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.http = http;
-    this.baseUrl = baseUrl + "api/assetMetadata/";
+    this.baseUrl = baseUrl + "api/assetTypeMetadata/";
   }
 
   // getAllAssetTypeList(){
   //   return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeMetadataDetailsById').pipe(map(response => { return response; }));
   // }
-  add(assetId, metadata)
+  add(assetTypeId, metadata)
   {
-    return this.http.post(this.baseUrl + 'insert', {assetId,metadata}).pipe(map(response => { return response; }));
+    let reqOptions={
+      assetTypeId:assetTypeId,
+      metadata:metadata
+    }
+    return this.http.post(this.baseUrl + 'insert', reqOptions).pipe(map(response => { return response; }));
   }
   getAllMetadata(){
-    return this. http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAllAssetMetadata').pipe(map(response => { return response; }));
+    return this. http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
 
   getAssetTypeId(assetName){
