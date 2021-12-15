@@ -17,9 +17,7 @@ export class AssetMetadataService {
     this.baseUrl = baseUrl + "api/assetTypeMetadata/";
   }
 
-  // getAllAssetTypeList(){
-  //   return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeMetadataDetailsById').pipe(map(response => { return response; }));
-  // }
+  
   add(assetTypeId, metadata)
   {
     let reqOptions={
@@ -32,9 +30,9 @@ export class AssetMetadataService {
     return this. http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
 
-  getAssetTypeId(assetName){
-    return this. http.get(this.baseUrl + 'getAssetTypeId/',assetName).pipe(map(response => { return response; }));
-  }
+  // getAssetTypeId(assetName){
+  //   return this. http.get(this.baseUrl + 'getAssetTypeId/',assetName).pipe(map(response => { return response; }));
+  // }
 
 
   // getAll(){
