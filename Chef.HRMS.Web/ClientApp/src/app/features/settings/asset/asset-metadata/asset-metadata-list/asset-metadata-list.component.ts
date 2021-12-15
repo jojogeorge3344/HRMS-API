@@ -22,10 +22,10 @@ export class AssetMetadataListComponent implements OnInit {
   assetMetadataNames:string[];
 
   public mySentences:Array<any> = [
-    {text: 'Sentence 1'},
-    {text: 'Sentence 2'},
-    {text: 'Sentence 3'},
-    {text: 'Sentenc4 '},
+    {id: 35,text: ['sameera1,sameera2']},
+    {id: 36,text: ['justin1,justin2']},
+    {id: 3,text: ['antony1','antony2']},
+    {id: 4,text: ['Sentence1','Sentence2']}
 ];
 
   constructor(
@@ -51,7 +51,14 @@ export class AssetMetadataListComponent implements OnInit {
     });
   }
 
- 
+
+  getMetaData(type){
+
+    return this.mySentences.find(val=>val.id==type.id)?this.mySentences.find(val=>val.id==type.id).text:'-'
+
+}
+
+
   getAssetMetadataList() {
     this.assetMetadataService.getAllMetadata().subscribe(result => {
      this.assetMetadata=result;
@@ -63,9 +70,9 @@ export class AssetMetadataListComponent implements OnInit {
     });
   }
 
-  isDisabled(assetType) {
-    return (assetType.numberOfEmployees > 0);
-  }
+  // isDisabled(assetType) {
+  //   return (assetType.numberOfEmployees > 0);
+  // }
 
   openCreate() {
     const modalRef = this.modalService.open(AssetMetadataCreateComponent,

@@ -18,14 +18,13 @@
             <tr *ngFor="let assetType of assetType; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ assetType.assettypename }}</td>
-                <td class="text-ellipsis" >
-                    <!-- <span *ngFor="let metadata of assetMetadataNames; let isLast=last">
-                        {{metadata}}{{isLast ? '' : ', '}}
-                    </span> title="{{ assetMetadataNames.assetmetadatanames}}"-->
+                <td class="text-ellipsis">
 
-                    <span *ngFor="let metad of mySentences; let isLast=last">
-                        {{metad.text}}{{isLast ? '' : ', '}}
-                    </span>
+
+
+                    {{getMetaData(assetType)}}
+
+
 
                 </td>
                 <td>
