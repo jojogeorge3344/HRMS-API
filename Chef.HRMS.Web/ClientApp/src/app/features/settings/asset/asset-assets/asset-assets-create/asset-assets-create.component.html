@@ -34,12 +34,12 @@
         <label class="col-12 col-form-label px-0"
           >Asset Type
             <select id="dataType" name="dataType" class="form-control w-75 mt-2" formControlName="selectedValue" (change)="getselectedvalue()">
-              <option *ngFor="let dtype of dataType" [value]="dtype.type">
-                {{dtype.type}}
+              <option *ngFor="let dtype of dataType" [value]="dtype.assettypename">
+                {{dtype.assettypename}}
               </option>
              </select>   
         </label>
-        <div class="form-group" *ngIf="selectedValue === 'bluetooth'">
+        <div class="form-group" *ngIf="selectedValue === 'Mouse'">
           <label for="name">Seriel no:</label>
           <input type="text" class="form-control" id="name" >
           <label for="name">IMEI:</label>
