@@ -57,6 +57,10 @@ namespace Chef.HRMS.Repositories
             Connection.Execute(query);
             fullQuery += query;
 
+            query = new QueryBuilder<AssetTypeMetadata>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+
             query = new QueryBuilder<Asset>().GenerateCreateTableQuery();
             Connection.Execute(query);
             fullQuery += query;

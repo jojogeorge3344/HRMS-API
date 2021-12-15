@@ -23,9 +23,9 @@ namespace Chef.HRMS.Services
             return await assetTypeMetadataRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataDetailsById(int Id)
+        public async Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int Id)
         {
-            return await assetTypeMetadataRepository.GetAllAssetTypeMetadataDetailsById(Id);
+            return await assetTypeMetadataRepository.GetAssetTypeId(Id);
         }
 
         public async Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataList()

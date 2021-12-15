@@ -24,7 +24,7 @@ namespace Chef.HRMS.Models
         public string AssetDatatype { get; set; }
 
         [Required]
-        public string IsMandatory { get; set; }
+        public bool IsMandatory { get; set; }
 
     }
 }
