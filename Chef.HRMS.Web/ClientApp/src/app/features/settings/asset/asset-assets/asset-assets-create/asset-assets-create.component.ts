@@ -5,7 +5,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { assetmetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetAssetsService } from '../asset-assets.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class AssetAssetsCreateComponent implements OnInit {
     {id:3, type:"bluetooth", datatype:"date"}
   ]
   date = Date.now();
-  @Input() assetmetadata: assetmetadata;
+  @Input() metadata: AssetTypeMetadata;
   @Input() assetTypeNames: string[];
     minDate;
     maxDate;
