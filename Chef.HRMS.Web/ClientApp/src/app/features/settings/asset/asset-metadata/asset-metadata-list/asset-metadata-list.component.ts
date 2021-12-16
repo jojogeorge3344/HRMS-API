@@ -21,12 +21,25 @@ export class AssetMetadataListComponent implements OnInit {
   assetMetadata:AssetTypeMetadata[];
   assetMetadataNames:string[];
 
-  public mySentences:Array<any> = [
-    {text: 'Sentence 1'},
-    {text: 'Sentence 2'},
-    {text: 'Sentence 3'},
-    {text: 'Sentenc4 '},
-];
+//   public mySentences:Array<any> = [
+//     {id: 35,text: ['sameera1,sameera2']},
+//     {id: 28,text: ['justin1,justin2']},
+//     {id: 29,text: ['antony1','antony2']},
+//     {id: 30,text: ['Sentence1','Sentence2']},
+    
+// ];
+
+// public mySentences:Array<any> = [
+//   {id: 35,text: ['sameera1']},
+//   {id: 28,text: ['justin1']},
+//   {id: 29,text: ['antony1']},
+//   {id: 30,text: ['Sentence1']},
+//   {id: 35,text: ['sameera2']},
+//   {id: 28,text: ['justin2']},
+//   {id: 29,text: ['antony2']},
+//   {id: 30,text: ['Sentence2']}
+  
+// ];
 
   constructor(
     private assetMetadataService: AssetMetadataService,
@@ -51,14 +64,27 @@ export class AssetMetadataListComponent implements OnInit {
     });
   }
 
+
+  // displayMetadata(type){
+
+  //   return this.assetMetadata.find(val=>val.assettypeId == type.id)?this.assetMetadata.find(val=>val.assettypeId==type.id).metadata:'-';
+
+  //  }
+
+  displayMetadata(type){
+    var metData=this.assetMetadata.filter(item => item.assettypeId === type.id);
+      var data=metData.map(val=>val.metadata)
+      return data ? data.join(",") : "-";
+    }
  
+
   getAssetMetadataList() {
     this.assetMetadataService.getAllMetadata().subscribe(result => {
-     this.assetMetadata=result;
-      this.assetMetadataNames = this.assetMetadata.map(a => a.assetmetadataname.toLowerCase());
+     this.assetMetadata=result;     
+      this.assetMetadataNames = this.assetMetadata.map(a => a.metadata);
+      console.log(this.assetMetadataNames);
     },
     error => {
-      console.error(error);
       this.toastr.showErrorMessage('Unable to fetch the metadata Details');
     });
   }
