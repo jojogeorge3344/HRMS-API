@@ -37,7 +37,9 @@ namespace Chef.HRMS.Repositories
         {
 
             var sql = @"SELECT DISTINCT jt.id, 
-                                            jt.assetname, 
+                                            jt.assetname,
+                                            jt.assettypeid,
+                                            jt.assettypemetadataid,
                                             jt.date,
                                             jt.description,
                                             jt.status,

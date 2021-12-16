@@ -36,26 +36,32 @@ export class AssetMetadataCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
-    this.assetTypeService. getAllAssetTypeList().subscribe(result => {
+    this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetTypes = result;
+      console.log(this.assetTypes);
+
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the AssetType');
       });
+
+
   }
 
   onSubmit() {
+    debugger
     this.assetTypeName = this.addForm.get('assetType').value;
-    //console.log(this.assetTypeName);
-    this.assetTypeId=this.getAssetId(this.assetTypeName);
-
     this.mdata = this.addForm.get('dataRows') as FormArray;
-    this.assetMetadataService.add(this.assetTypeId, this.mdata).subscribe(result => {
-
+    console.log(this.mdata);
+    
+    this.assetTypes.forEach(val => {
+      if (val.assettypename === this.assetTypeName) { this.assetTypeId = val.id }
+    })
+    console.log(this.assetTypeId);
+    this.assetMetadataService.add(this.assetTypeId, this.mdata.value).subscribe(result => {
       this.toastr.showSuccessMessage('Asset metadata added successfully!');
       this.activeModal.close('submit');
-
     },
       error => {
         console.error(error);
@@ -64,19 +70,7 @@ export class AssetMetadataCreateComponent implements OnInit {
 
   }
 
-  getAssetId(assetName)
-  {
-    return this.assetMetadataService.get(assetName).subscribe(result => {
-
-      this.toastr.showSuccessMessage('Asset metadata added successfully!');
-      this.activeModal.close('submit');
-
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the asset metadata');
-      });
-  }
+  
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -90,9 +84,14 @@ export class AssetMetadataCreateComponent implements OnInit {
   createMetadata() {
 
     return this.formBuilder.group({
-      metadata: [],
-      datatype: [],
-      isMandatory: []
+      metadata: ['', [
+        Validators.required,
+        Validators.maxLength(32),
+        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        duplicateNameValidator(this.assetTypeNames)
+      ]],
+      datatype: ['', Validators.required],
+      isMandatory: ['', Validators.required]
     });
 
   }
@@ -108,12 +107,11 @@ export class AssetMetadataCreateComponent implements OnInit {
 
     if (l > 1) {
       var found = -1;
-      for (let i = 0; i < l-1; i++) {
+      for (let i = 0; i < l - 1; i++) {
         if (this.metas[i].metadata == this.newMetadata) {
           found = i;
           break;
         }
-
       }
       if (found !== -1) {
         console.log("Metadata already entered.");
