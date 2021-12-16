@@ -45,14 +45,9 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAssetById/{id}")]
-        public async Task<ActionResult<Asset>> Get(int id)
+        public async Task<ActionResult<IEnumerable<Asset>>> Get(int id)
         {
             var assets = await assetService.GetAsync(id);
-
-            if (assets == null)
-            {
-                return NotFound();
-            }
 
             return Ok(assets);
         }
@@ -69,7 +64,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Insert(IEnumerable<Asset> asset)
+        public async Task<ActionResult> Insert(Asset asset)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +80,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(Asset asset)
+        public async Task<ActionResult> Update(Asset asset)
         {
             if (!ModelState.IsValid)
             {
