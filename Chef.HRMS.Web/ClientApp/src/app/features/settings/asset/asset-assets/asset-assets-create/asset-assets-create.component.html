@@ -1,1 +1,103 @@
-<p>asset-assets-create works!</p>
+<form [formGroup]="assetForm" id="assetForm" (validSubmit)="onSubmit()">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Asset</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="d-flex flex-wrap align-items-baseline">
+      <div class="form-group form-input-line col-6">
+        <label class="col-12 col-form-label px-0" for="assetid">Asset Id</label>
+        <input
+          class="form-control w-75"
+          formControlName="assetId"
+          placeholder="auto generated"
+          disabled
+        >
+      </div>
+      <div class="form-group form-input-inline input-group col-6">
+        <label class="col-12 col-form-label px-0" for="date">Date</label>
+        <span class="form-control w-75">{{ date | date }}</span>
+      </div>
+    </div>
+
+    
+    <div class="d-flex flex-wrap">
+      <div class="form-group form-input-line col-6">
+        <label class="col-12 col-form-label px-0"
+          >Asset Type
+            <select id="dataType" name="dataType" class="form-control w-75 mt-2" formControlName="selectedValue" (change)="getselectedvalue()">
+              <option *ngFor="let dtype of dataType" [value]="dtype.assettypename">
+                {{dtype.assettypename}}
+              </option>
+             </select>   
+        </label>
+        <div class="form-group" *ngIf="selectedValue === 'Mouse'">
+          <label for="name">Seriel no:</label>
+          <input type="text" class="form-control" id="name" >
+          <label for="name">IMEI:</label>
+          <input type="text" class="form-control" id="name" >
+          <label for="name">Model:</label>
+          <input type="text" class="form-control" id="name" >
+        </div>
+
+         <!-- <div [ngSwitch]="selectedValue==='bluetooth'">
+          <div *ngSwitchCase="selectedValue.datatype=='date'">
+                    {{dtype.type}}
+                    <input type="date">
+                  </div>
+                  <div *ngSwitchCase="dtype.datatype=='number'">
+                    {{dtype.type}}
+                    <input type="number">
+                  </div>
+                  <div *ngSwitchDefault>
+                    {{dtype.type}}
+                    <input type="text">
+                  </div>
+                </div> -->
+
+      </div>
+
+      <div class="form-group form-input-inline col-6">
+        <label class="col-12 col-form-label px-0" for="AssetName">Asset Name</label>
+        <input formControlName="assetName" class="form-control w-100" />
+      </div>
+    </div>
+
+    
+    <div class="form-group form-input-inline col-6 float-right">
+      <div class="custom-control custom-checkbox custom-switch">
+        <input type="checkbox" class="custom-control-input" id="isEnabled" formControlName="isActive">
+        <label class="custom-control-label" for="isEnabled">Active</label>
+       </div>
+      </div>
+   
+      <div class="form-group form-textarea-line col-12">
+        <label class="col-12 col-form-label px-0">Description</label>
+           <textarea
+              formControlName="description"
+              class="form-control"
+              rows="3">
+            </textarea>
+      </div>
+    </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-warning"
+      (click)="activeModal.close('Close click')"
+    >
+      <i class="mr-1 fal fa-window-close"></i> Cancel
+    </button>
+    <button type="submit" class="btn btn-success">
+      <i class="mr-1 fal fa-save"></i> Save
+    </button>
+  </div>
+</form>
