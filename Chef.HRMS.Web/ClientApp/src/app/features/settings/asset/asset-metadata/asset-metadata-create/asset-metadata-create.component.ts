@@ -8,6 +8,7 @@ import { AssetTypeService } from '../../asset-type/asset-type.service';
 import { AssetMetadataService } from '../asset-metadata.service';
 import { AssetTypeMetadata } from '../asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
+import { values } from 'lodash';
 
 @Component({
   selector: 'hrms-asset-metadata-create',
@@ -18,14 +19,16 @@ export class AssetMetadataCreateComponent implements OnInit {
   mdata: FormArray;
   assetTypes: AssetType[];
   metadata: AssetTypeMetadata[];
-  // delButton=false;
   assetTypeId;
   assetTypeName;
   metas: any;
   newMetadata: any;
-
+  visibleMinus = false;
+  emptyValidation = false;
+  duplicateValidation = false;
+  dataTypes:string[];
   currentUserId: number;
-  @Input() assetTypeNames: string[];
+  // @Input() assetTypeNames: string[];
 
 
   constructor(private assetTypeService: AssetTypeService,
@@ -39,27 +42,38 @@ export class AssetMetadataCreateComponent implements OnInit {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetTypes = result;
       console.log(this.assetTypes);
-
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the AssetType');
       });
 
-
+      this.assetMetadataService.getAllDatatypes().subscribe(result => {
+        this.dataTypes = result;
+        console.log(this.dataTypes);
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('Unable to fetch the datatypes');
+        });
   }
 
-  onSubmit() {
-    debugger
+  getAssetType()
+  {
     this.assetTypeName = this.addForm.get('assetType').value;
-    this.mdata = this.addForm.get('dataRows') as FormArray;
-    console.log(this.mdata);
-    
     this.assetTypes.forEach(val => {
       if (val.assettypename === this.assetTypeName) { this.assetTypeId = val.id }
     })
     console.log(this.assetTypeId);
-    this.assetMetadataService.add(this.assetTypeId, this.mdata.value).subscribe(result => {
+
+  }
+
+  onSubmit() {
+    const metdata = (this.addForm.get('dataRows') as FormArray).value.map(val=>({
+      ...val,assettypeId:this.assetTypeId
+    }));
+    console.log(metdata);    
+    this.assetMetadataService.add(metdata).subscribe(result => {
       this.toastr.showSuccessMessage('Asset metadata added successfully!');
       this.activeModal.close('submit');
     },
@@ -70,7 +84,7 @@ export class AssetMetadataCreateComponent implements OnInit {
 
   }
 
-  
+
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -88,44 +102,88 @@ export class AssetMetadataCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(32),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
-        duplicateNameValidator(this.assetTypeNames)
+        // duplicateNameValidator(this.assetTypeNames)
       ]],
-      datatype: ['', Validators.required],
-      isMandatory: ['', Validators.required]
+      assetDatatype: ['', Validators.required],
+      isMandatory: [false]
     });
 
   }
 
-  createDataArray(i): void {
-    this.newMetadata = this.addForm.get('dataRows').value[i].metadata;
-    console.log(this.newMetadata);
+
+
+  createDataArray(): void {    
     this.mdata = this.addForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
     let l = this.metas.length;
-    console.log(this.metas);
-    console.log(l);
+    this.newMetadata = this.addForm.get('dataRows').value[l-1].metadata;
+    console.log(this.newMetadata);
+    //console.log(this.metas);
+   // console.log(l);
+    //console.log(i);
 
-    if (l > 1) {
-      var found = -1;
-      for (let i = 0; i < l - 1; i++) {
-        if (this.metas[i].metadata == this.newMetadata) {
-          found = i;
-          break;
+    // if(i<l)
+    // {
+    //   //this.visibleMinus=true;
+    //   document.getElementById(i).style.display = " ";
+    // }
+    if (this.newMetadata == "") {
+      this.emptyValidation = true;
+    }
+    else {
+      this.emptyValidation = false;
+      if (l > 1) {
+        var found = -1;
+        for (let i = 0; i < l - 1; i++) {
+          if (this.metas[i].metadata == this.newMetadata) {
+            found = i;
+            break;
+          }
         }
-      }
-      if (found !== -1) {
-        console.log("Metadata already entered.");
+        if (found !== -1) {
+          //console.log("Metadata already entered");
+          this.duplicateValidation = true;
+        }
+        else {
+          this.duplicateValidation = false;
+          this.mdata.push(this.createMetadata());
+        }
       }
       else {
         this.mdata.push(this.createMetadata());
       }
     }
-    else {
-      this.mdata.push(this.createMetadata());
-    }
   }
 
+  removeMetadata(i)
+  {
+    this.mdata = this.addForm.get('dataRows') as FormArray;
+    console.log(this.mdata);
+    
+    let l = this.mdata.length;
+    console.log(l);
+    
+    if(l>1)
+    {
+    this.mdata.removeAt(i);
+    console.log(this.mdata);
+    }
+     else{
+      //this.mdata.removeAt(i);
+    //   this.mdata.push(this.createMetadata());
+      
+    //   console.log(this.mdata);
+      console.log("hellooo");
+    
+    
+       this.mdata.value[i].metadata="";
+       this.mdata.value[i].datatype="";
+       this.mdata.value[i].isMandatory="";
 
+       //this.mdata.push(this.createMetadata());
+    }
+    
+  }
 
   // addMetadata(){
   //   this.assetMetadataService.insertMetadata(this.assetTypeId,this.mdata).subscribe(result => {
