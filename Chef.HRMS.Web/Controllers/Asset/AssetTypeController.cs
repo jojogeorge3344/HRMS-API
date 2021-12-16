@@ -80,10 +80,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(AssetType);
         }
 
-        [HttpGet("GetAllAssetTypeById/{id}")]
-        public async Task<ActionResult<IEnumerable<AssetType>>> GetAllAssetTypeById(int id)
+        [HttpGet("Get/{id}")]
+        public async Task<ActionResult<IEnumerable<AssetType>>> Get(int id)
         {
-            var AssetType = await assetTypeService.GetAllAssetTypeById(id);
+            var AssetType = await assetTypeService.Get(id);
 
             return Ok(AssetType);
         }

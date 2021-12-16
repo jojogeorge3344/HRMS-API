@@ -1,1 +1,99 @@
-<p>asset-metadata-create works!</p>
+<form [formGroup]="addForm" id="metadataForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Meta Data </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="d-flex align-items-baseline form-group mt-1">
+            <label for="leaveComponentId">Select Asset type</label>
+            <select class="form-control dropdown-width ml-7" formControlName="assetType">
+                <option [ngValue]="null">Select Asset Types</option>
+                <ng-container *ngFor="let type of assetTypes">
+                    <option>
+                        {{type.assettypename}}
+                    </option>
+                </ng-container>
+            </select>
+        </div>
+        <div>
+            <div class="border">
+                <div class="d-flex flex-wrap justify-content-center bg-gray-200 card-header metadataCardHeader col-12">
+                    <div class="d-flex flex-wrap justify-content-center col-12">
+                        <div class="col-1">SlNo.</div>
+                        <div class="col-4">Metadata</div>
+                        <div class="col-3">Data Type</div>
+                        <div class="col-3">Is Mandatory</div>
+                        <div class="col-1"></div>
+                    </div>
+
+                </div>
+
+
+                <div>
+                    <ng-container formArrayName="dataRows">
+
+                        <div class="d-flex flex-wrap col-12"
+                            *ngFor="let item of addForm.get('dataRows')?.controls; let i = index">
+                            <div [formGroup]="item" class="d-flex flex-wrap col-12">
+                                <div class="col-1 py-2 pl-2">{{i+1}}</div>
+                                <div class="col-4 py-2 pl-2">
+                                    <input type="text" class="form-control" id="metadata" name="metadata"
+                                        formControlName="metadata">
+                                </div>
+
+                                <div class="col-3 py-2 pl-2">
+                                    <select class="form-control" formControlName="datatype" id="datatype"
+                                        name="datatype">
+                                        <option [ngValue]="null">Select Datatype</option>
+                                        <option value="string">String</option>
+                                        <option value="number">Number</option>
+                                        <!-- <ng-container *ngFor="let type of assetTypes">
+                                        <option>
+                                            {{type.assetTypeName}} 
+                                        </option>
+                                    </ng-container> -->
+                                    </select>
+                                </div>
+
+                                <div class="col-3 py-2 pl-2">
+                                    <select class="form-control" formControlName="isMandatory" id="isMandatory"
+                                        name="isMandatory">
+                                        <option [ngValue]="null">Select Yes/No</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col-1 pt-2">
+                                    <!-- <button type="button" class="close" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button> -->
+                                    <button type="button" class="btn btn-outline-primary p-2"
+                                        (click)="createDataArray(i);" id="addButton" name="addbutton">
+                                        <i class="fal fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </ng-container>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')">
+            <i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+    </div>
+
+</form>
