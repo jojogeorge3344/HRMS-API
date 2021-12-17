@@ -29,17 +29,17 @@ export class AssetMetadataListComponent implements OnInit {
     
 // ];
 
-public mySentences:Array<any> = [
-  {id: 35,text: ['sameera1']},
-  {id: 28,text: ['justin1']},
-  {id: 29,text: ['antony1']},
-  {id: 30,text: ['Sentence1']},
-  {id: 35,text: ['sameera2']},
-  {id: 28,text: ['justin2']},
-  {id: 29,text: ['antony2']},
-  {id: 30,text: ['Sentence2']}
+// public mySentences:Array<any> = [
+//   {id: 35,text: ['sameera1']},
+//   {id: 28,text: ['justin1']},
+//   {id: 29,text: ['antony1']},
+//   {id: 30,text: ['Sentence1']},
+//   {id: 35,text: ['sameera2']},
+//   {id: 28,text: ['justin2']},
+//   {id: 29,text: ['antony2']},
+//   {id: 30,text: ['Sentence2']}
   
-];
+// ];
 
   constructor(
     private assetMetadataService: AssetMetadataService,
@@ -67,29 +67,24 @@ public mySentences:Array<any> = [
 
   // displayMetadata(type){
 
-  //   return this.assetMetadata.find(val=>val.assettypeId == type.id)?this.assetMetadata.find(val=>val.assettypeId==type.id).metadata:'-'
+  //   return this.assetMetadata.find(val=>val.assettypeId == type.id)?this.assetMetadata.find(val=>val.assettypeId==type.id).metadata:'-';
 
   //  }
 
   displayMetadata(type){
     var metData=this.assetMetadata.filter(item => item.assettypeId === type.id);
       var data=metData.map(val=>val.metadata)
-      return data ? data.join(",") : "-";
+      return data ? data.join(", ") : "-";
     }
  
 
   getAssetMetadataList() {
     this.assetMetadataService.getAllMetadata().subscribe(result => {
-     this.assetMetadata=result;
-     console.log(this.assetMetadata);
-     console.log(result);
-     
+     this.assetMetadata=result;     
       this.assetMetadataNames = this.assetMetadata.map(a => a.metadata);
       console.log(this.assetMetadataNames);
-      
     },
     error => {
-      console.error(error);
       this.toastr.showErrorMessage('Unable to fetch the metadata Details');
     });
   }

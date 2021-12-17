@@ -33,7 +33,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertAsync(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
-            var sql = new QueryBuilder<AssetType>().GenerateInsertQuery();
+            var sql = new QueryBuilder<AssetTypeMetadata>().GenerateInsertQuery();
             sql = sql.Replace("RETURNING id", "");
 
             return await Connection.ExecuteAsync(sql, assetTypeMetadata);

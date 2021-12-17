@@ -24,10 +24,10 @@ namespace Chef.HRMS.Web.Controllers
 
 
         [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(AssetTypeMetadata assetTypeMetadata)
+       // [Consumes(MediaTypeNames.Application.Json)]
+       // [ProducesResponseType(StatusCodes.Status201Created)]
+       // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Insert(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             if (!ModelState.IsValid)
             {
