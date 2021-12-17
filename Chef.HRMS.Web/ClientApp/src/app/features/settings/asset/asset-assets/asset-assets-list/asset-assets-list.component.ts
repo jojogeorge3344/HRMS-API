@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
+import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
+import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetAssetsCreateComponent } from '../asset-assets-create/asset-assets-create.component';
+import { AssetAssetsEditComponent } from '../asset-assets-edit/asset-assets-edit.component';
 import { AssetAssets } from '../asset-assets.model';
 import { AssetAssetsService } from '../asset-assets.service';
 
@@ -12,12 +16,16 @@ import { AssetAssetsService } from '../asset-assets.service';
 })
 export class AssetAssetsListComponent implements OnInit {
 
-  assetAssets: AssetAssets[];
+  assetList: AssetAssets[];
   assetTypeNames: string[];
+  assetTypes: AssetType[];
+  assetMetaDataNames : string[];
+  assetMetadata:AssetTypeMetadata[];
 
 
   constructor(
     private assetassetService: AssetAssetsService,
+    private assetTypeService : AssetTypeService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
      ) {
@@ -25,7 +33,9 @@ export class AssetAssetsListComponent implements OnInit {
    }
 
   ngOnInit(): void {
-   
+   this.getAllAssetList();
+   this.getAllAssetTypeList();
+    
   }
   openCreate(){
     const modalRef = this.modalService.open(AssetAssetsCreateComponent,
@@ -35,7 +45,7 @@ export class AssetAssetsListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-       
+        this.getAllAssetList();
       }
     });
   }

@@ -5,10 +5,11 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { assetmetadata, AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { assetmetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-asset-assets-create',
@@ -18,7 +19,7 @@ import { AssetAssetsService } from '../asset-assets.service';
 export class AssetAssetsCreateComponent implements OnInit {
   assetId: any;
   assetForm: FormGroup;
-  // selectedValue: number ;
+  selectedValue: string = '';
   assetType: AssetType;
   currentUserId: number;
   dataType: any[];

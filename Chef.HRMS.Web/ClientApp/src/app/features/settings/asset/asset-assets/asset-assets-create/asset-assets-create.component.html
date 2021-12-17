@@ -34,37 +34,19 @@
       <div class="form-group form-input-line col-6">
         <label class="col-12 col-form-label px-0"
           >Asset Type
-          <select
-            id="dataType"
-            name="dataType"
-            class="form-control w-75 mt-2"
-            formControlName="assetTypeId"
-            (change)="getselectedvalue($event)"
-          >
-            <option *ngFor="let dtype of dataType" [ngValue]="dtype.id">
-              {{ dtype.assettypename }}
-            </option>
-          </select>
+            <select id="dataType" name="dataType" class="form-control w-75 mt-2" formControlName="selectedValue" (change)="getselectedvalue()">
+              <option *ngFor="let dtype of dataType" [value]="dtype.assettypename">
+                {{dtype.assettypename}}
+              </option>
+             </select>   
         </label>
-        <div formGroupName="metaData">
-        <div *ngFor="let mdata of typeKeys; let i = index">
-          <div
-            class="form-group"
-          >
-            <!-- <div>{{ selectedValue }}</div> -->
-            <!-- <div *ngSwitchCase="typeMap.get() == 'text'"> -->
-              <label class="col-12 col-form-label px-0" for="metadata">{{mdata}}</label>
-              <input class="form-control w-75" type="text" formControlName="{{mdata}}" placeholder="{{mdata}}" />
-            <!-- </div>
-            <div *ngSwitchCase="mdata.assetdatatype == 'date'">
-              {{ mdata.metadata }}
-              <input type="date" />
-            </div>
-            <div *ngSwitchCase="mdata.assetdatatype == 'number'">
-              {{ mdata.metadata }}
-              <input type="number" />
-            </div>  -->
-           </div>
+        <div class="form-group" *ngIf="selectedValue === 'Mouse'">
+          <label for="name">Seriel no:</label>
+          <input type="text" class="form-control" id="name" >
+          <label for="name">IMEI:</label>
+          <input type="text" class="form-control" id="name" >
+          <label for="name">Model:</label>
+          <input type="text" class="form-control" id="name" >
         </div>
       </div>
       </div>
@@ -74,31 +56,28 @@
       </div> -->
 
       <div class="form-group form-input-inline col-6">
-        <label class="col-12 col-form-label px-0" for="AssetName"
-          >Asset Name</label
-        >
+        <label class="col-12 col-form-label px-0" for="AssetName">Asset Name</label>
         <input formControlName="assetName" class="form-control w-100" />
       </div>
     </div>
 
+    
     <div class="form-group form-input-inline col-6 float-right">
       <div class="custom-control custom-checkbox custom-switch">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="isEnabled"
-          formControlName="isActive"
-        />
+        <input type="checkbox" class="custom-control-input" id="isEnabled" formControlName="isActive">
         <label class="custom-control-label" for="isEnabled">Active</label>
+       </div>
+      </div>
+   
+      <div class="form-group form-textarea-line col-12">
+        <label class="col-12 col-form-label px-0">Description</label>
+           <textarea
+              formControlName="description"
+              class="form-control"
+              rows="3">
+            </textarea>
       </div>
     </div>
-
-    <div class="form-group form-textarea-line col-12">
-      <label class="col-12 col-form-label px-0">Description</label>
-      <textarea formControlName="description" class="form-control" rows="3">
-      </textarea>
-    </div>
-  </div>
   <div class="modal-footer">
     <button
       type="button"
