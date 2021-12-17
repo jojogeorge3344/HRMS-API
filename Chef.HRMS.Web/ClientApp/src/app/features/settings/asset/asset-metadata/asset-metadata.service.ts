@@ -19,17 +19,13 @@ export class AssetMetadataService {
 
   
   add(metadata:AssetTypeMetadata)
-  {debugger
+  {
     return this.http.post<AssetTypeMetadata[]>(this.baseUrl + 'insert', metadata).pipe(map(response => { return response; }));
   }
   getAllMetadata(){
     return this. http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
 
-  getAllDatatypes()
-  {
-    return this.http.get<any>(this.baseUrl + 'getAllDatatypes').pipe(map(response => { return response; }));
-  }
 
   // getAssetTypeId(assetName){
   //   return this. http.get(this.baseUrl + 'getAssetTypeId/',assetName).pipe(map(response => { return response; }));

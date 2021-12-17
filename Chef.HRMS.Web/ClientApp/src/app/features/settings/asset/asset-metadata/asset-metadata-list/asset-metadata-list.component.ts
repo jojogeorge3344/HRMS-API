@@ -74,7 +74,7 @@ export class AssetMetadataListComponent implements OnInit {
   displayMetadata(type){
     var metData=this.assetMetadata.filter(item => item.assettypeId === type.id);
       var data=metData.map(val=>val.metadata)
-      return data ? data.join(",") : "-";
+      return data ? data.join(", ") : "-";
     }
  
 
