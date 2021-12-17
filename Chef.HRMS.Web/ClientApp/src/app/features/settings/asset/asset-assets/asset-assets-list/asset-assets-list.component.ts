@@ -77,6 +77,8 @@ export class AssetAssetsListComponent implements OnInit {
         }
     });
   }
+ 
+
 
   getAllAssetTypeList() {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
