@@ -16,11 +16,11 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int AssetTypeName)
+        public async Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int assettypeid)
         {
 
-            var sql = "SELECT id FROM hrms.assettype WHERE AssetTypeName=@AssetTypeName";
-            return await Connection.QueryAsync<AssetTypeMetadata>(sql, new { AssetTypeName });
+            var sql = "SELECT * FROM hrms.assettypemetadata where assettypeid=@assettypeid"; 
+            return await Connection.QueryAsync<AssetTypeMetadata>(sql, new { assettypeid });
         }
 
             public async Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataList()
