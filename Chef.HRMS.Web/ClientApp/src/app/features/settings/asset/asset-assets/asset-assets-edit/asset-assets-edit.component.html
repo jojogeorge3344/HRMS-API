@@ -1,62 +1,37 @@
-<form [formGroup]="" (validSubmit)="onSubmit()">
+
     <div class="modal-header">
-        <h4 class="modal-title">Add Asset</h4>
-        <button type="button" class="close" aria-label="Close">
+        <h4 class="modal-title">Edit Asset </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    
     <div class="modal-body">
-        <div class=" form-group form-input-inline input-group col-6">
-            <label class="col-12 col-form-label px-0" for="calendarYearStartDate">Asset Id</label> <!--dropdown-->
-            <input type="text" rows="3" class="form-control" formControlName="description">
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-inline input-group col-6">
+                <label for="assetDate"> Date</label>
+                <input type="text" class="form-control" disabled name="" >
+            </div>
+
+            <div class="form-group form-input-inline col-6">
+                <label class="col-form-label" for="name">Asset Type</label>
+                <input type="text" class="form-control" >
+            </div>
         </div>
+
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="name">Date</label>
-                <input class="form-control w-75" name="startDate"
-                formControlName="calendarYearStartDate">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary fal fa-calendar-alt" type="button"></button>
-                </div>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary fal fa-calendar-alt" 
-                        type="button"></button>
-                </div>
+                <label class="col-form-label" for="name">Asset Name</label>
+                <input type="text" class="form-control" >
             </div>
-        </div>
 
-        <div class=" d-flex flex-wrap align-items-baseline">
-            <label class="col-12 col-form-label px-0" for="">Asset Type</label> <!--dropdown-->
-            <textarea type="text" rows="3" class="form-control" formControlName="description"></textarea>
-        
-        <div class=" form-group form-input-inline input-group col-6">
-            <label class="col-12 col-form-label px-0" for="calendarYearStartDate">Asset Name</label> 
-            <input type="text" rows="3" class="form-control" formControlName="description">
+            <div class="form-group form-input-inline input-group col-6">
+                <label class="col-12 col-form-label px-0" for="comment">Description</label>                
+                <textarea type="text" rows="6" class="form-control" ></textarea>
+            </div> 
         </div>
-        </div>
-
-        <div>
-            <div class=" form-group form-input-inline input-group col-6">
-                <label class="col-12 col-form-label px-0" for="calendarYearStartDate">Meta Data 1</label> <!--dropdown-->
-                <textarea type="text" rows="3" class="form-control" formControlName="description"></textarea>
-            </div>
-            <label class="col-12 col-form-label px-0" for="">Is Active</label>
-            <input type="checkbox">
-            <span class="slider round"></span>
-        </div>
-
-        <div>
-            <div class="form-group form-textarea-line col-12">
-                <label class="col-form-label" for="description">Description</label>
-                <textarea type="text" rows="3" class="form-control" formControlName="description"></textarea>
-            </div>
-        </div>
-        
-    </div>
-
+    </div> 
     <div class="modal-footer">
-        <button type="button" class="btn btn-warning" ><i class="mr-1 fal fa-window-close"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Submit Claim</button>
     </div>
-
-</form>

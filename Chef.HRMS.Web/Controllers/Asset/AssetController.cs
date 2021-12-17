@@ -22,7 +22,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var assets = await assetService.GetAsync(id);
 
