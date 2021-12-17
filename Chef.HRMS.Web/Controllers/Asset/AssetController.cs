@@ -45,7 +45,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAssetById/{id}")]
-        public async Task<ActionResult<IEnumerable<Asset>>> Get(int id)
+        public async Task<ActionResult<Asset>> Get(int id)
         {
             var assets = await assetService.GetAsync(id);
 

@@ -7,6 +7,7 @@ import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-mod
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetAssetsCreateComponent } from '../asset-assets-create/asset-assets-create.component';
 import { AssetAssetsEditComponent } from '../asset-assets-edit/asset-assets-edit.component';
+import { AssetAssetsViewComponent } from '../asset-assets-view/asset-assets-view.component';
 import { AssetAssets } from '../asset-assets.model';
 import { AssetAssetsService } from '../asset-assets.service';
 
@@ -75,6 +76,19 @@ export class AssetAssetsListComponent implements OnInit {
         if (result == 'submit') {
           this.getAllAssetList();
         }
+    });
+  }
+
+  openView(assetType: AssetType) {
+    const modalRef = this.modalService.open(AssetAssetsViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.assetType = assetType;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getAllAssetList();
+      }
     });
   }
 
