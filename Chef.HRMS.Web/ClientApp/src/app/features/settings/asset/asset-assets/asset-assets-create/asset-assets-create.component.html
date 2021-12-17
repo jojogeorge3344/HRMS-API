@@ -1,4 +1,4 @@
-<form [formGroup]="assetForm" id="assetForm" (validSubmit)="onSubmit()">
+<form [formGroup]="assetForm" id="assetForm" (submit)="onSubmit()">
   <div class="modal-header">
     <h4 class="modal-title">Add Asset</h4>
     <button
@@ -15,73 +15,90 @@
     <div class="d-flex flex-wrap align-items-baseline">
       <div class="form-group form-input-line col-6">
         <label class="col-12 col-form-label px-0" for="assetid">Asset Id</label>
-        <input
+        <input formControlName="assetId" type="number" class="form-control w-100" />
+        <!-- <input
           class="form-control w-75"
           formControlName="assetId"
           placeholder="auto generated"
           disabled
-        >
+        /> -->
       </div>
       <div class="form-group form-input-inline input-group col-6">
         <label class="col-12 col-form-label px-0" for="date">Date</label>
-        <span class="form-control w-75">{{ date | date }}</span>
+        <input class="form-control w-75" formControlName="Date"
+        name="effectiveDate" ngbDatepicker #d="ngbDatepicker">
       </div>
     </div>
 
-    
     <div class="d-flex flex-wrap">
       <div class="form-group form-input-line col-6">
         <label class="col-12 col-form-label px-0"
           >Asset Type
-            <select id="dataType" name="dataType" class="form-control w-75 mt-2" formControlName="selectedValue" (change)="getselectedvalue()">
-              <option *ngFor="let dtype of dataType" [value]="dtype.id">
-                {{dtype.assettypename}}
-              </option>
-             </select>   
+          <select
+            id="dataType"
+            name="dataType"
+            class="form-control w-75 mt-2"
+            formControlName="assetTypeId"
+            (change)="getselectedvalue($event)"
+          >
+            <option *ngFor="let dtype of dataType" [ngValue]="dtype.id">
+              {{ dtype.assettypename }}
+            </option>
+          </select>
         </label>
-        <div class="form-group"  *ngFor="let mdata of metadatas" [value]="mdata.assettypeid">
-          <div [ngSwitch]="selectedValue==='mdata.assettypeid'">
-            <div *ngSwitchCase="mdata.assetdatatype=='date'">
-                      {{dtype.type}}
-                      <input type="date">
-                    </div>
-                    <div *ngSwitchCase="mdata.assetdatatype=='number'">
-                      {{dtype.type}}
-                      <input type="number">
-                    </div>
-                    <div *ngSwitchDefault>
-                      {{dtype.type}}
-                      <input type="text">
-                    </div>
-             </div>
-  
-          </div>
+        <div formGroupName="metaData">
+        <div *ngFor="let mdata of typeKeys; let i = index">
+          <div
+            class="form-group"
+          >
+            <!-- <div>{{ selectedValue }}</div> -->
+            <!-- <div *ngSwitchCase="typeMap.get() == 'text'"> -->
+              <label class="col-12 col-form-label px-0" for="metadata">{{mdata}}</label>
+              <input class="form-control w-75" type="text" formControlName="{{mdata}}" placeholder="{{mdata}}" />
+            <!-- </div>
+            <div *ngSwitchCase="mdata.assetdatatype == 'date'">
+              {{ mdata.metadata }}
+              <input type="date" />
+            </div>
+            <div *ngSwitchCase="mdata.assetdatatype == 'number'">
+              {{ mdata.metadata }}
+              <input type="number" />
+            </div>  -->
+           </div>
+        </div>
       </div>
-        
+      </div>
+      <!-- <div [ngSwitch]="conditionExpression">
+        <div *ngSwitchCase="expression">output</div>
+        <div *ngSwitchDefault>output2</div>
+      </div> -->
 
       <div class="form-group form-input-inline col-6">
-        <label class="col-12 col-form-label px-0" for="AssetName">Asset Name</label>
+        <label class="col-12 col-form-label px-0" for="AssetName"
+          >Asset Name</label
+        >
         <input formControlName="assetName" class="form-control w-100" />
       </div>
     </div>
 
-    
     <div class="form-group form-input-inline col-6 float-right">
       <div class="custom-control custom-checkbox custom-switch">
-        <input type="checkbox" class="custom-control-input" id="isEnabled" formControlName="isActive">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="isEnabled"
+          formControlName="isActive"
+        />
         <label class="custom-control-label" for="isEnabled">Active</label>
-       </div>
-      </div>
-   
-      <div class="form-group form-textarea-line col-12">
-        <label class="col-12 col-form-label px-0">Description</label>
-           <textarea
-              formControlName="description"
-              class="form-control"
-              rows="3">
-            </textarea>
       </div>
     </div>
+
+    <div class="form-group form-textarea-line col-12">
+      <label class="col-12 col-form-label px-0">Description</label>
+      <textarea formControlName="description" class="form-control" rows="3">
+      </textarea>
+    </div>
+  </div>
   <div class="modal-footer">
     <button
       type="button"

@@ -44,6 +44,11 @@ export class AssetMetadataService {
   }
 
   
+  getAssetMetadataById(id: number) {
+    return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
+  }
+
+  
   // update(assetType: AssetType){
   // return this.http.post<AssetType>(this.baseUrl + 'update', assetType).pipe(map(response => { return response; }));
   // }

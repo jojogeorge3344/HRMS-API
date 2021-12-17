@@ -66,10 +66,10 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Insert(IEnumerable<Asset> asset)
+        //[Consumes(MediaTypeNames.Application.Json)]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Insert(Asset asset)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(Asset asset)
+        public async Task<ActionResult> Update(Asset asset)
         {
             if (!ModelState.IsValid)
             {

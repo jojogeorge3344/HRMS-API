@@ -8,7 +8,6 @@ export interface AssetAssets extends Model {
   Description:string;
   Status:number;
   IsActive:boolean;
-  AssetTypeMetadataId:number;
-  EmployeeId:number;
-
+  AssetMetadataId:number;
+  // EmployeeId:number;
   }

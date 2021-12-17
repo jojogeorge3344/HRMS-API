@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AssetAssets } from './asset-assets.model';
 import { map } from 'rxjs/operators';
+import { AssetTypeMetadata } from '../asset-metadata/asset-metadata.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AssetAssetsService {
 
   constructor(http : HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.http = http;
-    this.baseUrl = baseUrl + "api/assetType/";
+    this.baseUrl = baseUrl + "api/asset/";
   }
 
   add(assetAssets: AssetAssets){
@@ -44,7 +45,8 @@ export class AssetAssetsService {
     return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetType/Get/').pipe(map(response => { return response; }));
   }
 
-  getAssetMetadataById(id: number) {
-    return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetTypeMetadata/GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
+
+  GetAssetTypeId(id:number){
+    return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAssetTypeId' + id).pipe(map(response => { return response; }));
   }
 }
