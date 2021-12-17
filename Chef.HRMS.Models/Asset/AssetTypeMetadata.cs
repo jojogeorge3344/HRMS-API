@@ -22,7 +22,7 @@ namespace Chef.HRMS.Models
         public string Metadata { get; set; }
 
         [Required]
-        public MetadataDataType DataType { get; set; }
+        public MetadataDataType AssetDataType { get; set; }
 
         [Required]
         public bool IsMandatory { get; set; }
