@@ -19,7 +19,7 @@ export class AssetMetadataCreateComponent implements OnInit {
   addForm: FormGroup;
   mdata: FormArray;
   assetTypes: AssetType[];
-  metadata: AssetTypeMetadata[];
+  //metadata: AssetTypeMetadata[];
   metadataDatatypeKeys:number[];
   metadataDatatype=MetadataDataType;
   assetTypeId;
@@ -32,7 +32,6 @@ export class AssetMetadataCreateComponent implements OnInit {
   dataTypes: string[];
   currentUserId: number;
   maxAlert=false;
-  // @Input() assetTypeNames: string[];
 
 
   constructor(private assetTypeService: AssetTypeService,
@@ -55,7 +54,7 @@ export class AssetMetadataCreateComponent implements OnInit {
       });
   }
 
-  getAssetType() {
+  getAssetTypeId() {
     this.assetTypeName = this.addForm.get('assetType').value;
     this.assetTypes.forEach(val => {
       if (val.assettypename === this.assetTypeName) { this.assetTypeId = val.id }
@@ -64,7 +63,7 @@ export class AssetMetadataCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    const metdata = (this.addForm.get('dataRows') as FormArray).value.map(val => ({
+    const metdata = (this.addForm.get('dataRows') as FormArray).value?.map(val => ({
       ...val, assettypeId: this.assetTypeId
     }));
     //  console.log(metdata);
@@ -98,9 +97,9 @@ export class AssetMetadataCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(32),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
-        // duplicateNameValidator(this.assetTypeNames)
+        //duplicateNameValidator(this.assetTypeNames)
       ]],
-      assetDatatype: [null, Validators.required],
+      assetDataType: [null, Validators.required],
       isMandatory: [false]
     });
   }
@@ -112,7 +111,7 @@ export class AssetMetadataCreateComponent implements OnInit {
     this.metas = this.mdata.value;
     let l = this.metas.length;
     // console.log(l);
-    if (l < 6) {
+    if (l < 5) {
       this.maxAlert=false;
       this.newMetadata = this.addForm.get('dataRows').value[l - 1].metadata;
       // console.log(this.newMetadata);

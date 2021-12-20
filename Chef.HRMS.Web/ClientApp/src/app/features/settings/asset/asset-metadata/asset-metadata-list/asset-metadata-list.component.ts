@@ -8,8 +8,9 @@ import { AssetTypeService } from '../../asset-type/asset-type.service';
 import { AssetType } from '../../asset-type/asset-type.model';
 import { AssetTypeMetadata } from '../asset-metadata.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import{ AssetAssetsService} from '../../asset-assets/asset-assets.service';
 
-
+ 
 @Component({
   selector: 'hrms-asset-metadata-list',
   templateUrl: './asset-metadata-list.component.html'
@@ -43,6 +44,7 @@ export class AssetMetadataListComponent implements OnInit {
 
   constructor(
     private assetMetadataService: AssetMetadataService,
+    private assetAssetService:AssetTypeService,
     private assetTypeService:AssetTypeService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
@@ -56,7 +58,7 @@ export class AssetMetadataListComponent implements OnInit {
   getAssetTypeList() { 
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetType = result;
-      this.assetTypeNames = this.assetType.map(a => a.assettypename.toLowerCase());
+      this.assetTypeNames = this.assetType?.map(a => a.assettypename.toLowerCase());
     },
     error => {
       console.error(error);
@@ -64,6 +66,18 @@ export class AssetMetadataListComponent implements OnInit {
     });
   }
 
+  // getAssignedHolidayCategories() {
+  //   this.assetAssetService.getAll().subscribe(res => {
+  //     this.assignedHolidayCategories = res;
+  //   },
+  //   error => {
+  //     console.error(error);
+  //   });
+  // }
+
+  // isDisabled(category) {
+  //   return this.assignedHolidayCategories.includes(category.id);
+  // }
 
   // displayMetadata(type){
 
@@ -72,8 +86,8 @@ export class AssetMetadataListComponent implements OnInit {
   //  }
 
   displayMetadata(type){
-    var metData=this.assetMetadata.filter(item => item.assettypeId === type.id);
-      var data=metData.map(val=>val.metadata)
+    var metData=this.assetMetadata?.filter(item => item.assettypeId === type.id);
+      var data=metData?.map(val=>val.metadata);
       return data ? data.join(", ") : "-";
     }
  
@@ -81,7 +95,7 @@ export class AssetMetadataListComponent implements OnInit {
   getAssetMetadataList() {
     this.assetMetadataService.getAllMetadata().subscribe(result => {
      this.assetMetadata=result;     
-      this.assetMetadataNames = this.assetMetadata.map(a => a.metadata);
+      this.assetMetadataNames = this.assetMetadata?.map(a => a.metadata);
       console.log(this.assetMetadataNames);
     },
     error => {
@@ -106,12 +120,12 @@ export class AssetMetadataListComponent implements OnInit {
     });
   }
 
-  openEdit(assetType: AssetType) {
+  openEdit(assettypeid,assettypename,metadata: AssetTypeMetadata[]) {
     const modalRef = this.modalService.open(AssetMetadataEditComponent,
       { size:'lg', centered: true, backdrop: 'static' });
-
-    modalRef.componentInstance.assetTypeId = assetType.id;
-    modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.assettypename.toLowerCase());
+      modalRef.componentInstance.assetTpId=assettypeid;
+    modalRef.componentInstance.assetTpName=assettypename;
+    modalRef.componentInstance.metaData = metadata;
 
     modalRef.result.then((result) => {
         if (result == 'submit') {
