@@ -32,7 +32,7 @@ export class AssetMetadataEditComponent implements OnInit {
   duplicateValidation = false;
   dataTypes: string[];
   maxAlert = false;
-  
+
   @Input() assetTpId: number;
   @Input() assetTpName: string;
   @Input() metaData: AssetTypeMetadata[];
@@ -62,8 +62,6 @@ export class AssetMetadataEditComponent implements OnInit {
     let control = this.editForm.get('dataRows') as FormArray;
     console.log(control);
     console.log(this.metadataFiltered);
-
-
     this.metadataFiltered.forEach(data => {
       control.push(this.formBuilder.group({
         metadata: data.metadata,
@@ -94,7 +92,7 @@ export class AssetMetadataEditComponent implements OnInit {
       assetType: [this.assetTpName, [
         Validators.required
       ]],
-      dataRows: this.formBuilder.array([this.createMetadata()])
+      dataRows: this.formBuilder.array([])
     });
   }
 
@@ -158,34 +156,41 @@ export class AssetMetadataEditComponent implements OnInit {
     this.duplicateValidation = false;
     this.maxAlert = false;
     this.mdata = this.editForm.get('dataRows') as FormArray;
-    let metaname = this.mdata.value;
-    let name = metaname[i + 1].metadata;
+    console.log(this.mdata);
+    let metaArray = this.mdata.value;
+    let name = metaArray[i].metadata;
     this.metaData.forEach(val => {
       if (val.metadata === name && val.assettypeId === this.assetTpId) { this.metadataId = val.id }
     })
     let l = this.mdata.length;
     if (l > 1) {
-      this.mdata.removeAt(i);
-      this.assetMetadataService.delete(this.metadataId).subscribe(result => {
-        this.toastr.showSuccessMessage('Asset metadata deleted successfully!');
-        this.activeModal.close('submit');
-      },
-        error => {
-          console.error(error);
-          this.toastr.showErrorMessage('Unable to delete the asset metadata');
-        });
+      if (this.metadataId) {
+        this.mdata.removeAt(i); 
+        this.assetMetadataService.delete(this.metadataId).subscribe(result => {
+          this.toastr.showSuccessMessage('Asset metadata deleted successfully!');
+         // this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to delete the asset metadata');
+          });
+      }
+      else { this.mdata.removeAt(i); }
     }
     else {
-      this.editForm.get('dataRows').reset();
-      this.assetMetadataService.delete(this.metadataId).subscribe(result => {
-        this.toastr.showSuccessMessage('Asset metadata deleted successfully!');
-        this.activeModal.close('submit');
-      },
-        error => {
-          console.error(error);
-          this.toastr.showErrorMessage('Unable to delete the asset metadata');
-        });
-       }
+      if (this.metadataId) {
+        this.mdata.removeAt(i); 
+        this.assetMetadataService.delete(this.metadataId).subscribe(result => {
+          this.toastr.showSuccessMessage('Asset metadata deleted successfully!');
+          //this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to delete the asset metadata');
+          });
+        this.mdata.push(this.createMetadata());
+      }
+      else { this.editForm.get('dataRows').reset(); }
     }
-
   }
+}
