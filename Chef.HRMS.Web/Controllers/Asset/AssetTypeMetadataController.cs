@@ -47,10 +47,10 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(AssetTypeMetadata assetTypeMetadata)
+        //[Consumes(MediaTypeNames.Application.Json)]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Update(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             if (!ModelState.IsValid)
             {

@@ -53,7 +53,7 @@ namespace Chef.HRMS.Services
             return await assetTypeMetadataRepository.InsertAsync(assetTypeMetadata);
         }
 
-        public async Task<int> UpdateAsync(AssetTypeMetadata assetTypeMetadata)
+        public async Task<int> UpdateAsync(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             return await assetTypeMetadataRepository.UpdateAsync(assetTypeMetadata);
         }
