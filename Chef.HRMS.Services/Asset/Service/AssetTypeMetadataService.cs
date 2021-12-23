@@ -57,5 +57,10 @@ namespace Chef.HRMS.Services
         {
             return await assetTypeMetadataRepository.UpdateAsync(assetTypeMetadata);
         }
+
+        public Task<int> UpdateAsync(AssetTypeMetadata obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

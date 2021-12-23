@@ -12,11 +12,13 @@ export class AssetMetadataService {
   public baseUrl: string;
   public http: HttpClient;
 
+
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + "api/assetTypeMetadata/";
   }
 
+  
 
   add(metadata: AssetTypeMetadata) {
     return this.http.post<AssetTypeMetadata[]>(this.baseUrl + 'insert', metadata).pipe(map(response => { return response; }));

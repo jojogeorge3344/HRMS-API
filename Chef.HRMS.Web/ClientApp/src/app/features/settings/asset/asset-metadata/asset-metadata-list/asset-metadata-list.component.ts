@@ -23,7 +23,8 @@ export class AssetMetadataListComponent implements OnInit {
  // assetTypeNames :string[];
   assetMetadataNames: string[];
   assignedAssetTypeId: number[] = [];
-  assetMetadataAssetIds: number[] = [];
+  //assetMetadataAssetIds: number[] = [];
+  //assetTypeWithMetadata:AssetTypeMetadata[];
 
   constructor(
     private assetMetadataService: AssetMetadataService,
@@ -34,39 +35,34 @@ export class AssetMetadataListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    //this.getAssetTypeWithMetadata()
     this.getAssetTypeList();
-    this.getAssetMetadataList();
-    // this.getAllAssignedAssetType()
+   
+    
+   // console.log(this.assetTypeWithMetadata);
+    //console.log(this.assetType);
+    
+  }
+
+  getAssetTypeWithMetadata() {
+    this.assetType = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
+    console.log(this.assetType);
+    
   }
 
   getAssetTypeList() {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetType = result;
-      //this.assetTypeNames = this.assetType?.map(a => a.assettypename.toLowerCase());
-    },
+      console.log(this.assetType);
+      this.getAssetMetadataList();   
+      }),
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the asset type Details');
-      });
+      };
   }
 
-
-  // getAssetTypeList() {
-  //   this.assetTypeService.getAllAssetTypeList().subscribe(result => {
-  //     this.assetType = result;
-  //     console.log(this.assetType);
-  //     this.assetTypeNames = this.assetType.filter(res =>
-  //       this.assetMetadataAssetIds.includes(res.id)
-  //     )
-  //   }),
-  //     error => {
-  //       console.error(error);
-  //       this.toastr.showErrorMessage('Unable to fetch the asset type Details');
-  //     };
-  //   console.log("helloo");
-
-  //   console.log(this.assetTypeNames);
-  // }
+  //To disable delete button =>fetching AssetTypeId which is assigned in Asset table, to array 'assignedAssetTypeId'
 
   // getAllAssignedAssetType() {
   //   this.assetAssetService.getAll().subscribe(res => {
@@ -98,8 +94,11 @@ export class AssetMetadataListComponent implements OnInit {
   getAssetMetadataList() {
     this.assetMetadataService.getAllMetadata().subscribe(result => {
       this.assetMetadata = result;
+      console.log(this.assetMetadata);
+      
       this.assetMetadataNames = this.assetMetadata?.map(a => a.metadata);
       console.log(this.assetMetadataNames);
+      this.getAssetTypeWithMetadata();
     },
       error => {
         this.toastr.showErrorMessage('Unable to fetch the metadata Details');
