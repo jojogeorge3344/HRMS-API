@@ -15,18 +15,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let assetType of assetType; let i= index;">
+            <tr *ngFor="let type of assetType; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize">{{ assetType.assettypename }}</td>
-                <td class="text-ellipsis" >
-                    <!-- <span *ngFor="let metadata of assetMetadataNames; let isLast=last">
-                        {{metadata}}{{isLast ? '' : ', '}}
-                    </span> title="{{ assetMetadataNames.assetmetadatanames}}"-->
-
-                    <span *ngFor="let metad of mySentences; let isLast=last">
-                        {{metad.text}}{{isLast ? '' : ', '}}
-                    </span>
-
+                <td class="text-capitalize">{{ type.assettypename }}</td>
+                <td class="text-ellipsis">
+                    {{displayMetadata(type)}}
                 </td>
                 <td>
                     <div class="btn-group" dropdown container="main">
@@ -36,9 +29,9 @@
                         </button>
                         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                             aria-labelledby="button-basic">
-                            <li role="menuitem" (click)="openEdit(assetMetadata)"><a class="dropdown-item">Edit</a></li>
-                            <li role="menuitem" (click)="!isDisabled(assetType) && delete(assetType)">
-                                <a [ngClass]="{'disabled': isDisabled(assetType)}" class="dropdown-item">Delete</a>
+                            <li role="menuitem" (click)="openEdit(type.id,type.assettypename,assetMetadata)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="delete(type)">
+                                <a class="dropdown-item">Delete</a>
                             </li>
                         </ul>
                     </div>

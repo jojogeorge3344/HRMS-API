@@ -385,7 +385,32 @@ aside ::-webkit-scrollbar-thumb {
   margin-left: 5rem;
 }
 
+.txtwidth{
+  width: 50% !important;
+  margin-left: 5rem;
+}
+
+.valerr{
+  color: red;
+  background-color: rgb(255, 255, 255);
+ 
+  margin-left: 200px;
+  margin-bottom: 250px;
+ 
+}
+
+.chkbox{
+ width: 15px;
+ height: 15px;
+ margin-top: 9px;
+ margin-left:5px ;
+}
+
+/* .idHide{
+  display: none;
+} */
 .metadataCardHeader{
   padding:0.5rem !important;
 }
 /*Asset-metadata*/
+

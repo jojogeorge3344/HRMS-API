@@ -35,5 +35,8 @@ namespace Chef.HRMS.Models
         [Required]
         public bool IsActive { get; set; }
 
+        [Write(false)]
+        [Skip(true)]
+        public List<AssetMetadataValue> AssetMetadataValues { get; set; }
     }
 }
