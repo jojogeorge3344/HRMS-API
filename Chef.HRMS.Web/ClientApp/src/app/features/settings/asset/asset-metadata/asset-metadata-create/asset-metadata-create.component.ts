@@ -19,9 +19,11 @@ export class AssetMetadataCreateComponent implements OnInit {
   addForm: FormGroup;
   mdata: FormArray;
   assetTypes: AssetType[];
-  metadata: AssetTypeMetadata[];
-  metadataDatatypeKeys:number[];
-  metadataDatatype=MetadataDataType;
+  assetTypeArray: AssetType[];
+  //metadata: AssetTypeMetadata[];
+  metadataDatatypeKeys: number[];
+  metadataDatatype = MetadataDataType;
+  assetTypeWithMetadata: AssetTypeMetadata[];
   assetTypeId;
   assetTypeName;
   metas: any;
@@ -31,8 +33,7 @@ export class AssetMetadataCreateComponent implements OnInit {
   duplicateValidation = false;
   dataTypes: string[];
   currentUserId: number;
-  maxAlert=false;
-  // @Input() assetTypeNames: string[];
+  maxAlert = false;
 
 
   constructor(private assetTypeService: AssetTypeService,
@@ -41,21 +42,43 @@ export class AssetMetadataCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService) { }
 
+  //const results = arrayOne.filter(({ value: id1 }) => !arrayTwo.some(({ value: id2 }) => id2 === id1));
+
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
-    //console.log(this.addForm.get('dataRows').value);
+    this.getAllAssetTypes();
+  }
+
+  getAllAssetTypes() {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
-      this.assetTypes = result;
-      //console.log(this.assetTypes);
-    },
+      this.assetTypeArray = result;
+      //console.log(this.assetTypeArray);
+      this.getAssetTypeWithMetadata();
+    }),
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the AssetType');
+      };
+  }
+
+  getAssetTypeWithMetadata() {
+    this.assetMetadataService.getAllMetadata().subscribe(res => {
+      this.assetTypeWithMetadata = res;
+      // console.log(this.assetTypeWithMetadata);
+      this.getAssetTypesToList();
+    },
+      error => {
+        console.error(error);
       });
   }
 
-  getAssetType() {
+  getAssetTypesToList() {
+    this.assetTypes = this.assetTypeArray?.filter(({ id: id1 }) => !this.assetTypeWithMetadata.some(({ assettypeId: id2 }) => id2 === id1));
+    // console.log(this.assetTypes);
+  }
+
+  getAssetTypeId() {
     this.assetTypeName = this.addForm.get('assetType').value;
     this.assetTypes.forEach(val => {
       if (val.assettypename === this.assetTypeName) { this.assetTypeId = val.id }
@@ -64,7 +87,7 @@ export class AssetMetadataCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    const metdata = (this.addForm.get('dataRows') as FormArray).value.map(val => ({
+    const metdata = (this.addForm.get('dataRows') as FormArray).value?.map(val => ({
       ...val, assettypeId: this.assetTypeId
     }));
     //  console.log(metdata);
@@ -81,8 +104,6 @@ export class AssetMetadataCreateComponent implements OnInit {
 
   }
 
-
-
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       assetType: ['', [
@@ -98,9 +119,9 @@ export class AssetMetadataCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(32),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
-        // duplicateNameValidator(this.assetTypeNames)
+        //duplicateNameValidator(this.assetTypeNames)
       ]],
-      assetDatatype: [null, Validators.required],
+      assetDataType: [null, Validators.required],
       isMandatory: [false]
     });
   }
@@ -112,8 +133,8 @@ export class AssetMetadataCreateComponent implements OnInit {
     this.metas = this.mdata.value;
     let l = this.metas.length;
     // console.log(l);
-    if (l < 6) {
-      this.maxAlert=false;
+    if (l < 5) {
+      this.maxAlert = false;
       this.newMetadata = this.addForm.get('dataRows').value[l - 1].metadata;
       // console.log(this.newMetadata);
       // console.log(this.metas);      
@@ -146,14 +167,14 @@ export class AssetMetadataCreateComponent implements OnInit {
     }
     else {
       //console.log("You have entered maximum number of metadata!!");
-      this.maxAlert=true;
+      this.maxAlert = true;
     }
   }
 
   removeMetadata(i) {
     this.emptyValidation = false;
     this.duplicateValidation = false;
-    this.maxAlert=false;
+    this.maxAlert = false;
     this.mdata = this.addForm.get('dataRows') as FormArray;
     // console.log(this.mdata);
     let l = this.mdata.length;

@@ -8,8 +8,8 @@
     <div class="modal-body">
 
         <div class="d-flex align-items-baseline form-group mt-1">
-            <label for="leaveComponentId">Select Asset type</label>
-            <select class="form-control dropdown-width ml-7" formControlName="assetType" (change)="getAssetType();">
+            <label for="assetType">Select Asset type</label>
+            <select class="form-control dropdown-width ml-7" formControlName="assetType" (change)="getAssetTypeId();" id="assetType">
                 <option [ngValue]="null">Select Asset Types</option>
                 <ng-container *ngFor="let type of assetTypes">
                     <option>
@@ -43,8 +43,8 @@
                                 </div>
 
                                 <div class="col-3 py-2 pl-2">
-                                    <select class="form-control" formControlName="assetDatatype" id="assetDatatype"
-                                        name="assetDatatype">
+                                    <select class="form-control" formControlName="assetDataType" id="assetDataType"
+                                        name="assetDataType">
                                         <option [ngValue]="0" disabled>Select Datatype</option>
                                         <option *ngFor="let key of metadataDatatypeKeys" [ngValue]='key'>{{metadataDatatype[key]}}</option>
                                     </select>
