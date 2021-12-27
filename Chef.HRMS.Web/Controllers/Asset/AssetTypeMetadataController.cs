@@ -47,10 +47,10 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPut("Update")]
-        //[Consumes(MediaTypeNames.Application.Json)]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,6 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetTypeMetadataService.UpdateAsync(assetTypeMetadata);
-
             return Ok(result);
         }
 

@@ -27,7 +27,7 @@ export class AssetMetadataService {
     return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
   update(metadata: AssetTypeMetadata) {
-    return this.http.post<AssetTypeMetadata[]>(this.baseUrl + 'update', metadata).pipe(map(response => { return response; }));
+    return this.http.put<AssetTypeMetadata[]>(this.baseUrl + 'update', metadata).pipe(map(response => { return response; }));
   }
 
   delete(id:number){
