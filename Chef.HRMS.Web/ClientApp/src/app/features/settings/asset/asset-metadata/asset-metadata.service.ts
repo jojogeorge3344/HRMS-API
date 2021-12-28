@@ -18,20 +18,22 @@ export class AssetMetadataService {
     this.baseUrl = baseUrl + "api/assetTypeMetadata/";
   }
 
-  
+
 
   add(metadata: AssetTypeMetadata) {
     return this.http.post<AssetTypeMetadata[]>(this.baseUrl + 'insert', metadata).pipe(map(response => { return response; }));
   }
-  getAllMetadata() {
-    return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
-  }
+
+  // getAllMetadata() {
+  //   return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
+  // }
+
   update(metadata: AssetTypeMetadata) {
     return this.http.put<AssetTypeMetadata[]>(this.baseUrl + 'update', metadata).pipe(map(response => { return response; }));
   }
 
-  delete(id:number){
-    return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
+  deleteMetadata(id: number) {
+    return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
 
 
@@ -47,5 +49,9 @@ export class AssetMetadataService {
   
   getAssetMetadataById(id: number) {
     return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
-  // }
+  }
+  deleteAssetType(id: number) {
+    return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
+  }
 }
+
