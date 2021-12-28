@@ -13,5 +13,5 @@ export interface AssetAssets extends Model {
   valueId: Number;
   // assetId:number;
   // metaData:string; 
-  value: AssetMetadataValue;
+  metadataValue: AssetMetadataValue;
   }

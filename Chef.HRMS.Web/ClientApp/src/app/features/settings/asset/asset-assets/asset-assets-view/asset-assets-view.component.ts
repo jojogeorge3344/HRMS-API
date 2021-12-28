@@ -54,7 +54,7 @@ export class AssetAssetsViewComponent implements OnInit {
 
   getAssetDetailsId() {
     console.log(this.AssetId)
-    this.assetassetService.getAssetById(this.AssetId).subscribe(result => {
+    this.assetassetService.get(this.AssetId).subscribe(result => {
       this.assets = result;
       console.log(this.assets);
       
