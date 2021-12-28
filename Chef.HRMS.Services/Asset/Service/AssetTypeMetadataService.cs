@@ -18,9 +18,9 @@ namespace Chef.HRMS.Services
             this.assetTypeMetadataRepository = assetTypeMetadataRepository;
         }
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int AssetTypeId)
         {
-            return await assetTypeMetadataRepository.DeleteAsync(id);
+            return await assetTypeMetadataRepository.DeleteAsset(AssetTypeId);
         }
 
         public async Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int Id)
@@ -57,5 +57,25 @@ namespace Chef.HRMS.Services
         {
             return await assetTypeMetadataRepository.UpdateAsync(assetTypeMetadata);
         }
+
+        public async Task<int> UpdateAsync(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
+        {
+            try
+            {
+                simpleUnitOfWork.BeginTransaction();
+                 await assetTypeMetadataRepository.DeleteAsset(assetTypeMetadata.FirstOrDefault().AssettypeId);
+                 var result = await assetTypeMetadataRepository.InsertAsync(assetTypeMetadata);
+                simpleUnitOfWork.Commit();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                simpleUnitOfWork.Rollback();
+                string msg = ex.Message;
+                return 0;
+            }           
+        }
+
+       
     }
 }

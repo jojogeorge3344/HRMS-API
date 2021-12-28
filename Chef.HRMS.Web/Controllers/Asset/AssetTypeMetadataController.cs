@@ -92,5 +92,20 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("DeleteAssetType/{AssetTypeId}")]
+        public async Task<ActionResult<int>> DeleteAssetType(int AssetTypeId)
+        {
+            var assetTypeMetadata = await assetTypeMetadataService.DeleteAsync(AssetTypeId);
+
+            //if (assetTypeMetadata == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var result = await assetTypeMetadataService.DeleteAssetType(AssetTypeId);
+
+            return Ok(assetTypeMetadata);
+        }
     }
 }
