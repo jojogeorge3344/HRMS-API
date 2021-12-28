@@ -20,9 +20,9 @@ namespace Chef.HRMS.Services
             this.simpleUnitOfWork = simpleUnitOfWork;
         }
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int AssetTypeId)
         {
-            return await assetTypeMetadataRepository.DeleteAsync(id);
+            return await assetTypeMetadataRepository.DeleteAsset(AssetTypeId);
         }
 
         public async Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int Id)
@@ -76,6 +76,8 @@ namespace Chef.HRMS.Services
                 string msg = ex.Message;
                 return 0;
             }           
-        }        
+        }
+
+       
     }
 }
