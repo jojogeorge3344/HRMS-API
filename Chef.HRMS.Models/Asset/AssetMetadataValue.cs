@@ -1,5 +1,4 @@
 ﻿using Chef.Common.Core;
-using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,22 +9,22 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Models
 {
-    [Table("assettypemetadata")]
-    public class AssetTypeMetadata : Model
+    public class AssetMetadataValue:Model
     {
+
         [Required]
         [ForeignKey("AssetType")]
         public int AssettypeId { get; set; }
 
         [Required]
-        [StringLength(128)]
-        public string Metadata { get; set; }
+        [ForeignKey("AssetTypeMetadata")]
+        public int AssettypeMetadataId { get; set; }
 
         [Required]
-        public MetadataDataType AssetDataType { get; set; }
+        [ForeignKey("Asset")]
+        public int AssetId { get; set; }
 
         [Required]
-        public bool IsMandatory { get; set; }
-
+        public string Value { get; set; }
     }
 }

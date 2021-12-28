@@ -23,7 +23,7 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetTypeMetadata>(sql, new { assettypeid });
         }
 
-            public async Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataList()
+        public async Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataList()
         {
             var sql = @"select assettypename,metadata from hrms.assettypemetadata 
                         inner join  hrms.assettype on hrms.assettype.id=hrms.assettypemetadata.assettypeid";
@@ -33,7 +33,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertAsync(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
-            var sql = new QueryBuilder<AssetType>().GenerateInsertQuery();
+            var sql = new QueryBuilder<AssetTypeMetadata>().GenerateInsertQuery();
             sql = sql.Replace("RETURNING id", "");
 
             return await Connection.ExecuteAsync(sql, assetTypeMetadata);

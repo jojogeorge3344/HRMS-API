@@ -20,8 +20,7 @@ namespace Chef.HRMS.Models
         public int AssetTypeMetadataId { get; set; }
 
         [Required]
-        public int AssetId { get; set; }
-
+        public int ValueId { get; set; }
 
         [Required]
         public string AssetName { get; set; }
@@ -38,8 +37,8 @@ namespace Chef.HRMS.Models
         [Required]
         public bool IsActive { get; set; }
 
-        [Required]
-        public string metadatavalue { get; set; }
-
+        [Write(false)]
+        [Skip(true)]
+        public List<AssetMetadataValue> AssetMetadataValues { get; set; }
     }
 }

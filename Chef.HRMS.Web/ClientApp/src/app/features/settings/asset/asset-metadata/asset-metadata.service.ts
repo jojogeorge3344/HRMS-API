@@ -12,27 +12,28 @@ export class AssetMetadataService {
   public baseUrl: string;
   public http: HttpClient;
 
-  constructor(http : HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + "api/assetTypeMetadata/";
   }
 
-  getAllAssetTypeList(){
-    return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeMetadataDetailsById').pipe(map(response => { return response; }));
-  }
-
-  add(assetId, metadata)
-  {
-    return this.http.post(this.baseUrl + 'insert', {assetId,metadata}).pipe(map(response => { return response; }));
-  }
   
-  // getAllMetadata(){
-  //   return this. http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAllAssetMetadata').pipe(map(response => { return response; }));
-  // }
 
-  get(assetName){
-    return this. http.get(this.baseUrl + 'getAssetTypeId/',assetName).pipe(map(response => { return response; }));
+  add(metadata: AssetTypeMetadata) {
+    return this.http.post<AssetTypeMetadata[]>(this.baseUrl + 'insert', metadata).pipe(map(response => { return response; }));
   }
+  getAllMetadata() {
+    return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
+  }
+  update(metadata: AssetTypeMetadata) {
+    return this.http.put<AssetTypeMetadata[]>(this.baseUrl + 'update', metadata).pipe(map(response => { return response; }));
+  }
+
+  delete(id:number){
+    return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
+  }
+
 
 
   getAll(){
@@ -46,18 +47,5 @@ export class AssetMetadataService {
   
   getAssetMetadataById(id: number) {
     return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
-  }
-
-  
-  // update(assetType: AssetType){
-  // return this.http.post<AssetType>(this.baseUrl + 'update', assetType).pipe(map(response => { return response; }));
-  // }
-
-  // delete(id:number){
-  //   return this.http.delete<AssetType>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
-  // }
-
-  // get(id) {
-  //   return this.http.get<AssetType>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
   // }
 }

@@ -10,8 +10,8 @@ namespace Chef.HRMS.Services
 {
     public interface IAssetService : IAsyncService<Asset>
     {
-        Task<int> InsertAsync(IEnumerable<Asset> asset);
-
+        //new Task<int> InsertAsync(Asset asset);
+       
         Task<IEnumerable<Asset>> GetAllAssetList();
         Task<IEnumerable<Asset>> GetAssetById(int Id);
     }

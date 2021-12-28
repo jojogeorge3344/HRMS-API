@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Repositories;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
@@ -12,10 +13,11 @@ namespace Chef.HRMS.Services
     public class AssetTypeMetadataService : AsyncService, IAssetTypeMetadataService
     {
         private readonly IAssetTypeMetadataRepository assetTypeMetadataRepository;
-
-        public AssetTypeMetadataService(IAssetTypeMetadataRepository assetTypeMetadataRepository)
+        private readonly ISimpleUnitOfWork simpleUnitOfWork;
+        public AssetTypeMetadataService(IAssetTypeMetadataRepository assetTypeMetadataRepository, ISimpleUnitOfWork simpleUnitOfWork)
         {
             this.assetTypeMetadataRepository = assetTypeMetadataRepository;
+            this.simpleUnitOfWork = simpleUnitOfWork;
         }
 
         public async Task<int> DeleteAsync(int AssetTypeId)
@@ -74,8 +76,6 @@ namespace Chef.HRMS.Services
                 string msg = ex.Message;
                 return 0;
             }           
-        }
-
-       
+        }        
     }
 }
