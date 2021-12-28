@@ -29,7 +29,7 @@ export class AssetMetadataService {
   }
 
   update(metadata: AssetTypeMetadata) {
-    return this.http.post<AssetTypeMetadata[]>(this.baseUrl + 'update', metadata).pipe(map(response => { return response; }));
+    return this.http.put<AssetTypeMetadata[]>(this.baseUrl + 'update', metadata).pipe(map(response => { return response; }));
   }
 
   deleteMetadata(id: number) {
