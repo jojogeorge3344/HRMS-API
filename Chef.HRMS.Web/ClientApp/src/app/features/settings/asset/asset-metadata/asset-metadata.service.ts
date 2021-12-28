@@ -37,6 +37,6 @@ export class AssetMetadataService {
   }
 
   deleteAssetType(id: number) {
-    return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
+    return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'deleteAssetType/' + id).pipe(map(response => { return response; }));
   }
 }

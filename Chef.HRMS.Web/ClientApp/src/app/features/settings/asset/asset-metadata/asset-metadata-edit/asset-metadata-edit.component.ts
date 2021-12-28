@@ -79,7 +79,12 @@ export class AssetMetadataEditComponent implements OnInit {
 
   //To disable buttons and fields
   getAllAssignedMetadata() {
+    console.log(this.metadataFiltered);
     this.assetAssetService.getAll().subscribe(res => {
+      console.log("helloo");
+      
+      console.log(res);
+      
       this.assignedMetadata = res.filter(type => (type.AssetTypeId === this.assetTpId));
       console.log(this.assignedMetadata);
       this.assignedMetadataId = this.assignedMetadata.map(val => val.AssetTypeMetadataId);///
@@ -92,6 +97,7 @@ export class AssetMetadataEditComponent implements OnInit {
 
   isDisabled(i) {
     let id = this.metadataFiltered[i].id;
+    console.log(id);
     return this.assignedMetadataId.includes(id);
   }
 
