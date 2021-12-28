@@ -10,8 +10,9 @@ namespace Chef.HRMS.Repositories
 {
     public interface IAssetRepository : IGenericRepository<Asset>
     {
+        Task<int> InsertAsync(IEnumerable<Asset> asset);
+
         Task<IEnumerable<Asset>> GetAllAssetList();
         Task<IEnumerable<Asset>> GetAssetById(int Id);
-        Task<int> BulkInsertAsync(List<AssetMetadataValue> assetMetadataValues);
     }
 }

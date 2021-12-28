@@ -22,7 +22,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult<int>> Delete(int id)
         {
             var assets = await assetService.GetAsync(id);
 
@@ -49,6 +49,11 @@ namespace Chef.HRMS.Web.Controllers
         {
             var assets = await assetService.GetAsync(id);
 
+            if (assets == null)
+            {
+                return NotFound();
+            }
+
             return Ok(assets);
         }
 
@@ -61,9 +66,9 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[Consumes(MediaTypeNames.Application.Json)]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Insert(Asset asset)
         {
             if (!ModelState.IsValid)

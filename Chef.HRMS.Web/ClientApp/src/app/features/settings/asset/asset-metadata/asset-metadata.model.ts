@@ -1,6 +1,4 @@
 import { Model } from '@shared/models/model';
-import { AssetType } from '../asset-type/asset-type.model';
-
 
 export interface assetmetadata extends Model {
     name: string;
@@ -15,3 +13,4 @@ export interface AssetTypeMetadata extends Model {
     assetDatatype:string;
   }
 
+  

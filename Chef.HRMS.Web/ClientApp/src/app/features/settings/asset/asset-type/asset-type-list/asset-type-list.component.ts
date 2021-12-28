@@ -6,8 +6,6 @@ import { AssetTypeEditComponent } from '../asset-type-edit/asset-type-edit.compo
 import { AssetTypeService } from '../asset-type.service';
 import { AssetType } from '../asset-type.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-import { AssetMetadataService } from '../../asset-metadata/asset-metadata.service';
-
 @Component({
   selector: 'hrms-asset-type-list',
   templateUrl: './asset-type-list.component.html'
@@ -16,18 +14,15 @@ export class AssetTypeListComponent implements OnInit {
 
   assetType: AssetType[];
   assetTypeNames: string[];
-  assignedAssetType : number[] = [];
 
   constructor(
     private assetTypeService: AssetTypeService,
     public modalService: NgbModal,
-    private toastr: ToasterDisplayService,
-    private assetMetadataService: AssetMetadataService
+    private toastr: ToasterDisplayService
     ) { }
 
   ngOnInit(): void {
     this.getAssetTypeList();
-    this.getAssignedAssetType();   
   }
 
   getAssetTypeList() { //getJobList()
@@ -41,17 +36,8 @@ export class AssetTypeListComponent implements OnInit {
     });
   }
 
-  getAssignedAssetType() {
-    this.assetMetadataService.getAllMetadata().subscribe(res => {
-      this.assignedAssetType = res.map(type =>(type.assettypeId));
-    },
-    error => {
-      console.error(error);
-    });
-  }
-
   isDisabled(assetType) {
-    return this.assignedAssetType.includes(assetType.id);
+    return (assetType.numberOfEmployees > 0);
   }
 
   openCreate() {
