@@ -12,23 +12,28 @@ export class AssetMetadataService {
   public baseUrl: string;
   public http: HttpClient;
 
-  constructor(http : HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + "api/assetTypeMetadata/";
   }
 
   
-  add(assetTypeId, metadata)
-  {
-    let reqOptions={
-      assetTypeId:assetTypeId,
-      metadata:metadata
-    }
-    return this.http.post(this.baseUrl + 'insert', reqOptions).pipe(map(response => { return response; }));
+
+  add(metadata: AssetTypeMetadata) {
+    return this.http.post<AssetTypeMetadata[]>(this.baseUrl + 'insert', metadata).pipe(map(response => { return response; }));
   }
-  getAllMetadata(){
-    return this. http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
+  getAllMetadata() {
+    return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
+  update(metadata: AssetTypeMetadata) {
+    return this.http.put<AssetTypeMetadata[]>(this.baseUrl + 'update', metadata).pipe(map(response => { return response; }));
+  }
+
+  delete(id:number){
+    return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
+  }
+
 
   // getAssetTypeId(assetName){
   //   return this. http.get(this.baseUrl + 'getAssetTypeId/',assetName).pipe(map(response => { return response; }));
@@ -37,15 +42,6 @@ export class AssetMetadataService {
 
   // getAll(){
   //   return this.http.get<AssetType[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
-  // }
-
-  
-  // update(assetType: AssetType){
-  // return this.http.post<AssetType>(this.baseUrl + 'update', assetType).pipe(map(response => { return response; }));
-  // }
-
-  // delete(id:number){
-  //   return this.http.delete<AssetType>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
   // }
 
   // get(id) {

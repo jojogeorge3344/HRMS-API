@@ -92,6 +92,19 @@ export class AssetAssetsListComponent implements OnInit {
     });
   }
 
+  openView(assetType: AssetType) {
+    const modalRef = this.modalService.open(AssetAssetsViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.assetType = assetType;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getAllAssetList();
+      }
+    });
+  }
+
   getAllAssetTypeList() {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetTypes = result;
