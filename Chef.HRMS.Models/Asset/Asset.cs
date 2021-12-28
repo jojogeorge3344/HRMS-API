@@ -20,8 +20,7 @@ namespace Chef.HRMS.Models
         public int AssetTypeMetadataId { get; set; }
 
         [Required]
-        public int AssetId { get; set; }
-
+        public int ValueId { get; set; }
 
         [Required]
         public string AssetName { get; set; }
