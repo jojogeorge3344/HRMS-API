@@ -55,6 +55,11 @@ export const NavigationItems = [
         title: 'Loan',
         tags: 'me-loan',
         routerLink: '/my-loan'
+      },
+      {
+        title: 'My Assets',
+        tags: 'settings-expense',
+        routerLink: '/my-assets'
       }
     ]
   },

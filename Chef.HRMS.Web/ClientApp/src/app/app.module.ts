@@ -6,14 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgBootstrapFormValidationModule, CUSTOM_ERROR_MESSAGES } from 'ng-bootstrap-form-validation';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PipesModule } from './pipes/pipes.module'
 import { JwtInterceptor } from './services/auth/jwt.interceptor';
 import { customErrorMessages } from './shared/utils/utils.functions';
+import { EmployeeAssetRoutingModule } from './features/employee-assets/employee-asset-routing.module';
 
 
 @NgModule({
@@ -31,6 +30,7 @@ import { customErrorMessages } from './shared/utils/utils.functions';
     ToastrModule.forRoot(),
     PipesModule,
     NgBootstrapFormValidationModule.forRoot(),
+    EmployeeAssetRoutingModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
