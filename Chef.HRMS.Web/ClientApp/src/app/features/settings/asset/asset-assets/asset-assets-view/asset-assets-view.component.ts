@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { AssetType } from '@settings/asset/asset-type/asset-type.model';
+import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { AssetAssets } from '../asset-assets.model';
+import { AssetAssetsService } from '../asset-assets.service';
+
 
 @Component({
   selector: 'hrms-asset-assets-view',
@@ -6,9 +13,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssetAssetsViewComponent implements OnInit {
 
-  constructor() { }
+  @Input() assetType: AssetAssets;
+  toastr: any;
+  editForm: any;
+  AssetId: number;
+  assets: AssetAssets;
+
+  constructor(private assetTypeService : AssetTypeService,
+    public activeModal: NgbActiveModal,
+    private assetassetService: AssetAssetsService) { }
 
   ngOnInit(): void {
+    this.AssetId = getCurrentUserId();
+    this.getAssetDetailsId();
   }
+
+  getAssetDetailsId() {
+    console.log(this.AssetId)
+    this.assetassetService.getAssetById(this.AssetId).subscribe(result => {
+      this.assets = result;
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the Asset Details');
+    });
+  }
+ 
 
 }

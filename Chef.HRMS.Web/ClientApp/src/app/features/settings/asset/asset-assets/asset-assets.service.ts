@@ -27,11 +27,6 @@ export class AssetAssetsService {
 
   getAllMetadata(){
     return this.http.get<AssetAssets[]>(this.baseUrl + 'GetAllAssetTypeMetadataDetailsById/{id}').pipe(map(response => { return response; }));
-  }
-
-  update(assetAssets: AssetAssets){
-  return this.http.post<AssetAssets>(this.baseUrl + 'update', assetAssets).pipe(map(response => { return response; }));
-  }
 
   delete(id:number){
     return this.http.delete<AssetAssets>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));

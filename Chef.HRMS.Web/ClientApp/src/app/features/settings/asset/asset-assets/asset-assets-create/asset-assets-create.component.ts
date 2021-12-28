@@ -123,6 +123,75 @@ export class AssetAssetsCreateComponent implements OnInit {
       metaData: this.formBuilder.group({}),
     });
   }
+  onSubmit(){
+    this.assetassetService.add(this.assetForm.value).subscribe((result: any) => {
+      if (result.id === -1) {
+        this.toastr.showErrorMessage('asset  already exists!');
+      } else {
+        this.toastr.showSuccessMessage('asset  added successfully!');
+        this.activeModal.close('submit');
+      }
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to add the asset');
+    });
+  }
+
+  createFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      assetId: ['', [
+        Validators.required,
+        Validators.maxLength(32),
+        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+      ]],
+      date: ['', [
+        Validators.required,
+      ]],
+      assetType: ['', [
+        Validators.required,
+      ]],
+      assetName: ['', [
+        Validators.required,
+        Validators.maxLength(32),
+        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+      ]],
+      metaData: ['', [
+        Validators.required,
+        Validators.maxLength(128)
+      ]],
+      isActive: ['', [
+        Validators.required,
+        Validators.maxLength(128)
+      ]],
+      description: ['', [
+        Validators.required,
+        Validators.maxLength(128)
+      ]],
+      selectedValue: ['', [
+        Validators.required,
+      ]],
+    });
+  }
+
+  getselectedvalue(){
+    this.selectedValue= this.assetForm.get('selectedValue').value 
+   }
+
+  // createMetadata() {
+  //   return this.formBuilder.group({
+  //     metadata: [],
+  //   });
+   
+  // }
+
+  // createDataArray():void{
+  //   this.clicked=false;
+  //   this.mdata=this.assetForm.get('dataRows') as FormArray;
+  //   this.mdata.push(this.createMetadata());
+  //   console.log(this.mdata);
+    
+  // }
 
   getselectedvalue(ev){
     Object.keys(this.metadataFormGroup.controls).forEach(key => { this.metadataFormGroup.removeControl(key)});
