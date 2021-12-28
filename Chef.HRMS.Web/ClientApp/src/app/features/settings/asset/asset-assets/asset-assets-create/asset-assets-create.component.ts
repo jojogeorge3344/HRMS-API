@@ -5,7 +5,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { assetmetadata, AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { assetmetadata, } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
@@ -18,12 +18,12 @@ import { AssetAssetsService } from '../asset-assets.service';
 export class AssetAssetsCreateComponent implements OnInit {
   assetId: any;
   assetForm: FormGroup;
-  // selectedValue: number ;
   assetType: AssetType;
   currentUserId: number;
   dataType: any[];
   metaData: any[];
   metadataid:number;
+  value:string;
   date = Date.now();
   @Input() assetmetadata: assetmetadata
   @Input() assetTypeNames: AssetType;
@@ -54,7 +54,24 @@ export class AssetAssetsCreateComponent implements OnInit {
   }
   onSubmit(){
     // console.log(this.assetForm.value)
-    this.assestassetService.add(this.assetForm.value).subscribe((result: any) => {
+    let assetFormValue= this.assetForm.value;
+    var i=0
+    this.typeKeys.forEach(val=>{
+      i=i+1
+      var param='value'
+      assetFormValue[param]=this.assetForm.get('metaData').get(val).value;
+
+    })
+    if(i<5){
+      for(var j=i+1;j<=5;j++){
+        var param='value'+j
+        assetFormValue[param]=null;
+
+      }
+    }
+    
+
+    this.assestassetService.add(assetFormValue).subscribe((result: any) => {
       if (result.id === -1) {
         this.toastr.showErrorMessage('asset already exists!');
       } else {
@@ -73,15 +90,23 @@ export class AssetAssetsCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       assetId: [''],
-      Date: [new Date(), [
+      date: [new Date(), [
         Validators.required,
       ]],
       assetTypeId: ['', [
         Validators.required,
       ]],
-      assetMetadataId: ['', [
+      assetTypeMetadataId: ['', [
         Validators.required,
       ]],
+      // value: ['', [
+        //Validators.required,
+      //]],
+      // metadatavalue1: ['', []],
+      // metadatavalue2: ['', []],
+      // metadatavalue3: ['', []],
+      // metadatavalue4: ['', []],
+      // metadatavalue5: ['', []],
       assetName: ['', [
         Validators.required,
         Validators.maxLength(32),
@@ -100,39 +125,40 @@ export class AssetAssetsCreateComponent implements OnInit {
   }
 
   getselectedvalue(ev){
-    console.log(ev)
-    // this.selectedValue=  
-    // console.log(this.selectedValue);
+    Object.keys(this.metadataFormGroup.controls).forEach(key => { this.metadataFormGroup.removeControl(key)});
+    this.typeMap.clear();
+    this.typeKeys=[];
+    console.log(this.metadataFormGroup);
     this.assetMetadataService.getAssetMetadataById(this.assetForm.get('assetTypeId').value).subscribe(res => {
+
       this.metaData=res;
+      console.log(this.metaData);
+      
       res.forEach(mdata => {
         // this.assetForm.patchValue({assetMetadataId:mdata.id});
-        this.assetForm.get('assetMetadataId').patchValue(mdata.id);
-        this.typeMap.set(mdata.metadata,mdata.assetDatatype)
-        console.log(this.typeMap);
-        // console.log(this.typeKeys);
+        this.assetForm.get('assetTypeMetadataId').patchValue(mdata.id);
+        console.log(mdata.id);
+        
+        this.typeMap.set(mdata.metadata,mdata.assetDatatype);
+
         if(mdata.ismandatory){
-          (this.assetForm.get('metaData')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
+            (this.assetForm.get('metaData')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
+            console.log(mdata);  
         }
         else{
           (this.assetForm.get('metaData')as FormGroup).addControl(mdata['metadata'], new FormControl('', []));
-        }
-        
-      // console.log(this.assetForm);   
+          console.log(mdata);
+        }        
     })
     this.typeKeys=[...this.typeMap.keys()];
   })
 }
-  // createFormControl(mdata: AssetTypeMetadata) {
-  //  return this.formBuilder.control('')
-  // }
-
   
 
   getAssetType(){
     this.assetTypeService.getAll().subscribe(result => {
       this.dataType=result;
-      console.log(this.dataType);     
+      // console.log(this.dataType);     
     })
   }
 
