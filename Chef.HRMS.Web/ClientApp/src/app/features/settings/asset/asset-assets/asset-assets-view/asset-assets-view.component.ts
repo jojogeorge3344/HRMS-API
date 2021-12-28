@@ -24,20 +24,7 @@ export class AssetAssetsViewComponent implements OnInit {
     private assetassetService: AssetAssetsService) { }
 
   ngOnInit(): void {
-    this.AssetId = getCurrentUserId();
-    this.getAssetDetailsId();
+  
   }
-
-  getAssetDetailsId() {
-    console.log(this.AssetId)
-    this.assetassetService.getAssetById(this.AssetId).subscribe(result => {
-      this.assets = result;
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the Asset Details');
-    });
-  }
- 
 
 }
