@@ -71,8 +71,8 @@ export class AssetMetadataEditComponent implements OnInit {
     this.metadataFiltered.forEach(data => {
       control.push(this.formBuilder.group({
         metadata: data.metadata,
-        assetDataType: data.assetDataType,
-        isMandatory: data.isMandatory
+        // assetDataType: data.assetDataType,
+        // isMandatory: data.isMandatory
       }));
     });
   }
@@ -80,9 +80,9 @@ export class AssetMetadataEditComponent implements OnInit {
   //To disable buttons and fields
   getAllAssignedMetadata() {
     this.assetAssetService.getAll().subscribe(res => {
-      this.assignedMetadata = res.filter(type => (type.AssetTypeId === this.assetTpId));
+      this.assignedMetadata = res.filter(type => (type.assetTypeId === this.assetTpId));
       console.log(this.assignedMetadata);
-      this.assignedMetadataId = this.assignedMetadata.map(val => val.AssetTypeMetadataId);///
+      this.assignedMetadataId = this.assignedMetadata.map(val => val.assetTypeMetadataId);///
       console.log(this.assignedMetadataId);
     },
       error => {

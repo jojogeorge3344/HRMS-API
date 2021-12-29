@@ -59,6 +59,7 @@ export class AssetAssetsCreateComponent implements OnInit {
           value:this.assetForm.value.metadatas[key]
         }
       })};
+
       // console.log(this.assetForm.value.assetMetadataValues);
       // console.log(mdatavalues);
     
@@ -80,7 +81,7 @@ export class AssetAssetsCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      assetId: [''],
+      valueId: [''],
       date: [new Date(), [
         Validators.required,
       ]],
@@ -106,24 +107,6 @@ export class AssetAssetsCreateComponent implements OnInit {
   }
   
 
- 
-
- 
-
-  // createMetadata() {
-  //   return this.formBuilder.group({
-  //     metadata: [],
-  //   });
-   
-  // }
-
-  // createDataArray():void{
-  //   this.clicked=false;
-  //   this.mdata=this.assetForm.get('dataRows') as FormArray;
-  //   this.mdata.push(this.createMetadata());
-  //   console.log(this.mdata);
-    
-  // }
 
   getselectedvalue(ev){
     Object.keys(this.metadataFormGroup.controls).forEach(key => { this.metadataFormGroup.removeControl(key)});

@@ -25,6 +25,10 @@ export class AssetAssetsService {
     return this.http.get<AssetAssets[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
 
+  getAssetById(id){
+    return this.http.get<AssetAssets[]>(this.baseUrl + 'GetAssetById/'+id).pipe(map(response => { return response; }));
+  }
+
   getAllMetadata(){
     return this.http.get<AssetAssets[]>(this.baseUrl + 'GetAllAssetTypeMetadataDetailsById/{id}').pipe(map(response => { return response; }));
   }

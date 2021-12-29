@@ -8,6 +8,7 @@ export interface assetmetadata extends Model {
     numberOfEmployees?: number;
   }
 export interface AssetTypeMetadata extends Model {
+    assettypeId: any;
     metadata: string;
     assetmetadataname: string;
     datatype: string;
