@@ -17,29 +17,29 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async Task<IEnumerable<Asset>> GetAssetById(int Id)
-        {
-            //var sql = "SELECT * FROM hrms.asset WHERE Id=@Id";
-            var sql = @"SELECT  jt.id, 
-                                            jt.assetname,
-                                            jt.assettypeid,
-                                            jt.assettypemetadataid,
-                                            jt.date,
-                                            jt.description,
-                                            jt.status,
-											js.value,
-                                            jt.isactive, 
-                                            jt.createddate, 
-                                            jt.modifieddate, 
-                                            jt.createdby, 
-                                            jt.modifiedby,
-                                            jt.isarchived
-                            FROM   hrms.asset AS jt
-                                   INNER JOIN hrms.assetmetadatavalue AS js
-                                           ON jt.id = js.assetid";
+        //public async Task<IEnumerable<Asset>> GetAssetById(int id)
+        //{
+        //    var sql = @"SELECT jt.id,
+        //                        jt.assetname,
+        //                        jt.assettypeid,
+        //                        jt.assettypemetadataid,
+        //                        jt.date,
+        //                        jt.description,
+        //                        jt.status,
+        //                        js.value,
+        //                        jt.isactive,
+        //                        jt.createddate,
+        //                        jt.modifieddate,
+        //                        jt.createdby,
+        //                        jt.modifiedby,
+        //                        jt.isarchived
+        //                        FROM hrms.asset AS jt
+        //                        INNER JOIN hrms.assetmetadatavalue AS js
+        //                        ON jt.id = js.assetid where jt.id=@id";
+        //    return await Connection.QueryAsync<Asset>(sql, new { id });
+        //}
 
-            return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
-        }
+
 
         public async Task<int> BulkInsertAsync(List<AssetMetadataValue> assetMetadataValues)
         {
@@ -101,11 +101,27 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<Asset>(sql);
         }
 
-        //public async Task<int> Update(int id)
-        //{
-        //    var sql = "UPDATE assetname,isactive,description FROM hrms.asset WHERE Id=@Id";
-        //    return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
-        //}
+        public async Task<IEnumerable<AssetMetadataValue>> GetMetadataValueAsync(int id)
+        {
+            var sql = @"SELECT jt.id,
+                                jt.assetname,
+                                jt.assettypeid,
+                                jt.assettypemetadataid,
+                                jt.date,
+                                jt.description,
+                                jt.status,
+                                js.value,
+                                jt.isactive,
+                                jt.createddate,
+                                jt.modifieddate,
+                                jt.createdby,
+                                jt.modifiedby,
+                                jt.isarchived
+                                FROM hrms.assetmetadatavalue AS js
+                                INNER JOIN hrms.asset AS jt
+                                ON js.assetid = jt.id where js.assetid=@id";
+            return await Connection.QueryAsync<AssetMetadataValue>(sql, new { id });
+        }
     }
 }
 
