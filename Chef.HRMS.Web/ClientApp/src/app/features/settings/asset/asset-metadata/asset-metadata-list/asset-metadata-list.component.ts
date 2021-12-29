@@ -20,7 +20,7 @@ export class AssetMetadataListComponent implements OnInit {
   assetType: AssetType[];
   assetTypeNames: AssetType[];
   assetMetadata: AssetTypeMetadata[];
- // assetTypeNames :string[];
+  // assetTypeNames :string[];
   assetMetadataNames: string[];
   assignedAssetTypeId: number[] = [];
 
@@ -34,7 +34,7 @@ export class AssetMetadataListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssetTypeList();
-    this.getAllAssignedAssetType();    
+    this.getAllAssignedAssetType();
   }
 
   getAssetTypeWithMetadata() {
@@ -44,8 +44,8 @@ export class AssetMetadataListComponent implements OnInit {
   getAssetTypeList() {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetType = result;
-      this.getAssetMetadataList();   
-      }),
+      this.getAssetMetadataList();
+    }),
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the asset type Details');
@@ -55,13 +55,13 @@ export class AssetMetadataListComponent implements OnInit {
   //To disable delete button =>fetching AssetTypeId which is assigned in Asset table, to array 'assignedAssetTypeId'
   getAllAssignedAssetType() {
     this.assetAssetService.getAll().subscribe(res => {
-      console.log(res);
-      this.assignedAssetTypeId = res.map(type =>(type.AssetTypeId));///
-      console.log(this.assignedAssetTypeId);
+      // console.log(res);
+      this.assignedAssetTypeId = res.map(type => (type.AssetTypeId));///
+      // console.log(this.assignedAssetTypeId);
     },
-    error => {
-      console.error(error);
-    });
+      error => {
+        console.error(error);
+      });
   }
 
   isDisabled(type) {
@@ -91,7 +91,7 @@ export class AssetMetadataListComponent implements OnInit {
     modalRef.componentInstance.assetTypeNames = this.assetTypeNames;
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getAssetMetadataList();
+        this.getAssetTypeList();
       }
     });
   }
@@ -104,10 +104,10 @@ export class AssetMetadataListComponent implements OnInit {
     modalRef.componentInstance.metaData = metadata;
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getAssetMetadataList();
+        this.getAssetTypeList();
       }
-      else{
-        this.getAssetMetadataList();
+      else {
+        this.getAssetTypeList();
       }
     });
   }
@@ -120,7 +120,7 @@ export class AssetMetadataListComponent implements OnInit {
       if (userResponse == true) {
         this.assetMetadataService.deleteAssetType(assetType.id).subscribe(() => {
           this.toastr.showSuccessMessage('The asset type deleted successfully!');
-          this.getAssetMetadataList();
+          this.getAssetTypeList();
         });
       }
     });

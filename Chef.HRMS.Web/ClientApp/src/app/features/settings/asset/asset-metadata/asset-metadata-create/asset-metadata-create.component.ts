@@ -126,18 +126,13 @@ export class AssetMetadataCreateComponent implements OnInit {
     });
   }
 
-
-
   createDataArray(): void {
     this.mdata = this.addForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
     let l = this.metas.length;
-    // console.log(l);
     if (l < 5) {
       this.maxAlert = false;
       this.newMetadata = this.addForm.get('dataRows').value[l - 1].metadata;
-      // console.log(this.newMetadata);
-      // console.log(this.metas);      
       if (this.newMetadata == "") {
         this.emptyValidation = true;
       }
@@ -147,7 +142,7 @@ export class AssetMetadataCreateComponent implements OnInit {
           var found = -1;
           for (let i = 0; i < l - 1; i++) {
             if (this.metas[i].metadata == this.newMetadata) {
-              found = i;
+              found = 1;
               break;
             }
           }

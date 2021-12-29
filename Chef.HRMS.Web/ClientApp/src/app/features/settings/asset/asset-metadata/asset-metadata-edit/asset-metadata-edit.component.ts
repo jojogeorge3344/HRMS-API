@@ -56,7 +56,7 @@ export class AssetMetadataEditComponent implements OnInit {
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
     this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered);
     this.patchDataArray();
-    this.getAllAssignedMetadata();
+    //this.getAllAssignedMetadata();
   }
 
   getMetadataFiltered(data) {
@@ -78,28 +78,28 @@ export class AssetMetadataEditComponent implements OnInit {
   }
 
   //To disable buttons and fields
-  getAllAssignedMetadata() {
-    console.log(this.metadataFiltered);
-    this.assetAssetService.getAll().subscribe(res => {
-      console.log("helloo");
-      
-      console.log(res);
-      
-      this.assignedMetadata = res.filter(type => (type.AssetTypeId === this.assetTpId));
-      console.log(this.assignedMetadata);
-      this.assignedMetadataId = this.assignedMetadata.map(val => val.AssetTypeMetadataId);///
-      console.log(this.assignedMetadataId);
-    },
-      error => {
-        console.error(error);
-      });
-  }
+  // getAllAssignedMetadata() {
+  //   console.log(this.metadataFiltered);
+  //   this.assetAssetService.getAll().subscribe(res => {
+  //     console.log("helloo");
 
-  isDisabled(i) {
-    let id = this.metadataFiltered[i].id;
-    console.log(id);
-    return this.assignedMetadataId.includes(id);
-  }
+  //     console.log(res);
+
+  //     this.assignedMetadata = res.filter(type => (type.AssetTypeId === this.assetTpId));
+  //     console.log(this.assignedMetadata);
+  //     this.assignedMetadataId = this.assignedMetadata.map(val => val.AssetTypeMetadataId);///
+  //     console.log(this.assignedMetadataId);
+  //   },
+  //     error => {
+  //       console.error(error);
+  //     });
+  // }
+
+  // isDisabled(i) {
+  //   let id = this.metadataFiltered[i].id;
+  //   console.log(id);
+  //   return this.assignedMetadataId.includes(id);
+  // }
 
   onSubmit() {
     const metdata = (this.editForm.get('dataRows') as FormArray).value.map(val => ({
@@ -141,7 +141,7 @@ export class AssetMetadataEditComponent implements OnInit {
     this.mdata = this.editForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
     let l = this.metas.length;
-    if (l < 6) {
+    if (l < 5) {
       this.maxAlert = false;
       this.newMetadata = this.editForm.get('dataRows').value[l - 1].metadata;
       if (this.newMetadata == "") {
@@ -153,7 +153,7 @@ export class AssetMetadataEditComponent implements OnInit {
           var found = -1;
           for (let i = 0; i < l - 1; i++) {
             if (this.metas[i].metadata == this.newMetadata) {
-              found = i;
+              found = 1;
               break;
             }
           }
@@ -184,17 +184,18 @@ export class AssetMetadataEditComponent implements OnInit {
     this.mdata = this.editForm.get('dataRows') as FormArray;
     let metaArray = this.mdata.value;
     let name = metaArray[i].metadata;
-    const modalRef = this.modalService.open(ConfirmModalComponent,
-      { centered: true, backdrop: 'static' });
-    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete metadata "${name}"?`;
-    modalRef.result.then((userResponse) => {
-      if (userResponse == true) {
-        this.metaData.forEach(val => {
-          if (val.metadata === name && val.assettypeId === this.assetTpId) { this.metadataId = val.id }
-        })
-        let l = this.mdata.length;
-        if (l > 1) {
-          if (this.metadataId) {
+
+    this.metaData.forEach(val => {
+      if (val.metadata === name && val.assettypeId === this.assetTpId) { this.metadataId = val.id }
+    })
+    let l = this.mdata.length;
+    if (l > 1) {
+      if (this.metadataId) {
+        const modalRef = this.modalService.open(ConfirmModalComponent,
+          { centered: true, backdrop: 'static' });
+        modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete metadata "${name}"?`;
+        modalRef.result.then((userResponse) => {
+          if (userResponse == true) {
             this.mdata.removeAt(i);
             this.assetMetadataService.deleteMetadata(this.metadataId).subscribe(result => {
               this.toastr.showSuccessMessage('Asset metadata deleted successfully!');
@@ -204,10 +205,17 @@ export class AssetMetadataEditComponent implements OnInit {
                 this.toastr.showErrorMessage('Unable to delete the asset metadata');
               });
           }
-          else { this.mdata.removeAt(i); }
-        }
-        else {
-          if (this.metadataId) {
+        });
+      }
+      else { this.mdata.removeAt(i); }
+    }
+    else {
+      if (this.metadataId) {
+        const modalRef = this.modalService.open(ConfirmModalComponent,
+          { centered: true, backdrop: 'static' });
+        modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete metadata "${name}"?`;
+        modalRef.result.then((userResponse) => {
+          if (userResponse == true) {
             this.mdata.removeAt(i);
             this.assetMetadataService.deleteMetadata(this.metadataId).subscribe(result => {
               this.toastr.showSuccessMessage('Asset metadata deleted successfully!');
@@ -219,9 +227,10 @@ export class AssetMetadataEditComponent implements OnInit {
               });
             this.mdata.push(this.createMetadata());
           }
-          else { this.editForm.get('dataRows').reset(); }
-        }
+        });
       }
-    });
+      else { this.editForm.get('dataRows').reset(); }
+    }
+
   }
 }
