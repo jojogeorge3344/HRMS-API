@@ -9,6 +9,7 @@ import { assetmetadata, } from '@settings/asset/asset-metadata/asset-metadata.mo
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-asset-assets-create',

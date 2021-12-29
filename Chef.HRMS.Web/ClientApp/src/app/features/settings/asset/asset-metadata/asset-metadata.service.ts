@@ -19,7 +19,6 @@ export class AssetMetadataService {
   }
 
 
-
   add(metadata: AssetTypeMetadata) {
     return this.http.post<AssetTypeMetadata[]>(this.baseUrl + 'insert', metadata).pipe(map(response => { return response; }));
   }
