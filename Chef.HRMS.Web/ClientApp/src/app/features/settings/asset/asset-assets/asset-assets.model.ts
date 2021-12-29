@@ -1,7 +1,6 @@
 import { Model } from '@shared/models/model';
 import { AssetMetadataValue } from './assetmetadatavalue.model';
 
-
 export interface AssetAssets extends Model {  
   assetTypeId:number;
   assetTypeMetadataId:number;

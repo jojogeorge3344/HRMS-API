@@ -7,6 +7,7 @@ import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service'
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { AssetAssets } from '../asset-assets.model';
 import { AssetAssetsService } from '../asset-assets.service';
+import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 
 @Component({
   selector: 'hrms-asset-assets-view',
@@ -14,55 +15,51 @@ import { AssetAssetsService } from '../asset-assets.service';
 })
 
 export class AssetAssetsViewComponent implements OnInit {
-  assetviewForm: FormGroup;
 
   @Input() assetType: AssetAssets;
-  @Input()  assetList: AssetAssets[];
+  @Input() assetTypename: AssetAssets;
   toastr: any;
   editForm: any;
   AssetId: number;
   assets: AssetAssets;
   assetTypeNames: string[];
-  assetMetaDataNames : string[];
+  assetMetaDataName : string;
   assetMetadata:AssetTypeMetadata[];
   formBuilder: any;
 
   constructor(private assetTypeService : AssetTypeService,
     public activeModal: NgbActiveModal,
-    privateformbuilder: FormBuilder,
+    public assetmetadataservice: AssetMetadataService,
     private assetassetService: AssetAssetsService) { }
 
   ngOnInit(): void {
     this.AssetId = getCurrentUserId();
-    this.getAssetDetailsId();
-    console.log(this.assetList);
-    console.log(this.assetType);
-    this.assetviewForm = this.createFormGroup();
-    
-  }
- 
+    this.assetmetadataservice.getAllMetadata().subscribe(result => {
+      this.assetMetadata = result;
+      console.log(this.assetMetadata);
+      this.assetMetaDataName=this.getMetadataName();
+      console.log(this.assetMetaDataName);
 
-  createFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      assetId: [''],
-      date: [],
-      assetType: [],
-      assetName: [],
-      metaData: [],
-      description: [],
-    });
-  }
-
-  getAssetDetailsId() {
-    console.log(this.AssetId)
-    this.assetassetService.get(this.AssetId).subscribe(result => {
-      this.assets = result;
-      console.log(this.assets);
+      
       
     },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the Asset Details');
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the asset type Details');
     });
+
+    // this.getAssetDetailsId();
+    console.log(this.assetType);
+    //console.log(this.assetType.assetTypeMetadataId);
+    
+   
+   
+    
+  
   }
+  getMetadataName(){
+    return this.assetMetadata?.find(val=>val.id == this.assetType.assetTypeMetadataId)?this.assetMetadata?.find(val=>val.id == this.assetType.assetTypeMetadataId).metadata:'-'
+  }
+
+  
 }
