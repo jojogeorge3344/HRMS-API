@@ -1,18 +1,18 @@
 import { Model } from '@shared/models/model';
+import { AssetMetadataValue } from './assetmetadatavalue.model';
 
-export interface AssetAssets extends Model {
-  AssetId : number;
-  AssetName: string;
-  AssetTypeId :number;
-  Date: Date;
-  Metadatavalue1:string,
-  Metadatavalue2:string,
-  Metadatavalue3:string,
-  Metadatavalue4:string,
-  Metadatavalue5:string,
-  Description:string;
-  Status: number;
-  IsActive: boolean;
-  AssetTypeMetadataId : number;
-  EmployeeId :number;
+export interface AssetAssets extends Model {  
+  assetTypeId:number;
+  assetTypeMetadataId:number;
+  assetName:string;
+  date:Date;
+  description:string;
+  status: string;
+  isActive:boolean;
+  valueId: Number;
+  // assetId:number;
+
+  // metaData:string;
+  assetMetadataValues: AssetMetadataValue[];
+
   }
