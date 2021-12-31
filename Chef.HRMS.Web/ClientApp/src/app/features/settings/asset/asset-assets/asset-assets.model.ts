@@ -5,7 +5,7 @@ export interface AssetAssets extends Model {
   assetTypeId:number;
   assetTypeMetadataId:number;
   assetName:string;
-  date:Date;
+  date:string;
   description:string;
   status: string;
   isActive:boolean;
