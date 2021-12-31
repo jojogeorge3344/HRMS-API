@@ -17,61 +17,29 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async Task<IEnumerable<Asset>> GetAssetById(int Id)
-        {
-            var sql = "SELECT * FROM hrms.asset WHERE Id=@Id";
-            return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
-        }
-
-
-        //public new async Task<Asset> InsertAsync(Asset asset)
+        //public async Task<IEnumerable<Asset>> GetAssetById(int id)
         //{
-        //    var sql = new QueryBuilder<Asset>().GenerateInsertQuery();
-
-        //    sql = sql.Replace("RETURNING id", "");
-
-        //    return await Connection.QueryFirstOrDefaultAsync<Asset>(sql, asset);
+        //    var sql = @"SELECT jt.id,
+        //                        jt.assetname,
+        //                        jt.assettypeid,
+        //                        jt.assettypemetadataid,
+        //                        jt.date,
+        //                        jt.description,
+        //                        jt.status,
+        //                        js.value,
+        //                        jt.isactive,
+        //                        jt.createddate,
+        //                        jt.modifieddate,
+        //                        jt.createdby,
+        //                        jt.modifiedby,
+        //                        jt.isarchived
+        //                        FROM hrms.asset AS jt
+        //                        INNER JOIN hrms.assetmetadatavalue AS js
+        //                        ON jt.id = js.assetid where jt.id=@id";
+        //    return await Connection.QueryAsync<Asset>(sql, new { id });
         //}
-            //public new async Task<int> InsertAsync(Asset asset)
-            //{
-            //    using (var transaction = Connection.BeginTransaction())
-            //    {
-            //        try
-            //        {
-            //            asset.CreatedBy = "";
-            //            asset.CreatedDate = DateTime.UtcNow;
-            //            var sql = new QueryBuilder<Asset>().GenerateInsertQuery();
-            //            //asset.TotalBalanceAmountInBasecurrency = asset.TotalAmountInBaseCurrency;
-            //            //asset.TotalBalanceAmount = asset.TotalAmount;
-            //            //asset.Id = Convert.ToInt32(Connection.ExecuteScalar(sql, asset));
 
-            //            //insert payment term header section
-            //            if (asset.AssetMetadataValues != null)
-            //            {
-            //                asset.AssetMetadataValues.AssetId = asset.Id;
-            //                asset.AssetMetadataValues.CreatedBy = "";
-            //                asset.AssetMetadataValues.CreatedDate = DateTime.UtcNow;
 
-            //                sql = new QueryBuilder<AssetMetadataValue>().GenerateInsertQuery();
-            //                asset.AssetMetadataValues.Id = Convert.ToInt32(Connection.ExecuteScalar(sql, asset.AssetMetadataValues));
-
-            //                foreach (AssetMetadataValue value in values)
-            //                {
-            //                    sql = new QueryBuilder<AssetMetadataValue>().GenerateInsertQuery();
-            //                    await Connection.ExecuteScalarAsync(sql, value);
-            //                }
-            //            }
-            //        }
-            //    transaction.Commit();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        transaction.Rollback();
-            //        asset.Id = 0;
-            //    }
-            //}
-            //    return asset;
-            //}
 
         public async Task<int> BulkInsertAsync(List<AssetMetadataValue> assetMetadataValues)
         {
@@ -89,8 +57,25 @@ namespace Chef.HRMS.Repositories
             }
             return noOfRows;
         }
-        
-            public async Task<IEnumerable<Asset>> GetAllAssetList()
+
+        public async Task<int> BulkUpdateAsync(List<AssetMetadataValue> assetMetadataValues)
+        {
+            int noOfRows;
+            try
+            {
+                var sql = new QueryBuilder<AssetMetadataValue>().GenerateUpdateQuery();
+                noOfRows = Convert.ToInt32(await Connection.ExecuteAsync(sql, assetMetadataValues.AsEnumerable()));
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                noOfRows = 0;
+            }
+            return noOfRows;
+        }
+
+        public async Task<IEnumerable<Asset>> GetAllAssetList()
         {
 
             var sql = @"SELECT DISTINCT jt.id, 
@@ -116,6 +101,27 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<Asset>(sql);
         }
 
+        public async Task<IEnumerable<AssetMetadataValue>> GetMetadataValueAsync(int id)
+        {
+            var sql = @"SELECT jt.id,
+                                jt.assetname,
+                                jt.assettypeid,
+                                jt.assettypemetadataid,
+                                jt.date,
+                                jt.description,
+                                jt.status,
+                                js.value,
+                                jt.isactive,
+                                jt.createddate,
+                                jt.modifieddate,
+                                jt.createdby,
+                                jt.modifiedby,
+                                jt.isarchived
+                                FROM hrms.assetmetadatavalue AS js
+                                INNER JOIN hrms.asset AS jt
+                                ON js.assetid = jt.id where js.assetid=@id";
+            return await Connection.QueryAsync<AssetMetadataValue>(sql, new { id });
+        }
     }
 }
 

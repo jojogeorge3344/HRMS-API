@@ -11,8 +11,7 @@ export interface AssetAssets extends Model {
   isActive:boolean;
   valueId: Number;
   // assetId:number;
-
-  // metaData:string;
+  // metaData:string; 
   assetMetadataValues: AssetMetadataValue[];
-
   }
+  
