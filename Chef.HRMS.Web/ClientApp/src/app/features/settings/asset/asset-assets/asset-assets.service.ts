@@ -41,15 +41,7 @@ export class AssetAssetsService {
     return this.http.get<AssetAssets>(this.baseUrl + '' + id).pipe(map(response => { return response; }));
   }
 
-  getAllAssetTypeList(){
-    return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeById').pipe(map(response => { return response; }));
+  GetAssetTypeId(id:number){
+    return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAssetTypeId' + id).pipe(map(response => { return response; }));
   }
-
-  // getAllAssetTypeById(id: number) {
-  //   return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetType/Get/' + id).pipe(map(response => { return response; }));
-  // }
-
-  // getAssetMetadataById(id: number) {
-  //   return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetTypeMetadata/GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
-  // }
 }

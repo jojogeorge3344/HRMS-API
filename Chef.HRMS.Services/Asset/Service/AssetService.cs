@@ -47,10 +47,10 @@ namespace Chef.HRMS.Services
         }
 
 
-        public async Task<int> UpdateAsync(Asset asset)
-        {
-            return await assetRepository.UpdateAsync(asset);
-        }
+        //public async Task<int> UpdateAsync(Asset asset)
+        //{
+        //    return await assetRepository.Update(asset);
+        //}
 
         public async Task<IEnumerable<Asset>> GetAllAssetList()
         {
@@ -79,6 +79,32 @@ namespace Chef.HRMS.Services
 
 
             return asset;
-        }       
+        }
+
+        public async Task<int> UpdateAsync(Asset asset)
+        {
+            try
+            {
+                simpleUnitOfWork.BeginTransaction();
+                var result = await assetRepository.UpdateAsync(asset);
+                if (asset.AssetMetadataValues != null)
+                {
+                    //asset.AssetMetadataValues.ForEach(c => c.AssetId = result);
+                    var res = await assetRepository.BulkUpdateAsync(asset.AssetMetadataValues);
+                }
+                simpleUnitOfWork.Commit();
+            }
+            catch (Exception ex)
+            {
+                simpleUnitOfWork.Rollback();
+                string msg = ex.Message;
+                asset.Id = 0;
+            }
+
+
+            return asset.Id;
+        }
+
+
     }
 }

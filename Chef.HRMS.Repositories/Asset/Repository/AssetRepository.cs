@@ -17,29 +17,29 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        //public async Task<IEnumerable<Asset>> GetAssetById(int id)
-        //{
-        //    var sql = @"SELECT jt.id,
-        //                        jt.assetname,
-        //                        jt.assettypeid,
-        //                        jt.assettypemetadataid,
-        //                        jt.date,
-        //                        jt.description,
-        //                        jt.status,
-        //                        js.value,
-        //                        jt.isactive,
-        //                        jt.createddate,
-        //                        jt.modifieddate,
-        //                        jt.createdby,
-        //                        jt.modifiedby,
-        //                        jt.isarchived
-        //                        FROM hrms.asset AS jt
-        //                        INNER JOIN hrms.assetmetadatavalue AS js
-        //                        ON jt.id = js.assetid where jt.id=@id";
-        //    return await Connection.QueryAsync<Asset>(sql, new { id });
-        //}
+        public async Task<IEnumerable<Asset>> GetAssetById(int Id)
+        {
+            //var sql = "SELECT * FROM hrms.asset WHERE Id=@Id";
+            var sql = @"SELECT  jt.id, 
+                                            jt.assetname,
+                                            jt.assettypeid,
+                                            jt.assettypemetadataid,
+                                            jt.date,
+                                            jt.description,
+                                            jt.status,
+											js.value,
+                                            jt.isactive, 
+                                            jt.createddate, 
+                                            jt.modifieddate, 
+                                            jt.createdby, 
+                                            jt.modifiedby,
+                                            jt.isarchived
+                            FROM   hrms.asset AS jt
+                                   INNER JOIN hrms.assetmetadatavalue AS js
+                                           ON jt.id = js.assetid";
 
-
+            return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
+        }
 
         public async Task<int> BulkInsertAsync(List<AssetMetadataValue> assetMetadataValues)
         {
@@ -57,8 +57,25 @@ namespace Chef.HRMS.Repositories
             }
             return noOfRows;
         }
-        
-            public async Task<IEnumerable<Asset>> GetAllAssetList()
+
+        public async Task<int> BulkUpdateAsync(List<AssetMetadataValue> assetMetadataValues)
+        {
+            int noOfRows;
+            try
+            {
+                var sql = new QueryBuilder<AssetMetadataValue>().GenerateUpdateQuery();
+                noOfRows = Convert.ToInt32(await Connection.ExecuteAsync(sql, assetMetadataValues.AsEnumerable()));
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                noOfRows = 0;
+            }
+            return noOfRows;
+        }
+
+        public async Task<IEnumerable<Asset>> GetAllAssetList()
         {
 
             var sql = @"SELECT DISTINCT jt.id, 

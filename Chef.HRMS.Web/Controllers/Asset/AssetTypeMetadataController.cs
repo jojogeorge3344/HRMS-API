@@ -69,7 +69,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetTypeMetadata);
         }
 
-        [HttpGet("GetAssetTypeId/{id}")]
+        [HttpGet("GetAllAssetTypeMetadataDetailsById/{id}")]
         public async Task<ActionResult<IEnumerable<AssetTypeMetadata>>> GetAssetTypeId(int id)
         {
             var assetTypeMetadata = await assetTypeMetadataService.GetAssetTypeId(id);
