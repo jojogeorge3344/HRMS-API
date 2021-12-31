@@ -41,7 +41,7 @@ export class AssetAssetsListComponent implements OnInit {
   openCreate(){
     const modalRef = this.modalService.open(AssetAssetsCreateComponent,
       { centered: true, backdrop: 'static' });
-      
+
     modalRef.componentInstance.assetTypeNames = this.assetTypeNames;
 
     modalRef.result.then((result) => {
@@ -70,13 +70,16 @@ export class AssetAssetsListComponent implements OnInit {
   
 
   openEdit(editassetType,assetTypename) {
-    console.log(assetTypename);
-    console.log(editassetType);
+    //console.log(assetTypename);
+     console.log(editassetType.assetTypeId);
+     //{assetType['assetName']}
 
     const modalRef = this.modalService.open(AssetAssetsEditComponent,
       { size:'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.assetType = editassetType;
+    //console.log(modalRef.componentInstance.assetType);
+    
     modalRef.componentInstance.assetTypeName = assetTypename;
 
     modalRef.result.then((result) => {
@@ -102,6 +105,7 @@ export class AssetAssetsListComponent implements OnInit {
   getAssetTypeName(asset){
     return this.assetTypes?.find(val=>val.id == asset.assetTypeId)?this.assetTypes?.find(val=>val.id == asset.assetTypeId).assettypename:'-'
   }
+
 
 
  

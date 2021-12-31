@@ -44,7 +44,7 @@ export class AssetAssetsService {
   getAllAssetTypeList(){
     return this.http.get<AssetType[]>(this.baseUrl + 'getAllAssetTypeById').pipe(map(response => { return response; }));
   }
-
+  
   // getAllAssetTypeById(id: number) {
   //   return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetType/Get/' + id).pipe(map(response => { return response; }));
   // }
