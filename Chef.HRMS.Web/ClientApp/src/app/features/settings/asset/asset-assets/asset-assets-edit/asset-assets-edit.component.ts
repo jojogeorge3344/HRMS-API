@@ -151,7 +151,7 @@ export class AssetAssetsEditComponent implements OnInit {
       .subscribe(([metadatas,asset]) => {
         metadatas.forEach(mdata => {
           // this.assetForm.patchValue({assetMetadataId:mdata.id});
-          this.assetEditForm.get('assetTypeMetadataId').patchValue(mdata.id);
+         //this.assetEditForm.get('assetTypeMetadataId').patchValue(mdata.id);
           
           this.typeMap.set(mdata.metadata,mdata);
 
