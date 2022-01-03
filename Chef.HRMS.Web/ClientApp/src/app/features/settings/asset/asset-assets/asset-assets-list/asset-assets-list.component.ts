@@ -1,6 +1,6 @@
 import { Component, NgModuleRef, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { assetmetadata, AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -16,7 +16,8 @@ import { AssetAssetsService } from '../asset-assets.service';
   templateUrl: './asset-assets-list.component.html'
 })
 export class AssetAssetsListComponent implements OnInit {
-
+  assetId:AssetAssets;
+  TypeId:assetmetadata;
   assetList: AssetAssets[];
   assetTypeNames: string[];
   assetTypes: AssetType[];
@@ -69,16 +70,37 @@ export class AssetAssetsListComponent implements OnInit {
   }
   
 
-  openEdit(editassetType,assetTypename) {
-    console.log(assetTypename);
-    console.log(editassetType);
+  // openEdit(editassetType,assetTypename) {
+  //   console.log(assetTypename);
+  //   console.log(editassetType);
 
+  //   const modalRef = this.modalService.open(AssetAssetsEditComponent,
+  //     { size:'lg', centered: true, backdrop: 'static' });
+
+  //   modalRef.componentInstance.assetType = editassetType;
+  //   modalRef.componentInstance.assetTypeName = assetTypename;
+
+  //   modalRef.result.then((result) => {
+  //       if (result == 'submit') {
+  //         this.getAllAssetList();
+  //       }
+  //   });
+  // }
+
+
+  openEdit(assetasset,assetTypename ) {
+    // console.log(assetType);
     const modalRef = this.modalService.open(AssetAssetsEditComponent,
-      { size:'lg', centered: true, backdrop: 'static' });
-
-    modalRef.componentInstance.assetType = editassetType;
+      { centered: true, backdrop: 'static' });
+    modalRef.componentInstance.assetId = assetasset.id;
+    console.log(modalRef.componentInstance.assetId);
+    
     modalRef.componentInstance.assetTypeName = assetTypename;
-
+    // modalRef.componentInstance.TypeId = assetType;
+     modalRef.componentInstance.assetTypeId = assetasset;
+    //  console.log( modalRef.componentInstance.typeId);
+    //  console.log(modalRef.componentInstance.TypeId);
+    
     modalRef.result.then((result) => {
         if (result == 'submit') {
           this.getAllAssetList();
