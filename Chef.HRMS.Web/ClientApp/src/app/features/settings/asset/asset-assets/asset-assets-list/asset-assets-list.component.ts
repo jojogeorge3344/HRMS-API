@@ -36,6 +36,12 @@ export class AssetAssetsListComponent implements OnInit {
   ngOnInit(): void {
    this.getAllAssetList();
    this.getAllAssetTypeList();
+  
+  
+   
+   
+   
+   
     
   }
   openCreate(){
@@ -52,14 +58,19 @@ export class AssetAssetsListComponent implements OnInit {
   }
 
   //
-  openView(assetType: AssetType,assetTypename) {
-    console.log(assetType);
+  openView(assetType,assetTypename) {
+   // console.log(assetType);
     console.log(assetTypename);
     
     const modalRef = this.modalService.open(AssetAssetsViewComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
     modalRef.componentInstance.assetType = assetType;
-    modalRef.componentInstance.assetTypename = assetTypename;
+    modalRef.componentInstance.assetId = assetType.id;
+    modalRef.componentInstance.assetTypeId = assetType.assetTypeId;
+    //console.log(modalRef.componentInstance.assetTypename);
+    
+    modalRef.componentInstance.assetTypename = this.getAssetTypeName(assetType);
+    console.log(this.getAssetTypeName(assetType));
     
     modalRef.result.then((result) => {
       if (result == 'submit') {
@@ -71,7 +82,7 @@ export class AssetAssetsListComponent implements OnInit {
 
   openEdit(editassetType,assetTypename) {
     //console.log(assetTypename);
-     console.log(editassetType.assetTypeId);
+     //console.log(editassetType.assetTypeId);
      //{assetType['assetName']}
 
     const modalRef = this.modalService.open(AssetAssetsEditComponent,

@@ -44,7 +44,7 @@ export class AssetAssetsService {
 
 
   getAssetById(id) {
-    return this.http.get<AssetAssets>(this.baseUrl + '' + id).pipe(map(response => { return response; }));
+    return this.http.get<AssetAssets>(this.baseUrl + 'GetAssetById/' + id).pipe(map(response => { return response; }));
   }
 
 
