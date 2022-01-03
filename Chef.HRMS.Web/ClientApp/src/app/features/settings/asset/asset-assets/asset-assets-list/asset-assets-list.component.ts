@@ -1,6 +1,6 @@
 import { Component, NgModuleRef, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { assetmetadata, AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import {  AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -17,7 +17,7 @@ import { AssetAssetsService } from '../asset-assets.service';
 })
 export class AssetAssetsListComponent implements OnInit {
   assetId:AssetAssets;
-  TypeId:assetmetadata;
+  TypeId:AssetTypeMetadata;
   assetList: AssetAssets[];
   assetTypeNames: string[];
   assetTypes: AssetType[];
