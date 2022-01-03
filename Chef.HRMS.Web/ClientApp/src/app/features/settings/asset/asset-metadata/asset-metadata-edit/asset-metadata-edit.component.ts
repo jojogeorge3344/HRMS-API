@@ -71,35 +71,35 @@ export class AssetMetadataEditComponent implements OnInit {
     this.metadataFiltered.forEach(data => {
       control.push(this.formBuilder.group({
         metadata: data.metadata,
-        // assetDataType: data.assetDataType,
-        // isMandatory: data.isMandatory
+         assetDataType: data.assetDataType,
+         isMandatory: data.isMandatory
       }));
     });
   }
 
   //To disable buttons and fields
-  // getAllAssignedMetadata() {
-  //   console.log(this.metadataFiltered);
-  //   this.assetAssetService.getAll().subscribe(res => {
-  //     console.log("helloo");
+  getAllAssignedMetadata() {
+    console.log(this.metadataFiltered);
+    this.assetAssetService.getAll().subscribe(res => {
+      console.log("helloo");
 
-  //     console.log(res);
+      console.log(res);
 
-  //     this.assignedMetadata = res.filter(type => (type.AssetTypeId === this.assetTpId));
-  //     console.log(this.assignedMetadata);
-  //     this.assignedMetadataId = this.assignedMetadata.map(val => val.AssetTypeMetadataId);///
-  //     console.log(this.assignedMetadataId);
-  //   },
-  //     error => {
-  //       console.error(error);
-  //     });
-  // }
+      this.assignedMetadata = res.filter(type => (type.assetTypeId === this.assetTpId));
+      console.log(this.assignedMetadata);
+      this.assignedMetadataId = this.assignedMetadata.map(val => val.assetTypeMetadataId);
+      console.log(this.assignedMetadataId);
+    },
+      error => {
+        console.error(error);
+      });
+  }
 
-  // isDisabled(i) {
-  //   let id = this.metadataFiltered[i].id;
-  //   console.log(id);
-  //   return this.assignedMetadataId.includes(id);
-  // }
+  isDisabled(i) {
+    let id = this.metadataFiltered[i].id;
+    console.log(id);
+    return this.assignedMetadataId.includes(id);
+  }
 
   onSubmit() {
     const metdata = (this.editForm.get('dataRows') as FormArray).value.map(val => ({
