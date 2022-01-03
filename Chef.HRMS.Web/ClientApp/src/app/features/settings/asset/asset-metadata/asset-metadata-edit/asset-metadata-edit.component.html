@@ -33,24 +33,24 @@
                                 </div>
                                 <div class="col-5 py-2 pl-2">
                                     <input type="text" class="form-control" id="metadata" name="metadata"
-                                        formControlName="metadata" (disabled)="isDisabled(i);">
+                                        formControlName="metadata" [disabled]="!isDisabled">
                                 </div>
 
                                 <div class="col-3 py-2 pl-2">
                                     <select class="form-control" formControlName="assetDataType" id="assetDataType"
                                         name="assetDataType">
                                         <option [ngValue]="0" disabled>Select Datatype</option>
-                                        <option *ngFor="let key of metadataDatatypeKeys" [ngValue]='key' (disabled)="isDisabled(i);">{{metadataDatatype[key]}}</option>
+                                        <option *ngFor="let key of metadataDatatypeKeys" [ngValue]='key' (disabled)="!isDisabled(i);">{{metadataDatatype[key]}}</option>
                                     </select>
                                 </div>
                                 <div class="col-2 py-2 pl-2">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="chkbox" name="isMandatory" for="isMandatory" id="isMandatory"
-                                            formControlName="isMandatory" (disabled)="isDisabled(i);">
+                                            formControlName="isMandatory" (disabled)="!isDisabled(i);">
                                     </div>
                                 </div>
                                 <div class="col-1 pt-2">
-                                    <button type="button" class="btn btn-outline-primary p-2" name="deletebutton" (click)="isDisabled(i) && removeMetadata(i)">
+                                    <button type="button" class="btn btn-outline-primary p-2" name="deletebutton" (click)="!isDisabled(i) && removeMetadata(i)">
                                         <i class="fal fa-minus"></i>
                                     </button>
                                 </div>

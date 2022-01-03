@@ -37,6 +37,7 @@ export class AssetMetadataEditComponent implements OnInit {
   assignedMetadataId: number[] = [];
   dataTypes: string[];
   maxAlert = false;
+  isDisable=false;
 
   @Input() assetTpId: number;
   @Input() assetTpName: string;
@@ -56,7 +57,7 @@ export class AssetMetadataEditComponent implements OnInit {
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
     this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered);
     this.patchDataArray();
-    //this.getAllAssignedMetadata();
+    this.getAllAssignedMetadata();
   }
 
   getMetadataFiltered(data) {
@@ -80,7 +81,7 @@ export class AssetMetadataEditComponent implements OnInit {
   //To disable buttons and fields
   getAllAssignedMetadata() {
     console.log(this.metadataFiltered);
-    this.assetAssetService.getAll().subscribe(res => {
+    this.assetAssetService.getAllMetadataValue().subscribe(res => {
       console.log("helloo");
 
       console.log(res);
@@ -88,6 +89,9 @@ export class AssetMetadataEditComponent implements OnInit {
       this.assignedMetadata = res.filter(type => (type.assetTypeId === this.assetTpId));
       console.log(this.assignedMetadata);
       this.assignedMetadataId = this.assignedMetadata.map(val => val.assetTypeMetadataId);
+      this.assignedMetadataId = this.assignedMetadataId.filter( function( item, index, inputArray ) {
+        return inputArray.indexOf(item) == index;
+        });
       console.log(this.assignedMetadataId);
     },
       error => {
@@ -98,7 +102,14 @@ export class AssetMetadataEditComponent implements OnInit {
   isDisabled(i) {
     let id = this.metadataFiltered[i].id;
     console.log(id);
-    return this.assignedMetadataId.includes(id);
+    console.log(this.isDisable);
+    
+    if(this.assignedMetadataId.includes(id)){
+      this.isDisable=true;
+      console.log(this.isDisable);
+      
+      return true;
+    }    
   }
 
   onSubmit() {
