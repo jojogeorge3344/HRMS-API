@@ -76,8 +76,6 @@ namespace Chef.HRMS.Services
                 string msg = ex.Message;
                 return 0;
             }           
-        }
-
-       
+        }        
     }
 }

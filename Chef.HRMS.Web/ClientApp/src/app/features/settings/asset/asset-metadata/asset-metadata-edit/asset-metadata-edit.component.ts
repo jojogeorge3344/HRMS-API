@@ -71,8 +71,8 @@ export class AssetMetadataEditComponent implements OnInit {
     this.metadataFiltered.forEach(data => {
       control.push(this.formBuilder.group({
         metadata: data.metadata,
-        assetDataType: data.assetDataType,
-        isMandatory: data.isMandatory
+        // assetDataType: data.assetDataType,
+        // isMandatory: data.isMandatory
       }));
     });
   }

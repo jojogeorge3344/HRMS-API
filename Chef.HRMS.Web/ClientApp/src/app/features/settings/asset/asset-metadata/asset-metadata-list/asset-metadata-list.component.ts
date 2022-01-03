@@ -55,9 +55,8 @@ export class AssetMetadataListComponent implements OnInit {
   //To disable delete button =>fetching AssetTypeId which is assigned in Asset table, to array 'assignedAssetTypeId'
   getAllAssignedAssetType() {
     this.assetAssetService.getAll().subscribe(res => {
-      // console.log(res);
-      this.assignedAssetTypeId = res.map(type => (type.AssetTypeId));///
-      // console.log(this.assignedAssetTypeId);
+      this.assignedAssetTypeId = res.map(type =>(type.assetTypeId));///
+      console.log(this.assignedAssetTypeId);
     },
       error => {
         console.error(error);
