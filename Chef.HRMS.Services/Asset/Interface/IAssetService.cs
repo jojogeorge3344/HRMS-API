@@ -15,5 +15,7 @@ namespace Chef.HRMS.Services
         
         Task<IEnumerable<Asset>> GetAllAssetList();
         Task<IEnumerable<Asset>> GetAssetById(int Id);
+
+        Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue();
     }
 }

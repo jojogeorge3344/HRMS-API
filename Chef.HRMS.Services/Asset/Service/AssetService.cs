@@ -101,6 +101,9 @@ namespace Chef.HRMS.Services
             return asset.Id;
         }
 
-
+        public async Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue()
+        {
+            return await assetRepository.GetAllMetadataValue();
+        }
     }
 }

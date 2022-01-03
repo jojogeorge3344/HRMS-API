@@ -44,6 +44,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assets);
         }
 
+        [HttpGet("GetAllMetadataValue")]
+        public async Task<ActionResult<IEnumerable<AssetMetadataValue>>> GetAllMetadataValue()
+        {
+            var assets = await assetService.GetAllMetadataValue();
+
+            return Ok(assets);
+        }
+
         [HttpGet("GetAssetById/{id}")]
         public async Task<ActionResult<Asset>> Get(int id)
         {

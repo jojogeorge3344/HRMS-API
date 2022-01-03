@@ -9,15 +9,23 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Models
 {
-    [Table("asset")]
-
-    public class Asset : Model
+    [Table("assetmyasset")]
+    public class AssetMyAsset : Model
     {
         [ForeignKey("AssetType")]
         public int AssetTypeId { get; set; }
 
+        [ForeignKey("Asset")]
+        public int AssetId { get; set; }
+
         [ForeignKey("AssetTypeMetadata")]
         public int AssetTypeMetadataId { get; set; }
+
+        [ForeignKey("Employee")]
+        public int EmpId { get; set; }
+
+        [Required]
+        public string AssetType { get; set; }
 
         [Required]
         public int ValueId { get; set; }
@@ -26,19 +34,15 @@ namespace Chef.HRMS.Models
         public string AssetName { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime DateAllocated { get; set; }
+
+        [Required]
+        public string Metadata { get; set; }
+
+        [Required]
+        public string Status { get; set; }
 
         [Required]
         public string Description { get; set; }
-
-        //[Required]
-        //public string Status { get; set; }
-
-        [Required]
-        public bool IsActive { get; set; }
-
-        [Write(false)]
-        [Skip(true)]
-        public List<AssetMetadataValue> AssetMetadataValues { get; set; }
     }
 }
