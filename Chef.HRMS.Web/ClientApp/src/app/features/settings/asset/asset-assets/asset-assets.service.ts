@@ -34,6 +34,14 @@ export class AssetAssetsService {
 
   }
   
+  update(assetAssets: AssetAssets){
+    return this.http.put<AssetAssets>(this.baseUrl + 'update', assetAssets).pipe(map(response => { return response; }));
+    }
+
+    delete(id:number){
+      return this.http.delete<AssetAssets>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
+    }
+  
 
 
   getAllAssetTypeById() {
@@ -44,7 +52,7 @@ export class AssetAssetsService {
 
 
   getAssetById(id) {
-    return this.http.get<AssetAssets>(this.baseUrl + 'GetAssetById/' + id).pipe(map(response => { return response; }));
+    return this.http.get<AssetAssets>(this.baseUrl + 'GetAssetById/'+ id).pipe(map(response => { return response; }));
   }
 
 

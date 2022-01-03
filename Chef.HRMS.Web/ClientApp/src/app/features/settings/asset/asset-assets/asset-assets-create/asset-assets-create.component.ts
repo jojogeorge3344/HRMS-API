@@ -51,19 +51,19 @@ export class AssetAssetsCreateComponent implements OnInit {
     return<FormGroup>this.assetForm.get('metadatas') 
   }
   onSubmit(){
-    // console.log(this.assetForm.value)
+    console.log(this.assetForm.value)
     let mdatavalues= {...this.assetForm.value,
       assetMetadataValues:this.typeKeys.map(key => {
         return{
           assettypeId:this.assetForm.value.assetTypeId,
-          assettypeMetadataId:this.assetForm.value.assetTypeMetadataId,
+          assettypeMetadataId:this.typeMap.get(key).id,
           value:this.assetForm.value.metadatas[key]
         }
       })};
 
-      // console.log(this.assetForm.value.assetMetadataValues);
-      // console.log(mdatavalues);
-    
+      console.log(this.assetForm.value.assetMetadataValues);
+      console.log(mdatavalues);
+  
     this.assestassetService.add(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
         this.toastr.showErrorMessage('asset already exists!');
@@ -89,10 +89,10 @@ export class AssetAssetsCreateComponent implements OnInit {
       assetTypeId: ['', [
         Validators.required,
       ]],
-      assetTypeMetadataId: ['', [
+      assetTypeMetadataId: [ '', [
         Validators.required,
       ]],
-      assetMetadataValues: ['', []],
+      assetMetadataValues:[ ['', []]],
       assetName: ['', [
         Validators.required,
         Validators.maxLength(32),
@@ -115,16 +115,13 @@ export class AssetAssetsCreateComponent implements OnInit {
     this.typeKeys=[];
     // console.log(this.metadataFormGroup);
     this.assetMetadataService.getAssetMetadataById(this.assetForm.get('assetTypeId').value).subscribe(res => {
-
-      // this.metaData=res;
-      // console.log(this.metaData);
-      
+      debugger;
       res.forEach(mdata => {
         // this.assetForm.patchValue({assetMetadataId:mdata.id});
         this.assetForm.get('assetTypeMetadataId').patchValue(mdata.id);
         // console.log(mdata.id);
         
-        this.typeMap.set(mdata.metadata,mdata.assetDatatype);
+        this.typeMap.set(mdata.metadata,mdata);
 
         if(mdata.ismandatory){
             (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
@@ -147,20 +144,7 @@ export class AssetAssetsCreateComponent implements OnInit {
     })
   }
 
-  // getiid(){
-  //   this.assetId=this.assestassetService.get().subscribe(res => {
-  //     this.assetId=res;
-  //   })
-  // }
-
-  
-  // getAssetMetadataById(){
-  //   this.assetMetadataService.getAllMetadata().subscribe(result => {
-  //     this.metadatas=result;
-  //     console.log(this.metadatas);
-      
-  //   })
-  // }
+ 
 
   
 

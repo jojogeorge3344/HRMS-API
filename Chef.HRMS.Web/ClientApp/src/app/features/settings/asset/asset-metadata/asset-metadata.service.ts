@@ -47,8 +47,9 @@ export class AssetMetadataService {
 
   
   getAssetMetadataById(id: number) {
-    return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
+    return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAllAssetTypeMetadataDetailsById/'+ id).pipe(map(response => { return response; }));
   }
+  
   deleteAssetType(id: number) {
     return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'deleteAssetType/' + id).pipe(map(response => { return response; }));
   }
