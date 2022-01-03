@@ -17,7 +17,7 @@ import { AssetAssetsService } from '../asset-assets.service';
   templateUrl:'./asset-assets-view.component.html'
 })
 export class AssetAssetsViewComponent  implements OnInit {
-  @Input() assetTypeName
+  @Input() assetTypename
   @Input() assetId;
   @Input() assetTypeId;
   assetViewForm: FormGroup;
@@ -48,7 +48,7 @@ export class AssetAssetsViewComponent  implements OnInit {
     this.typeMap= new Map();
     this.currentUserId = getCurrentUserId();
     // console.log(this.assetTypeId.assetTypeId);
-    console.log(this.assetTypeName);
+    console.log(this.assetTypename);
     
     this.assetViewForm = this.createFormGroup();
     this.getallAssetById();
