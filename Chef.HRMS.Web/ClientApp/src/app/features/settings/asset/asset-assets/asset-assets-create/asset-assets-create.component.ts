@@ -113,13 +113,10 @@ export class AssetAssetsCreateComponent implements OnInit {
     Object.keys(this.metadataFormGroup.controls).forEach(key => { this.metadataFormGroup.removeControl(key)});
     this.typeMap.clear();
     this.typeKeys=[];
-    // console.log(this.metadataFormGroup);
     this.assetMetadataService.getAssetMetadataById(this.assetForm.get('assetTypeId').value).subscribe(res => {
-      debugger;
       res.forEach(mdata => {
         // this.assetForm.patchValue({assetMetadataId:mdata.id});
         this.assetForm.get('assetTypeMetadataId').patchValue(mdata.id);
-        // console.log(mdata.id);
         
         this.typeMap.set(mdata.metadata,mdata);
 
