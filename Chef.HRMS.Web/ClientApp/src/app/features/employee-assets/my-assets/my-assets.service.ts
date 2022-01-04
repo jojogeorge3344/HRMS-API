@@ -17,6 +17,6 @@ export class MyAssetsService {
   }
 
   getAllMyAssetList(userId){
-    return this.http.get<MyAssets[]>(this.baseUrl + 'getAllMyAssetList').pipe(map(response => { return response; }));
+   // return this.http.get<MyAssets[]>(this.baseUrl + 'getAllMyAssetList').pipe(map(response => { return response; }));
   }
 }
