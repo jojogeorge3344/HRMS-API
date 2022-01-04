@@ -63,4 +63,23 @@ export class AssetAssetsService {
   GetAssetTypeId(id:number){
     return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAssetTypeId' + id).pipe(map(response => { return response; }));
   }
+  
+  // getAllAssetTypeById(id: number) {
+  //   return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetType/Get/' + id).pipe(map(response => { return response; }));
+  // }
+
+  // getAssetMetadataById(id: number) {
+  //   return this.http.get<AssetAssets[]>(this.baseUrl + 'AssetTypeMetadata/GetAllAssetTypeMetadataDetailsById/' + id).pipe(map(response => { return response; }));
+  // }
+  // delete(id:number){
+
+  //   return this.http.delete<AssetAssets>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
+
+  // }
+  
+  // update(assetAssets: AssetAssets){
+
+  //   return this.http.put<AssetAssets>(this.baseUrl + 'update', assetAssets).pipe(map(response => { return response; }));
+
+  //   }
 }

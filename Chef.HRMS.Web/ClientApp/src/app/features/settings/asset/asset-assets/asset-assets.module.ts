@@ -44,7 +44,7 @@ import { AssetAssetsViewComponent } from './asset-assets-view/asset-assets-view.
   ], providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: CUSTOM_ERRORS,
-    multi: true
+    multi: true,
   }],
 })
 export class AssetAssetsModule { }
