@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { assetmetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';

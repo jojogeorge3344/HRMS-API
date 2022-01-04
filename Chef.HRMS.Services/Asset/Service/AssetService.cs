@@ -31,14 +31,15 @@ namespace Chef.HRMS.Services
             return await assetRepository.GetAllAsync();
         }
 
-        public async Task<Asset> GetAssetById(int id)
-        {
-            var asset = await assetRepository.GetAsync(id);
-            var assetmetadatavalue = await assetRepository.GetMetadataValueAsync(id);
-            if (asset != null) { asset.AssetMetadataValues = assetmetadatavalue.ToList(); }
-            return asset;
-            //return await assetRepository.GetAssetById(id);
-        }
+        //public async Task<Asset> GetAssetById(int id)
+        //{
+        //    var asset = await assetRepository.GetAsync(id);
+        //    var assetmetadatavalue = await assetRepository.GetMetadataValueAsync(id);
+        //    if (asset != null) { asset.AssetMetadataValues = assetmetadatavalue.ToList(); }
+        //    return asset;
+        //    //return await assetRepository.GetAssetById(id);
+        //}
+
 
 
         public async Task<Asset> GetAsync(int id)
@@ -108,6 +109,15 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue()
         {
             return await assetRepository.GetAllMetadataValue();
+        }
+
+        public async Task<Asset> GetAssetById(int id)
+        {
+            var asset = await assetRepository.GetAsync(id);
+            var assetmetadatavalue = await assetRepository.GetMetadataValueAsync(id);
+            if (asset != null) { asset.AssetMetadataValues = assetmetadatavalue.ToList(); }
+            return asset;
+           
         }
     }
 }
