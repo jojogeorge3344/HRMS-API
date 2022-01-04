@@ -169,6 +169,11 @@ export const NavigationItems = [
         tags: 'organization-PayrollProcessing',
         routerLink: '/payroll-processing'
       },
+      {
+        title: 'Employee Wise Asset',
+        tags: 'settings-expense',
+        routerLink: '/asset-employee-wise'
+      },
     ]
   },
   {

@@ -146,6 +146,11 @@ const routes: Routes = [
         canActivateChild: [AuthGuard]
       },
       {
+        path: 'asset-employee-wise',
+        loadChildren: () => import('./features/employee-asset/employee-asset.module').then(m => m.EmployeeAssetModule),
+        // canActivateChild: [AuthGuard]
+      },
+      {
         path: 'finance',
         loadChildren: () => import('./features/finance/finance.module').then(m => m.FinanceModule),
         canActivateChild: [AuthGuard]
