@@ -31,14 +31,14 @@ export class MyAssetsListComponent implements OnInit {
   }
 
   getAllMyAssetList(userId) {
-    // this.myAssetservice.getAllMyAssetList(userId).subscribe(result => {
-    //   this.myAssetList = result;
-    //   //this.getAssetMetadataList();
-    // }),
-    //   error => {
-    //     console.error(error);
-    //     this.toastr.showErrorMessage('Unable to fetch the asset type Details');
-    //   };
+    this.myAssetservice.getAllMyAssetList(userId).subscribe(result => {
+      this.myAssetList = result;
+      //this.getAssetMetadataList();
+    }),
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+      };
   }
 
   openView(myAsset:MyAssets) {

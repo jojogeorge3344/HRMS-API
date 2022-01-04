@@ -14,6 +14,7 @@ import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { values } from 'lodash';
 import { MetadataDataType } from 'src/app/models/common/types/metadatadatatype';
 import { AssetAssets } from '../../asset-assets/asset-assets.model';
+import { AssetMetadataValue } from '@settings/asset/asset-assets/assetmetadatavalue.model';
 
 
 @Component({
@@ -33,8 +34,8 @@ export class AssetMetadataEditComponent implements OnInit {
   newMetadata: any;
   emptyValidation = false;
   duplicateValidation = false;
-  assignedMetadata: AssetAssets[];
-  assignedMetadataId: number[] = [];
+  assignedMetadata:AssetMetadataValue[];
+  assignedMetadataId:Number[]=[];
   dataTypes: string[];
   maxAlert = false;
   isDisable=false;
@@ -52,6 +53,8 @@ export class AssetMetadataEditComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
+    console.log(this.assetTpId);
+    
     this.editForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
@@ -86,9 +89,9 @@ export class AssetMetadataEditComponent implements OnInit {
 
       console.log(res);
 
-      this.assignedMetadata = res.filter(type => (type.assetTypeId === this.assetTpId));
+      this.assignedMetadata = res.filter(type => (type.assettypeId === this.assetTpId));
       console.log(this.assignedMetadata);
-      this.assignedMetadataId = this.assignedMetadata.map(val => val.assetTypeMetadataId);
+      this.assignedMetadataId = this.assignedMetadata.map(val => val.assettypeMetadataId);
       this.assignedMetadataId = this.assignedMetadataId.filter( function( item, index, inputArray ) {
         return inputArray.indexOf(item) == index;
         });
@@ -100,16 +103,8 @@ export class AssetMetadataEditComponent implements OnInit {
   }
 
   isDisabled(i) {
-    let id = this.metadataFiltered[i].id;
-    console.log(id);
-    console.log(this.isDisable);
-    
-    if(this.assignedMetadataId.includes(id)){
-      this.isDisable=true;
-      console.log(this.isDisable);
-      
-      return true;
-    }    
+    let id = this.metadataFiltered[i]?.id;
+    return this.assignedMetadataId.includes(id);
   }
 
   onSubmit() {
@@ -152,9 +147,9 @@ export class AssetMetadataEditComponent implements OnInit {
     this.mdata = this.editForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
     let l = this.metas.length;
+    this.newMetadata = this.editForm.get('dataRows').value[l - 1].metadata;
     if (l < 5) {
       this.maxAlert = false;
-      this.newMetadata = this.editForm.get('dataRows').value[l - 1].metadata;
       if (this.newMetadata == "") {
         this.emptyValidation = true;
       }
@@ -182,10 +177,12 @@ export class AssetMetadataEditComponent implements OnInit {
         }
       }
     }
-    else {
+    else if (this.newMetadata == "") {
+        this.emptyValidation = true;
+      }
+      else{
       //console.log("You have entered maximum number of metadata!!");
-      this.maxAlert = true;
-    }
+      this.maxAlert = true;}
   }
 
   removeMetadata(i) {
