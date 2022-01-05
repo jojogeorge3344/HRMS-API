@@ -15,17 +15,17 @@ export class EmployeAssetService {
     this.baseUrl = baseUrl + "api/employye-asset";
   }
 
-  getAllEmployeeDetails(){
-    return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAllEmployeeDetails').pipe(map(response => { return response; }));
-  }
+  // getAllEmployeeDetails(){
+  //   return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAllEmployeeDetails').pipe(map(response => { return response; }));
+  // }
 
-  getAllAllocatedAssets(){
-    return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAllAllocatedAssets').pipe(map(response => { return response; }));
-  }
+  // getAllAllocatedAssets(){
+  //   return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAllAllocatedAssets').pipe(map(response => { return response; }));
+  // }
 
-  getAllRequests(){
-    return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAllRequests').pipe(map(response => { return response; }));
-  }
+  // getAllRequests(){
+  //   return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAllRequests').pipe(map(response => { return response; }));
+  // }
 
   getAll(){
     return this.http.get<[]>(this.baseUrl + 'GetAll').pipe(map(response => { return response; }));

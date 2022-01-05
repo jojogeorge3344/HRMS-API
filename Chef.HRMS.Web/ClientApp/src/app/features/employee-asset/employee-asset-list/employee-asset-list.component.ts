@@ -17,31 +17,19 @@ export class EmployeeAssetListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getAllEmployeeDetails(){
-    this.employeeAsset.getAllEmployeeDetails().subscribe(result => {
-      console.log(result);  
-      // this.employees===result
-    })
-  }
-
-  getAllAllocatedAssets() {
-    this.employeeAsset.getAllAllocatedAssets().subscribe(result => {
-      console.log(result); 
-      // this.employees===result.allocatedAssets 
-  })
-}
-
-getAllRequests() {
-    this.employeeAsset.getAllRequests().subscribe(result => {
+getAll() {
+    this.employeeAsset.getAll().subscribe(result => {
       console.log(result); 
       // this.employees===result.requests 
   })
   }
-  openViewList(employeAsset: AssetEmployeeWise) {
+
+
+  openAllocatedAssets(employees) {
     const modalRef = this.modalService.open(EmployeeAssetViewComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.employeAsset = employeAsset;
+    modalRef.componentInstance.employees = employees;
 
     modalRef.result.then((result) => {
         if (result == 'submit') {
@@ -49,6 +37,34 @@ getAllRequests() {
         }
     });
   }
+
+  openReuests(employees) {
+    const modalRef = this.modalService.open(EmployeeAssetViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.employees = employees;
+
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          // this.getJobList();
+        }
+    });
+  }
+
+  openView(employees) {
+    const modalRef = this.modalService.open(EmployeeAssetViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.employees = employees;
+
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          // this.getJobList();
+        }
+    });
+  }
+
+
 
 
 }
