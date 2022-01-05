@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { AssetTypeMetadata, } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { AssetType } from '@settings/asset/asset-type/asset-type.model';
+import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-asset-assets-create',
@@ -14,38 +17,58 @@ import { AssetAssetsService } from '../asset-assets.service';
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class AssetAssetsCreateComponent implements OnInit {
+  // assetId: any;
   assetForm: FormGroup;
-  clicked=true;
-  mdata:FormArray;
+  assetType: AssetType;
   currentUserId: number;
-  selectedValue: string = '';
-  dataType: any[]  = [
-    {id:1, type:"laptop", datatype:"number"},
-    {id:2, type:"mobile phone", datatype:"text"},
-    {id:3, type:"bluetooth", datatype:"date"}
-  ]
+  dataType: any[];
   date = Date.now();
-  @Input() metadata: AssetTypeMetadata;
-  @Input() assetTypeNames: string[];
-    minDate;
-    maxDate;
+  @Input() assetmetadata: AssetTypeMetadata
+  @Input() assetTypeNames: AssetType;
+  minDate: { year: number; month: number; day: number; };
+  maxDate: { year: number; month: number; day: number; };
+  typeMap: Map<any, any>;
+  typeKeys: string[];
+  
+
 
   constructor(
-    private assetassetService: AssetAssetsService,
-    public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService) { }
+      private assestassetService: AssetAssetsService,
+      private assetTypeService: AssetTypeService,
+      private assetMetadataService: AssetMetadataService,
+      public activeModal: NgbActiveModal,
+      private formBuilder: FormBuilder,
+      private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
+    this.typeMap= new Map();
     this.currentUserId = getCurrentUserId();
     this.assetForm = this.createFormGroup();
+    this.getAssetType();
+    // this.getAssetMetadataById()
+  }
+  get metadataFormGroup () {
+    return<FormGroup>this.assetForm.get('metadatas') 
   }
   onSubmit(){
-    this.assetassetService.add(this.assetForm.value).subscribe((result: any) => {
+    console.log(this.assetForm.value)
+    let mdatavalues= {...this.assetForm.value,
+      assetMetadataValues:this.typeKeys.map(key => {
+        return{
+          assettypeId:this.assetForm.value.assetTypeId,
+          assettypeMetadataId:this.typeMap.get(key).id,
+          value:this.assetForm.value.metadatas[key]
+        }
+      })};
+
+      console.log(this.assetForm.value.assetMetadataValues);
+      console.log(mdatavalues);
+  
+    this.assestassetService.add(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
-        this.toastr.showErrorMessage('asset  already exists!');
+        this.toastr.showErrorMessage('asset already exists!');
       } else {
-        this.toastr.showSuccessMessage('asset  added successfully!');
+        this.toastr.showSuccessMessage('asset added successfully!');
         this.activeModal.close('submit');
       }
     },
@@ -53,61 +76,73 @@ export class AssetAssetsCreateComponent implements OnInit {
       console.error(error);
       this.toastr.showErrorMessage('Unable to add the asset');
     });
+
+
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      assetId: ['', [
-        Validators.required,
-        Validators.maxLength(32),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
-      ]],
-      date: ['', [
+      valueId: [''],
+      date: [new Date(), [
         Validators.required,
       ]],
-      assetType: ['', [
+      assetTypeId: ['', [
         Validators.required,
       ]],
+      assetTypeMetadataId: [ '', [
+        Validators.required,
+      ]],
+      assetMetadataValues:[ ['', []]],
       assetName: ['', [
         Validators.required,
         Validators.maxLength(32),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
       ]],
-      metaData: ['', [
-        Validators.required,
-        Validators.maxLength(128)
-      ]],
-      isActive: ['', [
-        Validators.required,
-        Validators.maxLength(128)
-      ]],
+      isActive: [false, []],
       description: ['', [
         Validators.required,
         Validators.maxLength(128)
       ]],
-      selectedValue: ['', [
-        Validators.required,
-      ]],
+      metadatas: this.formBuilder.group([]),
     });
   }
+  
 
-  getselectedvalue(){
-    this.selectedValue= this.assetForm.get('selectedValue').value 
-   }
 
-  // createMetadata() {
-  //   return this.formBuilder.group({
-  //     metadata: [],
-  //   });
-   
-  // }
+  getselectedvalue(ev){
+    Object.keys(this.metadataFormGroup.controls).forEach(key => { this.metadataFormGroup.removeControl(key)});
+    this.typeMap.clear();
+    this.typeKeys=[];
+    this.assetMetadataService.getAssetMetadataById(this.assetForm.get('assetTypeId').value).subscribe(res => {
+      res.forEach(mdata => {
+        // this.assetForm.patchValue({assetMetadataId:mdata.id});
+        this.assetForm.get('assetTypeMetadataId').patchValue(mdata.id);
+        
+        this.typeMap.set(mdata.metadata,mdata);
 
-  // createDataArray():void{
-  //   this.clicked=false;
-  //   this.mdata=this.assetForm.get('dataRows') as FormArray;
-  //   this.mdata.push(this.createMetadata());
-  //   console.log(this.mdata);
-    
-  // }
+        if(mdata.isMandatory){
+            (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
+            // console.log(mdata);  
+        }
+        else{
+          (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', []));
+          // console.log(mdata);
+        }        
+    })
+    this.typeKeys=[...this.typeMap.keys()];
+  })
+}
+  
+
+  getAssetType(){
+    this.assetTypeService.getAll().subscribe(result => {
+      this.dataType=result;
+      // console.log(this.dataType);     
+    })
+  }
+
+ 
+
+  
 
 }

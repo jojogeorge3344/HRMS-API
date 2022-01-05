@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModuleRef, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import {  AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -16,7 +16,8 @@ import { AssetAssetsService } from '../asset-assets.service';
   templateUrl: './asset-assets-list.component.html'
 })
 export class AssetAssetsListComponent implements OnInit {
-
+  assetId:AssetAssets;
+  TypeId:AssetTypeMetadata;
   assetList: AssetAssets[];
   assetTypeNames: string[];
   assetTypes: AssetType[];
@@ -36,6 +37,12 @@ export class AssetAssetsListComponent implements OnInit {
   ngOnInit(): void {
    this.getAllAssetList();
    this.getAllAssetTypeList();
+  
+  
+   
+   
+   
+   
     
   }
   openCreate(){
@@ -51,44 +58,47 @@ export class AssetAssetsListComponent implements OnInit {
     });
   }
 
-
-  openViewList(assetType: AssetType) {
-    const modalRef = this.modalService.open(AssetAssetsListComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
-
-    modalRef.componentInstance.assetType = assetType;
-
-    modalRef.result.then((result) => {
-        if (result == 'submit') {
-          this.getAllAssetList();
-        }
-    });
-  }
-
-  openEdit(assetType: AssetType) {
-    const modalRef = this.modalService.open(AssetAssetsEditComponent,
-      { size:'lg', centered: true, backdrop: 'static' });
-
-    modalRef.componentInstance.assetTypeId = assetType.id;
-    modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.assettypename.toLowerCase());
-
-    modalRef.result.then((result) => {
-        if (result == 'submit') {
-          this.getAllAssetList();
-        }
-    });
-  }
-
-  openView(assetType: AssetType) {
+  //
+  openView(assetType,assetTypename) {
+   // console.log(assetType);
+    console.log(assetTypename);
+    
     const modalRef = this.modalService.open(AssetAssetsViewComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
-
+      { centered: true, backdrop: 'static' });
     modalRef.componentInstance.assetType = assetType;
-
+    modalRef.componentInstance.assetId = assetType.id;
+    modalRef.componentInstance.assetTypeId = assetType.assetTypeId;
+    //console.log(modalRef.componentInstance.assetTypename);
+    
+    modalRef.componentInstance.assetTypename = this.getAssetTypeName(assetType);
+    console.log(this.getAssetTypeName(assetType));
+    
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getAllAssetList();
+       this.getAllAssetList();
       }
+    });
+  }
+  
+
+
+  openEdit(assetasset,assetTypename ) {
+    // console.log(assetType);
+    const modalRef = this.modalService.open(AssetAssetsEditComponent,
+      { centered: true, backdrop: 'static' });
+    modalRef.componentInstance.assetId = assetasset.id;
+    console.log(modalRef.componentInstance.assetId);
+    
+    modalRef.componentInstance.assetTypeName = assetTypename;
+    // modalRef.componentInstance.TypeId = assetType;
+     modalRef.componentInstance.assetTypeId = assetasset;
+    //  console.log( modalRef.componentInstance.typeId);
+    //  console.log(modalRef.componentInstance.TypeId);
+    
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getAllAssetList();
+        }
     });
   }
 
@@ -97,7 +107,6 @@ export class AssetAssetsListComponent implements OnInit {
       this.assetTypes = result;
       this.assetTypeNames = this.assetTypes.map(a => a.assettypename.toLowerCase());
       console.log(this.assetTypes);
-      
     },
     error => {
       console.error(error);
@@ -105,24 +114,20 @@ export class AssetAssetsListComponent implements OnInit {
     });
 
   }
-
+  //filtering assetType corresponds to assetname
   getAssetTypeName(asset){
-    return this.assetTypes.find(val=>val.id == asset.assetTypeId)?this.assetTypes.find(val=>val.id == asset.assetTypeId).assettypename:'-'
+    return this.assetTypes?.find(val=>val.id == asset.assetTypeId)?this.assetTypes?.find(val=>val.id == asset.assetTypeId).assettypename:'-'
   }
 
-  // displayMetadata(type){
-  //   var metData=this.assetMetadata.filter(item => item.assettypeId === type.id);
-  //     var data=metData.map(val=>val.metadata)
-  //     return data ? data.join(",") : "-";
-  //   }
-  // getMetadataName(asset){
-  //   return this.assetMetadata.find(val =>val.id == asset.assetMetadata)?this.assetMetaDataNames.find(val =>val.id == asset.assetTypeMetaDataId).assetmetadataname:'-'
-  // }
+
+
  
   getAllAssetList() {
-    this.assetassetService.getAllAssetList().subscribe(result => {
+    this.assetassetService.getAll().subscribe(result => {
       console.log("res",result);
       this.assetList = result; 
+      console.log(this.assetList);
+      
       //this.assetTypeNames = this.assetTypes.map(a => a.assettypename.toLocaleLowerCase());
     },
     error => {
@@ -134,14 +139,16 @@ export class AssetAssetsListComponent implements OnInit {
 
   //delete
 
-  delete(assetTypes: AssetType) {
+  delete(assetType: AssetType) {
+    console.log(assetType);
+    
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the asset ${assetTypes.assettypename}?`;
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the asset ${assetType['assetName']}?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.assetassetService.delete(assetTypes.id).subscribe(() => {
+        this.assetassetService.delete(assetType.id).subscribe(() => {
           this.toastr.showSuccessMessage('asset deleted successfully!');
           this.getAllAssetList();
         });
@@ -149,18 +156,3 @@ export class AssetAssetsListComponent implements OnInit {
     });
   }
 }
-// delete(assetType: AssetType) {
-//   const modalRef = this.modalService.open(ConfirmModalComponent,
-//     { centered: true, backdrop: 'static' });
-
-//   modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the asset type ${assetType.assettypename}?`;
-//   modalRef.result.then((userResponse) => {
-//       if (userResponse == true) {
-//         this.assetTypeService.delete(assetType.id).subscribe(() => {
-//           this.toastr.showSuccessMessage('The asset type deleted successfully!');
-//           this.getAssetTypeList();
-//         });
-//       }
-//   });
-// }
-
