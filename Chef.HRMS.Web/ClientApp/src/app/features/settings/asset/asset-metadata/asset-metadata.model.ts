@@ -1,12 +1,9 @@
 import { Model } from '@shared/models/model';
-import { AssetType } from '../asset-type/asset-type.model';
-
+import { MetadataDataType } from 'src/app/models/common/types/metadatadatatype';
 
 export interface AssetTypeMetadata extends Model {
   assettypeId: number;
   metadata: string;
-  assetDataType: number;
+  assetDataType: MetadataDataType;
   isMandatory: boolean;
 }
-
-

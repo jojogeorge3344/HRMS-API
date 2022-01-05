@@ -13,10 +13,10 @@ namespace Chef.HRMS.Models
 
     public class Asset : Model
     {
-        [ForeignKey("assettypeid")]
+        [ForeignKey("AssetType")]
         public int AssetTypeId { get; set; }
 
-        [ForeignKey("assettypemetadataid")]
+        [ForeignKey("AssetTypeMetadata")]
         public int AssetTypeMetadataId { get; set; }
 
         [Required]

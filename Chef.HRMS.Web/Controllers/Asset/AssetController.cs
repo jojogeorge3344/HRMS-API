@@ -44,6 +44,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assets);
         }
 
+        [HttpGet("GetAllMetadataValue")]
+        public async Task<ActionResult<IEnumerable<AssetMetadataValue>>> GetAllMetadataValue()
+        {
+            var assets = await assetService.GetAllMetadataValue();
+
+            return Ok(assets);
+        }
+
         [HttpGet("GetAssetById/{id}")]
         public async Task<ActionResult<Asset>> GetAssetById(int id)
         {
@@ -61,9 +69,9 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPost("Insert")]
-        //[Consumes(MediaTypeNames.Application.Json)]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Insert(Asset asset)
         {
             if (!ModelState.IsValid)

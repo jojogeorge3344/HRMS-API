@@ -1,0 +1,51 @@
+<p>my-assets-view works!</p>
+<form>
+    <div class="modal-header">
+        <h4 class="modal-title">My Asset</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="dateAllocated">Date Allocated</label>
+                    <input type="text" class="form-control" disabled name="dateAllocated" value="{{ myAsset.dateAllocated }}">
+                </div>
+                <div class="form-group">
+                    <label for="assetType">Asset Type</label>
+                    <input type="text" class="form-control" disabled name="assetType" value="{{ myAsset.assetType }}">
+                </div>
+                <div class="form-group">
+                    <label for="assetName">Asset Name</label>
+                    <input type="text" class="form-control" disabled name="assetName" value="{{ myAsset.assetName }}">
+                </div>
+                <div class="form-group">
+                    <label for="assetId">Asset Id</label>
+                    <input type="text" class="form-control" disabled name="assetId" value="{{ myAsset.assetId }}">
+                </div>      
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" disabled name="description" value="{{ myAsset.description }}">
+                </div>
+            </div>
+            
+            <div class="col-sm">                 
+                <div class="form-group">
+                    <label for="expenseTypeId">Expense Type</label>
+                    <input type="text" class="form-control" disabled name="expenseTypeId">
+                </div>
+                <div class="form-group">
+                    <label for="currency">Currency</label>
+                    <input type="text" class="form-control" disabled name="currency">
+                </div>
+                <div class="form-group">
+                    <label for="comment">Comments</label>
+                    <textarea type="text" rows="5" class="form-control" disabled name="comment"> </textarea> 
+                </div>                 
+            </div>   
+        </div>        
+    </div>
+</form>
+

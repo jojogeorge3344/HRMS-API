@@ -17,7 +17,29 @@ namespace Chef.HRMS.Repositories
 
         }
 
-     
+        //public async Task<IEnumerable<Asset>> GetAssetById(int id)
+        //{
+        //    var sql = @"SELECT jt.id,
+        //                        jt.assetname,
+        //                        jt.assettypeid,
+        //                        jt.assettypemetadataid,
+        //                        jt.date,
+        //                        jt.description,
+        //                        jt.status,
+        //                        js.value,
+        //                        jt.isactive,
+        //                        jt.createddate,
+        //                        jt.modifieddate,
+        //                        jt.createdby,
+        //                        jt.modifiedby,
+        //                        jt.isarchived
+        //                        FROM hrms.asset AS jt
+        //                        INNER JOIN hrms.assetmetadatavalue AS js
+        //                        ON jt.id = js.assetid where jt.id=@id";
+        //    return await Connection.QueryAsync<Asset>(sql, new { id });
+        //}
+
+
 
         public async Task<int> BulkInsertAsync(List<AssetMetadataValue> assetMetadataValues)
         {
@@ -89,6 +111,7 @@ namespace Chef.HRMS.Repositories
                                 jt.description,
                                 jt.status,
                                 js.value,
+                                js.id,
                                 jt.isactive,
                                 jt.createddate,
                                 jt.modifieddate,
@@ -100,6 +123,17 @@ namespace Chef.HRMS.Repositories
                                 ON js.assetid = jt.id where js.assetid=@id";
             return await Connection.QueryAsync<AssetMetadataValue>(sql, new { id });
         }
+        public async Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue()
+        {
+               var sql = "SELECT * FROM hrms.assetmetadatavalue";
+               return await Connection.QueryAsync<AssetMetadataValue>(sql);
+        }
+
+        //public async Task<int> Update(int id)
+        //{
+        //    var sql = "UPDATE assetname,isactive,description FROM hrms.asset WHERE Id=@Id";
+        //    return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
+        //}
     }
 }
 
