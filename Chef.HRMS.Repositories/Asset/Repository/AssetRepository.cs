@@ -17,29 +17,7 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async Task<IEnumerable<Asset>> GetAssetById(int Id)
-        {
-            //var sql = "SELECT * FROM hrms.asset WHERE Id=@Id";
-            var sql = @"SELECT  jt.id, 
-                                            jt.assetname,
-                                            jt.assettypeid,
-                                            jt.assettypemetadataid,
-                                            jt.date,
-                                            jt.description,
-                                            jt.status,
-											js.value,
-                                            jt.isactive, 
-                                            jt.createddate, 
-                                            jt.modifieddate, 
-                                            jt.createdby, 
-                                            jt.modifiedby,
-                                            jt.isarchived
-                            FROM   hrms.asset AS jt
-                                   INNER JOIN hrms.assetmetadatavalue AS js
-                                           ON jt.id = js.assetid";
-
-            return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
-        }
+     
 
         public async Task<int> BulkInsertAsync(List<AssetMetadataValue> assetMetadataValues)
         {
@@ -106,7 +84,7 @@ namespace Chef.HRMS.Repositories
             var sql = @"SELECT jt.id,
                                 jt.assetname,
                                 jt.assettypeid,
-                                jt.assettypemetadataid,
+                                js.assettypemetadataid,
                                 jt.date,
                                 jt.description,
                                 jt.status,
