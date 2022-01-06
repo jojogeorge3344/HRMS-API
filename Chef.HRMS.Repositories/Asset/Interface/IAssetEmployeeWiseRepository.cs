@@ -14,5 +14,9 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<AssetEmployeeWise>> GetAll();
 
         Task<IEnumerable<AssetEmployeeWise>> GetAllList();
+
+        Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid);
+
+        Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int employeeid);
     }
 }

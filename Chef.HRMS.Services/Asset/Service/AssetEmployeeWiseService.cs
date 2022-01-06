@@ -39,10 +39,19 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetAllList();
         }
 
-
-        public async Task<AssetEmployeeWise> GetAsync(int id)
+        public Task<AssetEmployeeWise> GetAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
+        {
+            return await assetEmployeeWiseRepository.GetEmployeeDetailsById(employeeid);
+        }
+
+        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int employeeid)
+        {
+            return await assetEmployeeWiseRepository.GetEmployeeRequestById(employeeid);
         }
 
         public Task<AssetEmployeeWise> InsertAsync(AssetEmployeeWise obj)

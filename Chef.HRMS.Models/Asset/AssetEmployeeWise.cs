@@ -31,6 +31,10 @@ namespace Chef.HRMS.Models
         [Required]
         public int Requests { get; set; }
 
+        [Required]
+        public int Designation { get; set; }
+
+        
 
     }
 }

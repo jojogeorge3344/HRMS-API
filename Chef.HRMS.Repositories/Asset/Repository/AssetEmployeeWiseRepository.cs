@@ -53,6 +53,23 @@ namespace Chef.HRMS.Repositories
             throw new NotImplementedException();
         }
 
-       
+        public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
+        {
+            var sql = @"select employeeid,
+                                firstname,
+                                jd.workertype as employeestatus,
+                                jd.jobtitleid as designation
+                                from  hrms.employee inner join hrms.jobdetails as jd 
+                                    on hrms.employee.id=jd.employeeid where employeeid=@employeeid";
+            return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
+        }
+
+        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int employeeid)
+        {
+            var sql = @"select employeeid,requestno,requestedon,requestedby,requestfor,requesttype,status from hrms.assetemployeewiserequest
+                            where employeeid=@employeeid";
+            return await Connection.QueryAsync<AssetEmployeeWiseRequest>(sql, new { employeeid });
+
+        }
     }
 }

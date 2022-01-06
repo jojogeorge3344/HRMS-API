@@ -108,6 +108,7 @@ export class AssetMetadataEditComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     const metdata = (this.editForm.get('dataRows') as FormArray).value.map(val => ({
       ...val, assettypeId: this.assetTpId
     }));
