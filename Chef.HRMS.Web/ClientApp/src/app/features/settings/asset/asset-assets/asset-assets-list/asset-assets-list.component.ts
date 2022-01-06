@@ -30,19 +30,16 @@ export class AssetAssetsListComponent implements OnInit {
     private assetTypeService : AssetTypeService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
-     ) {
-    
-   }
+     ) { }
 
   ngOnInit(): void {
    this.getAllAssetList();
    this.getAllAssetTypeList();
-    
   }
   openCreate(){
     const modalRef = this.modalService.open(AssetAssetsCreateComponent,
       { centered: true, backdrop: 'static' });
-      
+
     modalRef.componentInstance.assetTypeNames = this.assetTypeNames;
 
     modalRef.result.then((result) => {
@@ -53,14 +50,19 @@ export class AssetAssetsListComponent implements OnInit {
   }
 
   //
-  openView(assetType: AssetType,assetTypename) {
-    console.log(assetType);
-    console.log(assetTypename);
+  openView(assetType,assetTypename) {
+   // console.log(assetType);
+   // console.log(assetTypename);
     
     const modalRef = this.modalService.open(AssetAssetsViewComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
     modalRef.componentInstance.assetType = assetType;
-    modalRef.componentInstance.assetTypename = assetTypename;
+    modalRef.componentInstance.assetId = assetType.id;
+    modalRef.componentInstance.assetTypeId = assetType.assetTypeId;
+    //console.log(modalRef.componentInstance.assetTypename);
+    
+    modalRef.componentInstance.assetTypename = this.getAssetTypeName(assetType);
+   // console.log(this.getAssetTypeName(assetType));
     
     modalRef.result.then((result) => {
       if (result == 'submit') {
@@ -70,30 +72,13 @@ export class AssetAssetsListComponent implements OnInit {
   }
   
 
-  // openEdit(editassetType,assetTypename) {
-  //   console.log(assetTypename);
-  //   console.log(editassetType);
-
-  //   const modalRef = this.modalService.open(AssetAssetsEditComponent,
-  //     { size:'lg', centered: true, backdrop: 'static' });
-
-  //   modalRef.componentInstance.assetType = editassetType;
-  //   modalRef.componentInstance.assetTypeName = assetTypename;
-
-  //   modalRef.result.then((result) => {
-  //       if (result == 'submit') {
-  //         this.getAllAssetList();
-  //       }
-  //   });
-  // }
-
 
   openEdit(assetasset,assetTypename ) {
     // console.log(assetType);
     const modalRef = this.modalService.open(AssetAssetsEditComponent,
       { centered: true, backdrop: 'static' });
     modalRef.componentInstance.assetId = assetasset.id;
-    console.log(modalRef.componentInstance.assetId);
+   // console.log(modalRef.componentInstance.assetId);
     
     modalRef.componentInstance.assetTypeName = assetTypename;
     // modalRef.componentInstance.TypeId = assetType;
@@ -124,6 +109,7 @@ export class AssetAssetsListComponent implements OnInit {
   getAssetTypeName(asset){
     return this.assetTypes?.find(val=>val.id == asset.assetTypeId)?this.assetTypes?.find(val=>val.id == asset.assetTypeId).assettypename:'-'
   }
+
 
 
  

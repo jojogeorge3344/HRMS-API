@@ -101,6 +101,17 @@ namespace Chef.HRMS.Repositories
                                 ON js.assetid = jt.id where js.assetid=@id";
             return await Connection.QueryAsync<AssetMetadataValue>(sql, new { id });
         }
+        public async Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue()
+        {
+               var sql = "SELECT * FROM hrms.assetmetadatavalue";
+               return await Connection.QueryAsync<AssetMetadataValue>(sql);
+        }
+
+        //public async Task<int> Update(int id)
+        //{
+        //    var sql = "UPDATE assetname,isactive,description FROM hrms.asset WHERE Id=@Id";
+        //    return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
+        //}
     }
 }
 

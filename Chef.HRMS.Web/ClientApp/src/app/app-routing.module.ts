@@ -57,6 +57,11 @@ const routes: Routes = [
         canActivateChild: [AuthGuard]
       },   
       {
+        path: 'my-assets',
+        loadChildren: () => import('./features/employee-assets/employee-asset.module').then(m => m.EmployeeAssetModule),
+        // canActivateChild: [AuthGuard]
+      },  
+      {
         path: 'team-attendance',
         loadChildren: () => import('./features/team-attendance/team-attendance.module').then(m => m.TeamAttendanceModule),
         canActivateChild: [AuthGuard],

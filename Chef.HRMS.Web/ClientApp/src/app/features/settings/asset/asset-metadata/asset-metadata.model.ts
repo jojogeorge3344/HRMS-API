@@ -1,16 +1,9 @@
 import { Model } from '@shared/models/model';
-import { AssetType } from '../asset-type/asset-type.model';
+import { MetadataDataType } from 'src/app/models/common/types/metadatadatatype';
 
-
-// export interface assetmetadata extends Model {
-//     name: string;
-//     description: string;
-//     numberOfEmployees?: number;
-//   }
 export interface AssetTypeMetadata extends Model {
-    assettypeId: any;
-    metadata: string;
-    isMandatory: boolean;
-    assetDataType:string;
-  }
-
+  assettypeId: number;
+  metadata: string;
+  assetDataType: MetadataDataType;
+  isMandatory: boolean;
+}
