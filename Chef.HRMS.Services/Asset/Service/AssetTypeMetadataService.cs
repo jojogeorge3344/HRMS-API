@@ -79,6 +79,11 @@ namespace Chef.HRMS.Services
                 string msg = ex.Message;
                 return 0;
             }           
-        }        
+        }
+
+        public async Task<int> DeleteMetadata(int id)
+        {
+            return await assetTypeMetadataRepository.DeleteMetadata(id);
+        }
     }
 }
