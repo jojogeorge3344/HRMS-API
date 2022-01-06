@@ -14,9 +14,9 @@ import { AssetAssetsService } from '../asset-assets.service';
 
 @Component({
   selector: 'hrms-asset-assets-view',
-  templateUrl:'./asset-assets-view.component.html'
+  templateUrl: './asset-assets-view.component.html'
 })
-export class AssetAssetsViewComponent  implements OnInit {
+export class AssetAssetsViewComponent implements OnInit {
   @Input() assetTypename
   @Input() assetId;
   @Input() assetTypeId;
@@ -44,30 +44,30 @@ export class AssetAssetsViewComponent  implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-   
-    this.typeMap= new Map();
+
+    this.typeMap = new Map();
     this.currentUserId = getCurrentUserId();
     // console.log(this.assetTypeId.assetTypeId);
     console.log(this.assetTypename);
-    
+
     this.assetViewForm = this.createFormGroup();
     this.getallAssetById();
     // this.getvalues();
-  
- 
+
+
   }
-  get metadataFormGroup () {
-    return<FormGroup>this.assetViewForm.get('metadatas') 
+  get metadataFormGroup() {
+    return <FormGroup>this.assetViewForm.get('metadatas')
   }
 
-  onSubmit(){
+  onSubmit() {
     // console.log(this.assetEditForm.value);
     // //console.log(this.typeKeys);
     //    let mdatavalues= {...this.assetEditForm.getRawValue(), 
     //     date:new Date(this.assetEditForm.getRawValue().date.split('-')[2],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[0]),
     //    assetMetadataValues:this.typeKeys.map(key => {
     //     //  console.log(this.typeMap.get(key));
-         
+
     //      return{
     //       id:this.findId(this.typeMap.get(key).id),
     //       assetId:this.assetEditForm.value.id,
@@ -95,35 +95,35 @@ export class AssetAssetsViewComponent  implements OnInit {
     // return this.Astvalues.assetMetadataValues.find(mdata => mdata.assettypeMetadataId===id)?.id;
   }
 
-    createFormGroup(): FormGroup {
-      return this.formBuilder.group({
-        valueId: [{value:'', disabled:true},[
-          Validators.required,
-        ]],
-        id: ['',[]],
-        date: [{value:'', disabled:true},[
-          Validators.required,
-        ]],
-        assetTypeId: ['', [
-          Validators.required,
-        ]],
-        assetTypeMetadataId: ['', [
-          Validators.required,
-        ]],
-        assetMetadataValues: ['', []],
-        assetName: [{value:'', disabled:true}, [
-          Validators.required,
-          Validators.maxLength(32),
-          Validators.pattern('^([a-zA-Z0-9 ])+$'),
-        ]],
-        isActive: [{value:'', disabled:true}, []],
-        description: [{value:'', disabled:true}, [
-          Validators.required,
-          Validators.maxLength(128)
-        ]],
-        metadatas: this.formBuilder.group([]),
-      });
-    }
+  createFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      valueId: [{ value: '', disabled: true }, [
+        Validators.required,
+      ]],
+      id: ['', []],
+      date: [{ value: '', disabled: true }, [
+        Validators.required,
+      ]],
+      assetTypeId: ['', [
+        Validators.required,
+      ]],
+      assetTypeMetadataId: ['', [
+        Validators.required,
+      ]],
+      assetMetadataValues: ['', []],
+      assetName: [{ value: '', disabled: true }, [
+        Validators.required,
+        Validators.maxLength(32),
+        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+      ]],
+      isActive: [{ value: '', disabled: true }, []],
+      description: [{ value: '', disabled: true }, [
+        Validators.required,
+        Validators.maxLength(128)
+      ]],
+      metadatas: this.formBuilder.group([]),
+    });
+  }
 
   //   getvalues(){
   //     // Object.keys(this.metadataFormGroup.controls).forEach(key => { this.metadataFormGroup.removeControl(key)});
@@ -133,54 +133,54 @@ export class AssetAssetsViewComponent  implements OnInit {
   //       res.forEach(mdata => {
   //         // this.assetForm.patchValue({assetMetadataId:mdata.id});
   //         this.assetEditForm.get('assetTypeMetadataId').patchValue(mdata.id);
-          
+
   //         this.typeMap.set(mdata.metadata,mdata.assetDatatype);
 
   //             (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
-              
+
   //             // console.log(mdata);  
-         
+
   //     })
   //     this.typeKeys=[...this.typeMap.keys()];
   //   })
   // }
 
-    getallAssetById(){
-     // console.log(this.assetTypeId.id);
-      
-      forkJoin([
-        this.assetMetadataService.getAssetMetadataById(this.assetTypeId),  
-        this.assestassetService.getAssetById(this.assetId)
-      ])
-      .subscribe(([metadatas,asset]) => {
+  getallAssetById() {
+    // console.log(this.assetTypeId.id);
+
+    forkJoin([
+      this.assetMetadataService.getAssetMetadataById(this.assetTypeId),
+      this.assestassetService.getAssetById(this.assetId)
+    ])
+      .subscribe(([metadatas, asset]) => {
         metadatas.forEach(mdata => {
           // this.assetForm.patchValue({assetMetadataId:mdata.id});
           this.assetViewForm.get('assetTypeMetadataId').patchValue(mdata.id);
-          
-          this.typeMap.set(mdata.metadata,mdata);
 
-              (this.assetViewForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
-              
-              // console.log(mdata);  
-         
-      })
-      this.typeKeys=[...this.typeMap.keys()];
-      let mdatavalue = {}
-      this.typeKeys.map(key => {
-        
-        mdatavalue[key] = asset.assetMetadataValues.find(mvalue =>mvalue.assettypeMetadataId === this.typeMap.get(key).id)?.value || ''
-        
-      });
-    //  console.log(mdatavalue, asset.assetMetadataValues,this.typeMap);
-     
-      this.assetViewForm.patchValue({
-        ...asset,
-        metadatas:mdatavalue,
-        date: this.datepipe.transform(asset.date, "dd-MM-yyyy")
+          this.typeMap.set(mdata.metadata, mdata);
+
+          (this.assetViewForm.get('metadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
+
+          // console.log(mdata);  
+
+        })
+        this.typeKeys = [...this.typeMap.keys()];
+        let mdatavalue = {}
+        this.typeKeys.map(key => {
+
+          mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.typeMap.get(key).id)?.value || ''
+
         });
-      this.Astvalues= asset;
-    })
-   
-  }
+        //  console.log(mdatavalue, asset.assetMetadataValues,this.typeMap);
+
+        this.assetViewForm.patchValue({
+          ...asset,
+          metadatas: mdatavalue,
+          date: this.datepipe.transform(asset.date, "dd-MM-yyyy")
+        });
+        this.Astvalues = asset;
+      })
 
   }
+
+}

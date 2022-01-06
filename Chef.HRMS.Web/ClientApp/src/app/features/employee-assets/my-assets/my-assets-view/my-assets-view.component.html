@@ -1,5 +1,4 @@
-<p>my-assets-view works!</p>
-<form>
+<form [formGroup]="myAssetViewForm">
     <div class="modal-header">
         <h4 class="modal-title">My Asset</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -11,39 +10,31 @@
             <div class="col-sm">
                 <div class="form-group">
                     <label for="dateAllocated">Date Allocated</label>
-                    <input type="text" class="form-control" disabled name="dateAllocated" value="{{ myAsset.dateAllocated }}">
+                    <input type="text"  formControlName="dateAllocated" class="form-control" name="dateAllocated">
                 </div>
                 <div class="form-group">
                     <label for="assetType">Asset Type</label>
-                    <input type="text" class="form-control" disabled name="assetType" value="{{ myAsset.assetType }}">
+                    <input type="text"  formControlName="assetType" class="form-control" name="assetType">
                 </div>
                 <div class="form-group">
                     <label for="assetName">Asset Name</label>
-                    <input type="text" class="form-control" disabled name="assetName" value="{{ myAsset.assetName }}">
+                    <input type="text"  formControlName="assetName" class="form-control" name="assetName">
                 </div>
                 <div class="form-group">
                     <label for="assetId">Asset Id</label>
-                    <input type="text" class="form-control" disabled name="assetId" value="{{ myAsset.assetId }}">
+                    <input type="text"  formControlName="assetId" class="form-control" name="assetId">
                 </div>      
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <input type="text" class="form-control" disabled name="description" value="{{ myAsset.description }}">
+                    <input type="text"  formControlName="description" class="form-control" name="description" >
                 </div>
             </div>
-            
-            <div class="col-sm">                 
-                <div class="form-group">
-                    <label for="expenseTypeId">Expense Type</label>
-                    <input type="text" class="form-control" disabled name="expenseTypeId">
-                </div>
-                <div class="form-group">
-                    <label for="currency">Currency</label>
-                    <input type="text" class="form-control" disabled name="currency">
-                </div>
-                <div class="form-group">
-                    <label for="comment">Comments</label>
-                    <textarea type="text" rows="5" class="form-control" disabled name="comment"> </textarea> 
-                </div>                 
+            <div class="col-sm" formGroupName="metadatas">                 
+                <div class="form-group" *ngFor="let mdata of typeKeys;">
+                    <label for="{{mdata}}">{{mdata}}</label>
+                    <input type="text"  formControlName="{{ mdata }}"
+                     class="form-control" name="{{mdata}}"  placeholder="{{ mdata }}" disabled>
+                </div>           
             </div>   
         </div>        
     </div>

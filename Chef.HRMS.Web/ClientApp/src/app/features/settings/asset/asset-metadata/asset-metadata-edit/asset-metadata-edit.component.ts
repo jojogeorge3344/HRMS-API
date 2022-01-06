@@ -26,6 +26,7 @@ export class AssetMetadataEditComponent implements OnInit {
   mdata: FormArray;
   assetTypes: AssetType[];
   metadataFiltered: AssetTypeMetadata[];
+  metadataFilteredIds:number[];
   metadataDatatypeKeys: number[];
   metadataDatatype = MetadataDataType;
   metadataId: any;
@@ -39,6 +40,7 @@ export class AssetMetadataEditComponent implements OnInit {
   dataTypes: string[];
   maxAlert = false;
   isDisable=false;
+  updateDisable=false;
 
   @Input() assetTpId: number;
   @Input() assetTpName: string;
@@ -53,12 +55,14 @@ export class AssetMetadataEditComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-    console.log(this.assetTpId);
+   // console.log(this.assetTpId);
     
     this.editForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
     this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered);
+    console.log(this.metadataFiltered);
+    this.getMetadataFilteredId(this.metadataFiltered);
     this.patchDataArray();
     this.getAllAssignedMetadata();
   }
@@ -68,6 +72,10 @@ export class AssetMetadataEditComponent implements OnInit {
     if (data.assettypeId === id) {
       return true;
     }
+  }
+  getMetadataFilteredId(metadataFiltered){
+    this.metadataFilteredIds= metadataFiltered.map(val=>val.id);
+    console.log(this.metadataFilteredIds);
   }
 
   patchDataArray() {
@@ -83,11 +91,11 @@ export class AssetMetadataEditComponent implements OnInit {
 
   //To disable buttons and fields
   getAllAssignedMetadata() {
-    console.log(this.metadataFiltered);
+    //console.log(this.metadataFiltered);
     this.assetAssetService.getAllMetadataValue().subscribe(res => {
-      console.log("helloo");
+     // console.log("helloo");
 
-      console.log(res);
+     // console.log(res);
 
       this.assignedMetadata = res.filter(type => (type.assettypeId === this.assetTpId));
       console.log(this.assignedMetadata);
@@ -95,7 +103,7 @@ export class AssetMetadataEditComponent implements OnInit {
       this.assignedMetadataId = this.assignedMetadataId.filter( function( item, index, inputArray ) {
         return inputArray.indexOf(item) == index;
         });
-      console.log(this.assignedMetadataId);
+      //console.log(this.assignedMetadataId);
     },
       error => {
         console.error(error);
@@ -108,9 +116,10 @@ export class AssetMetadataEditComponent implements OnInit {
   }
 
   onSubmit() {
-    const metdata = (this.editForm.get('dataRows') as FormArray).value.map(val => ({
-      ...val, assettypeId: this.assetTpId
+    const metdata = (this.editForm.get('dataRows') as FormArray).value.map((val,i) => ({
+      ...val, assettypeId: this.assetTpId,id:this.metadataFilteredIds[i]      
     }));
+    console.log(metdata);
     this.assetMetadataService.update(metdata).subscribe(result => {
       this.toastr.showSuccessMessage('Asset metadata updated successfully!');
       this.activeModal.close('submit');
@@ -135,8 +144,7 @@ export class AssetMetadataEditComponent implements OnInit {
       metadata: ['', [
         Validators.required,
         Validators.maxLength(32),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
-        //duplicateNameValidator(this.assetTypeNames)
+        Validators.pattern('^([a-zA-Z0-9 ])+$')
       ]],
       assetDataType: [null, Validators.required],
       isMandatory: [false]
@@ -165,14 +173,17 @@ export class AssetMetadataEditComponent implements OnInit {
           }
           if (found !== -1) {
             //console.log("Metadata already entered above");
+           // this.updateDisable=true;
             this.duplicateValidation = true;
           }
           else {
+           // this.updateDisable=false;
             this.duplicateValidation = false;
             this.mdata.push(this.createMetadata());
           }
         }
         else {
+          //this.updateDisable=false;
           this.mdata.push(this.createMetadata());
         }
       }
@@ -186,6 +197,7 @@ export class AssetMetadataEditComponent implements OnInit {
   }
 
   removeMetadata(i) {
+    //this.updateDisable=false;
     this.emptyValidation = false;
     this.duplicateValidation = false;
     this.maxAlert = false;

@@ -17,10 +17,10 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 export class MyAssetsListComponent implements OnInit {
 
   myAssetList: MyAssets[];
-  currentUserId;
+  currentUserId:number;
 
   constructor(
-    private myAssetservice: MyAssetsService,
+    private myAssetService: MyAssetsService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
   ) { }
@@ -28,31 +28,33 @@ export class MyAssetsListComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.getAllMyAssetList(this.currentUserId);
+    console.log(this.currentUserId);
   }
 
   getAllMyAssetList(userId) {
-    // this.myAssetservice.getAllMyAssetList(userId).subscribe(result => {
-    //   this.myAssetList = result;
-    //   //this.getAssetMetadataList();
-    // }),
-    //   error => {
-    //     console.error(error);
-    //     this.toastr.showErrorMessage('Unable to fetch the asset type Details');
-    //   };
+    this.myAssetService.getAllMyAssetList(userId).subscribe(result => {
+      this.myAssetList = result;
+      console.log(this.myAssetList);
+    }),
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+      };
   }
 
-  openView(myAsset:MyAssets) {
+  openView(myAsset:MyAssets,currentUserId) {
     const modalRef = this.modalService.open(MyAssetsViewComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.myAsset = myAsset;
-    // modalRef.result.then((result) => {
-    //   if (result == 'submit') {
-    //     this.getAllMyAssetList();
-    //   }
-    //   else {
-    //     this.getAllMyAssetList();
-    //   }
-    // });
+    modalRef.componentInstance.currentUserId = currentUserId;
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getAllMyAssetList(this.currentUserId);
+      }
+      else {
+        this.getAllMyAssetList(this.currentUserId);
+      }
+    });
   }
 
   openChange() {
