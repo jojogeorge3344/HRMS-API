@@ -38,7 +38,7 @@
                                 <div class="col-1 py-2 pl-2">{{i+1}}
                                 </div>
                                 <div class="col-5 py-2 pl-2">
-                                    <input type="text" class="form-control" id="metadata" name="metadata"
+                                    <input type="text" class="form-control" id="metadata" name="metadata" (change)="fieldValidation();"
                                         formControlName="metadata">
                                 </div>
 
@@ -67,7 +67,7 @@
                             <div class="d-flex flex-wrap col-12">
                             <div class="col-11 py-2 pl-2">
                                 <span *ngIf="emptyValidation" class="valerr">Fields should not be empty.</span>
-                                <span *ngIf="duplicateValidation" class="valerr">Metadata already entered above.</span>
+                                <span *ngIf="duplicateValidation" class="valerr">Metadata already exists.</span>
                                 <span *ngIf="maxAlert" class="valerr">You've entered maximum number of metadata!!</span>
                             </div>
                             <div class="col-1 pt-2">
@@ -88,7 +88,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')">
             <i class="mr-1 fal fa-window-close"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+        <button type="submit" class="btn btn-success" [attr.disabled]="saveDisable?true:null"><i class="mr-1 fal fa-save"></i>Save</button>
     </div>
 
 </form>
