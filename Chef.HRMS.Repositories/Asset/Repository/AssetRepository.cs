@@ -17,7 +17,29 @@ namespace Chef.HRMS.Repositories
 
         }
 
-     
+        //public async Task<IEnumerable<Asset>> GetAssetById(int id)
+        //{
+        //    var sql = @"SELECT jt.id,
+        //                        jt.assetname,
+        //                        jt.assettypeid,
+        //                        jt.assettypemetadataid,
+        //                        jt.date,
+        //                        jt.description,
+        //                        jt.status,
+        //                        js.value,
+        //                        jt.isactive,
+        //                        jt.createddate,
+        //                        jt.modifieddate,
+        //                        jt.createdby,
+        //                        jt.modifiedby,
+        //                        jt.isarchived
+        //                        FROM hrms.asset AS jt
+        //                        INNER JOIN hrms.assetmetadatavalue AS js
+        //                        ON jt.id = js.assetid where jt.id=@id";
+        //    return await Connection.QueryAsync<Asset>(sql, new { id });
+        //}
+
+
 
         public async Task<int> BulkInsertAsync(List<AssetMetadataValue> assetMetadataValues)
         {

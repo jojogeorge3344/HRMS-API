@@ -22,6 +22,7 @@ namespace Chef.HRMS.Models
         public string LastName { get; set; }
 
         [Required]
+        [ForeignKey("jobdetails")]
         public string EmployeeStatus { get; set; }
 
         [Required]
@@ -30,6 +31,10 @@ namespace Chef.HRMS.Models
         [Required]
         public int Requests { get; set; }
 
+        [Required]
+        public int Designation { get; set; }
+
+        
 
     }
 }
