@@ -66,8 +66,14 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int employeeid)
         {
-            var sql = @"select employeeid,requestno,requestedon,requestedby,requestfor,requesttype,status from hrms.assetemployeewiserequest
-                            where employeeid=@employeeid";
+            var sql = @"select employeeid,
+                                requestno,
+                                requestedon,
+                                requestedby,
+                                requestfor,
+                                requesttype,
+                                status 
+                                    from hrms.assetemployeewiserequest where employeeid=@employeeid";
             return await Connection.QueryAsync<AssetEmployeeWiseRequest>(sql, new { employeeid });
 
         }
