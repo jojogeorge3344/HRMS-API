@@ -3,6 +3,9 @@ import { EmployeAssetService } from '../employe-asset.service';
 import { AssetEmployeeWise } from '../employee-asset.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeAssetViewComponent } from '../employee-asset-view/employee-asset-view.component';
+import { EmployeeAssetRequestsComponent } from '../employee-asset-requests/employee-asset-requests.component';
+import { EmployeeAssetAllocatedComponent } from '../employee-asset-allocated/employee-asset-allocated.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'hrms-employee-asset-list',
@@ -12,21 +15,25 @@ export class EmployeeAssetListComponent implements OnInit {
   employees:AssetEmployeeWise[];
 
   constructor(private employeeAsset:EmployeAssetService,
-              public modalService: NgbModal,) { }
+              public modalService: NgbModal,
+              private router: Router,
+              private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.getAll();
   }
 
 getAll() {
     this.employeeAsset.getAll().subscribe(result => {
-      console.log(result); 
-      // this.employees===result.requests 
+      this.employees=result
+      console.log(this.employees);
+      
   })
   }
 
 
   openAllocatedAssets(employees) {
-    const modalRef = this.modalService.open(EmployeeAssetViewComponent,
+    const modalRef = this.modalService.open(EmployeeAssetAllocatedComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.employees = employees;
@@ -39,7 +46,7 @@ getAll() {
   }
 
   openReuests(employees) {
-    const modalRef = this.modalService.open(EmployeeAssetViewComponent,
+    const modalRef = this.modalService.open(EmployeeAssetRequestsComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.employees = employees;
@@ -51,17 +58,23 @@ getAll() {
     });
   }
 
+  // openView(employees) {
+  //   const modalRef = this.modalService.open(EmployeeAssetViewComponent,
+  //     { size: 'lg', centered: true, backdrop: 'static' });
+
+  //   modalRef.componentInstance.employees = employees;
+
+  //   modalRef.result.then((result) => {
+  //       if (result == 'submit') {
+  //         // this.getJobList();
+  //       }
+  //   });
+  // }
+
   openView(employees) {
-    const modalRef = this.modalService.open(EmployeeAssetViewComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
-
-    modalRef.componentInstance.employees = employees;
-
-    modalRef.result.then((result) => {
-        if (result == 'submit') {
-          // this.getJobList();
-        }
-    });
+    this.router.navigate(
+      ['./' + employees.id + '/view'],
+      { relativeTo: this.route.parent });
   }
 
 

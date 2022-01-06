@@ -23,7 +23,7 @@ namespace Chef.HRMS.Repositories
                         jt.lastname,
 						allocatedasset,
                         requests,
-                        jd.workertype
+                        jd.workertype as employeestatus
                                from hrms.employee as jt inner join
 
                                hrms.assetemployeewise on jt.id = assetemployeewise.employeeid
