@@ -16,6 +16,9 @@ namespace Chef.HRMS.Services
 
         Task<IEnumerable<AssetRaiseRequest>> Get(int id);
 
+        Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id);
+
+
 
 
     }

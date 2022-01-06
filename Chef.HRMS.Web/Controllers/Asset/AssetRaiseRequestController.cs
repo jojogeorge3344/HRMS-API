@@ -81,5 +81,12 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(AssetRaiseRequest);
         }
+        [HttpGet("GetEmployeeDepartmentDetails/{id}")]
+        public async Task<ActionResult<IEnumerable<AssetRaiseRequest>>> GetEmployeeDepartmentDetails(int id)
+        {
+            var AssetRaiseRequest = await assetRaiseRequestService.GetEmployeeDepartmentDetails(id);
+
+            return Ok(AssetRaiseRequest);
+        }
     }
 }

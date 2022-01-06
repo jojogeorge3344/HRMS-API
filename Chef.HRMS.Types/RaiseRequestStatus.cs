@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Types
 {
-    public enum RaiseRequetStatus
+    public enum RaiseRequestStatus
     {
        Requested=1,
        Approved,

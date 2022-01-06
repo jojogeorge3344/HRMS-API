@@ -43,6 +43,11 @@ namespace Chef.HRMS.Services
             return await assetRaiseRequestRepository.GetAsync(id);
         }
 
+        public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id)
+        {
+            return await assetRaiseRequestRepository.GetEmployeeDepartmentDetails(id);
+        }
+
         public async Task<int> InsertAsync(IEnumerable<AssetRaiseRequest> assetRaiseRequest)
         {
             return await assetRaiseRequestRepository.InsertAsync(assetRaiseRequest);
@@ -52,6 +57,7 @@ namespace Chef.HRMS.Services
         {
             return await assetRaiseRequestRepository.InsertAsync(assetRaiseRequest);
         }
+
 
         public async Task<int> UpdateAsync(AssetRaiseRequest assetRaiseRequest)
         {
