@@ -1,17 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
+import { EmployeAssetService } from '../employe-asset.service';
 
 @Component({
   selector: 'hrms-employee-asset-view',
   templateUrl: './employee-asset-view.component.html',
 })
-export class EmployeeAssetViewComponent implements OnInit {
-  @Input() employees;
+export class EmployeeAssetViewComponent implements OnInit{
+  empid:number;
+  result:[];
+  
 
-  constructor() { }
+  constructor(private employeeAsset :EmployeAssetService,
+              ) { }
+
 
   ngOnInit(): void {
-    console.log(this.employees);
-    
+    this.employeeAsset.getListDetails().subscribe(
+      response=>{
+          console.log(response);
+          this.result=response;
+      }
+    )
   }
+
 
 }

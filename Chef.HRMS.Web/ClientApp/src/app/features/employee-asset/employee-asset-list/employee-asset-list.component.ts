@@ -21,6 +21,7 @@ export class EmployeeAssetListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
+    
   }
 
 getAll() {
@@ -36,7 +37,8 @@ getAll() {
     const modalRef = this.modalService.open(EmployeeAssetAllocatedComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.employees = employees;
+    // modalRef.componentInstance.employees = employees;
+    this.employeeAsset.setListDetails({data: employees})
 
     modalRef.result.then((result) => {
         if (result == 'submit') {
@@ -58,6 +60,7 @@ getAll() {
     });
   }
 
+
   // openView(employees) {
   //   const modalRef = this.modalService.open(EmployeeAssetViewComponent,
   //     { size: 'lg', centered: true, backdrop: 'static' });
@@ -75,7 +78,9 @@ getAll() {
     this.router.navigate(
       ['./' + employees.id + '/view'],
       { relativeTo: this.route.parent });
+      this.employeeAsset.setListDetails({data: employees})
   }
+
 
 
 
