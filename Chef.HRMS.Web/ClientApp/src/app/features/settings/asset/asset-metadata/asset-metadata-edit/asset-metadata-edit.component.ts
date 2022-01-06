@@ -26,7 +26,7 @@ export class AssetMetadataEditComponent implements OnInit {
   mdata: FormArray;
   assetTypes: AssetType[];
   metadataFiltered: AssetTypeMetadata[];
-  metadataFilteredIds:number[];
+  metadataFilteredIds: number[];
   metadataDatatypeKeys: number[];
   metadataDatatype = MetadataDataType;
   metadataId: any;
@@ -35,12 +35,12 @@ export class AssetMetadataEditComponent implements OnInit {
   newMetadata: any;
   emptyValidation = false;
   duplicateValidation = false;
-  assignedMetadata:AssetMetadataValue[];
-  assignedMetadataId:Number[]=[];
+  assignedMetadata: AssetMetadataValue[];
+  assignedMetadataId: Number[] = [];
   dataTypes: string[];
   maxAlert = false;
-  isDisable=false;
-  updateDisable=false;
+  isDisable = false;
+  updateDisable = true;
 
   @Input() assetTpId: number;
   @Input() assetTpName: string;
@@ -55,8 +55,8 @@ export class AssetMetadataEditComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-   // console.log(this.assetTpId);
-    
+    // console.log(this.assetTpId);
+
     this.editForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
@@ -73,8 +73,8 @@ export class AssetMetadataEditComponent implements OnInit {
       return true;
     }
   }
-  getMetadataFilteredId(metadataFiltered){
-    this.metadataFilteredIds= metadataFiltered.map(val=>val.id);
+  getMetadataFilteredId(metadataFiltered) {
+    this.metadataFilteredIds = metadataFiltered.map(val => val.id);
     console.log(this.metadataFilteredIds);
   }
 
@@ -83,8 +83,8 @@ export class AssetMetadataEditComponent implements OnInit {
     this.metadataFiltered.forEach(data => {
       control.push(this.formBuilder.group({
         metadata: data.metadata,
-         assetDataType: data.assetDataType,
-         isMandatory: data.isMandatory
+        assetDataType: data.assetDataType,
+        isMandatory: data.isMandatory
       }));
     });
   }
@@ -93,16 +93,16 @@ export class AssetMetadataEditComponent implements OnInit {
   getAllAssignedMetadata() {
     //console.log(this.metadataFiltered);
     this.assetAssetService.getAllMetadataValue().subscribe(res => {
-     // console.log("helloo");
+      // console.log("helloo");
 
-     // console.log(res);
+      // console.log(res);
 
       this.assignedMetadata = res.filter(type => (type.assettypeId === this.assetTpId));
       console.log(this.assignedMetadata);
       this.assignedMetadataId = this.assignedMetadata.map(val => val.assettypeMetadataId);
-      this.assignedMetadataId = this.assignedMetadataId.filter( function( item, index, inputArray ) {
+      this.assignedMetadataId = this.assignedMetadataId.filter(function (item, index, inputArray) {
         return inputArray.indexOf(item) == index;
-        });
+      });
       //console.log(this.assignedMetadataId);
     },
       error => {
@@ -116,18 +116,21 @@ export class AssetMetadataEditComponent implements OnInit {
   }
 
   onSubmit() {
-    const metdata = (this.editForm.get('dataRows') as FormArray).value.map((val,i) => ({
-      ...val, assettypeId: this.assetTpId,id:this.metadataFilteredIds[i]      
-    }));
-    console.log(metdata);
-    this.assetMetadataService.update(metdata).subscribe(result => {
-      this.toastr.showSuccessMessage('Asset metadata updated successfully!');
-      this.activeModal.close('submit');
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to update the asset metadata');
-      });
+    this.fieldValidation();
+    if (!this.duplicateValidation) {
+      const metdata = (this.editForm.get('dataRows') as FormArray).value.map((val, i) => ({
+        ...val, assettypeId: this.assetTpId, id: this.metadataFilteredIds[i]
+      }));
+      console.log(metdata);
+      this.assetMetadataService.update(metdata).subscribe(result => {
+        this.toastr.showSuccessMessage('Asset metadata updated successfully!');
+        this.activeModal.close('submit');
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('Unable to update the asset metadata');
+        });
+    }
   }
 
   createFormGroup(): FormGroup {
@@ -152,10 +155,24 @@ export class AssetMetadataEditComponent implements OnInit {
   }
 
   createDataArray(): void {
+    this.fieldValidation();
+    this.mdata = this.editForm.get('dataRows') as FormArray;
+    if (!this.duplicateValidation) {
+      if (!this.emptyValidation) {
+        this.mdata.push(this.createMetadata());
+        // this.updateDisable=true;
+      }
+    }
+    // else{
+    //   this.updateDisable=false;
+    // }
+  }
+
+  fieldValidation() {
     this.mdata = this.editForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
     let l = this.metas.length;
-    this.newMetadata = this.editForm.get('dataRows').value[l - 1].metadata;
+    this.newMetadata = this.editForm.get('dataRows').value[l - 1].metadata.toLowerCase();
     if (l < 5) {
       this.maxAlert = false;
       if (this.newMetadata == "") {
@@ -166,38 +183,39 @@ export class AssetMetadataEditComponent implements OnInit {
         if (l > 1) {
           var found = -1;
           for (let i = 0; i < l - 1; i++) {
-            if (this.metas[i].metadata == this.newMetadata) {
+            if (this.metas[i].metadata.toLowerCase() == this.newMetadata) {
               found = 1;
               break;
             }
           }
           if (found !== -1) {
             //console.log("Metadata already entered above");
-           // this.updateDisable=true;
+            this.updateDisable = true;
             this.duplicateValidation = true;
           }
           else {
-           // this.updateDisable=false;
+            this.updateDisable = false;
             this.duplicateValidation = false;
-            this.mdata.push(this.createMetadata());
+            // this.mdata.push(this.createMetadata());
           }
         }
         else {
-          //this.updateDisable=false;
-          this.mdata.push(this.createMetadata());
+          this.updateDisable = false;
+          //this.mdata.push(this.createMetadata());
         }
       }
     }
     else if (this.newMetadata == "") {
-        this.emptyValidation = true;
-      }
-      else{
+      this.emptyValidation = true;
+    }
+    else {
       //console.log("You have entered maximum number of metadata!!");
-      this.maxAlert = true;}
+      this.maxAlert = true;
+    }
   }
 
   removeMetadata(i) {
-    //this.updateDisable=false;
+    this.updateDisable = false;
     this.emptyValidation = false;
     this.duplicateValidation = false;
     this.maxAlert = false;
