@@ -15,5 +15,8 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataList();
           
         Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int Id);
+
+        Task<int> Update(IEnumerable<AssetTypeMetadata> assetTypeMetadata);
+
     }
 }

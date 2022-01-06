@@ -58,6 +58,8 @@ namespace Chef.HRMS.Repositories
             return noOfRows;
         }
 
+ 
+
         public async Task<int> BulkUpdateAsync(List<AssetMetadataValue> assetMetadataValues)
         {
             int noOfRows;
