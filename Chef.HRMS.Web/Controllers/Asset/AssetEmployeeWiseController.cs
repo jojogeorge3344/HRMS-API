@@ -46,10 +46,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
-        [HttpGet("GetEmployeeRequestById/{employeeid}")]
-        public async Task<ActionResult<IEnumerable<AssetEmployeeWiseRequest>>> GetEmployeeRequestById(int employeeid)
+        [HttpGet("GetEmployeeRequestById/{empid}")]
+        public async Task<ActionResult<IEnumerable<AssetEmployeeWiseRequest>>> GetEmployeeRequestById(int empid)
         {
-            var assetEmployeeWises = await assetEmployeeWiseService.GetEmployeeRequestById(employeeid);
+            var assetEmployeeWises = await assetEmployeeWiseService.GetEmployeeRequestById(empid);
 
             return Ok(assetEmployeeWises);
         }
