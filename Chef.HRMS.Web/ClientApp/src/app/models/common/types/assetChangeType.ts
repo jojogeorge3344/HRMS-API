@@ -1,6 +1,5 @@
-export enum AssetChangeType
-{
-    Upgrade =1,
+export enum AssetChangeType {
+    Upgrade = 1,
     Defective,
     NotWorking
 }

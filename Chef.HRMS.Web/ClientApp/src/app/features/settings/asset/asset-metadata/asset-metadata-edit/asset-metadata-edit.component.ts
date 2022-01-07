@@ -53,6 +53,7 @@ export class AssetMetadataEditComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
+    debugger;
     this.editForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));

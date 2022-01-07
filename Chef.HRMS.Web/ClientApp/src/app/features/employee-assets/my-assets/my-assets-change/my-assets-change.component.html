@@ -1,23 +1,22 @@
-<form id="myAssetForm">
+<form [formGroup]="changeAssetForm" id="changeAssetAssetForm" (validSubmit)="onSubmit()">
     <div class="modal-header">
-        <h4 class="modal-title">Change My Asset</h4>
+        <h4 class="modal-title">Change Asset</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
         <div class="form-group form-input-line col-12">
-            <label class="col-form-label" for="name">Change Type</label>
-            <select class="form-control" formControlName="changeType" id="assetDataType"
-            name="changeDataType">
+            <label class="col-form-label" for="changeTypeOptions">Change Type</label>
+            <select class="form-control" id="changeTypeOptions" formControlName="changeTypeOptions"
+            name="changeTypeOptions">
             <option [ngValue]="0" disabled>Select type</option>
             <option *ngFor="let key of changeTypeKeys" [ngValue]='key'>{{changeType[key]}}</option>
         </select>
         </div>
         <div class="form-group form-textarea-line col-12">
             <label class="col-form-label" for="description">Reason/ Description</label>
-            <textarea type="text" rows="3" class="form-control" id="description" name="description"
-                formControlName="description"></textarea>
+            <textarea type="text" formControlName="description" rows="3" class="form-control" id="description" name="description"></textarea>
         </div>
     </div>
     <div class="modal-footer">

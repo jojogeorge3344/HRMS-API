@@ -57,16 +57,13 @@ export class MyAssetsListComponent implements OnInit {
     });
   }
 
-  openChange(myAsset:MyAssets,currentUserId) {
+  openChange(assetData:MyAssets,currentUserId) {
     const modalRef = this.modalService.open(MyAssetsChangeComponent,
       { centered: true, backdrop: 'static' });
-      modalRef.componentInstance.myAsset = myAsset;
+      modalRef.componentInstance.assetData = assetData;
       modalRef.componentInstance.currentUserId = currentUserId;
       modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getAllMyAssetList(this.currentUserId);
-        }
-        else {
           this.getAllMyAssetList(this.currentUserId);
         }
       });
