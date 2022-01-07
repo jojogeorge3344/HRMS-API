@@ -57,20 +57,19 @@ export class MyAssetsListComponent implements OnInit {
     });
   }
 
-  openChange() {
-    // const modalRef = this.modalService.open(AssetMetadataEditComponent,
-    //   { size: 'lg', centered: true, backdrop: 'static' });
-    // modalRef.componentInstance.assetTpId = assettypeid;
-    // modalRef.componentInstance.assetTpName = assettypename;
-    // modalRef.componentInstance.metaData = metadata;
-    // modalRef.result.then((result) => {
-    //   if (result == 'submit') {
-    //     this.getAssetTypeList();
-    //   }
-    //   else {
-    //     this.getAssetTypeList();
-    //   }
-    // });
+  openChange(myAsset:MyAssets,currentUserId) {
+    const modalRef = this.modalService.open(MyAssetsChangeComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+      modalRef.componentInstance.myAsset = myAsset;
+      modalRef.componentInstance.currentUserId = currentUserId;
+      modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getAllMyAssetList(this.currentUserId);
+        }
+        else {
+          this.getAllMyAssetList(this.currentUserId);
+        }
+      });
   }
 
   openReturn() {
