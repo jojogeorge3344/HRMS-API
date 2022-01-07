@@ -22,13 +22,11 @@
             <tbody>
                 <!-- <tr class="text-center" *ngFor="let employee of result; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ employee.employeeID }}</td>
-                    <td class="text-capitalize">{{employee.firstName}} {{employee.lastName}}</td>
-                    <td >{{ employee.employeeStatus }}</td>
-                    <td *ngIf="employee.allocatedAsset> 0"> <a class="link text-primary mt-3"
-                        (click)="openAllocatedAssets(employee)">{{ employee.allocatedAsset}}</a> </td>
-                    <td *ngIf="employee.requests > 0"> <a class="link text-primary mt-3"
-                        (click)="openReuests(employee)">{{ employee.requests }}</a> </td>
+                    <td>{{ allocatedAssets.employeeID }}</td>
+                    <td class="text-capitalize">{{allocatedAssets.assetId}}</td>
+                    <td >{{ allocatedAssets.assetName }}</td>
+                    <td class="link text-primary mt-3">{{allocatedAssets.allocatedOn }}</td>
+                    <td class="link text-primary mt-3">{{allocatedAssets.actions}}</td>
                     <td>
 
                         <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="false">
@@ -39,7 +37,7 @@
                             </button>
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                                role="menu" click aria-labelledby="button-basic">
-                               <li role="menuitem"  (click)="openView(employee)"><a class="dropdown-item">View</a></li>
+                               <li role="menuitem"  (click)="openView(employee)"><a class="dropdown-item">approve</a></li>
                             </ul>
                          </div>
                         

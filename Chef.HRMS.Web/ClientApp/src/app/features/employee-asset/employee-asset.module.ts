@@ -27,6 +27,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
         path: ':id/view', component: EmployeeAssetViewComponent,
         data: { breadcrumbs: ['Organization', 'Employee', 'view'], name: 'organization-asset' }
       },
+      {
+        path: ':id/allocatedassets', component: EmployeeAssetAllocatedComponent,
+        data: { breadcrumbs: ['Organization', 'Employee', 'allocatedassets'], name: 'organization-asset' }
+      },
     ]),
   ]
 })

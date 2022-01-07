@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AssetEmployeeWise } from './employee-asset.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { AllocatedAssets } from './allocatedassets.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,9 @@ export class EmployeAssetService {
 
   get(id) {
     return this.http.get<AssetEmployeeWise>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
+  }
+
+  getEmployeeRequestById(id) {
+    return this.http.get<AllocatedAssets>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
   }
 }

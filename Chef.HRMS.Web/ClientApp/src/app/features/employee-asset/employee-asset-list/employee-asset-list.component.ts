@@ -33,18 +33,25 @@ getAll() {
   }
 
 
+  // openAllocatedAssets(employees) {
+  //   const modalRef = this.modalService.open(EmployeeAssetAllocatedComponent,
+  //     { size: 'lg', centered: true, backdrop: 'static' });
+
+  //   // modalRef.componentInstance.employees = employees;
+  //   this.employeeAsset.setListDetails({data: employees})
+
+  //   modalRef.result.then((result) => {
+  //       if (result == 'submit') {
+  //         // this.getJobList();
+  //       }
+  //   });
+  // }
+
   openAllocatedAssets(employees) {
-    const modalRef = this.modalService.open(EmployeeAssetAllocatedComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
-
-    // modalRef.componentInstance.employees = employees;
-    this.employeeAsset.setListDetails({data: employees})
-
-    modalRef.result.then((result) => {
-        if (result == 'submit') {
-          // this.getJobList();
-        }
-    });
+    this.router.navigate(
+      ['./' + employees.id + '/allocatedassets'],
+      { relativeTo: this.route.parent });
+      this.employeeAsset.setListDetails({data: employees})
   }
 
   openReuests(employees) {

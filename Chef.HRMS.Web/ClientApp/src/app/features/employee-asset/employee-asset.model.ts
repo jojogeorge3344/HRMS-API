@@ -7,4 +7,5 @@ export interface AssetEmployeeWise extends Model {
     employeeStatus :string;
     allocatedAsset :number;
     requests :number;
+    degignation:number;
   }
