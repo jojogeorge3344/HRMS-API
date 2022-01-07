@@ -59,7 +59,7 @@ export class MyAssetsListComponent implements OnInit {
 
   openChange(myAsset:MyAssets,currentUserId) {
     const modalRef = this.modalService.open(MyAssetsChangeComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
       modalRef.componentInstance.myAsset = myAsset;
       modalRef.componentInstance.currentUserId = currentUserId;
       modalRef.result.then((result) => {

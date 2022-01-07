@@ -1,7 +1,6 @@
-<p>my-assets-change works!</p>
-<form [formGroup]="addForm" id="myAssetForm" (validSubmit)="onSubmit()">
+<form id="myAssetForm">
     <div class="modal-header">
-        <h4 class="modal-title">Change Asset</h4>
+        <h4 class="modal-title">Change My Asset</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -9,7 +8,11 @@
     <div class="modal-body">
         <div class="form-group form-input-line col-12">
             <label class="col-form-label" for="name">Change Type</label>
-            <input type="text" class="form-control" id="assettypename" name="assettypename" formControlName="assettypename">
+            <select class="form-control" formControlName="changeType" id="assetDataType"
+            name="changeDataType">
+            <option [ngValue]="0" disabled>Select type</option>
+            <option *ngFor="let key of changeTypeKeys" [ngValue]='key'>{{changeType[key]}}</option>
+        </select>
         </div>
         <div class="form-group form-textarea-line col-12">
             <label class="col-form-label" for="description">Reason/ Description</label>
@@ -18,8 +21,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
-                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')">
+            <i class="mr-1 fal fa-window-close"></i> Cancel</button>
         <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
     </div>
 </form>

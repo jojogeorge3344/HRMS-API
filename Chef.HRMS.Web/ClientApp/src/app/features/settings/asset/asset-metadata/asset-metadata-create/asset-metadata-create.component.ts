@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
@@ -6,7 +6,6 @@ import { AssetTypeService } from '../../asset-type/asset-type.service';
 import { AssetMetadataService } from '../asset-metadata.service';
 import { AssetTypeMetadata } from '../asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
-import { values } from 'lodash';
 import { MetadataDataType } from 'src/app/models/common/types/metadatadatatype';
 
 @Component({
