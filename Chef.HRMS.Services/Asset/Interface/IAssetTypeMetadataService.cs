@@ -16,5 +16,7 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int Id);
         Task<int> DeleteAsync(int assetTypeId);
 
+        Task<int> DeleteMetadata(int id);
+
     }
 }
