@@ -20,7 +20,6 @@ export class AssetMetadataListComponent implements OnInit {
   assetType: AssetType[];
   assetTypeNames: AssetType[];
   assetMetadata: AssetTypeMetadata[];
-  // assetTypeNames :string[];
   assetMetadataNames: string[];
   assignedAssetTypeId: number[] = [];
 
@@ -59,8 +58,6 @@ export class AssetMetadataListComponent implements OnInit {
       this.assignedAssetTypeId = this.assignedAssetTypeId.filter( function( item, index, inputArray ) {
         return inputArray.indexOf(item) == index;
  });
-
-      console.log(this.assignedAssetTypeId);
     },
       error => {
         console.error(error);

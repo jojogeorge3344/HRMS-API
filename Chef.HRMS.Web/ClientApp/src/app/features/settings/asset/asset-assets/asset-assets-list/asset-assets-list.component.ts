@@ -30,20 +30,11 @@ export class AssetAssetsListComponent implements OnInit {
     private assetTypeService : AssetTypeService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
-     ) {
-    
-   }
+     ) { }
 
   ngOnInit(): void {
    this.getAllAssetList();
    this.getAllAssetTypeList();
-  
-  
-   
-   
-   
-   
-    
   }
   openCreate(){
     const modalRef = this.modalService.open(AssetAssetsCreateComponent,
@@ -61,7 +52,7 @@ export class AssetAssetsListComponent implements OnInit {
   //
   openView(assetType,assetTypename) {
    // console.log(assetType);
-    console.log(assetTypename);
+   // console.log(assetTypename);
     
     const modalRef = this.modalService.open(AssetAssetsViewComponent,
       { centered: true, backdrop: 'static' });
@@ -71,7 +62,7 @@ export class AssetAssetsListComponent implements OnInit {
     //console.log(modalRef.componentInstance.assetTypename);
     
     modalRef.componentInstance.assetTypename = this.getAssetTypeName(assetType);
-    console.log(this.getAssetTypeName(assetType));
+   // console.log(this.getAssetTypeName(assetType));
     
     modalRef.result.then((result) => {
       if (result == 'submit') {
@@ -87,7 +78,7 @@ export class AssetAssetsListComponent implements OnInit {
     const modalRef = this.modalService.open(AssetAssetsEditComponent,
       { centered: true, backdrop: 'static' });
     modalRef.componentInstance.assetId = assetasset.id;
-    console.log(modalRef.componentInstance.assetId);
+   // console.log(modalRef.componentInstance.assetId);
     
     modalRef.componentInstance.assetTypeName = assetTypename;
     // modalRef.componentInstance.TypeId = assetType;

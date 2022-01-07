@@ -50,5 +50,12 @@ namespace Chef.HRMS.Repositories
             var sql = @"DELETE FROM hrms.assettypemetadata WHERE id = @id;";
             return await Connection.ExecuteAsync(sql, new { id });
         }
+        public async Task<int> Update(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
+        {
+            var sql = new QueryBuilder<AssetTypeMetadata>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+
+            return await Connection.ExecuteAsync(sql, assetTypeMetadata);
+        }
     }
 }
