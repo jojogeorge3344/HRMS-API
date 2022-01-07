@@ -91,7 +91,12 @@ namespace Chef.HRMS.Services
                 if (asset.AssetMetadataValues != null)
                 {
                     //asset.AssetMetadataValues.ForEach(c => c.AssetId = result);
-                    var res = await assetRepository.BulkUpdateAsync(asset.AssetMetadataValues);
+                    List<AssetMetadataValue> Exist = asset.AssetMetadataValues.Where(x => x.Id > 0).ToList();
+                    var res = await assetRepository.BulkUpdateAsync(Exist);
+                    List<AssetMetadataValue> New = asset.AssetMetadataValues.Where(x => x.Id <= 0).ToList();
+                    res = await assetRepository.BulkInsertAsync(New);
+
+
                 }
                 simpleUnitOfWork.Commit();
             }
