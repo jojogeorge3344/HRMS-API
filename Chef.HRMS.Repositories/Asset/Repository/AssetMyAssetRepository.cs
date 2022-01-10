@@ -17,10 +17,10 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async Task<IEnumerable<AssetMyAsset>> GetMyAssetById(int Id)
+        public async Task<IEnumerable<AssetMyAsset>> GetMyAssetById(int EmpId)
         {
-            var sql = "SELECT * FROM hrms.assetmyasset WHERE Id=@Id";
-            return await Connection.QueryAsync<AssetMyAsset>(sql, new { Id = Id });
+            var sql = "SELECT * FROM hrms.assetmyasset WHERE EmpId=@EmpId";
+            return await Connection.QueryAsync<AssetMyAsset>(sql, new { EmpId = EmpId });
         }
 
         //public async Task<int> InsertAsync(IEnumerable<AssetMyAsset> assetmyasset)
@@ -43,6 +43,13 @@ namespace Chef.HRMS.Repositories
             var sql = new QueryBuilder<AssetMyAsset>().GenerateInsertQuery();
             sql = sql.Replace("RETURNING id", "");
 
+            return await Connection.ExecuteAsync(sql, assetmyasset);
+        }
+
+        public async Task<int> UpdateAsync(IEnumerable<AssetMyAsset> assetmyasset)
+        {
+            var sql = new QueryBuilder<AssetMyAsset>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
             return await Connection.ExecuteAsync(sql, assetmyasset);
         }
     }
