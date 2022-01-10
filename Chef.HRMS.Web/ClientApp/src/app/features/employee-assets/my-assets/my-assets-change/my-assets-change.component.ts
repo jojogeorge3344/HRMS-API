@@ -6,6 +6,7 @@ import { MyAssets } from '../my-assets.model';
 import { MyAssetsService } from '../my-assets.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
+import { toNumber } from 'lodash';
 
 
 @Component({
@@ -31,8 +32,8 @@ export class MyAssetsChangeComponent implements OnInit {
   ngOnInit(): void {
     this.changeAssetForm = this.createFormGroup();
     this.changeTypeKeys = Object.keys(this.changeType).filter(Number).map(Number);
-    this.changeAssetForm = this.createFormGroup();
-    this.changeTypeKeys = Object.keys(AssetChangeType).filter(Number).map(Number);
+    //this.changeAssetForm = this.createFormGroup();
+    //this.changeTypeKeys = Object.keys(AssetChangeType).filter(Number).map(Number);
   }
 
   createFormGroup(): FormGroup {
@@ -50,8 +51,11 @@ export class MyAssetsChangeComponent implements OnInit {
   // }
   onSubmit() {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
-    this.assetData.status=this.changeTypeSelected;
+    console.log(this.changeTypeSelected);
+    
+    this.assetData.status="CR";
     this.assetData.description=this.changeAssetForm.get('description').value;
+    this.assetData.changeType=toNumber(this.changeTypeSelected);
     console.log(this.assetData);
     
     this.myAssetService.updateStatus(this.assetData).subscribe(result => {
