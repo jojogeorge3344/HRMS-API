@@ -68,7 +68,7 @@ namespace Chef.HRMS.Services
                 //await assetTypeMetadataRepository.DeleteAsset(assetTypeMetadata.FirstOrDefault().AssettypeId);
                 var NewRecords = assetTypeMetadata.Where(w => w.Id <= 0);
                 var result = await assetTypeMetadataRepository.InsertAsync(NewRecords);
-                var Exist = assetTypeMetadata.Where(w => w.Id >= 0);
+                var Exist = assetTypeMetadata.Where(w => w.Id > 0);
                 result = await assetTypeMetadataRepository.Update(Exist);
                 simpleUnitOfWork.Commit();
                 return result;

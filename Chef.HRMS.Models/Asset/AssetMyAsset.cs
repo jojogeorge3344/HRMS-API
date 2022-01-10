@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -44,5 +45,8 @@ namespace Chef.HRMS.Models
 
         [Required]
         public string Description { get; set; }
+
+        [Required]
+        public AssetChangeType ChangeType { get; set; }
     }
 }

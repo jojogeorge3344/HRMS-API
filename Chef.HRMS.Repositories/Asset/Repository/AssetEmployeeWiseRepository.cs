@@ -53,6 +53,19 @@ namespace Chef.HRMS.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<AssetMyAsset>> GetAllocatedAssetById(int empid)
+        {
+            var sql = @"SELECT id,
+                                empid,
+                                assettype,
+                                assetid,
+                                assetname,
+                                dateallocated AS allocatedon,
+                                status 
+                                FROM hrms.assetmyasset WHERE empid = @empid";
+            return await Connection.QueryAsync<AssetMyAsset>(sql, new { empid });
+        }
+
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
             var sql = @"select employeeid,
@@ -64,29 +77,21 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
         }
 
-        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int employeeid)
+        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int empid)
         {
-            //var sql = @"select employeeid,
-            //                    requestno,
-            //                    requestedon,
-            //                    requestedby,
-            //                    requestfor,
-            //                    requesttype,
-            //                    status 
-            //                        from hrms.assetemployeewiserequest where employeeid=@employeeid";
 
-            var sql= @"select rr.id,
+            var sql= @"SELECT rr.id AS assetraiserequestid,
                                     rr.requestno,
                                     rr.requestfor,
 	                                rr.requesttype,
                                     rr.status,
-                                    rr.empid,
-                                    requestedon,
-                                    requestedby
-	                                    from hrms.assetraiserequest as rr inner join hrms.assetemployeewiserequest 
-	                                                    on rr.id=hrms.assetemployeewiserequest.assetraiserequestid where rr.empid=@employeeid";
+                                    empid,
+									firstname AS requestedby,
+                                    rr.requesteddate AS requestedon
+	                                    FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee ON rr.empid=employee.id
+														WHERE empid=@empid";
 
-            return await Connection.QueryAsync<AssetEmployeeWiseRequest>(sql, new { employeeid });
+            return await Connection.QueryAsync<AssetEmployeeWiseRequest>(sql, new { empid });
 
         }
     }

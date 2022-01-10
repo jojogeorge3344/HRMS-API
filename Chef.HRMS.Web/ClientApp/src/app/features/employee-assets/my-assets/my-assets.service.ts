@@ -19,4 +19,7 @@ export class MyAssetsService {
   getAllMyAssetList(userId){
    return this.http.get<MyAssets[]>(this.baseUrl + 'getMyAssetById/'+ userId).pipe(map(response => { return response; }));
   }
+  updateStatus(assetData:MyAssets){
+    return this.http.post<MyAssets>(this.baseUrl + 'update' , assetData ).pipe(map(response => { return response; }));
+  }
 }

@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,13 +21,16 @@ namespace Chef.HRMS.Models
         public int RequestNo { get; set; }
 
         [ForeignKey("AssetRaiseRequest")]
+        public int EmpId { get; set; }
+
+        [ForeignKey("AssetRaiseRequest")]
         public int RequestFor { get; set; }
 
         [ForeignKey("AssetRaiseRequest")]
         public string RequestType { get; set; }
 
         [ForeignKey("AssetRaiseRequest")]
-        public string Status { get; set; }
+        public RaiseRequestStatus Status { get; set; }
 
         [Required]
         public DateTime RequestedOn { get; set; }
