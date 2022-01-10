@@ -53,5 +53,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
+        [HttpGet("GetAllocatedAssetById/{empid}")]
+        public async Task<ActionResult<IEnumerable<AssetMyAsset>>> GetAllocatedAssetById(int empid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAllocatedAssetById(empid);
+
+            return Ok(assetEmployeeWises);
+        }
     }
 }

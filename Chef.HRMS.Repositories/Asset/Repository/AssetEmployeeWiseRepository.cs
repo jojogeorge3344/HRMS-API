@@ -53,6 +53,19 @@ namespace Chef.HRMS.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<AssetMyAsset>> GetAllocatedAssetById(int empid)
+        {
+            var sql = @"SELECT id,
+                                empid,
+                                assettype,
+                                assetid,
+                                assetname,
+                                dateallocated AS allocatedon,
+                                status 
+                                FROM hrms.assetmyasset WHERE empid = @empid";
+            return await Connection.QueryAsync<AssetMyAsset>(sql, new { empid });
+        }
+
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
             var sql = @"select employeeid,
@@ -73,7 +86,7 @@ namespace Chef.HRMS.Repositories
 	                                rr.requesttype,
                                     rr.status,
                                     empid,
-									CONCAT(firstname,'-',lastname) AS requestedby,
+									firstname AS requestedby,
                                     rr.requesteddate AS requestedon
 	                                    FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee ON rr.empid=employee.id
 														WHERE empid=@empid";
