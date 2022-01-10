@@ -1,6 +1,7 @@
 import { Model } from '@shared/models/model';
 
-export interface AllocatedAssets extends Model {  
+export interface AssetEmployeewiseRequest extends Model {  
+    employeeID: number;
     assetRaiseRequestId :number;
     requestNo :number;
     requestFor : number;

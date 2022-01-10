@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AllocatedAssets } from '../allocatedassets.model';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AssetEmployeewiseRequest } from '../assetemployeewiserequest.model';
 import { EmployeAssetService } from '../employe-asset.service';
 import { AssetEmployeeWise } from '../employee-asset.model';
 
@@ -9,31 +10,30 @@ import { AssetEmployeeWise } from '../employee-asset.model';
 })
 export class EmployeeAssetAllocatedComponent implements OnInit {
   empid:number;
-  result: AssetEmployeeWise[];
-  allocatedAssets:AllocatedAssets; 
+  // result: AssetEmployeeWise[];
+  allocatedAssets; 
 
-  constructor(private employeeAsset :EmployeAssetService,) { }
+  constructor(private employeeAsset :EmployeAssetService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getEmpId();
-    this.getEmployeeRequestById(); 
+    this.activatedRoute.params.subscribe((params: Params) => {
+      console.log(params);
+      this.empid = params.id;
+    });
+    this.getAllocatedAssetsById();
     }
-
-  getEmpId() {
-    this.employeeAsset.getListDetails().subscribe(
-      response=>{
-          // console.log(response);
-          this.empid=response.data.id;
-      }
-    )
-  }
   
-  getEmployeeRequestById() {
-    console.log(this.empid);
-    this.employeeAsset.getEmployeeRequestById(this.empid).subscribe( result => {
-      console.log(result);
-      this.allocatedAssets=result;
-    })
-  }
+    getAllocatedAssetsById() {
+      console.log(this.empid);
+  
+      return this.employeeAsset
+        .getAllocatedAssetsById(this.empid)
+  
+        .subscribe((result) => {
+          this.allocatedAssets = result;
+          console.log(this.allocatedAssets);
+        });
+    }
 
 }

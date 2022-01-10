@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AssetEmployeeWise } from './employee-asset.model';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { AllocatedAssets } from './allocatedassets.model';
+import { BehaviorSubject, Observable} from 'rxjs';
+import { AssetEmployeewiseRequest } from './assetemployeewiserequest.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +11,21 @@ import { AllocatedAssets } from './allocatedassets.model';
 export class EmployeAssetService {
   public baseUrl: string;
   public http: HttpClient;
-  private commodityBasicDetails: BehaviorSubject<any>;
+  private employeeDetails: BehaviorSubject<any>;
  
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.commodityBasicDetails = <BehaviorSubject<any>>new BehaviorSubject({data: []});
+    this.employeeDetails = <BehaviorSubject<any>>new BehaviorSubject({data: []});
     this.http = http;
     this.baseUrl = baseUrl + "api/assetEmployeeWise/";
   }
 
   setListDetails(data: any) {
-    this.commodityBasicDetails.next(Object.assign({}, data));
+    this.employeeDetails.next(Object.assign({}, data));
   }
 
   getListDetails(): Observable<any> {
-    return this.commodityBasicDetails.asObservable();
+    return this.employeeDetails.asObservable();
   }
 
  
@@ -40,6 +40,10 @@ export class EmployeAssetService {
   }
 
   getEmployeeRequestById(id) {
-    return this.http.get<AllocatedAssets>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
+    return this.http.get<AssetEmployeewiseRequest>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
+  }
+
+  getAllocatedAssetsById(id) {
+    return this.http.get(this.baseUrl + 'GetAllocatedAssetById/' + id).pipe(map(response => { return response; }));
   }
 }
