@@ -45,5 +45,12 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.ExecuteAsync(sql, assetmyasset);
         }
+
+        public async Task<int> UpdateAsync(IEnumerable<AssetMyAsset> assetmyasset)
+        {
+            var sql = new QueryBuilder<AssetMyAsset>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, assetmyasset);
+        }
     }
 }
