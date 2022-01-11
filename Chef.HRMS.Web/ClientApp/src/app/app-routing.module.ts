@@ -153,7 +153,7 @@ const routes: Routes = [
       {
         path: 'asset-employee-wise',
         loadChildren: () => import('./features/employee-asset/employee-asset.module').then(m => m.EmployeeAssetModule),
-        canActivateChild: [AuthGuard]
+        //canActivateChild: [AuthGuard]
       },
       {
         path: 'finance',

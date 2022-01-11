@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { AssetEmployeeWise } from './employee-asset.model';
 import { BehaviorSubject, Observable} from 'rxjs';
 import { AssetEmployeewiseRequest } from './assetemployeewiserequest.model';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,9 @@ export class EmployeAssetService {
 
   getAllocatedAssetsById(id) {
     return this.http.get(this.baseUrl + 'GetAllocatedAssetById/' + id).pipe(map(response => { return response; }));
+  }
+
+  updateStatus(id,status:AssetStatus) {
+    return this.http.put(this.baseUrl + 'GetAllocatedAssetById/' + id,status).pipe(map(response => { return response; }));
   }
 }

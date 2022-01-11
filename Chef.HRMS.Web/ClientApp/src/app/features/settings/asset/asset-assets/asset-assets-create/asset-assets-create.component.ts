@@ -18,8 +18,7 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class AssetAssetsCreateComponent implements OnInit {
-  // assetId: any;
-  assetStatus:AssetStatus;
+
   assetForm: FormGroup;
   assetType: AssetType;
   currentUserId: number;
@@ -47,6 +46,7 @@ export class AssetAssetsCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.assetForm = this.createFormGroup();
     this.getAssetType();
+  
     // this.getAssetMetadataById()
   }
   get metadataFormGroup () {
@@ -54,7 +54,6 @@ export class AssetAssetsCreateComponent implements OnInit {
   }
   onSubmit(){
     console.log(this.assetForm.value)
-    this.assetStatus=5;
     let mdatavalues= {...this.assetForm.value,
       assetMetadataValues:this.typeKeys.map(key => {
         return{
@@ -95,6 +94,7 @@ export class AssetAssetsCreateComponent implements OnInit {
       assetTypeMetadataId: [ '', [
         Validators.required,
       ]],
+      status: [ 5, [ ]],
       assetMetadataValues:[ ['', []]],
       assetName: ['', [
         Validators.required,

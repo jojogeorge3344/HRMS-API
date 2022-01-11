@@ -51,9 +51,11 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       this.employeeAsset.setListDetails({data: employees})
   }
 
-  Approve() {
-    this.assetStatus=2;
-    
+  Approve(status:AssetStatus) {
+    status=2;
+    this.employeeAsset.updateStatus(this.empid,status).subscribe(res=>{
+      
+    })
   }
 
   // reject() {
