@@ -18,6 +18,6 @@ namespace Chef.HRMS.Services
 
         Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue();
 
-        
+        Task<int> UpdateStatus(int id, int status);
     }
 }
