@@ -39,16 +39,16 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { id });
         }
 
-        public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id)
-        {
-            var sql = @"select concat(firstname,'-',jd.employeenumber) as nameofteammember, 
-                                jd.employeeid as empid , 
-                                jd.employeenumber,
-                                firstname,
-                                jd.department 
-                                from hrms.jobdetails as jd inner join hrms.employee 
-                                on jd.employeeid=hrms.employee.id where jd.employeeid=@id";
-            return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { id });
-        }
+        //public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id)
+        //{
+        //    var sql = @"select concat(firstname,'-',jd.employeenumber) as nameofteammember, 
+        //                        jd.employeeid as empid , 
+        //                        jd.employeenumber,
+        //                        firstname,
+        //                        jd.department 
+        //                        from hrms.jobdetails as jd inner join hrms.employee 
+        //                        on jd.employeeid=hrms.employee.id where jd.employeeid=@id";
+        //    return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { id });
+        //}
     }
 }
