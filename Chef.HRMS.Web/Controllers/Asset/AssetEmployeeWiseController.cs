@@ -61,5 +61,32 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
+        [HttpGet("GetAllocatedById/{empid}")]
+        public async Task<ActionResult<IEnumerable<AssetAllocated>>> GetAllocatedById(int empid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAllocatedById(empid);
+
+            return Ok(assetEmployeeWises);
+        }
+
+
+        [HttpPost("Update")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> UpdateStatus(IEnumerable<AssetEmployeeWiseRequest> assetEmployeeWiseRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.UpdateStatus(assetEmployeeWiseRequest);
+
+            return Ok(result);
+        }
+
+
     }
 }
