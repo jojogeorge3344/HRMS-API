@@ -28,7 +28,6 @@ export class MyAssetsListComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.getAllMyAssetList(this.currentUserId);
-    console.log(this.currentUserId);
   }
 
   getAllMyAssetList(userId) {
