@@ -9,11 +9,12 @@ import { EmployeeAssetRecallComponent } from './employee-asset-recall/employee-a
 import { EmployeeAssetAllocatedComponent } from './employee-asset-allocated/employee-asset-allocated.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { EmployeeAssetRequestViewComponent } from './employee-asset-request-view/employee-asset-request-view.component';
 
 
 
 @NgModule({
-  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetChangeComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent],
+  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetChangeComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent],
   imports: [
     CommonModule,
     NgbModule,
@@ -34,6 +35,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
       {
         path: ':id/requests', component: EmployeeAssetRequestsComponent,
         data: { breadcrumbs: ['Organization', 'Employee', 'requests'], name: 'organization-asset' }
+      },
+      {
+        path: ':id/requestview', component: EmployeeAssetRequestViewComponent,
+        data: { breadcrumbs: ['Organization', 'Employee', 'requestview'], name: 'organization-asset' }
       },
     ]),
   ]

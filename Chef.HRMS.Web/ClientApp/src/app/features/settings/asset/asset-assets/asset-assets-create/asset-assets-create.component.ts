@@ -10,6 +10,7 @@ import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
 import { result } from 'lodash';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 @Component({
   selector: 'hrms-asset-assets-create',
@@ -18,6 +19,7 @@ import { result } from 'lodash';
 })
 export class AssetAssetsCreateComponent implements OnInit {
   // assetId: any;
+  assetStatus:AssetStatus;
   assetForm: FormGroup;
   assetType: AssetType;
   currentUserId: number;
@@ -52,6 +54,7 @@ export class AssetAssetsCreateComponent implements OnInit {
   }
   onSubmit(){
     console.log(this.assetForm.value)
+    this.assetStatus=5;
     let mdatavalues= {...this.assetForm.value,
       assetMetadataValues:this.typeKeys.map(key => {
         return{
