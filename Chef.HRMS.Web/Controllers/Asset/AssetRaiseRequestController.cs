@@ -36,7 +36,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -81,12 +81,21 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(AssetRaiseRequest);
         }
-        [HttpGet("GetEmployeeDepartmentDetails/{id}")]
-        public async Task<ActionResult<IEnumerable<AssetRaiseRequest>>> GetEmployeeDepartmentDetails(int id)
-        {
-            var AssetRaiseRequest = await assetRaiseRequestService.GetEmployeeDepartmentDetails(id);
+        //[HttpGet("GetEmployeeDepartmentDetails/{id}")]
+        //public async Task<ActionResult<IEnumerable<AssetRaiseRequest>>> GetEmployeeDepartmentDetails(int id)
+        //{
+        //    var AssetRaiseRequest = await assetRaiseRequestService.GetEmployeeDepartmentDetails(id);
 
-            return Ok(AssetRaiseRequest);
+        //    return Ok(AssetRaiseRequest);
+        //}
+        [HttpGet("GetEmployeeDetails")]
+        public async Task<ActionResult<IEnumerable<AssetEmployeeViewModel>>> GetEmployeeDetails()
+        {
+            IEnumerable<AssetEmployeeViewModel> assetemployeeList = await assetRaiseRequestService.GetEmployeeDetails();
+
+
+
+            return Ok(assetemployeeList);
         }
     }
 }
