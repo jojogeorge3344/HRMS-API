@@ -29,7 +29,7 @@ namespace Chef.HRMS.Models
         [ForeignKey("AssetRaiseRequest")]
         public string RequestType { get; set; }
 
-        [ForeignKey("Asset")]
+        [ForeignKey("AssetRaiseRequest")]
         public AssetStatus Status { get; set; }
 
         [Required]
