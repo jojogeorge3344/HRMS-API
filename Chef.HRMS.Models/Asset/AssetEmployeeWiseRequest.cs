@@ -29,8 +29,8 @@ namespace Chef.HRMS.Models
         [ForeignKey("AssetRaiseRequest")]
         public string RequestType { get; set; }
 
-        [ForeignKey("AssetRaiseRequest")]
-        public RaiseRequestStatus Status { get; set; }
+        [ForeignKey("Asset")]
+        public AssetStatus Status { get; set; }
 
         [Required]
         public DateTime RequestedOn { get; set; }
