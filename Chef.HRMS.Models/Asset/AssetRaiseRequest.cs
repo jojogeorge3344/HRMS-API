@@ -29,7 +29,6 @@ namespace Chef.HRMS.Models
         public int AssetTypeId { get; set; }
 
         [Required]
-
         public AssetStatus Status { get; set; }
 
         [Required]

@@ -66,17 +66,33 @@ namespace Chef.HRMS.Web.Controllers
             var result = await assetmyassetService.InsertAsync(assetmyasset);
             return Ok(result);
         }
-        [HttpPut("Update")]
+        //[HttpPost("Update")]
+        ////[Consumes(MediaTypeNames.Application.Json)]
+        ////[ProducesResponseType(StatusCodes.Status201Created)]
+        ////[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult> Update(AssetMyAsset assetmyasset)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    var result = await assetmyassetService.UpdateAsync(assetmyasset);
+        //    return Ok(result);
+        //}
+
+        [HttpPut("UpdateStatus/{assetid}/{status}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(AssetMyAsset assetmyasset)
+        public async Task<ActionResult<int>> UpdateStatus(int assetid, int status)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result = await assetmyassetService.UpdateAsync(assetmyasset);
+
+            var result = await assetmyassetService.UpdateStatus(assetid, status);
+
             return Ok(result);
         }
     }
