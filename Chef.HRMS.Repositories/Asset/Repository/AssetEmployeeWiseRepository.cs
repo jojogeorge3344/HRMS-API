@@ -66,6 +66,15 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetMyAsset>(sql, new { empid });
         }
 
+        public async Task<IEnumerable<AssetAllocated>> GetAllocatedById(int empid)
+        {
+            var sql = @"select empid,
+                                            valueid as assetid,
+                                            assetname,
+                                            metadata from hrms.assetmyasset where empid=@empid";
+            return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
+        }
+
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
             var sql = @"select employeeid,
@@ -93,6 +102,13 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<AssetEmployeeWiseRequest>(sql, new { empid });
 
+        }
+
+        public async Task<int> UpdateStatus(IEnumerable<AssetEmployeeWiseRequest> assetEmployeeWiseRequest)
+        {
+            var sql = new QueryBuilder<AssetEmployeeWiseRequest>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, assetEmployeeWiseRequest);
         }
     }
 }

@@ -19,5 +19,10 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int empid);
         Task<IEnumerable<AssetMyAsset>> GetAllocatedAssetById(int empid);
 
+        Task<IEnumerable<AssetAllocated>> GetAllocatedById(int empid);
+
+        Task<int> UpdateStatus(IEnumerable<AssetEmployeeWiseRequest> assetEmployeeWiseRequest);
+
+
     }
 }
