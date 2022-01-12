@@ -39,6 +39,16 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetAllList();
         }
 
+        public async Task<IEnumerable<AssetMyAsset>> GetAllocatedAssetById(int empid)
+        {
+            return await assetEmployeeWiseRepository.GetAllocatedAssetById(empid); 
+        }
+
+        //public async Task<IEnumerable<AssetAllocated>> GetAllocatedById(int empid)
+        //{
+        //    return await assetEmployeeWiseRepository.GetAllocatedById(empid);
+        //}
+
         public Task<AssetEmployeeWise> GetAsync(int id)
         {
             throw new NotImplementedException();
@@ -49,9 +59,9 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetEmployeeDetailsById(employeeid);
         }
 
-        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int employeeid)
+        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int empid)
         {
-            return await assetEmployeeWiseRepository.GetEmployeeRequestById(employeeid);
+            return await assetEmployeeWiseRepository.GetEmployeeRequestById(empid);
         }
 
         public Task<AssetEmployeeWise> InsertAsync(AssetEmployeeWise obj)
@@ -59,9 +69,16 @@ namespace Chef.HRMS.Services
             throw new NotImplementedException();
         }
 
+        
+
         public Task<int> UpdateAsync(AssetEmployeeWise obj)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<int> UpdateStatus(int id, int status)
+        {
+            return await assetEmployeeWiseRepository.UpdateStatus(id, status); ;
         }
     }
 }

@@ -53,6 +53,28 @@ namespace Chef.HRMS.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<AssetMyAsset>> GetAllocatedAssetById(int empid)
+        {
+            var sql = @"SELECT id,
+                                empid,
+                                assettype,
+                                assetid,
+                                assetname,
+                                dateallocated AS allocatedon,
+                                status 
+                                FROM hrms.assetmyasset WHERE empid = @empid";
+            return await Connection.QueryAsync<AssetMyAsset>(sql, new { empid });
+        }
+
+        //public async Task<IEnumerable<AssetAllocated>> GetAllocatedById(int empid)
+        //{
+        //    var sql = @"select empid,
+        //                                    valueid as assetid,
+        //                                    assetname,
+        //                                    metadata from hrms.assetmyasset where empid=@empid";
+        //    return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
+        //}
+
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
             var sql = @"select employeeid,
@@ -64,18 +86,29 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
         }
 
-        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int employeeid)
+        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int empid)
         {
-            var sql = @"select employeeid,
-                                requestno,
-                                requestedon,
-                                requestedby,
-                                requestfor,
-                                requesttype,
-                                status 
-                                    from hrms.assetemployeewiserequest where employeeid=@employeeid";
-            return await Connection.QueryAsync<AssetEmployeeWiseRequest>(sql, new { employeeid });
 
+            var sql= @"SELECT rr.id AS assetraiserequestid,
+                                    rr.requestno,
+                                    rr.requestfor,
+	                                rr.requesttype,
+                                    rr.status,
+                                    empid,
+									firstname AS requestedby,
+                                    rr.requesteddate AS requestedon
+	                                    FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee ON rr.empid=employee.id
+														WHERE empid=@empid";
+
+            return await Connection.QueryAsync<AssetEmployeeWiseRequest>(sql, new { empid });
+
+        }
+
+        public async Task<int> UpdateStatus(int id, int status)
+        {
+            var sql = @"UPDATE hrms.assetraiserequest 
+                                    SET status=@status WHERE id=@id";
+            return await Connection.ExecuteAsync(sql, new { id, status });
         }
     }
 }
