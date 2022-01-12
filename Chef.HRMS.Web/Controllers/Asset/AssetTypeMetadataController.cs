@@ -24,9 +24,9 @@ namespace Chef.HRMS.Web.Controllers
 
 
         [HttpPost("Insert")]
-       // [Consumes(MediaTypeNames.Application.Json)]
-       // [ProducesResponseType(StatusCodes.Status201Created)]
-       // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        // [Consumes(MediaTypeNames.Application.Json)]
+        // [ProducesResponseType(StatusCodes.Status201Created)]
+        // [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Insert(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             if (!ModelState.IsValid)
@@ -69,7 +69,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetTypeMetadata);
         }
 
-        [HttpGet("GetAssetTypeId/{id}")]
+        [HttpGet("GetAllAssetTypeMetadataDetailsById/{id}")]
         public async Task<ActionResult<IEnumerable<AssetTypeMetadata>>> GetAssetTypeId(int id)
         {
             var assetTypeMetadata = await assetTypeMetadataService.GetAssetTypeId(id);
@@ -87,7 +87,7 @@ namespace Chef.HRMS.Web.Controllers
                 return NotFound();
             }
 
-            var result = await assetTypeMetadataService.DeleteAsync(id);
+            var result = await assetTypeMetadataService.DeleteMetadata(id);
 
             return Ok(result);
         }
@@ -96,13 +96,6 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<int>> DeleteAssetType(int AssetTypeId)
         {
             var assetTypeMetadata = await assetTypeMetadataService.DeleteAsync(AssetTypeId);
-
-            //if (assetTypeMetadata == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var result = await assetTypeMetadataService.DeleteAssetType(AssetTypeId);
 
             return Ok(assetTypeMetadata);
         }
