@@ -28,9 +28,7 @@ namespace Chef.HRMS.Models
         [ForeignKey("AssetType")]
         public int AssetTypeId { get; set; }
 
-        [ForeignKey("Asset")]
         [Required]
-
         public AssetStatus Status { get; set; }
 
         [Required]
