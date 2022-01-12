@@ -52,6 +52,18 @@ namespace Chef.HRMS.Models
         public string Description { get; set; }
 
         [Required]
+        public string ChangeDescription { get; set; }
+
+        [Required]
+        public string ReturnDescription { get; set; }
+
+        [Required]
+        public DateTime ReturnDate { get; set; }
+
+        [Required]
         public AssetChangeType ChangeType { get; set; }
+
+        [Required]
+        public AssetReturnType ReturnType { get; set; }
     }
 }
