@@ -9,6 +9,7 @@ import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { RaiseRequestCreateComponent } from '../raise-request-create/raise-request-create.component';
 import { RaiseRequestEditComponent } from '../raise-request-edit/raise-request-edit.component';
 import { RaiseRequestViewComponent } from '../raise-request-view/raise-request-view.component';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
 
 @Component({
   selector: 'hrms-raise-request-list',
@@ -19,6 +20,7 @@ export class RaiseRequestListComponent implements OnInit {
   raiseRequestList: AssetRaiseRequest[];
   assetType: AssetType[];
   assetTypeNames: AssetType[];
+  currentUserId:number;
 
   constructor(
     private raiseRequestService: RaiseRequestService,
@@ -28,12 +30,13 @@ export class RaiseRequestListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAssetTypeList();
-    this. getAllRaiseRequestList();
+    this.currentUserId = getCurrentUserId();
+    // this.getAssetTypeList();
+    this.getAllRaiseRequestList(this.currentUserId);
   }
 
-  getAllRaiseRequestList() {
-    this.raiseRequestService.getAllRaiseRequestList().subscribe(result => {
+  getAllRaiseRequestList(currentUserId) {
+    this.raiseRequestService.getAllRaiseRequestList(currentUserId).subscribe(result => {
       this.raiseRequestList = result;
     },
       error => {
@@ -42,63 +45,83 @@ export class RaiseRequestListComponent implements OnInit {
       });
   }
 
-  getAssetTypeList() {
+  getAssetTypeNameById(assetTypeId) {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetType = result;
-      this. getAllRaiseRequestList();
-    }),
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+      this.assetType.forEach(result => {
+        if (result.id === assetTypeId) {
+          console.log(result.assettypename);
+          return result.assettypename;       }
+        });
+      }),error=>{
+        console.log(error);
+        this.toastr.showErrorMessage('Unable to fetch the asset type name');
       };
+  
   }
+
+  // getAssetTypeList() {
+  //   this.assetTypeService.getAllAssetTypeList().subscribe(result => {
+  //     this.assetType = result;
+  //     this. getAllRaiseRequestList();
+  //   }),
+  //     error => {
+  //       console.error(error);
+  //       this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+  //     };
+  // }
 
   openCreate() {
-    const modalRef = this.modalService.open(RaiseRequestCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
-    // modalRef.componentInstance.assetTypeNames = this.assetTypeNames;
-    modalRef.result.then((result) => {
-      if (result == 'submit') {
-        this. getAllRaiseRequestList();
-      }
-    });
-  }
+      const modalRef = this.modalService.open(RaiseRequestCreateComponent,
+        { size: 'lg', centered: true, backdrop: 'static' });
+      // modalRef.componentInstance.assetTypeNames = this.assetTypeNames;
+      modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getAllRaiseRequestList(this.currentUserId);
+        }
+      });
+    }
 
   openEdit(raiseRequest: AssetRaiseRequest) {
-    const modalRef = this.modalService.open(RaiseRequestEditComponent,
-      { centered: true, backdrop: 'static' });
+      const modalRef = this.modalService.open(RaiseRequestEditComponent,
+        { centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.raiseRequestId = raiseRequest;
-    // modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.assettypename.toLowerCase());
-    modalRef.result.then((result) => {
-      if (result == 'submit') {
-        this. getAllRaiseRequestList();
-      }
-    });
-  }
+      modalRef.componentInstance.raiseRequestId = raiseRequest;
+      // modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.assettypename.toLowerCase());
+      modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getAllRaiseRequestList(this.currentUserId);
+        }
+      });
+    }
 
   openViewList(raiseRequest: AssetRaiseRequest) {
-    const modalRef = this.modalService.open(RaiseRequestViewComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
-    modalRef.componentInstance.assetType = raiseRequest;
-    modalRef.result.then((result) => {
-      if (result == 'submit') {
-        this. getAllRaiseRequestList();
-      }
+      const modalRef = this.modalService.open(RaiseRequestViewComponent,
+        { size: 'lg', centered: true, backdrop: 'static' });
+      modalRef.componentInstance.assetType = raiseRequest;
+      modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getAllRaiseRequestList(this.currentUserId);
+        }
     });
   }
 
-  delete(raiseRequest: AssetRaiseRequest) {
-    const modalRef = this.modalService.open(ConfirmModalComponent,
-      { centered: true, backdrop: 'static' });
-    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the raise request ${raiseRequest.requestFor}?`;
-    modalRef.result.then((userResponse) => {
-      if (userResponse == true) {
-        this.raiseRequestService.delete(raiseRequest.id).subscribe(() => {
-          this.toastr.showSuccessMessage('The raise request deleted successfully!');
-          this. getAllRaiseRequestList();
-        });
-      }
-    });
+  isDisabled(i) {
+    return this.raiseRequestList[i].status==1
   }
+
+
+  delete (raiseRequest: AssetRaiseRequest) {
+      const modalRef = this.modalService.open(ConfirmModalComponent,
+        { centered: true, backdrop: 'static' });
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the raise request ${raiseRequest.requestFor}?`;
+      modalRef.result.then((userResponse) => {
+        if (userResponse == true) {
+          this.raiseRequestService.delete(raiseRequest.id).subscribe(() => {
+            this.toastr.showSuccessMessage('The raise request deleted successfully!');
+            this.getAllRaiseRequestList(this.currentUserId);
+          });
+        }
+      });
+    }
 }
