@@ -26,11 +26,7 @@ export class EmployeeAssetAllocatedComponent implements OnInit {
   
     getAllocatedAssetsById() {
       console.log(this.empid);
-  
-      return this.employeeAsset
-        .getAllocatedAssetsById(this.empid)
-  
-        .subscribe((result) => {
+      return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
           this.allocatedAssets = result;
           console.log(this.allocatedAssets);
         });
