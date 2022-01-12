@@ -47,7 +47,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetEmployeeRequestById/{empid}")]
-        public async Task<ActionResult<IEnumerable<AssetEmployeeWiseRequest>>> GetEmployeeRequestById(int empid)
+        public async Task<ActionResult<IEnumerable<AssetRaiseRequest>>> GetEmployeeRequestById(int empid)
         {
             var assetEmployeeWises = await assetEmployeeWiseService.GetEmployeeRequestById(empid);
 
