@@ -57,12 +57,12 @@ export class MyAssetsChangeComponent implements OnInit {
     console.log(this.assetData);
     
     this.myAssetService.updateStatus(this.assetData).subscribe(result => {
-      this.toastr.showSuccessMessage('Asset metadata added successfully!');
+      this.toastr.showSuccessMessage('Change request submitted successfully!');
       this.activeModal.close('submit');
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the asset metadata');
+        this.toastr.showErrorMessage('Unable to submit change request.');
       });
     }
 }
