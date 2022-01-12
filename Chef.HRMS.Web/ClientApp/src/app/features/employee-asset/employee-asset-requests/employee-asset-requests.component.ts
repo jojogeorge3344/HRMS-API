@@ -1,9 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { MyAssetsService } from "@features/employee-assets/my-assets/my-assets.service";
+import { AssetAssetsService } from "@settings/asset/asset-assets/asset-assets.service";
 import { getCurrentUserId } from "@shared/utils/utils.functions";
 import { AssetStatus } from "src/app/models/common/types/assetstatus";
-import { AssetEmployeewiseRequest } from "../assetemployeewiserequest.model";
 import { EmployeAssetService } from "../employe-asset.service";
+import { forkJoin } from 'rxjs';
+import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { RaiseRequest } from "@features/employee-assets/raise-request/raise-request.model";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -11,35 +15,40 @@ import { EmployeAssetService } from "../employe-asset.service";
 })
 export class EmployeeAssetRequestsComponent implements OnInit {
   assetStatus: AssetStatus;
+  allocatedassets;
+  assetId:number;
   currentUserId: number;
+  assetRaiseRequestId:number;
   empid: string;
-  employeeWiseRequest: AssetEmployeewiseRequest;
+  employeeWiseRequest: RaiseRequest;
   result: any;
 
   constructor(
+    private myAssetService: MyAssetsService,
+    private assetService: AssetAssetsService,
     private employeeAsset: EmployeAssetService,
     private route: ActivatedRoute,
     private router: Router,
+    private toastr: ToasterDisplayService,
   ) {}
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.route.params.subscribe((params: Params) => {
-      console.log(params);
+      //console.log(params);
       this.empid = params.id;
     });
     this.getEmployeeRequestById();
+    this.getAllocatedAssetsById()
   }
 
   getEmployeeRequestById() {
-    console.log(this.empid);
+    //console.log(this.empid);
 
-    return this.employeeAsset
-      .getEmployeeRequestById(this.empid)
-
-      .subscribe((result) => {
+    return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
         this.employeeWiseRequest = result;
-        console.log(this.employeeWiseRequest);
+        this.assetRaiseRequestId=result.id;
+       //console.log('res=',this.employeeWiseRequest);
       });
 
   }
@@ -51,11 +60,23 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       this.employeeAsset.setListDetails({data: employees})
   }
 
+  getAllocatedAssetsById() {
+    return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
+        this.allocatedassets = result;
+        this.assetId=result[0].assetId
+        console.log(this.assetId);
+      });
+  }
+
   Approve(status:AssetStatus) {
     status=2;
-    this.employeeAsset.updateStatus(this.empid,status).subscribe(res=>{
-      
-    })
+    forkJoin([
+      this.myAssetService.updateStatusOf(this.assetId,status),  
+      this.assetService.updateStatus(this.assetRaiseRequestId,status),
+      this.employeeAsset.updateStatus(this.assetRaiseRequestId,status)
+    ]).subscribe(
+      // this.toastr.showSuccessMessage('Request Approved sucessfully!');
+      )
   }
 
   // reject() {
