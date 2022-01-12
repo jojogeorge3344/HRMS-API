@@ -39,7 +39,7 @@ export class MyAssetsChangeComponent implements OnInit {
       changeTypeOptions: [null, Validators.required],
       description: ['', [
         Validators.required,
-        Validators.maxLength(128)
+        Validators.maxLength(256)
       ]],
     });
   }
@@ -65,7 +65,6 @@ export class MyAssetsChangeComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to add the asset metadata');
       });
     }
-  
 }
 
 
