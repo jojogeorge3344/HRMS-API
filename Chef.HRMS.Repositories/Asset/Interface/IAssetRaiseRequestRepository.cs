@@ -12,7 +12,7 @@ namespace Chef.HRMS.Repositories
     {
         Task<int> InsertAsync(IEnumerable<AssetRaiseRequest> assetRaiseRequest);
 
-        Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList();
+        Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid);
 
         Task<IEnumerable<AssetRaiseRequest>> Get(int id);
 
