@@ -16,7 +16,7 @@ import { RaiseRequestViewComponent } from '../raise-request-view/raise-request-v
 })
 export class RaiseRequestListComponent implements OnInit {
 
-  raiseRequest: AssetRaiseRequest[];
+  raiseRequestList: AssetRaiseRequest[];
   assetType: AssetType[];
   assetTypeNames: AssetType[];
 
@@ -29,24 +29,23 @@ export class RaiseRequestListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssetTypeList();
-    this.getraiserequestList();
-    // this.getAssignedAssetType();  
+    this. getAllRaiseRequestList();
   }
 
-  getraiserequestList() {
+  getAllRaiseRequestList() {
     this.raiseRequestService.getAllRaiseRequestList().subscribe(result => {
-      this.raiseRequest = result;
-      // this.assetTypeNames = this.assetType.map(a => a.assettypename.toLowerCase());
+      this.raiseRequestList = result;
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the asset type Details');
       });
   }
+
   getAssetTypeList() {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetType = result;
-      this.getraiserequestList();
+      this. getAllRaiseRequestList();
     }),
       error => {
         console.error(error);
@@ -60,7 +59,7 @@ export class RaiseRequestListComponent implements OnInit {
     // modalRef.componentInstance.assetTypeNames = this.assetTypeNames;
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getraiserequestList();
+        this. getAllRaiseRequestList();
       }
     });
   }
@@ -73,7 +72,7 @@ export class RaiseRequestListComponent implements OnInit {
     // modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.assettypename.toLowerCase());
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getraiserequestList();
+        this. getAllRaiseRequestList();
       }
     });
   }
@@ -84,7 +83,7 @@ export class RaiseRequestListComponent implements OnInit {
     modalRef.componentInstance.assetType = raiseRequest;
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getraiserequestList();
+        this. getAllRaiseRequestList();
       }
     });
   }
@@ -97,7 +96,7 @@ export class RaiseRequestListComponent implements OnInit {
       if (userResponse == true) {
         this.raiseRequestService.delete(raiseRequest.id).subscribe(() => {
           this.toastr.showSuccessMessage('The raise request deleted successfully!');
-          this.getraiserequestList();
+          this. getAllRaiseRequestList();
         });
       }
     });

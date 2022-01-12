@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let items of raiseRequest; let i= index;">
+            <tr *ngFor="let items of raiseRequestList; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ items.requestNo }}</td>
                 <td class="text-ellipsis">{{ items.requestedDate }}</td>
@@ -43,7 +43,7 @@
                     </div>
                 </td>
             </tr>
-            <tr *ngIf="!raiseRequest?.length">
+            <tr *ngIf="!raiseRequestList?.length">
                 <td colspan="7" class="text-center">
                     No rows found
                 </td>

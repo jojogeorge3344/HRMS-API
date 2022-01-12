@@ -1,6 +1,6 @@
 import { Model } from '@shared/models/model';
 import { RaiseRequestFor } from 'src/app/models/common/types/raiserequestfor';
-import { RaiseRequestStatus } from 'src/app/models/common/types/raiserequeststatus';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 export interface AssetRaiseRequest extends Model {
     requestNo: number;
@@ -8,7 +8,7 @@ export interface AssetRaiseRequest extends Model {
     requestFor: RaiseRequestFor;
     requestType: string;
     assetTypeId: number;
-    status:RaiseRequestStatus;
+    status:AssetStatus;
     nameOfTeamMember: string;
     description: string;
     empId: number;
