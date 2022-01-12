@@ -30,7 +30,7 @@ namespace Chef.HRMS.Models
 
         [Required]
 
-        public RaiseRequestStatus Status { get; set; }
+        public AssetStatus Status { get; set; }
 
         [Required]
         public string NameOfTeamMember { get; set; }
@@ -38,25 +38,9 @@ namespace Chef.HRMS.Models
         [Required]
         public string Description { get; set; }
 
-        [ForeignKey("JobDetails")]
-        public int JobDetailsId { get; set; }
 
-        [ForeignKey("JobDetails")]
-        public int Department { get; set; }
 
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
-
-
-
-        [ForeignKey("Employee")]
-        public string FirstName { get; set; }
-
-        [ForeignKey("JobDetails")]
-        public string EmployeeNumber { get; set; }
-
-
-
-
     }
 }

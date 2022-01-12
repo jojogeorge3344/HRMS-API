@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Types
 {
-    public enum RaiseRequestStatus
+    public enum AssetStatus
     {
        Requested=1,
        Approved,
        Rejected,
        Allocated,
+       Unallocated,
        Revoked
 
     }
