@@ -57,6 +57,11 @@ const routes: Routes = [
         canActivateChild: [AuthGuard]
       },   
       {
+        path: 'my-assets',
+        loadChildren: () => import('./features/employee-assets/employee-asset.module').then(m => m.EmployeeAssetModule),
+        // canActivateChild: [AuthGuard]
+      },  
+      {
         path: 'team-attendance',
         loadChildren: () => import('./features/team-attendance/team-attendance.module').then(m => m.TeamAttendanceModule),
         canActivateChild: [AuthGuard],
@@ -125,6 +130,12 @@ const routes: Routes = [
         data: { name: 'settings-expense'}
       },
       {
+        path: 'settings/asset',
+        loadChildren: () => import('./features/settings/asset/asset.module').then(m => m.AssetModule),
+        // canActivateChild: [AuthGuard],
+        data: { name: 'settings-expense'}
+      },
+      {
         path: 'settings/roles',
         loadChildren: () => import('./features/settings/roles/roles.module').then(m => m.RolesModule),
         canActivateChild: [AuthGuard]
@@ -138,6 +149,11 @@ const routes: Routes = [
         path: 'payroll-processing',
         loadChildren: () => import('./features/payroll-process/payroll-process.module').then(m => m.PayrollProcessModule),
         canActivateChild: [AuthGuard]
+      },
+      {
+        path: 'asset-employee-wise',
+        loadChildren: () => import('./features/employee-asset/employee-asset.module').then(m => m.EmployeeAssetModule),
+        //canActivateChild: [AuthGuard]
       },
       {
         path: 'finance',

@@ -53,8 +53,27 @@ namespace Chef.HRMS.Repositories
                 });
                 fullQuery += query + Environment.NewLine + Environment.NewLine;
 
+            query = new QueryBuilder<AssetType>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
 
-                query = new QueryBuilder<HRMSBranch>().GenerateCreateTableQuery();
+            query = new QueryBuilder<AssetTypeMetadata>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+
+            query = new QueryBuilder<Asset>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+
+            query = new QueryBuilder<AssetMetadataValue>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+
+            query = new QueryBuilder<AssetRaiseRequest>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+
+            query = new QueryBuilder<HRMSBranch>().GenerateCreateTableQuery();
                 Connection.Execute(query);
                 fullQuery += query;
 
@@ -294,7 +313,7 @@ namespace Chef.HRMS.Repositories
 
 
 
-                System.IO.File.WriteAllText(@"HRMSTableQuery.sql", fullQuery);
+            System.IO.File.WriteAllText(@"HRMSTableQuery.sql", fullQuery);
 
         }
 

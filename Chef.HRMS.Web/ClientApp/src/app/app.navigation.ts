@@ -55,6 +55,11 @@ export const NavigationItems = [
         title: 'Loan',
         tags: 'me-loan',
         routerLink: '/my-loan'
+      },
+      {
+        title: 'My Assets',
+        tags: 'settings-expense',
+        routerLink: '/my-assets'
       }
     ]
   },
@@ -147,6 +152,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/settings/wps'
       },
+      {
+        title: 'Asset',
+        tags: 'settings-expense',
+        routerLink: '/settings/asset'
+      }
     ]
   },
   {
@@ -163,6 +173,11 @@ export const NavigationItems = [
         title: 'Payroll Processing',
         tags: 'organization-PayrollProcessing',
         routerLink: '/payroll-processing'
+      },
+      {
+        title: 'Employee Wise Asset',
+        tags: 'settings-expense',
+        routerLink: '/asset-employee-wise'
       },
     ]
   },
