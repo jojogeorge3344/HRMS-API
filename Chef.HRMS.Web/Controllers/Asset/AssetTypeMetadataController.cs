@@ -24,9 +24,9 @@ namespace Chef.HRMS.Web.Controllers
 
 
         [HttpPost("Insert")]
-       // [Consumes(MediaTypeNames.Application.Json)]
-       // [ProducesResponseType(StatusCodes.Status201Created)]
-       // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        // [Consumes(MediaTypeNames.Application.Json)]
+        // [ProducesResponseType(StatusCodes.Status201Created)]
+        // [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Insert(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             if (!ModelState.IsValid)
@@ -50,7 +50,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(AssetTypeMetadata assetTypeMetadata)
+        public async Task<IActionResult> Update(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,6 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetTypeMetadataService.UpdateAsync(assetTypeMetadata);
-
             return Ok(result);
         }
 
@@ -70,7 +69,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetTypeMetadata);
         }
 
-        [HttpGet("GetAssetTypeId/{id}")]
+        [HttpGet("GetAllAssetTypeMetadataDetailsById/{id}")]
         public async Task<ActionResult<IEnumerable<AssetTypeMetadata>>> GetAssetTypeId(int id)
         {
             var assetTypeMetadata = await assetTypeMetadataService.GetAssetTypeId(id);
@@ -91,6 +90,14 @@ namespace Chef.HRMS.Web.Controllers
             var result = await assetTypeMetadataService.DeleteAsync(id);
 
             return Ok(result);
+        }
+
+        [HttpDelete("DeleteAssetType/{AssetTypeId}")]
+        public async Task<ActionResult<int>> DeleteAssetType(int AssetTypeId)
+        {
+            var assetTypeMetadata = await assetTypeMetadataService.DeleteAsync(AssetTypeId);
+
+            return Ok(assetTypeMetadata);
         }
     }
 }

@@ -16,14 +16,14 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int AssetTypeName)
+        public async Task<IEnumerable<AssetTypeMetadata>> GetAssetTypeId(int assettypeid)
         {
 
-            var sql = "SELECT id FROM hrms.assettype WHERE AssetTypeName=@AssetTypeName";
-            return await Connection.QueryAsync<AssetTypeMetadata>(sql, new { AssetTypeName });
+            var sql = "SELECT * FROM hrms.assettypemetadata where assettypeid=@assettypeid"; 
+            return await Connection.QueryAsync<AssetTypeMetadata>(sql, new { assettypeid });
         }
 
-            public async Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataList()
+        public async Task<IEnumerable<AssetTypeMetadata>> GetAllAssetTypeMetadataList()
         {
             var sql = @"select assettypename,metadata from hrms.assettypemetadata 
                         inner join  hrms.assettype on hrms.assettype.id=hrms.assettypemetadata.assettypeid";
@@ -37,6 +37,12 @@ namespace Chef.HRMS.Repositories
             sql = sql.Replace("RETURNING id", "");
 
             return await Connection.ExecuteAsync(sql, assetTypeMetadata);
+        }
+
+        public async Task<int> DeleteAsset(int assetTypeId)
+        {
+            var sql = @"DELETE FROM hrms.assettypemetadata WHERE assettypeid = @assettypeid;";
+            return await Connection.ExecuteAsync(sql, new { assetTypeId });
         }
     }
 }

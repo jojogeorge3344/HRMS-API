@@ -385,6 +385,11 @@ aside ::-webkit-scrollbar-thumb {
   margin-left: 5rem;
 }
 
+.txtwidth{
+  width: 50% !important;
+  margin-left: 5rem;
+}
+
 .valerr{
   color: red;
   background-color: rgb(255, 255, 255);

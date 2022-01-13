@@ -45,9 +45,9 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAssetById/{id}")]
-        public async Task<ActionResult<IEnumerable<Asset>>> Get(int id)
+        public async Task<ActionResult<Asset>> GetAssetById(int id)
         {
-            var assets = await assetService.GetAsync(id);
+            var assets = await assetService.GetAssetById(id);
 
             return Ok(assets);
         }
@@ -77,9 +77,9 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[Consumes(MediaTypeNames.Application.Json)]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Update(Asset asset)
         {
             if (!ModelState.IsValid)
