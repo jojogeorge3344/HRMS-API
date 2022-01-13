@@ -7,7 +7,7 @@ import { AssetStatus } from "src/app/models/common/types/assetstatus";
 import { EmployeAssetService } from "../employe-asset.service";
 import { forkJoin } from 'rxjs';
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
-import { RaiseRequest } from "@features/employee-assets/raise-request/raise-request.model";
+import { AssetRaiseRequest } from "@features/employee-assets/raise-request/raise-request.model";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -20,7 +20,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   currentUserId: number;
   assetRaiseRequestId:number;
   empid: string;
-  employeeWiseRequest: RaiseRequest;
+  employeeWiseRequest: AssetRaiseRequest;
   result: any;
 
   constructor(

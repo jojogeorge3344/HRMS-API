@@ -59,7 +59,7 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetEmployeeDetailsById(employeeid);
         }
 
-        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int empid)
+        public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
             return await assetEmployeeWiseRepository.GetEmployeeRequestById(empid);
         }

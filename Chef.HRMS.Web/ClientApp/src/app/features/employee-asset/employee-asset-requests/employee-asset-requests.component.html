@@ -24,8 +24,8 @@
                 <tr class="text-center" *ngFor="let empreq of employeeWiseRequest; let i= index;">
                     <td>{{i+1}}</td>
                     <td>{{ empreq.requestNo}}</td>
-                    <td class="text-capitalize">{{empreq.requestedBy}}</td>
-                    <td >{{ empreq.requestedOn}}</td>
+                    <td class="text-capitalize">{{empreq.nameOfTeamMember}}</td>
+                    <td >{{ empreq.requestedDate}}</td>
                     <td >{{empreq.requestFor}}</td>
                     <td >{{empreq.requestType}}</td>
                     <td >{{empreq.status}}</td>

@@ -5,7 +5,7 @@ import { AssetEmployeeWise } from './employee-asset.model';
 import { BehaviorSubject, Observable} from 'rxjs';
 import { AssetEmployeewiseRequest } from './assetemployeewiserequest.model';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
-import { RaiseRequest } from '@features/employee-assets/raise-request/raise-request.model';
+import { AssetRaiseRequest} from '@features/employee-assets/raise-request/raise-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +42,7 @@ export class EmployeAssetService {
   }
 
   getEmployeeRequestById(id) {
-    return this.http.get<RaiseRequest>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
+    return this.http.get<AssetRaiseRequest>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
   }
 
   getAllocatedAssetsById(id) {
