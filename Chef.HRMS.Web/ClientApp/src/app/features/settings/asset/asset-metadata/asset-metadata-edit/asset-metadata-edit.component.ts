@@ -172,6 +172,10 @@ export class AssetMetadataEditComponent implements OnInit {
     }
   }
 
+  updateEnable(){
+    this.updateDisable = false;
+  }
+
   fieldValidation() {
     this.mdata = this.editForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
