@@ -47,7 +47,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetEmployeeRequestById/{empid}")]
-        public async Task<ActionResult<IEnumerable<AssetEmployeeWiseRequest>>> GetEmployeeRequestById(int empid)
+        public async Task<ActionResult<IEnumerable<AssetRaiseRequest>>> GetEmployeeRequestById(int empid)
         {
             var assetEmployeeWises = await assetEmployeeWiseService.GetEmployeeRequestById(empid);
 
@@ -83,6 +83,23 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetEmployeeWiseService.UpdateStatus(id, status);
+
+            return Ok(result);
+        }
+
+
+        [HttpPost("UpdateApproveRejectRevoke")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> UpdateApproveReject(int id, int status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.UpdateApproveReject(id, status);
 
             return Ok(result);
         }

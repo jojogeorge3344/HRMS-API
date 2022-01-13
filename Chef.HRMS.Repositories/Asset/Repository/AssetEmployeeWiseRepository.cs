@@ -86,22 +86,38 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
         }
 
-        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int empid)
+        public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
 
-            var sql= @"SELECT rr.id AS assetraiserequestid,
-                                    rr.requestno,
-                                    rr.requestfor,
-	                                rr.requesttype,
-                                    rr.status,
-                                    empid,
-									firstname AS requestedby,
-                                    rr.requesteddate AS requestedon
-	                                    FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee ON rr.empid=employee.id
-														WHERE empid=@empid";
+            var sql= @"SELECT id ,
+                                    requestno,
+                                    requestfor,
+	                                requesttype,
+                                    status,
+									nameofteammember,
+                                    requesteddate AS requestedon,
+									empid
+	                                 FROM hrms.assetraiserequest where empid=@empid";
 
-            return await Connection.QueryAsync<AssetEmployeeWiseRequest>(sql, new { empid });
+            return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 
+        }
+
+        public async Task<int> UpdateApproveReject(int id, int status)
+        {
+            if (status == 2 || status == 3)
+            {
+                var sql = @"UPDATE hrms.assetraiserequest 
+                                    SET status=@status WHERE id=@id";
+                var result = await Connection.ExecuteAsync(sql, new { id, status });
+                return result;
+            }
+            
+            else
+            {
+                return 0;
+            }
+            
         }
 
         public async Task<int> UpdateStatus(int id, int status)
