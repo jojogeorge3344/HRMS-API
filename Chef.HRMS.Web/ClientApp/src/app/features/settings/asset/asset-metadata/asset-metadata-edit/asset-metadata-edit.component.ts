@@ -35,6 +35,7 @@ export class AssetMetadataEditComponent implements OnInit {
   duplicateValidation = false;
   assignedMetadata: AssetMetadataValue[];
   assignedMetadataId: Number[] = [];
+  //assignedMetadataIds: Number[] = [];
   dataTypes: string[];
   maxAlert = false;
   isDisable = false;
@@ -56,10 +57,12 @@ export class AssetMetadataEditComponent implements OnInit {
     this.editForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
-    this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered);
+    this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered).sort(function(a, b) {
+      return (a.id - b.id);
+    });
     this.getMetadataFilteredId(this.metadataFiltered);
     this.patchDataArray();
-    this.getAllAssignedMetadata();
+    this.getAllAssignedMetadata();    
   }
 
   getMetadataFiltered(data) {
@@ -94,7 +97,7 @@ export class AssetMetadataEditComponent implements OnInit {
     },
       error => {
         console.error(error);
-      });
+      }); 
   }
 
   isDisabled(i) {

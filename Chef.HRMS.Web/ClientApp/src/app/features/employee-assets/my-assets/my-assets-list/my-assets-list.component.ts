@@ -40,9 +40,9 @@ export class MyAssetsListComponent implements OnInit {
       };
   }
 
-  isDisabled(i) {
-    return this.myAssetList[i].status.toLowerCase()=="allocated";
-  }
+  // isDisabled(i) {
+  //   return this.myAssetList[i].status.toLowerCase()=="allocated";
+  // }
 
   openView(myAsset:MyAssets,currentUserId) {
     const modalRef = this.modalService.open(MyAssetsViewComponent,
