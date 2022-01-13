@@ -31,14 +31,15 @@ namespace Chef.HRMS.Services
             return await assetRepository.GetAllAsync();
         }
 
-        public async Task<Asset> GetAssetById(int id)
-        {
-            var asset = await assetRepository.GetAsync(id);
-            var assetmetadatavalue = await assetRepository.GetMetadataValueAsync(id);
-            if (asset != null) { asset.AssetMetadataValues = assetmetadatavalue.ToList(); }
-            return asset;
-            //return await assetRepository.GetAssetById(id);
-        }
+        //public async Task<Asset> GetAssetById(int id)
+        //{
+        //    var asset = await assetRepository.GetAsync(id);
+        //    var assetmetadatavalue = await assetRepository.GetMetadataValueAsync(id);
+        //    if (asset != null) { asset.AssetMetadataValues = assetmetadatavalue.ToList(); }
+        //    return asset;
+        //    //return await assetRepository.GetAssetById(id);
+        //}
+
 
 
         public async Task<Asset> GetAsync(int id)
@@ -90,7 +91,12 @@ namespace Chef.HRMS.Services
                 if (asset.AssetMetadataValues != null)
                 {
                     //asset.AssetMetadataValues.ForEach(c => c.AssetId = result);
-                    var res = await assetRepository.BulkUpdateAsync(asset.AssetMetadataValues);
+                    List<AssetMetadataValue> Exist = asset.AssetMetadataValues.Where(x => x.Id > 0).ToList();
+                    var res = await assetRepository.BulkUpdateAsync(Exist);
+                    List<AssetMetadataValue> New = asset.AssetMetadataValues.Where(x => x.Id <= 0).ToList();
+                    res = await assetRepository.BulkInsertAsync(New);
+
+
                 }
                 simpleUnitOfWork.Commit();
             }
@@ -105,6 +111,23 @@ namespace Chef.HRMS.Services
             return asset.Id;
         }
 
+        public async Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue()
+        {
+            return await assetRepository.GetAllMetadataValue();
+        }
 
+        public async Task<Asset> GetAssetById(int id)
+        {
+            var asset = await assetRepository.GetAsync(id);
+            var assetmetadatavalue = await assetRepository.GetMetadataValueAsync(id);
+            if (asset != null) { asset.AssetMetadataValues = assetmetadatavalue.ToList(); }
+            return asset;
+           
+        }
+
+        public async Task<int> UpdateStatus(int id, int status)
+        {
+            return await assetRepository.UpdateStatus(id, status);
+        }
     }
 }

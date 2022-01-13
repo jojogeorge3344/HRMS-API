@@ -44,6 +44,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assets);
         }
 
+        [HttpGet("GetAllMetadataValue")]
+        public async Task<ActionResult<IEnumerable<AssetMetadataValue>>> GetAllMetadataValue()
+        {
+            var assets = await assetService.GetAllMetadataValue();
+
+            return Ok(assets);
+        }
+
         [HttpGet("GetAssetById/{id}")]
         public async Task<ActionResult<Asset>> GetAssetById(int id)
         {
@@ -88,6 +96,22 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetService.UpdateAsync(asset);
+
+            return Ok(result);
+        }
+
+        [HttpPut("UpdateStatus/{id}/{status}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> UpdateStatus(int id, int status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetService.UpdateStatus(id, status);
 
             return Ok(result);
         }

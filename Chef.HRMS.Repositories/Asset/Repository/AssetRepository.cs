@@ -58,6 +58,8 @@ namespace Chef.HRMS.Repositories
             return noOfRows;
         }
 
+ 
+
         public async Task<int> BulkUpdateAsync(List<AssetMetadataValue> assetMetadataValues)
         {
             int noOfRows;
@@ -123,6 +125,24 @@ namespace Chef.HRMS.Repositories
                                 ON js.assetid = jt.id where js.assetid=@id";
             return await Connection.QueryAsync<AssetMetadataValue>(sql, new { id });
         }
+        public async Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue()
+        {
+               var sql = "SELECT * FROM hrms.assetmetadatavalue";
+               return await Connection.QueryAsync<AssetMetadataValue>(sql);
+        }
+
+        public async Task<int> UpdateStatus(int id, int status)
+        {
+            var sql = @"UPDATE hrms.asset
+                        SET status=@status WHERE id=@id";
+            return await Connection.ExecuteAsync(sql, new { id, status });
+        }
+
+        //public async Task<int> Update(int id)
+        //{
+        //    var sql = "UPDATE assetname,isactive,description FROM hrms.asset WHERE Id=@Id";
+        //    return await Connection.QueryAsync<Asset>(sql, new { Id = Id });
+        //}
     }
 }
 

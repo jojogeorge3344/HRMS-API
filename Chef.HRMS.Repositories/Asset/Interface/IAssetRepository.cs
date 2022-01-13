@@ -16,5 +16,7 @@ namespace Chef.HRMS.Repositories
         Task<int> BulkInsertAsync(List<AssetMetadataValue> assetMetadataValues);
         Task<int> BulkUpdateAsync(List<AssetMetadataValue> assetMetadataValues);
         //Task<int> Update(int id);
+        Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue();
+        Task<int> UpdateStatus(int id, int status);
     }
 }

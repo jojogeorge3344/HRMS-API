@@ -5,11 +5,12 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { assetmetadata, } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { AssetTypeMetadata, } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
 import { result } from 'lodash';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 @Component({
   selector: 'hrms-asset-assets-create',
@@ -17,13 +18,13 @@ import { result } from 'lodash';
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class AssetAssetsCreateComponent implements OnInit {
-  // assetId: any;
+
   assetForm: FormGroup;
   assetType: AssetType;
   currentUserId: number;
   dataType: any[];
   date = Date.now();
-  @Input() assetmetadata: assetmetadata
+  @Input() assetmetadata: AssetTypeMetadata
   @Input() assetTypeNames: AssetType;
   minDate: { year: number; month: number; day: number; };
   maxDate: { year: number; month: number; day: number; };
@@ -45,6 +46,7 @@ export class AssetAssetsCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.assetForm = this.createFormGroup();
     this.getAssetType();
+  
     // this.getAssetMetadataById()
   }
   get metadataFormGroup () {
@@ -92,6 +94,7 @@ export class AssetAssetsCreateComponent implements OnInit {
       assetTypeMetadataId: [ '', [
         Validators.required,
       ]],
+      status: [ 5, [ ]],
       assetMetadataValues:[ ['', []]],
       assetName: ['', [
         Validators.required,
@@ -120,7 +123,7 @@ export class AssetAssetsCreateComponent implements OnInit {
         
         this.typeMap.set(mdata.metadata,mdata);
 
-        if(mdata.ismandatory){
+        if(mdata.isMandatory){
             (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
             // console.log(mdata);  
         }
