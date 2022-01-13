@@ -31,7 +31,6 @@ namespace Chef.HRMS.Models
         [Required]
         public AssetStatus Status { get; set; }
 
-        [Required]
         public string NameOfTeamMember { get; set; }
 
         [Required]

@@ -1,18 +1,15 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { RaiseRequestService } from '../raise-request.service';
 import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
-import { RaiseRequestFor } from 'src/app/models/common/types/raiserequestfor';
+import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { ThrowStmt } from '@angular/compiler';
 import { Employee } from '@features/employee/employee.model';
-import { EmployeeService } from '@features/employee/employee.service';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'hrms-raise-request-create',
@@ -23,27 +20,19 @@ export class RaiseRequestCreateComponent implements OnInit {
 
   addForm: FormGroup;
   currentUserId: number;
-  @Input() requestId: any;
-  @Input() assetTypeNames: string[];
+  // @Input() assetTypeNames: string[];
   current = new Date();
   todaysDate: Date;
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
-  raiseRequesttype = RaiseRequestFor;
+  raiseRequesttype = RequestFor;
   isDisable = false;
-
-  employeeList: Employee[];
-  selectedItems = [];
-  @ViewChild('notifyPersonnel')
-  notifyPersonnel: ElementRef;
-  employeeDetails: Employee;
 
   constructor(
     private raiseRequestService: RaiseRequestService,
+    private assetTypeService: AssetTypeService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private assetTypeService: AssetTypeService,
-    private employeeService: EmployeeService,
     private toastr: ToasterDisplayService) {
 
   }
@@ -59,7 +48,7 @@ export class RaiseRequestCreateComponent implements OnInit {
   get name() { return this.addForm.get('name'); }
 
   onSubmit() {
-    this.raiseRequestService.add(this.addForm.value).subscribe((result: any) => {
+    this.raiseRequestService.add(this.addForm.getRawValue()).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
         this.toastr.showErrorMessage('Raised request already exists!');
@@ -75,7 +64,7 @@ export class RaiseRequestCreateComponent implements OnInit {
 
   }
 
-  getvalue(i) {
+  getvalue(i) { // self or team member
     console.log(this.addForm.value.requestFor);
     if (this.addForm.value.requestFor == '1') {
       this.isDisable = true;
@@ -84,8 +73,12 @@ export class RaiseRequestCreateComponent implements OnInit {
       this.isDisable = false;
     }
   }
+  // changeMember(){
+  //   this.addForm.get("nameOfTeamMember").setValidators([Validators.required])
+  //   this.addForm.get("nameOfTeamMember").setValidators(null)
+  // }
 
-  getAllAssetTypes() {
+  getAllAssetTypes() { // to get asset type list
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetTypeArray = result;
     }),
@@ -93,35 +86,6 @@ export class RaiseRequestCreateComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the AssetType');
       };
-  }
-
-  getEmployeeList() {
-    this.employeeService.getAll().subscribe(result => {
-      this.employeeList = result.filter(employee => employee.id !== this.requestId);
-    },
-      error => {
-        console.error(error);
-      });
-  }
-  formatter = (employee) => employee.firstName;
-
-  search = (text$: Observable<string>) => text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    filter(term => term.length >= 2),
-    map(term => this.employeeList.filter(employee => new RegExp(term, 'mi').test(employee.firstName)).slice(0, 10))
-  )
-
-  selected($event) {
-    $event.preventDefault();
-    if (this.selectedItems.indexOf($event.item) === -1) {
-      this.selectedItems.push($event.item);
-    }
-    this.notifyPersonnel.nativeElement.value = '';
-  }
-
-  remove(item) {
-    this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
   }
 
   createFormGroup(): FormGroup {
@@ -138,8 +102,7 @@ export class RaiseRequestCreateComponent implements OnInit {
 
       ]],
       nameOfTeamMember: ['', [
-        Validators.required,
-
+    
       ]],
       assetTypeId: ['', [
         Validators.required,

@@ -66,10 +66,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetAllRaiseRequestList")]
-        public async Task<ActionResult<IEnumerable<AssetRaiseRequest>>> GetAllRaiseRequestList()
+        [HttpGet("GetAllRaiseRequestList/{empid}")]
+        public async Task<ActionResult<IEnumerable<AssetRaiseRequest>>> GetAllRaiseRequestList(int empid)
         {
-            var AssetRaiseRequest = await assetRaiseRequestService.GetAllAsync();
+            var AssetRaiseRequest = await assetRaiseRequestService.GetAllRaiseRequestList(empid);
 
             return Ok(AssetRaiseRequest);
         }

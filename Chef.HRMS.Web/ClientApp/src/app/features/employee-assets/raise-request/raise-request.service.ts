@@ -12,7 +12,7 @@ export class RaiseRequestService {
 
   constructor(http : HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.http = http;
-    this.baseUrl = baseUrl + "api/raiseRequest/";
+    this.baseUrl = baseUrl + "api/AssetRaiseRequest/";
   }
 
   add(raiseRequest: AssetRaiseRequest){
@@ -23,8 +23,8 @@ export class RaiseRequestService {
     return this.http.get<AssetRaiseRequest[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
 
-  getAllRaiseRequestList(){
-    return this.http.get<AssetRaiseRequest[]>(this.baseUrl + 'getAllRaiseRequestList').pipe(map(response => { return response; }));
+  getAllRaiseRequestList(currentUserId){
+    return this.http.get<AssetRaiseRequest[]>(this.baseUrl + 'getAllRaiseRequestList/' + currentUserId).pipe(map(response => { return response; }));
   }
 
   update(raiseRequest: AssetRaiseRequest){
