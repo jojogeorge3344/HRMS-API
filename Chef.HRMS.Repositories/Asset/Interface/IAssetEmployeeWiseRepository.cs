@@ -24,5 +24,6 @@ namespace Chef.HRMS.Repositories
         //Task<IEnumerable<AssetAllocated>> GetAllocatedById(int empid);
 
         Task<int> UpdateStatus(int id, int status);
+        Task<int> UpdateApproveReject(int id, int status);
     }
 }

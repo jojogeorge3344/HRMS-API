@@ -103,6 +103,23 @@ namespace Chef.HRMS.Repositories
 
         }
 
+        public async Task<int> UpdateApproveReject(int id, int status)
+        {
+            if (status == 2 || status == 3)
+            {
+                var sql = @"UPDATE hrms.assetraiserequest 
+                                    SET status=@status WHERE id=@id";
+                var result = await Connection.ExecuteAsync(sql, new { id, status });
+                return result;
+            }
+            
+            else
+            {
+                return 0;
+            }
+            
+        }
+
         public async Task<int> UpdateStatus(int id, int status)
         {
             var sql = @"UPDATE hrms.assetraiserequest 
