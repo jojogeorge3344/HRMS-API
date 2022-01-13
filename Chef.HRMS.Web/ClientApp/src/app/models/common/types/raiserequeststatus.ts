@@ -1,9 +1,12 @@
-export enum RaiseRequestStatus
+export enum AssetStatus
 {
-Requested=1,
-Approved,
-Rejected,
-Allocated,
-Revoked 
+    Requested=1,
+    Approved,
+    Rejected,
+    Allocated,
+    Unallocated,
+    Revoked,
+    ChangeRequest,
+    ReturnRequest 
 }
 
