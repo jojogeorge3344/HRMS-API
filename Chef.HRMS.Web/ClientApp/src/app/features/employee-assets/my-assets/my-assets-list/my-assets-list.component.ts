@@ -41,7 +41,8 @@ export class MyAssetsListComponent implements OnInit {
   }
 
   isDisabled(i) {
-    return this.myAssetList[i].status.toLowerCase()=="allocated";
+    // return this.myAssetList[i].status.toLowerCase()=="allocated";
+    return false;
   }
 
   openView(myAsset:MyAssets,currentUserId) {
