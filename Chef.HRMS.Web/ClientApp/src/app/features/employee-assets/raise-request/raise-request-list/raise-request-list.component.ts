@@ -38,27 +38,29 @@ export class RaiseRequestListComponent implements OnInit {
   getAllRaiseRequestList(currentUserId) {
     this.raiseRequestService.getAllRaiseRequestList(currentUserId).subscribe(result => {
       this.raiseRequestList = result;
-    },
+      console.log(result);
+     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the asset type Details');
       });
   }
 
-  getAssetTypeNameById(assetTypeId) {
-    this.assetTypeService.getAllAssetTypeList().subscribe(result => {
-      this.assetType = result;
-      this.assetType.forEach(result => {
-        if (result.id === assetTypeId) {
-          console.log(result.assettypename);
-          return result.assettypename;       }
-        });
-      }),error=>{
-        console.log(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset type name');
-      };
-  
-  }
+  // getAssetTypeNameById(assetTypeId) {
+  //   this.assetTypeService.getAllAssetTypeList().subscribe(result => {
+  //     this.assetType = result;  
+  //     let data = this.assetType.filter(result => {
+  //       result.id === assetTypeId
+  //       });
+  //       console.log(data);
+        
+  //     }),error=>{
+  //       console.log(error);
+  //       this.toastr.showErrorMessage('Unable to fetch the asset type name');
+  //     };
+      
+      
+  // }
 
   // getAssetTypeList() {
   //   this.assetTypeService.getAllAssetTypeList().subscribe(result => {
@@ -114,7 +116,7 @@ export class RaiseRequestListComponent implements OnInit {
   delete (raiseRequest: AssetRaiseRequest) {
       const modalRef = this.modalService.open(ConfirmModalComponent,
         { centered: true, backdrop: 'static' });
-      modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the raise request ${raiseRequest.requestFor}?`;
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the raise request for ${raiseRequest.assetTypeId}?`;
       modalRef.result.then((userResponse) => {
         if (userResponse == true) {
           this.raiseRequestService.delete(raiseRequest.id).subscribe(() => {

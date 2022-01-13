@@ -34,7 +34,7 @@
           <option *ngFor="let key of raiseRequestKeys" [ngValue]='key'>{{raiseRequesttype[key]}}</option>
       </select>
       </div>
-      <div class="form-group form-input-line col-6">
+      <!-- <div class="form-group form-input-line col-6">
         <span *ngFor="let item of selectedItems" class="badge border border-primary tag">{{ item.firstName }}
           <span class="fal fa-times ml-1 text-primary mr-1 link" (click)="remove(item)"></span>
       </span>
@@ -43,7 +43,13 @@
             id="nameOfTeamMember" name="nameOfTeamMember" [ngbTypeahead]="search" (selectItem)="selected($event)"
             #nameOfTeamMember [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]='false'
             placeholder="Search Employee">
+      </div> -->
+      <div class="form-group form-input-inline input-group col-6">
+        <label class="col-form-label" for="description">Name of Team Member</label>
+        <input type="text"  class="form-control" id="nameOfTeamMember" name="nameOfTeamMember" [attr.disabled]="isDisable?true:null"
+          formControlName="nameOfTeamMember">
       </div>
+
     </div>
     <div class="d-flex flex-wrap align-items-baseline">
         <div class="form-group form-input-line col-6">
@@ -51,7 +57,7 @@
           <select class="form-control" formControlName="assetTypeId" id="assetTypeId"
                 name="assetTypeId">
                 <option [ngValue]="0" disabled>Select Assettype</option>
-                <option *ngFor="let key of assetTypeArray">{{key.assettypename}}</option>
+                <option *ngFor="let key of assetTypeArray" [ngValue] = "key.id">{{key.assettypename}}</option>
             </select>
         </div>
         <div class="form-group form-textarea-line col-6">
