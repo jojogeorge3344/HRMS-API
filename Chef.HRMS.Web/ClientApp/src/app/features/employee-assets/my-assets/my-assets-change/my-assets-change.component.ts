@@ -34,6 +34,7 @@ export class MyAssetsChangeComponent implements OnInit {
   ngOnInit(): void {
     this.changeAssetForm = this.createFormGroup();
     this.changeTypeKeys = Object.keys(this.changeType).filter(Number).map(Number);
+    console.log(this.assetStatus.ChangeRequest);
   }
 
   createFormGroup(): FormGroup {
@@ -53,7 +54,8 @@ export class MyAssetsChangeComponent implements OnInit {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
     console.log(this.changeTypeSelected);
     
-    this.assetData.status=7;
+    
+    this.assetData.status=this.assetStatus.ChangeRequest;
     this.assetData.changeDescription=this.changeAssetForm.get('description').value;
     this.assetData.changeType=toNumber(this.changeTypeSelected);
     console.log(this.assetData);
