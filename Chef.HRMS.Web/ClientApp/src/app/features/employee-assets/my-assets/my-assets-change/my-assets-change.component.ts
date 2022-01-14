@@ -51,7 +51,7 @@ export class MyAssetsChangeComponent implements OnInit {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
     console.log(this.changeTypeSelected);
     
-    this.assetData.status="CR";
+    // this.assetData.status="CR";
     this.assetData.description=this.changeAssetForm.get('description').value;
     this.assetData.changeType=toNumber(this.changeTypeSelected);
     console.log(this.assetData);

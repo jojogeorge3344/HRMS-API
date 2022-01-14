@@ -48,8 +48,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
 
     return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
         this.employeeWiseRequest = result;
-        this.assetRaiseRequestId=result.id;
-       //console.log('res=',this.employeeWiseRequest);
+        debugger;
+        this.assetRaiseRequestId=result[0].id;
+       console.log(this.employeeWiseRequest);
       });
 
   }
@@ -65,15 +66,17 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
         // this.allocatedassets = result;
         // this.assetId=result[0].assetId
-        console.log(this.allocatedassets);
+       // console.log(this.allocatedassets);
       });
   }
  
 
 
-  manageRequest(status) {
+  manageRequest(empreq,status) {
      //  const parameters={assetId:this.assetId,requestId:this.assetRaiseRequestId,status:2}
-        this.employeeAsset.manageRequest(this.assetRaiseRequestId,status).subscribe(res => {})
+     console.log(empreq.id);
+     
+        this.employeeAsset.manageRequest(empreq.id,status).subscribe()
     }
 
   // reject() {
