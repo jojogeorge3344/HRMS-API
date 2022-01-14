@@ -18,40 +18,14 @@ namespace Chef.HRMS.Services
             this.assetEmployeeWiseRepository = assetEmployeeWiseRepository;
         }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public async Task<IEnumerable<AssetEmployeeWise>> GetAll()
         {
             return await assetEmployeeWiseRepository.GetAll();
         }
 
-        public Task<IEnumerable<AssetEmployeeWise>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<AssetEmployeeWise>> GetAllList()
-        {
-            return await assetEmployeeWiseRepository.GetAllList();
-        }
-
         public async Task<IEnumerable<AssetMyAsset>> GetAllocatedAssetById(int empid)
         {
-            return await assetEmployeeWiseRepository.GetAllocatedAssetById(empid); 
-        }
-
-        //public async Task<IEnumerable<AssetAllocated>> GetAllocatedById(int empid)
-        //{
-        //    return await assetEmployeeWiseRepository.GetAllocatedById(empid);
-        //}
-
-        public Task<AssetEmployeeWise> GetAsync(int id)
-        {
-            throw new NotImplementedException();
+            return await assetEmployeeWiseRepository.GetAllocatedAssetById(empid);
         }
 
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
@@ -63,6 +37,22 @@ namespace Chef.HRMS.Services
         {
             return await assetEmployeeWiseRepository.GetEmployeeRequestById(empid);
         }
+
+        public Task<int> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<AssetEmployeeWise>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AssetEmployeeWise> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public Task<AssetEmployeeWise> InsertAsync(AssetEmployeeWise obj)
         {
@@ -86,5 +76,6 @@ namespace Chef.HRMS.Services
         {
             return await assetEmployeeWiseRepository.UpdateStatus(id, status); 
         }
+
     }
 }
