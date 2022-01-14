@@ -30,7 +30,8 @@ namespace Chef.HRMS.Models
         public int EmpId { get; set; }
 
         [Required]
-        public string AssetType { get; set; }
+        [ForeignKey("AssetType")]
+        public string AssetTypeName { get; set; }
 
         [Required]
         public int ValueId { get; set; }
@@ -41,29 +42,29 @@ namespace Chef.HRMS.Models
         [Required]
         public DateTime DateAllocated { get; set; }
 
-        [Required]
+        
         public string Metadata { get; set; }
 
         [Required]
         //[ForeignKey("Asset")]
         public AssetStatus Status { get; set; }
 
-        [Required]
+       
         public string Description { get; set; }
 
         [Required]
         public string ChangeDescription { get; set; }
 
-        [Required]
+        
         public string ReturnDescription { get; set; }
 
-        [Required]
+        
         public DateTime ReturnDate { get; set; }
 
         [Required]
         public AssetChangeType ChangeType { get; set; }
 
-        [Required]
+        
         public AssetReturnType ReturnType { get; set; }
     }
 }
