@@ -50,7 +50,7 @@ export class EmployeAssetService {
   }
 
   // UpdateStatus/{id}/{status}
-  updateStatus(id,status) {
-    return this.http.put(this.baseUrl + 'UpdateStatus/' + id, id,status).pipe(map(response => { return response; }));
+  manageRequest(id,status) {
+    return this.http.put(this.baseUrl + 'UpdateApproveReject/',id , status).pipe(map(response => { return response; }));
   }
 }

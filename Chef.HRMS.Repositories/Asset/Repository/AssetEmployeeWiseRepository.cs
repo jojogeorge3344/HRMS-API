@@ -57,7 +57,7 @@ namespace Chef.HRMS.Repositories
         {
             var sql = @"SELECT id,
                                 empid,
-                                assettype,
+                                assettypename,
                                 assetid,
                                 assetname,
                                 dateallocated AS allocatedon,

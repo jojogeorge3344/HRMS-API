@@ -39,11 +39,11 @@
                             </button>
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                                role="menu" click aria-labelledby="button-basic">
-                               <li role="menuitem"  (click)="openView(employee)"><a class="dropdown-item">View</a></li>
-                               <li role="menuitem"  (click)="Approve(status)"><a class="dropdown-item">approve</a></li>
-                               <li role="menuitem"  (click)="Reject(employee)"><a class="dropdown-item">Reject</a></li>
-                               <li role="menuitem"  (click)="Allocate(employee)"><a class="dropdown-item">Allocate</a></li>
-                               <li role="menuitem"  (click)="Revoke(employee)"><a class="dropdown-item">Revoke</a></li>
+                               <li role="menuitem"   (click)="openRequestView(employee)"><a class="dropdown-item">View</a></li>
+                               <li role="menuitem" [disabled]="clicked" (click)="manageRequest(empreq,2); clicked = true;"><a class="dropdown-item">approve</a></li>
+                               <li role="menuitem"  (click)="manageRequest(empreq,3)"><a class="dropdown-item">Reject</a></li>
+                               <li role="menuitem"  (click)="Allocate()"><a class="dropdown-item">Allocate</a></li>
+                               <li role="menuitem"  (click)="manageRequest(empreq,6)"><a class="dropdown-item">Revoke</a></li>
                             </ul>
                          </div>
                         

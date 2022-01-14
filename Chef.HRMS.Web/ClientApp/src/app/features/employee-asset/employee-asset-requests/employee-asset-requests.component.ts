@@ -22,6 +22,8 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   empid: string;
   employeeWiseRequest: AssetRaiseRequest;
   result: any;
+  status:AssetStatus;
+ 
 
   constructor(
     private myAssetService: MyAssetsService,
@@ -35,7 +37,6 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.route.params.subscribe((params: Params) => {
-      //console.log(params);
       this.empid = params.id;
     });
     this.getEmployeeRequestById();
@@ -47,13 +48,14 @@ export class EmployeeAssetRequestsComponent implements OnInit {
 
     return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
         this.employeeWiseRequest = result;
-        this.assetRaiseRequestId=result.id;
-       //console.log('res=',this.employeeWiseRequest);
+        debugger;
+        this.assetRaiseRequestId=result[0].id;
+       console.log(this.employeeWiseRequest);
       });
 
   }
 
-  openView(employees) {
+  openRequestView(employees) {
     this.router.navigate(
       ['./' + this.empid + '/requestview'],
       { relativeTo: this.route.parent });
@@ -62,22 +64,20 @@ export class EmployeeAssetRequestsComponent implements OnInit {
 
   getAllocatedAssetsById() {
     return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
-        this.allocatedassets = result;
-        this.assetId=result[0].assetId
-        console.log(this.assetId);
+        // this.allocatedassets = result;
+        // this.assetId=result[0].assetId
+       // console.log(this.allocatedassets);
       });
   }
+ 
 
-  Approve(status:AssetStatus) {
-    status=2;
-    forkJoin([
-      this.myAssetService.updateStatusOf(this.assetId,status),  
-      this.assetService.updateStatus(this.assetRaiseRequestId,status),
-      this.employeeAsset.updateStatus(this.assetRaiseRequestId,status)
-    ]).subscribe(
-      // this.toastr.showSuccessMessage('Request Approved sucessfully!');
-      )
-  }
+
+  manageRequest(empreq,status) {
+     //  const parameters={assetId:this.assetId,requestId:this.assetRaiseRequestId,status:2}
+     console.log(empreq.id);
+     
+        this.employeeAsset.manageRequest(empreq.id,status).subscribe()
+    }
 
   // reject() {
   //   let addForm = this.addForm.getRawValue();
