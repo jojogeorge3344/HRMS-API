@@ -13,6 +13,7 @@ namespace Chef.HRMS.Models
     [Table("assetraiserequest")]
     public class AssetRaiseRequest: Model
     {
+
         [Required]
 
         public string RequestNo { get; set; }
