@@ -7,6 +7,7 @@ import { MyAssetsService } from '../my-assets.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
 import { toNumber } from 'lodash';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class MyAssetsChangeComponent implements OnInit {
   changeType = AssetChangeType;
   changeTypeSelected: string;
   changeAssetForm: FormGroup;
+  assetStatus=AssetStatus;
 
   @Input() assetData: MyAssets;
   @Input() currentUserId: number;
