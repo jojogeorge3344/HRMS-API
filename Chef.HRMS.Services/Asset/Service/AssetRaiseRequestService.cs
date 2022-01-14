@@ -33,9 +33,9 @@ namespace Chef.HRMS.Services
             return await assetRaiseRequestRepository.GetAllAsync();
         }
 
-        public async Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList()
+        public async Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid)
         {
-            return await assetRaiseRequestRepository.GetAllRaiseRequestList();
+            return await assetRaiseRequestRepository.GetAllRaiseRequestList(empid);
         }
 
         public async Task<AssetRaiseRequest> GetAsync(int id)

@@ -7,6 +7,7 @@ import { MyAssetsService } from '../my-assets.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
 import { toNumber } from 'lodash';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class MyAssetsChangeComponent implements OnInit {
   changeType = AssetChangeType;
   changeTypeSelected: string;
   changeAssetForm: FormGroup;
+  assetStatus=AssetStatus;
 
   @Input() assetData: MyAssets;
   @Input() currentUserId: number;
@@ -39,7 +41,7 @@ export class MyAssetsChangeComponent implements OnInit {
       changeTypeOptions: [null, Validators.required],
       description: ['', [
         Validators.required,
-        Validators.maxLength(128)
+        Validators.maxLength(256)
       ]],
     });
   }
@@ -52,20 +54,19 @@ export class MyAssetsChangeComponent implements OnInit {
     console.log(this.changeTypeSelected);
     
     this.assetData.status=7;
-    this.assetData.description=this.changeAssetForm.get('description').value;
+    this.assetData.changeDescription=this.changeAssetForm.get('description').value;
     this.assetData.changeType=toNumber(this.changeTypeSelected);
     console.log(this.assetData);
     
     this.myAssetService.updateStatus(this.assetData).subscribe(result => {
-      this.toastr.showSuccessMessage('Asset metadata added successfully!');
+      this.toastr.showSuccessMessage('Change request submitted successfully!');
       this.activeModal.close('submit');
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the asset metadata');
+        this.toastr.showErrorMessage('Unable to submit change request.');
       });
     }
-  
 }
 
 

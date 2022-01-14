@@ -35,6 +35,7 @@ export class AssetMetadataEditComponent implements OnInit {
   duplicateValidation = false;
   assignedMetadata: AssetMetadataValue[];
   assignedMetadataId: Number[] = [];
+  //assignedMetadataIds: Number[] = [];
   dataTypes: string[];
   maxAlert = false;
   isDisable = false;
@@ -53,14 +54,15 @@ export class AssetMetadataEditComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-    debugger;
     this.editForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
-    this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered);
+    this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered).sort(function(a, b) {
+      return (a.id - b.id);
+    });
     this.getMetadataFilteredId(this.metadataFiltered);
     this.patchDataArray();
-    this.getAllAssignedMetadata();
+    this.getAllAssignedMetadata();    
   }
 
   getMetadataFiltered(data) {
@@ -95,7 +97,7 @@ export class AssetMetadataEditComponent implements OnInit {
     },
       error => {
         console.error(error);
-      });
+      }); 
   }
 
   isDisabled(i) {
@@ -108,6 +110,7 @@ export class AssetMetadataEditComponent implements OnInit {
     if (!this.duplicateValidation) {
       const metdata = (this.editForm.get('dataRows') as FormArray).value.map((val, i) => ({
         ...val, assettypeId: this.assetTpId, id: this.metadataFilteredIds[i]
+        
       }));
       this.assetMetadataService.update(metdata).subscribe(result => {
         this.toastr.showSuccessMessage('Asset metadata updated successfully!');
@@ -169,6 +172,10 @@ export class AssetMetadataEditComponent implements OnInit {
     }
   }
 
+  updateEnable(){
+    this.updateDisable = false;
+  }
+
   fieldValidation() {
     this.mdata = this.editForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
@@ -206,10 +213,12 @@ export class AssetMetadataEditComponent implements OnInit {
     this.mdata = this.editForm.get('dataRows') as FormArray;
     let metaArray = this.mdata.value;
     let name = metaArray[i].metadata;
-
-    this.metaData.forEach(val => {
-      if (val.metadata === name && val.assettypeId === this.assetTpId) { this.metadataId = val.id }
-    })
+    // this.metadataFiltered.forEach(val => {
+    //   if (val.metadata === name) { this.metadataId = val.id }
+    // })
+    if(this.metadataFiltered[i]?.metadata===name){
+      this.metadataId=this.metadataFiltered[i].id;
+    }
     let l = this.mdata.length;
     if (l > 1) {
       if (this.metadataId) {
@@ -219,10 +228,10 @@ export class AssetMetadataEditComponent implements OnInit {
         modalRef.result.then((userResponse) => {
           if (userResponse == true) {
             this.mdata.removeAt(i);
-            // if(this.metadataFilteredIds[i])
-            // {
-            //   this.metadataFilteredIds.splice(i, 1); 
-            // }
+            if(this.metadataFilteredIds[i])
+            {
+              this.metadataFilteredIds.splice(i, 1); 
+            }
             this.assetMetadataService.deleteMetadata(this.metadataId).subscribe(result => {
               this.toastr.showSuccessMessage('Asset metadata deleted successfully!');
             },

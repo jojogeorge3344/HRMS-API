@@ -1,13 +1,11 @@
 import { Model } from '@shared/models/model';
-import { RaiseRequestFor } from 'src/app/models/common/types/raiserequestfor';
-import { AssetStatus } from 'src/app/models/common/types/raiserequeststatus';
-//import { RaiseRequestStatus } from 'src/app/models/common/types/raiserequeststatus';
-
+import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 export interface AssetRaiseRequest extends Model {
     requestNo: number;
     requestedDate: Date;
-    requestFor: RaiseRequestFor;
+    requestFor: RequestFor;
     requestType: string;
     assetTypeId: number;
     status:AssetStatus;
