@@ -23,12 +23,12 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.ExecuteAsync(sql, assetRaiseRequest);
         }
-        public async Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList()
+        public async Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid)
         {
 
-            var sql ="select id,assettypeid, requestno,requesteddate,requestfor,requesttype,status from hrms.assetraiserequest";
+            var sql ="select id,assettypeid, requestno,requesteddate,requestfor,requesttype,status from hrms.assetraiserequest where empid=@empid";
 
-            return await Connection.QueryAsync<AssetRaiseRequest>(sql);
+            return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
         }
 
         public async Task<IEnumerable<AssetRaiseRequest>> Get(int id)

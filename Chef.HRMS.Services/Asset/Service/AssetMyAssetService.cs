@@ -64,5 +64,10 @@ namespace Chef.HRMS.Services
         {
             return await assetMyAssetRepository.UpdateStatus(assetid, status);
         }
+
+        //public async Task<int> Update(int status)
+        //{
+        //    return await assetMyAssetRepository.Update(status);
+        //}
     }
 }

@@ -8,6 +8,7 @@ import { MyAssetsReturnComponent } from '../my-assets-return/my-assets-return.co
 import { MyAssetsService } from '../my-assets.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class MyAssetsListComponent implements OnInit {
 
   myAssetList: MyAssets[];
   currentUserId:number;
+  statusKeys: number[];
+  status = AssetStatus;
 
   constructor(
     private myAssetService: MyAssetsService,
@@ -41,8 +44,7 @@ export class MyAssetsListComponent implements OnInit {
   }
 
   isDisabled(i) {
-    return;
-    // return this.myAssetList[i].status.toLowerCase()=="allocated";
+    return this.status[this.myAssetList[i].status].toLowerCase()=="allocated";
   }
 
   openView(myAsset:MyAssets,currentUserId) {
@@ -74,7 +76,7 @@ export class MyAssetsListComponent implements OnInit {
 
   openReturn(assetData:MyAssets,currentUserId) {
     const modalRef = this.modalService.open(MyAssetsReturnComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
       modalRef.componentInstance.assetData = assetData;
       modalRef.componentInstance.currentUserId = currentUserId;
     modalRef.result.then((result) => {
