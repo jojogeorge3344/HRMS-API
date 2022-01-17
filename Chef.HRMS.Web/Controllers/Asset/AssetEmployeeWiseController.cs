@@ -85,7 +85,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
 
-        [HttpPut("UpdateApproveReject/{id}/{status}")]
+        [HttpPut("UpdateApproveReject")]
         public async Task<ActionResult> UpdateApproveReject(int id, int status)
         {
             if (!ModelState.IsValid)
