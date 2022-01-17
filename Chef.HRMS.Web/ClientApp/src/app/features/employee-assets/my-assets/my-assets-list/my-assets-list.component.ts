@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { MyAssets } from '../my-assets.model';
+import { AssetAllocated } from '../asset-allocated.model';
 import { MyAssetsChangeComponent } from '../my-assets-change/my-assets-change.component';
 import { MyAssetsViewComponent } from '../my-assets-view/my-assets-view.component';
 import { MyAssetsReturnComponent } from '../my-assets-return/my-assets-return.component';
@@ -17,7 +18,7 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 })
 export class MyAssetsListComponent implements OnInit {
 
-  myAssetList: MyAssets[];
+  myAssetList: AssetAllocated[];
   currentUserId:number;
   statusKeys: number[];
   status = AssetStatus;
