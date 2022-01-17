@@ -22,4 +22,7 @@ export class MyAssetsService {
   updateStatus(assetData:MyAssets){
     return this.http.post<MyAssets>(this.baseUrl + 'update' , assetData ).pipe(map(response => { return response; }));
   }
+  // updateReturnStatus(assetData:MyAssets){
+  //   return this.http.post<MyAssets>(this.baseUrl + 'updateReturn' , assetData ).pipe(map(response => { return response; }));
+  // }
 }
