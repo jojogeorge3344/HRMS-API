@@ -17,23 +17,21 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async Task<IEnumerable<AssetMyAsset>> GetMyAssetById(int empid)
+        public async Task<IEnumerable<AssetAllocated>> GetMyAssetById(int empid)
         {
             //var sql = "SELECT * FROM hrms.assetmyasset WHERE EmpId=@EmpId";
-            var sql = @"SELECT 
-		                        jt.id,
-		                        jt.empid,
-		                        jt.assettypeid,
-		                        js.id as assetid,
-		                        js.assetname,
-		                        jw.assettypename,
-		                        js.description,
-		                        jt.status
-		                        FROM hrms.assetraiserequest as jt
-		                        INNER JOIN hrms.asset as js ON jt.assettypeid = js.assettypeid
-		                        INNER JOIN hrms.assettype as jw ON jt.assettypeid = jw.id
-		                        WHERE jt.status = 4 AND jt.empid=@empid";
-            return await Connection.QueryAsync<AssetMyAsset>(sql, new { empid = empid });
+            var sql = @"SELECT
+		                    js.id,
+		                    js.empid,
+		                    js.assettypeid,
+		                    js.assetid,
+		                    js.assetname,
+		                    jk.description,
+		                    js.status
+		                    FROM hrms.assetallocated as js
+		                    INNER JOIN hrms.asset as jk ON js.assetid = jk.id
+		                    WHERE js.status = 4 AND js.empid=@empid";
+            return await Connection.QueryAsync<AssetAllocated>(sql, new { empid = empid });
         }
 
         //public async Task<int> InsertAsync(IEnumerable<AssetMyAsset> assetmyasset)

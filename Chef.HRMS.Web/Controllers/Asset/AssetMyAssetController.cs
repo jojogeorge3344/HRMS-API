@@ -41,7 +41,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetMyAssetById/{empid}")]
-        public async Task<ActionResult<AssetMyAsset>> GetMyAssetById(int empid)
+        public async Task<ActionResult<AssetAllocated>> GetMyAssetById(int empid)
         {
             var assets = await assetmyassetService.GetMyAssetById(empid);
             return Ok(assets);
