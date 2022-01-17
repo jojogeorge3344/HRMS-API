@@ -35,7 +35,7 @@ export class MyAssetsListComponent implements OnInit {
 
   getAllMyAssetList(userId) {
     this.myAssetService.getAllMyAssetList(userId).subscribe(result => {
-      this.myAssetList = result;
+      this.myAssetList = result;      
     }),
       error => {
         console.error(error);

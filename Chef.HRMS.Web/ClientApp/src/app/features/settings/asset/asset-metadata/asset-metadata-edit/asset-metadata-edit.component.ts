@@ -35,7 +35,6 @@ export class AssetMetadataEditComponent implements OnInit {
   duplicateValidation = false;
   assignedMetadata: AssetMetadataValue[];
   assignedMetadataId: Number[] = [];
-  //assignedMetadataIds: Number[] = [];
   dataTypes: string[];
   maxAlert = false;
   isDisable = false;
@@ -110,7 +109,6 @@ export class AssetMetadataEditComponent implements OnInit {
     if (!this.duplicateValidation) {
       const metdata = (this.editForm.get('dataRows') as FormArray).value.map((val, i) => ({
         ...val, assettypeId: this.assetTpId, id: this.metadataFilteredIds[i]
-        
       }));
       this.assetMetadataService.update(metdata).subscribe(result => {
         this.toastr.showSuccessMessage('Asset metadata updated successfully!');

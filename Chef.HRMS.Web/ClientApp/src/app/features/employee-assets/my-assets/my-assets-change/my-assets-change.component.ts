@@ -34,32 +34,23 @@ export class MyAssetsChangeComponent implements OnInit {
   ngOnInit(): void {
     this.changeAssetForm = this.createFormGroup();
     this.changeTypeKeys = Object.keys(this.changeType).filter(Number).map(Number);
-    console.log(this.assetStatus.ChangeRequest);
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       changeTypeOptions: [null, Validators.required],
-      description: ['', [
+      changeDescription: ['', [
         Validators.required,
         Validators.maxLength(256)
       ]],
     });
   }
-  // getValueSelected() {
-  //   this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
-  //   console.log(this.changeTypeSelected);
-  // }
+ 
   onSubmit() {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
-    console.log(this.changeTypeSelected);
-    
-    
     this.assetData.status=this.assetStatus.ChangeRequest;
-    this.assetData.changeDescription=this.changeAssetForm.get('description').value;
+    this.assetData.changeDescription=this.changeAssetForm.get('changeDescription').value;
     this.assetData.changeType=toNumber(this.changeTypeSelected);
-    console.log(this.assetData);
-    
     this.myAssetService.updateStatus(this.assetData).subscribe(result => {
       this.toastr.showSuccessMessage('Change request submitted successfully!');
       this.activeModal.close('submit');
