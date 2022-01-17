@@ -21,14 +21,6 @@ namespace Chef.HRMS.Web.Controllers
             this.assetEmployeeWiseService = assetEmployeeWiseService;
         }
 
-        [HttpGet("GetAllList")]
-        public async Task<ActionResult> GetAllAssetTypeList()
-        {
-            var result = await assetEmployeeWiseService.GetAllList();
-
-            return Ok(result);
-        }
-
         [HttpGet("GetAll")]
         public async Task<ActionResult> GetAll()
         {
@@ -46,6 +38,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
         [HttpGet("GetEmployeeRequestById/{empid}")]
         public async Task<ActionResult> GetEmployeeRequestById(int empid)
         {
@@ -54,6 +47,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
         [HttpGet("GetAllocatedAssetById/{empid}")]
         public async Task<ActionResult> GetAllocatedAssetById(int empid)
         {
@@ -61,14 +55,6 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
-
-        //[HttpGet("GetAllocatedById/{empid}")]
-        //public async Task<ActionResult<IEnumerable<AssetAllocated>>> GetAllocatedById(int empid)
-        //{
-        //    var assetEmployeeWises = await assetEmployeeWiseService.GetAllocatedById(empid);
-
-        //    return Ok(assetEmployeeWises);
-        //}
 
 
         [HttpPut("UpdateStatus/{id}/{status}")]
@@ -97,6 +83,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
 
     }
 }
