@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
@@ -10,6 +11,10 @@ import { RaiseRequestCreateComponent } from '../raise-request-create/raise-reque
 import { RaiseRequestEditComponent } from '../raise-request-edit/raise-request-edit.component';
 import { RaiseRequestViewComponent } from '../raise-request-view/raise-request-view.component';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+
+
 
 @Component({
   selector: 'hrms-raise-request-list',
@@ -17,10 +22,14 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 })
 export class RaiseRequestListComponent implements OnInit {
 
-  raiseRequestList: AssetRaiseRequest[];
+  raiseRequestList: any;
   assetType: AssetType[];
   assetTypeNames: AssetType[];
   currentUserId:number;
+  raiseRequesttype = RequestFor;
+  raiseRequestStatus =AssetStatus;
+ 
+  
 
   constructor(
     private raiseRequestService: RaiseRequestService,
@@ -31,14 +40,18 @@ export class RaiseRequestListComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
-    // this.getAssetTypeList();
-    this.getAllRaiseRequestList(this.currentUserId);
+    // this.getAllRaiseRequestList(this.currentUserId);
+    this.getAssetTypeList();  
   }
 
   getAllRaiseRequestList(currentUserId) {
     this.raiseRequestService.getAllRaiseRequestList(currentUserId).subscribe(result => {
       this.raiseRequestList = result;
       console.log(result);
+      
+      this.raiseRequestList.map(item =>{
+      item.assetTypeName =  _.find(this.assetType, ['id', item.assetTypeId]).assettypename;
+      })
      },
       error => {
         console.error(error);
@@ -46,32 +59,16 @@ export class RaiseRequestListComponent implements OnInit {
       });
   }
 
-  // getAssetTypeNameById(assetTypeId) {
-  //   this.assetTypeService.getAllAssetTypeList().subscribe(result => {
-  //     this.assetType = result;  
-  //     let data = this.assetType.filter(result => {
-  //       result.id === assetTypeId
-  //       });
-  //       console.log(data);
-        
-  //     }),error=>{
-  //       console.log(error);
-  //       this.toastr.showErrorMessage('Unable to fetch the asset type name');
-  //     };
-      
-      
-  // }
-
-  // getAssetTypeList() {
-  //   this.assetTypeService.getAllAssetTypeList().subscribe(result => {
-  //     this.assetType = result;
-  //     this. getAllRaiseRequestList();
-  //   }),
-  //     error => {
-  //       console.error(error);
-  //       this.toastr.showErrorMessage('Unable to fetch the asset type Details');
-  //     };
-  // }
+  getAssetTypeList() {
+    this.assetTypeService.getAllAssetTypeList().subscribe(result => {
+      this.assetType = result;
+       this. getAllRaiseRequestList(this.currentUserId);
+    }),
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+      };
+  }
 
   openCreate() {
       const modalRef = this.modalService.open(RaiseRequestCreateComponent,

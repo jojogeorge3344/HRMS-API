@@ -56,10 +56,12 @@ export class AssetMetadataEditComponent implements OnInit {
     this.editForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
-    this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered);
+    this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered).sort(function(a, b) {
+      return (a.id - b.id);
+    });
     this.getMetadataFilteredId(this.metadataFiltered);
     this.patchDataArray();
-    this.getAllAssignedMetadata();
+    this.getAllAssignedMetadata();    
   }
 
   getMetadataFiltered(data) {
@@ -94,7 +96,7 @@ export class AssetMetadataEditComponent implements OnInit {
     },
       error => {
         console.error(error);
-      });
+      }); 
   }
 
   isDisabled(i) {
@@ -107,7 +109,6 @@ export class AssetMetadataEditComponent implements OnInit {
     if (!this.duplicateValidation) {
       const metdata = (this.editForm.get('dataRows') as FormArray).value.map((val, i) => ({
         ...val, assettypeId: this.assetTpId, id: this.metadataFilteredIds[i]
-        
       }));
       this.assetMetadataService.update(metdata).subscribe(result => {
         this.toastr.showSuccessMessage('Asset metadata updated successfully!');
@@ -167,6 +168,10 @@ export class AssetMetadataEditComponent implements OnInit {
     else {
       this.maxAlert = true;
     }
+  }
+
+  updateEnable(){
+    this.updateDisable = false;
   }
 
   fieldValidation() {

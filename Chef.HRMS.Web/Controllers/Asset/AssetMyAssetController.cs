@@ -49,41 +49,39 @@ namespace Chef.HRMS.Web.Controllers
             var AssetList = await assetmyassetService.GetAllMyAssetList();
             return Ok(AssetList);
         }
-        [HttpPost("Insert")]
 
+        //[HttpPost("Insert")]
         //[Consumes(MediaTypeNames.Application.Json)]
-
         //[ProducesResponseType(StatusCodes.Status201Created)]
-
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-        public async Task<ActionResult> Insert(AssetMyAsset assetmyasset)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var result = await assetmyassetService.InsertAsync(assetmyasset);
-            return Ok(result);
-        }
-        //[HttpPost("Update")]
-        ////[Consumes(MediaTypeNames.Application.Json)]
-        ////[ProducesResponseType(StatusCodes.Status201Created)]
-        ////[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<ActionResult> Update(AssetMyAsset assetmyasset)
+        //public async Task<ActionResult> Insert(AssetMyAsset assetmyasset)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return BadRequest(ModelState);
         //    }
-        //    var result = await assetmyassetService.UpdateAsync(assetmyasset);
+        //    var result = await assetmyassetService.InsertAsync(assetmyasset);
         //    return Ok(result);
         //}
 
+        [HttpPost("Update")]
+        //[Consumes(MediaTypeNames.Application.Json)]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Update(AssetMyAsset assetmyasset)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await assetmyassetService.UpdateAsync(assetmyasset);
+            return Ok(result);
+        }
+
         [HttpPut("UpdateStatus/{assetid}/{status}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[Consumes(MediaTypeNames.Application.Json)]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<int>> UpdateStatus(int assetid, int status)
         {
             if (!ModelState.IsValid)
