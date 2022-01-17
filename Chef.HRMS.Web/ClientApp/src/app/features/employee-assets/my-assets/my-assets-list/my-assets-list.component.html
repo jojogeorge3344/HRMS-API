@@ -15,10 +15,10 @@
             <tr *ngFor="let list of myAssetList;let i=index">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{list.dateAllocated | date: 'yyyy-MM-dd'}}</td>
-                <td class="text-ellipsis">{{list.assetType}}</td>
+                <td class="text-ellipsis">{{list.assetTypeName}}</td>
                 <td class="text-ellipsis">{{list.assetName}}</td>
                 <td class="text-ellipsis">{{list.assetId}}</td>
-                <td class="text-ellipsis">{{list.status}}</td>
+                <td class="text-ellipsis">{{status[list.status]}}</td>
                 <td>
                     <div class="btn-group" dropdown container="main">
                         <button id="button-basic" dropdownToggle type="button"
@@ -28,8 +28,8 @@
                         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                             aria-labelledby="button-basic">
                             <li role="menuitem" (click)="openView(list,currentUserId)"><a class="dropdown-item">View</a></li>
-                            <li role="menuitem" (click)="!isDisabled(i) && openChange(list,currentUserId)"><a [ngClass]="{'disabled': isDisabled(i)}" class="dropdown-item">Change</a> </li>
-                            <li role="menuitem" (click)="!isDisabled(i) && openReturn(list,currentUserId)"><a [ngClass]="{'disabled': isDisabled(i)}" class="dropdown-item">Return</a> </li>    
+                            <li role="menuitem" (click)="isDisabled(i) && openChange(list,currentUserId)"><a [ngClass]="{'disabled': !isDisabled(i)}" class="dropdown-item">Change</a> </li>
+                            <li role="menuitem" (click)="isDisabled(i) && openReturn(list,currentUserId)"><a [ngClass]="{'disabled': !isDisabled(i)}" class="dropdown-item">Return</a> </li>    
                         </ul>
                     </div>
                 </td>
