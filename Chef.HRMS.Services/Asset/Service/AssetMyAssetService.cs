@@ -28,9 +28,9 @@ namespace Chef.HRMS.Services
             return await assetMyAssetRepository.GetAllAsync();
         }
 
-        public async Task<IEnumerable<AssetMyAsset>> GetMyAssetById(int Id)
+        public async Task<IEnumerable<AssetAllocated>> GetMyAssetById(int empid)
         {
-            return await assetMyAssetRepository.GetMyAssetById(Id);
+            return await assetMyAssetRepository.GetMyAssetById(empid);
         }
 
 
@@ -64,10 +64,5 @@ namespace Chef.HRMS.Services
         {
             return await assetMyAssetRepository.UpdateStatus(assetid, status);
         }
-
-        //public async Task<int> Update(int status)
-        //{
-        //    return await assetMyAssetRepository.Update(status);
-        //}
     }
 }
