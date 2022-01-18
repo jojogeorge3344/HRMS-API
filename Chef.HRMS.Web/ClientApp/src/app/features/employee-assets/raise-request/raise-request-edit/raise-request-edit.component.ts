@@ -22,8 +22,9 @@ export class RaiseRequestEditComponent implements OnInit {
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
-  raiseRequestStatus =AssetStatus;
+  raiseRequestStatus = AssetStatus;
   isDisable = false;
+  raiseRequestEditData: AssetRaiseRequest;
 
   constructor( private raiseRequestService: RaiseRequestService,
     private assetTypeService: AssetTypeService,
@@ -34,7 +35,6 @@ export class RaiseRequestEditComponent implements OnInit {
    }
 
    ngOnInit(): void {
-     console.log(this.raiseRequestDetails);
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.getAllAssetTypes();
@@ -47,9 +47,11 @@ export class RaiseRequestEditComponent implements OnInit {
 
   onSubmit() {
     this.raiseRequestDetails.empId = this.currentUserId;
-    console.log(this.editForm.getRawValue());
+    this.raiseRequestEditData = this.editForm.getRawValue();
+    this.raiseRequestEditData.id = this.raiseRequestDetails.id;
+    console.log(this.raiseRequestEditData);
     
-    this.raiseRequestService.update(this.editForm.getRawValue()).subscribe((result: any) => {
+    this.raiseRequestService.update(this.raiseRequestEditData).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
         this.toastr.showErrorMessage('Raised request already exists!');
@@ -66,8 +68,7 @@ export class RaiseRequestEditComponent implements OnInit {
   }
 
   getvalue(i) { // self or team member
-    console.log(this.editForm.value.requestFor);
-    if (this.editForm.value.requestFor == '1') {
+      if (this.editForm.value.requestFor == '1') {
       this.isDisable = true;
       this.editForm.get("nameOfTeamMember").setValidators(null)
     }

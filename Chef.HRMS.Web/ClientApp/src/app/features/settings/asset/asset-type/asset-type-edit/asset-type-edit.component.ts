@@ -14,7 +14,6 @@ import { AssetMetadataService } from '../../asset-metadata/asset-metadata.servic
 export class AssetTypeEditComponent implements OnInit {
 
   editForm: FormGroup;
-
   currentUserId: number;
   @Input() assetTypeId: any;
   @Input() assetTypeNames: string[];

@@ -36,7 +36,7 @@ export class RaiseRequestListComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
-    this.getAssetTypeList();
+    this.getAssetTypeList();    
   }
 
   getAllRaiseRequestList(currentUserId) {
