@@ -18,6 +18,7 @@ import { AssetAssetsService } from '../../asset-assets/asset-assets.service';
 export class AssetMetadataListComponent implements OnInit {
 
   assetType: AssetType[];
+  assetTypeWithMetadata: AssetType[];
   assetTypeNames: AssetType[];
   assetMetadata: AssetTypeMetadata[];
   assetMetadataNames: string[];
@@ -37,7 +38,7 @@ export class AssetMetadataListComponent implements OnInit {
   }
 
   getAssetTypeWithMetadata() {
-    this.assetType = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
+    this.assetTypeWithMetadata = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
   }
 
   getAssetTypeList() {

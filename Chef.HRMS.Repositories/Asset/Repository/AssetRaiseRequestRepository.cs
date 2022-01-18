@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid)
         {
 
-            var sql ="select id,assettypeid, requestno,requesteddate,requestfor,requesttype,status from hrms.assetraiserequest where empid=@empid";
+            var sql ="select id,assettypeid, requestno,requesteddate,requestfor,nameofteammember,requesttype,description,status from hrms.assetraiserequest where empid=@empid";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
         }
@@ -50,6 +50,13 @@ namespace Chef.HRMS.Repositories
                         inner join hrms.employee
                         on jd.employeeid = hrms.employee.id";
             return await Connection.QueryAsync<AssetEmployeeViewModel>(sql, new { });
+        }
+
+        public async Task<int> Update(AssetRaiseRequest assetRaiseRequest)
+        {
+            var sql = new QueryBuilder<AssetRaiseRequest>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, assetRaiseRequest);
         }
 
 
