@@ -52,13 +52,6 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetEmployeeViewModel>(sql, new { });
         }
 
-        public async Task<int> Update(AssetRaiseRequest assetRaiseRequest)
-        {
-            var sql = new QueryBuilder<AssetRaiseRequest>().GenerateUpdateQuery();
-            sql = sql.Replace("RETURNING id", "");
-            return await Connection.ExecuteAsync(sql, assetRaiseRequest);
-        }
-
 
         //public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id)
         //{
