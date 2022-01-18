@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
@@ -8,8 +8,6 @@ import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
-import { ThrowStmt } from '@angular/compiler';
-import { Employee } from '@features/employee/employee.model';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 @Component({
@@ -17,16 +15,14 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
   templateUrl: './raise-request-edit.component.html'
 })
 export class RaiseRequestEditComponent implements OnInit {
-  
+ 
+  @Input() raiseRequestDetails : AssetRaiseRequest;
   editForm: FormGroup;
   currentUserId: number;
-  current = new Date();
-  todaysDate: Date;
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
   raiseRequestStatus =AssetStatus;
-  raiseRequestDetails : AssetRaiseRequest;
   isDisable = false;
 
   constructor( private raiseRequestService: RaiseRequestService,
@@ -38,6 +34,7 @@ export class RaiseRequestEditComponent implements OnInit {
    }
 
    ngOnInit(): void {
+     console.log(this.raiseRequestDetails);
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.getAllAssetTypes();
@@ -50,7 +47,8 @@ export class RaiseRequestEditComponent implements OnInit {
 
   onSubmit() {
     this.raiseRequestDetails.empId = this.currentUserId;
-    // this.raiseRequestDetails.status= this.raiseRequestStatus.Requested;
+    console.log(this.editForm.getRawValue());
+    
     this.raiseRequestService.update(this.editForm.getRawValue()).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
@@ -94,7 +92,7 @@ export class RaiseRequestEditComponent implements OnInit {
       requestType: [{ value: 'New Asset', disabled: true }, [
         Validators.required,
       ]],
-      requestedDate: [new Date(Date.now()), [
+      requestedDate: ['', [
         Validators.required,
 
       ]],

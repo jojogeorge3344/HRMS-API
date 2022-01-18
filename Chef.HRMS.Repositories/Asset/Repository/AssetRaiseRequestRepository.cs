@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid)
         {
 
-            var sql ="select id,assettypeid, requestno,requesteddate,requestfor,requesttype,status from hrms.assetraiserequest where empid=@empid";
+            var sql ="select id,assettypeid, requestno,requesteddate,requestfor,nameofteammember,requesttype,description,status from hrms.assetraiserequest where empid=@empid";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
         }

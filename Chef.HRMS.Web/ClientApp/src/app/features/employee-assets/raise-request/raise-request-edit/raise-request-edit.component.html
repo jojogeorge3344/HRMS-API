@@ -15,10 +15,9 @@
           <div class="form-group form-input-inline input-group col-6">
             <label class="col-form-label" for="requestedDate">Request Date</label>
             <div class="input-group">
-              <input class="form-control"  id="requestedDate" name="requestedDate" ngbDatepicker
-                  #requestedDate="ngbDatepicker" formControlName="requestedDate" disabled>
+              <input type="text" class="form-control"  id="requestedDate" name="requestedDate"  formControlName="requestedDate" disabled>
               <div class="input-group-append">
-                  <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="requestedDate.toggle()"
+                  <button class="btn btn-outline-secondary fal fa-calendar-alt" 
                       type="button" disabled></button>
               </div>
           </div>
