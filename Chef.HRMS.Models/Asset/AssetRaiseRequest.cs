@@ -14,8 +14,6 @@ namespace Chef.HRMS.Models
     public class AssetRaiseRequest: Model
     {
 
-        [Required]
-
         public string RequestNo { get; set; }
 
         [Required]
