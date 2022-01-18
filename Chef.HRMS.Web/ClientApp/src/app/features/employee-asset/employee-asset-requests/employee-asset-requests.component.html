@@ -1,7 +1,7 @@
 <div class="subheader">
     <h1 class="subheader-title">
         <div>
-            Allocated Assets
+            Asset Requests
         </div>
     </h1>
 </div>
@@ -25,10 +25,10 @@
                     <td>{{i+1}}</td>
                     <td>{{ empreq.requestNo}}</td>
                     <td class="text-capitalize">{{empreq.nameOfTeamMember}}</td>
-                    <td >{{ empreq.requestedDate}}</td>
+                    <td >{{ empreq.requestedDate | date: 'dd-MM-yyyy'}}</td>
                     <td >{{empreq.requestFor}}</td>
                     <td >{{empreq.requestType}}</td>
-                    <td >{{empreq.status}}</td>
+                    <td  > {{status[empreq.status]}}</td>
                     <td>
 
                         <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="true">
