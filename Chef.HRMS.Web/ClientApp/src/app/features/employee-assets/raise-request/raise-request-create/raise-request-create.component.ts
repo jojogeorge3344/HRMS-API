@@ -10,6 +10,7 @@ import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.
 import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { ThrowStmt } from '@angular/compiler';
 import { Employee } from '@features/employee/employee.model';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 @Component({
   selector: 'hrms-raise-request-create',
@@ -26,6 +27,9 @@ export class RaiseRequestCreateComponent implements OnInit {
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
+  raiseRequestStatus =AssetStatus;
+  // raiseRequestDetails : any = {};
+  raiseRequestDetails : AssetRaiseRequest;
   isDisable = false;
 
   constructor(
@@ -46,9 +50,16 @@ export class RaiseRequestCreateComponent implements OnInit {
   }
 
   get name() { return this.addForm.get('name'); }
+  
 
   onSubmit() {
-    this.raiseRequestService.add(this.addForm.getRawValue()).subscribe((result: any) => {
+    // this.raiseRequestDetails.empId = this.currentUserId;
+    this.raiseRequestDetails = this.addForm.getRawValue();
+    this.raiseRequestDetails.empId = this.currentUserId;
+    this.raiseRequestDetails.status= this.raiseRequestStatus.Requested;
+    console.log(this.raiseRequestDetails);
+
+    this.raiseRequestService.add(this.raiseRequestDetails).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
         this.toastr.showErrorMessage('Raised request already exists!');
@@ -68,16 +79,14 @@ export class RaiseRequestCreateComponent implements OnInit {
     console.log(this.addForm.value.requestFor);
     if (this.addForm.value.requestFor == '1') {
       this.isDisable = true;
+      this.addForm.get("nameOfTeamMember").setValidators(null)
     }
     else {
       this.isDisable = false;
+      this.addForm.get("nameOfTeamMember").setValidators([Validators.required])
     }
   }
-  // changeMember(){
-  //   this.addForm.get("nameOfTeamMember").setValidators([Validators.required])
-  //   this.addForm.get("nameOfTeamMember").setValidators(null)
-  // }
-
+  
   getAllAssetTypes() { // to get asset type list
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetTypeArray = result;
