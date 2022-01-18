@@ -37,6 +37,9 @@ export class RaiseRequestEditComponent implements OnInit {
    ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
+    if (this.raiseRequestDetails.requestFor==1) {
+      this.isDisable = true;
+    }
     this.getAllAssetTypes();
     this.raiseRequestKeys = Object.keys(this.raiseRequesttype).filter(Number).map(Number);
     this.editForm.patchValue(this.raiseRequestDetails);
@@ -46,8 +49,9 @@ export class RaiseRequestEditComponent implements OnInit {
   
 
   onSubmit() {
-    this.raiseRequestDetails.empId = this.currentUserId;
     this.raiseRequestEditData = this.editForm.getRawValue();
+    this.raiseRequestEditData.status= this.raiseRequestStatus.Requested;
+    this.raiseRequestEditData.empId = this.currentUserId;
     this.raiseRequestEditData.id = this.raiseRequestDetails.id;
     console.log(this.raiseRequestEditData);
     
@@ -90,6 +94,11 @@ export class RaiseRequestEditComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+
+      requestNo: ['', [
+        Validators.required,
+
+      ]],
       requestType: [{ value: 'New Asset', disabled: true }, [
         Validators.required,
       ]],

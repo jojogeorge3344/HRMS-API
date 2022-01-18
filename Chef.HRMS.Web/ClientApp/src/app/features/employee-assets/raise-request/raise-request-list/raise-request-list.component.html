@@ -23,7 +23,7 @@
             <tr *ngFor="let items of raiseRequestList; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ items.requestNo }}</td>
-                <td class="text-ellipsis">{{ items.requestedDate }}</td>
+                <td class="text-ellipsis">{{ items.requestedDate | date: 'yyyy-MM-dd' }}</td>
                 <td class="text-ellipsis">{{ raiseRequesttype[items.requestFor] }}</td>
                 <td class="text-ellipsis">{{ items.requestType }}</td>
                 <td class="text-ellipsis">{{ items.assetTypeName }}</td>
@@ -37,7 +37,10 @@
                         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                             aria-labelledby="button-basic">
                             <li role="menuitem" (click)="openView(items)"><a class="dropdown-item">View</a></li>
-                            <li role="menuitem" (click)="openEdit(items)"><a class="dropdown-item">Edit</a></li>
+                            <!-- <li role="menuitem" (click)="openEdit(items)"><a class="dropdown-item">Edit</a></li> -->
+                            <li role="menuitem" (click)="isDisabled(i) && openEdit(items)">
+                                <a [ngClass]="{'disabled': !isDisabled(i)}" class="dropdown-item">Edit</a>
+                            </li>
                             <li role="menuitem" (click)="isDisabled(i) && delete(items)">
                                 <a [ngClass]="{'disabled': !isDisabled(i)}" class="dropdown-item">Delete</a>
                             </li>
