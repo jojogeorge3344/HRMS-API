@@ -5,7 +5,6 @@ import { AssetAssetsService } from "@settings/asset/asset-assets/asset-assets.se
 import { getCurrentUserId } from "@shared/utils/utils.functions";
 import { AssetStatus } from "src/app/models/common/types/assetstatus";
 import { EmployeAssetService } from "../employe-asset.service";
-import { forkJoin } from 'rxjs';
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { AssetRaiseRequest } from "@features/employee-assets/raise-request/raise-request.model";
 
@@ -14,7 +13,7 @@ import { AssetRaiseRequest } from "@features/employee-assets/raise-request/raise
   templateUrl: "./employee-asset-requests.component.html",
 })
 export class EmployeeAssetRequestsComponent implements OnInit {
-  assetStatus: AssetStatus;
+  // assetStatus: AssetStatus;
   allocatedassets;
   assetId:number;
   currentUserId: number;
@@ -22,7 +21,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   empid: string;
   employeeWiseRequest: AssetRaiseRequest;
   result: any;
-  status:AssetStatus;
+  status=AssetStatus;
  
 
   constructor(
@@ -40,7 +39,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       this.empid = params.id;
     });
     this.getEmployeeRequestById();
-    this.getAllocatedAssetsById()
+    // this.getAllocatedAssetsById()
   }
 
   getEmployeeRequestById() {
@@ -48,7 +47,6 @@ export class EmployeeAssetRequestsComponent implements OnInit {
 
     return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
         this.employeeWiseRequest = result;
-        debugger;
         this.assetRaiseRequestId=result[0].id;
        console.log(this.employeeWiseRequest);
       });
@@ -62,22 +60,21 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       this.employeeAsset.setListDetails({data: employees})
   }
 
-  getAllocatedAssetsById() {
-    return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
-        // this.allocatedassets = result;
-        // this.assetId=result[0].assetId
-       // console.log(this.allocatedassets);
-      });
-  }
+  // getAllocatedAssetsById() {
+  //   return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
+  //       // this.allocatedassets = result;
+  //       // this.assetId=result[0].assetId
+  //      // console.log(this.allocatedassets);
+  //     });
+  // }
  
 
 
   manageRequest(empreq,status) {
      //  const parameters={assetId:this.assetId,requestId:this.assetRaiseRequestId,status:2}
      console.log(empreq.id);
-     
-     
         this.employeeAsset.manageRequest(empreq.id,status).subscribe()
+        this.getEmployeeRequestById();
     }
 
   // reject() {
