@@ -108,6 +108,7 @@ export class AssetAssetsEditComponent implements OnInit {
         assetTypeMetadataId: ['', [
           Validators.required,
         ]],
+        status: [ 5, [ ]],
         assetMetadataValues: ['', []],
         assetName: ['', [
           Validators.required,
