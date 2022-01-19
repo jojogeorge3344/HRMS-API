@@ -1,5 +1,5 @@
 export enum AssetReturnType {
-    projectCompletion=1, 
-    endOfContract, 
+    ProjectCompletion=1, 
+    EndOfContract, 
     Relieving
 }

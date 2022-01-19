@@ -39,16 +39,13 @@ export class MyAssetsChangeComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       changeTypeOptions: [null, Validators.required],
-      description: ['', [
+      changeDescription: ['', [
         Validators.required,
         Validators.maxLength(256)
       ]],
     });
   }
-  // getValueSelected() {
-  //   this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
-  //   console.log(this.changeTypeSelected);
-  // }
+ 
   onSubmit() {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
     console.log(this.changeTypeSelected);
@@ -56,8 +53,6 @@ export class MyAssetsChangeComponent implements OnInit {
     // this.assetData.status="CR";
     this.assetData.description=this.changeAssetForm.get('description').value;
     this.assetData.changeType=toNumber(this.changeTypeSelected);
-    console.log(this.assetData);
-    
     this.myAssetService.updateStatus(this.assetData).subscribe(result => {
       this.toastr.showSuccessMessage('Change request submitted successfully!');
       this.activeModal.close('submit');

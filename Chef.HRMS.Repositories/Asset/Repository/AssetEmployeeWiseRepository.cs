@@ -34,18 +34,19 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetEmployeeWise>(sql);
         }
 
-        public async Task<IEnumerable<AssetMyAsset>> GetAllocatedAssetById(int empid)
+        public async Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid)
         {
-            var sql = @"SELECT id,
-                                empid,
-                                assettypename,
-                                assetid,
-                                assetname,
-                                dateallocated AS allocatedon,
-                                status 
-                        FROM hrms.assetmyasset WHERE empid = @empid";
+            var sql = @"SELECT al.id,
+                                al.empid,
+                                tt.assettypename,
+                                al.assetid,
+                                al.assetname,
+                                al.allocateddate AS allocatedon,
+                                al.status 
+                        FROM hrms.assetallocated as al inner join hrms.assettype as tt 
+						on al.assettypeid =tt.id WHERE empid = @empid";
 
-            return await Connection.QueryAsync<AssetMyAsset>(sql, new { empid });
+            return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
 
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
