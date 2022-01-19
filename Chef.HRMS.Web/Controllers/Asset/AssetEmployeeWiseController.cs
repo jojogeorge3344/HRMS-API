@@ -22,7 +22,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAllList")]
-        public async Task<ActionResult<IEnumerable<AssetEmployeeWise>>> GetAllAssetTypeList()
+        public async Task<ActionResult> GetAllAssetTypeList()
         {
             var result = await assetEmployeeWiseService.GetAllList();
 
@@ -30,7 +30,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<AssetEmployeeWise>>> GetAll()
+        public async Task<ActionResult> GetAll()
         {
             var assetEmployeeWises = await assetEmployeeWiseService.GetAll();
 
@@ -39,7 +39,7 @@ namespace Chef.HRMS.Web.Controllers
 
 
         [HttpGet("GetEmployeeDetailsById/{employeeid}")]
-        public async Task<ActionResult<IEnumerable<AssetEmployeeWise>>> GetEmployeeDetailsById(int employeeid)
+        public async Task<ActionResult> GetEmployeeDetailsById(int employeeid)
         {
             var assetEmployeeWises = await assetEmployeeWiseService.GetEmployeeDetailsById(employeeid);
 
@@ -47,7 +47,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetEmployeeRequestById/{empid}")]
-        public async Task<ActionResult<IEnumerable<AssetEmployeeWiseRequest>>> GetEmployeeRequestById(int empid)
+        public async Task<ActionResult> GetEmployeeRequestById(int empid)
         {
             var assetEmployeeWises = await assetEmployeeWiseService.GetEmployeeRequestById(empid);
 
@@ -55,7 +55,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAllocatedAssetById/{empid}")]
-        public async Task<ActionResult<IEnumerable<AssetMyAsset>>> GetAllocatedAssetById(int empid)
+        public async Task<ActionResult> GetAllocatedAssetById(int empid)
         {
             var assetEmployeeWises = await assetEmployeeWiseService.GetAllocatedAssetById(empid);
 
@@ -72,10 +72,7 @@ namespace Chef.HRMS.Web.Controllers
 
 
         [HttpPut("UpdateStatus/{id}/{status}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> UpdateStatus(int id, int status)
+        public async Task<ActionResult> UpdateStatus(int id, int status)
         {
             if (!ModelState.IsValid)
             {
@@ -83,6 +80,20 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetEmployeeWiseService.UpdateStatus(id, status);
+
+            return Ok(result);
+        }
+
+
+        [HttpPut("UpdateApproveReject/{id}/{status}")]
+        public async Task<ActionResult> UpdateApproveReject(int id, int status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.UpdateApproveReject(id, status);
 
             return Ok(result);
         }

@@ -7,18 +7,22 @@
     </div>
     <div class="modal-body">
       <div class="d-flex flex-wrap align-items-baseline">
-          <div class="form-group form-input-line col-6">
+          <div class="form-group form-input-line col-4">
+          <label class="col-form-label" for="name">Request No</label>
+          <input type="text"  class="form-control" id="requestNo" name="requestNo" 
+            formControlName="requestNo" disabled>
+          </div>
+          <div class="form-group form-input-line col-4">
             <label class="col-form-label" for="name">Request Type</label>
             <input type="text"  class="form-control" id="requestType" name="requestType" 
               formControlName="requestType">
           </div>
-          <div class="form-group form-input-inline input-group col-6">
+          <div class="form-group form-input-inline input-group col-4">
             <label class="col-form-label" for="requestedDate">Request Date</label>
             <div class="input-group">
-              <input class="form-control"  id="requestedDate" name="requestedDate" ngbDatepicker
-                  #requestedDate="ngbDatepicker" formControlName="requestedDate" disabled>
+              <input type="text" class="form-control"  id="requestedDate" name="requestedDate"  formControlName="requestedDate" disabled>
               <div class="input-group-append">
-                  <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="requestedDate.toggle()"
+                  <button class="btn btn-outline-secondary fal fa-calendar-alt" 
                       type="button" disabled></button>
               </div>
           </div>
@@ -28,7 +32,7 @@
       <div class="d-flex flex-wrap align-items-baseline">
         <div class="form-group form-input-line col-6">
           <label class="col-form-label" for="name">Request For</label>
-          <select class="form-control" (change)="getvalue($event)" formControlName="requestFor" id="requestFor" 
+          <select class="form-control" (ngModelChange)="getvalue($event)" formControlName="requestFor" id="requestFor" 
             name="requestFor">
             <option [ngValue]="0" disabled>Select requestFor</option>
             <option *ngFor="let key of raiseRequestKeys" [ngValue]='key'>{{raiseRequesttype[key]}}</option>

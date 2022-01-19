@@ -10,6 +10,7 @@ import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
 import { result } from 'lodash';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 @Component({
   selector: 'hrms-asset-assets-create',
@@ -17,7 +18,7 @@ import { result } from 'lodash';
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class AssetAssetsCreateComponent implements OnInit {
-  // assetId: any;
+
   assetForm: FormGroup;
   assetType: AssetType;
   currentUserId: number;
@@ -45,6 +46,7 @@ export class AssetAssetsCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.assetForm = this.createFormGroup();
     this.getAssetType();
+  
     // this.getAssetMetadataById()
   }
   get metadataFormGroup () {
@@ -92,6 +94,7 @@ export class AssetAssetsCreateComponent implements OnInit {
       assetTypeMetadataId: [ '', [
         Validators.required,
       ]],
+      status: [ 5, [ ]],
       assetMetadataValues:[ ['', []]],
       assetName: ['', [
         Validators.required,

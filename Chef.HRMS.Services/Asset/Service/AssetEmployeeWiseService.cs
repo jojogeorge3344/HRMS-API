@@ -59,7 +59,7 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetEmployeeDetailsById(employeeid);
         }
 
-        public async Task<IEnumerable<AssetEmployeeWiseRequest>> GetEmployeeRequestById(int empid)
+        public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
             return await assetEmployeeWiseRepository.GetEmployeeRequestById(empid);
         }
@@ -69,7 +69,13 @@ namespace Chef.HRMS.Services
             throw new NotImplementedException();
         }
 
-        
+        public async Task<int> UpdateApproveReject(int id, int status)
+        {
+            return await assetEmployeeWiseRepository.UpdateApproveReject(id, status);
+            //    var request = assetRaiseRequest.Where(c => c.status = 2);
+            //    var result await assetRaiseRequest.UpdateApproveRejectRevoke(request);
+            //    return result;
+        }
 
         public Task<int> UpdateAsync(AssetEmployeeWise obj)
         {
@@ -78,7 +84,7 @@ namespace Chef.HRMS.Services
 
         public async Task<int> UpdateStatus(int id, int status)
         {
-            return await assetEmployeeWiseRepository.UpdateStatus(id, status); ;
+            return await assetEmployeeWiseRepository.UpdateStatus(id, status); 
         }
     }
 }

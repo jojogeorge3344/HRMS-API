@@ -13,9 +13,8 @@ namespace Chef.HRMS.Models
     [Table("assetraiserequest")]
     public class AssetRaiseRequest: Model
     {
-        [Required]
 
-        public int RequestNo { get; set; }
+        public string RequestNo { get; set; }
 
         [Required]
         public DateTime RequestedDate { get; set; }
