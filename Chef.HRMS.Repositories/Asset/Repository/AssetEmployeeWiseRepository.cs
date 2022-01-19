@@ -56,14 +56,16 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid)
         {
             var sql = @"SELECT al.id,
-                        al.empid,
-                        tt.assettypename,
-                        al.assetid,
-                        al.assetname,
-                        al.allocateddate AS allocatedon,
-                        al.status
-                        FROM hrms.assetallocated as al inner join hrms.assettype as tt
-                        on al.assettypeid =tt.id WHERE empid = @empid";
+                                al.empid,
+								tt.id as assettypeid,
+                                tt.assettypename,
+                                al.assetid,
+                                al.assetname,
+                                al.allocateddate,
+                                al.status 
+                        FROM hrms.assetallocated as al inner join hrms.assettype as tt 
+						on al.assettypeid =tt.id WHERE empid = @empid";
+
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
 
@@ -90,15 +92,17 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
 
-            var sql= @"SELECT id ,
-                                    requestno,
-                                    requestfor,
-	                                requesttype,
-                                    status,
-									nameofteammember,
-                                    requesteddate AS requestedon,
-									empid
-	                                 FROM hrms.assetraiserequest where empid=@empid";
+            var sql= @"SELECT    id,
+                                 requestno,
+                                 requestfor,
+	                             requesttype,
+                                 status,
+	                             empid,
+							     nameofteammember,
+                                 requesteddate      AS requestedon
+					 FROM hrms.assetraiserequest 
+                                 WHERE empid=@empid
+                                    ORDER BY createddate";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 

@@ -48,10 +48,8 @@ export class MyAssetsChangeComponent implements OnInit {
  
   onSubmit() {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
-    console.log(this.changeTypeSelected);
-    
-    // this.assetData.status="CR";
-    this.assetData.description=this.changeAssetForm.get('description').value;
+    this.assetData.status=this.assetStatus.ChangeRequest;
+    this.assetData.changeDescription=this.changeAssetForm.get('changeDescription').value;
     this.assetData.changeType=toNumber(this.changeTypeSelected);
     this.myAssetService.updateStatus(this.assetData).subscribe(result => {
       this.toastr.showSuccessMessage('Change request submitted successfully!');
