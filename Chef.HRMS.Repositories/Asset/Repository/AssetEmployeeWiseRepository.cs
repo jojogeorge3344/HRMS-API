@@ -38,10 +38,11 @@ namespace Chef.HRMS.Repositories
         {
             var sql = @"SELECT al.id,
                                 al.empid,
+								tt.id as assettypeid,
                                 tt.assettypename,
                                 al.assetid,
                                 al.assetname,
-                                al.allocateddate AS allocatedon,
+                                al.allocateddate,
                                 al.status 
                         FROM hrms.assetallocated as al inner join hrms.assettype as tt 
 						on al.assettypeid =tt.id WHERE empid = @empid";
@@ -75,7 +76,8 @@ namespace Chef.HRMS.Repositories
 							     nameofteammember,
                                  requesteddate      AS requestedon
 					 FROM hrms.assetraiserequest 
-                                 WHERE empid=@empid";
+                                 WHERE empid=@empid
+                                    ORDER BY createddate";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid=empid });
 
