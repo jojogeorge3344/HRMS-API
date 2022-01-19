@@ -10,11 +10,12 @@ import { EmployeeAssetAllocatedComponent } from './employee-asset-allocated/empl
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { EmployeeAssetRequestViewComponent } from './employee-asset-request-view/employee-asset-request-view.component';
+import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswap/employee-asset-changeorswap.component';
 
 
 
 @NgModule({
-  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetChangeComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent],
+  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetChangeComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent],
   imports: [
     CommonModule,
     NgbModule,
