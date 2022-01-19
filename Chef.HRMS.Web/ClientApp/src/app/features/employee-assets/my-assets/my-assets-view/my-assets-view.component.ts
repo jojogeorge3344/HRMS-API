@@ -42,32 +42,10 @@ export class MyAssetsViewComponent implements OnInit {
     this.getallAssetById();
   }
 
-  getAssetMetadataById(assetId) {
-    this.assetAssetsService.getAssetById(assetId).subscribe(data => {
-      this.assetMetadataValues = data.assetMetadataValues;
-    }),
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset Metadata values');
-      };
-  }
-
-  getMetadataList(assetTypeId) {
-    this.assetMetadataService.getAssetMetadataById(assetTypeId).subscribe(data => {
-      this.assetMetadataList = data;
-      console.log(this.assetMetadataList);
-
-    }),
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset Metadata values');
-      };
-  }
-
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       dateAllocated: [{ value: '', disabled: true }],
-      assetType: [{ value: '', disabled: true }],
+      assetTypeName: [{ value: '', disabled: true }],
       assetName: [{ value: '', disabled: true }],
       assetId: [{ value: '', disabled: true }],
       description: [{ value: '', disabled: true }],
@@ -88,7 +66,6 @@ export class MyAssetsViewComponent implements OnInit {
       this.typeKeys.map(key => {
         mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.typeMap.get(key).id)?.value || ''
       });
-      //console.log(mdatavalue, asset.assetMetadataValues, this.typeMap);
       this.myAssetViewForm.patchValue({
         ...this.myAsset,
         metadatas: mdatavalue,

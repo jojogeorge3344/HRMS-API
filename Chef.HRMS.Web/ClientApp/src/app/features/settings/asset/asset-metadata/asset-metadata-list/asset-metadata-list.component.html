@@ -8,14 +8,14 @@
     <table class="table m-0">
         <thead class="thead-themed">
             <tr>
-                <th>#</th>
+                <th>Sl No.</th>
                 <th>Asset Type</th>
-                <th>Meta Data</th>
+                <th>Metadata</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let type of assetType; let i= index;">
+            <tr *ngFor="let type of assetTypeWithMetadata; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ type.assettypename }}</td>
                 <td class="text-ellipsis">

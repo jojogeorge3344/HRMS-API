@@ -28,7 +28,7 @@ export class RaiseRequestService {
   }
 
   update(raiseRequest: AssetRaiseRequest){
-  return this.http.post<AssetRaiseRequest>(this.baseUrl + 'update', raiseRequest).pipe(map(response => { return response; }));
+  return this.http.put<AssetRaiseRequest>(this.baseUrl + 'update', raiseRequest).pipe(map(response => { return response; }));
   }
 
   delete(id:number){

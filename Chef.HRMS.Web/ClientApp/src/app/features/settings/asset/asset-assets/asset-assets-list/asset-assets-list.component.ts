@@ -5,6 +5,7 @@ import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { AssetAssetsCreateComponent } from '../asset-assets-create/asset-assets-create.component';
 import { AssetAssetsEditComponent } from '../asset-assets-edit/asset-assets-edit.component';
 import { AssetAssetsViewComponent } from '../asset-assets-view/asset-assets-view.component';
@@ -16,6 +17,7 @@ import { AssetAssetsService } from '../asset-assets.service';
   templateUrl: './asset-assets-list.component.html'
 })
 export class AssetAssetsListComponent implements OnInit {
+  assetStatus=AssetStatus;
   assetId:AssetAssets;
   TypeId:AssetTypeMetadata;
   assetList: AssetAssets[];
