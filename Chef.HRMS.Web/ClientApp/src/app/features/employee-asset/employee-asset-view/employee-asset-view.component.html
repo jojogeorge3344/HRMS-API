@@ -33,18 +33,16 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr class="text-center" *ngFor="let employee of result; let i= index;">
+                <tr class="text-center" *ngFor="let employee of result; let i= index;">
+                    <tr class="text-center" *ngFor="let allocatedAsset of allocatedAssets; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ employee.employeeID }}</td>
-                    <td class="text-capitalize">{{employee.firstName}} {{employee.lastName}}</td>
-                    <td >{{ employee.employeeStatus }}</td>
-                    <td *ngIf="employee.allocatedAsset> 0"> <a class="link text-primary mt-3"
-                        (click)="openAllocatedAssets(employee)">{{ employee.allocatedAsset}}</a> </td>
-                    <td *ngIf="employee.requests > 0"> <a class="link text-primary mt-3"
-                        (click)="openReuests(employee)">{{ employee.requests }}</a> </td>
+                    <td class="text-capitalize">{{allocatedAsset.assetTypeName}}</td>
+                    <td >{{ allocatedAsset.assetId }}</td>
+                    <td class="link text-primary mt-3">{{allocatedAsset.assetName }}</td>
+                    <td class="link text-primary mt-3">{{allocatedAsset.allocatedDate | date: 'dd-MM-yyyy'}}</td>
+                    <td class="link text-primary mt-3">{{allocatedAsset.status}}</td>
                     <td>
-
-                        <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="false">
+                        <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="true">
                             <button id="button-basic" dropdownToggle type="button" 
                                class="border-0 mr-2 pr-2 dropdown-toggle btn-more"
                                aria-controls="dropdown-basic">
@@ -52,14 +50,12 @@
                             </button>
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                                role="menu" click aria-labelledby="button-basic">
-                               <li role="menuitem"  (click)="openView(employee)"><a class="dropdown-item">View</a></li>
+                               <li role="menuitem"  (click)="openChangeOrSwap(employee)"><a class="dropdown-item">Change/Swap</a></li>
+                               <li role="menuitem"  (click)="openView(employee)"><a class="dropdown-item">Recall</a></li>
                             </ul>
                          </div>
-                        
-                      
-
                     </td>
-                </tr> -->
+                </tr>
                
             </tbody>
         </table>

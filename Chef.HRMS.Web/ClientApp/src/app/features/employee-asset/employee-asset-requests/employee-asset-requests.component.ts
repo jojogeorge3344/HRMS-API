@@ -73,8 +73,10 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   manageRequest(empreq,status) {
      //  const parameters={assetId:this.assetId,requestId:this.assetRaiseRequestId,status:2}
      console.log(empreq.id);
-        this.employeeAsset.manageRequest(empreq.id,status).subscribe()
-        this.getEmployeeRequestById();
+        this.employeeAsset.manageRequest(empreq.id,status).subscribe(res=>{
+          this.getEmployeeRequestById();
+        })
+       
     }
 
   // reject() {

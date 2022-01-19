@@ -18,20 +18,39 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetEmployeeWise>> GetAll()
         {
-            var sql = @"SELECT  jt.id ,
-                                jk.employeeid,
-                                jt.firstname,
-                                jt.lastname,
-						        jk.allocatedasset,
-                                jk.requests,
-                                jd.workertype           AS employeestatus
-                        FROM hrms.employee AS jt
-                        INNER JOIN hrms.assetemployeewise AS jk 
-							   ON jt.id = jk.employeeid
-                        INNER JOIN hrms.jobdetails AS jd 
-							   ON jt.id = jd.employeeid";
+            var sql = @"select jt.id,
+                        jt.firstname,
+                        jt.lastname,
+						allocatedasset,
+                        requests,
+                        jd.workertype as employeestatus
+                               from hrms.employee as jt inner join
 
+                               hrms.assetemployeewise on jt.id = assetemployeewise.employeeid
+
+                               inner join hrms.jobdetails as jd on jt.id = jd.employeeid";
             return await Connection.QueryAsync<AssetEmployeeWise>(sql);
+        }
+
+
+        //public async Task<IEnumerable<AssetEmployeeWise>> GetAllEmployeeDetails()
+        //{
+        //     var sql = @"select jt.employeeid,
+        //                     jt.firstname,
+        //                     jt.lastname,
+        //                        jt.allocatedasset,
+        //                        jt.requests,
+        //                        jt.employeestatus
+        //                        from hrms.assetemployeewise as jt inner join  hrms.employee on hrms.employee.id=jt.employeeid";
+        //    return await Connection.QueryAsync<AssetEmployeeWise>(sql);
+        //}
+
+
+
+
+        public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid)
@@ -50,17 +69,23 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
 
+        //public async Task<IEnumerable<AssetAllocated>> GetAllocatedById(int empid)
+        //{
+        //    var sql = @"select empid,
+        //                                    valueid as assetid,
+        //                                    assetname,
+        //                                    metadata from hrms.assetmyasset where empid=@empid";
+        //    return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
+        //}
+
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
-            var sql = @"SELECT  employeeid,
+            var sql = @"select employeeid,
                                 firstname,
-                                jd.workertype       AS employeestatus,
-                                jd.jobtitleid       AS designation
-                        FROM    hrms.employee 
-                                INNER JOIN hrms.jobdetails AS jd 
-                                ON hrms.employee.id=jd.employeeid 
-                        WHERE employeeid=@employeeid";
-
+                                jd.workertype as employeestatus,
+                                jd.jobtitleid as designation
+                                from  hrms.employee inner join hrms.jobdetails as jd 
+                                    on hrms.employee.id=jd.employeeid where employeeid=@employeeid";
             return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
         }
 
@@ -81,7 +106,7 @@ namespace Chef.HRMS.Repositories
 					 on rr.assettypeid=tt.id
                                  WHERE empid=@empid";
 
-            return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid=empid });
+            return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 
         }
 
@@ -108,6 +133,5 @@ namespace Chef.HRMS.Repositories
                                     SET status=@status WHERE id=@id";
             return await Connection.ExecuteAsync(sql, new { id, status });
         }
-
     }
 }
