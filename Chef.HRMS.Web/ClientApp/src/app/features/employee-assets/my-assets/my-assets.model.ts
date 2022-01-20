@@ -4,8 +4,9 @@ import { AssetReturnType } from 'src/app/models/common/types/assetreturntype';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 export interface MyAssets extends Model {
-  assetTypeId: number;
+  
   assetId: number;
+  assetTypeName: string;
   empId: number;
   assetName: string;
   allocatedDate: Date;
