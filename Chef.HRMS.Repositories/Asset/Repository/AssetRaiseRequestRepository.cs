@@ -41,7 +41,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetEmployeeViewModel>> GetEmployeeDetails()
         {
-            var sql = @"select concat(firstname,'-',jd.employeenumber) as employee,
+            var sql = @"select concat(firstname,'-',jd.employeenumber) as employeecode,
                         firstname,
                         jd.employeenumber,
                         jd.employeeid as empid,

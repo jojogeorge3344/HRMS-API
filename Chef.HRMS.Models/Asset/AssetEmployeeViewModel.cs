@@ -10,7 +10,7 @@ namespace Chef.HRMS.Models
 {
     public class AssetEmployeeViewModel: ViewModel
     {
-        public string Employee { get; set; }
+        public string Employeecode { get; set; }
         [ForeignKey("Employee")]
         public string Firstname { get; set; }
         [ForeignKey("JobDetails")]
