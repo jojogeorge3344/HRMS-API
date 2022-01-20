@@ -7,7 +7,6 @@ export interface MyAssets extends Model {
   assetTypeId: number;
   assetId: number;
   empId: number;
-  assetTypeName: string;
   assetName: string;
   allocatedDate: Date;
   status: AssetStatus;
