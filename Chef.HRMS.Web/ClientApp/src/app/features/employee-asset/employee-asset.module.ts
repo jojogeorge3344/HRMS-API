@@ -4,7 +4,6 @@ import { EmployeeAssetListComponent } from './employee-asset-list/employee-asset
 import { RouterModule } from '@angular/router';
 import { EmployeeAssetViewComponent } from './employee-asset-view/employee-asset-view.component';
 import { EmployeeAssetRequestsComponent } from './employee-asset-requests/employee-asset-requests.component';
-import { EmployeeAssetChangeComponent } from './employee-asset-change/employee-asset-change.component';
 import { EmployeeAssetRecallComponent } from './employee-asset-recall/employee-asset-recall.component';
 import { EmployeeAssetAllocatedComponent } from './employee-asset-allocated/employee-asset-allocated.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +14,7 @@ import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswa
 
 
 @NgModule({
-  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetChangeComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent],
+  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent],
   imports: [
     CommonModule,
     NgbModule,
