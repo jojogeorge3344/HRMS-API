@@ -8,8 +8,10 @@ import { MyAssetsViewComponent } from '../my-assets-view/my-assets-view.componen
 import { MyAssetsReturnComponent } from '../my-assets-return/my-assets-return.component';
 import { MyAssetsService } from '../my-assets.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class MyAssetsListComponent implements OnInit {
   constructor(
     private myAssetService: MyAssetsService,
     public modalService: NgbModal,
+    private assetTypeService:AssetTypeService,
     private toastr: ToasterDisplayService
   ) { }
 
@@ -36,7 +39,8 @@ export class MyAssetsListComponent implements OnInit {
 
   getAllMyAssetList(userId) {
     this.myAssetService.getAllMyAssetList(userId).subscribe(result => {
-      this.myAssetList = result;      
+      this.myAssetList = result;  
+      console.log(this.myAssetList);    
     }),
       error => {
         console.error(error);

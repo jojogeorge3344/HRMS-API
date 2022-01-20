@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { Component, OnInit} from '@angular/core';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray,FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -57,6 +58,7 @@ export class RaiseRequestCreateComponent implements OnInit {
     this.raiseRequestDetails = this.addForm.getRawValue();
     this.raiseRequestDetails.empId = this.currentUserId;
     this.raiseRequestDetails.status= this.raiseRequestStatus.Requested;
+    this.raiseRequestDetails.assetTypeName=_.find(this.assetTypeArray, ['id', this.addForm.controls['assetTypeId'].value]).assettypename;
     console.log(this.raiseRequestDetails);
 
     this.raiseRequestService.add(this.raiseRequestDetails).subscribe((result: any) => {
@@ -74,6 +76,31 @@ export class RaiseRequestCreateComponent implements OnInit {
       });
 
   }
+
+
+  // formatter = (employee) => employee.firstName;
+
+  // search = (text$: Observable<string>) => text$.pipe(
+  //   debounceTime(200),
+  //   distinctUntilChanged(),
+  //   filter(term => term.length >= 2),
+  //   map(term => this.employeeList.filter(employee => new RegExp(term, 'mi').test(employee.firstName)).slice(0, 10))
+  // )
+
+  // selected($event) {
+  //   $event.preventDefault();
+  //   if (this.selectedItems.indexOf($event.item) === -1) {
+  //     this.selectedItems.push($event.item);
+  //   }
+  //   this.notifyPersonnel.nativeElement.value = '';
+  // }
+
+  // remove(item) {
+  //   this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
+  // }
+
+
+
 
   getvalue(i) { // self or team member
     console.log(this.addForm.value.requestFor);
