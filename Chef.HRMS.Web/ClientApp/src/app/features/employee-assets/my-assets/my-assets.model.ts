@@ -6,13 +6,10 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 export interface MyAssets extends Model {
   assetTypeId: number;
   assetId: number;
-  assetTypeMetadataId: number;
   empId: number;
   assetTypeName: string;
-  valueId: number;
   assetName: string;
-  dateAllocated: Date;
-  metadata: string;
+  allocatedDate: Date;
   status: AssetStatus;
   description: string;
   changeDescription:string;

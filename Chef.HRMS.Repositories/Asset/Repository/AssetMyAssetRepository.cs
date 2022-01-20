@@ -26,21 +26,15 @@ namespace Chef.HRMS.Repositories
 		                    js.assettypeid,
 		                    js.assetid,
 		                    js.assetname,
+                            js.allocateddate,
 		                    jk.description,
 		                    js.status
 		                    FROM hrms.assetallocated as js
 		                    INNER JOIN hrms.asset as jk ON js.assetid = jk.id
-		                    WHERE js.status = 4 AND js.empid=@empid";
+		                    WHERE js.status = 4 OR js.status = 7 AND js.empid=@empid";
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid = empid });
         }
 
-        //public async Task<int> InsertAsync(IEnumerable<AssetMyAsset> assetmyasset)
-        //{
-        //    var sql = new QueryBuilder<AssetMyAsset>().GenerateInsertQuery();
-        //    sql = sql.Replace("RETURNING id", "");
-
-        //    return await Connection.ExecuteAsync(sql, assetmyasset);
-        //}
         public async Task<IEnumerable<AssetMyAsset>> GetAllMyAssetList()
         {
 
@@ -64,18 +58,36 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, new { assetid, status });
         }
 
-        //public async Task<int> Update(int status)
-        //{
-        //    var sql = @"UPDATE hrms.assetmyasset
-        //                SET status=@status WHERE id=@assetmyassetid";
-        //    return await Connection.ExecuteAsync(sql, new { status });
-        //}
-
-        public async Task<int> UpdateAsync(IEnumerable<AssetMyAsset> assetmyasset)
+        public async Task<int> Update(AssetMyAsset assetmyasset)
         {
-            var sql = new QueryBuilder<AssetMyAsset>().GenerateUpdateQuery();
+            if (assetmyasset.ChangeType != 0)
+            {
+
+                var sql = @"Update hrms.assetallocated
+                                    Set status=7 where Id=@Id";
+                var result = await Connection.ExecuteAsync(sql, assetmyasset);
+                return result;
+            }
+
+            else if (assetmyasset.ReturnType != 0)
+            {
+                var sql = @"Update hrms.assetallocated
+                                    Set status=8 where Id=@Id";
+                var result = await Connection.ExecuteAsync(sql, assetmyasset);
+                return result;
+            }
+
+            else
+            {
+                return 0;
+            }
+        }
+
+        public async Task<int> UpdateAsync(AssetAllocated assetallocated)
+        {
+            var sql = new QueryBuilder<AssetAllocated>().GenerateUpdateQuery();
             sql = sql.Replace("RETURNING id", "");
-            return await Connection.ExecuteAsync(sql, assetmyasset);
+            return await Connection.ExecuteAsync(sql, assetallocated);
         }
 
 
