@@ -19,6 +19,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetEmployeeWise>> GetAll()
         {
             var sql = @"select jt.id,
+                        jd.employeeid,
                         jt.firstname,
                         jt.lastname,
 						allocatedasset,
@@ -92,7 +93,24 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
 
-            var sql= @"SELECT    rr.id,
+            var sql= @"SELECT    id,
+                                 requestno,
+                                 requestfor,
+	                             requesttype,
+                                 status,
+	                             empid,
+							     nameofteammember,
+                                 requesteddate
+					 FROM hrms.assetraiserequest
+                                 WHERE empid=@empid";
+
+            return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
+
+        }
+
+        public async Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id)
+        {
+            var sql = @"SELECT    rr.id,
                                  rr.requestno,
                                  rr.requestfor,
 	                             rr.requesttype,
@@ -104,10 +122,10 @@ namespace Chef.HRMS.Repositories
                                  rr.description
 					 FROM hrms.assetraiserequest as rr inner join hrms.assettype as tt
 					 on rr.assettypeid=tt.id
-                                 WHERE empid=@empid";
+                                 WHERE rr.id=@id
+                                    ORDER BY rr.id";
 
-            return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
-
+            return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { id });
         }
 
         public async Task<int> UpdateApproveReject(int id, int status)

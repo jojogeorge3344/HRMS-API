@@ -37,6 +37,10 @@ namespace Chef.HRMS.Services
         {
             return await assetEmployeeWiseRepository.GetEmployeeRequestById(empid);
         }
+        public async Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id)
+        {
+            return await assetEmployeeWiseRepository.GetRequestById(id);
+        }
 
         public Task<int> DeleteAsync(int id)
         {
@@ -77,5 +81,6 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.UpdateStatus(id, status); 
         }
 
+        
     }
 }
