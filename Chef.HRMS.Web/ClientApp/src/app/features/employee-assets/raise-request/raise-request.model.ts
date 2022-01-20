@@ -12,4 +12,5 @@ export interface AssetRaiseRequest extends Model {
     nameOfTeamMember: string;
     description: string;
     empId: number;
+    assetTypeName: string;
   }

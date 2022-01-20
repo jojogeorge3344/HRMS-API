@@ -20,7 +20,5 @@ namespace Chef.HRMS.Repositories
 
         //Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id);
 
-        Task<int> Update(AssetRaiseRequest assetRaiseRequest);
-
     }
 }

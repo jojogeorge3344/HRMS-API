@@ -68,7 +68,7 @@ namespace Chef.HRMS.Services
                 simpleUnitOfWork.BeginTransaction();
                 var result= await assetRaiseRequestRepository.InsertAsync(assetRaiseRequest);
                 assetRaiseRequest.RequestNo = "REQ-" + assetRaiseRequest.Id;
-                await assetRaiseRequestRepository.Update(assetRaiseRequest);
+                await assetRaiseRequestRepository.UpdateAsync(assetRaiseRequest);
                 simpleUnitOfWork.Commit();
                 return assetRaiseRequest;
             }
@@ -81,10 +81,9 @@ namespace Chef.HRMS.Services
             }
         }
 
-
         public async Task<int> UpdateAsync(AssetRaiseRequest assetRaiseRequest)
         {
-            return await assetRaiseRequestRepository.UpdateAsync(assetRaiseRequest);
+           return  await assetRaiseRequestRepository.UpdateAsync(assetRaiseRequest);
         }
     }
 }
