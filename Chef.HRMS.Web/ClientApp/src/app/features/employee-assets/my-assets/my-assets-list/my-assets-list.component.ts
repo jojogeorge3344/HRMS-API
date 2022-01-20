@@ -8,8 +8,10 @@ import { MyAssetsViewComponent } from '../my-assets-view/my-assets-view.componen
 import { MyAssetsReturnComponent } from '../my-assets-return/my-assets-return.component';
 import { MyAssetsService } from '../my-assets.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 
 
 @Component({
@@ -22,21 +24,45 @@ export class MyAssetsListComponent implements OnInit {
   currentUserId:number;
   statusKeys: number[];
   status = AssetStatus;
+  assetTypeId:number;
+  assetTypeList:AssetType[];
 
   constructor(
     private myAssetService: MyAssetsService,
     public modalService: NgbModal,
+    private assetTypeService:AssetTypeService,
     private toastr: ToasterDisplayService
   ) { }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.getAllMyAssetList(this.currentUserId);
+    this. getAssetTypeList();
+  }
+  getAssetTypeList() { 
+    this.assetTypeService.getAllAssetTypeList().subscribe(result => {
+      this.assetTypeList = result;
+      console.log(this.assetTypeList);
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+    });
   }
 
+  getAssetTypeName(id) {
+   // this.assetTypeId = this.myAssetList[id].id;
+   console.log(id);
+    this.assetTypeList.find(val => {
+      // if(val.id === id){return val.assettypename;
+      //  }
+      val.id === id? val.assettypename:'-';
+    })
+  }
   getAllMyAssetList(userId) {
     this.myAssetService.getAllMyAssetList(userId).subscribe(result => {
-      this.myAssetList = result;      
+      this.myAssetList = result;  
+      console.log(this.myAssetList);    
     }),
       error => {
         console.error(error);

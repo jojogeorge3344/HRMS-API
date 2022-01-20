@@ -37,6 +37,7 @@ namespace Chef.HRMS.Models
         public int ValueId { get; set; }
 
         [Required]
+        [ForeignKey("Asset")]
         public string AssetName { get; set; }
 
         [Required]
@@ -49,7 +50,7 @@ namespace Chef.HRMS.Models
         //[ForeignKey("Asset")]
         public AssetStatus Status { get; set; }
 
-       
+        [ForeignKey("Asset")]
         public string Description { get; set; }
 
         [Required]
