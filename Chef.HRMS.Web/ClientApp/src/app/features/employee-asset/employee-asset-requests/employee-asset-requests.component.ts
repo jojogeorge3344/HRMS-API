@@ -7,6 +7,8 @@ import { AssetStatus } from "src/app/models/common/types/assetstatus";
 import { EmployeAssetService } from "../employe-asset.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { AssetRaiseRequest } from "@features/employee-assets/raise-request/raise-request.model";
+import { EmployeeAssetRequestViewComponent } from "../employee-asset-request-view/employee-asset-request-view.component";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -22,6 +24,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   employeeWiseRequest: AssetRaiseRequest;
   result: any;
   status=AssetStatus;
+  id: any;
  
 
   constructor(
@@ -31,6 +34,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToasterDisplayService,
+    public modalService: NgbModal,
   ) {}
 
   ngOnInit(): void {
@@ -47,16 +51,25 @@ export class EmployeeAssetRequestsComponent implements OnInit {
 
     return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
         this.employeeWiseRequest = result;
-        this.assetRaiseRequestId=result[0].id;
-       console.log(this.employeeWiseRequest);
+        this.id=result[0].id;
+       console.log(this.id);
       });
 
   }
 
+  // openRequestView(employees) {
+  //   this.router.navigate(
+  //     ['./' + this.empid + '/requestview'],
+  //     { relativeTo: this.route.parent });
+  //     this.employeeAsset.setListDetails({data: employees})
+  // }
+
   openRequestView(employees) {
-    this.router.navigate(
-      ['./' + this.empid + '/requestview'],
-      { relativeTo: this.route.parent });
+    const modalRef = this.modalService.open(EmployeeAssetRequestViewComponent,
+      { centered: true, backdrop: 'static' });
+      modalRef.componentInstance.id = this.id;
+      modalRef.componentInstance.empid = this.empid;
+      console.log(modalRef.componentInstance.requestId);
       this.employeeAsset.setListDetails({data: employees})
   }
 

@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { EmployeeAssetRequestViewComponent } from './employee-asset-request-view/employee-asset-request-view.component';
 import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswap/employee-asset-changeorswap.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -17,6 +18,7 @@ import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswa
   declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     NgbModule,
     BsDropdownModule.forRoot(),
     RouterModule.forChild([
