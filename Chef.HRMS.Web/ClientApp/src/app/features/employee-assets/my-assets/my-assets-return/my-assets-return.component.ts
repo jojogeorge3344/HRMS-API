@@ -48,7 +48,7 @@ export class MyAssetsReturnComponent implements OnInit {
   }
   onSubmit() {
     this.returnTypeSelected = this.returnAssetForm.get('returnTypeOptions').value;
-    // this.assetData.status = this.assetStatus.ChangeRequest;
+    this.assetData.status = this.assetStatus.ReturnRequest;
     this.assetData.returnDescription = this.returnAssetForm.get('returnDescription').value;
     this.assetData.returnType = toNumber(this.returnTypeSelected);
     this.myAssetService.updateStatus(this.assetData).subscribe(result => {
