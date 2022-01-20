@@ -23,6 +23,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   genderTypeKeys: number[];
   genderType = GenderType;
   currentUserId: number;
+   emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   employees: Employee[] = [];
   emails: string[];
   @Output() basicDetailsForm = new EventEmitter<boolean>();
@@ -49,9 +50,9 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
     }
     this.genderTypeKeys = Object.keys(this.genderType).filter(Number).map(Number);
   }
-  onChangeEmail() {
-    this.getEmployeeDetails();
-  }
+  // onChangeEmail() {
+  //   this.getEmployeeDetails();
+  // }
   getEmployeeDetails() {
     this.employeeService.getAll().subscribe(result => {
       this.emails = result.map(e => e.email);
@@ -91,7 +92,8 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       ]],
       email: ['', [
         Validators.required,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'),
+        Validators.pattern(this.emailRegex),
+       // emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       ]],
     });
   }

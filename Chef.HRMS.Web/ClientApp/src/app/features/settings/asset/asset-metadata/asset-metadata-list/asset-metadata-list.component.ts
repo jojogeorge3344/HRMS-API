@@ -23,6 +23,7 @@ export class AssetMetadataListComponent implements OnInit {
   // assetTypeNames :string[];
   assetMetadataNames: string[];
   assignedAssetTypeId: number[] = [];
+  selectValueRelation: any[];
 
   constructor(
     private assetMetadataService: AssetMetadataService,
@@ -35,10 +36,27 @@ export class AssetMetadataListComponent implements OnInit {
   ngOnInit(): void {
     this.getAssetTypeList();
     this.getAllAssignedAssetType();
+   
+    
   }
 
   getAssetTypeWithMetadata() {
     this.assetType = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
+    console.log("assetType",this.assetType);
+    this.selectValueRelation = [];
+    // this.assetType.filter(y=>{
+    //   this.selectValueRelation.push(
+    //     y.assettypename
+    //   )
+    // });
+    // this.assetAssetService.setListDetails({data: this.assetType.filter(
+    //   y=>{
+    //     this.selectValueRelation.push(
+    //       y.assettypename
+    //     )
+    //   }
+    // )})
+    this.assetAssetService.setListDetails(this.assetType)
   }
 
   getAssetTypeList() {

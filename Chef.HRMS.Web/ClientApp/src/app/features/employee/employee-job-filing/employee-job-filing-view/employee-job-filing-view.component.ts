@@ -206,7 +206,7 @@ export class EmployeeJobFilingViewComponent implements OnInit {
       payGroupId: ['', [
         Validators.required
       ]],
-      paymentMode: ['', [
+      paymentMode: [{value:'', disabled:true}, [
         Validators.required
       ]],
       createdDate: []

@@ -19,7 +19,6 @@ import { result } from 'lodash';
 export class AssetAssetsCreateComponent implements OnInit {
   // assetId: any;
   assetForm: FormGroup;
-  assetType: AssetType;
   currentUserId: number;
   dataType: any[];
   date = Date.now();
@@ -44,7 +43,8 @@ export class AssetAssetsCreateComponent implements OnInit {
     this.typeMap= new Map();
     this.currentUserId = getCurrentUserId();
     this.assetForm = this.createFormGroup();
-    this.getAssetType();
+    this.getAssetTypeWithMetadata()
+    
     // this.getAssetMetadataById()
   }
   get metadataFormGroup () {
@@ -134,15 +134,19 @@ export class AssetAssetsCreateComponent implements OnInit {
 }
   
 
-  getAssetType(){
-    this.assetTypeService.getAll().subscribe(result => {
-      this.dataType=result;
-      // console.log(this.dataType);     
-    })
+  // getAssetType(){
+  //   this.assetTypeService.getAll().subscribe(result => {
+  //     this.dataType=result;
+  //     // console.log(this.dataType);     
+  //   })
+  // }
+  getAssetTypeWithMetadata() {
+   this.assestassetService.assignedType.subscribe(res => {
+    this.dataType=res;
+    console.log("update",this.dataType);
+    
+   })
   }
-
  
-
-  
 
 }
