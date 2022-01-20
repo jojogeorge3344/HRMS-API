@@ -92,17 +92,19 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
 
-            var sql= @"SELECT    id,
-                                 requestno,
-                                 requestfor,
-	                             requesttype,
-                                 status,
-	                             empid,
-							     nameofteammember,
-                                 requesteddate      AS requestedon
-					 FROM hrms.assetraiserequest 
-                                 WHERE empid=@empid
-                                    ORDER BY createddate";
+            var sql= @"SELECT    rr.id,
+                                 rr.requestno,
+                                 rr.requestfor,
+	                             rr.requesttype,
+								 tt.assettypename,
+                                 rr.status,
+	                             rr.empid,
+							     rr.nameofteammember,
+                                 rr.requesteddate,
+                                 rr.description
+					 FROM hrms.assetraiserequest as rr inner join hrms.assettype as tt
+					 on rr.assettypeid=tt.id
+                                 WHERE empid=@empid";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 
