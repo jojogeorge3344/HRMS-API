@@ -78,7 +78,7 @@ namespace Chef.HRMS.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var result = await assetmyassetService.UpdateAsync(assetmyasset);
+            var result = await assetmyassetService.Update(assetmyasset);
             return Ok(result);
         }
 
@@ -97,5 +97,8 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+
+        
     }
 }

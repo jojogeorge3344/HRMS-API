@@ -14,8 +14,8 @@
         <tbody>
             <tr *ngFor="let list of myAssetList;let i=index">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize">{{list.dateAllocated | date: 'yyyy-MM-dd'}}</td>
-                <td class="text-ellipsis">{{getAssetTypeName(list.assetTypeId)}}</td>
+                <td class="text-capitalize">{{list.allocatedDate | date: 'yyyy-MM-dd'}}</td>
+                <td class="text-ellipsis">{{list.assetTypeName}}</td>
                 <td class="text-ellipsis">{{list.assetName}}</td>
                 <td class="text-ellipsis">{{list.assetId}}</td>
                 <td class="text-ellipsis">{{status[list.status]}}</td>

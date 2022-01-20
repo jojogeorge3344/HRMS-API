@@ -3,6 +3,7 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 export interface AssetAllocated extends Model {
     assetTypeId:number;
+    assetMyAssetId:number;
     assetRaiseRequestId:number;
     assetId:number;
     assetMetadataValueId:number;
@@ -15,4 +16,5 @@ export interface AssetAllocated extends Model {
     allocatedDate:Date;
     status:AssetStatus;
     description:string;
+    assetTypeName:string;
 }
