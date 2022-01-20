@@ -56,16 +56,15 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid)
         {
-            var sql = @"SELECT al.id,
-                                al.empid,
-								tt.id as assettypeid,
-                                tt.assettypename,
-                                al.assetid,
-                                al.assetname,
-                                al.allocateddate,
-                                al.status 
-                        FROM hrms.assetallocated as al inner join hrms.assettype as tt 
-						on al.assettypeid =tt.id WHERE empid = @empid";
+            var sql = @" SELECT id,
+                                empid,
+								assettypeid,
+                                assettypename,
+                                assetid,
+                                assetname,
+                                allocateddate,
+                                status 
+                        FROM hrms.assetallocated WHERE empid =1";
 
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
