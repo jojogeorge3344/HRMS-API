@@ -37,28 +37,8 @@ export class MyAssetsListComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.getAllMyAssetList(this.currentUserId);
-    this. getAssetTypeList();
-  }
-  getAssetTypeList() { 
-    this.assetTypeService.getAllAssetTypeList().subscribe(result => {
-      this.assetTypeList = result;
-      console.log(this.assetTypeList);
-    },
-    error => {
-      console.error(error);
-      this.toastr.showErrorMessage('Unable to fetch the asset type Details');
-    });
   }
 
-  getAssetTypeName(id) {
-   // this.assetTypeId = this.myAssetList[id].id;
-   console.log(id);
-    this.assetTypeList.find(val => {
-      // if(val.id === id){return val.assettypename;
-      //  }
-      val.id === id? val.assettypename:'-';
-    })
-  }
   getAllMyAssetList(userId) {
     this.myAssetService.getAllMyAssetList(userId).subscribe(result => {
       this.myAssetList = result;  
