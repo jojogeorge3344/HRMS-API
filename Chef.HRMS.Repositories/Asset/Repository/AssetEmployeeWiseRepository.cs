@@ -90,6 +90,12 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
         }
 
+        public async Task<IEnumerable<Employee>> GetEmployeeNameById(int id)
+        {
+            var sql = @"select firstname,lastname from hrms.employee where id=@id";
+            return await Connection.QueryAsync<Employee>(sql, new { id });
+        }
+
         public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
 

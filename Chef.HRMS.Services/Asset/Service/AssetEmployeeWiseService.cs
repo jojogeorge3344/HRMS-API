@@ -42,6 +42,11 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetRequestById(id);
         }
 
+        public async Task<IEnumerable<Employee>> GetEmployeeNameById(int id)
+        {
+            return await assetEmployeeWiseRepository.GetEmployeeNameById(id);
+        }
+
         public Task<int> DeleteAsync(int id)
         {
             throw new NotImplementedException();
