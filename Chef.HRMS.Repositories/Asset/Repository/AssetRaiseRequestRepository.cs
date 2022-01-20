@@ -41,7 +41,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetEmployeeViewModel>> GetEmployeeDetails()
         {
-            var sql = @"select concat(firstname,'-',jd.employeenumber) as employee,
+            var sql = @"select concat(firstname,'-',jd.employeenumber) as employeecode,
                         firstname,
                         jd.employeenumber,
                         jd.employeeid as empid,
@@ -50,13 +50,6 @@ namespace Chef.HRMS.Repositories
                         inner join hrms.employee
                         on jd.employeeid = hrms.employee.id";
             return await Connection.QueryAsync<AssetEmployeeViewModel>(sql, new { });
-        }
-
-        public async Task<int> Update(AssetRaiseRequest assetRaiseRequest)
-        {
-            var sql = new QueryBuilder<AssetRaiseRequest>().GenerateUpdateQuery();
-            sql = sql.Replace("RETURNING id", "");
-            return await Connection.ExecuteAsync(sql, assetRaiseRequest);
         }
 
 
