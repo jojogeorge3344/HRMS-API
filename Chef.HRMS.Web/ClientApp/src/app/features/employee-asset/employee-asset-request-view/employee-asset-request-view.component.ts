@@ -35,12 +35,8 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
                ) { }
 
   ngOnInit(): void {
-    // this.currentUserId = getCurrentUserId();
-    // this.route.params.subscribe((params: Params) => {
-    //   this.empid = params.id;
-    // });
     this.requestViewForm = this.createFormGroup();
-    this.getEmployeeRequestById();
+    this.getRequestById();
     
   }
 
@@ -76,8 +72,8 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
     });
   }
 
-  getEmployeeRequestById() {
-    return this.employeeAsset.getEmployeeRequestById(this.id).subscribe(result => {
+  getRequestById() {
+    return this.employeeAsset.getRequestById(this.id).subscribe(([result]) => {
       console.log(this.id);
         // this.employeeWiseRequest = result;
         this.requestViewForm.patchValue(result)
@@ -85,11 +81,12 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
       });
   }
 
-  manageRequest(empreq,status) {
+  manageRequest(id,status) {
     //  const parameters={assetId:this.assetId,requestId:this.assetRaiseRequestId,status:2}
-    console.log(empreq.id);
-       this.employeeAsset.manageRequest(empreq.id,status).subscribe(res=>{
-         this.getEmployeeRequestById();
+    console.log(id);
+       this.employeeAsset.manageRequest(id,status).subscribe(res=>{
+        this.toastr.showSuccessMessage('successfully!');
+         this.getRequestById();
        })
       
    }
