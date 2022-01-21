@@ -66,6 +66,11 @@ export class RaiseRequestViewComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+      
+      requestNo: ['', [
+        Validators.required,
+
+      ]],
       requestType: [{ value: 'New Asset', disabled: true }, [
         Validators.required,
       ]],

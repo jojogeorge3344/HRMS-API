@@ -22,32 +22,26 @@ namespace Chef.HRMS.Repositories
                         jd.employeeid,
                         jt.firstname,
                         jt.lastname,
-						allocatedasset,
-                        requests,
                         jd.workertype as employeestatus
-                               from hrms.employee as jt inner join
-
-                               hrms.assetemployeewise on jt.id = assetemployeewise.employeeid
-
+                               from hrms.employee as jt 
                                inner join hrms.jobdetails as jd on jt.id = jd.employeeid";
             return await Connection.QueryAsync<AssetEmployeeWise>(sql);
         }
 
-
-        //public async Task<IEnumerable<AssetEmployeeWise>> GetAllEmployeeDetails()
-        //{
-        //     var sql = @"select jt.employeeid,
-        //                     jt.firstname,
-        //                     jt.lastname,
-        //                        jt.allocatedasset,
-        //                        jt.requests,
-        //                        jt.employeestatus
-        //                        from hrms.assetemployeewise as jt inner join  hrms.employee on hrms.employee.id=jt.employeeid";
-        //    return await Connection.QueryAsync<AssetEmployeeWise>(sql);
-        //}
-
-
-
+        public async Task<IEnumerable<AssetCountViewModel>> GetAllCount()
+        {
+            var sql = @"SELECT * FROM(		
+                            SELECT empid, COUNT(*) AS allocatedasset
+                            FROM hrms.assetallocated 
+                            WHERE status = 4
+                            GROUP BY empid)a
+                            FULL JOIN
+                            (SELECT empid, COUNT(*) AS requests
+                            FROM hrms.assetraiserequest
+                            WHERE status = 1
+                            GROUP BY empid)b USING(empid)";
+            return await Connection.QueryAsync<AssetCountViewModel>(sql);
+        }
 
         public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
         {
@@ -56,16 +50,15 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid)
         {
-            var sql = @"SELECT al.id,
-                                al.empid,
-								tt.id as assettypeid,
-                                tt.assettypename,
-                                al.assetid,
-                                al.assetname,
-                                al.allocateddate,
-                                al.status 
-                        FROM hrms.assetallocated as al inner join hrms.assettype as tt 
-						on al.assettypeid =tt.id WHERE empid = @empid";
+            var sql = @" SELECT id,
+                                empid,
+								assettypeid,
+                                assettypename,
+                                assetid,
+                                assetname,
+                                allocateddate,
+                                status 
+                        FROM hrms.assetallocated WHERE empid =1";
 
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
@@ -88,6 +81,12 @@ namespace Chef.HRMS.Repositories
                                 from  hrms.employee inner join hrms.jobdetails as jd 
                                     on hrms.employee.id=jd.employeeid where employeeid=@employeeid";
             return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
+        }
+
+        public async Task<IEnumerable<Employee>> GetEmployeeNameById(int id)
+        {
+            var sql = @"select firstname,lastname from hrms.employee where id=@id";
+            return await Connection.QueryAsync<Employee>(sql, new { id });
         }
 
         public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)

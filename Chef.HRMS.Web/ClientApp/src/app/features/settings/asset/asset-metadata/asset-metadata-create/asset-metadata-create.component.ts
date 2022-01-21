@@ -1,12 +1,13 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetTypeService } from '../../asset-type/asset-type.service';
 import { AssetMetadataService } from '../asset-metadata.service';
 import { AssetTypeMetadata } from '../asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { MetadataDataType } from 'src/app/models/common/types/metadatadatatype';
+import { max } from 'lodash';
 
 @Component({
   selector: 'hrms-asset-metadata-create',
@@ -24,12 +25,14 @@ export class AssetMetadataCreateComponent implements OnInit {
   assetTypeName;
   metas: any;
   newMetadata: any;
+  metadataLength: number;
   visibleMinus = false;
   emptyValidation = false;
   duplicateValidation = false;
   dataTypes: string[];
   currentUserId: number;
   maxAlert = false;
+  maxLength = false;
   saveDisable = true;
 
   constructor(private assetTypeService: AssetTypeService,
@@ -43,7 +46,7 @@ export class AssetMetadataCreateComponent implements OnInit {
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     this.getAllAssetTypes();
   }
-
+  
   getAllAssetTypes() {
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
       this.assetTypeArray = result;
@@ -79,17 +82,17 @@ export class AssetMetadataCreateComponent implements OnInit {
   onSubmit() {
     this.fieldValidation();
     if (!this.duplicateValidation) {
-    const metdata = (this.addForm.get('dataRows') as FormArray).value?.map(val => ({
-      ...val, assettypeId: this.assetTypeId
-    }));
-    this.assetMetadataService.add(metdata).subscribe(result => {
-      this.toastr.showSuccessMessage('Asset metadata added successfully!');
-      this.activeModal.close('submit');
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the asset metadata');
-      });
+      const metdata = (this.addForm.get('dataRows') as FormArray).value?.map(val => ({
+        ...val, assettypeId: this.assetTypeId
+      }));
+      this.assetMetadataService.add(metdata).subscribe(result => {
+        this.toastr.showSuccessMessage('Asset metadata added successfully!');
+        this.activeModal.close('submit');
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('Unable to add the asset metadata');
+        });
     }
   }
 
@@ -104,10 +107,10 @@ export class AssetMetadataCreateComponent implements OnInit {
 
   createMetadata() {
     return this.formBuilder.group({
-      metadata: ['', [
+      metadataval: ['', [
         Validators.required,
         Validators.maxLength(32),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        Validators.pattern('^([a-zA-Z ])+$'),
       ]],
       assetDataType: [null, Validators.required],
       isMandatory: [false]
@@ -127,7 +130,7 @@ export class AssetMetadataCreateComponent implements OnInit {
       else {
         if (!this.duplicateValidation) {
           if (!this.emptyValidation) {
-            if (!this.maxAlert)
+            if (!this.maxLength)
               this.mdata.push(this.createMetadata());
           }
         }
@@ -144,31 +147,39 @@ export class AssetMetadataCreateComponent implements OnInit {
   }
 
   fieldValidation() {
+    this.emptyValidation = false;
+    this.duplicateValidation = false;
     this.mdata = this.addForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
     let l = this.metas.length;
-    this.newMetadata = this.addForm.get('dataRows').value[l - 1].metadata.toLowerCase();
-    this.emptyValidation = false;
-    if (l > 1) {
-      var found = -1;
-      for (let i = 0; i < l - 1; i++) {
-        if (this.metas[i].metadata.toLowerCase() == this.newMetadata) {
-          found = 1;
-          break;
+    this.newMetadata = this.addForm.get('dataRows').value[l - 1].metadataval.toLowerCase();
+    this.metadataLength = this.newMetadata.length;
+    if (this.metadataLength > 32) {
+      this.maxLength = true;
+    }
+    else {
+      this.maxLength = false;
+      if (l > 1) {
+        var found = -1;
+        for (let i = 0; i < l - 1; i++) {
+          if (this.metas[i].metadataval.toLowerCase() == this.newMetadata) {
+            found = 1;
+            break;
+          }
         }
-      }
-      if (found !== -1) {
-        //console.log("Metadata already exists");
-        this.saveDisable = true;
-        this.duplicateValidation = true;
+        if (found !== -1) {
+          //console.log("Metadata already exists");
+          this.saveDisable = true;
+          this.duplicateValidation = true;
+        }
+        else {
+          this.saveDisable = false;
+          this.duplicateValidation = false;
+        }
       }
       else {
         this.saveDisable = false;
-        this.duplicateValidation = false;
       }
-    }
-    else {
-      this.saveDisable = false;
     }
   }
 

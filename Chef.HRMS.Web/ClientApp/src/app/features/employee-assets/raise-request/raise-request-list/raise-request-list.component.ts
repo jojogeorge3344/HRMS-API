@@ -41,7 +41,9 @@ export class RaiseRequestListComponent implements OnInit {
 
   getAllRaiseRequestList(currentUserId) {
     this.raiseRequestService.getAllRaiseRequestList(currentUserId).subscribe(result => {
-      this.raiseRequestList = result;
+      this.raiseRequestList = result.sort(function(a, b) {
+        return (a.id - b.id);
+      });;
       console.log(result);
 
       this.raiseRequestList.map(item => {
@@ -77,7 +79,7 @@ export class RaiseRequestListComponent implements OnInit {
 
   openEdit(raiseRequest: AssetRaiseRequest) {
     const modalRef = this.modalService.open(RaiseRequestEditComponent,
-      { centered: true, backdrop: 'static' });
+      { size: 'lg',centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.raiseRequestDetails = raiseRequest;
     modalRef.result.then((result) => {

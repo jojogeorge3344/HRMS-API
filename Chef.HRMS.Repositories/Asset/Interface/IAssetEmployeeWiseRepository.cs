@@ -12,11 +12,13 @@ namespace Chef.HRMS.Repositories
     {
        
         Task<IEnumerable<AssetEmployeeWise>> GetAll();
+        Task<IEnumerable<AssetCountViewModel>> GetAllCount();
         Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid);
 
         Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid);
         Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid);
         Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id);
+        Task<IEnumerable<Employee>> GetEmployeeNameById(int id);
         Task<int> UpdateStatus(int id, int status);
         Task<int> UpdateApproveReject(int id, int status);
     }
