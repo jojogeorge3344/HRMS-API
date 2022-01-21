@@ -13,6 +13,8 @@ import { RaiseRequestViewComponent } from '../raise-request-view/raise-request-v
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'hrms-raise-request-list',
