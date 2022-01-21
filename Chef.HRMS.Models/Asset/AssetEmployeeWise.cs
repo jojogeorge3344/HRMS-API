@@ -25,13 +25,14 @@ namespace Chef.HRMS.Models
         [ForeignKey("jobdetails")]
         public string EmployeeStatus { get; set; }
 
-        [Required]
-        public int AllocatedAsset { get; set; }
+        //[Required]
+        //public int AllocatedAsset { get; set; }
+
+        //[Required]
+        //public int Requests { get; set; }
 
         [Required]
-        public int Requests { get; set; }
-
-        [Required]
+        [ForeignKey("jobtitle")]
         public int Designation { get; set; }
 
         

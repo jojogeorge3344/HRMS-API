@@ -12,6 +12,7 @@ namespace Chef.HRMS.Repositories
     {
        
         Task<IEnumerable<AssetEmployeeWise>> GetAll();
+        Task<IEnumerable<AssetCountViewModel>> GetAllCount();
         Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid);
 
         Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid);

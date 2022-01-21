@@ -22,32 +22,26 @@ namespace Chef.HRMS.Repositories
                         jd.employeeid,
                         jt.firstname,
                         jt.lastname,
-						allocatedasset,
-                        requests,
                         jd.workertype as employeestatus
-                               from hrms.employee as jt inner join
-
-                               hrms.assetemployeewise on jt.id = assetemployeewise.employeeid
-
+                               from hrms.employee as jt 
                                inner join hrms.jobdetails as jd on jt.id = jd.employeeid";
             return await Connection.QueryAsync<AssetEmployeeWise>(sql);
         }
 
-
-        //public async Task<IEnumerable<AssetEmployeeWise>> GetAllEmployeeDetails()
-        //{
-        //     var sql = @"select jt.employeeid,
-        //                     jt.firstname,
-        //                     jt.lastname,
-        //                        jt.allocatedasset,
-        //                        jt.requests,
-        //                        jt.employeestatus
-        //                        from hrms.assetemployeewise as jt inner join  hrms.employee on hrms.employee.id=jt.employeeid";
-        //    return await Connection.QueryAsync<AssetEmployeeWise>(sql);
-        //}
-
-
-
+        public async Task<IEnumerable<AssetCountViewModel>> GetAllCount()
+        {
+            var sql = @"SELECT * FROM(		
+                            SELECT empid, COUNT(*) AS allocatedasset
+                            FROM hrms.assetallocated 
+                            WHERE status = 4
+                            GROUP BY empid)a
+                            FULL JOIN
+                            (SELECT empid, COUNT(*) AS requests
+                            FROM hrms.assetraiserequest
+                            WHERE status = 1
+                            GROUP BY empid)b USING(empid)";
+            return await Connection.QueryAsync<AssetCountViewModel>(sql);
+        }
 
         public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
         {

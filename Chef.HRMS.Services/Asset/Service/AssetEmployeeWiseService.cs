@@ -22,7 +22,10 @@ namespace Chef.HRMS.Services
         {
             return await assetEmployeeWiseRepository.GetAll();
         }
-
+        public async Task<IEnumerable<AssetCountViewModel>> GetAllCount()
+        {
+            return await assetEmployeeWiseRepository.GetAllCount();
+        }
         public async Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid)
         {
             return await assetEmployeeWiseRepository.GetAllocatedAssetById(empid);

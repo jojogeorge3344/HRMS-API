@@ -29,6 +29,13 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+        [HttpGet("GetAllCount")]
+        public async Task<ActionResult<IEnumerable<AssetCountViewModel>>> GetAllCount()
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAllCount();
+
+            return Ok(assetEmployeeWises);
+        }
 
         [HttpGet("GetEmployeeDetailsById/{employeeid}")]
         public async Task<ActionResult> GetEmployeeDetailsById(int employeeid)
