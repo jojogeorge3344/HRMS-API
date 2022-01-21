@@ -24,7 +24,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   employeeWiseRequest: AssetRaiseRequest;
   result: any;
   status=AssetStatus;
-  id: any;
+  id:[];
  
 
   constructor(
@@ -50,8 +50,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     //console.log(this.empid);
 
     return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
+      console.log(result);
         this.employeeWiseRequest = result;
-        this.id=result[0].id;
+        this.id=result.id;
        console.log(this.id);
       });
 
@@ -64,13 +65,13 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   //     this.employeeAsset.setListDetails({data: employees})
   // }
 
-  openRequestView(employees) {
+  openRequestView(emprequest) {
     const modalRef = this.modalService.open(EmployeeAssetRequestViewComponent,
       { centered: true, backdrop: 'static' });
-      modalRef.componentInstance.id = this.id;
+      modalRef.componentInstance.id = emprequest.id;
       modalRef.componentInstance.empid = this.empid;
       console.log(modalRef.componentInstance.requestId);
-      this.employeeAsset.setListDetails({data: employees})
+      this.employeeAsset.setListDetails({data: emprequest})
   }
 
   // getAllocatedAssetsById() {

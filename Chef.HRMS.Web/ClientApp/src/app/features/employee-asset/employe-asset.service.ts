@@ -43,7 +43,7 @@ export class EmployeAssetService {
   }
 
   getEmployeeRequestById(id) {
-    return this.http.get<AssetRaiseRequest>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
+    return this.http.get<any>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
   }
 
   getAllocatedAssetsById(id) {
@@ -62,5 +62,9 @@ export class EmployeAssetService {
 
   recall(id:number){
     return this.http.put<AssetAssets>(this.baseUrl + 'update//', id).pipe(map(response => { return response; }));
+  }
+
+  getRequestById(id:number) {
+    return this.http.get<any[]>(this.baseUrl + 'GetRequestById/' + id).pipe(map(response => { return response; }));
   }
 }

@@ -21,14 +21,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="text-center" *ngFor="let empreq of employeeWiseRequest; let i= index;">
+                <tr class="text-center" *ngFor="let emprequest of employeeWiseRequest; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ empreq.requestNo}}</td>
-                    <td class="text-capitalize">{{empreq.nameOfTeamMember}}</td>
-                    <td >{{ empreq.requestedDate | date: 'yyyy-MM-dd'}}</td>
-                    <td >{{empreq.requestFor}}</td>
-                    <td >{{empreq.requestType}}</td>
-                    <td  > {{status[empreq.status]}}</td>
+                    <td>{{ emprequest.requestNo}}</td>
+                    <td class="text-capitalize">{{emprequest.nameOfTeamMember}}</td>
+                    <td>{{ emprequest.requestedDate | date: 'yyyy-MM-dd'}}</td>
+                    <td>{{emprequest.requestFor}}</td>
+                    <td>{{emprequest.requestType}}</td>
+                    <td> {{status[emprequest.status]}}</td>
                     <td>
 
                         <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="true">
@@ -39,11 +39,11 @@
                             </button>
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                                role="menu" click aria-labelledby="button-basic">
-                               <li role="menuitem"   (click)="openRequestView(employee)"><a class="dropdown-item">View</a></li>
-                               <li role="menuitem" [disabled]="" (click)="manageRequest(empreq,2); clicked = true;"><a class="dropdown-item">approve</a></li>
-                               <li role="menuitem"  (click)="manageRequest(empreq,3)"><a class="dropdown-item">Reject</a></li>
+                               <li role="menuitem"   (click)="openRequestView(emprequest)"><a class="dropdown-item">View</a></li>
+                               <li role="menuitem" [disabled]="" (click)="manageRequest(emprequest,2); clicked = true;"><a class="dropdown-item">approve</a></li>
+                               <li role="menuitem"  (click)="manageRequest(emprequest,3)"><a class="dropdown-item">Reject</a></li>
                                <li role="menuitem"  (click)="Allocate()"><a class="dropdown-item">Allocate</a></li>
-                               <li role="menuitem"  (click)="manageRequest(empreq,6)"><a class="dropdown-item">Revoke</a></li>
+                               <li role="menuitem"  (click)="manageRequest(emprequest,6)"><a class="dropdown-item">Revoke</a></li>
                             </ul>
                          </div>
                         
