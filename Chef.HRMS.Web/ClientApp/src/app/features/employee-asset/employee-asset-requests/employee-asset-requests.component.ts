@@ -43,12 +43,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       this.empid = params.id;
     });
     this.getEmployeeRequestById();
-    // this.getAllocatedAssetsById()
   }
 
   getEmployeeRequestById() {
-    //console.log(this.empid);
-
     return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
       console.log(result);
         this.employeeWiseRequest = result;
