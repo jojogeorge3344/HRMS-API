@@ -16,5 +16,5 @@ export interface AssetAllocated extends Model {
     allocatedDate:Date;
     status:AssetStatus;
     description:string;
-    
+    assetTypeName: string;
 }
