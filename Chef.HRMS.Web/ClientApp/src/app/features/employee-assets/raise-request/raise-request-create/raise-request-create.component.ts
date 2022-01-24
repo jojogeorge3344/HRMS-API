@@ -37,8 +37,8 @@ export class RaiseRequestCreateComponent implements OnInit {
   isDisable = false;
   employeeList: Employee[];
   selectedItems = [];
-  @ViewChild('nameOfTeamMember')
-  nameOfTeamMember: ElementRef;
+  @ViewChild('nameOfTeamMemberId')
+  nameOfTeamMemberId: ElementRef;
 
   
   constructor(
@@ -65,7 +65,7 @@ export class RaiseRequestCreateComponent implements OnInit {
   onSubmit() {
   
     this.raiseRequestDetails = this.addForm.getRawValue();
-    this.raiseRequestDetails.nameOfTeamMember = this.addForm.controls['nameOfTeamMember'].value.empid;
+    this.raiseRequestDetails.nameOfTeamMemberId = this.addForm.controls['nameOfTeamMemberId'].value.empid;
     this.raiseRequestDetails.empId = this.currentUserId;
     this.raiseRequestDetails.status= this.raiseRequestStatus.Requested;
     // this.raiseRequestDetails.assetTypeName=_.find(this.assetTypeArray, ['id', this.addForm.controls['assetTypeId'].value]).assettypename;
@@ -89,8 +89,8 @@ export class RaiseRequestCreateComponent implements OnInit {
 
   checkTeammemberName(){
 
-    if (!this.addForm.controls['nameOfTeamMember'].value) {
-      this.addForm.controls['nameOfTeamMember'].reset()
+    if (!this.addForm.controls['nameOfTeamMemberId'].value) {
+      this.addForm.controls['nameOfTeamMemberId'].reset()
     }
   }
 
@@ -109,7 +109,7 @@ export class RaiseRequestCreateComponent implements OnInit {
   //   if (this.selectedItems.indexOf($event.item) === -1) {
   //     this.selectedItems.push($event.item);
   //   }
-  //   this.nameOfTeamMember.nativeElement.value = '';
+  //   this.nameOfTeamMemberId.nativeElement.value = '';
   // }
 
   // remove(item) {
@@ -132,11 +132,11 @@ export class RaiseRequestCreateComponent implements OnInit {
     console.log(this.addForm.value.requestFor);
     if (this.addForm.value.requestFor == '1') {
       this.isDisable = true;
-      this.addForm.get("nameOfTeamMember").setValidators(null)
+      this.addForm.get("nameOfTeamMemberId").setValidators(null)
     }
     else {
       this.isDisable = false;
-      this.addForm.get("nameOfTeamMember").setValidators([Validators.required])
+      this.addForm.get("nameOfTeamMemberId").setValidators([Validators.required])
     }
   }
   
@@ -163,7 +163,7 @@ export class RaiseRequestCreateComponent implements OnInit {
         Validators.required,
 
       ]],
-      nameOfTeamMember: ['', [
+      nameOfTeamMemberId: ['', [
     
       ]],
       assetTypeId: ['', [
