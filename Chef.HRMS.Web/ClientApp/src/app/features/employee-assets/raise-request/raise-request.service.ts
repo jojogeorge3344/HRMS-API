@@ -22,6 +22,9 @@ export class RaiseRequestService {
   getAll(){
     return this.http.get<AssetRaiseRequest[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
+  getEmployeeDetails(){
+    return this.http.get<any[]>(this.baseUrl + 'getEmployeeDetails').pipe(map(response => { return response; }));
+  }
 
   getAllRaiseRequestList(currentUserId){
     return this.http.get<AssetRaiseRequest[]>(this.baseUrl + 'getAllRaiseRequestList/' + currentUserId).pipe(map(response => { return response; }));

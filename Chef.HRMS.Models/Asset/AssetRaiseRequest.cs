@@ -32,18 +32,16 @@ namespace Chef.HRMS.Models
         [Required]
         public AssetStatus Status { get; set; }
 
+        [ForeignKey("Employee")]
+        public int NameOfTeamMemberid { get; set; }
+
         public string NameOfTeamMember { get; set; }
 
         [Required]
         public string Description { get; set; }
 
-
-
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
-
-        [ForeignKey("AssetType")]
-
-        public string AssetTypeName { get; set; }
+        
     }
 }
