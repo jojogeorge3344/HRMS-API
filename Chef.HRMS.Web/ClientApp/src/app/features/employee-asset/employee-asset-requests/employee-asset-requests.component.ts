@@ -112,6 +112,11 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   //   });
   // }
 
+  disableApproved(){
+    console.log("hhhhh> ")
+    return true;
+  }
+
 
 
 }
