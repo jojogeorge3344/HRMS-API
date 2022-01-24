@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,7 +24,7 @@ namespace Chef.HRMS.Models
 
         [Required]
         [ForeignKey("jobdetails")]
-        public string EmployeeStatus { get; set; }
+        public WorkerType EmployeeStatus { get; set; }
 
         //[Required]
         //public int AllocatedAsset { get; set; }
@@ -33,7 +34,7 @@ namespace Chef.HRMS.Models
 
         [Required]
         [ForeignKey("jobtitle")]
-        public int Designation { get; set; }
+        public string Designation { get; set; }
 
         
 
