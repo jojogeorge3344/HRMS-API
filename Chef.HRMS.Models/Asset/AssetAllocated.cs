@@ -68,6 +68,6 @@ namespace Chef.HRMS.Models
         [ForeignKey("Asset")]
         public string Description { get; set; }
 
-        
+        public string AssetTypeName { get; set; }
     }
 }
