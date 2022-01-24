@@ -50,6 +50,10 @@ export class EmployeAssetService {
     return this.http.get(this.baseUrl + 'GetAllocatedAssetById/' + id).pipe(map(response => { return response; }));
   }
 
+  GetAllCount() {
+    return this.http.get<any>(this.baseUrl + 'GetAllCount').pipe(map(response => { return response; }));
+  }
+
   // UpdateStatus/{id}/{status}
   manageRequest(id,status) {
     return this.http.put(this.baseUrl + 'UpdateApproveReject',{},                                                

@@ -6,6 +6,7 @@ import { EmployeeAssetViewComponent } from '../employee-asset-view/employee-asse
 import { EmployeeAssetRequestsComponent } from '../employee-asset-requests/employee-asset-requests.component';
 import { EmployeeAssetAllocatedComponent } from '../employee-asset-allocated/employee-asset-allocated.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'hrms-employee-asset-list',
@@ -13,6 +14,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EmployeeAssetListComponent implements OnInit {
   employees:AssetEmployeeWise[];
+  counts
+  list: any;
 
   constructor(private employeeAsset:EmployeAssetService,
               public modalService: NgbModal,
@@ -21,15 +24,30 @@ export class EmployeeAssetListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
-    
   }
 
 getAll() {
-    this.employeeAsset.getAll().subscribe(result => {
-      this.employees=result
-      console.log(this.employees);
-      
-  })
+      forkJoin([
+        this.employeeAsset.getAll(),  
+        this.employeeAsset.GetAllCount()
+      ])
+      .subscribe(([employees,counts]) => {
+         employees=employees.map((employee)=>{
+            const selectedEmployee=counts.find(count => count.empId===employee.id)
+            if(selectedEmployee){
+              return {...employee,allocatedAsset:selectedEmployee.allocatedAsset,
+                requests:selectedEmployee.requests,}
+            }
+            return {
+              ...employee,allocatedAsset:0,
+                requests:0
+            }
+          })
+          console.log(employees);
+          this.employees=employees;
+      })
+        
+     
   }
 
   openAllocatedAssets(employees) {

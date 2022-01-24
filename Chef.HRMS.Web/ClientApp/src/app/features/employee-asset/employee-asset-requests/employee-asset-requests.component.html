@@ -24,7 +24,7 @@
                 <tr class="text-center" *ngFor="let emprequest of employeeWiseRequest; let i= index;">
                     <td>{{i+1}}</td>
                     <td>{{ emprequest.requestNo}}</td>
-                    <td class="text-capitalize">{{emprequest.nameOfTeamMember}}</td>
+                    <td class="text-capitalize">{{emprequest.empId}}</td>
                     <td>{{ emprequest.requestedDate | date: 'yyyy-MM-dd'}}</td>
                     <td>{{emprequest.requestFor}}</td>
                     <td>{{emprequest.requestType}}</td>
