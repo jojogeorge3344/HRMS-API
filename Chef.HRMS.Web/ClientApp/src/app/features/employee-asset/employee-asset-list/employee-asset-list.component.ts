@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeAssetService } from '../employe-asset.service';
 import { AssetEmployeeWise } from '../employee-asset.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EmployeeAssetViewComponent } from '../employee-asset-view/employee-asset-view.component';
-import { EmployeeAssetRequestsComponent } from '../employee-asset-requests/employee-asset-requests.component';
-import { EmployeeAssetAllocatedComponent } from '../employee-asset-allocated/employee-asset-allocated.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -14,7 +11,9 @@ import { forkJoin } from 'rxjs';
 })
 export class EmployeeAssetListComponent implements OnInit {
   employees:AssetEmployeeWise[];
-  counts
+  counts;
+  requestedBy:number;
+  requestedByName:string;
   list: any;
 
   constructor(private employeeAsset:EmployeAssetService,
@@ -49,6 +48,8 @@ getAll() {
         
      
   }
+
+
 
   openAllocatedAssets(employees) {
     this.router.navigate(

@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AssetRaiseRequest } from '@features/employee-assets/raise-request/raise-request.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { switchMap,tap } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { EmployeAssetService } from '../employe-asset.service';
@@ -19,10 +20,12 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   assetId:number
   assetRaiseRequestId:number;
   result: any;
+  requestedById:any;
   status=AssetStatus;
   currentUserId: number;
   employeeWiseRequest: AssetRaiseRequest;
   requestViewForm: FormGroup;
+  requetedByName: string;
 
 
   constructor(
@@ -37,6 +40,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   ngOnInit(): void {
     this.requestViewForm = this.createFormGroup();
     this.getRequestById();
+    // this.getEmployeeNameById()
     
   }
 
@@ -73,16 +77,20 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   }
 
   getRequestById() {
-    return this.employeeAsset.getRequestById(this.id).subscribe(([result]) => {
-      console.log(this.id);
-        // this.employeeWiseRequest = result;
+    this.employeeAsset.getRequestById(this.id).pipe(
+      tap(([result]) => {
+        this.requestViewForm.patchValue(result);
+      }),
+      switchMap(([result]) =>  (this.employeeAsset.getEmployeeNameById(result.empId))
+    ))
+    .subscribe(([result]) => {
+      this.requetedByName=`${result.firstName} ${result.lastName}`;
         this.requestViewForm.patchValue(result)
-        debugger;
       });
   }
 
+
   manageRequest(id,status) {
-    //  const parameters={assetId:this.assetId,requestId:this.assetRaiseRequestId,status:2}
     console.log(id);
        this.employeeAsset.manageRequest(id,status).subscribe(res=>{
         this.toastr.showSuccessMessage('successfully!');
