@@ -85,15 +85,16 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
 
-            var sql= @"SELECT    id,
-                                 requestno,
-                                 requestfor,
-	                             requesttype,
-                                 status,
-	                             empid,
-							     nameofteammemberid,
-                                 requesteddate
-					 FROM hrms.assetraiserequest
+            var sql= @"SELECT    rr.id,
+                                 rr.requestno,
+                                 rr.requestfor,
+	                             rr.requesttype,
+								 concat (firstname ,' ' ,lastname) as requestedby,
+                                 rr.status,
+	                             rr.empid,
+							     rr.nameofteammemberid,
+                                rr. requesteddate
+					 FROM hrms.assetraiserequest as rr inner join hrms.employee on rr.empid=employee.id
                                  WHERE empid=@empid
                                         ORDER BY id";
 
@@ -108,16 +109,18 @@ namespace Chef.HRMS.Repositories
                                  rr.requestfor,
 	                             rr.requesttype,
 								 tt.id as assettypeid,
+								 concat (es.firstname ,' ',es.lastname) as requestedby,
                                  tt.assettypename,
                                  rr.status,
 	                             rr.empid,
 								 rr.nameofteammemberid,
-							     concat (firstname ,' ',lastname) as nameofteammember,
+							     concat (ee.firstname ,' ',ee.lastname) as nameofteammember,
                                  rr.requesteddate,
                                  rr.description
 					 FROM hrms.assetraiserequest as rr inner join hrms.assettype as tt
 					 on rr.assettypeid=tt.id
 					 inner join hrms.employee as ee on rr.nameofteammemberid=ee.id
+					 inner join hrms.employee as es on rr.empid=es.id
                                  WHERE rr.id=@id
                                     ORDER BY rr.id";
 
