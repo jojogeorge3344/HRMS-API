@@ -33,7 +33,6 @@ export class RaiseRequestViewComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-    console.log(this.raiseRequestDetails);
     this.currentUserId = getCurrentUserId();
     this.viewForm = this.createFormGroup();
     this.getAllAssetTypes();

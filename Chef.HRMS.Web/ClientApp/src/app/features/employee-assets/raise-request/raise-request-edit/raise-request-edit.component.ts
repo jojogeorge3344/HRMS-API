@@ -62,7 +62,7 @@ export class RaiseRequestEditComponent implements OnInit {
     this.raiseRequestEditData.nameOfTeamMember = this.editForm.controls['nameOfTeamMember'].value.empid;
     this.raiseRequestEditData.status= this.raiseRequestStatus.Requested;
     this.raiseRequestEditData.empId = this.currentUserId;
-    this.raiseRequestEditData.assetTypeName=_.find(this.assetTypeArray, ['id', this.editForm.controls['assetTypeId'].value]).assettypename;
+    // this.raiseRequestEditData.assetTypeName=_.find(this.assetTypeArray, ['id', this.editForm.controls['assetTypeId'].value]).assettypename;
     this.raiseRequestEditData.id = this.raiseRequestDetails.id;
     console.log(this.raiseRequestEditData);
     
@@ -79,11 +79,9 @@ export class RaiseRequestEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to add the request');
       });
-
-  }
+ }
 
   checkTeammemberName(){
-
     if (!this.editForm.controls['nameOfTeamMember'].value) {
       this.editForm.controls['nameOfTeamMember'].reset()
     }
@@ -100,9 +98,7 @@ export class RaiseRequestEditComponent implements OnInit {
 
   getEmployeeList() {
     this.raiseRequestService.getEmployeeDetails().subscribe(result => {
-      let currentDepartment = _.find(result,['empid',this.currentUserId]).department
-      console.log(currentDepartment,"bllll");
-      
+      let currentDepartment = _.find(result,['empid',this.currentUserId]).department;      
       this.employeeList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment)); 
       this.editForm.patchValue(this.raiseRequestDetails);    
       this.editForm.patchValue({nameOfTeamMember:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMember])}) 

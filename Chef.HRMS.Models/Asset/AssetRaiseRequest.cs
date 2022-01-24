@@ -40,8 +40,5 @@ namespace Chef.HRMS.Models
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
 
-        [ForeignKey("AssetType")]
-
-        public string AssetTypeName { get; set; }
     }
 }
