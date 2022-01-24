@@ -25,10 +25,10 @@
                     <td>{{ employee.employeeID }}</td>
                     <td class="text-capitalize">{{employee.firstName}} {{employee.lastName}}</td>
                     <td >{{ employee.employeeStatus }}</td>
-                    <td *ngIf="employee.allocatedAsset> 0"> <a class="link text-primary mt-3"
+                    <td > <a class="link text-primary mt-3"
                         (click)="openAllocatedAssets(employee)">{{ employee.allocatedAsset}}</a> </td>
-                    <td *ngIf="employee.requests > 0"> <a class="link text-primary mt-3"
-                        (click)="openReuests(employee)">{{ employee.requests }}</a> </td>
+                    <td > <a class="link text-primary mt-3"
+                        (click)="openReuests(employee)">{{ employee.requests}}</a> </td>
                     <td>
 
                         <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="true">
@@ -42,26 +42,9 @@
                                <li role="menuitem"  (click)="openView(employee)"><a class="dropdown-item">View</a></li>
                             </ul>
                          </div>
-                        
-                        <!-- <div class="btn-group" dropdown container="main">
-                            <button id="button-basic" dropdownToggle type="button"
-                                class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
-                                <span class="caret"></span>
-                            </button>
-                            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
-                                aria-labelledby="button-basic">
-                                <li role="menuitem" ><a class="dropdown-item">View</a></li>
-                                <li role="menuitem" ><a class="dropdown-item">ee</a></li>
-                            </ul>
-                        </div> -->
-
+                      
                     </td>
                 </tr>
-                <!-- <tr>
-                    <td colspan="6" class="text-center">
-                        No rows found
-                    </td>
-                </tr> -->
             </tbody>
         </table>
     </div>
