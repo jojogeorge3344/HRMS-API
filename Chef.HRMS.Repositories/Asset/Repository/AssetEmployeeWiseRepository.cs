@@ -98,7 +98,7 @@ namespace Chef.HRMS.Repositories
 	                             requesttype,
                                  status,
 	                             empid,
-							     nameofteammember,
+							     nameofteammemberid,
                                  requesteddate
 					 FROM hrms.assetraiserequest
                                  WHERE empid=@empid";
@@ -116,7 +116,7 @@ namespace Chef.HRMS.Repositories
 								 tt.assettypename,
                                  rr.status,
 	                             rr.empid,
-							     rr.nameofteammember,
+							     rr.nameofteammemberid,
                                  rr.requesteddate,
                                  rr.description
 					 FROM hrms.assetraiserequest as rr inner join hrms.assettype as tt
