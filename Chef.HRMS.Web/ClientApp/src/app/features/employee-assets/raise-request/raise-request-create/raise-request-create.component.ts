@@ -65,12 +65,11 @@ export class RaiseRequestCreateComponent implements OnInit {
   onSubmit() {
   
     this.raiseRequestDetails = this.addForm.getRawValue();
-    this.raiseRequestDetails.nameOfTeamMemberId = this.addForm.controls['nameOfTeamMemberId'].value.empid;
+    this.raiseRequestDetails.nameOfTeamMemberId = this.addForm.controls['nameOfTeamMemberId'].value?this.addForm.controls['nameOfTeamMemberId'].value.empid: this.currentUserId;
     this.raiseRequestDetails.empId = this.currentUserId;
     this.raiseRequestDetails.status= this.raiseRequestStatus.Requested;
     // this.raiseRequestDetails.assetTypeName=_.find(this.assetTypeArray, ['id', this.addForm.controls['assetTypeId'].value]).assettypename;
-    console.log(this.raiseRequestDetails,"blabla");
-
+    
     this.raiseRequestService.add(this.raiseRequestDetails).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
