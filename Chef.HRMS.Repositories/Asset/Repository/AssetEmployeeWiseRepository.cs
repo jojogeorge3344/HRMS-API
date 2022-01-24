@@ -50,7 +50,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid)
         {
-            var sql = @" SELECT id,
+            var sql = @"SELECT id,
                                 empid,
 								assettypeid,
                                 assettypename,
@@ -58,28 +58,21 @@ namespace Chef.HRMS.Repositories
                                 assetname,
                                 allocateddate,
                                 status 
-                        FROM hrms.assetallocated WHERE empid =1";
+                        FROM hrms.assetallocated WHERE empid =@empid";
 
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
-
-        //public async Task<IEnumerable<AssetAllocated>> GetAllocatedById(int empid)
-        //{
-        //    var sql = @"select empid,
-        //                                    valueid as assetid,
-        //                                    assetname,
-        //                                    metadata from hrms.assetmyasset where empid=@empid";
-        //    return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
-        //}
 
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
             var sql = @"select employeeid,
                                 firstname,
                                 jd.workertype as employeestatus,
-                                jd.jobtitleid as designation
+                                jt.name as designation
                                 from  hrms.employee inner join hrms.jobdetails as jd 
-                                    on hrms.employee.id=jd.employeeid where employeeid=@employeeid";
+                                    on hrms.employee.id=jd.employeeid 
+									inner join hrms.jobtitle as jt on jd.jobtitleid=jt.id
+									where employeeid=@employeeid";
             return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
         }
 
@@ -101,7 +94,8 @@ namespace Chef.HRMS.Repositories
 							     nameofteammemberid,
                                  requesteddate
 					 FROM hrms.assetraiserequest
-                                 WHERE empid=@empid";
+                                 WHERE empid=@empid
+                                        ORDER BY id";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 
@@ -113,14 +107,17 @@ namespace Chef.HRMS.Repositories
                                  rr.requestno,
                                  rr.requestfor,
 	                             rr.requesttype,
-								 tt.assettypename,
+								 tt.id as assettypeid,
+                                 tt.assettypename,
                                  rr.status,
 	                             rr.empid,
-							     rr.nameofteammemberid,
+								 rr.nameofteammemberid,
+							     concat (firstname ,' ',lastname) as nameofteammember,
                                  rr.requesteddate,
                                  rr.description
 					 FROM hrms.assetraiserequest as rr inner join hrms.assettype as tt
 					 on rr.assettypeid=tt.id
+					 inner join hrms.employee as ee on rr.nameofteammemberid=ee.id
                                  WHERE rr.id=@id
                                     ORDER BY rr.id";
 

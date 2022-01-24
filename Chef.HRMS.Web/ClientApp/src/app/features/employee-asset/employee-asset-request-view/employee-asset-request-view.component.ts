@@ -53,7 +53,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
       requestedDate: ['', [
         Validators.required,
       ]],
-      assetTypeId: ['', [
+      assetTypeName: ['', [
         Validators.required,
       ]],
       requestType: ['', [
