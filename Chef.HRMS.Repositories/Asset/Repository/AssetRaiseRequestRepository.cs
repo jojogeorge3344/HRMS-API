@@ -31,8 +31,8 @@ namespace Chef.HRMS.Repositories
                                at.requestno,
                                at.requesteddate,
                                at.requestfor,
-                               at.nameofteammember,
-                               concat (firstname ,lastname) as name,
+                               at.nameofteammemberid,
+                               concat (firstname ,lastname) as nameofteammember,
                                at.requesttype,
                                at.description,
                                at.status,at.empid

@@ -31,9 +31,9 @@ namespace Chef.HRMS.Models
         public AssetStatus Status { get; set; }
 
         [ForeignKey("Employee")]
-        public int NameOfTeamMember { get; set; }
+        public int NameOfTeamMemberId { get; set; }
 
-        public string Name { get; set; }
+        public string NameOfTeamMember { get; set; }
 
         [Required]
         public string Description { get; set; }
