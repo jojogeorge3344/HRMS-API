@@ -67,14 +67,8 @@ export class MyAssetsViewComponent implements OnInit {
       this.myAssetViewForm.patchValue({
         ...this.myAsset,
         metadatas: mdatavalue,
-        //allocatedDate: this.datepipe.transform(this.myAsset.allocatedDate, "yyyy-mm-dd")
+        allocatedDate: this.datepipe.transform(this.myAsset.allocatedDate, "yyyy-mm-dd")
       });
     })
   }
-
-  // getMetadataName(metadataId) {
-  //   this.assetMetadataList.forEach(val => {
-  //     if (val.id === metadataId) { return val.metadata }
-  //   })
-  // }
 }
