@@ -62,8 +62,11 @@ export class EmployeeAssetViewComponent implements OnInit{
    openRecall(assetId) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
-
-     modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the asset ${assetId['assetName']}?`;
+      modalRef.componentInstance.allocatedAssets = this.allocatedAssets;
+      modalRef.componentInstance.assetName=this.allocatedAssets.assetName
+      console.log(modalRef.componentInstance.allocatedAssets);
+      debugger;
+     modalRef.componentInstance.confirmationMessage = `Are you sure you want to recall the asset ${this.allocatedAssets.assetName}?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
         this.employeeAsset.recall(assetId).subscribe(() => {
