@@ -7,6 +7,7 @@ Allocated,
 Unallocated,
 Revoked,
 ChangeRequest,
-ReturnRequest
+ReturnRequest,
+Recalled
 }
 

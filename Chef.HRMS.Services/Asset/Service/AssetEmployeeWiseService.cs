@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Repositories;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
@@ -12,10 +13,12 @@ namespace Chef.HRMS.Services
     public class AssetEmployeeWiseService : AsyncService, IAssetEmployeeWiseService
     {
         private readonly IAssetEmployeeWiseRepository assetEmployeeWiseRepository;
+        private readonly ISimpleUnitOfWork simpleUnitOfWork;
 
-        public AssetEmployeeWiseService(IAssetEmployeeWiseRepository assetEmployeeWiseRepository)
+        public AssetEmployeeWiseService(IAssetEmployeeWiseRepository assetEmployeeWiseRepository, ISimpleUnitOfWork simpleUnitOfWork)
         {
             this.assetEmployeeWiseRepository = assetEmployeeWiseRepository;
+            this.simpleUnitOfWork = simpleUnitOfWork;
         }
 
         public async Task<IEnumerable<AssetEmployeeWise>> GetAll()
@@ -89,6 +92,30 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.UpdateStatus(id, status); 
         }
 
-        
+        public async Task<int> UpdateStatusRecalled(int empid, int assetid, int status)
+        {
+            try
+            {
+                simpleUnitOfWork.BeginTransaction();
+                
+                var result = await assetEmployeeWiseRepository.UpdateStatusRecalled(empid, assetid, status);
+              
+                //await assetEmployeeWiseRepository.InsertAsync(empid, status);
+                simpleUnitOfWork.Commit();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                simpleUnitOfWork.Rollback();
+                string msg = ex.Message;
+                return 0;
+            }
+
+        }
+
+        //public async Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid)
+        //{
+        //    return await assetEmployeeWiseRepository.GetChangeSwapDetails(assetid);
+        //}
     }
 }

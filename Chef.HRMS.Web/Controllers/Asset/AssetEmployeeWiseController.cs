@@ -79,6 +79,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+        //[HttpGet("GetChangeSwapDetails/{assetid}")]
+        //public async Task<ActionResult> GetChangeSwapDetails(int assetid)
+        //{
+        //    var assetEmployeeWises = await assetEmployeeWiseService.GetChangeSwapDetails(assetid);
+
+        //    return Ok(assetEmployeeWises);
+        //}
+
 
         [HttpPut("UpdateStatus/{id}/{status}")]
         public async Task<ActionResult> UpdateStatus(int id, int status)
@@ -103,6 +111,19 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetEmployeeWiseService.UpdateApproveReject(id, status);
+
+            return Ok(result);
+        }
+
+        [HttpPut("UpdateStatusRecalled")]
+        public async Task<ActionResult> UpdateStatusRecalled(int empid, int assetid, int status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.UpdateStatusRecalled(empid, assetid, status);
 
             return Ok(result);
         }
