@@ -63,6 +63,26 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
 
+        //public async Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid)
+        //{
+        //    var sql = @"SELECT jt.id,
+        //                        jt.assetname,
+        //                        jt.assettypeid,
+        //                        js.assettypemetadataid,
+        //                        jt.date,
+        //                        jt.description,
+        //                        jt.status,
+        //                        js.value,
+        //                        js.id,
+        //                        jd.metadata
+        //                        FROM hrms.assetmetadatavalue AS js
+        //                        INNER JOIN hrms.asset AS jt
+        //                        ON js.assetid = jt.id
+								//inner join hrms.assettypemetadata as jd on 
+								//js.assettypemetadataid=jd.id  where js.assetid=@assetid";
+        //    return await Connection.QueryAsync<AssetMetadataValue>(sql, new { assetid });
+        //}
+
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
             var sql = @"select employeeid,
@@ -109,18 +129,16 @@ namespace Chef.HRMS.Repositories
                                  rr.requestfor,
 	                             rr.requesttype,
 								 tt.id as assettypeid,
-								 concat (es.firstname ,' ',es.lastname) as requestedby,
                                  tt.assettypename,
                                  rr.status,
 	                             rr.empid,
 								 rr.nameofteammemberid,
-							     concat (ee.firstname ,' ',ee.lastname) as nameofteammember,
+							     concat (firstname ,' ',lastname) as nameofteammember,
                                  rr.requesteddate,
                                  rr.description
 					 FROM hrms.assetraiserequest as rr inner join hrms.assettype as tt
 					 on rr.assettypeid=tt.id
 					 inner join hrms.employee as ee on rr.nameofteammemberid=ee.id
-					 inner join hrms.employee as es on rr.empid=es.id
                                  WHERE rr.id=@id
                                     ORDER BY rr.id";
 
@@ -149,6 +167,20 @@ namespace Chef.HRMS.Repositories
             var sql = @"UPDATE hrms.assetraiserequest 
                                     SET status=@status WHERE id=@id";
             return await Connection.ExecuteAsync(sql, new { id, status });
+        }
+
+        public async Task<int> UpdateStatusRecalled(int empid, int assetid, int status)
+        {
+            if(status==4)
+            {
+                var sql = @"Update hrms.assetallocated set status=9 where empid =@empid and assetid=@assetid";
+                var result = await Connection.ExecuteAsync(sql, new { empid,assetid, status });
+                return result;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
