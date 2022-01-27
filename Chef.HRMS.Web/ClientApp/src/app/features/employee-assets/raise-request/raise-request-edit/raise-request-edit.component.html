@@ -38,10 +38,12 @@
             <option *ngFor="let key of raiseRequestKeys" [ngValue]='key'>{{raiseRequesttype[key]}}</option>
         </select>
         </div>
-        <div class="form-group form-input-inline input-group col-6">
-          <label class="col-form-label" for="description">Name of Team Member</label>
-          <input type="text"  class="form-control" id="nameOfTeamMember" name="nameOfTeamMember" [attr.disabled]="isDisable?true:null"
-            formControlName="nameOfTeamMember">
+        <div class="form-group form-input-line col-6">
+          <label class="col-form-label" for="nameOfTeamMember">Name of Team Member</label>
+          <input type="text" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 px-0" [attr.disabled]="isDisable?true:null"
+              id="nameOfTeamMember" name="nameOfTeamMember" [ngbTypeahead]="search" 
+              [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]='false'
+              placeholder="Search Employee" formControlName="nameOfTeamMember" (change)="checkTeammemberName()">
         </div>
       </div>
 

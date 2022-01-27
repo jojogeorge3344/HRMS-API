@@ -25,7 +25,7 @@ export class MyAssetsViewComponent implements OnInit {
   assetMetadataValues: AssetMetadataValue[];
   constructor(
     private myAssetService: MyAssetsService,
-   //private datepipe: DatePipe,
+    private datepipe: DatePipe,
     private assetMetadataService: AssetMetadataService,
     private assetAssetsService: AssetAssetsService,
     public activeModal: NgbActiveModal,
@@ -42,7 +42,7 @@ export class MyAssetsViewComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      dateAllocated: [{ value: '', disabled: true }],
+      allocatedDate: [{ value: '', disabled: true }],
       assetTypeName: [{ value: '', disabled: true }],
       assetName: [{ value: '', disabled: true }],
       assetId: [{ value: '', disabled: true }],
@@ -67,14 +67,14 @@ export class MyAssetsViewComponent implements OnInit {
       this.myAssetViewForm.patchValue({
         ...this.myAsset,
         metadatas: mdatavalue,
-        //dateAllocated: this.datepipe.transform(this.myAsset.dateAllocated, "yyyy-mm-dd")
+        allocatedDate: this.datepipe.transform(this.myAsset.allocatedDate, "yyyy-mm-dd")
       });
     })
   }
 
-  getMetadataName(metadataId) {
-    this.assetMetadataList.forEach(val => {
-      if (val.id === metadataId) { return val.metadata }
-    })
-  }
+  // getMetadataName(metadataId) {
+  //   this.assetMetadataList.forEach(val => {
+  //     if (val.id === metadataId) { return val.metadata }
+  //   })
+  // }
 }

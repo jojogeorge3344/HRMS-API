@@ -24,8 +24,6 @@ export class MyAssetsListComponent implements OnInit {
   currentUserId:number;
   statusKeys: number[];
   status = AssetStatus;
-  assetTypeId:number;
-  assetTypeList:AssetType[];
 
   constructor(
     private myAssetService: MyAssetsService,

@@ -1,4 +1,5 @@
-import { Component, OnInit} from '@angular/core';
+import * as _ from 'lodash';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
@@ -7,10 +8,15 @@ import { RaiseRequestService } from '../raise-request.service';
 import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
-import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { ThrowStmt } from '@angular/compiler';
 import { Employee } from '@features/employee/employee.model';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
+import { EmployeeLeaveService } from '@features/employee-leave/employee-leave.service';
+import { EmployeeService } from '@features/employee/employee.service';
+import { RequestFor } from 'src/app/models/common/types/requestfor';
+
 
 @Component({
   selector: 'hrms-raise-request-create',
@@ -21,17 +27,20 @@ export class RaiseRequestCreateComponent implements OnInit {
 
   addForm: FormGroup;
   currentUserId: number;
-  // @Input() assetTypeNames: string[];
   current = new Date();
   todaysDate: Date;
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
   raiseRequestStatus =AssetStatus;
-  // raiseRequestDetails : any = {};
   raiseRequestDetails : AssetRaiseRequest;
   isDisable = false;
+  employeeList: Employee[];
+  selectedItems = [];
+  @ViewChild('nameOfTeamMember')
+  nameOfTeamMember: ElementRef;
 
+  
   constructor(
     private raiseRequestService: RaiseRequestService,
     private assetTypeService: AssetTypeService,
@@ -43,6 +52,7 @@ export class RaiseRequestCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
+    this.getEmployeeList();
     this.addForm = this.createFormGroup();
     this.getAllAssetTypes();
     this.raiseRequestKeys = Object.keys(this.raiseRequesttype).filter(Number).map(Number);
@@ -53,11 +63,13 @@ export class RaiseRequestCreateComponent implements OnInit {
   
 
   onSubmit() {
-    // this.raiseRequestDetails.empId = this.currentUserId;
+  
     this.raiseRequestDetails = this.addForm.getRawValue();
+    this.raiseRequestDetails.nameOfTeamMember = this.addForm.controls['nameOfTeamMember'].value.empid;
     this.raiseRequestDetails.empId = this.currentUserId;
     this.raiseRequestDetails.status= this.raiseRequestStatus.Requested;
-    console.log(this.raiseRequestDetails);
+    this.raiseRequestDetails.assetTypeName=_.find(this.assetTypeArray, ['id', this.addForm.controls['assetTypeId'].value]).assettypename;
+    console.log(this.raiseRequestDetails,"blabla");
 
     this.raiseRequestService.add(this.raiseRequestDetails).subscribe((result: any) => {
       console.log("res", result)
@@ -73,6 +85,47 @@ export class RaiseRequestCreateComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to add the request');
       });
 
+  }
+
+  checkTeammemberName(){
+
+    if (!this.addForm.controls['nameOfTeamMember'].value) {
+      this.addForm.controls['nameOfTeamMember'].reset()
+    }
+  }
+
+
+  formatter = (employee) => employee.employeecode;
+
+  search = (text$: Observable<string>) => text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    filter(term => term.length >= 2),
+    map(term => this.employeeList.filter((employee:any) => new RegExp(term, 'mi').test(employee.employeecode)).slice(0, 10))
+  )
+
+  // selected($event) {
+  //   $event.preventDefault();
+  //   if (this.selectedItems.indexOf($event.item) === -1) {
+  //     this.selectedItems.push($event.item);
+  //   }
+  //   this.nameOfTeamMember.nativeElement.value = '';
+  // }
+
+  // remove(item) {
+  //   this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
+  // }
+
+  getEmployeeList() {
+    this.raiseRequestService.getEmployeeDetails().subscribe(result => {
+      let currentDepartment = _.find(result,['empid',this.currentUserId]).department
+      console.log(currentDepartment,"bllll");
+      
+      this.employeeList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment));      
+    },
+      error => {
+        console.error(error);
+      });
   }
 
   getvalue(i) { // self or team member
