@@ -31,8 +31,8 @@ export class RaiseRequestEditComponent implements OnInit {
   raiseRequestEditData: AssetRaiseRequest;
   employeeList: Employee[];
   selectedItems = [];
-  @ViewChild('nameOfTeamMember')
-  nameOfTeamMember: ElementRef;
+  @ViewChild('nameOfTeamMemberId')
+  nameOfTeamMemberId: ElementRef;
 
   constructor( private raiseRequestService: RaiseRequestService,
     private assetTypeService: AssetTypeService,
@@ -59,10 +59,10 @@ export class RaiseRequestEditComponent implements OnInit {
 
   onSubmit() {
     this.raiseRequestEditData = this.editForm.getRawValue();
-    this.raiseRequestEditData.nameOfTeamMember = this.editForm.controls['nameOfTeamMember'].value.empid;
+    this.raiseRequestEditData.nameOfTeamMemberId =  this.editForm.controls['nameOfTeamMemberId'].value?this.editForm.controls['nameOfTeamMemberId'].value.empid: this.currentUserId;
     this.raiseRequestEditData.status= this.raiseRequestStatus.Requested;
     this.raiseRequestEditData.empId = this.currentUserId;
-    this.raiseRequestEditData.assetTypeName=_.find(this.assetTypeArray, ['id', this.editForm.controls['assetTypeId'].value]).assettypename;
+    // this.raiseRequestEditData.assetTypeName=_.find(this.assetTypeArray, ['id', this.editForm.controls['assetTypeId'].value]).assettypename;
     this.raiseRequestEditData.id = this.raiseRequestDetails.id;
     console.log(this.raiseRequestEditData);
     
@@ -79,13 +79,11 @@ export class RaiseRequestEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to add the request');
       });
-
-  }
+ }
 
   checkTeammemberName(){
-
-    if (!this.editForm.controls['nameOfTeamMember'].value) {
-      this.editForm.controls['nameOfTeamMember'].reset()
+    if (!this.editForm.controls['nameOfTeamMemberId'].value) {
+      this.editForm.controls['nameOfTeamMemberId'].reset()
     }
   }
 
@@ -100,12 +98,10 @@ export class RaiseRequestEditComponent implements OnInit {
 
   getEmployeeList() {
     this.raiseRequestService.getEmployeeDetails().subscribe(result => {
-      let currentDepartment = _.find(result,['empid',this.currentUserId]).department
-      console.log(currentDepartment,"bllll");
-      
+      let currentDepartment = _.find(result,['empid',this.currentUserId]).department;      
       this.employeeList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment)); 
       this.editForm.patchValue(this.raiseRequestDetails);    
-      this.editForm.patchValue({nameOfTeamMember:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMember])}) 
+      this.editForm.patchValue({nameOfTeamMemberId:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMemberId])}) 
     },
       error => {
         console.error(error);
@@ -116,11 +112,11 @@ export class RaiseRequestEditComponent implements OnInit {
   getvalue(i) { // self or team member
       if (this.editForm.value.requestFor == '1') {
       this.isDisable = true;
-      this.editForm.get("nameOfTeamMember").setValidators(null)
+      this.editForm.get("nameOfTeamMemberId").setValidators(null)
     }
     else {
       this.isDisable = false;
-      this.editForm.get("nameOfTeamMember").setValidators([Validators.required])
+      this.editForm.get("nameOfTeamMemberId").setValidators([Validators.required])
     }
   }
 
@@ -152,7 +148,7 @@ export class RaiseRequestEditComponent implements OnInit {
         Validators.required,
 
       ]],
-      nameOfTeamMember: ['', [
+      nameOfTeamMemberId: ['', [
     
       ]],
       assetTypeId: ['', [
