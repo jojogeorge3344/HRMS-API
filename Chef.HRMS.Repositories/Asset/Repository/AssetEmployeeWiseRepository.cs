@@ -145,6 +145,14 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { id });
         }
 
+        public async Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
+        {
+            var sql = new QueryBuilder<AssetAllocated>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+
+            return await Connection.ExecuteAsync(sql, assetAllocated);
+        }
+
         public async Task<int> UpdateApproveReject(int id, int status)
         {
             if (status == 2 || status == 3)
