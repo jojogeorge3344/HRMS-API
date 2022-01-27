@@ -3,10 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AssetEmployeeWise } from './employee-asset.model';
 import { BehaviorSubject, Observable} from 'rxjs';
-import { AssetEmployeewiseRequest } from './assetemployeewiserequest.model';
-import { AssetStatus } from 'src/app/models/common/types/assetstatus';
-import { AssetRaiseRequest} from '@features/employee-assets/raise-request/raise-request.model';
-import { AssetAssets } from '@settings/asset/asset-assets/asset-assets.model';
 
 @Injectable({
   providedIn: 'root'
@@ -70,8 +66,9 @@ export class EmployeAssetService {
     return this.http.get(this.baseUrl + 'GetEmployeeDetailsById/' + id).pipe(map(response => { return response; }));
   }
 
-  recall(id:number){
-    return this.http.put<AssetAssets>(this.baseUrl + 'update//', id).pipe(map(response => { return response; }));
+  recall(empid,assetId,status) {
+    return this.http.put(this.baseUrl + 'UpdateStatusRecalled',{},                                                
+    { params: { empid: empid, assetId: assetId , status: status } }).pipe(map(response => { return response; }));
   }
 
   getRequestById(id:number) {
