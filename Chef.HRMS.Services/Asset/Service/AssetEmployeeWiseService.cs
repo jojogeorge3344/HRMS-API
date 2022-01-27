@@ -118,6 +118,11 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
         }
 
+        public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
+        {
+            return await assetEmployeeWiseRepository.GetAssetDetailsById(assettypeid);
+        }
+
         //public async Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid)
         //{
         //    return await assetEmployeeWiseRepository.GetChangeSwapDetails(assetid);

@@ -19,6 +19,7 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid);
         Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id);
         Task<IEnumerable<Employee>> GetEmployeeNameById(int id);
+        Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid);
         //Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid);
 
         Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated);

@@ -79,6 +79,15 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
+        [HttpGet("GetAssetDetailsById/{assettypeid}")]
+        public async Task<ActionResult> GetAssetDetailsById(int assettypeid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAssetDetailsById(assettypeid);
+
+            return Ok(assetEmployeeWises);
+        }
+
         //[HttpGet("GetChangeSwapDetails/{assetid}")]
         //public async Task<ActionResult> GetChangeSwapDetails(int assetid)
         //{

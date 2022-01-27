@@ -63,6 +63,14 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
 
+        public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
+        {
+            var sql = @"select id,
+		                        assetname
+		                        from hrms.asset where status=5 and assettypeid=@assettypeid";
+            return await Connection.QueryAsync<Asset>(sql, new { assettypeid });
+        }
+
         //public async Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid)
         //{
         //    var sql = @"SELECT jt.id,
@@ -78,8 +86,8 @@ namespace Chef.HRMS.Repositories
         //                        FROM hrms.assetmetadatavalue AS js
         //                        INNER JOIN hrms.asset AS jt
         //                        ON js.assetid = jt.id
-								//inner join hrms.assettypemetadata as jd on 
-								//js.assettypemetadataid=jd.id  where js.assetid=@assetid";
+        //inner join hrms.assettypemetadata as jd on 
+        //js.assettypemetadataid=jd.id  where js.assetid=@assetid";
         //    return await Connection.QueryAsync<AssetMetadataValue>(sql, new { assetid });
         //}
 
