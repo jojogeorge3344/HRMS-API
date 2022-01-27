@@ -5,10 +5,10 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 // import { AssetStatus } from 'src/app/models/common/types/raiserequeststatus';
 
 export interface MyAssets extends Model {
-  assetTypeId: number;
+  
   assetId: number;
-  empId: number;
   assetTypeName: string;
+  empId: number;
   assetName: string;
   allocatedDate: Date;
   status: AssetStatus;

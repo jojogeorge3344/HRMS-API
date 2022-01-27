@@ -9,7 +9,9 @@ export interface AssetRaiseRequest extends Model {
     requestType: string;
     assetTypeId: number;
     status:AssetStatus;
-    nameOfTeamMember: number;
+    nameOfTeamMemberId: number;
+    nameOfTeamMember: string;
+    name: string;
     description: string;
     empId: number;
     assetTypeName: string;

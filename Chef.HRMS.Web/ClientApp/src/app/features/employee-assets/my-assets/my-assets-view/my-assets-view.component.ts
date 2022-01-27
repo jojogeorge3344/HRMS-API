@@ -71,10 +71,4 @@ export class MyAssetsViewComponent implements OnInit {
       });
     })
   }
-
-  // getMetadataName(metadataId) {
-  //   this.assetMetadataList.forEach(val => {
-  //     if (val.id === metadataId) { return val.metadata }
-  //   })
-  // }
 }
