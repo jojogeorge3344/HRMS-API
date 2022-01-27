@@ -79,6 +79,15 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
+        [HttpGet("GetAssetDetailsById/{assettypeid}")]
+        public async Task<ActionResult> GetAssetDetailsById(int assettypeid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAssetDetailsById(assettypeid);
+
+            return Ok(assetEmployeeWises);
+        }
+
         //[HttpGet("GetChangeSwapDetails/{assetid}")]
         //public async Task<ActionResult> GetChangeSwapDetails(int assetid)
         //{
@@ -86,6 +95,22 @@ namespace Chef.HRMS.Web.Controllers
 
         //    return Ok(assetEmployeeWises);
         //}
+
+
+        [HttpPost("Insert")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.InsertAsync(assetAllocated);
+            return Ok(result);
+        }
 
 
         [HttpPut("UpdateStatus/{id}/{status}")]
