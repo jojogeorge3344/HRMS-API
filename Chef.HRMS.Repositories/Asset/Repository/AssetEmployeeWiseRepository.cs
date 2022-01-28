@@ -130,6 +130,16 @@ namespace Chef.HRMS.Repositories
 
         }
 
+        public async Task<IEnumerable<AssetMetadataValue>> GetMetadatavaluesById(int assetid)
+        {
+            var sql = @"select  assetid,
+                                value,
+                                assettypemetadataid
+                                    from hrms.assetmetadatavalue where assetid=@assetid";
+
+            return await Connection.QueryAsync<AssetMetadataValue>(sql, new { assetid });
+        }
+
         public async Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id)
         {
             var sql = @"SELECT    rr.id,

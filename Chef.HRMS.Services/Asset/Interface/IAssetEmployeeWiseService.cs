@@ -18,6 +18,7 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<Employee>> GetEmployeeNameById(int id);
         Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid);
         Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid);
+        Task<IEnumerable<AssetMetadataValue>> GetMetadatavaluesById(int assetid);
 
         //Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid);
 
