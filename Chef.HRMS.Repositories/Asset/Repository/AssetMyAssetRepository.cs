@@ -24,6 +24,7 @@ namespace Chef.HRMS.Repositories
 		                    js.id,
 		                    js.empid,
 		                    js.assettypeid,
+                            js.assettypename,
 		                    js.assetid,
 		                    js.assetname,
                             js.allocateddate,
