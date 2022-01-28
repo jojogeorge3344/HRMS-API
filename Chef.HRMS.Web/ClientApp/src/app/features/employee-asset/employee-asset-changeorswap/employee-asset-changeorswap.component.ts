@@ -23,10 +23,10 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   typeMap: Map<any, any>;
   currentTypeKeys: string[];
   newTypeKeys: string[];
-  assetList: any[];
+  assetList =[];
   dataType: any[];
   newAsssetTypeId: any;
-  unallocatedAssets: {};
+  unallocatedAssets:any;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -111,9 +111,25 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     const evevalue =  this.employeeassetchangeForm.controls.newAssetType.value;
     this.employeAssetService.getUnallocatedAssets(evevalue).subscribe(res => {
       this.unallocatedAssets=res;
-      console.log(this.unallocatedAssets);
+      this.unallocatedAssets.forEach(item=>{
+      console.log(item.valueId,this.employeeassetchangeForm.controls.valueId.value);
+      if(item.valueId !== this.employeeassetchangeForm.controls.valueId.value){
+          console.log("item> ", item)
+          this.assetList.push(item);
+        }
+      })
+
+      console.log(this.assetList);
+      // this.assetList = res.filter(asset => (asset.valueId !== this.employeeassetchangeForm.value('valueId')));      
       
     })
+  }
+
+  checkAssetName(){
+
+    if (!this.employeeassetchangeForm.controls['newAssetName'].value) {
+      this.employeeassetchangeForm.controls['newAssetName'].reset()
+    }
   }
 
 
