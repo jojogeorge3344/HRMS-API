@@ -63,12 +63,15 @@ namespace Chef.HRMS.Services
             try
             {
                 simpleUnitOfWork.BeginTransaction();
+                asset.ValueId = asset.AssetName + '-' + asset.ValueId;
                 var result = await assetRepository.InsertAsync(asset);
+                //result=await assetRepository.UpdateAsync(asset)
                 if (asset.AssetMetadataValues !=null)
                 {
                     asset.AssetMetadataValues.ForEach(c => c.AssetId = result.Id);
                     var res = await assetRepository.BulkInsertAsync(asset.AssetMetadataValues);
                 }
+           
                 simpleUnitOfWork.Commit();
             }
             catch (Exception ex)
@@ -129,5 +132,7 @@ namespace Chef.HRMS.Services
         {
             return await assetRepository.UpdateStatus(id, status);
         }
+
+
     }
 }

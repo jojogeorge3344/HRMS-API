@@ -20,8 +20,8 @@ namespace Chef.HRMS.Models
         [ForeignKey("AssetTypeMetadata")]
         public int AssetTypeMetadataId { get; set; }
 
-        [Required]
-        public int ValueId { get; set; }
+      //  [Required]
+        public string ValueId { get; set; }
 
         [Required]
         public string AssetName { get; set; }
@@ -37,6 +37,8 @@ namespace Chef.HRMS.Models
 
         [Required]
         public bool IsActive { get; set; }
+
+        public string AssetTypeName { get; set; }
 
         [Write(false)]
         [Skip(true)]
