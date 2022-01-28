@@ -123,6 +123,11 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetAssetDetailsById(assettypeid);
         }
 
+        public async Task<IEnumerable<AssetMetadataValue>> GetMetadatavaluesById(int assetid)
+        {
+            return await assetEmployeeWiseRepository.GetMetadatavaluesById(assetid);
+        }
+
         //public async Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid)
         //{
         //    return await assetEmployeeWiseRepository.GetChangeSwapDetails(assetid);

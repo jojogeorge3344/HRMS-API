@@ -88,6 +88,15 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+        [HttpGet("GetMetadatavaluesById/{assetid}")]
+        public async Task<ActionResult> GetMetadatavaluesById(int assetid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetMetadatavaluesById(assetid);
+
+            return Ok(assetEmployeeWises);
+        }
+
+
         //[HttpGet("GetChangeSwapDetails/{assetid}")]
         //public async Task<ActionResult> GetChangeSwapDetails(int assetid)
         //{

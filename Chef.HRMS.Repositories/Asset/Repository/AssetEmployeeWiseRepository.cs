@@ -66,8 +66,12 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
         {
             var sql = @"select id,
-		                        assetname
-		                        from hrms.asset where status=5 and assettypeid=@assettypeid";
+			                    assettypeid,
+			                    assettypemetadataid,
+			                    valueid,
+			                    status,
+		                          assetname
+		                         from hrms.asset where status=5 and assettypeid=@assettypeid";
             return await Connection.QueryAsync<Asset>(sql, new { assettypeid });
         }
 
@@ -128,6 +132,18 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 
+        }
+
+        public async Task<IEnumerable<AssetMetadataValue>> GetMetadatavaluesById(int assetid)
+        {
+            var sql = @"select  id,
+                                assettypeid,
+                                assetid,
+                                value,
+                                assettypemetadataid
+                                    from hrms.assetmetadatavalue where assetid=@assetid";
+
+            return await Connection.QueryAsync<AssetMetadataValue>(sql, new { assetid });
         }
 
         public async Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id)
