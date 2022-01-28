@@ -54,6 +54,11 @@ export class EmployeAssetService {
     return this.http.get<any>(this.baseUrl + 'GetEmployeeNameById/' +id).pipe(map(response => { return response; }));
   }
 
+  getUnallocatedAssets(id:number){
+    console.log(">>>>>>> ",typeof(id), id)
+    return this.http.get(this.baseUrl + 'GetAssetDetailsById/' + id).pipe(map(response => { return response; }));
+  }
+
 
 
   // UpdateStatus/{id}/{status}
