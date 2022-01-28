@@ -20,13 +20,16 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   @Input() assetId;
   @Input() assetTypeId
   Astvalues: AssetAssets;
-  typeMap: Map<any, any>;
+  currentTypeMap: Map<any, any>;
   currentTypeKeys: string[];
   newTypeKeys: string[];
+  newTypeMap: Map<any, any>;
   assetList =[];
   dataType: any[];
   newAsssetTypeId: any;
   unallocatedAssets:any;
+  newTypeId:number;
+  newAssetId:number;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -39,7 +42,8 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.typeMap = new Map();
+    this.currentTypeMap = new Map();
+    this.newTypeMap = new Map();
     this.employeeassetchangeForm = this.createFormGroup();
     this.getCurrentAssetById();
     this.getAssetType();
@@ -84,12 +88,12 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     ])
       .subscribe(([metadatas, asset]) => {
         metadatas.forEach(mdata => {
-          this.typeMap.set(mdata.metadata, mdata);
+          this.currentTypeMap.set(mdata.metadata, mdata);
           (this.employeeassetchangeForm.get('metadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
-        this.currentTypeKeys = [...this.typeMap.keys()];
-        let mdatavalue = {}
+        this.currentTypeKeys = [...this.currentTypeMap.keys()];
+        let mdatavalue = {};
         this.currentTypeKeys.map(key => {
-          mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.typeMap.get(key).id)?.value || ''
+          mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.currentTypeMap.get(key).id)?.value || ''
         });
         this.employeeassetchangeForm.patchValue({
           ...asset,
@@ -111,11 +115,13 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     const evevalue =  this.employeeassetchangeForm.controls.newAssetType.value;
     this.employeAssetService.getUnallocatedAssets(evevalue).subscribe(res => {
       this.unallocatedAssets=res;
+      console.log("unallocated",this.unallocatedAssets);
+      
       this.unallocatedAssets.forEach(item=>{
-      console.log(item.valueId,this.employeeassetchangeForm.controls.valueId.value);
+      // console.log(item.valueId,this.employeeassetchangeForm.controls.valueId.value);
       if(item.valueId !== this.employeeassetchangeForm.controls.valueId.value){
-          console.log("item> ", item)
-          this.assetList.push(item);
+          // console.log("item> ", item)
+          this.assetList.push({item:item.valueId,name:item.assetName,typeId:item.assetTypeId,assetId:item.id});
         }
       })
 
@@ -125,35 +131,50 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     })
   }
 
-  checkAssetName(){
-
+  checkAssetName(ev){
     if (!this.employeeassetchangeForm.controls['newAssetName'].value) {
       this.employeeassetchangeForm.controls['newAssetName'].reset()
     }
+    this.newTypeId=this.employeeassetchangeForm.controls.newAssetName.value.typeId;
+    this.newAssetId=this.employeeassetchangeForm.controls.newAssetName.value.assetId;
+    console.log("values>>",this.newTypeId,this.newAssetId);
+     forkJoin([
+      this.assetMetadataService.getAssetMetadataById(this.newTypeId),
+      this.assestassetService.getAssetById(this.newAssetId)
+    ])
+      .subscribe(([newMetadatas, newAsset]) => {
+        newMetadatas.forEach(mdata => {
+          this.newTypeMap.set(mdata.metadata, mdata);
+          (this.employeeassetchangeForm.get('newMetadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
+        this.newTypeKeys = [...this.newTypeMap.keys()];
+        let newMdatavalue = {}
+        this.newTypeKeys.map(key => {
+          newMdatavalue[key] = newAsset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.newTypeMap.get(key).id)?.value || ''
+        });
+        this.employeeassetchangeForm.patchValue({
+          ...newAsset,
+          newMetadatas: newMdatavalue,
+        });
+        this.Astvalues = newAsset;
+      })
   }
 
 
 
-  formatter = (employee) => employee.employeecode;
+  formatter = (assetList) => assetList.name;
 
   search = (text$: Observable<string>) => text$.pipe(
     debounceTime(200),
     distinctUntilChanged(),
     filter(term => term.length >= 2),
-    map(term => this.assetList.filter((employee:any) => new RegExp(term, 'mi').test(employee.employeecode)).slice(0, 10))
+    map(term => this.assetList.filter((assetList:any) => new RegExp(term, 'mi').test(assetList.name)).slice(0, 10))
   )
 
-  // getEmployeeList() {
-  //   this.employeAssetService.getEmployeeDetails().subscribe(result => {
-  //     let currentDepartment = _.find(result,['empid',this.currentUserId]).department
-  //     console.log(currentDepartment,"bllll");
-      
-  //     this.assetList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment));      
-  //   },
-  //     error => {
-  //       console.error(error);
-  //     });
-  // }
+  getMetadata(){
+ 
+    
+   
+  }
 
 
 
