@@ -70,30 +70,10 @@ namespace Chef.HRMS.Repositories
 			                    assettypemetadataid,
 			                    valueid,
 			                    status,
-		                          assetname
+			                     concat(assetname,'-',valueid) as assetname 
 		                         from hrms.asset where status=5 and assettypeid=@assettypeid";
             return await Connection.QueryAsync<Asset>(sql, new { assettypeid });
         }
-
-        //public async Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid)
-        //{
-        //    var sql = @"SELECT jt.id,
-        //                        jt.assetname,
-        //                        jt.assettypeid,
-        //                        js.assettypemetadataid,
-        //                        jt.date,
-        //                        jt.description,
-        //                        jt.status,
-        //                        js.value,
-        //                        js.id,
-        //                        jd.metadata
-        //                        FROM hrms.assetmetadatavalue AS js
-        //                        INNER JOIN hrms.asset AS jt
-        //                        ON js.assetid = jt.id
-        //inner join hrms.assettypemetadata as jd on 
-        //js.assettypemetadataid=jd.id  where js.assetid=@assetid";
-        //    return await Connection.QueryAsync<AssetMetadataValue>(sql, new { assetid });
-        //}
 
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
