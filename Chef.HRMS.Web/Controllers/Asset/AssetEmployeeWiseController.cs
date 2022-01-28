@@ -96,16 +96,6 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
-
-        //[HttpGet("GetChangeSwapDetails/{assetid}")]
-        //public async Task<ActionResult> GetChangeSwapDetails(int assetid)
-        //{
-        //    var assetEmployeeWises = await assetEmployeeWiseService.GetChangeSwapDetails(assetid);
-
-        //    return Ok(assetEmployeeWises);
-        //}
-
-
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
