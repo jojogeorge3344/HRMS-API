@@ -17,6 +17,8 @@ export class EmployeeAssetViewComponent implements OnInit{
   employeeDetails;
   allocatedAssets;
   status=AssetStatus;
+  assetId:number;
+  assetTypeId:number;
   
 
   constructor(private employeeAsset :EmployeAssetService,
@@ -51,23 +53,23 @@ export class EmployeeAssetViewComponent implements OnInit{
     });
   }
 
-  openChangeOrSwap(employeeId,allocatedAssetId) {
+  openChangeOrSwap(allocatedAsset) {
      const modalRef = this.modalService.open(EmployeeAssetChangeorswapComponent,
        { centered: true, backdrop: 'static' });
-    //  modalRef.componentInstance.employeeId = this.employeeDetails.id;
-    //  modalRef.componentInstance.allocatedAssetId = this.allocatedAssets.id;
-    //  console.log(modalRef.componentInstance.employeeId, modalRef.componentInstance.allocatedAssetId);
+      modalRef.componentInstance.assetId = allocatedAsset.assetId;
+      modalRef.componentInstance.assetTypeId = allocatedAsset.assetTypeId;
+   
    }
 
-   openRecall(assetId) {
+   openRecall(allocatedAsset) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
-
-     modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the asset ${assetId['assetName']}?`;
+      debugger;
+     modalRef.componentInstance.confirmationMessage = `Are you sure you want to recall the asset ${allocatedAsset.assetName}?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.employeeAsset.recall(assetId).subscribe(() => {
-          // this.toastr.showSuccessMessage('asset deleted successfully!');
+        this.employeeAsset.recall(this.empid,allocatedAsset.assetId,9).subscribe(() => {
+           this.toastr.showSuccessMessage('asset recalled successfully!');
           this.getAllocatedAssetsById();
         });
       }

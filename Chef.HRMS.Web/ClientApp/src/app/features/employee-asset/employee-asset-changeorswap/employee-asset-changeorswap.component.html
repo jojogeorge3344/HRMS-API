@@ -1,6 +1,6 @@
-<form id="employeeassetchangeForm" (submit)="onSubmit()">
+<form [formGroup]="employeeassetchangeForm" id="employeeassetchangeForm" (submit)="onSubmit()">
     <div class="modal-header">
-      <h4 class="modal-title">Add Asset</h4>
+      <h4 class="modal-title">Change/Swap</h4>
       <button
         type="button"
         class="close"
@@ -14,101 +14,80 @@
     <div class="modal-body">
       <div class="d-flex flex-wrap align-items-baseline">
         <div class="form-group form-input-inline col-6">
-          <label class="col-12 col-form-label px-0" for="assetid">Asset Id</label>
+          <label class="col-12 col-form-label px-0" for="assetid">Current Asset Id</label>
           <input
             formControlName="valueId"
             type="number"
             class="form-control w-100"
-          />
-          <!-- <input
-            class="form-control w-75"
-            formControlName="assetId"
-            placeholder="auto generated"
             disabled
-          /> -->
-        </div>
-        <div class="form-group form-input-inline col-6">
-          <label class="col-12 col-form-label px-0" for="date">Date</label>
-          <input
-            class="form-control w-100"
-            formControlName="date"
-            name="effectiveDate"
-            ngbDatepicker
-            #d="ngbDatepicker"
           />
+          
         </div>
+       
   
         <div class="form-group form-input-inline col-6">
           <label class="col-12 col-form-label px-0" for="AssetName"
-            >Asset Name</label
+            >Current Asset Name</label
           >
-          <input formControlName="assetName" class="form-control w-100" />
+          <input formControlName="assetName" class="form-control w-100" disabled />
         </div>
   
+        <div class="d-flex flex-wrap align-items-baseline col-12 px-0" formGroupName="metadatas">
+          <div class="form-group  col-6 " *ngFor="let currentmdata of currentTypeKeys; let i = index">
+              <label class="col-12 col-form-label px-0" for="metadata">{{currentmdata}}</label>
+              <input
+              class="form-control w-100"
+                type="text"
+                formControlName="{{ currentmdata }}"
+                placeholder="{{ currentmdata }}"
+                disabled
+              />
+          </div>
+        </div>
+
         <div class="form-group form-input-inline col-6">
-          <label class="col-12 col-form-label px-0">Asset Type</label>
-          <!-- <select
-            id="dataType"
-            name="dataType"
+          <label class="col-12 col-form-label px-0">New Asset Type</label>
+          <select
+            id="newAssetType"
+            name="newAssetType"
             class="form-control w-100"
-            formControlName="assetTypeId"
-            (change)="getselectedvalue($event)"
+            formControlName="newAssetType"
+            (change)="getUnallocatedAssets($event)"
           >
             <option *ngFor="let dtype of dataType" [ngValue]="dtype.id">
               {{ dtype.assettypename }}
             </option>
-          </select> -->
+          </select>
         </div>
-  
-        <div class="d-flex flex-wrap align-items-baseline col-12 px-0" formGroupName="metadatas">
-          <!-- <div class="form-group  col-6 " *ngFor="let mdata of typeKeys; let i = index">
-            <div class="form-group"> 
-              <div>{{ selectedValue }}</div> 
-              <div *ngSwitchCase="typeMap.get() == 'text'"> 
-              <label class="col-12 col-form-label px-0" for="metadata">{{
-                mdata
-              }}</label>
+
+        <div class="form-group form-input-inline col-6">
+          <label class="col-12 col-form-label px-0" for="newAssetName"
+            >New Asset Name</label
+          >
+          <input formControlName="newAssetName" class="form-control w-100"  />
+        </div>
+
+        <div class="d-flex flex-wrap align-items-baseline col-12 px-0" formGroupName="newMetadatas">
+          <div class="form-group  col-6 " *ngFor="let newmdata of newTypeKeys; let i = index">
+              <label class="col-12 col-form-label px-0" for="newMetadatas">{{ newmdata}}</label>
               <input
               class="form-control w-100"
                 type="text"
-                formControlName="{{ mdata }}"
-                placeholder="{{ mdata }}"
+                formControlName="{{ newmdata }}"
+                placeholder="{{ newmdata }}"
               />
-              </div>
-              <div *ngSwitchCase="mdata.assetdatatype == 'date'">
-                {{ mdata.metadata }}
-                <input type="date" />
-              </div>
-              <div *ngSwitchCase="mdata.assetdatatype == 'number'">
-                {{ mdata.metadata }}
-                <input type="number" />
-              </div>  
-            </div>
-          </div> -->
+          </div>
         </div>
-      
-      <!-- <div [ngSwitch]="conditionExpression">
-          <div *ngSwitchCase="expression">output</div>
-          <div *ngSwitchDefault>output2</div>
-        </div> -->
-  
-     
-  
-      <div class="form-group form-input-inline col-6">
-        <div class="custom-control custom-checkbox custom-switch pt-3">
-          <input type="checkbox" class="custom-control-input" id="isEnabled" formControlName="isActive">
-          <label class="custom-control-label" for="isEnabled">Active</label>
-         </div>
-        </div>
-     
+
         <div class="form-group form-textarea-line col-12">
           <label class="col-12 col-form-label px-0">Description</label>
              <textarea
-                formControlName="description"
+                formControlName="newDescription"
                 class="form-control"
                 rows="3">
               </textarea>
         </div>
+
       </div>
     </div>
   
