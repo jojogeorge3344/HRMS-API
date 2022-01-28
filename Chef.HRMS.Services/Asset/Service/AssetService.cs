@@ -63,7 +63,7 @@ namespace Chef.HRMS.Services
             try
             {
                 simpleUnitOfWork.BeginTransaction();
-                asset.ValueId = asset.AssetName + '-' + asset.ValueId;
+               // asset.ValueId = asset.AssetName + '-' + asset.ValueId;
                 var result = await assetRepository.InsertAsync(asset);
                 //result=await assetRepository.UpdateAsync(asset)
                 if (asset.AssetMetadataValues !=null)
