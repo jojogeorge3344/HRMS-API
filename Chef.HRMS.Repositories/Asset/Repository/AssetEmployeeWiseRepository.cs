@@ -24,7 +24,7 @@ namespace Chef.HRMS.Repositories
                         jt.lastname,
                         jd.workertype as employeestatus
                                from hrms.employee as jt 
-                               inner join hrms.jobdetails as jd on jt.id = jd.employeeid";
+                               inner join hrms.jobdetails as jd on jt.id = jd.employeeid order by jt.id";
             return await Connection.QueryAsync<AssetEmployeeWise>(sql);
         }
 
@@ -108,7 +108,7 @@ namespace Chef.HRMS.Repositories
                                 rr. requesteddate
 					 FROM hrms.assetraiserequest as rr inner join hrms.employee on rr.empid=employee.id
                                  WHERE empid=@empid
-                                        ORDER BY id";
+                                        ORDER BY id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 
