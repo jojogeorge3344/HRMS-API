@@ -4,19 +4,21 @@ import { EmployeeAssetListComponent } from './employee-asset-list/employee-asset
 import { RouterModule } from '@angular/router';
 import { EmployeeAssetViewComponent } from './employee-asset-view/employee-asset-view.component';
 import { EmployeeAssetRequestsComponent } from './employee-asset-requests/employee-asset-requests.component';
-import { EmployeeAssetChangeComponent } from './employee-asset-change/employee-asset-change.component';
 import { EmployeeAssetRecallComponent } from './employee-asset-recall/employee-asset-recall.component';
 import { EmployeeAssetAllocatedComponent } from './employee-asset-allocated/employee-asset-allocated.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { EmployeeAssetRequestViewComponent } from './employee-asset-request-view/employee-asset-request-view.component';
+import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswap/employee-asset-changeorswap.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetChangeComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent],
+  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetRecallComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     NgbModule,
     BsDropdownModule.forRoot(),
     RouterModule.forChild([

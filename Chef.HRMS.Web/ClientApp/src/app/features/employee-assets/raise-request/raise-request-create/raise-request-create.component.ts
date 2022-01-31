@@ -8,7 +8,6 @@ import { RaiseRequestService } from '../raise-request.service';
 import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
-import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { ThrowStmt } from '@angular/compiler';
 import { Employee } from '@features/employee/employee.model';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
@@ -16,6 +15,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { EmployeeLeaveService } from '@features/employee-leave/employee-leave.service';
 import { EmployeeService } from '@features/employee/employee.service';
+import { RequestFor } from 'src/app/models/common/types/requestfor';
 
 
 @Component({
