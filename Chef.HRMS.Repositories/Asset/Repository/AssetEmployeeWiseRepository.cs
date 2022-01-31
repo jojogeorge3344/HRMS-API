@@ -97,7 +97,7 @@ namespace Chef.HRMS.Repositories
 									nameofteammember,
                                     requesteddate AS requestedon,
 									empid
-	                                 FROM hrms.assetraiserequest where empid=@empid";
+	                                 FROM hrms.assetraiserequest where empid=@empid order by id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 

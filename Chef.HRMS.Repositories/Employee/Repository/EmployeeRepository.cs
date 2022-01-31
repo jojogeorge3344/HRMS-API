@@ -31,7 +31,7 @@ namespace Chef.HRMS.Repositories
                                     ON e.id = jd.employeeid
                             LEFT JOIN hrms.jobfiling AS jf 
                                     ON e.id = jf.employeeid
-                            ORDER BY e.id";
+                            ORDER BY e.id desc";
 
                 return await Connection.QueryAsync<EmployeeView>(sql);
         }
