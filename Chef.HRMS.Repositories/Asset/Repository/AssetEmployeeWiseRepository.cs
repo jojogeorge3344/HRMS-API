@@ -55,6 +55,7 @@ namespace Chef.HRMS.Repositories
 								assettypeid,
                                 assettypename,
                                 assetid,
+								assetraiserequestid,
                                 assetname,
                                 allocateddate,
                                 status 

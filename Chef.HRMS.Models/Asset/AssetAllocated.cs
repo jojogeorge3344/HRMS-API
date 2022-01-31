@@ -13,20 +13,20 @@ namespace Chef.HRMS.Models
     [Table("assetallocated")]
     public class AssetAllocated : Model
     {
-        [Required]
+       // [Required]
         [ForeignKey("AssetRaiseRequest")]
         public int AssetTypeId { get; set; }
 
-        [Required]
+        //[Required]
         [ForeignKey("AssetRaiseRequest")]
         public string AssetTypeName { get; set; }
 
         //[Required]
-        //[ForeignKey("AssetRaiseRequest")]
+        [ForeignKey("AssetRaiseRequest")]
         public int AssetRaiseRequestId { get; set; }
 
 
-        [Required]
+        //[Required]
         [ForeignKey("Asset")]
         public int AssetId { get; set; }
 
@@ -45,18 +45,18 @@ namespace Chef.HRMS.Models
         public int MetadataValueId5 { get; set; }
 
 
-        [Required]
+       //[Required]
         [ForeignKey("AssetRaiseRequest")]
         public int EmpId { get; set; }
 
-        [Required]
+        //[Required]
         [ForeignKey("Asset")]
         public string AssetName { get; set; }
 
-        [Required]
+        //[Required]
         public DateTime AllocatedDate { get; set; }
 
-        [Required]
+        //[Required]
         [ForeignKey("AssetRaiseRequest")]
         public AssetStatus Status { get; set; }
 
