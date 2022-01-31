@@ -7,7 +7,6 @@ export interface AssetAllocated extends Model {
     assetRaiseRequestId:number;
     assetId:number;
     assetMetadataValueId:number;
-    metadataValueId1:number;
     metadataValueId2:number;
     metadataValueId3:number;
     metadataValueId4:number;

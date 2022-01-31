@@ -34,8 +34,6 @@ namespace Chef.HRMS.Models
         [ForeignKey("AssetMetadataValue")]
         public int AssetMetadataValueId { get; set; }
 
-        public int MetadataValueId1 { get; set; }
-
         public int MetadataValueId2 { get; set; }
 
         public int MetadataValueId3 { get; set; }
