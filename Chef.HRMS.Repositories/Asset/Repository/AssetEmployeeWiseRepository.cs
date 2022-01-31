@@ -70,7 +70,7 @@ namespace Chef.HRMS.Repositories
 			                    assettypemetadataid,
 			                    valueid,
 			                    status,
-			                     concat(assetname,'-',valueid) as assetname 
+			                    concat(assetname,'-',valueid) as assetname 
 		                         from hrms.asset where status=5 and assettypeid=@assettypeid";
             return await Connection.QueryAsync<Asset>(sql, new { assettypeid });
         }
@@ -149,7 +149,7 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { id });
         }
 
-        public async Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
+        public async Task<int> InsertAsync(AssetAllocated assetAllocated)
         {
             var sql = new QueryBuilder<AssetAllocated>().GenerateInsertQuery();
             sql = sql.Replace("RETURNING id", "");

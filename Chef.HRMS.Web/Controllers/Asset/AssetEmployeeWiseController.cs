@@ -100,7 +100,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
+        public async Task<IActionResult> InsertAsync(AssetAllocated assetAllocated)
         {
             if (!ModelState.IsValid)
             {
