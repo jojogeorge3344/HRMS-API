@@ -19,8 +19,10 @@ import { DatePipe, formatDate } from '@angular/common';
 })
 export class EmployeeAssetChangeorswapComponent implements OnInit {
   employeeassetchangeForm: FormGroup;
-  @Input() assetId;
+  @Input() assetId
   @Input() assetTypeId
+  @Input() assetRaiseRequestId
+  @Input() empid
   Astvalues: AssetAssets;
   currentTypeMap: Map<any, any>;
   currentTypeKeys: string[];
@@ -62,9 +64,9 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       let changeValues={
         assetTypeId:allValues.newAssetType,
         assetId:allValues.newAssetName.assetId,
-        assetRaiseRequestId:0,
+        assetRaiseRequestId:this.assetRaiseRequestId,
         assetMetadataValueId:allValues.assetMetadataValueId[0].assettypeMetadataId,
-        empId:0,
+        empId:this.empid,
         // assetMetadataValueId:
         assetName:allValues.newAssetName.name,
         allocatedDate:new Date(),
@@ -135,11 +137,15 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       this.assestassetService.getAssetById(this.assetId)
     ])
       .subscribe(([metadatas, asset]) => {
+        console.log("asset",asset);
+        
         metadatas.forEach(mdata => {
           this.currentTypeMap.set(mdata.metadata, mdata);
           (this.employeeassetchangeForm.get('metadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
         this.currentTypeKeys = [...this.currentTypeMap.keys()];
         let mdatavalue = {};
+        console.log("typeks",this.currentTypeKeys);
+        
         this.currentTypeKeys.map(key => {
           mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.currentTypeMap.get(key).id)?.value || ''
         });

@@ -42,7 +42,7 @@ export class EmployeeAssetViewComponent implements OnInit{
     console.log(this.empid);
     return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
         this.allocatedAssets = result;
-        console.log(this.allocatedAssets);
+        console.log("allocated assets",this.allocatedAssets);
       });
   }
 
@@ -56,7 +56,9 @@ export class EmployeeAssetViewComponent implements OnInit{
   openChangeOrSwap(allocatedAsset) {
      const modalRef = this.modalService.open(EmployeeAssetChangeorswapComponent,
        { centered: true, backdrop: 'static' });
-      modalRef.componentInstance.assetId = allocatedAsset.assetId;
+      modalRef.componentInstance.assetRaiseRequestId=allocatedAsset.assetRaiseRequestId
+      modalRef.componentInstance.empid=allocatedAsset.empId
+      modalRef.componentInstance.assetId= allocatedAsset.assetId;
       modalRef.componentInstance.assetTypeId = allocatedAsset.assetTypeId;
    
    }
