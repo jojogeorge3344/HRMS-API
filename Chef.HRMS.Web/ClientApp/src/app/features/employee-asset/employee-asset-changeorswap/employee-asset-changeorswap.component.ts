@@ -10,6 +10,8 @@ import { forkJoin, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmployeAssetService } from '../employe-asset.service';
+import { DatePipe, formatDate } from '@angular/common';
+
 
 @Component({
   selector: 'hrms-employee-asset-changeorswap',
@@ -60,11 +62,11 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       let changeValues={
         assetTypeId:allValues.newAssetType,
         assetId:allValues.newAssetName.assetId,
-        assetRaiseRequestId:null,
+        assetRaiseRequestId:0,
         // assetMetadataValueId:
-        empId:null,
+        empId:0,
         assetName:allValues.newAssetName.name,
-        allocatedDate:Date.now(),
+        allocatedDate:new Date (formatDate(allocatedDate,'yyyy-MM-dd','en')),
         status:4,
         description:allValues.newDescription,
         assetTypeName:allValues.newAssetName.assetId
