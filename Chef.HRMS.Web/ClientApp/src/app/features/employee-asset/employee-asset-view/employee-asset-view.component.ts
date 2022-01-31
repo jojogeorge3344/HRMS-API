@@ -58,6 +58,7 @@ export class EmployeeAssetViewComponent implements OnInit{
        { centered: true, backdrop: 'static' });
       modalRef.componentInstance.assetRaiseRequestId=allocatedAsset.assetRaiseRequestId
       modalRef.componentInstance.empid=allocatedAsset.empId
+      modalRef.componentInstance.assetTypeName=allocatedAsset.assetTypeName
       modalRef.componentInstance.assetId= allocatedAsset.assetId;
       modalRef.componentInstance.assetTypeId = allocatedAsset.assetTypeId;
    

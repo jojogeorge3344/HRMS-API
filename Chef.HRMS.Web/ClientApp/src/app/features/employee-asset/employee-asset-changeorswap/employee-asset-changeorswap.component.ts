@@ -23,6 +23,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   @Input() assetTypeId
   @Input() assetRaiseRequestId
   @Input() empid
+  @Input() assetTypeName
   Astvalues: AssetAssets;
   currentTypeMap: Map<any, any>;
   currentTypeKeys: string[];
@@ -67,17 +68,18 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
         assetRaiseRequestId:this.assetRaiseRequestId,
         assetMetadataValueId:allValues.assetMetadataValueId[0].assettypeMetadataId,
         empId:this.empid,
-        // assetMetadataValueId:
         assetName:allValues.newAssetName.name,
         allocatedDate:new Date(),
         status:4,
         description:allValues.newDescription,
-        assetTypeName:"laptop"
-        // assetTypeName:allValues.newAssetName.assetId
+        assetTypeName:this.assetTypeName
       };
 
           this.newTypeKeys.map((key,i) => {  
-            changeValues['metadataValueId'+(i+1)]=this.newTypeMap.get(key).id;  
+            if(i){
+              changeValues['metadataValueId'+(i+1)]=this.newTypeMap.get(key).id;
+            }
+              
       })
       this.newTypeMap.size;
       for (let index = this.newTypeMap.size+1 ; index <6 ; index++) {
