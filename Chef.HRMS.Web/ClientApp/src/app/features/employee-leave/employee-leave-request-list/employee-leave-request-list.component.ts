@@ -52,7 +52,10 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
   getAllRequestedLeave() {
     this.employeeLeaveService.getAllByID(this.currentUserId).subscribe(result => {
-      this.leave = this.leaveLogsOnDisplay = result;
+      this.leave = this.leaveLogsOnDisplay = result.sort(function(a, b) {
+        return (b.id - a.id);
+      });
+      console.log(result);
     },
       error => {
         console.error(error);

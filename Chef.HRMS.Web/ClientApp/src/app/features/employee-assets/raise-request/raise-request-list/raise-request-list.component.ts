@@ -45,7 +45,7 @@ export class RaiseRequestListComponent implements OnInit {
     this.raiseRequestService.getAllRaiseRequestList(currentUserId).subscribe(result => {
       this.raiseRequestList = result.sort(function(a, b) {
         return (a.id - b.id);
-      });;
+      });
       console.log(result);
 
       this.raiseRequestList.map(item => {
