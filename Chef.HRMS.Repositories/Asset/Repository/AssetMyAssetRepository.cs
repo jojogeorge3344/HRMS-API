@@ -32,7 +32,7 @@ namespace Chef.HRMS.Repositories
 		                    js.status
 		                    FROM hrms.assetallocated as js
 		                    INNER JOIN hrms.asset as jk ON js.assetid = jk.id
-		                    WHERE js.status = 4 OR js.status = 7 AND js.empid=@empid";
+		                    WHERE js.status = 4 OR js.status = 7 AND js.empid=@empid order by js.id desc";
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid = empid });
         }
 
