@@ -54,7 +54,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     console.log(this.employeeassetchangeForm.getRawValue());
     let allValues= {...this.employeeassetchangeForm.getRawValue(),
         // status:1,
-      newAssetMetadataid:this.newTypeKeys.map(key => {
+        assetMetadataValueId:this.newTypeKeys.map(key => {
         return{
           assettypeMetadataId:this.newTypeMap.get(key).id,
         }
@@ -63,13 +63,15 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
         assetTypeId:allValues.newAssetType,
         assetId:allValues.newAssetName.assetId,
         assetRaiseRequestId:0,
-        // assetMetadataValueId:
+        assetMetadataValueId:allValues.assetMetadataValueId[0].assettypeMetadataId,
         empId:0,
+        // assetMetadataValueId:
         assetName:allValues.newAssetName.name,
-        allocatedDate:new Date (formatDate(allocatedDate,'yyyy-MM-dd','en')),
+        allocatedDate:new Date(),
         status:4,
         description:allValues.newDescription,
-        assetTypeName:allValues.newAssetName.assetId
+        assetTypeName:"laptop"
+        // assetTypeName:allValues.newAssetName.assetId
       };
 
           this.newTypeKeys.map((key,i) => {  
@@ -77,7 +79,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       })
       this.newTypeMap.size;
       for (let index = this.newTypeMap.size+1 ; index <6 ; index++) {
-        changeValues['metadataValueId'+index] = null;
+        changeValues['metadataValueId'+index] = 0;
         
       }
       console.log("new >>",this.employeeassetchangeForm.value.newAssetMetadataid,);
