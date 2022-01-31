@@ -49,32 +49,76 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     this.getAssetType();
   }
   onSubmit() {
+    console.log(this.employeeassetchangeForm.getRawValue());
+    let allValues= {...this.employeeassetchangeForm.getRawValue(),
+        // status:1,
+      newAssetMetadataid:this.newTypeKeys.map(key => {
+        return{
+          assettypeMetadataId:this.newTypeMap.get(key).id,
+        }
+      })};
+      let changeValues={
+        assetTypeId:allValues.newAssetType,
+        assetId:allValues.newAssetName.assetId,
+        assetRaiseRequestId:null,
+        // assetMetadataValueId:
+        empId:null,
+        assetName:allValues.newAssetName.name,
+        allocatedDate:Date.now(),
+        status:4,
+        description:allValues.newDescription,
+        assetTypeName:allValues.newAssetName.assetId
+      };
+
+          this.newTypeKeys.map((key,i) => {  
+            changeValues['metadataValueId'+(i+1)]=this.newTypeMap.get(key).id;  
+      })
+      this.newTypeMap.size;
+      for (let index = this.newTypeMap.size+1 ; index <6 ; index++) {
+        changeValues['metadataValueId'+index] = null;
+        
+      }
+      console.log("new >>",this.employeeassetchangeForm.value.newAssetMetadataid,);
+      console.log("change>>",changeValues);
+  
+    this.employeAssetService.add(changeValues).subscribe((result: any) => {
+      if (result.id === -1) {
+        this.toastr.showErrorMessage('asset already swaped!');
+      } else {
+        this.toastr.showSuccessMessage('changed successfully successfully!');
+        this.activeModal.close('submit');
+      }
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to change the asset');
+    });
 
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       valueId: ['', [
-        Validators.required,
+        // Validators.required,
       ]],
       assetName: ['', [
-        Validators.required,
+        // Validators.required,
       ]],
       metadatas: this.formBuilder.group([]),
 
       newAssetType: [ '', [
-        Validators.required,
+        // Validators.required,
       ]],
       newAssetId: ['', [
-        Validators.required,
+        // Validators.required,
       ]],
       newAssetName: ['', [
-        Validators.required,
+        // Validators.required,
       ]],
       newMetadatas: this.formBuilder.group([]),
       newDescription: ['', [
-        Validators.required,
-        Validators.maxLength(128)
+        // Validators.required,
+        // Validators.maxLength(128)
       ]],
       
     });
@@ -131,32 +175,36 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     })
   }
 
-  checkAssetName(ev){
+  getMetadata(ev){
+    debugger;
     if (!this.employeeassetchangeForm.controls['newAssetName'].value) {
       this.employeeassetchangeForm.controls['newAssetName'].reset()
     }
-    this.newTypeId=this.employeeassetchangeForm.controls.newAssetName.value.typeId;
-    this.newAssetId=this.employeeassetchangeForm.controls.newAssetName.value.assetId;
-    console.log("values>>",this.newTypeId,this.newAssetId);
-     forkJoin([
-      this.assetMetadataService.getAssetMetadataById(this.newTypeId),
-      this.assestassetService.getAssetById(this.newAssetId)
-    ])
-      .subscribe(([newMetadatas, newAsset]) => {
-        newMetadatas.forEach(mdata => {
-          this.newTypeMap.set(mdata.metadata, mdata);
-          (this.employeeassetchangeForm.get('newMetadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
-        this.newTypeKeys = [...this.newTypeMap.keys()];
-        let newMdatavalue = {}
-        this.newTypeKeys.map(key => {
-          newMdatavalue[key] = newAsset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.newTypeMap.get(key).id)?.value || ''
-        });
-        this.employeeassetchangeForm.patchValue({
-          ...newAsset,
-          newMetadatas: newMdatavalue,
-        });
-        this.Astvalues = newAsset;
-      })
+    else{
+      this.newTypeId=this.employeeassetchangeForm.controls.newAssetName.value.typeId;
+      this.newAssetId=this.employeeassetchangeForm.controls.newAssetName.value.assetId;
+      console.log("values>>",this.newTypeId,this.newAssetId);
+       forkJoin([
+        this.assetMetadataService.getAssetMetadataById(this.newTypeId),
+        this.assestassetService.getAssetById(this.newAssetId)
+      ])
+        .subscribe(([newMetadatas, newAsset]) => {
+          newMetadatas.forEach(mdata => {
+            this.newTypeMap.set(mdata.metadata, mdata);
+            (this.employeeassetchangeForm.get('newMetadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
+          this.newTypeKeys = [...this.newTypeMap.keys()];
+          let newMdatavalue = {}
+          this.newTypeKeys.map(key => {
+            newMdatavalue[key] = newAsset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.newTypeMap.get(key).id)?.value || ''
+          });
+          this.employeeassetchangeForm.patchValue({
+            ...newAsset,
+            newMetadatas: newMdatavalue,
+          });
+          this.Astvalues = newAsset;
+        })
+    }
+   
   }
 
 
@@ -169,14 +217,6 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     filter(term => term.length >= 2),
     map(term => this.assetList.filter((assetList:any) => new RegExp(term, 'mi').test(assetList.name)).slice(0, 10))
   )
-
-  getMetadata(){
- 
-    
-   
-  }
-
-
 
   
 

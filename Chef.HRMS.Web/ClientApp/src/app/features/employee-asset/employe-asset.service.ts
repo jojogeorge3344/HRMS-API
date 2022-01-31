@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AssetEmployeeWise } from './employee-asset.model';
 import { BehaviorSubject, Observable} from 'rxjs';
+import { AssetAllocated } from '@features/employee-assets/my-assets/asset-allocated.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,9 @@ export class EmployeAssetService {
 
  
 
+  add(changeorswap: any){
+    return this.http.post<any>(this.baseUrl + 'insert', changeorswap).pipe(map(response => { return response; }));
+  }
 
   getAll(){
     return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAll').pipe(map(response => { return response; }));
