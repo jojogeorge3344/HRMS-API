@@ -77,15 +77,15 @@ export class AssetAssetsEditComponent implements OnInit {
 
     this.assestassetService.update(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
-        this.toastr.showErrorMessage('asset already exists!');
+        this.toastr.showErrorMessage('Asset Already Exists!');
       } else {
-        this.toastr.showSuccessMessage('asset edited successfully!');
+        this.toastr.showSuccessMessage('Asset Edited Successfully!');
         this.activeModal.close('submit');
       }
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to edit the asset');
+      this.toastr.showErrorMessage('Unable to Edit the Asset');
     });
 
     }
