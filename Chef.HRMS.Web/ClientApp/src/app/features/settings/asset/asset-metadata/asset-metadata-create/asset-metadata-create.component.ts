@@ -107,7 +107,7 @@ export class AssetMetadataCreateComponent implements OnInit {
 
   createMetadata() {
     return this.formBuilder.group({
-      metadataval: ['', [
+      metadata: ['', [
         Validators.required,
         Validators.maxLength(32),
         Validators.pattern('^([a-zA-Z ])+$'),
@@ -152,7 +152,7 @@ export class AssetMetadataCreateComponent implements OnInit {
     this.mdata = this.addForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
     let l = this.metas.length;
-    this.newMetadata = this.addForm.get('dataRows').value[l - 1].metadataval.toLowerCase();
+    this.newMetadata = this.addForm.get('dataRows').value[l - 1].metadata.toLowerCase();
     this.metadataLength = this.newMetadata.length;
     if (this.metadataLength > 32) {
       this.maxLength = true;
@@ -162,7 +162,7 @@ export class AssetMetadataCreateComponent implements OnInit {
       if (l > 1) {
         var found = -1;
         for (let i = 0; i < l - 1; i++) {
-          if (this.metas[i].metadataval.toLowerCase() == this.newMetadata) {
+          if (this.metas[i].metadata.toLowerCase() == this.newMetadata) {
             found = 1;
             break;
           }
