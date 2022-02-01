@@ -9,6 +9,7 @@ import { ToasterDisplayService } from "src/app/core/services/toaster-service.ser
 import { AssetRaiseRequest } from "@features/employee-assets/raise-request/raise-request.model";
 import { EmployeeAssetRequestViewComponent } from "../employee-asset-request-view/employee-asset-request-view.component";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { RequestFor } from "src/app/models/common/types/requestfor";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -24,6 +25,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   employeeWiseRequest: AssetRaiseRequest;
   result: any;
   status=AssetStatus;
+  reqForStatus=RequestFor;
   id:[];
  
 

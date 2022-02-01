@@ -7,6 +7,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { switchMap,tap } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { EmployeAssetService } from '../employe-asset.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   result: any;
   requestedById:any;
   status=AssetStatus;
+  reqForStatus=RequestFor;
   currentUserId: number;
   employeeWiseRequest: AssetRaiseRequest;
   requestViewForm: FormGroup;
@@ -40,6 +42,8 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   ngOnInit(): void {
     this.requestViewForm = this.createFormGroup();
     this.getRequestById();
+    console.log(this.reqForStatus);
+    
     // this.getEmployeeNameById()
     
   }
@@ -80,6 +84,9 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
     this.employeeAsset.getRequestById(this.id).pipe(
       tap(([result]) => {
         this.requestViewForm.patchValue(result);
+        this.requestViewForm.patchValue({requestFor:this.reqForStatus[result.requestFor]})
+        console.log(result);
+        
       }),
       switchMap(([result]) =>  (this.employeeAsset.getEmployeeNameById(result.empId))
     ))

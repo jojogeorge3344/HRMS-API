@@ -24,7 +24,7 @@
                     <td>{{i+1}}</td>
                     <td>{{ employee.employeeID }}</td>
                     <td class="text-capitalize">{{employee.firstName}} {{employee.lastName}}</td>
-                    <td >{{ employee.employeeStatus }}</td>
+                    <td >{{ empStatus[employee.employeeStatus] }}</td>
                     <td > <a class="link text-primary mt-3"
                         (click)="openAllocatedAssets(employee)">{{ employee.allocatedAsset}}</a> </td>
                     <td > <a class="link text-primary mt-3"
