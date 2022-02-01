@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
@@ -38,6 +39,7 @@ export class RaiseRequestViewComponent implements OnInit {
     this.getAllAssetTypes();
     this.raiseRequestKeys = Object.keys(this.raiseRequesttype).filter(Number).map(Number);
     this.viewForm.patchValue(this.raiseRequestDetails);
+    this.viewForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'yyyy-MM-dd')})
     this.viewForm.patchValue({requestFor:this.raiseRequesttype[this.raiseRequestDetails.requestFor]});
   }
   getvalue(i) { // self or team member

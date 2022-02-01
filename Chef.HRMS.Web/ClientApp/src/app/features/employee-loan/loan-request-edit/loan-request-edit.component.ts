@@ -102,7 +102,7 @@ export class LoanRequestEditComponent implements OnInit {
     return this.formBuilder.group({
       loanNo: this.loanNo,
       loanType: [null, [Validators.required]],
-      loanAmount: ['', [Validators.required]],
+      loanAmount: ['', [Validators.required,Validators.max(2000000)]],
       paymentType: [null, [Validators.required]],
       expectedOn: [new Date(Date.now()), [
         Validators.required,
@@ -110,7 +110,7 @@ export class LoanRequestEditComponent implements OnInit {
       emiStartsFromYear: [null, [Validators.required]],
       emiStartsFromMonth: [null, [Validators.required]],
       repaymentTerm: ['', [Validators.max(36), Validators.required]],
-      comments: ['', [Validators.required]],
+      comments: ['', [Validators.required,Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
       

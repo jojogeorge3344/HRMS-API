@@ -110,11 +110,12 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     this.loanNo = 'LN-' + this.companyCode + '-' + this.month + this.year + '/' + this.nextLoanNumber.toString().padStart(4, '0');
   }
 
+ 
   onSubmit() {
     const addloanRequestForm = this.addForm.value;
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = true;
+    addloanRequestForm.isapproved = false;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -142,7 +143,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     return this.formBuilder.group({
       loanNo: this.loanNo,
       loanType: [null, [Validators.required]],
-      loanAmount: ['', [Validators.required]],
+      loanAmount: ['', [Validators.required,Validators.max(2000000)]],
       paymentType: [null, [Validators.required]],
       expectedOn: [new Date(Date.now()), [
         Validators.required,
@@ -150,7 +151,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       emiStartsFromYear: [null, [Validators.required]],
       emiStartsFromMonth: [null, [Validators.required]],
       repaymentTerm: ['', [Validators.max(36), Validators.required]],
-      comments: ['', [Validators.required]],
+      comments: ['', [Validators.required,Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
     });
