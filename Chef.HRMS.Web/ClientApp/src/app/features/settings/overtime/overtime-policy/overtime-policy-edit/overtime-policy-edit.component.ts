@@ -69,7 +69,8 @@ export class OvertimePolicyEditComponent implements OnInit {
       attendanceHoursType: [{value: null, disabled: this.isDisabled}, [
         Validators.required
       ]],
-      createdDate: []
+      createdDate: [],
+      isConfigured:[],
     });
   }
 }
