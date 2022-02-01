@@ -81,11 +81,12 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       }
     });
     this.controlSubscription = this.addForm.controls.expectedOn.valueChanges.subscribe(res => {
+      if(typeof res == "object"){
       const expectedOnYear = new Date(res.expectedOn).getFullYear();
       const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
       this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
       this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
-
+    }     
     });
 
   }
@@ -101,7 +102,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the Company details');
+        this.toastr.showErrorMessage('Unable to Fetch the Company Details');
       });
   }
 
