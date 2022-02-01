@@ -64,6 +64,8 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
 
+        
+
         public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
         {
             var sql = @"select id,
@@ -177,10 +179,39 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdateStatus(int id, int status)
         {
-            var sql = @"UPDATE hrms.assetraiserequest 
-                                    SET status=@status WHERE id=@id";
-            return await Connection.ExecuteAsync(sql, new { id, status });
-        }
+            int result = 0;
+
+            using (var transaction = Connection.BeginTransaction())
+            {
+
+                try
+                {
+                    if (status == 5)
+                    {
+                       var sql = @"UPDATE hrms.asset
+                                            SET status=@status WHERE id=@id";
+                        
+
+                        result = await Connection.ExecuteAsync(sql, new { id, status });
+                        if (result == 1)
+                        {
+                         sql = @"UPDATE hrms.assetallocated 
+                                            SET status=@status WHERE assetid=@id";
+                            return await Connection.ExecuteAsync(sql, new { id, status });
+                        }
+                    }
+                    transaction.Commit();
+                }
+                catch (System.Exception ex)
+                {
+                    string msg = ex.Message;
+                    //return -1;
+                    transaction.Rollback();
+                }
+            }
+            return result;
+
+            }
 
         public async Task<int> UpdateStatusRecalled(int empid, int assetid, int status)
         {
@@ -194,6 +225,21 @@ namespace Chef.HRMS.Repositories
             {
                 return 0;
             }
+        }
+
+        public async Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id)
+        {
+            var sql = @"select ar.requestno,
+                            ar.empid as requestedby,
+                            ar.description,
+                            concat(ee.firstname,'-',ee.lastname) as allocationto
+                            from
+                            hrms.assetraiserequest as ar
+                            inner join hrms.assettype as at
+                            on ar.assettypeid=at.id
+                            inner join hrms.employee as ee
+                            on ar.nameofteammemberid=ee.id where ar.id=@id";
+            return await Connection.QueryAsync<AssetAllocationViewModel>(sql, new { id });
         }
     }
 }

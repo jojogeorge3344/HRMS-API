@@ -100,7 +100,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> InsertAsync(AssetAllocated assetAllocated)
+        public async Task<IActionResult> Insert(AssetAllocated assetAllocated)
         {
             if (!ModelState.IsValid)
             {
@@ -152,6 +152,12 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetAllocationDetailsById/{id}")]
+            public async Task<ActionResult<IEnumerable<AssetAllocationViewModel>>> GetAllocationDetails(int id)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAllocationDetails(id);
 
+            return Ok(assetEmployeeWises);
+        }
     }
 }
