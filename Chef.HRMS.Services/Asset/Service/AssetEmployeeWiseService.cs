@@ -113,10 +113,10 @@ namespace Chef.HRMS.Services
 
         }
 
-        public async Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
-        {
-            return await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
-        }
+        //public async Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
+        //{
+        //    return await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
+        //}
 
         public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
         {
@@ -126,6 +126,16 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<AssetMetadataValue>> GetMetadatavaluesById(int assetid)
         {
             return await assetEmployeeWiseRepository.GetMetadatavaluesById(assetid);
+        }
+
+        public async Task<int> InsertAsync(AssetAllocated assetAllocated)
+        {
+            return await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
+        }
+
+        public async Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id)
+        {
+            return await assetEmployeeWiseRepository.GetAllocationDetails(id);
         }
     }
 }

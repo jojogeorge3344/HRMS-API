@@ -10,6 +10,8 @@ import { forkJoin, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmployeAssetService } from '../employe-asset.service';
+import { DatePipe, formatDate } from '@angular/common';
+
 
 @Component({
   selector: 'hrms-employee-asset-changeorswap',
@@ -17,16 +19,22 @@ import { EmployeAssetService } from '../employe-asset.service';
 })
 export class EmployeeAssetChangeorswapComponent implements OnInit {
   employeeassetchangeForm: FormGroup;
-  @Input() assetId;
+  @Input() assetId
   @Input() assetTypeId
+  @Input() assetRaiseRequestId
+  @Input() empid
+  @Input() assetTypeName
   Astvalues: AssetAssets;
-  typeMap: Map<any, any>;
+  currentTypeMap: Map<any, any>;
   currentTypeKeys: string[];
   newTypeKeys: string[];
-  assetList: any[];
+  newTypeMap: Map<any, any>;
+  assetList =[];
   dataType: any[];
   newAsssetTypeId: any;
-  unallocatedAssets: {};
+  unallocatedAssets:any;
+  newTypeId:number;
+  newAssetId:number;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -39,38 +47,86 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.typeMap = new Map();
+    this.currentTypeMap = new Map();
+    this.newTypeMap = new Map();
     this.employeeassetchangeForm = this.createFormGroup();
     this.getCurrentAssetById();
     this.getAssetType();
   }
   onSubmit() {
+    console.log(this.employeeassetchangeForm.getRawValue());
+    let allValues= {...this.employeeassetchangeForm.getRawValue(),
+        // status:1,
+        assetMetadataValueId:this.newTypeKeys.map(key => {
+        return{
+          assettypeMetadataId:this.newTypeMap.get(key).id,
+        }
+      })};
+      let changeValues={
+        assetTypeId:allValues.newAssetType,
+        assetId:allValues.newAssetName.assetId,
+        assetRaiseRequestId:this.assetRaiseRequestId,
+        assetMetadataValueId:allValues.assetMetadataValueId[0].assettypeMetadataId,
+        empId:this.empid,
+        assetName:allValues.newAssetName.name,
+        allocatedDate:new Date(),
+        status:4,
+        description:allValues.newDescription,
+        assetTypeName:this.assetTypeName
+      };
+
+          this.newTypeKeys.map((key,i) => {  
+            if(i){
+              changeValues['metadataValueId'+(i+1)]=this.newTypeMap.get(key).id;
+            }
+              
+      })
+      this.newTypeMap.size;
+      for (let index = this.newTypeMap.size+1 ; index <6 ; index++) {
+        changeValues['metadataValueId'+index] = 0;
+        
+      }
+      console.log("new >>",this.employeeassetchangeForm.value.newAssetMetadataid,);
+      console.log("change>>",changeValues);
+  
+    this.employeAssetService.add(changeValues).subscribe((result: any) => {
+      if (result.id === -1) {
+        this.toastr.showErrorMessage('asset already swaped!');
+      } else {
+        this.toastr.showSuccessMessage('changed successfully successfully!');
+        this.activeModal.close('submit');
+      }
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to change the asset');
+    });
 
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       valueId: ['', [
-        Validators.required,
+        // Validators.required,
       ]],
       assetName: ['', [
-        Validators.required,
+        // Validators.required,
       ]],
       metadatas: this.formBuilder.group([]),
 
       newAssetType: [ '', [
-        Validators.required,
+        // Validators.required,
       ]],
       newAssetId: ['', [
-        Validators.required,
+        // Validators.required,
       ]],
       newAssetName: ['', [
-        Validators.required,
+        // Validators.required,
       ]],
       newMetadatas: this.formBuilder.group([]),
       newDescription: ['', [
-        Validators.required,
-        Validators.maxLength(128)
+        // Validators.required,
+        // Validators.maxLength(128)
       ]],
       
     });
@@ -83,13 +139,17 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       this.assestassetService.getAssetById(this.assetId)
     ])
       .subscribe(([metadatas, asset]) => {
+        console.log("asset",asset);
+        
         metadatas.forEach(mdata => {
-          this.typeMap.set(mdata.metadata, mdata);
+          this.currentTypeMap.set(mdata.metadata, mdata);
           (this.employeeassetchangeForm.get('metadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
-        this.currentTypeKeys = [...this.typeMap.keys()];
-        let mdatavalue = {}
+        this.currentTypeKeys = [...this.currentTypeMap.keys()];
+        let mdatavalue = {};
+        console.log("typeks",this.currentTypeKeys);
+        
         this.currentTypeKeys.map(key => {
-          mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.typeMap.get(key).id)?.value || ''
+          mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.currentTypeMap.get(key).id)?.value || ''
         });
         this.employeeassetchangeForm.patchValue({
           ...asset,
@@ -111,35 +171,64 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     const evevalue =  this.employeeassetchangeForm.controls.newAssetType.value;
     this.employeAssetService.getUnallocatedAssets(evevalue).subscribe(res => {
       this.unallocatedAssets=res;
-      console.log(this.unallocatedAssets);
+      console.log("unallocated",this.unallocatedAssets);
+      
+      this.unallocatedAssets.forEach(item=>{
+      // console.log(item.valueId,this.employeeassetchangeForm.controls.valueId.value);
+      if(item.valueId !== this.employeeassetchangeForm.controls.valueId.value){
+          // console.log("item> ", item)
+          this.assetList.push({item:item.valueId,name:item.assetName,typeId:item.assetTypeId,assetId:item.id});
+        }
+      })
+
+      console.log(this.assetList);
+      // this.assetList = res.filter(asset => (asset.valueId !== this.employeeassetchangeForm.value('valueId')));      
       
     })
   }
 
+  getMetadata(ev){
+    debugger;
+    if (!this.employeeassetchangeForm.controls['newAssetName'].value) {
+      this.employeeassetchangeForm.controls['newAssetName'].reset()
+    }
+    else{
+      this.newTypeId=this.employeeassetchangeForm.controls.newAssetName.value.typeId;
+      this.newAssetId=this.employeeassetchangeForm.controls.newAssetName.value.assetId;
+      console.log("values>>",this.newTypeId,this.newAssetId);
+       forkJoin([
+        this.assetMetadataService.getAssetMetadataById(this.newTypeId),
+        this.assestassetService.getAssetById(this.newAssetId)
+      ])
+        .subscribe(([newMetadatas, newAsset]) => {
+          newMetadatas.forEach(mdata => {
+            this.newTypeMap.set(mdata.metadata, mdata);
+            (this.employeeassetchangeForm.get('newMetadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
+          this.newTypeKeys = [...this.newTypeMap.keys()];
+          let newMdatavalue = {}
+          this.newTypeKeys.map(key => {
+            newMdatavalue[key] = newAsset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.newTypeMap.get(key).id)?.value || ''
+          });
+          this.employeeassetchangeForm.patchValue({
+            ...newAsset,
+            newMetadatas: newMdatavalue,
+          });
+          this.Astvalues = newAsset;
+        })
+    }
+   
+  }
 
 
-  formatter = (employee) => employee.employeecode;
+
+  formatter = (assetList) => assetList.name;
 
   search = (text$: Observable<string>) => text$.pipe(
     debounceTime(200),
     distinctUntilChanged(),
     filter(term => term.length >= 2),
-    map(term => this.assetList.filter((employee:any) => new RegExp(term, 'mi').test(employee.employeecode)).slice(0, 10))
+    map(term => this.assetList.filter((assetList:any) => new RegExp(term, 'mi').test(assetList.name)).slice(0, 10))
   )
-
-  // getEmployeeList() {
-  //   this.employeAssetService.getEmployeeDetails().subscribe(result => {
-  //     let currentDepartment = _.find(result,['empid',this.currentUserId]).department
-  //     console.log(currentDepartment,"bllll");
-      
-  //     this.assetList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment));      
-  //   },
-  //     error => {
-  //       console.error(error);
-  //     });
-  // }
-
-
 
   
 
