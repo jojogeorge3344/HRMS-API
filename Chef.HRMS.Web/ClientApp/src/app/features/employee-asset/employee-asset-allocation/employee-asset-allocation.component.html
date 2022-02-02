@@ -1,0 +1,41 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        <div>
+            Asset Allocation 
+        </div>
+    </h1>
+</div>
+
+<div class="d-flex py-3" *ngFor="let reqDetail of reqDetails; let i= index;">
+    <div class="col-sm-4 p-0 px-3">
+        <div class="text-muted"> 
+            <label class="col-12 col-form-label px-0" for="Allocation id">Allocation Id</label>
+            <input
+            class="form-control w-100"
+              type="text"
+              placeholder="Allocation id"
+              value={{reqDetails.id}}
+            /> </div>
+        <div class="text-muted">Requested By: {{reqDetail.requestedBy}}</div>
+        <div class="text-muted">Comments:(Requestor) {{reqDetail.description}}</div>
+    </div>
+    <div class="col-sm-4 p-0 px-3">
+        <div class="text-muted"> Allocation Date:</div>
+        <div class="text-muted">Allocation To: {{reqDetail.allocationTo}}</div>        
+    </div>  
+    <div class="col-sm-4 p-0 px-3">
+        <div class="text-muted">  Request No:bbbbbbb</div>
+        <div> Asset Type<select
+            id="assetType"
+            name="assetType"
+            class="form-control w-100"
+          >
+            <option></option>
+          </select>
+        </div>  
+        <div class="text-muted">Comments(Allocator): <textarea
+            class="form-control"
+            rows="3">
+          </textarea> </div>      
+    </div>  
+</div>

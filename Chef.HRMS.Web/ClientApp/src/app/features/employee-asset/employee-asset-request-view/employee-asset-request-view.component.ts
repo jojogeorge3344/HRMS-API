@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AssetRaiseRequest } from '@features/employee-assets/raise-request/raise-request.model';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { switchMap,tap } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
@@ -29,6 +28,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   employeeWiseRequest: AssetRaiseRequest;
   requestViewForm: FormGroup;
   requetedByName: string;
+  buttonStatus: number;
 
 
   constructor(
@@ -38,16 +38,12 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
               private router: Router,
               private toastr: ToasterDisplayService,
               private formBuilder: FormBuilder,
-              public modalService: NgbModal,
                ) { }
 
   ngOnInit(): void {
     this.requestViewForm = this.createFormGroup();
     this.getRequestById();
     console.log(this.reqForStatus);
-    
-    // this.getEmployeeNameById()
-    
   }
 
   onSubmit() {
@@ -87,7 +83,8 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
       tap(([result]) => {
         this.requestViewForm.patchValue(result);
         this.requestViewForm.patchValue({requestFor:this.reqForStatus[result.requestFor]})
-        console.log(result);
+        this.buttonStatus=result.status;
+        console.log(this.buttonStatus);
         
       }),
       switchMap(([result]) =>  (this.employeeAsset.getEmployeeNameById(result.empId))
@@ -100,36 +97,17 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
 
 
   manageRequest(id,status) {
-    const modalRef = this.modalService.open(ConfirmModalComponent,
-      { centered: true, backdrop: 'static' });
-      debugger;
-      if(id==2){
-        modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
+    console.log(id);
+       this.employeeAsset.manageRequest(id,status).subscribe(res=>{
+         if(status==2){
+          this.toastr.showSuccessMessage('Approved successfully!');
+         }
+         else if(status==3){
+          this.toastr.showSuccessMessage('Rejcted successfully!');
+         }
+         this.activeModal.close('click')
+       })
       }
-      else if(id==3){
-        modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
-      }
-     
-    modalRef.result.then((userResponse) => {
-      if (userResponse == true) {
-        this.employeeAsset.manageRequest(id,status).subscribe(() => {
-           this.toastr.showSuccessMessage('asset recalled successfully!');
-          ;
-        });
-      }
-    });
-    // this.getAllocatedAssetsById()
-  }
-
-  // manageRequest(id,status) {
-  //   console.log(id);
-  //      this.employeeAsset.manageRequest(id,status).subscribe(res=>{
-  //       this.toastr.showSuccessMessage('successfully!');
-  //        this.getRequestById();
-  //      })
-      
-  //  }
-
 
 
 

@@ -76,7 +76,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
         allocatedDate:new Date(),
         status:4,
         description:allValues.newDescription,
-        // assetTypeName:_.find(this.dataType,['newAssetName',allValues.newAssetType]).assetTypeName
+        assetTypeName:_.find(this.dataType,['id',allValues.newAssetType]).assettypename
       };
 
           this.newMdataTypeKeys.map((key,i) => {  
