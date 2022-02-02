@@ -24,7 +24,7 @@ namespace Chef.HRMS.Repositories
                         jt.lastname,
                         jd.workertype as employeestatus
                                from hrms.employee as jt 
-                               inner join hrms.jobdetails as jd on jt.id = jd.employeeid";
+                               inner join hrms.jobdetails as jd on jt.id = jd.employeeid order by jt.id";
             return await Connection.QueryAsync<AssetEmployeeWise>(sql);
         }
 
@@ -111,7 +111,7 @@ namespace Chef.HRMS.Repositories
                                 rr. requesteddate
 					 FROM hrms.assetraiserequest as rr inner join hrms.employee on rr.empid=employee.id
                                  WHERE empid=@empid
-                                        ORDER BY id";
+                                        ORDER BY id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
 
@@ -181,24 +181,20 @@ namespace Chef.HRMS.Repositories
         {
             int result = 0;
 
+
+
             using (var transaction = Connection.BeginTransaction())
             {
 
                 try
                 {
-                    if (status == 5)
+                    if (status == 4)
                     {
-                       var sql = @"UPDATE hrms.asset
-                                            SET status=@status WHERE id=@id";
-                        
-
+                        var sql = @"UPDATE hrms.asset
+                                            SET status=5 WHERE id=@id;
+                                    UPDATE hrms.assetallocated 
+                                            SET status=5 WHERE assetid=@id";
                         result = await Connection.ExecuteAsync(sql, new { id, status });
-                        if (result == 1)
-                        {
-                         sql = @"UPDATE hrms.assetallocated 
-                                            SET status=@status WHERE assetid=@id";
-                            return await Connection.ExecuteAsync(sql, new { id, status });
-                        }
                     }
                     transaction.Commit();
                 }
