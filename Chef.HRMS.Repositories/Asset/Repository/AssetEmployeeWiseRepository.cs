@@ -181,24 +181,20 @@ namespace Chef.HRMS.Repositories
         {
             int result = 0;
 
+
+
             using (var transaction = Connection.BeginTransaction())
             {
 
                 try
                 {
-                    if (status == 5)
+                    if (status == 4)
                     {
-                       var sql = @"UPDATE hrms.asset
-                                            SET status=@status WHERE id=@id";
-                        
-
+                        var sql = @"UPDATE hrms.asset
+                                            SET status=5 WHERE id=@id;
+                                    UPDATE hrms.assetallocated 
+                                            SET status=5 WHERE assetid=@id";
                         result = await Connection.ExecuteAsync(sql, new { id, status });
-                        if (result == 1)
-                        {
-                         sql = @"UPDATE hrms.assetallocated 
-                                            SET status=@status WHERE assetid=@id";
-                            return await Connection.ExecuteAsync(sql, new { id, status });
-                        }
                     }
                     transaction.Commit();
                 }
