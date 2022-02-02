@@ -73,7 +73,7 @@ export class EmployeeAssetViewComponent implements OnInit{
      modalRef.componentInstance.confirmationMessage = `Are you sure you want to recall the asset ${allocatedAsset.assetName}?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.employeeAsset.recall(this.empid,allocatedAsset.assetId,9).subscribe(() => {
+        this.employeeAsset.recall(this.empid,allocatedAsset.assetId,4).subscribe(() => {
            this.toastr.showSuccessMessage('asset recalled successfully!');
           this.getAllocatedAssetsById();
         });

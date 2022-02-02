@@ -94,23 +94,7 @@ namespace Chef.HRMS.Services
 
         public async Task<int> UpdateStatusRecalled(int empid, int assetid, int status)
         {
-            try
-            {
-                simpleUnitOfWork.BeginTransaction();
-                
-                var result = await assetEmployeeWiseRepository.UpdateStatusRecalled(empid, assetid, status);
-              
-                //await assetEmployeeWiseRepository.InsertAsync(empid, status);
-                simpleUnitOfWork.Commit();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                simpleUnitOfWork.Rollback();
-                string msg = ex.Message;
-                return 0;
-            }
-
+               return await assetEmployeeWiseRepository.UpdateStatusRecalled(empid, assetid, status);
         }
 
         //public async Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
