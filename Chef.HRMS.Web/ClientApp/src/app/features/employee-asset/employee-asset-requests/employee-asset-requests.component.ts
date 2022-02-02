@@ -10,6 +10,7 @@ import { AssetRaiseRequest } from "@features/employee-assets/raise-request/raise
 import { EmployeeAssetRequestViewComponent } from "../employee-asset-request-view/employee-asset-request-view.component";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { RequestFor } from "src/app/models/common/types/requestfor";
+import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -83,36 +84,38 @@ export class EmployeeAssetRequestsComponent implements OnInit {
  
 
 
-  manageRequest(empreq,status) {
-     //  const parameters={assetId:this.assetId,requestId:this.assetRaiseRequestId,status:2}
-     console.log(empreq.id);
-        this.employeeAsset.manageRequest(empreq.id,status).subscribe(res=>{
-          this.getEmployeeRequestById();
-        })
-       
-    }
+  manageRequest(emprequest,status) {
+    const modalRef = this.modalService.open(ConfirmModalComponent,
+      { centered: true, backdrop: 'static' });
+      console.log(emprequest);
+     const empreqid=emprequest.id
+      debugger;
+      if(status==2){
+        modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
+      }
+      else if(status==3){
+        modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
+      }
+     
+    modalRef.result.then((userResponse) => {
+      if (userResponse == true) {
+        this.employeeAsset.manageRequest(empreqid,status).subscribe((res) => {
+          console.log(res);
+          if(status==2){
+            this.toastr.showSuccessMessage('request approved successfully!');
+          }
+          else if(status==3){
+            this.toastr.showSuccessMessage('request rejected successfully!');
+          }
+        });
+      }
+    });
+    this.getEmployeeRequestById();
+  }
 
-  // reject() {
-  //   let addForm = this.addForm.getRawValue();
-  //   addForm.numberOfDays = this.numberOfDays;
-  //   addForm = {
-  //     ...addForm,
-  //     leaveStatus: 5,
-  //     approvedBy: this.currentUserId,
-  //     approvedDate: new Date(Date.now()),
-  //     modifiedBy: this.currentUserId,
-  //     modifiedDate: new Date(Date.now())
-  //   };
-  //   this.employeeLeaveService.update(addForm).subscribe((result) => {
-  //     if (result) {
-  //       this.toastr.showSuccessMessage('Leave Request rejected successfully');
-  //       this.activeModal.close('submit');
-  //     }
-  //   });
-  // }
+ 
 
   disableApproved(){
-    console.log("hhhhh> ")
     return true;
   }
 
