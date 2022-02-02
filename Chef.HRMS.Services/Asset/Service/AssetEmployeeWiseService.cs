@@ -132,5 +132,10 @@ namespace Chef.HRMS.Services
         {
             return await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
         }
+
+        public async Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id)
+        {
+            return await assetEmployeeWiseRepository.GetAllocationDetails(id);
+        }
     }
 }

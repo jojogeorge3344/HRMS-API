@@ -25,5 +25,7 @@ namespace Chef.HRMS.Services
         Task<int> UpdateApproveReject(int id, int status);
         Task<int> UpdateStatusRecalled(int empid, int assetid, int status);
 
+        Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id);
+
     }
 }
