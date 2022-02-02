@@ -112,7 +112,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
 
-        [HttpPut("UpdateStatus/{id}/{status}")]
+        [HttpPut("UpdateStatus")]
         public async Task<ActionResult> UpdateStatus(int id, int status)
         {
             if (!ModelState.IsValid)

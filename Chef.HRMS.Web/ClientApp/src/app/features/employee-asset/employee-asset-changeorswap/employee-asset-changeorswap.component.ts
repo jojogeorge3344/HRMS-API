@@ -93,7 +93,14 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       console.log("new >>",this.employeeassetchangeForm.value.newAssetMetadataid,);
       console.log("allvalues>>",allValues);
   
-    this.employeAssetService.add(changeValues).subscribe((result: any) => {
+    //this.employeAssetService.add(changeValues).subscribe((result) => {
+      debugger;
+      forkJoin([
+        this.employeAssetService.add(changeValues),
+        this.employeAssetService.updateStatus(this.Astvalues.id,this.Astvalues.status)
+      ]).subscribe(([result, asset]) => {
+        console.log(asset);
+        console.log(this.Astvalues.id,this.Astvalues.status);
       if (result.id === -1) {
         this.toastr.showErrorMessage('asset already swaped!');
       } else {
