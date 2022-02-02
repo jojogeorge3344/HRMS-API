@@ -188,7 +188,7 @@ namespace Chef.HRMS.Repositories
 
                 try
                 {
-                    if (status == 4)
+                    if (status == @status)
                     {
                         var sql = @"UPDATE hrms.asset
                                             SET status=5 WHERE id=@id;
@@ -211,7 +211,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdateStatusRecalled(int empid, int assetid, int status)
         {
-            if(status==4)
+            if(status==@status)
             {
                 var sql = @"Update hrms.assetallocated set status=9 where empid =@empid and assetid=@assetid";
                 var result = await Connection.ExecuteAsync(sql, new { empid,assetid, status });
