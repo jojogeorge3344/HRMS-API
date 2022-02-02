@@ -303,9 +303,7 @@ export class ExpenseRequestCreateComponent implements OnInit {
       return;
     }
     let payload = this.addForm.getRawValue();
-    payload.amount = payload.amount.toFixed(2);
-    console.log(payload,"efe");
-    
+    payload.amount = payload.amount.toFixed(2); 
     
     this.expenseRequestService.add(payload).subscribe((expense: ExpenseRequest) => {
       if (expense.id === -1) {

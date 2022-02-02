@@ -10,6 +10,7 @@ import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+
 import * as _ from 'lodash';
 
 @Component({
@@ -34,6 +35,7 @@ export class RaiseRequestViewComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
+   
     this.currentUserId = getCurrentUserId();
     this.viewForm = this.createFormGroup();
     this.getAllAssetTypes();
