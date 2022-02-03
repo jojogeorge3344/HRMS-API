@@ -11,21 +11,21 @@ import { AssetAllocated } from '@features/employee-assets/my-assets/asset-alloca
 export class EmployeAssetService {
   public baseUrl: string;
   public http: HttpClient;
-  private employeeDetails: BehaviorSubject<any>;
+  private Details: BehaviorSubject<any>;
  
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.employeeDetails = <BehaviorSubject<any>>new BehaviorSubject({data: []});
+    this.Details = <BehaviorSubject<any>>new BehaviorSubject({data: []});
     this.http = http;
     this.baseUrl = baseUrl + "api/assetEmployeeWise/";
   }
 
   setListDetails(data: any) {
-    this.employeeDetails.next(Object.assign({}, data));
+    this.Details.next(Object.assign({}, data));
   }
 
   getListDetails(): Observable<any> {
-    return this.employeeDetails.asObservable();
+    return this.Details.asObservable();
   }
 
  
@@ -69,8 +69,6 @@ export class EmployeAssetService {
   }
 
 
-
-  // UpdateStatus/{id}/{status}
   manageRequest(id,status) {
     return this.http.put(this.baseUrl + 'UpdateApproveReject',{},                                                
     { params: { id: id, status : status } }).pipe(map(response => { return response; }));
@@ -87,5 +85,9 @@ export class EmployeAssetService {
 
   getRequestById(id:number) {
     return this.http.get<any[]>(this.baseUrl + 'GetRequestById/' + id).pipe(map(response => { return response; }));
+  }
+
+  getAllocationDetails(reqId:number) {
+    return this.http.get<any[]>(this.baseUrl + 'GetAllocationDetailsById/' + reqId).pipe(map(response => { return response; }));
   }
 }
