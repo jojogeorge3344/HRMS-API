@@ -68,13 +68,15 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
         {
-            var sql = @"select id,
-			                    assettypeid,
-			                    assettypemetadataid,
-			                    valueid,
-			                    status,
-			                    concat(assetname,'-',valueid) as assetname 
-		                         from hrms.asset where status=5 and assettypeid=@assettypeid";
+            var sql = @"select distinct aa.id,
+			                    aa.assettypeid,
+			                    aa.assettypemetadataid,
+			                    aa.valueid,
+			                    bb.status,
+			                    concat(aa.assetname,'-',aa.valueid) as assetname 
+		                         from hrms.asset as aa inner join hrms.assetallocated as bb on
+								 aa.id=bb.assetid
+								 where (aa.status=5 and bb.status=5) and aa.assettypeid=@assettypeid";
             return await Connection.QueryAsync<Asset>(sql, new { assettypeid });
         }
 
