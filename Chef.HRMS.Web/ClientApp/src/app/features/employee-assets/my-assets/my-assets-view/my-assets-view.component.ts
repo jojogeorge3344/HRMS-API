@@ -31,7 +31,7 @@ export class MyAssetsViewComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
-   // private toastr: ToasterDisplayService
+    // private toastr: ToasterDisplayService
   ) { }
 
   ngOnInit(): void {

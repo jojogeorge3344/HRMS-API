@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -62,7 +62,8 @@ export class AssetAssetsEditComponent implements OnInit {
     console.log(this.assetEditForm.value);
     //console.log(this.typeKeys);
        let mdatavalues= {...this.assetEditForm.getRawValue(), 
-        date:new Date(this.assetEditForm.getRawValue().date.split('-')[2],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[0]),
+        // date:[this.assetEditForm.getRawValue().date.split('-')[0],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[2]].join('-'),
+        date:new Date (formatDate(this.assetEditForm.getRawValue().date,'yyyy-MM-dd','en')),
        assetMetadataValues:this.typeKeys.map(key => {
         //  console.log(this.typeMap.get(key));
          
@@ -173,7 +174,7 @@ export class AssetAssetsEditComponent implements OnInit {
       this.assetEditForm.patchValue({
         ...asset,
         metadatas:mdatavalue,
-        date: this.datepipe.transform(asset.date, "dd-MM-yyyy")
+        date: formatDate(asset.date, "dd-MM-yyyy",'en')
         });
       this.Astvalues= asset;
     })

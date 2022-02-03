@@ -7,7 +7,7 @@
 </div>
 <div id="employee-list" class="panel">
     <div class="card p-3">
-        <table class="table m-0">
+        <table class="table ml-4">
             <thead class="thead-themed">
                 <tr class="text-center">
                     <th>SL:No</th>
@@ -16,17 +16,16 @@
                     <th>Asset Name</th>
                     <th>Allocated On</th>
                     <th>Status</th>
-                  
                 </tr>
             </thead>
             <tbody>
                 <tr class="text-center" *ngFor="let allocatedAsset of allocatedAssets; let i= index;">
                     <td>{{i+1}}</td>
-                    <td class="text-capitalize">{{allocatedAsset.assetType}}</td>
+                    <td class="text-capitalize">{{allocatedAsset.assetTypeName}}</td>
                     <td >{{ allocatedAsset.assetId }}</td>
-                    <td class="link text-primary mt-3">{{allocatedAsset.assetName }}</td>
-                    <td class="link text-primary mt-3">{{allocatedAsset.dateAllocated}}</td>
-                    <td class="link text-primary mt-3">{{allocatedAsset.status}}</td>
+                    <td class="primary mt-3">{{allocatedAsset.assetName }}</td>
+                    <td class="primary mt-3">{{allocatedAsset.allocatedDate | date: 'yyyy-MM-dd'}}</td>
+                    <td class="primary mt-3">{{allocatedAsset.status}}</td>
                     <td>
 
                         <!-- <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="false">

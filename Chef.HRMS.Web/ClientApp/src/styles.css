@@ -412,3 +412,8 @@ aside ::-webkit-scrollbar-thumb {
   padding:0.5rem !important;
 }
 /*Asset-metadata*/
+
+.lidisable{
+  pointer-events:none; 
+    opacity:0.6;        
+}

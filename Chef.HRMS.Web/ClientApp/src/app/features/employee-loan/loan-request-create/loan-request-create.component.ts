@@ -28,8 +28,11 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   expectedOnUpdated: any;
   currentUserId: number;
   loanSettingId: number;
+  minYear:number;
+  minMonth:number;
   years: any;
   months: any;
+  minDate = undefined;
 
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
@@ -46,9 +49,14 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) {
-    const current = new Date();
+   
     this.todaysDate = new Date();
-
+    const current = new Date();
+    this.minDate = {
+    year: current.getFullYear(),
+    month: current.getMonth() + 1,
+    day: current.getDate()
+  };
     const start = current.getFullYear();
     const end = start + 3;
     this.years = Array.from({ length: end - start }, (x, i) => i + start);
@@ -109,10 +117,11 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   setLoanNo() {
     this.loanNo = 'LN-' + this.companyCode + '-' + this.month + this.year + '/' + this.nextLoanNumber.toString().padStart(4, '0');
   }
+ 
 
  
   onSubmit() {
-    const addloanRequestForm = this.addForm.value;
+    const addloanRequestForm = this.addForm.value;  
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
     addloanRequestForm.isapproved = false;
@@ -143,10 +152,10 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     return this.formBuilder.group({
       loanNo: this.loanNo,
       loanType: [null, [Validators.required]],
-      loanAmount: ['', [Validators.required,Validators.max(2000000)]],
+      loanAmount: ['', [Validators.required,Validators.max(99999999)]],
       paymentType: [null, [Validators.required]],
       expectedOn: [new Date(Date.now()), [
-        Validators.required,
+        Validators.required
       ]],
       emiStartsFromYear: [null, [Validators.required]],
       emiStartsFromMonth: [null, [Validators.required]],

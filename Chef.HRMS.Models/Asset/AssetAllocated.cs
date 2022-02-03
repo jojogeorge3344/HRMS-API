@@ -19,6 +19,10 @@ namespace Chef.HRMS.Models
 
         [Required]
         [ForeignKey("AssetRaiseRequest")]
+        public string AssetTypeName { get; set; }
+
+        [Required]
+        [ForeignKey("AssetRaiseRequest")]
         public int AssetRaiseRequestId { get; set; }
 
         //[Required]
@@ -68,6 +72,6 @@ namespace Chef.HRMS.Models
         [ForeignKey("Asset")]
         public string Description { get; set; }
 
-        public string AssetTypeName { get; set; }
+       // public string AssetTypeName { get; set; }
     }
 }
