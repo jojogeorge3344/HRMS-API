@@ -302,8 +302,10 @@ export class ExpenseRequestCreateComponent implements OnInit {
     if (this.addForm.invalid) {
       return;
     }
-
-    this.expenseRequestService.add(this.addForm.getRawValue()).subscribe((expense: ExpenseRequest) => {
+    let payload = this.addForm.getRawValue();
+    payload.amount = payload.amount.toFixed(2); 
+    
+    this.expenseRequestService.add(payload).subscribe((expense: ExpenseRequest) => {
       if (expense.id === -1) {
         this.toastr.showErrorMessage('Expense request title already exists!');
       } else if (this.fileName) {

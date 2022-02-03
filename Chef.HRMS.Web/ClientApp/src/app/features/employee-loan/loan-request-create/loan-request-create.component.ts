@@ -89,11 +89,12 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       }
     });
     this.controlSubscription = this.addForm.controls.expectedOn.valueChanges.subscribe(res => {
-      // const expectedOnYear = new Date(res.expectedOn).getFullYear();
-      // const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
+      if(typeof res == "object"){
+      const expectedOnYear = new Date(res.expectedOn).getFullYear();
+      const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
       this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
       this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
-
+    }     
     });
 
   }
@@ -109,7 +110,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the Company details');
+        this.toastr.showErrorMessage('Unable to Fetch the Company Details');
       });
   }
 
@@ -118,11 +119,12 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   }
  
 
+ 
   onSubmit() {
     const addloanRequestForm = this.addForm.value;  
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = true;
+    addloanRequestForm.isapproved = false;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -158,7 +160,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       emiStartsFromYear: [null, [Validators.required]],
       emiStartsFromMonth: [null, [Validators.required]],
       repaymentTerm: ['', [Validators.max(36), Validators.required]],
-      comments: ['', [Validators.required]],
+      comments: ['', [Validators.required,Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
     });

@@ -12,6 +12,7 @@ import { EmployeeEducationalDocumentsService } from '../employee-educational-doc
 import { DocumentService } from '@shared/services/document.service';
 import { DocumentUploadService } from '@shared/services/document-upload.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { add } from 'lodash';
 
 @Component({
   selector: 'hrms-employee-educational-documents-create',
@@ -35,6 +36,7 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
   directoryName = 'c:';
   educationDocument;
   minDate;
+  maxDate;
   documentSave;
   isFileChanged = false;
 
@@ -139,6 +141,12 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('There is an error in adding Education Details');
       });
+  }
+  setMaxDate(){
+    this.maxDate = {year:new Date(this.addForm.controls["yearOfCompletion"].value).getFullYear(),month:new Date(this.addForm.controls["yearOfCompletion"].value).getMonth() + 1, day:new Date(this.addForm.controls["yearOfCompletion"].value).getDate()}
+  }
+  setMinDate(){
+    this.minDate = {year:new Date(this.addForm.controls["yearOfJoining"].value).getFullYear(),month:new Date(this.addForm.controls["yearOfJoining"].value).getMonth() + 1, day:new Date(this.addForm.controls["yearOfJoining"].value).getDate()}  
   }
 
   createFormGroup(): FormGroup {

@@ -27,6 +27,7 @@ export class EmployeeEducationalDocumentsEditComponent implements OnInit {
   directoryName = 'c:';
   educationDocument;
   minDate;
+  maxDate;
   documentSave;
   isFileChanged = false;
   isDisabled = true;
@@ -49,6 +50,8 @@ export class EmployeeEducationalDocumentsEditComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Education\\${this.currentUserId}\\`;
     this.editForm = this.createFormGroup();
+    this.setMinDate();
+    this.setMaxDate();
     if (this.educationDetails.fileName.length > 40) {
       this.fileName = this.educationDetails.fileName.substr(0, 40) + '...';
     } else {
@@ -158,7 +161,12 @@ export class EmployeeEducationalDocumentsEditComponent implements OnInit {
         });
     }
   }
-
+  setMaxDate(){
+    this.maxDate = {year:new Date(this.editForm.controls["yearOfCompletion"].value).getFullYear(),month:new Date(this.editForm.controls["yearOfCompletion"].value).getMonth() + 1, day:new Date(this.editForm.controls["yearOfCompletion"].value).getDate()}
+  }
+  setMinDate(){
+    this.minDate = {year:new Date(this.editForm.controls["yearOfJoining"].value).getFullYear(),month:new Date(this.editForm.controls["yearOfJoining"].value).getMonth() + 1, day:new Date(this.editForm.controls["yearOfJoining"].value).getDate()} 
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [this.educationDetails.educationId],

@@ -130,8 +130,9 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       attendanceTracking: [null, [
         Validators.required
       ]],
-      expensePolicyId: [0],
-
+      expensePolicyId:['', [
+        Validators.required
+      ]],
       attendanceCaptureScheme: [null, [
         Validators.required
       ]],

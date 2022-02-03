@@ -21,7 +21,7 @@
                 <label for="yearOfJoining">Year Of Joining</label>
                 <div class="">
                     <div class="input-group">
-                        <input class="form-control" ngbDatepicker #yoj="ngbDatepicker" formControlName="yearOfJoining" [minDate]="{year: 1900, month: 1, day: 1}">
+                        <input class="form-control" ngbDatepicker #yoj="ngbDatepicker" formControlName="yearOfJoining" [minDate]="{year: 1900, month: 1, day: 1}"  [maxDate]= "maxDate" (ngModelChange)="setMinDate()">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="yoj.toggle()"
                                 type="button"></button>
@@ -33,9 +33,9 @@
                 <label for="yearOfCompletion">Year Of Completion</label>
                 <div class="">
                     <div class="input-group">
-                        <input class="form-control" ngbDatepicker #yoc="ngbDatepicker" formControlName="yearOfCompletion" [minDate]="{year: 1900, month: 1, day: 1}">
+                        <input class="form-control" ngbDatepicker #yoc="ngbDatepicker" formControlName="yearOfCompletion" [minDate]= "minDate" (ngModelChange)="setMaxDate()">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="yoc.toggle()"
+                            <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="yoc.toggle()" 
                                 type="button"></button>
                         </div>
                     </div>

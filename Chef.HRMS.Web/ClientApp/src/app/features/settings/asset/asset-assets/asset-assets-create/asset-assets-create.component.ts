@@ -68,15 +68,15 @@ export class AssetAssetsCreateComponent implements OnInit {
   
     this.assestassetService.add(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
-        this.toastr.showErrorMessage('asset already exists!');
+        this.toastr.showErrorMessage('Asset Already Exists!');
       } else {
-        this.toastr.showSuccessMessage('asset added successfully!');
+        this.toastr.showSuccessMessage('Asset Added Successfully!');
         this.activeModal.close('submit');
       }
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to add the asset');
+      this.toastr.showErrorMessage('Unable to Add the Asset');
     });
 
 
