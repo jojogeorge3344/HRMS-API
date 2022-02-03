@@ -31,10 +31,12 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   isSingleDay: boolean;
   selectedButton: any;
   selectedLeaveComponent: any;
-  minDateFrom;
-  maxDateFrom;
-  minDateTo;
-  maxDateTo;
+  // minDateFrom;
+  // maxDateFrom;
+  // minDateTo;
+  // maxDateTo;
+  minDate;
+  maxDate;
   currentDate;
   markDisabled;
   isValid = true;
@@ -58,32 +60,32 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
   ) {
-    const current = new Date();
-    this.minDateFrom = {
-      year: current.getFullYear(),
-      month: 4,
-      day: 1
-    };
-    this.maxDateFrom = {
-      year: current.getFullYear() + 1,
-      month: 3,
-      day: 31
-    };
-    this.minDateTo = {
-      year: current.getFullYear(),
-      month: 4,
-      day: 1
-    };
-    this.maxDateTo = {
-      year: current.getFullYear() + 1,
-      month: 3,
-      day: 31
-    };
-    this.currentDate = {
-      year: current.getFullYear(),
-      month: current.getMonth() + 1,
-      day: current.getDate()
-    };
+    // const current = new Date();
+    // this.minDateFrom = {
+    //   year: current.getFullYear(),
+    //   month: 4,
+    //   day: 1
+    // };
+    // this.maxDateFrom = {
+    //   year: current.getFullYear() + 1,
+    //   month: 3,
+    //   day: 31
+    // };
+    // this.minDateTo = {
+    //   year: current.getFullYear(),
+    //   month: 4,
+    //   day: 1
+    // };
+    // this.maxDateTo = {
+    //   year: current.getFullYear() + 1,
+    //   month: 3,
+    //   day: 31
+    // };
+    // this.currentDate = {
+    //   year: current.getFullYear(),
+    //   month: current.getMonth() + 1,
+    //   day: current.getDate()
+    // };
   }
 
   ngOnInit(): void {
@@ -225,13 +227,13 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
   }
 
-  onFromDateSelection(date: NgbDate) {
-    this.minDateTo = date;
-  }
+  // onFromDateSelection(date: NgbDate) {
+  //   this.minDateTo = date;
+  // }
 
-  onToDateSelection(date: NgbDate) {
-    this.maxDateFrom = date;
-  }
+  // onToDateSelection(date: NgbDate) {
+  //   this.maxDateFrom = date;
+  // }
   checkDates() {
     if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
       const d = new Date(this.fromDate);
@@ -353,6 +355,13 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
           this.toastr.showErrorMessage('Unable to submit Leave Request');
         });
     });
+  }
+
+  setMaxDate(){
+    this.maxDate = {year:new Date(this.addForm.controls["toDate"].value).getFullYear(),month:new Date(this.addForm.controls["toDate"].value).getMonth() + 1, day:new Date(this.addForm.controls["toDate"].value).getDate()}
+  }
+  setMinDate(){
+    this.minDate = {year:new Date(this.addForm.controls["fromDate"].value).getFullYear(),month:new Date(this.addForm.controls["fromDate"].value).getMonth() + 1, day:new Date(this.addForm.controls["fromDate"].value).getDate()}  
   }
 
   createFormGroup(): FormGroup {

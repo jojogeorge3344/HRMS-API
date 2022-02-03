@@ -117,9 +117,7 @@ export class RaiseRequestCreateComponent implements OnInit {
 
   getEmployeeList() {
     this.raiseRequestService.getEmployeeDetails().subscribe(result => {
-      let currentDepartment = _.find(result,['empid',this.currentUserId]).department
-      console.log(currentDepartment,"bllll");
-      
+      let currentDepartment = _.find(result,['empid',this.currentUserId]).department     
       this.employeeList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment));      
     },
       error => {
