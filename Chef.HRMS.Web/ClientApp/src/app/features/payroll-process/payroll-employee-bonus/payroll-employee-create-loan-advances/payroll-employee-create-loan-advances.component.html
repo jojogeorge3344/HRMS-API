@@ -47,7 +47,7 @@
             <div class="form-group form-input-inline input-group col-6">
                 <label class="col-12 col-form-label px-0" for="expectedOn">Disbursement Expected On</label>
                 <input class="form-control" ngbDatepicker #expectedOn="ngbDatepicker" formControlName="expectedOn"
-                    [minDate]="minDate" [maxDate]="maxDate">
+                    [minDate]="minDate">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="expectedOn.toggle()"
                         type="button"></button>
