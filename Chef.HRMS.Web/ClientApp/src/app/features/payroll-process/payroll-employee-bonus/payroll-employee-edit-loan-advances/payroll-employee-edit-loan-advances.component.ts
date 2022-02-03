@@ -33,6 +33,7 @@ export class PayrollEmployeeEditLoanAdvancesComponent implements OnInit {
   loanTypeKeys: number[];
   todaysDate: Date;
   paymentTypeKeys: number[];
+  emiStartsFromYear:number;
   emiMinDate;
   loanNo: string;
   expectedOnUpdated: any;
@@ -93,7 +94,8 @@ export class PayrollEmployeeEditLoanAdvancesComponent implements OnInit {
       this.editForm = this.createFormGroup();
       this.loanNo = res.loanNo;
       this.editForm.patchValue(res);
-      console.log(res);
+      this.emiStartsFromYear=res.emiStartsFromYear;
+      console.log(res.emiStartsFromYear);////
       
       this.editForm.patchValue({ modifiedBy: this.currentUserId, modifiedDate: new Date() });
       this.editForm.valueChanges.subscribe(res => {
