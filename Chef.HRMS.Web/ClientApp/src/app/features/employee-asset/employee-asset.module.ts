@@ -9,7 +9,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { EmployeeAssetRequestViewComponent } from './employee-asset-request-view/employee-asset-request-view.component';
 import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswap/employee-asset-changeorswap.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/employee-asset-allocation.component';
 
 
@@ -17,6 +17,7 @@ import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/em
 @NgModule({
   declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent],
   imports: [
+    FormsModule,
     CommonModule,
     ReactiveFormsModule,
     NgbModule,
@@ -31,7 +32,7 @@ import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/em
         data: { breadcrumbs: ['Organization', 'Employee', 'view'], name: 'organization-asset' }
       },
       {
-        path: ':id/allocation', component: EmployeeAssetAllocationComponent,
+        path: ':id/allocation/:reqId', component: EmployeeAssetAllocationComponent,
         data: { breadcrumbs: ['Organization', 'Employee', 'allocation'], name: 'organization-asset' }
       },
       {

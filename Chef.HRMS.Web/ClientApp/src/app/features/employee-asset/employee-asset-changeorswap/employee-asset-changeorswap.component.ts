@@ -179,6 +179,8 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   }
   
   getUnallocatedAssets(ev){
+    console.log(ev);
+    
     console.log(ev.target.value, this.employeeassetchangeForm.controls.newAssetType.value);
     const evevalue =  this.employeeassetchangeForm.controls.newAssetType.value;
     console.log(evevalue);

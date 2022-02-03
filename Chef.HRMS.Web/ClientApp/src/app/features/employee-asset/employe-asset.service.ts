@@ -88,6 +88,6 @@ export class EmployeAssetService {
   }
 
   getAllocationDetails(reqId:number) {
-    return this.http.get<any[]>(this.baseUrl + 'GetAllocationDetailsById/' + reqId).pipe(map(response => { return response; }));
+    return this.http.get<any>(this.baseUrl + 'GetAllocationDetailsById/' + reqId).pipe(map(response => { return response; }));
   }
 }
