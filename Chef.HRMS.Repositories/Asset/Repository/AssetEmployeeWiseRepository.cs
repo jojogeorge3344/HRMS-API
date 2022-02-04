@@ -178,13 +178,29 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetAllocationViewModel>> GetMetadataDetailsById(int assettypeid)
         {
-            var sql = @"SELECT  distinct md.id as assetmetadatavalueid,
-			                                md.assetid,
-			                                md.assettypeid,
-			                                md.value,
-			                                valueid
-	                                 FROM hrms.assetmetadatavalue as md inner join 
-	                                 hrms.asset on md.assetid= asset.id where status=5 and md.assettypeid=@assettypeid";
+            var sql = @"SELECT 
+		                        assetid,
+                                assettypeid,
+                                max(CASE WHEN rn = 1 THEN value END) metadatavalue1 ,
+                                max(CASE WHEN rn = 2 THEN value END) metadatavalue2  ,
+                                max(CASE WHEN rn = 3 THEN value END) metadatavalue3, 
+                                max(CASE WHEN rn = 4 THEN value END) metadatavalue4,
+                                max(CASE WHEN rn = 5 THEN value END) metadatavalue5,
+		                        max(CASE WHEN rn = 1 THEN id END) assetmetadatavalueid,
+                                max(CASE WHEN rn = 2 THEN id END) metadatavalueid2  ,
+                                max(CASE WHEN rn = 3 THEN id END) metadatavalueid3, 
+                                max(CASE WHEN rn = 4 THEN id END) metadatavalueid4,
+                                max(CASE WHEN rn = 5 THEN id END) metadatavalueid5
+                        FROM (
+                            select *,Row_number() over(partition by 
+		                        assetid,
+                                assettypeid
+                                 order by (select 1)) rn
+                            from hrms.assetmetadatavalue where assettypeid=@assettypeid
+                        ) t1
+                        GROUP BY
+		                        assetid,
+                                assettypeid ";
 
             return await Connection.QueryAsync<AssetAllocationViewModel>(sql, new { assettypeid });
         }
