@@ -21,6 +21,7 @@ namespace Chef.HRMS.Web.Controllers
             this.assetEmployeeWiseService = assetEmployeeWiseService;
         }
 
+
         [HttpGet("GetAll")]
         public async Task<ActionResult> GetAll()
         {
@@ -28,6 +29,8 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
+
 
         [HttpGet("GetAllCount")]
         public async Task<ActionResult<IEnumerable<AssetCountViewModel>>> GetAllCount()
@@ -37,6 +40,8 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
+
         [HttpGet("GetEmployeeDetailsById/{employeeid}")]
         public async Task<ActionResult> GetEmployeeDetailsById(int employeeid)
         {
@@ -44,6 +49,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
 
 
         [HttpGet("GetEmployeeRequestById/{empid}")]
@@ -55,6 +61,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
 
+
         [HttpGet("GetRequestById/{id}")]
         public async Task<ActionResult> GetRequestById(int id)
         {
@@ -63,6 +70,8 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
+
         [HttpGet("GetEmployeeNameById/{id}")]
         public async Task<ActionResult> GetEmployeeNameById(int id)
         {
@@ -70,6 +79,8 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
+
 
         [HttpGet("GetAllocatedAssetById/{empid}")]
         public async Task<ActionResult> GetAllocatedAssetById(int empid)
@@ -80,6 +91,8 @@ namespace Chef.HRMS.Web.Controllers
         }
 
 
+
+
         [HttpGet("GetAssetDetailsById/{assettypeid}")]
         public async Task<ActionResult> GetAssetDetailsById(int assettypeid)
         {
@@ -88,6 +101,8 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
+
         [HttpGet("GetMetadatavaluesById/{assetid}")]
         public async Task<ActionResult> GetMetadatavaluesById(int assetid)
         {
@@ -95,6 +110,26 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
+
+
+        [HttpGet("GetAllocationDetailsById/{id}")]
+        public async Task<ActionResult<IEnumerable<AssetAllocationViewModel>>> GetAllocationDetails(int id)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAllocationDetails(id);
+
+            return Ok(assetEmployeeWises);
+        }
+
+
+        [HttpGet("GetMetadataDetailsById/{assettypeid}")]
+        public async Task<ActionResult<IEnumerable<AssetAllocationViewModel>>> GetMetadataDetailsById(int assettypeid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetMetadataDetailsById(assettypeid);
+
+            return Ok(assetEmployeeWises);
+        }
+
 
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -112,6 +147,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
 
+
         [HttpPut("UpdateStatus")]
         public async Task<ActionResult> UpdateStatus(int id, int status)
         {
@@ -124,6 +160,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
 
 
         [HttpPut("UpdateApproveReject")]
@@ -139,6 +176,8 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
+
+
         [HttpPut("UpdateStatusRecalled")]
         public async Task<ActionResult> UpdateStatusRecalled(int empid, int assetid, int status)
         {
@@ -152,12 +191,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetAllocationDetailsById/{id}")]
-            public async Task<ActionResult<IEnumerable<AssetAllocationViewModel>>> GetAllocationDetails(int id)
-        {
-            var assetEmployeeWises = await assetEmployeeWiseService.GetAllocationDetails(id);
 
-            return Ok(assetEmployeeWises);
-        }
+       
     }
 }
