@@ -97,7 +97,7 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.assettype
                                            ON jt.assettypeid = hrms.assettype.id
                                    INNER JOIN hrms.assettypemetadata
-                                           ON jt.assettypeid = hrms.assettypemetadata.assettypeid ";
+                                           ON jt.assettypeid = hrms.assettypemetadata.assettypeid order by jt.id desc ";
 
 
             return await Connection.QueryAsync<Asset>(sql);
