@@ -13,6 +13,13 @@ namespace Chef.HRMS.Repositories
         {
         }
 
+        public async Task<IEnumerable<JobDetails>> GetJoinDateByEmployeeId(int employeeId)
+        {
+            var sql = "SELECT employeeid,dateofjoin FROM hrms.jobdetails WHERE employeeid=@employeeId";
+
+            return await Connection.QueryAsync<JobDetails>(sql, new { employeeId });
+        }
+
         public async Task<IEnumerable<OnDuty>> GetTotalRequestedDaysById(int employeeId)
         {
                 var sql = "SELECT * FROM hrms.onduty WHERE employeeid=@employeeId";
