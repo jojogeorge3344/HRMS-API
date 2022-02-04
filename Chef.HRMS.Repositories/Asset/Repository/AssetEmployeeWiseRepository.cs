@@ -178,7 +178,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetAllocationViewModel>> GetMetadataDetailsById(int assettypeid)
         {
-            var sql = @"SELECT  distinct md.id,
+            var sql = @"SELECT  distinct md.id as assetmetadatavalueid,
 			                                md.assetid,
 			                                md.assettypeid,
 			                                md.value,
