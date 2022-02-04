@@ -9,6 +9,7 @@ import { EmployeeAssetRequestViewComponent } from "../employee-asset-request-vie
 import { NgbActiveModal, NgbModal,  }from '@ng-bootstrap/ng-bootstrap';
 import { RequestFor } from "src/app/models/common/types/requestfor";
 import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
+import { EmployeeAssetAllocationComponent } from "../employee-asset-allocation/employee-asset-allocation.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -69,13 +70,29 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     this.employeeAsset.setListDetails({ data: emprequest });
   }
 
-  openAllocate(emprequest){
-    this.router.navigate(
-      ['./' + this.empid + '/allocation'],
-      { relativeTo: this.route.parent });
-      console.log("emws",emprequest);
-      this.employeeAsset.setListDetails({data: emprequest})
+  // openAllocate(emprequest){
+  //   this.router.navigate(
+  //     ['./' + this.empid + '/allocation/'+emprequest.id],
+  //     { relativeTo: this.route.parent });
+  //     console.log("emws",emprequest);
+  //     // this.employeeAsset.setListDetails({data: emprequest})
+  // }
+
+  openAllocate(emprequest) {
+    const modalRef = this.modalService.open(EmployeeAssetAllocationComponent, {
+      centered: true,
+      backdrop: "static",
+      size:'xl'
+    });
+    modalRef.result.then((userResponse) => {
+      this.getEmployeeRequestById();
+    })
+    modalRef.componentInstance.reqId = emprequest.id;
+    modalRef.componentInstance.empid = this.empid;
+    console.log(modalRef.componentInstance.requestId);
+    // this.employeeAsset.setListDetails({ data: emprequest });
   }
+
 
   // getAllocatedAssetsById() {
   //   return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
@@ -87,6 +104,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
 
   manageRequest(emprequest, status) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'lg',
       centered: true,
       backdrop: "static",
     });
