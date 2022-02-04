@@ -89,7 +89,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   getUnallocatedAssets(ev) {
     console.log(ev.target.value);
     this.typeid = ev.target.value;
-    this.employeeAsset.getUnallocatedAssets(this.typeid).subscribe((res) => {
+    this.employeeAsset.GetAssetAndMetadataDetails(this.typeid).subscribe((res) => {
       this.unallocatedAssets = res;
       console.log("unallocated", this.unallocatedAssets);
 
@@ -103,12 +103,12 @@ export class EmployeeAssetAllocationComponent implements OnInit {
         });
       });
 
-      console.log(this.assetList);
+      console.log("assetList",this.assetList);
       // this.assetList = res.filter(asset => (asset.valueId !== this.employeeassetchangeForm.value('valueId')));
     });
   }
 
-  formatter = (assetList) => assetList.name;
+  formatter = (assetList) => assetList.item;
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -118,7 +118,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       map((term) =>
         this.assetList
           .filter((assetList: any) =>
-            new RegExp(term, "mi").test(assetList.name)
+            new RegExp(term, "mi").test(assetList.item)
           )
           .slice(0, 10)
       )

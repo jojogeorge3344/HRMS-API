@@ -68,6 +68,11 @@ export class EmployeAssetService {
     return this.http.get(this.baseUrl + 'GetAssetDetailsById/' + id);
   }
 
+  GetAssetAndMetadataDetails(id:number){
+    console.log(">>>>>>> ",typeof(id), id)
+    return this.http.get(this.baseUrl + 'GetMetadataDetailsById/' + id);
+  }
+
 
   manageRequest(id,status) {
     return this.http.put(this.baseUrl + 'UpdateApproveReject',{},                                                
