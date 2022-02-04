@@ -158,7 +158,8 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
         Validators.maxLength(32),
       ]],
       percentage: [null, [
-        Validators.required
+        Validators.required,
+        Validators.max(100)
       ]],
       specialization: ['', [
         Validators.required,

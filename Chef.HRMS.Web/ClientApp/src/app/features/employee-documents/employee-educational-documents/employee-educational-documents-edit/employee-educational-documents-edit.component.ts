@@ -176,7 +176,7 @@ export class EmployeeEducationalDocumentsEditComponent implements OnInit {
         Validators.maxLength(32),
       ]],
       percentage: [this.educationDetails.percentage, [
-        Validators.maxLength(16),
+        Validators.max(100),
         Validators.required
       ]],
       specialization: [this.educationDetails.specialization, [
