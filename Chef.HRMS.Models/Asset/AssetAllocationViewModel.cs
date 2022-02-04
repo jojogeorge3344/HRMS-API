@@ -16,10 +16,17 @@ namespace Chef.HRMS.Models
         public DateTime AllocationDate { get; set; }
         public int AssetId { get; set; }
         public int AssetTypeId { get; set; }
-        public int AssetMetadataValueId { get; set; }
         public string Value { get; set; }
-
         public int ValueId { get; set; }
-
+        public string MetadataValue1 { get; set; }
+        public string MetadataValue2 { get; set; }
+        public string MetadataValue3 { get; set; }
+        public string MetadataValue4 { get; set; }
+        public string MetadataValue5 { get; set; }
+        public int AssetMetadataValueId { get; set; }
+        public int MetadataValueId2 { get; set; }
+        public int MetadataValueId3 { get; set; }
+        public int MetadataValueId4 { get; set; }
+        public int MetadataValueId5 { get; set; }
     }
 }
