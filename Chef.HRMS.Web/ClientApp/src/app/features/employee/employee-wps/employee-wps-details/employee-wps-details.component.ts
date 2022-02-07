@@ -65,7 +65,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   onSubmit() {
     const addWpsDetails = this.addForm.value;
     addWpsDetails.employeeId = parseInt(this.id, 10);
-    this.employeeWpsUserService.update(addWpsDetails).subscribe((result: any) => {
+    this.employeeWpsUserService.add(addWpsDetails).subscribe((result: any) => {
       this.toastr.showSuccessMessage('WPS Details updated successfully!');
       this.getWPSUserlistById();
     },

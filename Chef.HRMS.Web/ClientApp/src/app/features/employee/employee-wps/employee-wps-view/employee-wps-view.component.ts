@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeWpsService } from '@settings/wps/employee-wps.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'hrms-employee-wps-view',
@@ -54,6 +55,9 @@ export class EmployeeWpsViewComponent implements OnInit {
   getWPSUserlistById() {
     this.employeeWpsUserService.get(this.id).subscribe(result => {
       this.wpsUserDetails = result;
+      this.addForm.patchValue({wpsId:_.find(this.wpsUserDetails,['wpsId',this.wpsUserDetails[0].wpsId])})
+      console.log("wps333",this.wpsUserDetails);
+      
       this.addForm.patchValue(result);
     },
       error => {
@@ -69,12 +73,16 @@ export class EmployeeWpsViewComponent implements OnInit {
         Validators.maxLength(18),
         Validators.required
       ]],
-      wpsId: ['', [
-        Validators.pattern(/^\d{1,14}$/),
-        Validators.maxLength(13),
-        Validators.required
-      ]],
+     wpsId: ['', [
+  Validators.required,
+  Validators.maxLength(13)
+]],
     });
   }
 
 }
+
+// wpsId: [{value:'', disabled:true}, [
+//   Validators.required,
+//   Validators.maxLength(13)
+// ]],
