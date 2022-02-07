@@ -180,6 +180,8 @@ namespace Chef.HRMS.Repositories
         {
             var sql = @"SELECT 
 		                        t1.assetid,
+								t1.assetname,
+								t1.description,
                                 t1.assettypeid,
                                 max(CASE WHEN rn = 1 THEN value END) metadatavalue1 ,
                                 max(CASE WHEN rn = 2 THEN value END) metadatavalue2  ,
@@ -192,7 +194,8 @@ namespace Chef.HRMS.Repositories
                                 max(CASE WHEN rn = 4 THEN id END) metadatavalueid4,
                                 max(CASE WHEN rn = 5 THEN id END) metadatavalueid5
                         FROM (
-                            select am.*,Row_number() over(partition by 
+                            select am.*,aa.assetname,
+								aa.description,Row_number() over(partition by 
 		                        am.assetid,
                                 am.assettypeid
                                  order by (select 1)) rn
@@ -201,7 +204,9 @@ namespace Chef.HRMS.Repositories
                         ) t1
                         GROUP BY
 		                        t1.assetid,
-                                t1.assettypeid";
+                                t1.assettypeid,
+								t1.assetname,
+								t1.description";
 
             return await Connection.QueryAsync<AssetAllocationViewModel>(sql, new { assettypeid });
         }
