@@ -21,9 +21,14 @@ namespace Chef.HRMS.Services
             return await holidayRepository.DeleteAsync(id);
         }
 
-        public Task<IEnumerable<Holiday>> GetAllAsync()
+        //public async Task<IEnumerable<Holiday>> GetAll()
+        //{
+        //    return await holidayRepository.GetAllAsync();
+        //}
+
+        public async Task<IEnumerable<Holiday>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await holidayRepository.GetAllAsync();
         }
 
         public async Task<IEnumerable<Holiday>> GetAllByCategory(int categoryId)

@@ -11,7 +11,7 @@
             <div class="form-group input-group form-input-inline col-sm">
                 <label class="col-form-label col-12 px-0" for="fromDate">From Date</label>
                 <input class="form-control" hrmsBlockPaste [startDate]="currentDate" [minDate]="minDateFrom" [dayTemplate]="customDay"
-                    [footerTemplate]="footerTemplate" [maxDate]="maxDateFrom" ngbDatepicker
+                    [footerTemplate]="footerTemplate" [maxDate]="maxDateFrom" ngbDatepicker 
                     [markDisabled]="markDisabled" #fromDate="ngbDatepicker" formControlName="fromDate"
                     (dateSelect)="onFromDateSelection($event)">
                 <div class="input-group-append">

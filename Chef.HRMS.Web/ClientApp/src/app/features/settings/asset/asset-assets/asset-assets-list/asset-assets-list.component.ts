@@ -123,7 +123,7 @@ export class AssetAssetsListComponent implements OnInit {
 
  
   getAllAssetList() {
-    this.assetassetService.getAll().subscribe(result => {
+    this.assetassetService.getAllAssetList().subscribe(result => {
       console.log("res",result);
       this.assetList = result; 
       console.log(this.assetList);

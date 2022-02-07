@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -59,10 +59,15 @@ export class AssetAssetsEditComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.assetEditForm.value);
+    debugger;
+    //console.log(this.assetEditForm.getRawValue().date);
+    console.log(this.assetEditForm.getRawValue());
     //console.log(this.typeKeys);
        let mdatavalues= {...this.assetEditForm.getRawValue(), 
-        date:new Date(this.assetEditForm.getRawValue().date.split('-')[2],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[0]),
+      //  date: this.datepipe.transform(new Date(this.assetEditForm.getRawValue().date.split('-')[2],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[0]), 'yyyy/MM/dd'),
+       date:formatDate (new Date(this.assetEditForm.getRawValue().date.split("-").reverse().join("-")),'yyyy-MM-dd','en'),
+      //  new Date(stringValue).toISOString()
+      //  date:new Date(this.assetEditForm.getRawValue().date.split('-')[2],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[0]+1),
        assetMetadataValues:this.typeKeys.map(key => {
         //  console.log(this.typeMap.get(key));
          
@@ -73,8 +78,10 @@ export class AssetAssetsEditComponent implements OnInit {
           assettypeMetadataId:this.typeMap.get(key).id,
           value:this.assetEditForm.value.metadatas[key]
         }
-    })};
 
+    })};
+    console.log(mdatavalues);
+    
     this.assestassetService.update(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
         this.toastr.showErrorMessage('asset already exists!');
@@ -100,8 +107,11 @@ export class AssetAssetsEditComponent implements OnInit {
         ]],
         id: ['',[]],
         date: [{value:'', disabled:true},[
-          Validators.required,
+         // Validators.required,
         ]],
+        // date: [new Date(),[
+        //      Validators.required,
+        //   ]],
         assetTypeId: ['', [
           Validators.required,
         ]],
@@ -168,11 +178,11 @@ export class AssetAssetsEditComponent implements OnInit {
         
       });
     //  console.log(mdatavalue, asset.assetMetadataValues,this.typeMap);
-     
+     debugger;
       this.assetEditForm.patchValue({
         ...asset,
         metadatas:mdatavalue,
-        date: this.datepipe.transform(asset.date, "dd-MM-yyyy")
+        date: formatDate(new Date(asset.date),"dd-MM-yyyy","en")
         });
       this.Astvalues= asset;
     })

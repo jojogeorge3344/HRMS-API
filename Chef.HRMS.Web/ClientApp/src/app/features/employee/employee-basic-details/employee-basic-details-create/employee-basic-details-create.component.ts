@@ -87,9 +87,9 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       gender: [null, [
         Validators.required
       ]],
-      dateOfBirth: ['', [
+      dateOfBirth: [null,
         Validators.required
-      ]],
+      ],
       email: ['', [
         Validators.required,
         Validators.pattern(this.emailRegex),

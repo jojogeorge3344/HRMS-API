@@ -20,7 +20,7 @@
                     <option [ngValue]="null" disabled>Select Expense Type</option>
                     <option *ngFor="let type of expenseTypes" [ngValue]="type.id">{{type.name}}</option>
                 </select>   
-                <button *ngIf="!isDisabled" (click)="resetForm()" class="card-link btn btn-outline-primary btn-sm ml-2">
+                <button type="button" *ngIf="!isDisabled" (click)="resetForm()" class="card-link btn btn-outline-primary btn-sm ml-2">
                     <i class="fal fa-sync"></i>
                 </button>
             </div>

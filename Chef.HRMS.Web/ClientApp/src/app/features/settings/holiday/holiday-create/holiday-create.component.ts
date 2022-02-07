@@ -9,6 +9,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { constant, values } from 'lodash';
 import { DatePipe } from '@angular/common';
+import { EmployeeLeaveService } from '@features/employee-leave/employee-leave.service';
 
 @Component({
   selector: 'hrms-holiday-create',
@@ -30,16 +31,20 @@ export class HolidayCreateComponent implements OnInit {
   dateExist: any[];
   myDate: any;
   forDate: any[];
+  holidaydata: any;
+  alldate: any[];
   
   constructor(
     private datepipe: DatePipe,
     private holidayService: HolidayService,
+    private employeeLeaveService: EmployeeLeaveService,
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private toastr: ToasterDisplayService) {
   }
 
   ngOnInit(): void {
+   this.getAll();
    // console.log(this.holiday);
   
    
@@ -99,6 +104,23 @@ export class HolidayCreateComponent implements OnInit {
     console.log("alter list",this.holiday);
     
    
+  }
+  getAll() {
+    this.holidayService.getAll().subscribe(res => {
+      this.holidaydata = res;
+      this.alldate=[];
+      this.holidaydata.filter(y=>{
+        this.alldate.push(
+          y.date
+        )
+      })
+      console.log("allholiday",this.alldate);
+      this.employeeLeaveService.setListDetails(this.alldate)
+      
+    },
+    error => {
+      console.error(error);
+    });
   }
 
   createFormGroup(): FormGroup {

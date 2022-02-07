@@ -65,7 +65,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   onSubmit() {
     const addWpsDetails = this.addForm.value;
     addWpsDetails.employeeId = parseInt(this.id, 10);
-    this.employeeWpsUserService.add(addWpsDetails).subscribe((result: any) => {
+    this.employeeWpsUserService.update(addWpsDetails).subscribe((result: any) => {
       this.toastr.showSuccessMessage('WPS Details updated successfully!');
       this.getWPSUserlistById();
     },
@@ -84,9 +84,10 @@ export class EmployeeWpsDetailsComponent implements OnInit {
         Validators.required
       ]],
       wpsId: ['', [
-        Validators.pattern(/^\d{1,14}$/),
-        Validators.maxLength(13),
-        Validators.required
+      // Validators.pattern(/^\d{1,14}$/),
+        Validators.required,
+         Validators.maxLength(14),
+        
       ]],
     });
   }

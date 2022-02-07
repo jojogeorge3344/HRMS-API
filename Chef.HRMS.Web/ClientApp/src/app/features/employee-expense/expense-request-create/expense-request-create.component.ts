@@ -199,9 +199,18 @@ export class ExpenseRequestCreateComponent implements OnInit {
     this.addForm.get('expenseDate').disable();
     this.addForm.get('amount').disable();
     this.addForm.get('comment').disable();
-    this.isDisabled = false;
+    this.isDisabled = true;
     this.addForm.get('expenseConfigurationId').enable();
-    this.initialize();
+    this.addForm.controls['expenseConfigurationId'].reset();
+    this.addForm.controls['expenseDate'].reset();
+    this.addForm.controls['amount'].reset();
+    this.addForm.controls['comment'].reset();
+    
+   // this.initialize();
+  }
+  resetExpenseType(){
+   
+    this.isDisabled=true;
   }
 
   setupMileageFields() {
@@ -361,6 +370,7 @@ export class ExpenseRequestCreateComponent implements OnInit {
       currency: [null],
       amount: [{ value: null, disabled: this.isDisabled }, [
         Validators.required,
+        Validators.pattern('^[0-9]+$'),
         Validators.min(1),
         Validators.max(99999999),
       ]],

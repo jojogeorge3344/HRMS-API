@@ -10,6 +10,7 @@ import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
 import { result } from 'lodash';
+import { strict } from 'assert';
 
 @Component({
   selector: 'hrms-asset-assets-create',
@@ -52,7 +53,7 @@ export class AssetAssetsCreateComponent implements OnInit {
   }
   onSubmit(){
     console.log(this.assetForm.value)
-    let mdatavalues= {...this.assetForm.value,
+    let mdatavalues= {...this.assetForm.getRawValue(),
       assetMetadataValues:this.typeKeys.map(key => {
         return{
           assettypeId:this.assetForm.value.assetTypeId,
@@ -63,7 +64,9 @@ export class AssetAssetsCreateComponent implements OnInit {
 
       console.log(this.assetForm.value.assetMetadataValues);
       console.log(mdatavalues);
-  
+      if(this.assetForm.valid){
+
+      
     this.assestassetService.add(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
         this.toastr.showErrorMessage('asset already exists!');
@@ -79,10 +82,14 @@ export class AssetAssetsCreateComponent implements OnInit {
 
 
   }
+}
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      valueId: [''],
+      valueId: ['',[
+        Validators.required,
+        Validators.maxLength(16),
+      ]],
       date: [new Date(), [
         Validators.required,
       ]],
@@ -107,6 +114,7 @@ export class AssetAssetsCreateComponent implements OnInit {
     });
   }
   
+  
 
 
   getselectedvalue(ev){
@@ -114,25 +122,70 @@ export class AssetAssetsCreateComponent implements OnInit {
     this.typeMap.clear();
     this.typeKeys=[];
     this.assetMetadataService.getAssetMetadataById(this.assetForm.get('assetTypeId').value).subscribe(res => {
-      res.forEach(mdata => {
+      res.forEach((mdata: any)=> {
+        console.log("data",mdata);
+        //
+        
+        
+        
         // this.assetForm.patchValue({assetMetadataId:mdata.id});
         this.assetForm.get('assetTypeMetadataId').patchValue(mdata.id);
         
         this.typeMap.set(mdata.metadata,mdata);
 
-        if(mdata.ismandatory){
-            (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
-            // console.log(mdata);  
+        if(mdata.isMandatory){
+          switch(mdata.assetDataType){
+            case 1:{
+              (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required,Validators.pattern('^[0-9]+$')],
+            ));
+            break;
+            }
+            case 2:{
+              (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z ]*$/)],
+            ));
+            break;
+            }
+            case 3:{
+              (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required,Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)],
+            ));
+            break;
+            }
+            
+
+          }
+            
+            // console.log(mdata); 
+             
         }
         else{
-          (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', []));
+          switch(mdata.assetDataType){
+            case 1:{
+              (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.pattern('^[0-9]+$')],
+            ));
+            break;
+            }
+            case 2:{
+              (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.pattern(/^[a-zA-Z ]*$/)],
+            ));
+            break;
+            }
+            case 3:{
+              (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)],
+            ));
+            break;
+            }
+            
+
+          }
+         // (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', []));
           // console.log(mdata);
         }        
     })
     this.typeKeys=[...this.typeMap.keys()];
+    console.log("typekey",this.typeKeys);
+    
   })
 }
-  
 
   // getAssetType(){
   //   this.assetTypeService.getAll().subscribe(result => {
@@ -144,7 +197,6 @@ export class AssetAssetsCreateComponent implements OnInit {
    this.assestassetService.assignedType.subscribe(res => {
     this.dataType=res;
     console.log("update",this.dataType);
-    
    })
   }
  
