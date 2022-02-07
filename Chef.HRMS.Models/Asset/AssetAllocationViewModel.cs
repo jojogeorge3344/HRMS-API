@@ -15,6 +15,7 @@ namespace Chef.HRMS.Models
         public string AllocationTo { get; set; }
         public DateTime AllocationDate { get; set; }
         public int AssetId { get; set; }
+        public string AssetName { get; set; }
         public int AssetTypeId { get; set; }
         public string Value { get; set; }
         public int ValueId { get; set; }
