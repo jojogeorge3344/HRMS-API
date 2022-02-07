@@ -28,11 +28,14 @@ export class EmployeeLeaveRequestViewComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.getLeaveRequestByID();
     this.getLeaveBalance();
+
   }
 
   getLeaveRequestByID() {
     this.employeeLeaveService.get(this.requestId).subscribe(result => {
       this.leaveRequest = result;
+      console.log(this.leaveRequest);
+      
     },
       error => {
         console.error(error);
@@ -56,6 +59,8 @@ export class EmployeeLeaveRequestViewComponent implements OnInit {
     }
     return null;
   }
+
+  
 
 
 }

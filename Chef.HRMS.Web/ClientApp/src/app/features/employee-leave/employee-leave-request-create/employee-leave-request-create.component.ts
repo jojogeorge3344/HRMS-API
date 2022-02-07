@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeLeaveService } from '../employee-leave.service';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
@@ -36,7 +36,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   minDateTo;
   maxDateTo;
   currentDate;
-  markDisabled;
   isValid = true;
 
   employeeList: Employee[];
@@ -48,6 +47,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   @Input() leaves;
   @Input() wfh;
   @Input() onDuty;
+  holidaydate: any;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -90,9 +90,9 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getLeaveBalance();
     this.getEmployeeDetails();
-    this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
     this.getEmployeeList();
     this.subscribeTochanges();
+    this.getEmployeeHoliday();
   }
   subscribeTochanges() {
     this.addForm.valueChanges.subscribe(res => {
@@ -355,6 +355,19 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     });
   }
 
+  
+markDisabled(date:NgbDateStruct){
+  const d = new Date(date.year,date.month - 1, date.day);
+ let holidays=[];
+this.holidaydate.map((item) => {
+    var myDate = item.split('-');
+    var newDate = new Date(myDate[0], myDate[1] - 1, myDate[2].split('T')[0]);
+    holidays.push(newDate.getTime());
+  })
+  return holidays.indexOf(d.getTime()) != -1;// return date.month !== current.month;  };
+}
+
+
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       leaveComponentId: [null, [
@@ -391,5 +404,11 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       isSecondDaySecondHalf: [false]
     });
   }
+  getEmployeeHoliday() {
+    this.employeeLeaveService.allholiday.subscribe(res => {
+     this.holidaydate=res;
+     console.log("update",this.holidaydate);
+    })
+   }
 
 }
