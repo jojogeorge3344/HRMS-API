@@ -17,15 +17,17 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   @Input() empid;
   allocationDate: Date = new Date();
   reqData = {};
-  // empid:number
   typeid: number;
-  // reqId: number;
   reqDetails: any;
   assetList = [];
   dataType = [];
   unallocatedAssets: any;
   assetAllocationForm: FormGroup;
   requetedBy: string;
+  searchParameter = '';
+  allocationComponent: { id: number, values: EmployeeAssetAllocationComponent[] }[] = [];
+  allocationComponentOnDisplay: { id: number, values: EmployeeAssetAllocationComponent[] }[] = [];
+  componentsArray = [];
 
   constructor(
     private employeeAsset: EmployeAssetService,
@@ -36,11 +38,6 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.activatedRoute.params.subscribe((params: Params) => {
-    //   console.log(params);
-    //   this.empid = params.id;
-    //   this.reqId=params.reqId;
-    // });
     this.assetAllocationForm = this.createFormGroup();
     this.getAllocationDetails();
     this.getAssetType();
@@ -94,35 +91,41 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       console.log("unallocated", this.unallocatedAssets);
 
       this.unallocatedAssets.forEach((item) => {
-        console.log(item.valueId);
-        this.assetList.push({
-          item: item.valueId,
-          name: item.assetName,
-          typeId: item.assetTypeId,
-          assetId: item.id,
-        });
+        // this.allocationComponent.push({
+        //   item: item.valueId,
+        //   name: item.assetName,
+        //   typeId: item.assetTypeId,
+        //   assetId: item.id,
+        // });
+        this.allocationComponent = this.allocationComponentOnDisplay = item;
+        // this.componentsArray = Array.from(component);
       });
-
       console.log("assetList",this.assetList);
-      // this.assetList = res.filter(asset => (asset.valueId !== this.employeeassetchangeForm.value('valueId')));
     });
   }
 
-  formatter = (assetList) => assetList.item;
-
-  search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      filter((term) => term.length >= 2),
-      map((term) =>
-        this.assetList
-          .filter((assetList: any) =>
-            new RegExp(term, "mi").test(assetList.item)
-          )
-          .slice(0, 10)
-      )
-    );
+  filterArray() {
+    if (!this.searchParameter) {
+      this.allocationComponentOnDisplay = this.allocationComponent;
+    } else {
+      const searchResult = [];
+      const delimiter = '~!~';
+      console.log(this.allocationComponent);
+      
+      // this.allocationComponent.forEach(ast => {
+      //   console.log(ast);
+      //   debugger;
+      //   // let combinedString = ast.values[0].name + delimiter + ast.values[0].employeeCode + delimiter;
+      //   // this.assetList.forEach(component => {
+      //   //   combinedString += ast[component] + delimiter;
+      //   // });
+      //   // if (combinedString.toLowerCase().indexOf(this.searchParameter.toLowerCase()) !== -1) {
+      //   // searchResult.push(ast);
+      //   // }
+      // });
+      // this.allocationComponentOnDisplay = searchResult;
+    }
+  }
 
   getSearchedAsset(ev) {}
 }
