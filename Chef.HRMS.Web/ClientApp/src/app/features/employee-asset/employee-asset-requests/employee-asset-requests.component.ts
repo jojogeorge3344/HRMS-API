@@ -91,8 +91,8 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     })
     modalRef.componentInstance.reqId = emprequest.id;
     modalRef.componentInstance.empid = this.empid;
-    modalRef.componentInstance.assetTypeId = this.assetTypeId;
-    modalRef.componentInstance.assetTypeName = this.assetTypeName;
+    modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
+    modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
     console.log(modalRef.componentInstance.assetTypeName);
     // this.employeeAsset.setListDetails({ data: emprequest });
   }

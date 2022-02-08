@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import * as _ from "lodash";
 import { forkJoin } from "rxjs";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { AssetMetadataService } from "@settings/asset/asset-metadata/asset-metadata.service";
 
 @Component({
   selector: "hrms-employee-asset-allocation",
@@ -24,7 +25,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   typeid: number;
   reqDetails: any;
   assetList = [];
-  dataType = [];
+  dataTypes = [];
   unallocatedAssets:any[]=[];
   unallocatedAssetsOndisplay:any[]=[];
   assetAllocationForm: FormGroup;
@@ -40,12 +41,14 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
+    private metadataService:AssetMetadataService
   ) {}
 
   ngOnInit(): void {
     this.assetAllocationForm = this.createFormGroup();
     this.getAllocationDetails();
-    this.getAssetType();
+    this.getAsset();
+    // this.getUnallocatedAssets();
     console.log("assetTypeName>>", this.assetTypeName);
     
   }
@@ -54,7 +57,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     console.log("formValues",this.assetAllocationForm.getRawValue());
     let allValues= {...this.assetAllocationForm.getRawValue(),};
     let changeValues={
-      CommentsAllocator:allValues.CommentsAllocator,
+      allocatorcomments:allValues.CommentsAllocator,
       allocationId:allValues.allocationId,
       allocationTo:allValues.allocationTo,
       assetTypeId:this.checkedValues.assetTypeId,
@@ -70,12 +73,12 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       metadataValueId3:this.checkedValues.metadataValueId3,
       metadataValueId4:this.checkedValues.metadataValueId4,
       metadataValueId5:this.checkedValues.metadataValueId5,
-      assetTypeName:_.find(this.dataType,['id',this.checkedValues.assetTypeId]).assettypename
+      assetTypeName:this.assetTypeName
     };
     console.log(changeValues);
     forkJoin([
       this.employeeAsset.add(changeValues),
-      this.employeeAsset.updateStatus(this.checkedValues.assetId,this.checkedValues.status)
+      this.employeeAsset.updateAllocateStatus(this.checkedValues.assetId,this.checkedValues.status)
     ]).subscribe(([result, asset]) => {
       debugger;
       console.log(asset);
@@ -126,22 +129,36 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       });
   }
 
-  getAssetType() {
-    this.assetTypeService.getAll().subscribe((result) => {
-      this.dataType = result;
-      console.log("assettype", this.dataType);
-    });
-  }
 
-  getUnallocatedAssets(ev) {
-    console.log(ev.target.value);
-    // this.typeid = ev.target.value;
-    this.employeeAsset.GetAssetAndMetadataDetails(this.assetTypeId).subscribe((res) => {
-      this.unallocatedAssets = this.unallocatedAssetsOndisplay = res;
-      console.log("unallocated", this.unallocatedAssets);
-  
-    });
+  getAsset(){
+    forkJoin([
+      this.metadataService.getAssetMetadataById(this.assetTypeId),
+      this.employeeAsset.GetAssetAndMetadataDetails(this.assetTypeId)
+    ]).subscribe(([result, asset]) => {
+      this.dataTypes = result;
+      this.unallocatedAssets = this.unallocatedAssetsOndisplay = asset;
+      debugger;
+      console.log(asset);
+      console.log(result);
+  });
   }
+ 
+
+  // getAssetType() {
+  //   this.metadataService.getAssetMetadataById(this.assetTypeId).subscribe((result) => {
+  //     this.dataTypes = result;
+  //     console.log("assettype", this.dataTypes);
+  //   });
+  // }
+
+  // getUnallocatedAssets() {
+  //   // this.typeid = ev.target.value;
+  //   this.employeeAsset.GetAssetAndMetadataDetails(this.assetTypeId).subscribe((res) => {
+  //     this.unallocatedAssets = this.unallocatedAssetsOndisplay = res;
+  //     console.log("unallocated", this.unallocatedAssets);
+  
+  //   });
+  // }
 
   filterArray() {
     if (!this.searchParameter) {

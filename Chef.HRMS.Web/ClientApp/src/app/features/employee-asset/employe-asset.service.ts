@@ -78,6 +78,12 @@ export class EmployeAssetService {
     return this.http.put(this.baseUrl + 'UpdateApproveReject',{},                                                
     { params: { id: id, status : status } }).pipe(map(response => { return response; }));
   }
+
+
+  updateAllocateStatus(id,status) {
+    return this.http.put(this.baseUrl + 'UpdateAllocateStatus',{},                                                
+    { params: { id: id, status : status } }).pipe(map(response => { return response; }));
+  }
   getEmployeeDetailsById(id) {
     return this.http.get(this.baseUrl + 'GetEmployeeDetailsById/' + id).pipe(map(response => { return response; }));
   }

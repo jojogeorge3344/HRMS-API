@@ -95,7 +95,7 @@
         <label class="col-4 col-form-label px-0" for="requestedOn"
           >AssetType:</label>
           <input
-          class="form-control w-100 height-xs"
+          class="form-control w-100"
           type="text"
           value="{{assetTypeName}}"
           disabled
@@ -137,11 +137,7 @@
               <th><input type="checkbox" disabled /></th>
               <th>SL:No</th>
               <th>Asset Id</th>
-              <th>Metadata 1</th>
-              <th>Metadata 2</th>
-              <th>Metadata 3</th>
-              <th>Metadata 4</th>
-              <th>Metadata 5</th>
+              <th *ngFor="let mdata of dataTypes">{{mdata.metadata}}</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -155,11 +151,11 @@
                (click)="onModelChange(unAllocatedAsset)" [checked]="checkedValues?.assetId===unAllocatedAsset.assetId">
               <td>{{ i + 1 }}</td>
               <td>{{ unAllocatedAsset.assetCode }}</td>
-              <td class="text-capitalize">{{ unAllocatedAsset.metadataValue1 }}</td>
-              <td>{{ unAllocatedAsset.metadataValue2 }}</td>
-              <td>{{ unAllocatedAsset.metadataValue3 }}</td>
-              <td>{{ unAllocatedAsset.metadataValue4 }}</td>
-              <td>{{ unAllocatedAsset.metadataValue5 }}</td>
+              <td *ngIf="dataTypes.length>=1">{{ unAllocatedAsset.metadataValue1 }}</td>
+              <td *ngIf="dataTypes.length>=2">{{ unAllocatedAsset.metadataValue2 }}</td>
+              <td *ngIf="dataTypes.length>=3">{{ unAllocatedAsset.metadataValue3 }}</td>
+              <td *ngIf="dataTypes.length>=4">{{ unAllocatedAsset.metadataValue4 }}</td>
+              <td *ngIf="dataTypes.length>=5">{{ unAllocatedAsset.metadataValue5 }}</td>
               <td>{{ unAllocatedAsset.description }}</td>
             </tr>
           </tbody>
