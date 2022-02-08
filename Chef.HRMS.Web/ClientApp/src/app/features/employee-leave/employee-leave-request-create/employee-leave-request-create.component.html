@@ -6,13 +6,14 @@
         </button>
     </div>
     <div class="modal-body">
-      
+     
         <div class="row align-items-baseline">
             <div class="form-group input-group form-input-inline col-sm">
                 <label class="col-form-label col-12 px-0" for="fromDate">From Date</label>
-                <input class="form-control" hrmsBlockPaste [dayTemplate]="customDay"
-                    [footerTemplate]="footerTemplate" ngbDatepicker
-                    [markDisabled]="markDisabled" #fromDate="ngbDatepicker" formControlName="fromDate" [minDate]="{year: 1900, month: 1, day: 1}"  [maxDate]= "maxDate" (ngModelChange)="setMinDate()">
+                <input class="form-control" hrmsBlockPaste [startDate]="currentDate" [minDate]="minDateFrom" [dayTemplate]="customDay"
+                    [footerTemplate]="footerTemplate" [maxDate]="maxDateFrom" ngbDatepicker 
+                    [markDisabled]="markDisabled" #fromDate="ngbDatepicker" formControlName="fromDate"
+                    (dateSelect)="onFromDateSelection($event)">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="fromDate.toggle()"
                         type="button"></button>
@@ -46,16 +47,16 @@
             </ng-template>
             <div class="form-group input-group form-input-inline col-sm">
                 <label class="col-form-label col-12 px-0" for="toDate">To Date</label>
-                <input class="form-control" hrmsBlockPaste  ngbDatepicker
+                <input class="form-control" hrmsBlockPaste [startDate]="currentDate" [minDate]="minDateTo" [maxDate]="maxDateTo" ngbDatepicker
                     [dayTemplate]="customDay" [footerTemplate]="footerTemplate" [markDisabled]="markDisabled"
-                    #toDate="ngbDatepicker" formControlName="toDate" [minDate]= "minDate" (ngModelChange)="setMaxDate()">
+                    #toDate="ngbDatepicker" formControlName="toDate" (dateSelect)="onToDateSelection($event)">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="toDate.toggle()"
                         type="button"></button>
                 </div>
             </div>
         </div>
-        
+       
         <div class="row" *ngIf="addForm.controls['numberOfDays'].errors?.numberOfDays" style="height: 65px;">
             <div class="form-group col-sm">
                 <div class="alert alert-danger" role="alert">

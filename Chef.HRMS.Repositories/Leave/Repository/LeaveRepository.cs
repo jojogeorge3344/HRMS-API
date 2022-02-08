@@ -89,7 +89,7 @@ namespace Chef.HRMS.Repositories
                                         leavestatus, 
                                         leavecomponentid, 
                                         numberofdays, 
-                                        to_char(createddate, 'DD-MON-YYYY HH:MI:SS') AS createddate,
+                                        currentDate,
                                         modifieddate,
                                         createdby,
                                         modifiedby,

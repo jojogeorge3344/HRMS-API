@@ -32,12 +32,10 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   isSingleDay: boolean;
   selectedButton: any;
   selectedLeaveComponent: any;
-  // minDateFrom;
-  // maxDateFrom;
-  // minDateTo;
-  // maxDateTo;
-  minDate;
-  maxDate;
+  minDateFrom;
+  maxDateFrom;
+  minDateTo;
+  maxDateTo;
   currentDate;
   isValid = true;
 
@@ -62,32 +60,32 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     private toastr: ToasterDisplayService,
     private holidayService :HolidayService,
   ) {
-    // const current = new Date();
-    // this.minDateFrom = {
-    //   year: current.getFullYear(),
-    //   month: 4,
-    //   day: 1
-    // };
-    // this.maxDateFrom = {
-    //   year: current.getFullYear() + 1,
-    //   month: 3,
-    //   day: 31
-    // };
-    // this.minDateTo = {
-    //   year: current.getFullYear(),
-    //   month: 4,
-    //   day: 1
-    // };
-    // this.maxDateTo = {
-    //   year: current.getFullYear() + 1,
-    //   month: 3,
-    //   day: 31
-    // };
-    // this.currentDate = {
-    //   year: current.getFullYear(),
-    //   month: current.getMonth() + 1,
-    //   day: current.getDate()
-    // };
+    const current = new Date();
+    this.minDateFrom = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
+    this.maxDateFrom = {
+      year: current.getFullYear() + 1,
+      month: 3,
+      day: 31
+    };
+    this.minDateTo = {
+      year: current.getFullYear(),
+      month: 4,
+      day: 1
+    };
+    this.maxDateTo = {
+      year: current.getFullYear() + 1,
+      month: 3,
+      day: 31
+    };
+    this.currentDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
   }
 
   ngOnInit(): void {
@@ -229,13 +227,13 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
   }
 
-  // onFromDateSelection(date: NgbDate) {
-  //   this.minDateTo = date;
-  // }
+  onFromDateSelection(date: NgbDate) {
+    this.minDateTo = date;
+  }
 
-  // onToDateSelection(date: NgbDate) {
-  //   this.maxDateFrom = date;
-  // }
+  onToDateSelection(date: NgbDate) {
+    this.maxDateFrom = date;
+  }
   checkDates() {
     if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
       const d = new Date(this.fromDate);
@@ -342,7 +340,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     };
     this.currentDate=new Date();
     console.log("datenow",this.currentDate);
-    
+   
     this.employeeLeaveService.add(addForm).subscribe((result) => {
       const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
         leaveId: result.id,
@@ -363,12 +361,21 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     });
   }
 
-  setMaxDate(){
-    this.maxDate = {year:new Date(this.addForm.controls["toDate"].value).getFullYear(),month:new Date(this.addForm.controls["toDate"].value).getMonth() + 1, day:new Date(this.addForm.controls["toDate"].value).getDate()}
-  }
-  setMinDate(){
-    this.minDate = {year:new Date(this.addForm.controls["fromDate"].value).getFullYear(),month:new Date(this.addForm.controls["fromDate"].value).getMonth() + 1, day:new Date(this.addForm.controls["fromDate"].value).getDate()}  
-  }
+ 
+markDisabled =(date:NgbDateStruct)=>{
+  const d = new Date(date.year,date.month - 1, date.day);
+ let holidays=[];
+ if(this.holidaydate?.length){
+  this.holidaydate.map((item) => {
+    var myDate = item.split('-');
+    var newDate = new Date(myDate[0], myDate[1] - 1, myDate[2].split('T')[0]);
+    holidays.push(newDate.getTime());
+  })
+ }
+
+  return holidays.indexOf(d.getTime()) != -1;// return date.month !== current.month;  };
+}
+
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -415,7 +422,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
           y.date
         )
        
-        
+       
       })
       console.log("leavessting",this.leaveSettings);
     })
