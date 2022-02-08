@@ -157,9 +157,9 @@
           <tbody>
             <tr
               class="text-center"
-              *ngFor="let unAllocatedAsset of unallocatedAssets; let i = index"
+              *ngFor="let unAllocatedAsset of unallocatedAssetsOndisplay; let i = index"
             >
-              <td><input type="checkbox" /></td>
+              <td><input type="checkbox"/></td>
               <td>{{ i + 1 }}</td>
               <td>{{ unAllocatedAsset.assetCode }}</td>
               <td class="text-capitalize">{{ unAllocatedAsset.metadataValue1 }}</td>

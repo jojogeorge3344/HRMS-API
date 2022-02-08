@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { AssetTypeService } from "@settings/asset/asset-type/asset-type.service";
-import { filter, map, switchMap, tap } from "rxjs/operators";
+import { switchMap, tap } from "rxjs/operators";
 import { EmployeAssetService } from "../employe-asset.service";
-import { forkJoin, Observable } from "rxjs";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
@@ -21,13 +19,13 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   reqDetails: any;
   assetList = [];
   dataType = [];
-  unallocatedAssets: any;
+  unallocatedAssets:any[]=[];
+  unallocatedAssetsOndisplay:any[]=[];
   assetAllocationForm: FormGroup;
   requetedBy: string;
   searchParameter = '';
-  allocationComponent: { id: number, values: EmployeeAssetAllocationComponent[] }[] = [];
-  allocationComponentOnDisplay: { id: number, values: EmployeeAssetAllocationComponent[] }[] = [];
   componentsArray = [];
+  filteredArray: any;
 
   constructor(
     private employeeAsset: EmployeAssetService,
@@ -87,45 +85,41 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     console.log(ev.target.value);
     this.typeid = ev.target.value;
     this.employeeAsset.GetAssetAndMetadataDetails(this.typeid).subscribe((res) => {
-      this.unallocatedAssets = res;
+      this.unallocatedAssets = this.unallocatedAssetsOndisplay = res;
       console.log("unallocated", this.unallocatedAssets);
-
-      this.unallocatedAssets.forEach((item) => {
-        // this.allocationComponent.push({
-        //   item: item.valueId,
-        //   name: item.assetName,
-        //   typeId: item.assetTypeId,
-        //   assetId: item.id,
-        // });
-        this.allocationComponent = this.allocationComponentOnDisplay = item;
-        // this.componentsArray = Array.from(component);
-      });
-      console.log("assetList",this.assetList);
+  
     });
   }
 
   filterArray() {
     if (!this.searchParameter) {
-      this.allocationComponentOnDisplay = this.allocationComponent;
+      this.unallocatedAssetsOndisplay = this.unallocatedAssets;
     } else {
       const searchResult = [];
       const delimiter = '~!~';
-      console.log(this.allocationComponent);
-      
-      // this.allocationComponent.forEach(ast => {
-      //   console.log(ast);
-      //   debugger;
-      //   // let combinedString = ast.values[0].name + delimiter + ast.values[0].employeeCode + delimiter;
-      //   // this.assetList.forEach(component => {
-      //   //   combinedString += ast[component] + delimiter;
-      //   // });
-      //   // if (combinedString.toLowerCase().indexOf(this.searchParameter.toLowerCase()) !== -1) {
-      //   // searchResult.push(ast);
-      //   // }
-      // });
-      // this.allocationComponentOnDisplay = searchResult;
+      this.unallocatedAssets.forEach(ast => {
+       let combinedString = ast.assetName + delimiter + ast.assetId + delimiter
+                            + ast.description + delimiter+ ast.metadataValue1 + delimiter
+                            + ast.metadataValue2 + delimiter+ ast.metadataValue1 + delimiter
+                            + ast.metadataValue4 + delimiter+ ast.metadataValue5 + delimiter;
+   
+        if (combinedString.toLowerCase().indexOf(this.searchParameter.toLowerCase()) !== -1) {
+        searchResult.push(ast);
+        }
+        console.log(combinedString);
+      });
+      this.unallocatedAssetsOndisplay = searchResult;
     }
   }
 
-  getSearchedAsset(ev) {}
+ 
+          
+
+          
+         
+
+      
+  
+  
 }
+
