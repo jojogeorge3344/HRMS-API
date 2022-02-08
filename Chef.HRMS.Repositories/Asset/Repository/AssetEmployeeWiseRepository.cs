@@ -179,9 +179,11 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetAllocationViewModel>> GetMetadataDetailsById(int assettypeid)
         {
             var sql = @"SELECT 
+	
 		                        concat(t1.assetname,'-',t1.assetid) AS assetcode,
-                                t1.assetid,
-                                t1.assetname,
+								t1.assetid,
+								t1.status,
+								t1.assetname,
 								t1.description,
                                 t1.assettypeid,
                                 max(CASE WHEN rn = 1 THEN value END) metadatavalue1 ,
@@ -195,19 +197,20 @@ namespace Chef.HRMS.Repositories
                                 max(CASE WHEN rn = 4 THEN id END) metadatavalueid4,
                                 max(CASE WHEN rn = 5 THEN id END) metadatavalueid5
                         FROM (
-                            select am.*,aa.assetname,
+                            select am.*,aa.assetname,aa.status,
 								aa.description,Row_number() over(partition by 
 		                        am.assetid,
                                 am.assettypeid
                                  order by (select 1)) rn
                             from hrms.assetmetadatavalue am inner join hrms.asset aa on am.assetid=aa.id  
-							where aa.status=5 and am.assettypeid=@assettypeid
+							where aa.status=5 and am.assettypeid=61
                         ) t1
                         GROUP BY
 		                        t1.assetid,
                                 t1.assettypeid,
 								t1.assetname,
-								t1.description";
+								t1.description,
+								t1.status";
 
             return await Connection.QueryAsync<AssetAllocationViewModel>(sql, new { assettypeid });
         }
