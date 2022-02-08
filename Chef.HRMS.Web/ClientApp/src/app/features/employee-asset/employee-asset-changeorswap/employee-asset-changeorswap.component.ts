@@ -76,7 +76,8 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
         allocatedDate:new Date(),
         status:4,
         description:allValues.newDescription,
-        assetTypeName:_.find(this.dataType,['id',allValues.newAssetType]).assettypename
+        assetTypeName:_.find(this.dataType,['id',allValues.newAssetType]).assettypename,
+        
       };
 
           this.newMdataTypeKeys.map((key,i) => {  
@@ -94,7 +95,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       console.log("allvalues>>",allValues);
   
     //this.employeAssetService.add(changeValues).subscribe((result) => {
-      debugger;
+     
       forkJoin([
         this.employeAssetService.add(changeValues),
         this.employeAssetService.updateStatus(this.Astvalues.id,this.Astvalues.status)

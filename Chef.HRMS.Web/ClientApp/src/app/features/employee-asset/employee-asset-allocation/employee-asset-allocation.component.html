@@ -25,7 +25,6 @@
           class="form-control w-100"
           name="allocationId"
           formControlName="allocationId"
-          disabled
         />
       </div>
 
@@ -159,7 +158,9 @@
               class="text-center"
               *ngFor="let unAllocatedAsset of unallocatedAssetsOndisplay; let i = index"
             >
-              <td><input type="checkbox"/></td>
+              <!-- <td><input type="checkbox"/></td> -->
+              <input type="checkbox" name="{{unAllocatedAsset.assetId}}" id="{{unAllocatedAsset.assetId}}" [value]="unAllocatedAsset"
+               (click)="onModelChange(unAllocatedAsset)" [checked]="checkedValues?.assetId===unAllocatedAsset.assetId">
               <td>{{ i + 1 }}</td>
               <td>{{ unAllocatedAsset.assetCode }}</td>
               <td class="text-capitalize">{{ unAllocatedAsset.metadataValue1 }}</td>

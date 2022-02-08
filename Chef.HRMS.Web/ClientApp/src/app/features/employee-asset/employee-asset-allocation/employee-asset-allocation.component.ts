@@ -5,6 +5,9 @@ import { switchMap, tap } from "rxjs/operators";
 import { EmployeAssetService } from "../employe-asset.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import * as _ from "lodash";
+import { forkJoin } from "rxjs";
+import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 
 @Component({
   selector: "hrms-employee-asset-allocation",
@@ -22,17 +25,18 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   unallocatedAssets:any[]=[];
   unallocatedAssetsOndisplay:any[]=[];
   assetAllocationForm: FormGroup;
-  requetedBy: string;
+  requestedBy: string;
   searchParameter = '';
-  componentsArray = [];
-  filteredArray: any;
+  checkedValues;
+  isSelected = false;
 
   constructor(
     private employeeAsset: EmployeAssetService,
     private assetTypeService: AssetTypeService,
     private activatedRoute: ActivatedRoute,
     public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToasterDisplayService,
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +45,49 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     this.getAssetType();
   }
 
-  onSubmit() {}
+  onSubmit() {
+    console.log("formValues",this.assetAllocationForm.getRawValue());
+    let allValues= {...this.assetAllocationForm.getRawValue(),};
+    let changeValues={
+      CommentsAllocator:allValues.CommentsAllocator,
+      allocationId:allValues.allocationId,
+      allocationTo:allValues.allocationTo,
+      assetTypeId:this.checkedValues.assetTypeId,
+      assetId:this.checkedValues.assetId,
+      assetRaiseRequestId:this.reqId,
+      assetMetadataValueId:this.checkedValues.assetMetadataValueId,
+      empId:this.empid,
+      assetName:this.checkedValues.assetName,
+      allocatedDate:new Date(),
+      status:4,
+      description:this.checkedValues.description,
+      metadataValueId2:this.checkedValues.metadataValueId2,
+      metadataValueId3:this.checkedValues.metadataValueId3,
+      metadataValueId4:this.checkedValues.metadataValueId4,
+      metadataValueId5:this.checkedValues.metadataValueId5,
+      assetTypeName:_.find(this.dataType,['id',this.checkedValues.assetTypeId]).assettypename
+    };
+    console.log(changeValues);
+    forkJoin([
+      this.employeeAsset.add(changeValues),
+      this.employeeAsset.updateStatus(this.checkedValues.assetId,this.Astvalues.status)
+    ]).subscribe(([result, asset]) => {
+      console.log(asset);
+      console.log(this.checkedValues.assetId.id,this.Astvalues.status);
+    if (result.id === -1) {
+      this.toastr.showErrorMessage('asset already swaped!');
+    } else {
+      this.toastr.showSuccessMessage('Allocated successfully successfully!');
+      this.activeModal.close('submit');
+    }
+  },
+  error => {
+    console.error(error);
+    this.toastr.showErrorMessage('Unable to Allocate the asset');
+  });
+
+    
+  }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -69,8 +115,8 @@ export class EmployeeAssetAllocationComponent implements OnInit {
         )
       )
       .subscribe(([result]) => {
-        this.requetedBy = `${result.firstName} ${result.lastName}`;
-        this.assetAllocationForm.patchValue({ requestedBy: this.requetedBy });
+        this.requestedBy = `${result.firstName} ${result.lastName}`;
+        this.assetAllocationForm.patchValue({ requestedBy: this.requestedBy });
       });
   }
 
@@ -100,7 +146,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       this.unallocatedAssets.forEach(ast => {
        let combinedString = ast.assetName + delimiter + ast.assetId + delimiter
                             + ast.description + delimiter+ ast.metadataValue1 + delimiter
-                            + ast.metadataValue2 + delimiter+ ast.metadataValue1 + delimiter
+                            + ast.metadataValue2 + delimiter+ ast.metadataValue3 + delimiter
                             + ast.metadataValue4 + delimiter+ ast.metadataValue5 + delimiter;
    
         if (combinedString.toLowerCase().indexOf(this.searchParameter.toLowerCase()) !== -1) {
@@ -111,6 +157,12 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       this.unallocatedAssetsOndisplay = searchResult;
     }
   }
+
+  onModelChange(unAllocatedAsset) {
+    this.isSelected=true;
+    console.log("checked values",unAllocatedAsset);
+      this.checkedValues=unAllocatedAsset;
+   }
 
  
           
