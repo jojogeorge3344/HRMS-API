@@ -179,8 +179,9 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetAllocationViewModel>> GetMetadataDetailsById(int assettypeid)
         {
             var sql = @"SELECT 
-		                        t1.assetid,
-								t1.assetname,
+		                        concat(t1.assetname,'-',t1.assetid) AS assetcode,
+                                t1.assetid,
+                                t1.assetname,
 								t1.description,
                                 t1.assettypeid,
                                 max(CASE WHEN rn = 1 THEN value END) metadatavalue1 ,
