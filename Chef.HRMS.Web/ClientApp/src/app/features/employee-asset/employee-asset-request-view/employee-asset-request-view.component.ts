@@ -84,7 +84,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
         this.requestViewForm.patchValue(result);
         this.requestViewForm.patchValue({requestFor:this.reqForStatus[result.requestFor]})
         this.buttonStatus=result.status;
-        console.log(this.buttonStatus);
+        console.log("request view details",result);
         
       }),
       switchMap(([result]) =>  (this.employeeAsset.getEmployeeNameById(result.empId))

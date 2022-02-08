@@ -52,7 +52,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
         console.log(result);
         this.employeeWiseRequest = result;
         this.reqid = result.id;
-        console.log(this.reqid);
+        console.log("request details>>",this.employeeWiseRequest);
       });
   }
 

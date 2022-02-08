@@ -72,6 +72,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       this.employeeAsset.add(changeValues),
       this.employeeAsset.updateStatus(this.checkedValues.assetId,this.checkedValues.status)
     ]).subscribe(([result, asset]) => {
+      debugger;
       console.log(asset);
       console.log(this.checkedValues.assetId,this.checkedValues.status);
     if (result.id === -1) {
