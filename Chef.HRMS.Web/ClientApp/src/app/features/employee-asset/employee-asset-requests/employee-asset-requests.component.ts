@@ -115,6 +115,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     } else if (status == 3) {
       modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
     }
+    else if (status == 6) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
+    }
 
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
@@ -125,31 +128,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
           } else if (status == 3) {
             this.toastr.showSuccessMessage("request rejected successfully!");
           }
-          this.activeModal.close("click");
-          this.getEmployeeRequestById();
-        });
-      }
-    });
-    
-  }
-
-  updateRevoke(emprequest, status) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      size: 'lg',
-      centered: true,
-      backdrop: "static",
-    });
-    console.log(emprequest);
-    const empreqid = emprequest.id;
-   
-      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
-
-    modalRef.result.then((userResponse) => {
-      if (userResponse == true) {
-        this.employeeAsset.updateRevoke(empreqid, status).subscribe((res) => {
-          console.log(res);
-          
-            this.toastr.showSuccessMessage("request revoked successfully!");
+          else if (status == 6) {
+            this.toastr.showSuccessMessage("request rejected successfully!");
+          }
           this.activeModal.close("click");
           this.getEmployeeRequestById();
         });
