@@ -13,6 +13,7 @@ namespace Chef.HRMS.Models
         public string RequestedBy { get; set; }
         public string Description { get; set; }
         public string AllocationTo { get; set; }
+        public string AllocatorComments { get; set; }
         public DateTime AllocationDate { get; set; }
         public int AssetId { get; set; }
         public string AssetName { get; set; }
