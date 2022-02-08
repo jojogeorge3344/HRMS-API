@@ -161,6 +161,18 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
+        [HttpPut("UpdateAllocateStatus")]
+        public async Task<ActionResult> UpdateAllocateStatus(int id, int status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.UpdateAllocateStatus(id, status);
+
+            return Ok(result);
+        }
 
 
         [HttpPut("UpdateApproveReject")]
@@ -190,22 +202,5 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
-
-        [HttpPut("UpdateRevoke")]
-        public async Task<ActionResult> UpdateRevoke(int id, int status)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await assetEmployeeWiseService.UpdateRevoke(id, status);
-
-            return Ok(result);
-        }
-
-
-
-
     }
 }

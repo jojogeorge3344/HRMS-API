@@ -115,6 +115,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     } else if (status == 3) {
       modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
     }
+    else if (status == 6) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
+    }
 
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
@@ -123,6 +126,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
           if (status == 2) {
             this.toastr.showSuccessMessage("request approved successfully!");
           } else if (status == 3) {
+            this.toastr.showSuccessMessage("request rejected successfully!");
+          }
+          else if (status == 6) {
             this.toastr.showSuccessMessage("request rejected successfully!");
           }
           this.activeModal.close("click");

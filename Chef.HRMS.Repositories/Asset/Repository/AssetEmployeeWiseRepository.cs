@@ -164,6 +164,8 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id)
         {
             var sql = @"SELECT     ar.requestno,
+                                   ar.assettypeid,
+                                   at.assettypename,
                                    ar.empid          AS requestedby,
                                    ar.description,
                                    CONCAT(ee.firstname,'-',ee.lastname)   AS allocationto
@@ -227,7 +229,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdateApproveReject(int id, int status)
         {
-            if (status == 2 || status == 3)
+            if (status == 2 || status == 3 || status==6)
             {
                 var sql = @"UPDATE hrms.assetraiserequest 
                                     SET status=@status WHERE id=@id";
@@ -286,18 +288,14 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-
-        public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
+        public async Task<int> UpdateAllocateStatus(int id, int status)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> UpdateRevoke(int id, int status)
-        {
-            if (status == 1)
+            if (status == 5)
             {
-                var sql = @"UPDATE hrms.assetraiserequest 
-                                    SET status=6 WHERE id=@id";
+                var sql = @"UPDATE hrms.asset
+                                            SET status=4 WHERE id=@id;
+                                    UPDATE hrms.assetallocated 
+                                            SET status=4 WHERE assetid=@id";
                 var result = await Connection.ExecuteAsync(sql, new { id, status });
                 return result;
             }
@@ -306,5 +304,12 @@ namespace Chef.HRMS.Repositories
                 return 0;
             }
         }
+
+        public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 }
