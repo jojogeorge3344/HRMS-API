@@ -12,6 +12,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { SignalrService } from '@shared/services/signalr.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { HolidayService } from '@settings/holiday/holiday.service';
+import { formatDate ,DatePipe} from '@angular/common';
 
 @Component({
   templateUrl: './employee-leave-request-create.component.html',
@@ -59,6 +60,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
     private holidayService :HolidayService,
+    private datepipe: DatePipe,
   ) {
     const current = new Date();
     this.minDateFrom = {
@@ -333,12 +335,13 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
-      currentDate:new Date(),
+      currentDate:this.datepipe.transform(Date.now(),'yyyy-MM-dd hh:mm:ss'),
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12)),
       leaveComponentId: parseInt(addForm.leaveComponentId, 10)
     };
     this.currentDate=new Date();
+   // formatDate(new Date(), 'yyyy/MM/dd', 'en');
     console.log("datenow",this.currentDate);
    
     this.employeeLeaveService.add(addForm).subscribe((result) => {
