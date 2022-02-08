@@ -70,12 +70,12 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     console.log(changeValues);
     forkJoin([
       this.employeeAsset.add(changeValues),
-      this.employeeAsset.updateStatus(this.checkedValues.assetId,this.Astvalues.status)
+      this.employeeAsset.updateStatus(this.checkedValues.assetId,this.checkedValues.status)
     ]).subscribe(([result, asset]) => {
       console.log(asset);
-      console.log(this.checkedValues.assetId.id,this.Astvalues.status);
+      console.log(this.checkedValues.assetId,this.checkedValues.status);
     if (result.id === -1) {
-      this.toastr.showErrorMessage('asset already swaped!');
+      this.toastr.showErrorMessage('asset already Allocated!');
     } else {
       this.toastr.showSuccessMessage('Allocated successfully successfully!');
       this.activeModal.close('submit');
