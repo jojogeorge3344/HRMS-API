@@ -28,6 +28,8 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   reqForStatus = RequestFor;
   id: [];
   reqid: number;
+  assetTypeId: number;
+  assetTypeName: string;
 
   constructor(
     private employeeAsset: EmployeAssetService,
@@ -89,7 +91,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     })
     modalRef.componentInstance.reqId = emprequest.id;
     modalRef.componentInstance.empid = this.empid;
-    console.log(modalRef.componentInstance.requestId);
+    modalRef.componentInstance.assetTypeId = this.assetTypeId;
+    modalRef.componentInstance.assetTypeName = this.assetTypeName;
+    console.log(modalRef.componentInstance.assetTypeName);
     // this.employeeAsset.setListDetails({ data: emprequest });
   }
 

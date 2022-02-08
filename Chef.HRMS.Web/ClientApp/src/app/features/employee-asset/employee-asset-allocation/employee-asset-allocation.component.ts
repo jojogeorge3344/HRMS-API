@@ -16,6 +16,9 @@ import { ToasterDisplayService } from "src/app/core/services/toaster-service.ser
 export class EmployeeAssetAllocationComponent implements OnInit {
   @Input() reqId;
   @Input() empid;
+  @Input() assetTypeId;
+  @Input() assetTypeName;
+  
   allocationDate: Date = new Date();
   reqData = {};
   typeid: number;
@@ -43,6 +46,8 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     this.assetAllocationForm = this.createFormGroup();
     this.getAllocationDetails();
     this.getAssetType();
+    console.log("assetTypeName>>", this.assetTypeName);
+    
   }
 
   onSubmit() {
@@ -130,8 +135,8 @@ export class EmployeeAssetAllocationComponent implements OnInit {
 
   getUnallocatedAssets(ev) {
     console.log(ev.target.value);
-    this.typeid = ev.target.value;
-    this.employeeAsset.GetAssetAndMetadataDetails(this.typeid).subscribe((res) => {
+    // this.typeid = ev.target.value;
+    this.employeeAsset.GetAssetAndMetadataDetails(this.assetTypeId).subscribe((res) => {
       this.unallocatedAssets = this.unallocatedAssetsOndisplay = res;
       console.log("unallocated", this.unallocatedAssets);
   
