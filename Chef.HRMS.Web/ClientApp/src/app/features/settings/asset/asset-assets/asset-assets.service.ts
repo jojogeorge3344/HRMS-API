@@ -4,6 +4,7 @@ import { AssetAssets } from './asset-assets.model';
 import { map } from 'rxjs/operators';
 import { AssetTypeMetadata } from '../asset-metadata/asset-metadata.model';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AssetMetadataValue } from './assetmetadatavalue.model';
 
 @Injectable({
   providedIn: 'root'
