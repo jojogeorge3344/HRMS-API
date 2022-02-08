@@ -3,9 +3,10 @@
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="groupId">WPS Group Name</label>
-                <select readonly class="form-control" formControlName="groupId">
+                <select readonly class="form-control" formControlName="groupId" disabled>
                     <option value="" disabled>Select WPS Group</option>
                     <option *ngFor="let type of groupId" [ngValue]='type.id'>
+                        <!-- {{type.groupName}} -->
                         {{type.groupName}}
                     </option>
                 </select>
@@ -17,3 +18,10 @@
         </div>
     </div>
 </form>
+<!-- <label class="col-form-label" for="jobTitleId">Job Title</label>
+<select readonly class="form-control" formControlName="jobTitleId" disabled>
+    <option value="" disabled>Select Job Title</option>
+    <option *ngFor="let type of jobTitleId" [ngValue]='type.id'>
+        {{type.name}}
+    </option>
+</select> -->
