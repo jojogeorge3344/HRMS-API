@@ -65,12 +65,12 @@ export class EmployeAssetService {
 
   getUnallocatedAssets(id:number){
     console.log(">>>>>>> ",typeof(id), id)
-    return this.http.get(this.baseUrl + 'GetAssetDetailsById/' + id);
+    return this.http.get<any[]>(this.baseUrl + 'GetAssetDetailsById/' + id);
   }
 
   GetAssetAndMetadataDetails(id:number){
     console.log(">>>>>>> ",typeof(id), id)
-    return this.http.get(this.baseUrl + 'GetMetadataDetailsById/' + id);
+    return this.http.get<any[]>(this.baseUrl + 'GetMetadataDetailsById/' + id);
   }
 
 
