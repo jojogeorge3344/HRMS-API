@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AssetEmployeeWise } from './employee-asset.model';
 import { BehaviorSubject, Observable} from 'rxjs';
-import { AssetEmployeewiseRequest } from './assetemployeewiserequest.model';
-import { AssetStatus } from 'src/app/models/common/types/assetstatus';
-import { AssetRaiseRequest} from '@features/employee-assets/raise-request/raise-request.model';
-import { AssetAssets } from '@settings/asset/asset-assets/asset-assets.model';
+import { AssetAllocated } from '@features/employee-assets/my-assets/asset-allocated.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +30,9 @@ export class EmployeAssetService {
 
  
 
+  add(changeorswap: any){
+    return this.http.post<any>(this.baseUrl + 'insert', changeorswap).pipe(map(response => { return response; }));
+  }
 
   getAll(){
     return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAll').pipe(map(response => { return response; }));
@@ -58,6 +58,11 @@ export class EmployeAssetService {
     return this.http.get<any>(this.baseUrl + 'GetEmployeeNameById/' +id).pipe(map(response => { return response; }));
   }
 
+  getUnallocatedAssets(id:number){
+    console.log(">>>>>>> ",typeof(id), id)
+    return this.http.get(this.baseUrl + 'GetAssetDetailsById/' + id);
+  }
+
 
 
   // UpdateStatus/{id}/{status}
@@ -70,8 +75,9 @@ export class EmployeAssetService {
     return this.http.get(this.baseUrl + 'GetEmployeeDetailsById/' + id).pipe(map(response => { return response; }));
   }
 
-  recall(id:number){
-    return this.http.put<AssetAssets>(this.baseUrl + 'update//', id).pipe(map(response => { return response; }));
+  recall(empid,assetId,status) {
+    return this.http.put(this.baseUrl + 'UpdateStatusRecalled',{},                                                
+    { params: { empid: empid, assetId: assetId , status: status } }).pipe(map(response => { return response; }));
   }
 
   getRequestById(id:number) {

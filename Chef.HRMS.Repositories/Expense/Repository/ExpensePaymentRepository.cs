@@ -34,7 +34,7 @@ namespace Chef.HRMS.Repositories
                                       FROM  hrms.expensepayment e 
                                       INNER JOIN hrms.expensetype et
                                       ON e.expensetypeid=et.id
-                                      WHERE e.ispaid=true";
+                                      WHERE e.ispaid=true order by e.id desc";
 
                 return await Connection.QueryAsync<ExpensePayment>(sql);
 
