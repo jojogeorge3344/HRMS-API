@@ -107,7 +107,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
         {
 
-            var sql= @"SELECT    rr.id,
+            var sql= @"SELECT    rr.id,rr.assettypeid,tt.assettypename,
                                  rr.requestno,
                                  rr.requestfor,
 	                             rr.requesttype,
@@ -117,7 +117,8 @@ namespace Chef.HRMS.Repositories
 							     rr.nameofteammemberid,
                                 rr. requesteddate
 					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee 
-                                 ON rr.empid=employee.id WHERE empid=@empid
+                                 ON rr.empid=employee.id INNER JOIN hrms.assettype as tt
+                                 ON rr.assettypeid=tt.id WHERE empid=@empid
                                                         ORDER BY id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
@@ -164,7 +165,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id)
         {
             var sql = @"SELECT     ar.requestno,
-                                   ar.assettypeid,
+                                    ar.assettypeid,
                                    at.assettypename,
                                    ar.empid          AS requestedby,
                                    ar.description,
