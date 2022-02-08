@@ -191,7 +191,21 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
+        [HttpPut("UpdateRevoke")]
+        public async Task<ActionResult> UpdateRevoke(int id, int status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-       
+            var result = await assetEmployeeWiseService.UpdateRevoke(id, status);
+
+            return Ok(result);
+        }
+
+
+
+
     }
 }

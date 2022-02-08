@@ -18,6 +18,7 @@ namespace Chef.HRMS.Models
         public string AssetName { get; set; }
         public int AssetTypeId { get; set; }
         public string Value { get; set; }
+        public string Status { get; set; }
         public string AssetCode { get; set; }
         public int ValueId { get; set; }
         public string MetadataValue1 { get; set; }
