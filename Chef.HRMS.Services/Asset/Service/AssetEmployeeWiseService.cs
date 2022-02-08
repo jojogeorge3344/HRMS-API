@@ -111,9 +111,9 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.UpdateStatusRecalled(empid, assetid, status);
         }
 
-        public async Task<int> UpdateAllocateStatus(int id, int status)
+        public async Task<int> UpdateAllocateStatus(int id, int assettypeid, int status)
         {
-            return await assetEmployeeWiseRepository.UpdateAllocateStatus(id, status); ;
+            return await assetEmployeeWiseRepository.UpdateAllocateStatus(id,assettypeid, status); ;
         }
 
         public Task<int> DeleteAsync(int id)

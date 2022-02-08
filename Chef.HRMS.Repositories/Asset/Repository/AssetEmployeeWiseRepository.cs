@@ -289,15 +289,17 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-        public async Task<int> UpdateAllocateStatus(int id, int status)
+        public async Task<int> UpdateAllocateStatus(int id, int assettypeid, int status)
         {
-            if (status == 5)
+            if (status == status)
             {
                 var sql = @"UPDATE hrms.asset
                                             SET status=4 WHERE id=@id;
                                     UPDATE hrms.assetallocated 
-                                            SET status=4 WHERE assetid=@id";
-                var result = await Connection.ExecuteAsync(sql, new { id, status });
+                                            SET status=4 WHERE assetid=@id;
+                                    UPDATE hrms.assetraiserequest 
+                                            SET status=4 WHERE assettypeid=@assettypeid";
+                var result = await Connection.ExecuteAsync(sql, new { id, assettypeid, status });
                 return result;
             }
             else
