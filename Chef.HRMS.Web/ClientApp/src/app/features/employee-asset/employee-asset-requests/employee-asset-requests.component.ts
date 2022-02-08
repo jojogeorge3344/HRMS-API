@@ -133,6 +133,31 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     
   }
 
+  updateRevoke(emprequest, status) {
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: "static",
+    });
+    console.log(emprequest);
+    const empreqid = emprequest.id;
+   
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
+
+    modalRef.result.then((userResponse) => {
+      if (userResponse == true) {
+        this.employeeAsset.updateRevoke(empreqid, status).subscribe((res) => {
+          console.log(res);
+          
+            this.toastr.showSuccessMessage("request revoked successfully!");
+          this.activeModal.close("click");
+          this.getEmployeeRequestById();
+        });
+      }
+    });
+    
+  }
+
   // disableApproved(){
   //   return true;
   // }
