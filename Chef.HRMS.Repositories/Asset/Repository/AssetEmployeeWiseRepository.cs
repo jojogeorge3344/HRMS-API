@@ -289,6 +289,19 @@ namespace Chef.HRMS.Repositories
             throw new NotImplementedException();
         }
 
-       
+        public async Task<int> UpdateRevoke(int id, int status)
+        {
+            if (status == 1)
+            {
+                var sql = @"UPDATE hrms.assetraiserequest 
+                                    SET status=6 WHERE id=@id";
+                var result = await Connection.ExecuteAsync(sql, new { id, status });
+                return result;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

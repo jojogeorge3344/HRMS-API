@@ -111,6 +111,11 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.UpdateStatusRecalled(empid, assetid, status);
         }
 
+        public async Task<int> UpdateRevoke(int id, int status)
+        {
+            return await assetEmployeeWiseRepository.UpdateRevoke(id, status);
+        }
+
 
         public Task<int> DeleteAsync(int id)
         {
@@ -140,6 +145,6 @@ namespace Chef.HRMS.Services
             throw new NotImplementedException();
         }
 
-        
+       
     }
 }

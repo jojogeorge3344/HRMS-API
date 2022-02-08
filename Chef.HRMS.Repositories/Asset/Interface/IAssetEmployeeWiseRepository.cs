@@ -26,5 +26,6 @@ namespace Chef.HRMS.Repositories
         Task<int> UpdateStatus(int id, int status);
         Task<int> UpdateApproveReject(int id, int status);
         Task<int> UpdateStatusRecalled(int empid, int assetid, int status);
+        Task<int> UpdateRevoke(int id, int status);
     }
 }
