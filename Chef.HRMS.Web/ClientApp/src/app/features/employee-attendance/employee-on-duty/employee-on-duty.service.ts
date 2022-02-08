@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EmployeeOnDutyRequest } from './employee-on-duty-request.model';
+import { EmployeeJobDetails } from 'src/app/features/employee/employee-job-details/employee-job-details.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -34,6 +35,10 @@ export class EmployeeOnDutyService {
 
   get(id) {
     return this.http.get<EmployeeOnDutyRequest>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
+  }
+
+  getJoiningDateByID(id){
+    return this.http.get<EmployeeJobDetails>(this.baseUrl + 'getJoinDateByEmployeeId/' + id).pipe(map(response => { return response; }));
   }
 
   addNotifyPersonnel(notifyPersonnel) {
