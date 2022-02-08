@@ -4,6 +4,7 @@ import { AssetEmployeeWise } from '../employee-asset.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { WorkerType } from 'src/app/models/common/types/workertype';
 
 @Component({
   selector: 'hrms-employee-asset-list',
@@ -15,6 +16,7 @@ export class EmployeeAssetListComponent implements OnInit {
   requestedBy:number;
   requestedByName:string;
   list: any;
+  empStatus=WorkerType;
 
   constructor(private employeeAsset:EmployeAssetService,
               public modalService: NgbModal,
@@ -42,7 +44,7 @@ getAll() {
                 requests:0
             }
           })
-          console.log(employees);
+          console.log("vvv",employees);
           this.employees=employees;
       })
         
