@@ -36,8 +36,6 @@ export class EmployeeAssetAllocationComponent implements OnInit {
 
   constructor(
     private employeeAsset: EmployeAssetService,
-    private assetTypeService: AssetTypeService,
-    private activatedRoute: ActivatedRoute,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
