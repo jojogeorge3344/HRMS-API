@@ -60,6 +60,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(holidays);
         }
 
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<IEnumerable<Holiday>>> GetAll()
+        {
+            var holidays = await holidayService.GetAllAsync();
+
+            return Ok(holidays);
+        }
+
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]

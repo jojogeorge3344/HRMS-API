@@ -93,5 +93,7 @@ namespace Chef.HRMS.Models
         /// Holds the number of days taking the leave
         /// </summary>
         public decimal NumberOfDays { get; set; }
+
+        public string CurrentDate { get; set; }
     }
 }

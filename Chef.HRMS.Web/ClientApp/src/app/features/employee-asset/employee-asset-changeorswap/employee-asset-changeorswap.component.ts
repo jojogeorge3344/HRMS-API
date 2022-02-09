@@ -11,6 +11,7 @@ import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators'
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmployeAssetService } from '../employe-asset.service';
 import { DatePipe, formatDate } from '@angular/common';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   currentTypeKeys: string[];
   newTypeKeys: string[];
   newTypeMap: Map<any, any>;
+  newMdataTypeKeys: string[];
+  newMdataTypeMap: Map<any, any>;
   assetList =[];
   dataType: any[];
   newAsssetTypeId: any;
@@ -49,6 +52,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   ngOnInit(): void {
     this.currentTypeMap = new Map();
     this.newTypeMap = new Map();
+    this.newMdataTypeMap=new Map();
     this.employeeassetchangeForm = this.createFormGroup();
     this.getCurrentAssetById();
     this.getAssetType();
@@ -57,9 +61,9 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     console.log(this.employeeassetchangeForm.getRawValue());
     let allValues= {...this.employeeassetchangeForm.getRawValue(),
         // status:1,
-        assetMetadataValueId:this.newTypeKeys.map(key => {
+        assetMetadataValueId:this.newMdataTypeKeys.map(key => {
         return{
-          assettypeMetadataId:this.newTypeMap.get(key).id,
+          assettypeMetadataId:this.newMdataTypeMap.get(key)
         }
       })};
       let changeValues={
@@ -72,24 +76,31 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
         allocatedDate:new Date(),
         status:4,
         description:allValues.newDescription,
-        assetTypeName:this.assetTypeName
+        assetTypeName:_.find(this.dataType,['id',allValues.newAssetType]).assettypename
       };
 
-          this.newTypeKeys.map((key,i) => {  
+          this.newMdataTypeKeys.map((key,i) => {  
             if(i){
-              changeValues['metadataValueId'+(i+1)]=this.newTypeMap.get(key).id;
+              changeValues['metadataValueId'+(i+1)]=this.newMdataTypeMap.get(key);
             }
               
       })
-      this.newTypeMap.size;
-      for (let index = this.newTypeMap.size+1 ; index <6 ; index++) {
+      this.newMdataTypeMap.size;
+      for (let index = this.newMdataTypeMap.size+1 ; index <6 ; index++) {
         changeValues['metadataValueId'+index] = 0;
         
       }
       console.log("new >>",this.employeeassetchangeForm.value.newAssetMetadataid,);
-      console.log("change>>",changeValues);
+      console.log("allvalues>>",allValues);
   
-    this.employeAssetService.add(changeValues).subscribe((result: any) => {
+    //this.employeAssetService.add(changeValues).subscribe((result) => {
+      debugger;
+      forkJoin([
+        this.employeAssetService.add(changeValues),
+        this.employeAssetService.updateStatus(this.Astvalues.id,this.Astvalues.status)
+      ]).subscribe(([result, asset]) => {
+        console.log(asset);
+        console.log(this.Astvalues.id,this.Astvalues.status);
       if (result.id === -1) {
         this.toastr.showErrorMessage('asset already swaped!');
       } else {
@@ -107,26 +118,26 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       valueId: ['', [
-        // Validators.required,
+        Validators.required,
       ]],
       assetName: ['', [
-        // Validators.required,
+        Validators.required,
       ]],
       metadatas: this.formBuilder.group([]),
 
       newAssetType: [ '', [
-        // Validators.required,
+        Validators.required,
       ]],
       newAssetId: ['', [
-        // Validators.required,
+        Validators.required,
       ]],
       newAssetName: ['', [
-        // Validators.required,
+        Validators.required,
       ]],
       newMetadatas: this.formBuilder.group([]),
       newDescription: ['', [
-        // Validators.required,
-        // Validators.maxLength(128)
+        Validators.required,
+        Validators.maxLength(128)
       ]],
       
     });
@@ -156,19 +167,24 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
           metadatas: mdatavalue,
         });
         this.Astvalues = asset;
+        
       })
   }
 
   getAssetType(){
     this.assetTypeService.getAll().subscribe(result => {
       this.dataType=result;
-      console.log(this.dataType);     
+      console.log("assettype",this.dataType);    
     })
   }
   
   getUnallocatedAssets(ev){
+    console.log(ev);
+    
     console.log(ev.target.value, this.employeeassetchangeForm.controls.newAssetType.value);
     const evevalue =  this.employeeassetchangeForm.controls.newAssetType.value;
+    console.log(evevalue);
+    
     this.employeAssetService.getUnallocatedAssets(evevalue).subscribe(res => {
       this.unallocatedAssets=res;
       console.log("unallocated",this.unallocatedAssets);
@@ -178,7 +194,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       if(item.valueId !== this.employeeassetchangeForm.controls.valueId.value){
           // console.log("item> ", item)
           this.assetList.push({item:item.valueId,name:item.assetName,typeId:item.assetTypeId,assetId:item.id});
-        }
+         }
       })
 
       console.log(this.assetList);
@@ -187,8 +203,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     })
   }
 
-  getMetadata(ev){
-    debugger;
+  getNewMetadata(ev){
     if (!this.employeeassetchangeForm.controls['newAssetName'].value) {
       this.employeeassetchangeForm.controls['newAssetName'].reset()
     }
@@ -201,6 +216,19 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
         this.assestassetService.getAssetById(this.newAssetId)
       ])
         .subscribe(([newMetadatas, newAsset]) => {
+          console.log("neewAssets",newAsset,"mda", newMetadatas);
+          
+          newAsset.assetMetadataValues.forEach(mdataId => {
+            // console.log(">>>>>>>>",mdataId);
+            this.newMdataTypeMap.set(mdataId.value,mdataId.id,);
+          })
+          console.log("newwww",this.newMdataTypeMap);
+          
+          this.newMdataTypeKeys = [...this.newMdataTypeMap.keys()];
+          console.log("mkkkkkkkkk",this.newMdataTypeMap);
+          
+
+
           newMetadatas.forEach(mdata => {
             this.newTypeMap.set(mdata.metadata, mdata);
             (this.employeeassetchangeForm.get('newMetadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
@@ -209,11 +237,11 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
           this.newTypeKeys.map(key => {
             newMdatavalue[key] = newAsset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.newTypeMap.get(key).id)?.value || ''
           });
+
+          
           this.employeeassetchangeForm.patchValue({
-            ...newAsset,
             newMetadatas: newMdatavalue,
           });
-          this.Astvalues = newAsset;
         })
     }
    

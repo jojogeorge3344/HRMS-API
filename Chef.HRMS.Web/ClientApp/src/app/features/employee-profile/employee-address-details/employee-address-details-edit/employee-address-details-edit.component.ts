@@ -54,6 +54,7 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
       currentPinCode: ['', [
         Validators.required,
         Validators.maxLength(16),
+        Validators.pattern("^[0-9]*$")
       ]],
       currentState: ['', [
         Validators.required,
@@ -72,6 +73,7 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
       permanentPinCode: ['', [
         Validators.required,
         Validators.maxLength(16),
+        Validators.pattern("^[0-9]*$"),
       ]],
       permanentState: ['', [
         Validators.required,

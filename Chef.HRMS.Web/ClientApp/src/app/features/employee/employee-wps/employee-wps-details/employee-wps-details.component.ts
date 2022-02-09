@@ -84,9 +84,10 @@ export class EmployeeWpsDetailsComponent implements OnInit {
         Validators.required
       ]],
       wpsId: ['', [
-        Validators.pattern(/^\d{1,14}$/),
-        Validators.maxLength(13),
-        Validators.required
+      // Validators.pattern(/^\d{1,14}$/),
+        Validators.required,
+         Validators.maxLength(14),
+        
       ]],
     });
   }

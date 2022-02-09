@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { WorkerType } from 'src/app/models/common/types/workertype';
 import { EmployeAssetService } from '../employe-asset.service';
 import { EmployeeAssetChangeorswapComponent } from '../employee-asset-changeorswap/employee-asset-changeorswap.component';
 
@@ -17,8 +18,10 @@ export class EmployeeAssetViewComponent implements OnInit{
   employeeDetails;
   allocatedAssets;
   status=AssetStatus;
+  empStatus=WorkerType;
   assetId:number;
   assetTypeId:number;
+  buttonStatus: number;
   
 
   constructor(private employeeAsset :EmployeAssetService,
@@ -42,7 +45,10 @@ export class EmployeeAssetViewComponent implements OnInit{
     console.log(this.empid);
     return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
         this.allocatedAssets = result;
-        console.log("allocated assets",this.allocatedAssets);
+        this.allocatedAssets.forEach(stats => {
+          this.buttonStatus=stats.status;
+        });
+        console.log("allocated assets",this.allocatedAssets, this.buttonStatus);
       });
   }
 
@@ -61,6 +67,10 @@ export class EmployeeAssetViewComponent implements OnInit{
       modalRef.componentInstance.assetTypeName=allocatedAsset.assetTypeName
       modalRef.componentInstance.assetId= allocatedAsset.assetId;
       modalRef.componentInstance.assetTypeId = allocatedAsset.assetTypeId;
+      modalRef.result.then((userResponse) => {
+        this.getEmployeeDetailsById()
+        this.getAllocatedAssetsById();
+      })
    
    }
 
@@ -71,7 +81,7 @@ export class EmployeeAssetViewComponent implements OnInit{
      modalRef.componentInstance.confirmationMessage = `Are you sure you want to recall the asset ${allocatedAsset.assetName}?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.employeeAsset.recall(this.empid,allocatedAsset.assetId,9).subscribe(() => {
+        this.employeeAsset.recall(this.empid,allocatedAsset.assetId,4).subscribe(() => {
            this.toastr.showSuccessMessage('asset recalled successfully!');
           this.getAllocatedAssetsById();
         });
