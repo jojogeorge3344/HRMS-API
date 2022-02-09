@@ -48,4 +48,8 @@ export class OvertimeRequestService {
   addNotifyPersonnel(notifyPersonnel) {
     return this.http.post(this.baseUrl + 'insertNotifyPersonnel/', notifyPersonnel).pipe(map(response => { return response; }));
   }
+
+  getOvertimeNotifyPersonnelByOvertimeId(id: number) {
+    return this.http.post(this.baseUrl + 'getOvertimeNotifyPersonnelByOvertimeId/', id).pipe(map(response => { return response; }));
+  }
 }

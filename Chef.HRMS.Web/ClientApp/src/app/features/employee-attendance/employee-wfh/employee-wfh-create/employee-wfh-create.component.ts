@@ -54,25 +54,18 @@ export class EmployeeWFHCreateComponent implements OnInit {
   ngOnInit(): void {
 
     var mindate = new Date();
-    console.log(mindate);
-    console.log("hellooo");
-    
     let priordays = this.WFHSettings.priorDays;
     for (let i = 0; i < priordays; i++) {
       var dayOfWeek = mindate.getDay();
-      console.log(dayOfWeek);
-      
       if ((dayOfWeek==0 || dayOfWeek==6)) {
         i--;
         mindate.setDate(mindate.getDate() - 1);
       }
       else {
-        console.log(mindate);
         mindate.setDate(mindate.getDate() - 1);
-        
       }
     }
-    console.log(mindate);
+    
     this.minDateFrom = this.minDateTo = {
       year: mindate.getFullYear(),
       month: mindate.getMonth() + 1,
@@ -82,21 +75,15 @@ export class EmployeeWFHCreateComponent implements OnInit {
     let subsequentDays = this.WFHSettings.subsequentDays;
     for (let i = 0; i < subsequentDays; i++) {
       var dayOfWeek = maxdate.getDay();
-      console.log(dayOfWeek);
-      
       if ((dayOfWeek==0 || dayOfWeek==6)) {
         i--;
         maxdate.setDate(maxdate.getDate() + 1);
       }
-      else {
-        console.log(maxdate);
+      else{
         maxdate.setDate(maxdate.getDate() + 1);
-        
       }
     }
-    console.log(maxdate);
 
-   // maxdate = new Date(maxdate.setDate(maxdate.getDate() + this.WFHSettings.subsequentDays));
     this.maxDateTo = this.maxDateFrom = {
       year: maxdate.getFullYear(),
       month: maxdate.getMonth() + 1,

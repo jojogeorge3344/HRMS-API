@@ -6,11 +6,13 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { OvertimeRequestService } from '../overtime-request.service';
+import { OvertimePolicyConfigurationService } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.service';
 import { Employee } from '@features/employee/employee.model';
 import { OvertimeRequest } from '../overtime-request.model';
 import { EmployeeService } from '@features/employee/employee.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { OvertimePolicyConfiguration } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.model';
 
 @Component({
   templateUrl: './overtime-request-edit.component.html',
@@ -27,6 +29,8 @@ export class OvertimeRequestEditComponent implements OnInit {
   markDisabled;
   employeeList: Employee[];
   selectedItems = [];
+  overtimeConfiguration: OvertimePolicyConfiguration;
+
 
   @Input() overtimeRequest: OvertimeRequest;
 
@@ -35,6 +39,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   constructor(
     private overtimeRequestService: OvertimeRequestService,
     private employeeService: EmployeeService,
+    private overtimePolicyConfigurationService: OvertimePolicyConfigurationService,
     private calendar: NgbCalendar,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -49,8 +54,32 @@ export class OvertimeRequestEditComponent implements OnInit {
       fromDate: new Date(this.overtimeRequest.fromDate),
       toDate: new Date(this.overtimeRequest.toDate)
     });
+    this.getOvertimeConfiguration();
+    this.getOvertimeNotifyPersonnelByOvertimeId();
     this.getEmployeeList();
   }
+  getOvertimeConfiguration() {
+    this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
+      this.overtimeConfiguration = result;
+      this.editForm.patchValue({ overTimePolicyId: this.overtimeConfiguration.overTimePolicyId });
+      if (this.overtimeConfiguration.isCommentRequired) {
+        this.editForm.get('reason').setValidators([Validators.required, Validators.maxLength(250)]);
+      }
+    },
+      error => {
+        console.error(error);
+      });
+  }
+
+  getOvertimeNotifyPersonnelByOvertimeId(){
+    this.overtimeRequestService.getOvertimeNotifyPersonnelByOvertimeId(this.overtimeRequest.id).subscribe((result:any) =>{
+      this.selectedItems=result;
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to submit the overtime request ');
+      });
+    }
 
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
@@ -114,7 +143,8 @@ export class OvertimeRequestEditComponent implements OnInit {
         Validators.required
       ]],
       numberOfHours: [null, [
-        Validators.required
+        Validators.required,
+        Validators.max(524)
       ]],
       reason: ['', [
         Validators.required,

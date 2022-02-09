@@ -58,7 +58,6 @@ export class EmployeeOnDutyCreateComponent implements OnInit {
       month: this.current.getMonth() + 1,
       day: this.current.getDate() - 1
     };
-    console.log(this.maxDateFrom);
     
   }
 
