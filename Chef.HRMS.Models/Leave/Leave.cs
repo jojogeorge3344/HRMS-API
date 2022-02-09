@@ -94,6 +94,6 @@ namespace Chef.HRMS.Models
         /// </summary>
         public decimal NumberOfDays { get; set; }
 
-        public DateTime currentDate { get; set; }
+        public string CurrentDate { get; set; }
     }
 }
