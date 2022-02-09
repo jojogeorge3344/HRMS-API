@@ -75,6 +75,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(overTimes);
         }
 
+        [HttpGet("GetOvertimeNotifyPersonnelByOvertimeId/{overtimeId}")]
+        public async Task<ActionResult<IEnumerable<OvertimeViewModel>>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId)
+        {
+            var overTimes = await overTimeService.GetOvertimeNotifyPersonnelByOvertimeId(overtimeId);
+
+            return Ok(overTimes);
+        }
+
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]

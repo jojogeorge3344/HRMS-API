@@ -28,6 +28,19 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql, new { employeeId });
         }
 
+        public async Task<IEnumerable<OvertimeViewModel>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId)
+        {
+            var sql = @"SELECT      
+                                    op.overtimeid,
+		                            op.notifypersonnel,
+		                            ot.employeeid
+                        FROM        hrms.overtimenotifypersonnel as op
+                        INNER JOIN  hrms.overtime as ot ON op.overtimeid = ot.id
+                        WHERE       overtimeId = @overtimeId";
+
+            return await Connection.QueryAsync<OvertimeViewModel>(sql, new { overtimeId });
+        }
+
         public async Task<int> InsertNotifyPersonnel(IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
         {
                 var sql = new QueryBuilder<OverTimeNotifyPersonnel>().GenerateInsertQuery();
