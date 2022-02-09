@@ -35,6 +35,7 @@
           name="effectiveDate"
           ngbDatepicker
           #d="ngbDatepicker"
+          disabled
         />
       </div>
 
@@ -74,6 +75,7 @@
               formControlName="{{ mdata }}"
               placeholder="{{ mdata }}"
             />
+            <!-- <div *ngIf="{{mdata}}.errors?.required"></div> -->
             <!-- </div>
             <div *ngSwitchCase="mdata.assetdatatype == 'date'">
               {{ mdata.metadata }}

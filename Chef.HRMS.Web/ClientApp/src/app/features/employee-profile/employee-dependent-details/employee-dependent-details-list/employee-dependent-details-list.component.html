@@ -14,12 +14,12 @@
     <tbody>
         <tr *ngFor="let dependent of dependents; let i= index;">
             <td>{{i+1}}</td>
-            <td title="{{dependent.name}}" class="text-capitalize" style="max-width: 150px;">{{dependent.name}}
+            <td title="{{dependent.name}}" class="text-capitalize text-truncate" style="max-width: 150px;">{{dependent.name}}
             </td>
             <td>{{relationshipTypes[dependent.relationship]}}</td>
             <td class="text-ellipsis">{{dependent.dateOfBirth | date }}</td>
             <td>{{genderTypes[dependent.gender]}}</td>
-            <td title="{{dependent.profession}}" class="text-capitalize" style="max-width: 150px;">
+            <td title="{{dependent.profession}}" class="text-capitalize text-truncate" style="max-width: 150px;">
                 {{dependent.profession? dependent.profession : "--"}}</td>
             <td class="text-ellipsis">{{dependent.phone? dependent.phone : "--"}}</td>
             <td>

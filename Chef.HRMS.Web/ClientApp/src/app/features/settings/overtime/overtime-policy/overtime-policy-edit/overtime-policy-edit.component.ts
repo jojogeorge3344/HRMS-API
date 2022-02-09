@@ -70,7 +70,7 @@ export class OvertimePolicyEditComponent implements OnInit {
         Validators.required
       ]],
       createdDate: [],
-      isConfigured:[],
+      isConfigured:[]
     });
   }
 }

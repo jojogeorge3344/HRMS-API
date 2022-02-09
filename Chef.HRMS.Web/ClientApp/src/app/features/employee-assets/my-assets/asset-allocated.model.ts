@@ -17,4 +17,6 @@ export interface AssetAllocated extends Model {
     status:AssetStatus;
     description:string;
     assetTypeName: string;
+    allocationTo: string;
+    allocatorComments: string;
 }

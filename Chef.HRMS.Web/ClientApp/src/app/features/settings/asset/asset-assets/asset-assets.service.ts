@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AssetAssets } from './asset-assets.model';
 import { map } from 'rxjs/operators';
 import { AssetTypeMetadata } from '../asset-metadata/asset-metadata.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AssetMetadataValue } from './assetmetadatavalue.model';
 
 @Injectable({
@@ -12,11 +13,25 @@ export class AssetAssetsService {
 
   public baseUrl: string;
   public http: HttpClient;
+  assignedType: BehaviorSubject<any>=new BehaviorSubject(null);
 
   constructor(http : HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+   // this.assignedType = <BehaviorSubject<any>>new BehaviorSubject({data: []});
     this.http = http;
     this.baseUrl = baseUrl + "api/asset/";
   }
+  setListDetails(data: any) {
+
+    this.assignedType.next(data);
+    console.log("updating",data);
+    
+
+  }
+  // getListDetails(): Observable<any> {
+
+  //   return this.assignedType.asObservable();
+
+  // }
 
   add(assetAssets: AssetAssets){
     return this.http.post<AssetAssets>(this.baseUrl + 'insert', assetAssets).pipe(map(response => { return response; }));

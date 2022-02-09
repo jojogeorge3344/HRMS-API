@@ -10,7 +10,7 @@
         <div class="row">
             <div class="form-group col-6">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" formControlName="name">
+                <input type="text"  class="form-control" id="name" formControlName="name">
             </div>
             <div class="form-group col-6">
                 <label for="gender">Gender</label>
@@ -25,7 +25,7 @@
         <div class="row">
             <div class="form-group form-input-inline input-group col-6">
                 <label for="dateOfBirth">Date of Birth</label>
-                <input class="form-control" formControlName="dateOfBirth" [readonly]="true" [minDate]="{year: 1900, month: 1, day: 1}"
+                <input class="form-control w-75" style="width:2.77rem" formControlName="dateOfBirth" [readonly]="true" [minDate]="{year: 1900, month: 1, day: 1}"
                     [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">

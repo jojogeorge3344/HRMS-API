@@ -7,6 +7,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { switchMap,tap } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { EmployeAssetService } from '../employe-asset.service';
 
 @Component({
@@ -22,10 +23,12 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   result: any;
   requestedById:any;
   status=AssetStatus;
+  reqForStatus=RequestFor;
   currentUserId: number;
   employeeWiseRequest: AssetRaiseRequest;
   requestViewForm: FormGroup;
   requetedByName: string;
+  buttonStatus: number;
 
 
   constructor(
@@ -40,8 +43,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   ngOnInit(): void {
     this.requestViewForm = this.createFormGroup();
     this.getRequestById();
-    // this.getEmployeeNameById()
-    
+    console.log(this.reqForStatus);
   }
 
   onSubmit() {
@@ -80,6 +82,10 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
     this.employeeAsset.getRequestById(this.id).pipe(
       tap(([result]) => {
         this.requestViewForm.patchValue(result);
+        this.requestViewForm.patchValue({requestFor:this.reqForStatus[result.requestFor]})
+        this.buttonStatus=result.status;
+        console.log(this.buttonStatus);
+        
       }),
       switchMap(([result]) =>  (this.employeeAsset.getEmployeeNameById(result.empId))
     ))
@@ -93,12 +99,15 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   manageRequest(id,status) {
     console.log(id);
        this.employeeAsset.manageRequest(id,status).subscribe(res=>{
-        this.toastr.showSuccessMessage('successfully!');
-         this.getRequestById();
+         if(status==2){
+          this.toastr.showSuccessMessage('Approved successfully!');
+         }
+         else if(status==3){
+          this.toastr.showSuccessMessage('Rejcted successfully!');
+         }
+         this.activeModal.close('click')
        })
-      
-   }
-
+      }
 
 
 

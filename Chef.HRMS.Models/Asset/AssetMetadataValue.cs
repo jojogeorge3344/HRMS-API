@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Models
 {
-    public class AssetMetadataValue:Model
+    public class AssetMetadataValue : Model
     {
 
         [ForeignKey("AssetType")]
@@ -21,7 +21,7 @@ namespace Chef.HRMS.Models
         [ForeignKey("Asset")]
         public int AssetId { get; set; }
 
-        [Required]
+        //[Required]
         public string Value { get; set; }
     }
 }

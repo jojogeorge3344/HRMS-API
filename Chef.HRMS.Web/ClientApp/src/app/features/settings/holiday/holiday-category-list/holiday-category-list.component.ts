@@ -35,7 +35,7 @@ export class HolidayCategoryListComponent implements OnInit {
   ngOnInit(): void {
     this.getHolidayCategories();
     this.getAssignedHolidayCategories();
-  }
+    }
 
   getHolidayCategories() {
     this.holidayCategoryService.getAll().subscribe(res => {
@@ -71,6 +71,8 @@ export class HolidayCategoryListComponent implements OnInit {
   getHolidays(categoryId) {
     this.holidayService.getAllByCategory(categoryId).subscribe(result => {
       this.holidays = result;
+      console.log(this.holidays);
+      
 
       if (this.holidays.length === 0 && this.getHolidayCategory(categoryId).isConfigured) {
         this.updateConfigured(categoryId, false);
@@ -125,7 +127,9 @@ export class HolidayCategoryListComponent implements OnInit {
       { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.holidayCategory = category;
-
+    modalRef.componentInstance.holiday = this.holidays;
+    console.log(modalRef.componentInstance.holiday);
+    
     modalRef.result.then((result) => {
       if (result == 'submit') {
         this.getHolidays(category.id);

@@ -20,6 +20,9 @@ export class HolidayService {
   getAllByCategory(categoryId: number) {
     return this.http.get<Holiday[]>(this.baseUrl + 'getAllByCategory/' + categoryId).pipe(map(response => { return response; }));
   }
+  getAll() {
+    return this.http.get<Holiday[]>(this.baseUrl + 'getall').pipe(map(response => { return response; }));
+  }
 
   get(id: number) {
     return this.http.get<Holiday>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
