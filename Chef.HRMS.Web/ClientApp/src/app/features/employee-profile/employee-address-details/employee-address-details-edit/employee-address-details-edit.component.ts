@@ -84,13 +84,13 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
   }
   getStatesByCountry(countryId, addressType) {
     if (addressType === 'current') {
-      this.currentstatesByCountry = this.states.filter((state) => state.countryId == countryId);
+      this.currentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       this.setpermanentAsCurrent(this.editForm.controls.currentCountry.value, 'permanentCountry');
       if (this.editForm.controls.ispermanentSameAsCurrent.value) {
-        this.permanentstatesByCountry = this.states.filter((state) => state.countryId == countryId);
+        this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       }
     } else {
-      this.permanentstatesByCountry = this.states.filter((state) => state.countryId == countryId);
+      this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
     }
   }
   currentAspermanent() {
