@@ -13,6 +13,8 @@ namespace Chef.HRMS.Models
 
         public int NotifyPersonnel { get; set; }
 
-        public int EmployeeId { get; set; }
+        //public int EmployeeId { get; set; }
+        public string NotifyPersonnelName { get; set; }
+
     }
 }
