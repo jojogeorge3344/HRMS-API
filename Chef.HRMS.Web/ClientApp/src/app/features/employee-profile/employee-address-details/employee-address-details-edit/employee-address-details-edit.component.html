@@ -81,12 +81,12 @@
         </div>
         <div class="form-group form-input-line col-6">
             <label class="col-form-label">Pincode</label>
-            <input (keyup)="setpermanentAsCurrent($event.target.value, 'permanentPinCode' )" type="text"
+            <input (keyup)="setpermanentAsCurrent($event.target.value, 'permanentPinCode' )" type="number"
                 class="form-control" id="currentPinCode" formControlName="currentPinCode">
         </div>
         <div class="form-group form-input-line col-6">
             <label class="col-form-label">Pincode</label>
-            <input type="text" class="form-control" id="permanentPinCode" formControlName="permanentPinCode">
+            <input type="number" class="form-control" id="permanentPinCode" formControlName="permanentPinCode">
         </div>
 
     </div>

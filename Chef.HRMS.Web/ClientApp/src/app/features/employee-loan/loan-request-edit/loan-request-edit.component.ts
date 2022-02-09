@@ -24,6 +24,7 @@ export class LoanRequestEditComponent implements OnInit {
   months: any;
   currentUserId: number;
   loanSettingId: number;
+  minDate = undefined;
 
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
@@ -37,6 +38,11 @@ export class LoanRequestEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService) {
     const current = new Date();
+    this.minDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
     const start = current.getFullYear();
     const end = start + 3;
     this.years = Array.from({ length: end - start }, (x, i) => i + start);
@@ -54,7 +60,7 @@ export class LoanRequestEditComponent implements OnInit {
       result.expectedOn = new Date(result.expectedOn);
       this.loanNo = result.loanNo;
       this.editForm.patchValue(result);
-      
+
     },
       error => {
         console.error(error);
@@ -102,7 +108,7 @@ export class LoanRequestEditComponent implements OnInit {
     return this.formBuilder.group({
       loanNo: this.loanNo,
       loanType: [null, [Validators.required]],
-      loanAmount: ['', [Validators.required]],
+      loanAmount: ['', [Validators.required,Validators.max(2000000)]],
       paymentType: [null, [Validators.required]],
       expectedOn: [new Date(Date.now()), [
         Validators.required,
@@ -110,12 +116,12 @@ export class LoanRequestEditComponent implements OnInit {
       emiStartsFromYear: [null, [Validators.required]],
       emiStartsFromMonth: [null, [Validators.required]],
       repaymentTerm: ['', [Validators.max(36), Validators.required]],
-      comments: ['', [Validators.required]],
+      comments: ['', [Validators.required,Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
-      
+
       createdDate: [],
-      
+
     });
   }
 }

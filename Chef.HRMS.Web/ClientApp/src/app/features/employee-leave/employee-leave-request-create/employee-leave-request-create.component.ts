@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeLeaveService } from '../employee-leave.service';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,7 @@ import { Employee } from '@features/employee/employee.model';
 import { EmployeeService } from '@features/employee/employee.service';
 import { SignalrService } from '@shared/services/signalr.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { HolidayService } from '@settings/holiday/holiday.service';
 
 @Component({
   templateUrl: './employee-leave-request-create.component.html',
@@ -36,7 +37,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   minDateTo;
   maxDateTo;
   currentDate;
-  markDisabled;
   isValid = true;
 
   employeeList: Employee[];
@@ -48,6 +48,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   @Input() leaves;
   @Input() wfh;
   @Input() onDuty;
+  holidaydate: any;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -57,12 +58,13 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
+    private holidayService :HolidayService,
   ) {
     const current = new Date();
     this.minDateFrom = {
       year: current.getFullYear(),
-      month: 4,
-      day: 1
+      month: current.getMonth() + 1,
+      day: current.getDate()
     };
     this.maxDateFrom = {
       year: current.getFullYear() + 1,
@@ -90,9 +92,9 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getLeaveBalance();
     this.getEmployeeDetails();
-    this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
     this.getEmployeeList();
     this.subscribeTochanges();
+    this.getEmployeeHoliday();
   }
   subscribeTochanges() {
     this.addForm.valueChanges.subscribe(res => {
@@ -331,10 +333,14 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
+      currentDate:new Date(),
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12)),
       leaveComponentId: parseInt(addForm.leaveComponentId, 10)
     };
+    this.currentDate=new Date();
+    console.log("datenow",this.currentDate);
+   
     this.employeeLeaveService.add(addForm).subscribe((result) => {
       const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
         leaveId: result.id,
@@ -354,6 +360,22 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
         });
     });
   }
+
+ 
+markDisabled =(date:NgbDateStruct)=>{
+  const d = new Date(date.year,date.month - 1, date.day);
+ let holidays=[];
+ if(this.holidaydate?.length){
+  this.holidaydate.map((item) => {
+    var myDate = item.split('-');
+    var newDate = new Date(myDate[0], myDate[1] - 1, myDate[2].split('T')[0]);
+    holidays.push(newDate.getTime());
+  })
+ }
+
+  return holidays.indexOf(d.getTime()) != -1;// return date.month !== current.month;  };
+}
+
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -391,5 +413,19 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       isSecondDaySecondHalf: [false]
     });
   }
+  getEmployeeHoliday() {
+    this.holidayService.getAll().subscribe(res => {
+      let holidaydata = res;
+      this.holidaydate=[];
+      holidaydata.filter(y=>{
+        this.holidaydate.push(
+          y.date
+        )
+       
+       
+      })
+      console.log("leavessting",this.leaveSettings);
+    })
+   }
 
 }

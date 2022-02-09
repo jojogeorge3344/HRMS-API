@@ -31,7 +31,7 @@
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="jobTitleId">Job Title</label>
-                <select readonly class="form-control" formControlName="jobTitleId">
+                <select readonly class="form-control" formControlName="jobTitleId" disabled>
                     <option value="" disabled>Select Job Title</option>
                     <option *ngFor="let type of jobTitleId" [ngValue]='type.id'>
                         {{type.name}}
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="businessUnit">Business Unit</label>
-                <select readonly class="form-control" formControlName="businessUnit">
+                <select readonly class="form-control" formControlName="businessUnit" disabled>
                     <option value="" disabled>Select Business Unit</option>
                     <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>                    
                         {{businessUnitType[key]}}</option>
@@ -54,7 +54,7 @@
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="department">Department</label>
-                <select readonly class="form-control" formControlName="department">
+                <select readonly class="form-control" formControlName="department" disabled>
                     <option value="" disabled>Select Department Type</option>
                     <option *ngFor="let key of departmentTypeKeys" [ngValue]='key'>                    
                         {{departmentType[key]}}</option>
@@ -62,7 +62,7 @@
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="location">Location</label>
-                <select readonly class="form-control" formControlName="location">
+                <select readonly class="form-control" formControlName="location" disabled>
                     <option value="" disabled>Select Location</option>
                     <option *ngFor="let type of branches" [ngValue]='type.id'>
                         {{type.shortName}} - {{type.city}}
@@ -78,7 +78,7 @@
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="workerType">Worker Type</label>
-                <select readonly class="form-control" formControlName="workerType">
+                <select readonly class="form-control" formControlName="workerType" disabled>
                     <option value="" disabled>Select Work Type</option>
                     <option *ngFor="let key of workerTypeKeys" [ngValue]='key'>                    
                         {{workerType[key]}}</option>
@@ -86,7 +86,7 @@
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="timeType">Time Type</label>
-                <select readonly class="form-control" formControlName="timeType">
+                <select readonly class="form-control" formControlName="timeType" disabled>
                     <option value="" disabled>Select Time Type</option>
                     <option *ngFor="let key of timeTypeKeys" [ngValue]='key'>                    
                         {{timeType[key]}}</option>
@@ -94,7 +94,7 @@
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="noticePeriod">Notice Period</label>
-                <select readonly class="form-control" formControlName="noticePeriod">
+                <select readonly class="form-control" formControlName="noticePeriod" disabled>
                     <option value="" disabled>Select Notice Period</option>
                     <option *ngFor="let key of noticePeriodTypeKeys" [ngValue]='key'>                    
                         {{noticePeriodType[key]}}</option>
@@ -109,7 +109,7 @@
                         <input readonly type="number" class="form-control" id="probationPeriod" name="probationPeriod" formControlName="probationPeriod">
                     </div>
                     <div class="form-group col-sm">
-                        <select readonly class="form-control" formControlName="periodType">
+                        <select readonly class="form-control" formControlName="periodType" disabled>
                             <option value="" disabled>Select Period</option>
                             <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>                    
                                 {{periodType[key]}}</option>

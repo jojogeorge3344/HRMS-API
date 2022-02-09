@@ -26,7 +26,7 @@ namespace Chef.HRMS.Models
         [Required]
         public string AssetName { get; set; }
 
-        [Required]
+       // [Required]
         public DateTime Date { get; set; }
 
         [Required]

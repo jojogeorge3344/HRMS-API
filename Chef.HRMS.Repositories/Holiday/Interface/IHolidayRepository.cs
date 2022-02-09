@@ -11,5 +11,6 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<Holiday>> GetAllByCategory(int categoryId);
 
         Task<IEnumerable<DateTime>> GetAllHolidaysByEmployee(int employeeId);
+        //Task<IEnumerable<Holiday>> GetAll();
     }
 }

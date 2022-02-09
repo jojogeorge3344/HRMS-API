@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { LeaveConfigurationGeneralService } from '../leave-configuration-general.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { Router } from '@angular/router';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'hrms-leave-configuration-general',
@@ -13,6 +14,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
 
   editForm: FormGroup;
   currentUserId: number;
+  viewValue: boolean;
 
   @Input() leaveStructureId: number;
   @Input() leaveComponentId: number;
@@ -23,7 +25,20 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   constructor(
     private formBuilder: FormBuilder,
     private leaveConfigurationGeneralService: LeaveConfigurationGeneralService,
-    private toastr: ToasterDisplayService) {
+    private toastr: ToasterDisplayService,
+    private router: Router) {
+  }
+  ngOnInit(){
+    let href = this.router.url.split('/');   
+    if(href.includes('view')){
+      this.viewValue = true;
+    }
+    else{
+      this.viewValue = false;
+    }
+    if(this.viewValue == true){
+      this.editForm.disable();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -79,7 +94,8 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
         Validators.max(365)
       ]],
       maxConsecutiveDays: [0, [
-        Validators.min(0)]],
+        Validators.min(0),
+        Validators.required]],
       // maxNumberOfDaysPerMonth: [0],
       maxNumberOfDaysPerMonth: [0, [
         Validators.required,

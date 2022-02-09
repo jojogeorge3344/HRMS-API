@@ -13,15 +13,13 @@ import { RaiseRequestViewComponent } from '../raise-request-view/raise-request-v
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
+
 
 @Component({
   selector: 'hrms-raise-request-list',
   templateUrl: './raise-request-list.component.html'
 })
 export class RaiseRequestListComponent implements OnInit {
-
   raiseRequestList: any;
   assetType: AssetType[];
   assetTypeNames: AssetType[];
@@ -33,12 +31,12 @@ export class RaiseRequestListComponent implements OnInit {
     private raiseRequestService: RaiseRequestService,
     private assetTypeService: AssetTypeService,
     public modalService: NgbModal,
-    private toastr: ToasterDisplayService,
+    private toastr: ToasterDisplayService
   ) { }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
-    this.getAssetTypeList();    
+    this.getAssetTypeList();   
   }
 
   getAllRaiseRequestList(currentUserId) {

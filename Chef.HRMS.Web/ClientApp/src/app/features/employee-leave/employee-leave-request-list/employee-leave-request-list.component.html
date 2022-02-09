@@ -42,7 +42,7 @@
             </td>
             <td class="text-capitalize">{{getLeaveBalanceName(history.leaveComponentId)}}</td>
             <td style="color: green;">{{leaveStatus[history.leaveStatus]}}</td>
-            <td>{{history.approvedDate | date }}</td>
+            <td>{{history.createdDate | date }}</td>
             <td title="{{history.description}}" class="text-ellipsis">{{history.description}}</td>
             <td>
                 <div class="btn-group" dropdown container="main">

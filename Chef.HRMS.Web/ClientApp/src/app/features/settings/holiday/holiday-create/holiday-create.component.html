@@ -15,7 +15,7 @@
         <div class="form-group form-input-inline input-group col-6">
             <label class="col-12 col-form-label px-0" for="date">Date</label>
             <input class="form-control w-75" name="newDate" formControlName="date" [minDate]="minDate"
-                [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker">
+                [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker" >
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="d.toggle()"
                     type="button"></button>

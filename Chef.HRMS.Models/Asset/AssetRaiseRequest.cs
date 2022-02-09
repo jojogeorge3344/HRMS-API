@@ -14,8 +14,7 @@ namespace Chef.HRMS.Models
     public class AssetRaiseRequest: Model
     {
 
-        [Required]
-
+      
         public string RequestNo { get; set; }
 
         [Required]
@@ -42,8 +41,7 @@ namespace Chef.HRMS.Models
 
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
-        public string AssetTypeName { get; set; }
-
+   
         public string RequestedBy { get; set; }
 
 
