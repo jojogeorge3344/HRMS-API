@@ -40,6 +40,11 @@ namespace Chef.HRMS.Services
             return await payrollProcessingMethodRepository.GetAsync(id);
         }
 
+        public async Task<int> GetDetailsById(int employeeid,  int month, int year)
+        {
+            return await payrollProcessingMethodRepository.GetDetailsById(employeeid, month, year);
+        }
+
         public async Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails()
         {
             return await payrollProcessingMethodRepository.GetPastSixMonthDetails();
