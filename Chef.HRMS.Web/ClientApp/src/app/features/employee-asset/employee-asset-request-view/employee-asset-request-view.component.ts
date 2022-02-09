@@ -117,23 +117,28 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
        })
       }
 
-      openAllocate() {
-        const modalRef = this.modalService.open(EmployeeAssetAllocationComponent, {
-          centered: true,
-          backdrop: "static",
-          size:'xl'
-        });
-        modalRef.result.then((userResponse) => {
-          // this.getEmployeeRequestById();
-        })
-        modalRef.componentInstance.reqId = this.id;
-        modalRef.componentInstance.empid = this.empid;
-        modalRef.componentInstance.assetTypeId = this.assetTypeId;
-        modalRef.componentInstance.assetTypeName = this.assetTypeName;
-        console.log(modalRef.componentInstance.assetTypeName);
-        // this.employeeAsset.setListDetails({ data: emprequest });
+      // openAllocate() {
+      //   this.modalService.dismissAll();
+      //   const modalRef = this.modalService.open(EmployeeAssetAllocationComponent, {
+      //     centered: true,
+      //     backdrop: "static",
+      //     size:'xl'
+      //   });
+      //   modalRef.result.then((userResponse) => {
+      //     return userResponse;
+      //   })
+      //   modalRef.componentInstance.reqId = this.id;
+      //   modalRef.componentInstance.empid = this.empid;
+      //   modalRef.componentInstance.assetTypeId = this.assetTypeId;
+      //   modalRef.componentInstance.assetTypeName = this.assetTypeName;
+      //   console.log(modalRef.componentInstance.assetTypeName);
+      //   // this.employeeAsset.setListDetails({ data: emprequest });
+      // }
+
+      openAllocate(){
+        this.router.navigate(
+          ['asset-employee-wise/'+ this.empid + '/allocation/'+this.id +'/'+this.assetTypeId + '/' + this.assetTypeName ],
+          { relativeTo: this.route.parent });
       }
-
-
 
 }

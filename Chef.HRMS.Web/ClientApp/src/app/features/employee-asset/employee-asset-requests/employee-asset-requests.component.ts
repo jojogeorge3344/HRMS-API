@@ -64,7 +64,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       backdrop: "static",
     });
     modalRef.result.then((userResponse) => {
-      this.getEmployeeRequestById();
+      if(userResponse){
+        this.getEmployeeRequestById();
+      }  
     })
     modalRef.componentInstance.id = emprequest.id;
     modalRef.componentInstance.empid = this.empid;
@@ -74,30 +76,30 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     this.employeeAsset.setListDetails({ data: emprequest });
   }
 
-  // openAllocate(emprequest){
-  //   this.router.navigate(
-  //     ['./' + this.empid + '/allocation/'+emprequest.id],
-  //     { relativeTo: this.route.parent });
-  //     console.log("emws",emprequest);
-  //     // this.employeeAsset.setListDetails({data: emprequest})
-  // }
-
-  openAllocate(emprequest) {
-    const modalRef = this.modalService.open(EmployeeAssetAllocationComponent, {
-      centered: true,
-      backdrop: "static",
-      size:'xl'
-    });
-    modalRef.result.then((userResponse) => {
-      this.getEmployeeRequestById();
-    })
-    modalRef.componentInstance.reqId = emprequest.id;
-    modalRef.componentInstance.empid = this.empid;
-    modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
-    modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
-    console.log(modalRef.componentInstance.assetTypeName);
-    // this.employeeAsset.setListDetails({ data: emprequest });
+  openAllocate(emprequest){
+    this.router.navigate(
+      ['./' + this.empid + '/allocation/'+emprequest.id +'/'+emprequest.assetTypeId + '/' + emprequest.assetTypeName ],
+      { relativeTo: this.route.parent });
+      console.log("emws",emprequest);
+      // this.employeeAsset.setListDetails({data: emprequest})
   }
+
+  // openAllocate(emprequest) {
+  //   const modalRef = this.modalService.open(EmployeeAssetAllocationComponent, {
+  //     centered: true,
+  //     backdrop: "static",
+  //     size:'xl'
+  //   });
+  //   modalRef.result.then((userResponse) => {
+  //     this.getEmployeeRequestById();
+  //   })
+  //   modalRef.componentInstance.reqId = emprequest.id;
+  //   modalRef.componentInstance.empid = this.empid;
+  //   modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
+  //   modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
+  //   console.log(modalRef.componentInstance.assetTypeName);
+  //   // this.employeeAsset.setListDetails({ data: emprequest });
+  // }
 
 
   // getAllocatedAssetsById() {
