@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { AssetTypeService } from "@settings/asset/asset-type/asset-type.service";
 import { switchMap, tap } from "rxjs/operators";
 import { EmployeAssetService } from "../employe-asset.service";
@@ -15,12 +15,10 @@ import { AssetMetadataService } from "@settings/asset/asset-metadata/asset-metad
   templateUrl: "./employee-asset-allocation.component.html",
 })
 export class EmployeeAssetAllocationComponent implements OnInit {
-  @Input() reqId;
-  @Input() empid;
-  @Input() assetTypeId;
-  @Input() assetTypeName;
-  
   allocationDate: Date = new Date();
+  empid:number;
+  reqId:number;
+  assetTypeName:string;
   reqData = {};
   typeid: number;
   reqDetails: any;
@@ -39,20 +37,29 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
-    private metadataService:AssetMetadataService
+    private metadataService:AssetMetadataService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.assetAllocationForm = this.createFormGroup();
+    this.activatedRoute.params.subscribe((params: Params) => {
+      console.log(params);
+      this.empid = params.id;
+      this.reqId=params.reqId;
+      this.typeid=params.typeId;
+      this.assetTypeName=params.assetTypeName;
+    });
+     this.assetAllocationForm = this.createFormGroup();
     this.getAllocationDetails();
     this.getAsset();
     // this.getUnallocatedAssets();
-    console.log("assetTypeName>>", this.assetTypeName);
+    // console.log("assetTypeName>>", this.assetTypeName);
     
   }
 
   onSubmit() {
-    console.log("formValues",this.assetAllocationForm.getRawValue());
+    // console.log("formValues",this.assetAllocationForm.getRawValue());
     let allValues= {...this.assetAllocationForm.getRawValue(),};
     let changeValues={
       allocatorcomments:allValues.CommentsAllocator,
@@ -78,21 +85,19 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       this.employeeAsset.add(changeValues),
       this.employeeAsset.updateAllocateStatus(this.checkedValues.assetId,this.checkedValues.assetTypeId,this.checkedValues.status)
     ]).subscribe(([result, asset]) => {
-      debugger;
       console.log(asset);
       console.log(this.checkedValues.assetId,this.checkedValues.status);
     if (result.id === -1) {
       this.toastr.showErrorMessage('asset already Allocated!');
     } else {
       this.toastr.showSuccessMessage('Allocated successfully successfully!');
-      this.activeModal.close('submit');
     }
   },
   error => {
     console.error(error);
     this.toastr.showErrorMessage('Unable to Allocate the asset');
   });
-
+  this.router.navigateByUrl('asset-employee-wise/' + this.empid + '/requests')
     
   }
 
@@ -115,7 +120,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
         tap(([result]) => {
           this.assetAllocationForm.patchValue(result);
           this.reqDetails = result;
-          console.log(this.reqDetails);
+          console.log("request details",this.reqDetails);
         }),
         switchMap(([result]) =>
           this.employeeAsset.getEmployeeNameById(result.requestedBy)
@@ -130,12 +135,11 @@ export class EmployeeAssetAllocationComponent implements OnInit {
 
   getAsset(){
     forkJoin([
-      this.metadataService.getAssetMetadataById(this.assetTypeId),
-      this.employeeAsset.GetAssetAndMetadataDetails(this.assetTypeId)
+      this.metadataService.getAssetMetadataById(this.typeid),
+      this.employeeAsset.GetAssetAndMetadataDetails(this.typeid)
     ]).subscribe(([result, asset]) => {
       this.dataTypes = result;
       this.unallocatedAssets = this.unallocatedAssetsOndisplay = asset;
-      debugger;
       console.log(asset);
       console.log(result);
   });
@@ -183,6 +187,10 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     this.isSelected=true;
     console.log("checked values",unAllocatedAsset);
       this.checkedValues=unAllocatedAsset;
+   }
+   
+   Cancel(){
+    this.router.navigateByUrl('asset-employee-wise/' + this.empid + '/requests')
    }
 
  

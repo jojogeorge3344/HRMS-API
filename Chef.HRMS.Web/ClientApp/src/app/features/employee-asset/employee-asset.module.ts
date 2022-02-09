@@ -32,7 +32,7 @@ import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/em
         data: { breadcrumbs: ['Organization', 'Employee', 'view'], name: 'organization-asset' }
       },
       {
-        path: ':id/allocation/:reqId', component: EmployeeAssetAllocationComponent,
+        path: ':id/allocation/:reqId/:typeId/:assetTypeName', component: EmployeeAssetAllocationComponent,
         data: { breadcrumbs: ['Organization', 'Employee', 'allocation'], name: 'organization-asset' }
       },
       {
