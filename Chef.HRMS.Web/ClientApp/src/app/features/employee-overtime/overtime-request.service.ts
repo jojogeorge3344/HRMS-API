@@ -50,6 +50,6 @@ export class OvertimeRequestService {
   }
 
   getOvertimeNotifyPersonnelByOvertimeId(id: number) {
-    return this.http.post(this.baseUrl + 'getOvertimeNotifyPersonnelByOvertimeId/', id).pipe(map(response => { return response; }));
+    return this.http.get(this.baseUrl + 'getOvertimeNotifyPersonnelByOvertimeId/'+ id).pipe(map(response => { return response; }));
   }
 }

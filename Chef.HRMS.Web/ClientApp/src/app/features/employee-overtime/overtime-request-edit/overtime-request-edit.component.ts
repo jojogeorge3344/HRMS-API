@@ -73,11 +73,12 @@ export class OvertimeRequestEditComponent implements OnInit {
 
   getOvertimeNotifyPersonnelByOvertimeId(){
     this.overtimeRequestService.getOvertimeNotifyPersonnelByOvertimeId(this.overtimeRequest.id).subscribe((result:any) =>{
-      this.selectedItems=result;
+      this.selectedItems=this.formatter(result);
+      console.log('hhhhhhh',result);
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to submit the overtime request ');
+        this.toastr.showErrorMessage('Unable to fetch the Notify personnel');
       });
     }
 
@@ -100,9 +101,13 @@ export class OvertimeRequestEditComponent implements OnInit {
   )
 
   selected($event) {
+    console.log($event.item);
+    
     $event.preventDefault();
-    if (this.selectedItems.indexOf($event.item) === -1) {
+    if (this.selectedItems?.indexOf($event.item) === -1) {
       this.selectedItems.push($event.item);
+      console.log(this.selectedItems);
+      
     }
     this.notifyPersonnel.nativeElement.value = '';
   }
