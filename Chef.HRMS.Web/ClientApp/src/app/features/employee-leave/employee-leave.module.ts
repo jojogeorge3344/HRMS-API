@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,9 +40,12 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
     DirectivesModule
   ],
   providers: [{
+
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: CUSTOM_ERRORS,
-    multi: true
-  }],
+    multi: true,
+    
+  },
+  DatePipe],
 })
 export class EmployeeLeaveModule { }

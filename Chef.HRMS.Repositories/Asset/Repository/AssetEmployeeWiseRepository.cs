@@ -68,15 +68,14 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
         {
-            var sql = @"SELECT DISTINCT aa.id,
-			                            aa.assettypeid,
-			                            aa.assettypemetadataid,
-			                            aa.valueid,
-			                            bb.status,
-			                            CONCAT(aa.assetname,'-',aa.valueid)     AS assetname 
-		                            FROM hrms.asset AS aa INNER JOIN hrms.assetallocated AS bb 
-                                    ON aa.id=bb.assetid WHERE (aa.status=5 and bb.status=5) 
-                                                    AND aa.assettypeid=@assettypeid";
+            var sql = @"SELECT distinct id,
+			                           assettypeid,
+			                            assettypemetadataid,
+			                            valueid,
+			                            status,
+			                            CONCAT(assetname,'-',valueid) AS assetname 
+		                            FROM hrms.asset WHERE status=5  
+                                                    AND assettypeid=@assettypeid";
 
             return await Connection.QueryAsync<Asset>(sql, new { assettypeid });
         }
@@ -219,11 +218,10 @@ namespace Chef.HRMS.Repositories
         }
 
 
-        public async Task<int> InsertAsync(AssetAllocated assetAllocated)
+        public async Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
         {
             var sql = new QueryBuilder<AssetAllocated>().GenerateInsertQuery();
-            sql = sql.Replace("RETURNING id", "");
-
+            sql = sql.Replace("RETURNING id", "");  
             return await Connection.ExecuteAsync(sql, assetAllocated);
         }
 
@@ -291,7 +289,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdateAllocateStatus(int id, int assettypeid, int status)
         {
-            if (status == status)
+            if (status == @status)
             {
                 var sql = @"UPDATE hrms.asset
                                             SET status=4 WHERE id=@id;
@@ -312,7 +310,11 @@ namespace Chef.HRMS.Repositories
         {
             throw new NotImplementedException();
         }
-
-        
+        public async Task<int> UpdateAssetStatus(IEnumerable<AssetAllocated> assetAllocated)
+        {
+                var sql = @"UPDATE hrms.asset
+                                            SET status=4 WHERE id=@assetid";
+                return await Connection.ExecuteAsync(sql, assetAllocated);
+        }
     }
 }

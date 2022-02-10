@@ -7,6 +7,7 @@ import { WorkFromHomePeriodType } from 'src/app/models/common/types/workfromhome
 import { Router, ActivatedRoute } from '@angular/router';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -40,9 +41,13 @@ export class WorkFromHomeSettingsEditComponent implements OnInit {
     this.editForm.get('isEnabled').valueChanges.subscribe(value => {
       if (value) {
         this.editForm.get('isLimited').enable();
+        this.editForm.get('priorDays').enable();
+        this.editForm.get('subsequentDays').enable();
       } else {
         this.editForm.get('isLimited').disable();
-        this.editForm.patchValue({ isLimited: false });
+        this.editForm.patchValue({ isLimited: false});
+        this.editForm.get('priorDays').disable();
+        this.editForm.get('subsequentDays').disable();
       }
     });
 
@@ -120,7 +125,7 @@ export class WorkFromHomeSettingsEditComponent implements OnInit {
         Validators.required
       ]],
       priorDays: [0, [Validators.max(31), Validators.min(1)]],
-      subsequentDays: [0, [Validators.max(31), Validators.min(1)]],
+      subsequentDays: [0, [Validators.max(300), Validators.min(1)]],
       createdDate: [],
     });
   }

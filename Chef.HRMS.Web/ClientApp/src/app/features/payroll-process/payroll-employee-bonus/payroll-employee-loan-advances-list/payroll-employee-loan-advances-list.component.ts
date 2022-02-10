@@ -52,6 +52,8 @@ export class PayrollEmployeeLoanAdvancesListComponent implements OnInit {
   getAllLoanAdvanceByEmployeeId() {
     this.loanRequestService.getAllLoansByEmployee(this.employeeId, this.id).subscribe(result => {
       this.payrollEmployeeLoans = result;
+      console.log(result);
+      
     },
     error => {
       console.error(error);

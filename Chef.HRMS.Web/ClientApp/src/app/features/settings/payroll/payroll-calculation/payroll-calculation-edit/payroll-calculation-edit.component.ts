@@ -106,7 +106,7 @@ export class PayrollCalculationEditComponent implements OnInit {
       payrollComponentId: this.selectedPayrollComponent[0].payrollComponentId,
       payrollStructureId: this.selectedPayrollComponent[0].payrollStructureId,
       isComputed: [true],
-      formula: ['', [formulaValidator]],
+      formula: ['', [Validators.required,formulaValidator]],
     });
   }
 

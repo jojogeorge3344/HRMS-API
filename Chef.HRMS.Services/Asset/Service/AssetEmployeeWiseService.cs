@@ -87,9 +87,10 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetMetadataDetailsById(assettypeid);
         }
 
-        public async Task<int> InsertAsync(AssetAllocated assetAllocated)
+        public async Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
         {
             return await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
+           
         }
 
 
@@ -144,6 +145,23 @@ namespace Chef.HRMS.Services
             throw new NotImplementedException();
         }
 
-       
+        public async Task<int> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated)
+        {
+            try
+            {
+                simpleUnitOfWork.BeginTransaction();
+                var result= await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
+                var exist = assetAllocated.Where(w => w.AssetId > 0);
+                result = await assetEmployeeWiseRepository.UpdateAssetStatus(exist);
+                simpleUnitOfWork.Commit();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                simpleUnitOfWork.Rollback();
+                string msg = ex.Message;
+                return 0;
+            }
+        }
     }
 }

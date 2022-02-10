@@ -177,7 +177,7 @@ export class ExpenseConfigurationGeneralComponent implements OnChanges {
       }, [
         Validators.required,
         Validators.min(1),
-        Validators.max(999999999)
+        Validators.max(365)
       ]],
       isCommentRequired: [false],
       maximumLimitComment: [{
