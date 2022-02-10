@@ -146,8 +146,6 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
-
-
         [HttpPost("InsertAllocate")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
