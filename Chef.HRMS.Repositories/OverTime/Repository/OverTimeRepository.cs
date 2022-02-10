@@ -33,7 +33,7 @@ namespace Chef.HRMS.Repositories
             var sql = @"SELECT  
 		                        op.overtimeid,
 		                        op.notifypersonnel,
-		                        concat (firstname ,' ' ,lastname) as notifypersonnelname
+		                        ee.firstname
                         FROM hrms.overtimenotifypersonnel as op
                         INNER JOIN hrms.overtime as ot ON op.overtimeid = ot.id
                         INNER JOIN hrms.employee as ee on op.notifypersonnel=ee.id
