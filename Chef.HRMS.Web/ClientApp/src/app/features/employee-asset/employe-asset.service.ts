@@ -34,6 +34,10 @@ export class EmployeAssetService {
     return this.http.post<any>(this.baseUrl + 'insert', changeorswap).pipe(map(response => { return response; }));
   }
 
+  insertAllocate(changeorswap: any){
+    return this.http.post<any>(this.baseUrl + 'InsertAllocate', changeorswap).pipe(map(response => { return response; }));
+  }
+
   updateStatus(id,status) {
     return this.http.put(this.baseUrl + 'UpdateStatus',{},                                                
     { params: { id: id, status : status } }).pipe(map(response => { return response; }));
