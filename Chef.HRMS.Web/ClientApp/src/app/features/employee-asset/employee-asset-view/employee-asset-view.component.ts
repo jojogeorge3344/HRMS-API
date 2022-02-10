@@ -1,4 +1,5 @@
 import { Component, Input, OnInit} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -13,6 +14,7 @@ import { EmployeeAssetChangeorswapComponent } from '../employee-asset-changeorsw
   templateUrl: './employee-asset-view.component.html',
 })
 export class EmployeeAssetViewComponent implements OnInit{
+  assetViewForm:FormGroup;
   empid:number;
   result:[];
   employeeDetails;
@@ -27,7 +29,8 @@ export class EmployeeAssetViewComponent implements OnInit{
   constructor(private employeeAsset :EmployeAssetService,
               private activatedRoute: ActivatedRoute,
               public modalService: NgbModal,
-              private toastr: ToasterDisplayService
+              private toastr: ToasterDisplayService,
+              private formBuilder: FormBuilder,
               ) { }
 
 
@@ -38,6 +41,24 @@ export class EmployeeAssetViewComponent implements OnInit{
     });
     this.getEmployeeDetailsById()
     this.getAllocatedAssetsById();
+    this.assetViewForm = this.createFormGroup();
+  }
+
+  createFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      employeeID: [{value:'', disabled:true} , [
+        Validators.required,
+      ]],
+      employeeStatus: [{value:'', disabled:true}, [
+        Validators.required,
+      ]],
+      firstName: [{value:'', disabled:true}, [
+        Validators.required,
+      ]],
+      designation: [{value:'', disabled:true}, [
+        Validators.required,
+      ]]
+    });
   }
 
 
@@ -54,8 +75,10 @@ export class EmployeeAssetViewComponent implements OnInit{
 
   getEmployeeDetailsById(){
     return this.employeeAsset.getEmployeeDetailsById(this.empid).subscribe((result) => {
+      this.assetViewForm.patchValue(result[0]);
+      this.assetViewForm.patchValue({employeeStatus:this.empStatus[result[0].employeeStatus]})
+      console.log("result", result);
       this.employeeDetails = result;
-      console.log(this.employeeDetails);
     });
   }
 
