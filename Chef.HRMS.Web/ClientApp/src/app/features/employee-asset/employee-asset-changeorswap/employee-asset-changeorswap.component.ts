@@ -95,9 +95,10 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       console.log("allvalues>>",allValues);
   
     //this.employeAssetService.add(changeValues).subscribe((result) => {
+    //this.employeAssetService.updateAllocateStatus(changeValues.assetId,changeValues.assetTypeId,changeValues.status)
      
       forkJoin([
-        this.employeAssetService.add(changeValues),
+        this.employeAssetService.insertAllocate(changeValues),
         this.employeAssetService.updateStatus(this.Astvalues.id,this.Astvalues.status)
       ]).subscribe(([result, asset]) => {
         console.log(asset);
