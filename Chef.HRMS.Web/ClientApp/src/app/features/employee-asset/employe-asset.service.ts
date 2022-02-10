@@ -34,7 +34,7 @@ export class EmployeAssetService {
     return this.http.post<any>(this.baseUrl + 'insert', allocate).pipe(map(response => { return response; }));
   }
 
-  insertAllocate(changeorswap: any){
+  insertAllocate(changeorswap: any[]){
     return this.http.post<any>(this.baseUrl + 'InsertAllocate', changeorswap).pipe(map(response => { return response; }));
   }
 
