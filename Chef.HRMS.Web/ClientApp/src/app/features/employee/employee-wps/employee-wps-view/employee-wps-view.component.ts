@@ -45,22 +45,13 @@ export class EmployeeWpsViewComponent implements OnInit {
   getWPSGrouplist() {
     this.employeeWpsService.getAll().subscribe(result => {
       this.groupId = result;
-      let wpsid1 = this.wpsUserDetails[0].groupId
-      console.log("idd",wpsid1);
-      let groupName =_.find(this.groupId,["id",wpsid1]).id
-      console.log("groupname",groupName);
-      this.addForm.patchValue({groupId:groupName});
-      
-      
-     
-     //
-  //    let wpsid1 = this.wpsUserDetails[0].groupId
-  //    console.log("wpsid1",wpsid1);
-  //    console.log("group1",this.groups);
-  //    let groupNamePatch = _.find(this.groups,["id",wpsid1]).id
-  //  console.log("newwwwwwwww1", groupNamePatch);
-  //  this.addForm.patchValue({groupId:groupNamePatch});
-     //
+      //let wpsid1 = this.wpsUserDetails[0].groupId
+     // console.log("idd",wpsid1);
+      //let groupName =_.find(this.groupId,["id",wpsid1]).id
+      //console.log("groupname",groupName);
+     //this.addForm.patchValue({groupId:groupName});
+     this.addForm.patchValue({groupId:_.find(this.groupId,["id",this.wpsUserDetails[0].groupId]).id});
+     //addForm.patchValue({groupId:groupNamePatch});
       console.log("groupid",this.groupId);
 
     },

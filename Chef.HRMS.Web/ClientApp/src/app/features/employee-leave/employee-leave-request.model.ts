@@ -6,7 +6,7 @@ export interface EmployeeLeaveRequest extends Model {
     approvedBy: number;
     employeeId: number;
     approvedDate: Date;
-    currentDate:Date;
+    currentDate:string;
     description: string;
     fromDate: Date;
     toDate : Date;
