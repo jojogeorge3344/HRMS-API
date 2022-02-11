@@ -82,7 +82,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
     };
     console.log(changeValues);
     forkJoin([
-      this.employeeAsset.add(changeValues),
+      this.employeeAsset.add([changeValues]),
       this.employeeAsset.updateAllocateStatus(this.checkedValues.assetId,this.checkedValues.assetTypeId,this.checkedValues.status)
     ]).subscribe(([result, asset]) => {
       console.log(asset);
