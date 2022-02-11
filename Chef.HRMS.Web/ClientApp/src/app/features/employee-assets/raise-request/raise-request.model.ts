@@ -1,6 +1,7 @@
 import { Model } from '@shared/models/model';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import * as internal from 'stream';
 
 export interface AssetRaiseRequest extends Model {
     requestNo: string;
@@ -15,4 +16,5 @@ export interface AssetRaiseRequest extends Model {
     description: string;
     empId: number;
     requestedBy: string;
+    assetid:number;
   }

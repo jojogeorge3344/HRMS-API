@@ -296,7 +296,7 @@ namespace Chef.HRMS.Repositories
                                     UPDATE hrms.assetallocated 
                                             SET status=4 WHERE assetid=@id;
                                     UPDATE hrms.assetraiserequest 
-                                            SET status=4 WHERE assettypeid=@assettypeid";
+                                            SET status=4 and assetid=@id WHERE assettypeid=@assettypeid";
                 var result = await Connection.ExecuteAsync(sql, new { id, assettypeid, status });
                 return result;
             }
