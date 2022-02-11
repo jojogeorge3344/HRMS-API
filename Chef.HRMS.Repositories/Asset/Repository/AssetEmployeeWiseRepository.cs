@@ -117,7 +117,7 @@ namespace Chef.HRMS.Repositories
                                 rr. requesteddate
 					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee 
                                  ON rr.empid=employee.id INNER JOIN hrms.assettype as tt
-                                 ON rr.assettypeid=tt.id WHERE empid=@empid
+                                 ON rr.assettypeid=tt.id WHERE empid=@empid and rr.status not in (7)
                                                         ORDER BY id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
@@ -287,7 +287,7 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-        public async Task<int> UpdateAllocateStatus(int id, int assettypeid, int status)
+        public async Task<int> UpdateAllocateStatus(int id, int assetraiserequestid, int status)
         {
             if (status == @status)
             {
@@ -296,8 +296,8 @@ namespace Chef.HRMS.Repositories
                                     UPDATE hrms.assetallocated 
                                             SET status=4 WHERE assetid=@id;
                                     UPDATE hrms.assetraiserequest 
-                                            SET status=4 and assetid=@id WHERE assettypeid=@assettypeid";
-                var result = await Connection.ExecuteAsync(sql, new { id, assettypeid, status });
+                                            SET status=4,assetid=@id WHERE id=@assetraiserequestid";
+                var result = await Connection.ExecuteAsync(sql, new { id, assetraiserequestid, status });
                 return result;
             }
             else
