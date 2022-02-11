@@ -30,7 +30,7 @@ export class EmployeAssetService {
 
  
 
-  add(changeorswap: any){
+  add(changeorswap: any[]){
     return this.http.post<any>(this.baseUrl + 'insert', changeorswap).pipe(map(response => { return response; }));
   }
 

@@ -59,7 +59,7 @@ namespace Chef.HRMS.Repositories
                                     allocateddate,
                                     status 
                             FROM hrms.assetallocated 
-                            WHERE( status = 4 OR status = 8 OR status=9) AND empid=@empid";
+                            WHERE( status = 4 OR status = 8 OR status=9 OR status=7) AND empid=@empid";
 
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
