@@ -28,11 +28,14 @@ export class AssetTypeListComponent implements OnInit {
   ngOnInit(): void {
     this.getAssetTypeList();
     this.getAssignedAssetType();   
+    
   }
 
-  getAssetTypeList() { //getJobList()
+  getAssetTypeList() { 
     this.assetTypeService.getAllAssetTypeList().subscribe(result => {
-      this.assetType = result;
+      this.assetType = result.sort(function(a, b) {
+        return (a.id - b.id);
+      });
       this.assetTypeNames = this.assetType.map(a => a.assettypename.toLowerCase());
     },
     error => {

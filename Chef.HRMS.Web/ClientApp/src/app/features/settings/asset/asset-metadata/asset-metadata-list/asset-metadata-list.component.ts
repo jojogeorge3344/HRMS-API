@@ -18,6 +18,7 @@ import { AssetAssetsService } from '../../asset-assets/asset-assets.service';
 export class AssetMetadataListComponent implements OnInit {
 
   assetType: AssetType[];
+  assetTypeWithMetadata: AssetType[];
   assetTypeNames: AssetType[];
   assetMetadata: AssetTypeMetadata[];
   assetMetadataNames: string[];
@@ -37,7 +38,7 @@ export class AssetMetadataListComponent implements OnInit {
   }
 
   getAssetTypeWithMetadata() {
-    this.assetType = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
+    this.assetTypeWithMetadata = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
   }
 
   getAssetTypeList() {
@@ -54,10 +55,10 @@ export class AssetMetadataListComponent implements OnInit {
   //To disable delete button =>fetching AssetTypeId which is assigned in Asset table, to array 'assignedAssetTypeId'
   getAllAssignedAssetType() {
     this.assetAssetService.getAll().subscribe(res => {
-      this.assignedAssetTypeId = res.map(type =>(type.assetTypeId));
-      this.assignedAssetTypeId = this.assignedAssetTypeId.filter( function( item, index, inputArray ) {
+      this.assignedAssetTypeId = res.map(type => (type.assetTypeId));
+      this.assignedAssetTypeId = this.assignedAssetTypeId.filter(function (item, index, inputArray) {
         return inputArray.indexOf(item) == index;
- });
+      });
     },
       error => {
         console.error(error);

@@ -1,6 +1,6 @@
 <form [formGroup]="editForm" id="metadataForm" (validSubmit)="onSubmit()">
     <div class="modal-header">
-        <h4 class="modal-title">Edit Meta Data </h4>
+        <h4 class="modal-title">Edit Metadata </h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -8,7 +8,7 @@
     <div class="modal-body">
 
         <div class="d-flex align-items-baseline form-group mt-1">
-            <label for="assetType" class="col-form-label">Asset Type Name:</label>
+            <label for="assetType" class="col-form-label">Type Name:</label>
             <ng-container> <input type="text" class="txtwidth form-control ml-7" id="assetType" name="assetType"
                     formControlName="assetType" disabled></ng-container>
         </div>
@@ -16,7 +16,7 @@
             <div class="border">
                 <div class="d-flex flex-wrap justify-content-center bg-gray-200 card-header metadataCardHeader col-12">
                     <div class="d-flex flex-wrap justify-content-center col-12">
-                        <div class="col-1">SlNo.</div>
+                        <div class="col-1">Sl No.</div>
                         <div class="col-5">Metadata</div>
                         <div class="col-3">Data Type</div>
                         <div class="col-2">Is Mandatory</div>
@@ -31,13 +31,13 @@
                                 <div class="col-1 py-2 pl-2">{{i+1}}
                                 </div>
                                 <div class="col-5 py-2 pl-2">
-                                    <input type="text" class="form-control" id="metadata" name="metadata" (change)="fieldValidation();"
+                                    <input type="text" class="form-control" id="metadata" name="metadata" (input)="fieldValidation();"
                                         [attr.disabled]="isDisabled(i)?'':null" formControlName="metadata"
                                         [ngClass]="{'disabled': isDisabled(i)}">
                                 </div>
 
                                 <div class="col-3 py-2 pl-2">
-                                    <select class="form-control" formControlName="assetDataType" id="assetDataType" [attr.disabled]="isDisabled(i)?true:null"
+                                    <select class="form-control" formControlName="assetDataType" id="assetDataType" (change)="updateEnable(i);" [attr.disabled]="isDisabled(i)?true:null"
                                         name="assetDataType">
                                         <option [ngValue]="0" disabled>Select Datatype</option>
                                         <option *ngFor="let key of metadataDatatypeKeys" [ngValue]='key'
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col-2 py-2 pl-2">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="chkbox" name="isMandatory" for="isMandatory"
+                                        <input type="checkbox" class="chkbox" name="isMandatory" for="isMandatory" (click)="updateEnable(i);"
                                             id="isMandatory" formControlName="isMandatory"
                                             [attr.disabled]="isDisabled(i)?true:null"
                                             [ngClass]="{'disabled': isDisabled(i)}">
@@ -69,6 +69,7 @@
                                     <span *ngIf="duplicateValidation" class="valerr">Metadata already exists.</span>
                                     <span *ngIf="maxAlert" class="valerr">You've entered maximum number of
                                         metadata!!</span>
+                                        <span class="valerr" *ngIf="maxLength"> Maximum of 32 characters</span>
                                 </div>
                                 <div class="col-1 pt-2">
                                     <button type="button" class="btn btn-outline-primary p-2"

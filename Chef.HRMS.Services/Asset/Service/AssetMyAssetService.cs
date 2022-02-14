@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Repositories;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
@@ -12,10 +13,12 @@ namespace Chef.HRMS.Services
     public class AssetMyAssetService : AsyncService, IAssetMyAssetService
     {
         private readonly IAssetMyAssetRepository assetMyAssetRepository;
+        private readonly ISimpleUnitOfWork simpleUnitOfWork;
 
-        public AssetMyAssetService(IAssetMyAssetRepository assetMyAssetRepository)
+        public AssetMyAssetService(IAssetMyAssetRepository assetMyAssetRepository, ISimpleUnitOfWork simpleUnitOfWork)
         {
-            this.assetMyAssetRepository = assetMyAssetRepository;        
+            this.assetMyAssetRepository = assetMyAssetRepository;
+            this.simpleUnitOfWork = simpleUnitOfWork;
         }
 
         public async Task<int> DeleteAsync(int id)
@@ -28,9 +31,9 @@ namespace Chef.HRMS.Services
             return await assetMyAssetRepository.GetAllAsync();
         }
 
-        public async Task<IEnumerable<AssetMyAsset>> GetMyAssetById(int Id)
+        public async Task<IEnumerable<AssetAllocated>> GetMyAssetById(int empid)
         {
-            return await assetMyAssetRepository.GetMyAssetById(Id);
+            return await assetMyAssetRepository.GetMyAssetById(empid);
         }
 
 
@@ -39,11 +42,6 @@ namespace Chef.HRMS.Services
             return await assetMyAssetRepository.GetAsync(id);
         }
 
-
-        public async Task<int> UpdateAsync(AssetMyAsset assetmyasset)
-        {
-            return await assetMyAssetRepository.UpdateAsync(assetmyasset);
-        }
 
         public async Task<IEnumerable<AssetMyAsset>> GetAllMyAssetList()
         {
@@ -65,9 +63,30 @@ namespace Chef.HRMS.Services
             return await assetMyAssetRepository.UpdateStatus(assetid, status);
         }
 
-        //public async Task<int> Update(int status)
-        //{
-        //    return await assetMyAssetRepository.Update(status);
-        //}
+        public async Task<int> Update(AssetMyAsset assetmyasset)
+        {
+            try
+            {
+                simpleUnitOfWork.BeginTransaction();
+                //var exists = await assetMyAssetRepository.Update(assetmyasset.AssetAllocated);
+                var result = await assetMyAssetRepository.Update(assetmyasset);
+                //var exists = result;
+                await assetMyAssetRepository.InsertAsync(assetmyasset);
+                simpleUnitOfWork.Commit();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                simpleUnitOfWork.Rollback();
+                string msg = ex.Message;
+                return 0;
+            }
+            
+        }
+
+        public Task<int> UpdateAsync(AssetMyAsset obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -318,5 +318,24 @@ namespace Chef.HRMS.Repositories
 
                 return await Connection.QueryAsync<PayrollProcessingMethod>(sql);
         }
+
+        public async Task<int> GetDetailsById(int employeeid, int month, int year)
+        {
+            int result = 0;
+            var sql = @"SELECT employeeid ,
+		                        month ,
+		                        year 
+                        FROM   hrms.payrollprocessingmethod
+                        WHERE processedstep = 5 AND employeeid=@employeeid AND month=@month AND year=@year";
+            result = await Connection.QueryFirstOrDefaultAsync<int>(sql, new { employeeid, month, year });
+           if(result == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
     }
 }

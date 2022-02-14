@@ -26,14 +26,28 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid)
         {
 
-            var sql ="select id,assettypeid, requestno,requesteddate,requestfor,requesttype,status from hrms.assetraiserequest where empid=@empid";
+            var sql = @"select at.id,
+                               at.assettypeid, 
+                               at.requestno,
+                               at.requesteddate,
+                               at.requestfor,
+                               at.nameofteammemberid,
+                               concat (firstname ,lastname) as nameofteammember,
+                               at.requesttype,
+                               at.description,
+                               at.status,at.empid
+                               from hrms.assetraiserequest as at 
+                               inner join   
+                               hrms.employee on 
+                               at.nameofteammemberid=employee.id
+                               where empid=@empid";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
         }
 
         public async Task<IEnumerable<AssetRaiseRequest>> Get(int id)
         {
-
+            
             var sql = "SELECT * FROM  hrms.assetraiserequest WHERE id = @id";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { id });
@@ -41,7 +55,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetEmployeeViewModel>> GetEmployeeDetails()
         {
-            var sql = @"select concat(firstname,'-',jd.employeenumber) as employee,
+            var sql = @"select concat(firstname,'-',jd.employeenumber) as employeecode,
                         firstname,
                         jd.employeenumber,
                         jd.employeeid as empid,

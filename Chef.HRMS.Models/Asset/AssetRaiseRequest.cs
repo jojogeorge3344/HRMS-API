@@ -16,7 +16,7 @@ namespace Chef.HRMS.Models
 
         [Required]
 
-        public int RequestNo { get; set; }
+        public string RequestNo { get; set; }
 
         [Required]
         public DateTime RequestedDate { get; set; }
@@ -32,15 +32,20 @@ namespace Chef.HRMS.Models
         [Required]
         public AssetStatus Status { get; set; }
 
-        [Required]
+        [ForeignKey("Employee")]
+        public int NameOfTeamMemberId { get; set; }
+
         public string NameOfTeamMember { get; set; }
 
         [Required]
         public string Description { get; set; }
 
-
-
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
+        public string AssetTypeName { get; set; }
+
+        public string RequestedBy { get; set; }
+
+
     }
 }

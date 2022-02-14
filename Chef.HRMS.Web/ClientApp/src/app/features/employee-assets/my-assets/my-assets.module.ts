@@ -7,6 +7,8 @@ import { NgBootstrapFormValidationModule, CUSTOM_ERROR_MESSAGES} from 'ng-bootst
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { DatePipe } from '@angular/common';
 import { MyAssetsViewComponent } from './my-assets-view/my-assets-view.component';
 import { MyAssetsListComponent } from './my-assets-list/my-assets-list.component';
 import { MyAssetsChangeComponent } from './my-assets-change/my-assets-change.component';
@@ -37,8 +39,9 @@ import { MyAssetsReturnComponent } from './my-assets-return/my-assets-return.com
       ReactiveFormsModule,
       NgBootstrapFormValidationModule.forRoot(),
       BsDropdownModule.forRoot(),
-      DirectivesModule
-    ], providers: [{
+      DirectivesModule,
+      PipesModule
+    ], providers: [DatePipe,{
       provide: CUSTOM_ERROR_MESSAGES,
       useValue: CUSTOM_ERRORS,
       multi: true

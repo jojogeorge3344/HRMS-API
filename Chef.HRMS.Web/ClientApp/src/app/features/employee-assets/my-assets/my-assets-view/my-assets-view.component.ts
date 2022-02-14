@@ -1,14 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-import { MyAssets } from '../my-assets.model';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AssetAllocated } from '../asset-allocated.model';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MyAssetsService } from '../my-assets.service';
 import { AssetAssetsService } from '@settings/asset/asset-assets/asset-assets.service';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
-import { AssetAssets } from '@settings/asset/asset-assets/asset-assets.model';
 import { AssetMetadataValue } from '@settings/asset/asset-assets/assetmetadatavalue.model';
 import { forkJoin } from 'rxjs';
 
@@ -17,7 +15,7 @@ import { forkJoin } from 'rxjs';
   templateUrl: './my-assets-view.component.html'
 })
 export class MyAssetsViewComponent implements OnInit {
-  @Input() myAsset: MyAssets;
+  @Input() myAsset: AssetAllocated;
   @Input() currentUserId;
   myAssetViewForm: FormGroup;
   typeMap: Map<any, any>;
@@ -27,13 +25,13 @@ export class MyAssetsViewComponent implements OnInit {
   assetMetadataValues: AssetMetadataValue[];
   constructor(
     private myAssetService: MyAssetsService,
-   //private datepipe: DatePipe,
+    private datepipe: DatePipe,
     private assetMetadataService: AssetMetadataService,
     private assetAssetsService: AssetAssetsService,
     public activeModal: NgbActiveModal,
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService
+   // private toastr: ToasterDisplayService
   ) { }
 
   ngOnInit(): void {
@@ -42,32 +40,10 @@ export class MyAssetsViewComponent implements OnInit {
     this.getallAssetById();
   }
 
-  getAssetMetadataById(assetId) {
-    this.assetAssetsService.getAssetById(assetId).subscribe(data => {
-      this.assetMetadataValues = data.assetMetadataValues;
-    }),
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset Metadata values');
-      };
-  }
-
-  getMetadataList(assetTypeId) {
-    this.assetMetadataService.getAssetMetadataById(assetTypeId).subscribe(data => {
-      this.assetMetadataList = data;
-      console.log(this.assetMetadataList);
-
-    }),
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset Metadata values');
-      };
-  }
-
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      dateAllocated: [{ value: '', disabled: true }],
-      assetType: [{ value: '', disabled: true }],
+      allocatedDate: [{ value: '', disabled: true }],
+      assetTypeName: [{ value: '', disabled: true }],
       assetName: [{ value: '', disabled: true }],
       assetId: [{ value: '', disabled: true }],
       description: [{ value: '', disabled: true }],
@@ -88,18 +64,11 @@ export class MyAssetsViewComponent implements OnInit {
       this.typeKeys.map(key => {
         mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.typeMap.get(key).id)?.value || ''
       });
-      //console.log(mdatavalue, asset.assetMetadataValues, this.typeMap);
       this.myAssetViewForm.patchValue({
         ...this.myAsset,
         metadatas: mdatavalue,
-        //dateAllocated: this.datepipe.transform(this.myAsset.dateAllocated, "yyyy-mm-dd")
+        allocatedDate: this.datepipe.transform(this.myAsset.allocatedDate, "yyyy-mm-dd")
       });
-    })
-  }
-
-  getMetadataName(metadataId) {
-    this.assetMetadataList.forEach(val => {
-      if (val.id === metadataId) { return val.metadata }
     })
   }
 }

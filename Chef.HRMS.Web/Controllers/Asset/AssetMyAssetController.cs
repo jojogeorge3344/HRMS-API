@@ -20,6 +20,7 @@ namespace Chef.HRMS.Web.Controllers
         {
             this.assetmyassetService = assetmyassetService;
         }
+
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -31,18 +32,21 @@ namespace Chef.HRMS.Web.Controllers
             var result = await assetmyassetService.DeleteAsync(id);
             return Ok(result);
         }
+
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<AssetMyAsset>>> GetAll()
         {
             var assets = await assetmyassetService.GetAllAsync();
             return Ok(assets);
         }
-        [HttpGet("GetMyAssetById/{id}")]
-        public async Task<ActionResult<AssetMyAsset>> GetMyAssetById(int id)
+
+        [HttpGet("GetMyAssetById/{empid}")]
+        public async Task<ActionResult<AssetAllocated>> GetMyAssetById(int empid)
         {
-            var assets = await assetmyassetService.GetMyAssetById(id);
+            var assets = await assetmyassetService.GetMyAssetById(empid);
             return Ok(assets);
         }
+
         [HttpGet("GetAllMyAssetList")]
         public async Task<ActionResult<IEnumerable<AssetMyAsset>>> GetAllMyAssetList()
         {
@@ -74,7 +78,7 @@ namespace Chef.HRMS.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var result = await assetmyassetService.UpdateAsync(assetmyasset);
+            var result = await assetmyassetService.Update(assetmyasset);
             return Ok(result);
         }
 
@@ -93,5 +97,8 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+
+        
     }
 }

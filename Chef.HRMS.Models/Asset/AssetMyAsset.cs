@@ -13,57 +13,51 @@ namespace Chef.HRMS.Models
     [Table("assetmyasset")]
     public class AssetMyAsset : Model
     {
-        [Required]
-        [ForeignKey("AssetType")]
-        public int AssetTypeId { get; set; }
+       
 
         [Required]
         [ForeignKey("Asset")]
         public int AssetId { get; set; }
 
-        [Required]
-        [ForeignKey("AssetTypeMetadata")]
-        public int AssetTypeMetadataId { get; set; }
 
         [Required]
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
 
-        [Required]
-        public string AssetType { get; set; }
+        
+        [ForeignKey("AssetRaiseRequest")]
+        public string AssetTypeName { get; set; }
 
         [Required]
-        public int ValueId { get; set; }
-
-        [Required]
+        [ForeignKey("Asset")]
         public string AssetName { get; set; }
 
         [Required]
-        public DateTime DateAllocated { get; set; }
+        public DateTime AllocatedDate { get; set; }
 
         [Required]
-        public string Metadata { get; set; }
-
-        [Required]
-        //[ForeignKey("Asset")]
+        [ForeignKey("AssetAllocated")]
         public AssetStatus Status { get; set; }
 
-        [Required]
+        [ForeignKey("Asset")]
         public string Description { get; set; }
 
-        [Required]
+        
         public string ChangeDescription { get; set; }
 
-        [Required]
+        
         public string ReturnDescription { get; set; }
 
-        [Required]
+        
         public DateTime ReturnDate { get; set; }
 
         [Required]
         public AssetChangeType ChangeType { get; set; }
-
-        [Required]
+ 
         public AssetReturnType ReturnType { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        public List<AssetAllocated> AssetAllocated { get; set; }
     }
 }

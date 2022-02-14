@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable} from 'rxjs';
 import { AssetEmployeewiseRequest } from './assetemployeewiserequest.model';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { AssetRaiseRequest} from '@features/employee-assets/raise-request/raise-request.model';
+import { AssetAssets } from '@settings/asset/asset-assets/asset-assets.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,15 +43,38 @@ export class EmployeAssetService {
   }
 
   getEmployeeRequestById(id) {
-    return this.http.get<AssetRaiseRequest>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
+    return this.http.get<any>(this.baseUrl + 'GetEmployeeRequestById/' + id).pipe(map(response => { return response; }));
   }
 
   getAllocatedAssetsById(id) {
     return this.http.get(this.baseUrl + 'GetAllocatedAssetById/' + id).pipe(map(response => { return response; }));
   }
 
+  GetAllCount() {
+    return this.http.get<any>(this.baseUrl + 'GetAllCount').pipe(map(response => { return response; }));
+  }
+
+  getEmployeeNameById(id:number){
+    return this.http.get<any>(this.baseUrl + 'GetEmployeeNameById/' +id).pipe(map(response => { return response; }));
+  }
+
+
+
   // UpdateStatus/{id}/{status}
-  updateStatus(id,status) {
-    return this.http.put(this.baseUrl + 'UpdateStatus/' + id, id,status).pipe(map(response => { return response; }));
+  manageRequest(id,status) {
+    return this.http.put(this.baseUrl + 'UpdateApproveReject',{},                                                
+    { params: { id: id, status : status } }).pipe(map(response => { return response; }));
+  }
+
+  getEmployeeDetailsById(id) {
+    return this.http.get(this.baseUrl + 'GetEmployeeDetailsById/' + id).pipe(map(response => { return response; }));
+  }
+
+  recall(id:number){
+    return this.http.put<AssetAssets>(this.baseUrl + 'update//', id).pipe(map(response => { return response; }));
+  }
+
+  getRequestById(id:number) {
+    return this.http.get<any[]>(this.baseUrl + 'GetRequestById/' + id).pipe(map(response => { return response; }));
   }
 }

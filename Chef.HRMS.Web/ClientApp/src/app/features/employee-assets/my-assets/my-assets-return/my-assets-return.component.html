@@ -1,6 +1,6 @@
 <form [formGroup]="returnAssetForm" id="returnAssetForm" (validSubmit)="onSubmit()">
     <div class="modal-header">
-        <h4 class="modal-title">Change Asset</h4>
+        <h4 class="modal-title">Return Asset</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="form-group form-input-line col-12">
-            <label class="col-form-label" for="returnTypeOptions">Change Type</label>
+            <label class="col-form-label" for="returnTypeOptions">Return Type</label>
             <select class="form-control" id="returnTypeOptions" formControlName="returnTypeOptions"
                 name="returnTypeOptions">
                 <option [ngValue]="0" disabled>Select type</option>
@@ -24,9 +24,9 @@
             </select>
         </div>
         <div class="form-group form-textarea-line col-12">
-            <label class="col-form-label" for="description">Remarks/ Description</label>
-            <textarea type="text" formControlName="description" rows="3" class="form-control" id="description"
-                name="description"></textarea>
+            <label class="col-form-label" for="returnDescription">Remarks/ Description</label>
+            <textarea type="text" formControlName="returnDescription" rows="3" class="form-control" id="returnDescription"
+                name="returnDescription"></textarea>
         </div>
     </div>
     <div class="modal-footer">

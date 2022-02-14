@@ -5,16 +5,17 @@ import { AssetAssetsService } from "@settings/asset/asset-assets/asset-assets.se
 import { getCurrentUserId } from "@shared/utils/utils.functions";
 import { AssetStatus } from "src/app/models/common/types/assetstatus";
 import { EmployeAssetService } from "../employe-asset.service";
-import { forkJoin } from 'rxjs';
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { AssetRaiseRequest } from "@features/employee-assets/raise-request/raise-request.model";
+import { EmployeeAssetRequestViewComponent } from "../employee-asset-request-view/employee-asset-request-view.component";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "hrms-employee-asset-requests",
   templateUrl: "./employee-asset-requests.component.html",
 })
 export class EmployeeAssetRequestsComponent implements OnInit {
-  assetStatus: AssetStatus;
+  // assetStatus: AssetStatus;
   allocatedassets;
   assetId:number;
   currentUserId: number;
@@ -22,6 +23,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   empid: string;
   employeeWiseRequest: AssetRaiseRequest;
   result: any;
+  status=AssetStatus;
+  id:[];
+ 
 
   constructor(
     private myAssetService: MyAssetsService,
@@ -30,54 +34,61 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToasterDisplayService,
+    public modalService: NgbModal,
   ) {}
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.route.params.subscribe((params: Params) => {
-      //console.log(params);
       this.empid = params.id;
     });
     this.getEmployeeRequestById();
-    this.getAllocatedAssetsById()
   }
 
   getEmployeeRequestById() {
-    //console.log(this.empid);
-
     return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
+      console.log(result);
         this.employeeWiseRequest = result;
-        this.assetRaiseRequestId=result.id;
-       //console.log('res=',this.employeeWiseRequest);
+        this.id=result.id;
+       console.log(this.id);
       });
 
   }
 
-  openView(employees) {
-    this.router.navigate(
-      ['./' + this.empid + '/requestview'],
-      { relativeTo: this.route.parent });
-      this.employeeAsset.setListDetails({data: employees})
+  // openRequestView(employees) {
+  //   this.router.navigate(
+  //     ['./' + this.empid + '/requestview'],
+  //     { relativeTo: this.route.parent });
+  //     this.employeeAsset.setListDetails({data: employees})
+  // }
+
+  openRequestView(emprequest) {
+    const modalRef = this.modalService.open(EmployeeAssetRequestViewComponent,
+      { centered: true, backdrop: 'static' });
+      modalRef.componentInstance.id = emprequest.id;
+      modalRef.componentInstance.empid = this.empid;
+      console.log(modalRef.componentInstance.requestId);
+      this.employeeAsset.setListDetails({data: emprequest})
   }
 
-  getAllocatedAssetsById() {
-    return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
-        this.allocatedassets = result;
-        this.assetId=result[0].assetId
-        console.log(this.assetId);
-      });
-  }
+  // getAllocatedAssetsById() {
+  //   return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
+  //       // this.allocatedassets = result;
+  //       // this.assetId=result[0].assetId
+  //      // console.log(this.allocatedassets);
+  //     });
+  // }
+ 
 
-  Approve(status:AssetStatus) {
-    status=2;
-    forkJoin([
-      this.myAssetService.updateStatusOf(this.assetId,status),  
-      this.assetService.updateStatus(this.assetRaiseRequestId,status),
-      this.employeeAsset.updateStatus(this.assetRaiseRequestId,status)
-    ]).subscribe(
-      // this.toastr.showSuccessMessage('Request Approved sucessfully!');
-      )
-  }
+
+  manageRequest(empreq,status) {
+     //  const parameters={assetId:this.assetId,requestId:this.assetRaiseRequestId,status:2}
+     console.log(empreq.id);
+        this.employeeAsset.manageRequest(empreq.id,status).subscribe(res=>{
+          this.getEmployeeRequestById();
+        })
+       
+    }
 
   // reject() {
   //   let addForm = this.addForm.getRawValue();
@@ -97,6 +108,11 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   //     }
   //   });
   // }
+
+  disableApproved(){
+    console.log("hhhhh> ")
+    return true;
+  }
 
 
 
