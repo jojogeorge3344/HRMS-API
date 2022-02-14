@@ -179,6 +179,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   getLeaveBalance() {
     this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(result => {
       this.leaveBalance = result;
+      console.log("avilable leave tyep",this.leaveBalance);
+      
     },
       error => {
         console.error(error);
@@ -340,7 +342,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       fromDate: new Date(addForm.fromDate.setHours(12)),
       leaveComponentId: parseInt(addForm.leaveComponentId, 10)
     };
-    this.currentDate=new Date();
+   // this.currentDate=new Date();
    // formatDate(new Date(), 'yyyy/MM/dd', 'en');
     console.log("datenow",this.currentDate);
    
