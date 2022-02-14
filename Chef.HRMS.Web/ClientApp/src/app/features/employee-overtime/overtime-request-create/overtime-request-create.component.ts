@@ -56,7 +56,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       this.overtimeConfiguration = result;
       this.addForm.patchValue({ overTimePolicyId: this.overtimeConfiguration.overTimePolicyId });
       if (this.overtimeConfiguration.isCommentRequired) {
-        this.addForm.get('reason').setValidators([Validators.required, Validators.maxLength(128)]);
+        this.addForm.get('reason').setValidators([Validators.required, Validators.maxLength(250)]);
       }
     },
       error => {
@@ -131,7 +131,8 @@ export class OvertimeRequestCreateComponent implements OnInit {
         Validators.required
       ]],
       numberOfHours: [null, [
-        Validators.required
+        Validators.required,
+        Validators.max(524)
       ]],
       reason: ['', [
         Validators.maxLength(128),
