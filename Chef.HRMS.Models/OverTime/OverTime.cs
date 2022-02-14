@@ -41,7 +41,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds reason of over time
         /// </summary>
-        [Required]
+        //[Required]
         [StringLength(128)]
         [Description("Reason for over time")]
         public string Reason { get; set; }
