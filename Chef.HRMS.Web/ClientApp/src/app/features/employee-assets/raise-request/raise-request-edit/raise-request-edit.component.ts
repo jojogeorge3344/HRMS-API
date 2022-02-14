@@ -49,6 +49,7 @@ export class RaiseRequestEditComponent implements OnInit {
     this.editForm = this.createFormGroup();
     if (this.raiseRequestDetails.requestFor==1) {
       this.isDisable = true;
+      // this.editForm.get('nameOfTeamMemberId').disable();
     }
     this.getAllAssetTypes();
     this.raiseRequestKeys = Object.keys(this.raiseRequesttype).filter(Number).map(Number);
@@ -112,7 +113,7 @@ export class RaiseRequestEditComponent implements OnInit {
 
 
   getvalue(i) { // self or team member
-      if (this.editForm.value.requestFor == '1') {
+      if (i === 1) {
       this.isDisable = true;
       this.editForm.get("nameOfTeamMemberId").setValidators(null)
     }
