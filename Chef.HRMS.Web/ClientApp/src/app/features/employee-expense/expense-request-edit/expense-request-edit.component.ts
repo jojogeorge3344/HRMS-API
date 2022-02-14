@@ -406,7 +406,7 @@ export class ExpenseRequestEditComponent implements OnInit {
       amount: [null, [
         Validators.required,
         Validators.min(1),
-        Validators.max(99999999),
+        Validators.max(99999999)
       ]],
       comment: [null, [
         Validators.maxLength(250)

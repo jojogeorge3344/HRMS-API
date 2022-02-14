@@ -46,8 +46,9 @@ export class EmployeeBankDetailsCreateComponent implements OnInit {
         Validators.maxLength(128)
       ]],
       accountNumber: ['', [
+        Validators.maxLength(32),
         Validators.required,
-        Validators.maxLength(36)
+      
       ]],
       branchName: ['', [
         Validators.required,

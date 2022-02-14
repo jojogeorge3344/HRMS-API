@@ -17,10 +17,17 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id);
         Task<IEnumerable<Employee>> GetEmployeeNameById(int id);
         Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid);
-        //Task<IEnumerable<AssetMetadataValue>> GetChangeSwapDetails(int assetid);
+        Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid);
+        Task<IEnumerable<AssetMetadataValue>> GetMetadatavaluesById(int assetid);
+        Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id);
+        Task<IEnumerable<AssetAllocationViewModel>> GetMetadataDetailsById(int assettypeid);
+        Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated);
+        Task<int> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated);
         Task<int> UpdateStatus(int id, int status);
+        Task<int> UpdateAllocateStatus(int id, int assettypeid, int status);
         Task<int> UpdateApproveReject(int id, int status);
         Task<int> UpdateStatusRecalled(int empid, int assetid, int status);
+      
 
     }
 }

@@ -88,6 +88,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     this.getPayGroupList();
     this.getPayrollStructureList();
     this.getOverTimePolicyList();
+    
   }
 
   getJobFilingID() {
@@ -165,6 +166,8 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   getOverTimePolicyList() {
     this.overtimePolicyService.getConfiguredOvertimePolicies().subscribe(result => {
       this.overTimePolicyId = result;
+      console.log("policyott",this.overTimePolicyId);
+      
     },
       error => {
         console.error(error);
@@ -205,7 +208,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       attendanceTracking: ['', [
         Validators.required
       ]],
-      expensePolicyId: [],
+      expensePolicyId: ['', [
+        Validators.required
+      ]],
       attendanceCaptureScheme: ['', [
         Validators.required
       ]],

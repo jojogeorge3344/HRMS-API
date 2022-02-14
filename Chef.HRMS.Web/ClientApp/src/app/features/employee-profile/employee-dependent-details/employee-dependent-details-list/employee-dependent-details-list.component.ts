@@ -46,6 +46,7 @@ export class EmployeeDependentDetailsListComponent implements OnInit {
     const modalRef = this.modalService.open(EmployeeDependentDetailsCreateComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.currentUserId = this.userId;
+    modalRef.componentInstance.dependents = this.dependents;
     modalRef.result.then((result) => {
       if (result == 'submit') {
         this.getDependents();

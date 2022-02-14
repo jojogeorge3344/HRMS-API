@@ -59,11 +59,15 @@ export class AssetAssetsEditComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.assetEditForm.value);
+    debugger;
+    //console.log(this.assetEditForm.getRawValue().date);
+    console.log(this.assetEditForm.getRawValue());
     //console.log(this.typeKeys);
        let mdatavalues= {...this.assetEditForm.getRawValue(), 
-        // date:[this.assetEditForm.getRawValue().date.split('-')[0],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[2]].join('-'),
-        date:new Date (formatDate(this.assetEditForm.getRawValue().date,'yyyy-MM-dd','en')),
+      //  date: this.datepipe.transform(new Date(this.assetEditForm.getRawValue().date.split('-')[2],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[0]), 'yyyy/MM/dd'),
+       date:formatDate (new Date(this.assetEditForm.getRawValue().date.split("-").reverse().join("-")),'yyyy-MM-dd','en'),
+      //  new Date(stringValue).toISOString()
+      //  date:new Date(this.assetEditForm.getRawValue().date.split('-')[2],this.assetEditForm.getRawValue().date.split('-')[1]-1, this.assetEditForm.getRawValue().date.split('-')[0]+1),
        assetMetadataValues:this.typeKeys.map(key => {
         //  console.log(this.typeMap.get(key));
          
@@ -74,19 +78,21 @@ export class AssetAssetsEditComponent implements OnInit {
           assettypeMetadataId:this.typeMap.get(key).id,
           value:this.assetEditForm.value.metadatas[key]
         }
-    })};
 
+    })};
+    console.log(mdatavalues);
+    
     this.assestassetService.update(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
-        this.toastr.showErrorMessage('asset already exists!');
+        this.toastr.showErrorMessage('Asset Already Exists!');
       } else {
-        this.toastr.showSuccessMessage('asset edited successfully!');
+        this.toastr.showSuccessMessage('Asset Edited Successfully!');
         this.activeModal.close('submit');
       }
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to edit the asset');
+      this.toastr.showErrorMessage('Unable to Edit the Asset');
     });
 
     }
@@ -101,8 +107,11 @@ export class AssetAssetsEditComponent implements OnInit {
         ]],
         id: ['',[]],
         date: [{value:'', disabled:true},[
-          Validators.required,
+         // Validators.required,
         ]],
+        // date: [new Date(),[
+        //      Validators.required,
+        //   ]],
         assetTypeId: ['', [
           Validators.required,
         ]],
@@ -170,11 +179,11 @@ export class AssetAssetsEditComponent implements OnInit {
         
       });
     //  console.log(mdatavalue, asset.assetMetadataValues,this.typeMap);
-     
+     debugger;
       this.assetEditForm.patchValue({
         ...asset,
         metadatas:mdatavalue,
-        date: formatDate(asset.date, "dd-MM-yyyy",'en')
+        date: formatDate(new Date(asset.date),"dd-MM-yyyy","en")
         });
       this.Astvalues= asset;
     })

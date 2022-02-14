@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<Dependent>> GetAllByEmployeeId(int employeeId)
         {
-                var sql = "SELECT * FROM  hrms.dependent WHERE employeeId = @employeeId";
+                var sql = @"SELECT * FROM  hrms.dependent WHERE  employeeId = @employeeId order by id desc";
 
                 return await Connection.QueryAsync<Dependent>(sql, new { employeeId });
         }

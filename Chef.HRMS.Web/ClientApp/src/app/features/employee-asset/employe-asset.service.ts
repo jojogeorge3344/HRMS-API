@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AssetEmployeeWise } from './employee-asset.model';
 import { BehaviorSubject, Observable} from 'rxjs';
-import { AssetEmployeewiseRequest } from './assetemployeewiserequest.model';
-import { AssetStatus } from 'src/app/models/common/types/assetstatus';
-import { AssetRaiseRequest} from '@features/employee-assets/raise-request/raise-request.model';
-import { AssetAssets } from '@settings/asset/asset-assets/asset-assets.model';
+import { AssetAllocated } from '@features/employee-assets/my-assets/asset-allocated.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,25 +11,37 @@ import { AssetAssets } from '@settings/asset/asset-assets/asset-assets.model';
 export class EmployeAssetService {
   public baseUrl: string;
   public http: HttpClient;
-  private employeeDetails: BehaviorSubject<any>;
+  private Details: BehaviorSubject<any>;
  
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.employeeDetails = <BehaviorSubject<any>>new BehaviorSubject({data: []});
+    this.Details = <BehaviorSubject<any>>new BehaviorSubject({data: []});
     this.http = http;
     this.baseUrl = baseUrl + "api/assetEmployeeWise/";
   }
 
   setListDetails(data: any) {
-    this.employeeDetails.next(Object.assign({}, data));
+    this.Details.next(Object.assign({}, data));
   }
 
   getListDetails(): Observable<any> {
-    return this.employeeDetails.asObservable();
+    return this.Details.asObservable();
   }
 
  
 
+  add(allocate: any){
+    return this.http.post<any>(this.baseUrl + 'insert', allocate).pipe(map(response => { return response; }));
+  }
+
+  insertAllocate(changeorswap: any[]){
+    return this.http.post<any>(this.baseUrl + 'InsertAllocate', changeorswap).pipe(map(response => { return response; }));
+  }
+
+  updateStatus(id,status) {
+    return this.http.put(this.baseUrl + 'UpdateStatus',{},                                                
+    { params: { id: id, status : status } }).pipe(map(response => { return response; }));
+  }
 
   getAll(){
     return this.http.get<AssetEmployeeWise[]>(this.baseUrl + 'GetAll').pipe(map(response => { return response; }));
@@ -58,23 +67,41 @@ export class EmployeAssetService {
     return this.http.get<any>(this.baseUrl + 'GetEmployeeNameById/' +id).pipe(map(response => { return response; }));
   }
 
+  getUnallocatedAssets(id:number){
+    console.log(">>>>>>> ",typeof(id), id)
+    return this.http.get<any[]>(this.baseUrl + 'GetAssetDetailsById/' + id);
+  }
+
+  GetAssetAndMetadataDetails(id:number){
+    console.log(">>>>>>> ",typeof(id), id)
+    return this.http.get<any[]>(this.baseUrl + 'GetMetadataDetailsById/' + id);
+  }
 
 
-  // UpdateStatus/{id}/{status}
   manageRequest(id,status) {
     return this.http.put(this.baseUrl + 'UpdateApproveReject',{},                                                
     { params: { id: id, status : status } }).pipe(map(response => { return response; }));
   }
 
+
+  updateAllocateStatus(id,assettypeid,status) {
+    return this.http.put(this.baseUrl + 'UpdateAllocateStatus',{},                                                
+    { params: { id: id,assettypeid:assettypeid, status : status } }).pipe(map(response => { return response; }));
+  }
   getEmployeeDetailsById(id) {
     return this.http.get(this.baseUrl + 'GetEmployeeDetailsById/' + id).pipe(map(response => { return response; }));
   }
 
-  recall(id:number){
-    return this.http.put<AssetAssets>(this.baseUrl + 'update//', id).pipe(map(response => { return response; }));
+  recall(empid,assetId,status) {
+    return this.http.put(this.baseUrl + 'UpdateStatusRecalled',{},                                                
+    { params: { empid: empid, assetId: assetId , status: status } }).pipe(map(response => { return response; }));
   }
 
   getRequestById(id:number) {
     return this.http.get<any[]>(this.baseUrl + 'GetRequestById/' + id).pipe(map(response => { return response; }));
+  }
+
+  getAllocationDetails(reqId:number) {
+    return this.http.get<any>(this.baseUrl + 'GetAllocationDetailsById/' + reqId).pipe(map(response => { return response; }));
   }
 }

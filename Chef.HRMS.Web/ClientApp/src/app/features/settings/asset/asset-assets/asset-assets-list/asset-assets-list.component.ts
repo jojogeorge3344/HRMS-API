@@ -103,7 +103,7 @@ export class AssetAssetsListComponent implements OnInit {
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+      this.toastr.showErrorMessage('Unable to Fetch the Asset Type Details');
     });
 
   }
@@ -116,7 +116,7 @@ export class AssetAssetsListComponent implements OnInit {
 
  
   getAllAssetList() {
-    this.assetassetService.getAll().subscribe(result => {
+    this.assetassetService.getAllAssetList().subscribe(result => {
       console.log("res",result);
       this.assetList = result; 
       console.log(this.assetList);
@@ -125,7 +125,7 @@ export class AssetAssetsListComponent implements OnInit {
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to fetch the Asset Details');
+      this.toastr.showErrorMessage('Unable to Fetch the Asset Details');
     });
   }
 
@@ -138,11 +138,11 @@ export class AssetAssetsListComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the asset ${assetType['assetName']}?`;
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Asset ${assetType['assetName']}?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
         this.assetassetService.delete(assetType.id).subscribe(() => {
-          this.toastr.showSuccessMessage('asset deleted successfully!');
+          this.toastr.showSuccessMessage('Asset Deleted Successfully!');
           this.getAllAssetList();
         });
       }

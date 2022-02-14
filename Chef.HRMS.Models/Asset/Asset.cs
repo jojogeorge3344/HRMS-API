@@ -26,7 +26,7 @@ namespace Chef.HRMS.Models
         [Required]
         public string AssetName { get; set; }
 
-        [Required]
+       // [Required]
         public DateTime Date { get; set; }
 
         [Required]
@@ -37,6 +37,8 @@ namespace Chef.HRMS.Models
 
         [Required]
         public bool IsActive { get; set; }
+
+       // public string AssetTypeName { get; set; }
 
         [Write(false)]
         [Skip(true)]

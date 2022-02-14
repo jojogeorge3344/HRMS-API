@@ -8,6 +8,7 @@ import { GenderType } from '../../../../models/common/types/gendertype';
 import { RelationshipType } from '../../../../models/common/types/relationshiptype';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import * as _ from 'lodash';
 
 @Component({
   templateUrl: './employee-dependent-details-create.component.html',
@@ -16,6 +17,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 export class EmployeeDependentDetailsCreateComponent implements OnInit {
 
   @Input() currentUserId: number;
+  @Input() dependents:any[];
   addForm: FormGroup;
 
   genderTypes = GenderType;
@@ -24,6 +26,8 @@ export class EmployeeDependentDetailsCreateComponent implements OnInit {
   genderTypeKeys: number[];
   relationshipTypeKeys: number[];
   maxDate;
+  selectValueRelation: any[];
+  allRelationshipTypeKeys: number[];
   constructor(
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
@@ -31,6 +35,7 @@ export class EmployeeDependentDetailsCreateComponent implements OnInit {
     public activeModal: NgbActiveModal) {
     this.genderTypeKeys = Object.keys(this.genderTypes).filter(Number).map(Number);
     this.relationshipTypeKeys = Object.keys(this.relationshipTypes).filter(Number).map(Number);
+    this.allRelationshipTypeKeys = Object.keys(this.relationshipTypes).filter(Number).map(Number);
     const current = new Date();
     this.maxDate = {
       year: current.getFullYear(),
@@ -42,6 +47,16 @@ export class EmployeeDependentDetailsCreateComponent implements OnInit {
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
     this.currentUserId = getCurrentUserId();
+    console.log("depend",this.dependents);
+
+    this.selectValueRelation = [];
+
+    this.dependents.filter(y=>{
+      this.selectValueRelation.push(
+        y.relationship
+      )
+    });
+    this.relationshipTypeKeys= _.difference(this.allRelationshipTypeKeys, this.selectValueRelation );
   }
 
   createFormGroup(): FormGroup {
@@ -53,16 +68,21 @@ export class EmployeeDependentDetailsCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(32),
       ]],
-      phone: ['', [Validators.maxLength(16)
+      phone: ['', [
+        Validators.required,
+        Validators.pattern("[0-9 ]{10}")
       ]],
-      phoneCode: [],
+      phoneCode: ['',[
+        Validators.required,
+        Validators.pattern("[0-9 ]{2}")
+      ]],
       gender: [null, [
         Validators.required,
       ]],
       relationship: [null, [
         Validators.required,
       ]],
-      profession: ['', [
+      profession: ['', [Validators.maxLength(24),
 
       ]],
     });

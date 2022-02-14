@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray,FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -101,6 +102,7 @@ export class RaiseRequestEditComponent implements OnInit {
       let currentDepartment = _.find(result,['empid',this.currentUserId]).department;      
       this.employeeList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment)); 
       this.editForm.patchValue(this.raiseRequestDetails);    
+      this.editForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'yyyy-MM-dd')})
       this.editForm.patchValue({nameOfTeamMemberId:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMemberId])}) 
     },
       error => {

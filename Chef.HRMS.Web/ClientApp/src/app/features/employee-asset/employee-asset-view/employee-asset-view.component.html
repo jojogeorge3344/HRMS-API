@@ -1,22 +1,48 @@
-
-<div class="subheader">
-    <h1 class="subheader-title">
-        <div>
-            Asset View 
-        </div>
-    </h1>
-</div>
-
-<div class="d-flex py-3" *ngFor="let emp of employeeDetails; let i= index;">
-    <div class="col-sm-4 p-0 px-3">
-        <div class="text-muted">Employee Id: {{emp.employeeID}}</div>
-        <div class="text-muted">Employee Status: {{emp.employeeStatus}}</div>
+<form [formGroup]="assetViewForm" id="assetViewForm">
+    <div class="subheader">
+        <h1 class="subheader-title">
+            <div>
+                Asset View 
+            </div>
+        </h1>
     </div>
-    <div class="col-sm-4 p-0 px-3">
-        <div class="text-muted">Employee Name:{{emp.firstName}}</div>
-        <div class="text-muted">Designation: {{emp.designation}}</div>        
-    </div>   
-</div>
+
+    <div class="modal-body">
+        <div class="d-flex flex-wrap align-items-baseline">
+                <div class="d-flex form-group form-input-inline col-6">
+                <label class="col-4 col-form-label px-0" for="assetid">Employee Id:</label>
+                <input
+                    name="employeeID"
+                    formControlName="employeeID"
+                    class="form-control w-100">
+                </div>
+                <div class="d-flex form-group form-input-inline col-6">
+                <label class="col-4 col-form-label px-0" for="date">employeeStatus:</label>
+                <input
+                    class="form-control w-100"
+                    formControlName="employeeStatus"
+                    name="employeeStatus"/>
+                </div>
+                
+                <div class="d-flex form-group form-input-inline col-6">
+                    <label class="col-4 col-form-label px-0" for="assetid">Employee Name:</label>
+                    <input
+                        name="firstName"
+                        formControlName="firstName"
+                        class="form-control w-100">
+                </div>
+                <div class="d-flex form-group form-input-inline col-6">
+                    <label class="col-4 col-form-label px-0" for="assetid">Designation:</label>
+                    <input
+                        name="designation"
+                        formControlName="designation"
+                        class="form-control w-100">
+                </div>
+            </div>
+        
+    </div>
+</form>
+
 
 <div id="employee-list" class="panel">
     <div class="card p-3">
@@ -35,12 +61,12 @@
             <tbody>
                 
                 <tr class="text-center" *ngFor="let allocatedAsset of allocatedAssets; let i= index;">
-                    <td>{{i+1}}</td>
+                    <td >{{i+1}}</td>
                     <td class="text-capitalize">{{allocatedAsset.assetTypeName}}</td>
                     <td >{{ allocatedAsset.assetId }}</td>
-                    <td class="link text-primary mt-3">{{allocatedAsset.assetName }}</td>
-                    <td class="link text-primary mt-3">{{allocatedAsset.allocatedDate | date: 'dd-MM-yyyy'}}</td>
-                    <td class="link text-primary mt-3">{{status[allocatedAsset.status]}}</td>
+                    <td class="text-capitalize" >{{allocatedAsset.assetName }}</td>
+                    <td >{{allocatedAsset.allocatedDate | date: 'dd-MM-yyyy'}}</td>
+                    <td >{{status[allocatedAsset.status]}}</td>
                     <td>
                         <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="true">
                             <button id="button-basic" dropdownToggle type="button" 
@@ -50,8 +76,8 @@
                             </button>
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                                role="menu" click aria-labelledby="button-basic">
-                               <li role="menuitem"  (click)="openChangeOrSwap(employee)"><a class="dropdown-item">Change/Swap</a></li>
-                               <li role="menuitem"  (click)="openRecall(employee)"><a class="dropdown-item">Recall</a></li>
+                               <li *ngIf="buttonStatus !==9"  role="menuitem"  (click)="openChangeOrSwap(allocatedAsset)"><a class="dropdown-item">Change/Swap</a></li>
+                               <li *ngIf="buttonStatus ==4" role="menuitem"  (click)="openRecall(allocatedAsset)"><a class="dropdown-item">Recall</a></li>
                             </ul>
                          </div>
                     </td>

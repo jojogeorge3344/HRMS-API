@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ExpenseRequest } from './expense-request.model';
 import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class ExpenseRequestService {
 
   public baseUrl: string;
   public http: HttpClient;
+  assignedType: BehaviorSubject<any>=new BehaviorSubject(null);
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;

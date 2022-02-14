@@ -20,7 +20,7 @@ namespace Chef.HRMS.Repositories
 
                 var sql = @"SELECT * 
                             FROM   hrms.expensepolicyconfiguration 
-                            WHERE  expensepolicyid = @expensePolicyId ORDER BY id";
+                            WHERE  expensepolicyid = @expensePolicyId ORDER BY id desc";
 
                 return await Connection.QueryAsync<ExpensePolicyConfiguration>(sql, new { expensePolicyId });
 

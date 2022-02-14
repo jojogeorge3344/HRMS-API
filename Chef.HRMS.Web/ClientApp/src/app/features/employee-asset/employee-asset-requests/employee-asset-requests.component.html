@@ -26,7 +26,7 @@
                     <td>{{ emprequest.requestNo}}</td>
                     <td class="text-capitalize">{{emprequest.requestedBy}}</td>
                     <td>{{ emprequest.requestedDate | date: 'yyyy-MM-dd'}}</td>
-                    <td>{{emprequest.requestFor}}</td>
+                    <td>{{reqForStatus[emprequest.requestFor]}}</td>
                     <td>{{emprequest.requestType}}</td>
                     <td> {{status[emprequest.status]}}</td>
                     <td>
@@ -40,10 +40,10 @@
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                                role="menu" click aria-labelledby="button-basic">
                                <li role="menuitem"   (click)="openRequestView(emprequest)"><a class="dropdown-item">View</a></li>
-                               <li role="menuitem" [ngClass]="(emprequest.status ==2 || emprequest.status ==6) ?'lidisable':''" (click)="manageRequest(emprequest,2); clicked = true;"><a class="dropdown-item">approve</a></li>
-                               <li role="menuitem" [ngClass]="(emprequest.status ==3 || emprequest.status ==6)?'lidisable':''"  (click)="manageRequest(emprequest,3)"><a class="dropdown-item">Reject</a></li>
-                               <li role="menuitem" [ngClass]="(emprequest.status ==4 || emprequest.status ==6)?'lidisable':''"  (click)="Allocate()"><a class="dropdown-item">Allocate</a></li>
-                               <li role="menuitem"  (click)="manageRequest(emprequest,6)"><a class="dropdown-item">Revoke</a></li>
+                               <li role="menuitem" [ngClass]="(emprequest.status ==2 || emprequest.status ==6 || emprequest.status==4 ) ?'lidisable':''"  (click)="manageRequest(emprequest,2); clicked = true;"><a class="dropdown-item">approve</a></li>
+                               <li role="menuitem" [ngClass]="(emprequest.status ==3 || emprequest.status ==6 || emprequest.status==4)  ?'lidisable':''"  (click)="manageRequest(emprequest,3); clicked = true;"><a class="dropdown-item">Reject</a></li>
+                               <li role="menuitem" [ngClass]="(emprequest.status ==4 || emprequest.status ==6 || emprequest.status==3 || emprequest.status ==1)?'lidisable':''"  (click)="openAllocate(emprequest)" ><a class="dropdown-item">Allocate</a></li>
+                               <li role="menuitem"  [ngClass]="(emprequest.status ==4 || emprequest.status ==6)?'lidisable':''"   (click)="manageRequest(emprequest,6)"><a class="dropdown-item">Revoke</a></li>
                             </ul>
                          </div>
                         

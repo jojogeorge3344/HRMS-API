@@ -23,7 +23,7 @@
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="gender">Select Gender</label>
-                <select readonly class="form-control" formControlName="gender">
+                <select readonly class="form-control" formControlName="gender" disabled>
                     <option [ngValue]="null" disabled>Select Gender</option>
                     <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderType[key]}}</option>
                 </select>

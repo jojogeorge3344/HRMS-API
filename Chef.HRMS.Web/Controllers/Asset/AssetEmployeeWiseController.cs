@@ -21,6 +21,7 @@ namespace Chef.HRMS.Web.Controllers
             this.assetEmployeeWiseService = assetEmployeeWiseService;
         }
 
+
         [HttpGet("GetAll")]
         public async Task<ActionResult> GetAll()
         {
@@ -28,6 +29,8 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
+
 
         [HttpGet("GetAllCount")]
         public async Task<ActionResult<IEnumerable<AssetCountViewModel>>> GetAllCount()
@@ -37,6 +40,8 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
+
         [HttpGet("GetEmployeeDetailsById/{employeeid}")]
         public async Task<ActionResult> GetEmployeeDetailsById(int employeeid)
         {
@@ -44,6 +49,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
 
 
         [HttpGet("GetEmployeeRequestById/{empid}")]
@@ -55,6 +61,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
 
+
         [HttpGet("GetRequestById/{id}")]
         public async Task<ActionResult> GetRequestById(int id)
         {
@@ -62,6 +69,8 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetEmployeeWises);
         }
+
+
 
         [HttpGet("GetEmployeeNameById/{id}")]
         public async Task<ActionResult> GetEmployeeNameById(int id)
@@ -71,6 +80,8 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+
+
         [HttpGet("GetAllocatedAssetById/{empid}")]
         public async Task<ActionResult> GetAllocatedAssetById(int empid)
         {
@@ -79,16 +90,81 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
-        //[HttpGet("GetChangeSwapDetails/{assetid}")]
-        //public async Task<ActionResult> GetChangeSwapDetails(int assetid)
-        //{
-        //    var assetEmployeeWises = await assetEmployeeWiseService.GetChangeSwapDetails(assetid);
-
-        //    return Ok(assetEmployeeWises);
-        //}
 
 
-        [HttpPut("UpdateStatus/{id}/{status}")]
+
+        [HttpGet("GetAssetDetailsById/{assettypeid}")]
+        public async Task<ActionResult> GetAssetDetailsById(int assettypeid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAssetDetailsById(assettypeid);
+
+            return Ok(assetEmployeeWises);
+        }
+
+
+
+        [HttpGet("GetMetadatavaluesById/{assetid}")]
+        public async Task<ActionResult> GetMetadatavaluesById(int assetid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetMetadatavaluesById(assetid);
+
+            return Ok(assetEmployeeWises);
+        }
+
+
+
+        [HttpGet("GetAllocationDetailsById/{id}")]
+        public async Task<ActionResult<IEnumerable<AssetAllocationViewModel>>> GetAllocationDetails(int id)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetAllocationDetails(id);
+
+            return Ok(assetEmployeeWises);
+        }
+
+
+        [HttpGet("GetMetadataDetailsById/{assettypeid}")]
+        public async Task<ActionResult<IEnumerable<AssetAllocationViewModel>>> GetMetadataDetailsById(int assettypeid)
+        {
+            var assetEmployeeWises = await assetEmployeeWiseService.GetMetadataDetailsById(assettypeid);
+
+            return Ok(assetEmployeeWises);
+        }
+
+
+        [HttpPost("Insert")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Insert(IEnumerable<AssetAllocated> assetAllocated)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.InsertAsync(assetAllocated);
+            return Ok(result);
+        }
+
+
+
+        [HttpPost("InsertAllocate")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.InsertAllocate(assetAllocated);
+            return Ok(result);
+        }
+
+
+        [HttpPut("UpdateStatus")]
         public async Task<ActionResult> UpdateStatus(int id, int status)
         {
             if (!ModelState.IsValid)
@@ -97,6 +173,19 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetEmployeeWiseService.UpdateStatus(id, status);
+
+            return Ok(result);
+        }
+
+        [HttpPut("UpdateAllocateStatus")]
+        public async Task<ActionResult> UpdateAllocateStatus(int id,int assettypeid, int status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.UpdateAllocateStatus(id, assettypeid, status);
 
             return Ok(result);
         }
@@ -115,6 +204,8 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
+
+
         [HttpPut("UpdateStatusRecalled")]
         public async Task<ActionResult> UpdateStatusRecalled(int empid, int assetid, int status)
         {
@@ -127,7 +218,5 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
-
-
     }
 }

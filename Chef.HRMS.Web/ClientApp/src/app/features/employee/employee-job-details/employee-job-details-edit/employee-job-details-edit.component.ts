@@ -233,7 +233,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
         Validators.required
       ]],
       probationPeriod: ['', [
-        Validators.required
+        Validators.required,Validators.max(365)
       ]],
       periodType: [''],
       noticePeriod: ['', [
