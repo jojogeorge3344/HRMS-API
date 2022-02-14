@@ -179,6 +179,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   getLeaveBalance() {
     this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(result => {
       this.leaveBalance = result;
+      console.log("avilable leave tyep",this.leaveBalance);
+      
     },
       error => {
         console.error(error);
@@ -237,7 +239,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.maxDateFrom = date;
   }
   checkDates() {
-    debugger;
     if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
       const d = new Date(this.fromDate);
       for (d; d <= this.toDate; d.setDate(d.getDate() + 1)) {
