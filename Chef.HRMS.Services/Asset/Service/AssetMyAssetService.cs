@@ -58,17 +58,17 @@ namespace Chef.HRMS.Services
             return await assetMyAssetRepository.InsertAsync(assetmyasset);
         }
 
-        public async Task<int> UpdateStatus(int assetid, int status)
-        {
-            return await assetMyAssetRepository.UpdateStatus(assetid, status);
-        }
+        //public async Task<int> UpdateStatus(int assetid)
+        //{
+        //    return await assetMyAssetRepository.UpdateStatus(assetid);
+        //}
 
         public async Task<int> Update(AssetMyAsset assetmyasset)
         {
             try
             {
                 simpleUnitOfWork.BeginTransaction();
-                //var exists = await assetMyAssetRepository.Update(assetmyasset.AssetAllocated);
+                var exists = await assetMyAssetRepository.UpdateStatus(assetmyasset.AssetId);
                 var result = await assetMyAssetRepository.Update(assetmyasset);
                 //var exists = result;
                 await assetMyAssetRepository.InsertAsync(assetmyasset);

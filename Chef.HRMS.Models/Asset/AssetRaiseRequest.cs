@@ -43,6 +43,9 @@ namespace Chef.HRMS.Models
         public int EmpId { get; set; }
    
         public string RequestedBy { get; set; }
+        public string AssetTypeName { get; set; }
+
+        public int AssetId { get; set; }
 
 
     }

@@ -30,8 +30,8 @@ export class EmployeAssetService {
 
  
 
-  add(allocate: any){
-    return this.http.post<any>(this.baseUrl + 'insert', allocate).pipe(map(response => { return response; }));
+  add(changeorswap: any[]){
+    return this.http.post<any>(this.baseUrl + 'insert', changeorswap).pipe(map(response => { return response; }));
   }
 
   insertAllocate(changeorswap: any[]){
@@ -84,9 +84,9 @@ export class EmployeAssetService {
   }
 
 
-  updateAllocateStatus(id,assettypeid,status) {
+  updateAllocateStatus(id,assetRaiseRequestId,status) {
     return this.http.put(this.baseUrl + 'UpdateAllocateStatus',{},                                                
-    { params: { id: id,assettypeid:assettypeid, status : status } }).pipe(map(response => { return response; }));
+    { params: { id: id,assetRaiseRequestId:assetRaiseRequestId, status : status } }).pipe(map(response => { return response; }));
   }
   getEmployeeDetailsById(id) {
     return this.http.get(this.baseUrl + 'GetEmployeeDetailsById/' + id).pipe(map(response => { return response; }));
