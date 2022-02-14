@@ -83,6 +83,11 @@ export class LoanRequestListComponent implements OnInit {
     });
   }
 
+  isDisabled(request) {
+   if(request.isApproved == true){
+     return true;
+   }  
+  }
   deleteLoanRequest(loanRequest: LoanRequest) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });

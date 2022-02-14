@@ -1,0 +1,110 @@
+<form [formGroup]="requestViewForm" id="requestViewForm" (submit)="onSubmit()">
+    <div class="modal-header">
+      <h4 class="modal-title">Asset Request View</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  
+    <div class="modal-body">
+        <div class="d-flex flex-wrap align-items-baseline">
+                <div class="form-group form-input-inline col-6">
+                <label class="col-12 col-form-label px-0" for="assetid">Request No</label>
+                <input
+                    name="requestNo"
+                    formControlName="requestNo"
+                    disabled
+                    class="form-control w-100">
+                </div>
+                <div class="form-group form-input-inline col-6">
+                <label class="col-12 col-form-label  px-0" for="date">Requested By</label>
+                <input
+                    class="form-control w-100"
+                    value={{requetedByName}}
+                    disabled
+                    name="requestedBy"/>
+                </div>
+        
+                <div class="form-group form-input-inline col-6">
+                <label class="col-12 col-form-label px-0" for="requestedOn">Requested On</label>
+                <input formControlName="requestedDate" disabled
+                 [value]="requestViewForm.get('requestedDate').value | date: 'yyyy-MM-dd'" class="form-control w-100" />
+                </div>
+        
+                <div class="form-group form-input-inline col-6 ">
+                <label class="col-12 col-form-label px-0">Asset Type</label>
+                <input 
+                    type="text"
+                    id="assetTypeId"
+                    formControlName="assetTypeName"
+                    disabled
+                    class="form-control w-100"
+                    value="">
+                </div>
+
+        
+                <div class="form-group form-input-inline col-6 ">
+                    <label class="col-12 col-form-label px-0">Request Type</label>
+                    <input 
+                    type="text"
+                    id="requestType"
+                    formControlName="requestType"
+                    disabled
+                    class="form-control w-100"
+                    value="">
+                </div>
+        
+                <div class="form-group form-input-inline col-6 ">
+                    <label class="col-12 col-form-label px-0">Request For</label>
+                    <input 
+                    type="text"
+                    id="requestFor"
+                    formControlName="requestFor"
+                    disabled
+                    class="form-control w-100"
+                    value="">
+                </div>
+
+                <div class="form-group form-input-inline col-6 ">
+                    <label class="col-12 col-form-label px-0">Name of team member</label>
+                    <input 
+                    type="text"
+                    id="nameOfTeamMember"
+                    formControlName="nameOfTeamMember"
+                    disabled
+                    class="form-control w-100"
+                    value="">
+                </div>
+
+                <div class="form-group form-textarea-line col-12">
+                    <label class="col-12 col-form-label px-0">Description</label>
+                    <textarea formControlName="description" disabled class="form-control" rows="3">
+                    </textarea>
+                </div>
+
+
+        </div>
+    </div>
+  
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-warning"
+        (click)="activeModal.close('Close click')">
+        <i class="mr-1 fal fa-window-close"></i> Cancel
+      </button>
+      <button *ngIf="buttonStatus==2" type="submit" class="btn btn-success" (click)="openAllocate()" (click)="activeModal.close('Close click')">
+        <i class="mr-1 fal fa-save"></i> Allocate</button>
+        <button *ngIf="buttonStatus==3 || buttonStatus==1 " type="submit" class="btn btn-primary"  (click)="manageRequest(id,2)">
+            <i class="mr-1 fal fa-save"></i> Approve</button>
+            <button *ngIf="buttonStatus==2" type="submit" class="btn btn-danger" (click)="manageRequest(id,3)">
+                <i class="mr-1 fal fa-save"></i> Reject</button>
+    </div>
+  </form>
+
+

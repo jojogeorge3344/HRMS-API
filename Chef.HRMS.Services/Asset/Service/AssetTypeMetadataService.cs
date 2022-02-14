@@ -65,8 +65,11 @@ namespace Chef.HRMS.Services
             try
             {
                 simpleUnitOfWork.BeginTransaction();
-                 await assetTypeMetadataRepository.DeleteAsset(assetTypeMetadata.FirstOrDefault().AssettypeId);
-                 var result = await assetTypeMetadataRepository.InsertAsync(assetTypeMetadata);
+                //await assetTypeMetadataRepository.DeleteAsset(assetTypeMetadata.FirstOrDefault().AssettypeId);
+                var NewRecords = assetTypeMetadata.Where(w => w.Id <= 0);
+                var result = await assetTypeMetadataRepository.InsertAsync(NewRecords);
+                var Exist = assetTypeMetadata.Where(w => w.Id > 0);
+                result = await assetTypeMetadataRepository.Update(Exist);
                 simpleUnitOfWork.Commit();
                 return result;
             }
@@ -76,6 +79,11 @@ namespace Chef.HRMS.Services
                 string msg = ex.Message;
                 return 0;
             }           
-        }        
+        }
+
+        public async Task<int> DeleteMetadata(int id)
+        {
+            return await assetTypeMetadataRepository.DeleteMetadata(id);
+        }
     }
 }

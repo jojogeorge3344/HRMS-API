@@ -1,4 +1,5 @@
 import { Model } from '@shared/models/model';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { AssetMetadataValue } from './assetmetadatavalue.model';
 
 export interface AssetAssets extends Model {  
@@ -7,9 +8,10 @@ export interface AssetAssets extends Model {
   assetName:string;
   date:string;
   description:string;
-  status: string;
+  status: number;
   isActive:boolean;
-  valueId: Number;
+  valueId: number;
+ // AssetTypeName:string;
   // assetId:number;
   // metaData:string; 
   assetMetadataValues: AssetMetadataValue[];

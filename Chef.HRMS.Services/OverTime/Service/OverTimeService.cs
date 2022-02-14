@@ -54,5 +54,12 @@ namespace Chef.HRMS.Services
         {
             return await overTimeRepository.GetAssignedOverTimePolicy(employeeId);
         }
+
+        public async Task<IEnumerable<OvertimeViewModel>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId)
+        {
+            return await overTimeRepository.GetOvertimeNotifyPersonnelByOvertimeId(overtimeId);
+        }
+
+        
     }
 }

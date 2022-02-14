@@ -29,6 +29,11 @@ namespace Chef.HRMS.Services
             return await onDutyRepository.GetAsync(id);
         }
 
+        public async Task<IEnumerable<JobDetails>> GetJoinDateByEmployeeId(int employeeId)
+        {
+            return await onDutyRepository.GetJoinDateByEmployeeId(employeeId);
+        }
+
         public async Task<IEnumerable<OnDuty>> GetTotalRequestedDaysById(int employeeId)
         {
             return await onDutyRepository.GetTotalRequestedDaysById(employeeId);

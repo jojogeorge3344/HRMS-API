@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetType>> GetAllAssetTypeList()
         {
 
-            var sql = @"select id,assettypename,description from hrms.assettype";
+            var sql = @"select id,assettypename,description from hrms.assettype order by id desc";
 
             return await Connection.QueryAsync<AssetType>(sql);
         }

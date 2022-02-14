@@ -40,6 +40,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(payrollProcessingMethod);
         }
 
+        [HttpGet("GetDetailsById/{employeeid}/{month}/{year}")]
+        public async Task<ActionResult<int>> GetDetailsById(int employeeid, int month, int year)
+        {
+            var payrollProcessingMethod = await payrollProcessingMethodService.GetDetailsById(employeeid, month, year);
+
+            return Ok(payrollProcessingMethod);
+        }
+
         [HttpPut("UpadtePayrollProcessingStep/{id}/{stepNumber}")]
         public async Task<ActionResult<int>> UpadtePayrollProcessingStep(int id, int stepNumber)
         {

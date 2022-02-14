@@ -65,9 +65,27 @@ namespace Chef.HRMS.Repositories
             Connection.Execute(query);
             fullQuery += query;
 
+            query = new QueryBuilder<AssetMyAsset>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+
+            query = new QueryBuilder<AssetAllocated>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+
             query = new QueryBuilder<AssetMetadataValue>().GenerateCreateTableQuery();
             Connection.Execute(query);
             fullQuery += query;
+
+            query = new QueryBuilder<AssetEmployeeWise>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+
+
+            query = new QueryBuilder<AssetRaiseRequest>().GenerateCreateTableQuery();
+            Connection.Execute(query);
+            fullQuery += query;
+ 
 
             query = new QueryBuilder<HRMSBranch>().GenerateCreateTableQuery();
                 Connection.Execute(query);

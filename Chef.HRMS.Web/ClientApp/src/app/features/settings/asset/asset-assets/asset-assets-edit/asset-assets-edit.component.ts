@@ -2,7 +2,7 @@ import { DatePipe, formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { assetmetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
@@ -84,15 +84,15 @@ export class AssetAssetsEditComponent implements OnInit {
     
     this.assestassetService.update(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
-        this.toastr.showErrorMessage('asset already exists!');
+        this.toastr.showErrorMessage('Asset Already Exists!');
       } else {
-        this.toastr.showSuccessMessage('asset edited successfully!');
+        this.toastr.showSuccessMessage('Asset Edited Successfully!');
         this.activeModal.close('submit');
       }
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to edit the asset');
+      this.toastr.showErrorMessage('Unable to Edit the Asset');
     });
 
     }
@@ -118,6 +118,7 @@ export class AssetAssetsEditComponent implements OnInit {
         assetTypeMetadataId: ['', [
           Validators.required,
         ]],
+        status: [ 5, [ ]],
         assetMetadataValues: ['', []],
         assetName: ['', [
           Validators.required,

@@ -5,7 +5,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { assetmetadata, } from '@settings/asset/asset-metadata/asset-metadata.model';
+import { AssetTypeMetadata, } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { AssetAssetsService } from '../asset-assets.service';
@@ -18,12 +18,12 @@ import { strict } from 'assert';
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class AssetAssetsCreateComponent implements OnInit {
-  // assetId: any;
+
   assetForm: FormGroup;
   currentUserId: number;
   dataType: any[];
   date = Date.now();
-  @Input() assetmetadata: assetmetadata
+  @Input() assetmetadata: AssetTypeMetadata
   @Input() assetTypeNames: AssetType;
   minDate: { year: number; month: number; day: number; };
   maxDate: { year: number; month: number; day: number; };
@@ -69,15 +69,15 @@ export class AssetAssetsCreateComponent implements OnInit {
       
     this.assestassetService.add(mdatavalues).subscribe((result: any) => {
       if (result.id === -1) {
-        this.toastr.showErrorMessage('asset already exists!');
+        this.toastr.showErrorMessage('Asset Already Exists!');
       } else {
-        this.toastr.showSuccessMessage('asset added successfully!');
+        this.toastr.showSuccessMessage('Asset Added Successfully!');
         this.activeModal.close('submit');
       }
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to add the asset');
+      this.toastr.showErrorMessage('Unable to Add the Asset');
     });
 
 
@@ -99,6 +99,7 @@ export class AssetAssetsCreateComponent implements OnInit {
       assetTypeMetadataId: [ '', [
         Validators.required,
       ]],
+      status: [ 5, [ ]],
       assetMetadataValues:[ ['', []]],
       assetName: ['', [
         Validators.required,

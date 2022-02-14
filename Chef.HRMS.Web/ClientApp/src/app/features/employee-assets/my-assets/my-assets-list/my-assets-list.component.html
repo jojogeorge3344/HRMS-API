@@ -1,1 +1,44 @@
-<p>my-assets-list works!</p>
+<div id="job-title-list" class="p-3">
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>Sl No.</th>
+                <th>Date Allocated</th>
+                <th>Asset Type</th>
+                <th>Asset Name</th>
+                <th>Asset ID</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let list of myAssetList;let i=index">
+                <td>{{i+1}}</td>
+                <td class="text-capitalize">{{list.allocatedDate | date: 'yyyy-MM-dd'}}</td>
+                <td class="text-ellipsis">{{list.assetTypeName}}</td>
+                <td class="text-ellipsis">{{list.assetName}}</td>
+                <td class="text-ellipsis">{{list.assetId}}</td>
+                <td class="text-ellipsis">{{status[list.status]}}</td>
+                <td>
+                    <div class="btn-group" dropdown container="main">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem" (click)="openView(list,currentUserId)"><a class="dropdown-item">View</a></li>
+                            <li role="menuitem" (click)="isDisabled(i) && openChange(list,currentUserId)"><a [ngClass]="{'disabled': !isDisabled(i)}" class="dropdown-item">Change</a> </li>
+                            <li role="menuitem" (click)="isDisabled(i) && openReturn(list,currentUserId)"><a [ngClass]="{'disabled': !isDisabled(i)}" class="dropdown-item">Return</a> </li>    
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="!myAssetList?.length">
+                <td colspan="7" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

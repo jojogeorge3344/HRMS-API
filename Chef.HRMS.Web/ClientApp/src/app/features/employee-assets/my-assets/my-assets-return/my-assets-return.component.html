@@ -1,1 +1,37 @@
-<p>my-assets-return works!</p>
+<form [formGroup]="returnAssetForm" id="returnAssetForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Return Asset</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group input-group form-input-inline col-sm">
+            <label class="col-form-label col-12 px-0" for="returnDate">Return Date</label>
+            <input class="form-control" [minDate]="mindate" ngbDatepicker
+                [markDisabled]="markDisabled" #returnDate="ngbDatepicker" formControlName="returnDate">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="returnDate.toggle()"
+                    type="button"></button>
+            </div>
+        </div>
+        <div class="form-group form-input-line col-12">
+            <label class="col-form-label" for="returnTypeOptions">Return Type</label>
+            <select class="form-control" id="returnTypeOptions" formControlName="returnTypeOptions"
+                name="returnTypeOptions">
+                <option [ngValue]="0" disabled>Select type</option>
+                <option *ngFor="let key of returnTypeKeys" [ngValue]='key'>{{returnType[key]}}</option>
+            </select>
+        </div>
+        <div class="form-group form-textarea-line col-12">
+            <label class="col-form-label" for="returnDescription">Remarks/ Description</label>
+            <textarea type="text" formControlName="returnDescription" rows="3" class="form-control" id="returnDescription"
+                name="returnDescription"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')">
+            <i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+    </div>
+</form>
