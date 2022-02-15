@@ -176,14 +176,14 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPut("UpdateAllocateStatus")]
-        public async Task<ActionResult> UpdateAllocateStatus(int id,int assettypeid, int status)
+        public async Task<ActionResult> UpdateAllocateStatus(int id,int assetraiserequestid, int status)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await assetEmployeeWiseService.UpdateAllocateStatus(id, assettypeid, status);
+            var result = await assetEmployeeWiseService.UpdateAllocateStatus(id, assetraiserequestid, status);
 
             return Ok(result);
         }

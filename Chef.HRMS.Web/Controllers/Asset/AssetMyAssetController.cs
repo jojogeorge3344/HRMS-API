@@ -82,21 +82,21 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateStatus/{assetid}/{status}")]
-        //[Consumes(MediaTypeNames.Application.Json)]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> UpdateStatus(int assetid, int status)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpPut("UpdateStatus/{assetid}/{status}")]
+        ////[Consumes(MediaTypeNames.Application.Json)]
+        ////[ProducesResponseType(StatusCodes.Status201Created)]
+        ////[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult<int>> UpdateStatus(int assetid, int status)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var result = await assetmyassetService.UpdateStatus(assetid, status);
+        //    var result = await assetmyassetService.UpdateStatus(assetid, status);
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
 
         

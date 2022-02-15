@@ -32,7 +32,7 @@ namespace Chef.HRMS.Repositories
 		                    js.status
 		                    FROM hrms.assetallocated as js
 		                    INNER JOIN hrms.asset as jk ON js.assetid = jk.id
-		                    WHERE (js.status = 4 OR js.status = 7) AND js.empid=@empid";
+		                    WHERE (js.status = 4 OR js.status = 7 OR js.status=8) AND js.empid=@empid";
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid = empid });
         }
 
@@ -52,11 +52,11 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, assetmyasset);
         }
 
-        public async Task<int> UpdateStatus(int assetid, int status)
+        public async Task<int> UpdateStatus(int assetid)
         {
-            var sql = @"UPDATE hrms.assetmyasset
-                        SET status=@status WHERE assetid=@assetid";
-            return await Connection.ExecuteAsync(sql, new { assetid, status });
+            var sql = @"UPDATE hrms.assetraiserequest
+                        SET status=7 WHERE assetid=@assetid";
+            return await Connection.ExecuteAsync(sql, new { assetid });
         }
 
         public async Task<int> Update(AssetMyAsset assetmyasset)

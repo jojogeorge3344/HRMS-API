@@ -43,7 +43,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("MarkedDates/{tablename}/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<DateTime>>> MarkedDates(string tablename, int employeeId)
+        public async Task<ActionResult<IEnumerable<Leave>>> MarkedDates(string tablename, int employeeId)
         {
             var leaveLogs = await attendanceAdminService.MarkedDates(tablename, employeeId);
 

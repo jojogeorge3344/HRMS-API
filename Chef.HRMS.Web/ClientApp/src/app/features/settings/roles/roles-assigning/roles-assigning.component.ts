@@ -44,9 +44,9 @@ export class RolesAssigningComponent implements OnInit {
           };
         });
         const allAssignedEmployees = this.roles.reduce((empArray, role) => [...empArray, ...role.employeesAdded], []);
-        this.employeesOnSelection = this.employees.filter(employee =>
-          (allAssignedEmployees.find(emp => emp.id === employee.id) === undefined)
-        );
+        // this.employeesOnSelection = this.employees.filter(employee =>
+        //   (allAssignedEmployees.find(emp => emp.id === employee.id) === undefined)
+        // );
       });
 
   }
