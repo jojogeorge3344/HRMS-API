@@ -58,7 +58,7 @@ namespace Chef.HRMS.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<Leave>> MarkedDates(string tablename, int employeeId)
+        public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
         {
             return await attendanceAdminRepository.MarkedDates(tablename, employeeId);
         }
