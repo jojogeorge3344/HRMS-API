@@ -176,20 +176,13 @@ namespace Chef.HRMS.Repositories
                 return result;
         }
 
-        public async Task<IEnumerable<Leave>> MarkedDates(string tablename, int employeeId)
+        public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
         {
-                var sql = $@"WITH CTE (fromdate) AS (SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates,
-                                                    isfirstdayfirsthalf,
-                                                    isfirstdaysecondhalf,
-                                                    isseconddayfirsthalf,
-                                                    isseconddaysecondhalf
-                                                  FROM  hrms.{tablename} 
-                                                  WHERE           employeeid=@employeeId)
-                                                SELECT fromdate,isfirstdayfirsthalf,
-                                                isfirstdaysecondhalf,
-                                                isseconddayfirsthalf,
-                                                isseconddaysecondhalf FROM CTE WHERE date_trunc('year',fromdate)=date_trunc('year',NOW())";
-                return await Connection.QueryAsync<Leave>(sql, new { tablename, employeeId });
+                var sql = $@"WITH CTE (dates) AS (SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
+                    FROM hrms.{tablename}
+                    WHERE employeeid=@employeeId)
+                    SELECT dates FROM CTE WHERE date_trunc('year',dates)=date_trunc('year',NOW())";
+                return await Connection.QueryAsync<DateTime>(sql, new { tablename, employeeId });
 
         }
     }
