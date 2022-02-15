@@ -44,7 +44,7 @@ export class EmployeeWpsCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       groupCode: ['', [
-        Validators.maxLength(32),
+        Validators.maxLength(14),
         Validators.required,
         duplicateNameValidator(this.groupCodes)
       ]],
@@ -55,11 +55,10 @@ export class EmployeeWpsCreateComponent implements OnInit {
       ]],
       establishmentId: ['', [
         Validators.pattern(/^\d{1,3}$/),
-        Validators.maxLength(13),
         Validators.required,
         duplicateNameValidator(this.establishmentId)
       ]],
-      remarks: ['', [Validators.maxLength(128), Validators.required]],
+      remarks: ['', [Validators.maxLength(120), Validators.required]],
     });
   }
 

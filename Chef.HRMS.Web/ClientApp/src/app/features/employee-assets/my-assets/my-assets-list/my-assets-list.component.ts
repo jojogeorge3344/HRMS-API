@@ -2,12 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { MyAssets } from '../my-assets.model';
+import { AssetAllocated } from '../asset-allocated.model';
 import { MyAssetsChangeComponent } from '../my-assets-change/my-assets-change.component';
 import { MyAssetsViewComponent } from '../my-assets-view/my-assets-view.component';
 import { MyAssetsReturnComponent } from '../my-assets-return/my-assets-return.component';
 import { MyAssetsService } from '../my-assets.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { AssetTypeService } from '@settings/asset/asset-type/asset-type.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { AssetType } from '@settings/asset/asset-type/asset-type.model';
 
 
 @Component({
@@ -16,12 +20,15 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 })
 export class MyAssetsListComponent implements OnInit {
 
-  myAssetList: MyAssets[];
+  myAssetList: AssetAllocated[];
   currentUserId:number;
+  statusKeys: number[];
+  status = AssetStatus;
 
   constructor(
     private myAssetService: MyAssetsService,
     public modalService: NgbModal,
+    private assetTypeService:AssetTypeService,
     private toastr: ToasterDisplayService
   ) { }
 
@@ -32,7 +39,8 @@ export class MyAssetsListComponent implements OnInit {
 
   getAllMyAssetList(userId) {
     this.myAssetService.getAllMyAssetList(userId).subscribe(result => {
-      this.myAssetList = result;
+      this.myAssetList = result;  
+      console.log(this.myAssetList);    
     }),
       error => {
         console.error(error);
@@ -41,8 +49,7 @@ export class MyAssetsListComponent implements OnInit {
   }
 
   isDisabled(i) {
-    // return this.myAssetList[i].status.toLowerCase()=="allocated";
-    return false;
+    return this.status[this.myAssetList[i].status].toLowerCase()=="allocated";
   }
 
   openView(myAsset:MyAssets,currentUserId) {
@@ -74,7 +81,7 @@ export class MyAssetsListComponent implements OnInit {
 
   openReturn(assetData:MyAssets,currentUserId) {
     const modalRef = this.modalService.open(MyAssetsReturnComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
       modalRef.componentInstance.assetData = assetData;
       modalRef.componentInstance.currentUserId = currentUserId;
     modalRef.result.then((result) => {

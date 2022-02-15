@@ -11,7 +11,7 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Required]
         [Description("Wps group code")]
-        [StringLength(13)]
+        [StringLength(14)]
         public string GroupCode { get; set; }
         /// <summary>
         /// Holds Wps group name

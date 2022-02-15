@@ -1,103 +1,153 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { MyAssetsService } from "@features/employee-assets/my-assets/my-assets.service";
-import { AssetAssetsService } from "@settings/asset/asset-assets/asset-assets.service";
 import { getCurrentUserId } from "@shared/utils/utils.functions";
 import { AssetStatus } from "src/app/models/common/types/assetstatus";
 import { EmployeAssetService } from "../employe-asset.service";
-import { forkJoin } from 'rxjs';
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { AssetRaiseRequest } from "@features/employee-assets/raise-request/raise-request.model";
+import { EmployeeAssetRequestViewComponent } from "../employee-asset-request-view/employee-asset-request-view.component";
+import { NgbActiveModal, NgbModal,  }from '@ng-bootstrap/ng-bootstrap';
+import { RequestFor } from "src/app/models/common/types/requestfor";
+import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
+import { EmployeeAssetAllocationComponent } from "../employee-asset-allocation/employee-asset-allocation.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
   templateUrl: "./employee-asset-requests.component.html",
 })
 export class EmployeeAssetRequestsComponent implements OnInit {
-  assetStatus: AssetStatus;
+  // assetStatus: AssetStatus;
   allocatedassets;
-  assetId:number;
+  assetId: number;
   currentUserId: number;
-  assetRaiseRequestId:number;
+  assetRaiseRequestId: number;
   empid: string;
   employeeWiseRequest: AssetRaiseRequest;
   result: any;
+  status = AssetStatus;
+  reqForStatus = RequestFor;
+  id: [];
+  reqid: number;
+  assetTypeId: number;
+  assetTypeName: string;
 
   constructor(
-    private myAssetService: MyAssetsService,
-    private assetService: AssetAssetsService,
     private employeeAsset: EmployeAssetService,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToasterDisplayService,
+    public modalService: NgbModal,
+    public activeModal: NgbActiveModal,
   ) {}
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.route.params.subscribe((params: Params) => {
-      //console.log(params);
       this.empid = params.id;
     });
     this.getEmployeeRequestById();
-    this.getAllocatedAssetsById()
   }
 
   getEmployeeRequestById() {
-    //console.log(this.empid);
-
-    return this.employeeAsset.getEmployeeRequestById(this.empid).subscribe((result) => {
+    return this.employeeAsset
+      .getEmployeeRequestById(this.empid).subscribe((result) => {
+        console.log(result);
         this.employeeWiseRequest = result;
-        this.assetRaiseRequestId=result.id;
-       //console.log('res=',this.employeeWiseRequest);
+        this.reqid = result.id;
+        console.log("request details>>",this.employeeWiseRequest);
       });
-
   }
 
-  openView(employees) {
+  openRequestView(emprequest) {
+    const modalRef = this.modalService.open(EmployeeAssetRequestViewComponent, {
+      centered: true,
+      backdrop: "static",
+    });
+    modalRef.result.then((userResponse) => {
+      if(userResponse){
+        this.getEmployeeRequestById();
+      }  
+    })
+    modalRef.componentInstance.id = emprequest.id;
+    modalRef.componentInstance.empid = this.empid;
+    modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
+    modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
+    console.log(modalRef.componentInstance.requestId);
+    this.employeeAsset.setListDetails({ data: emprequest });
+  }
+
+  openAllocate(emprequest){
     this.router.navigate(
-      ['./' + this.empid + '/requestview'],
+      ['./' + this.empid + '/allocation/'+emprequest.id +'/'+emprequest.assetTypeId + '/' + emprequest.assetTypeName ],
       { relativeTo: this.route.parent });
-      this.employeeAsset.setListDetails({data: employees})
+      console.log("emws",emprequest);
+      // this.employeeAsset.setListDetails({data: emprequest})
   }
 
-  getAllocatedAssetsById() {
-    return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
-        this.allocatedassets = result;
-        this.assetId=result[0].assetId
-        console.log(this.assetId);
-      });
-  }
-
-  Approve(status:AssetStatus) {
-    status=2;
-    forkJoin([
-      this.myAssetService.updateStatusOf(this.assetId,status),  
-      this.assetService.updateStatus(this.assetRaiseRequestId,status),
-      this.employeeAsset.updateStatus(this.assetRaiseRequestId,status)
-    ]).subscribe(
-      // this.toastr.showSuccessMessage('Request Approved sucessfully!');
-      )
-  }
-
-  // reject() {
-  //   let addForm = this.addForm.getRawValue();
-  //   addForm.numberOfDays = this.numberOfDays;
-  //   addForm = {
-  //     ...addForm,
-  //     leaveStatus: 5,
-  //     approvedBy: this.currentUserId,
-  //     approvedDate: new Date(Date.now()),
-  //     modifiedBy: this.currentUserId,
-  //     modifiedDate: new Date(Date.now())
-  //   };
-  //   this.employeeLeaveService.update(addForm).subscribe((result) => {
-  //     if (result) {
-  //       this.toastr.showSuccessMessage('Leave Request rejected successfully');
-  //       this.activeModal.close('submit');
-  //     }
+  // openAllocate(emprequest) {
+  //   const modalRef = this.modalService.open(EmployeeAssetAllocationComponent, {
+  //     centered: true,
+  //     backdrop: "static",
+  //     size:'xl'
   //   });
+  //   modalRef.result.then((userResponse) => {
+  //     this.getEmployeeRequestById();
+  //   })
+  //   modalRef.componentInstance.reqId = emprequest.id;
+  //   modalRef.componentInstance.empid = this.empid;
+  //   modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
+  //   modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
+  //   console.log(modalRef.componentInstance.assetTypeName);
+  //   // this.employeeAsset.setListDetails({ data: emprequest });
   // }
 
 
+  // getAllocatedAssetsById() {
+  //   return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
+  //       // this.allocatedassets = result;
+  //       // this.assetId=result[0].assetId
+  //      // console.log(this.allocatedassets);
+  //     });
+  // }
 
+  manageRequest(emprequest, status) {
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: "static",
+    });
+    console.log(emprequest);
+    const empreqid = emprequest.id;
+    if (status == 2) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
+    } else if (status == 3) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
+    }
+    else if (status == 6) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
+    }
+
+    modalRef.result.then((userResponse) => {
+      if (userResponse == true) {
+        this.employeeAsset.manageRequest(empreqid, status).subscribe((res) => {
+          console.log(res);
+          if (status == 2) {
+            this.toastr.showSuccessMessage("request approved successfully!");
+          } else if (status == 3) {
+            this.toastr.showSuccessMessage("request rejected successfully!");
+          }
+          else if (status == 6) {
+            this.toastr.showSuccessMessage("request rejected successfully!");
+          }
+          this.activeModal.close("click");
+          this.getEmployeeRequestById();
+        });
+      }
+    });
+    
+  }
+
+  // disableApproved(){
+  //   return true;
+  // }
 }

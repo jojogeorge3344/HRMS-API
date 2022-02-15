@@ -14,9 +14,16 @@ namespace Chef.HRMS.Repositories
         {
         }
 
+        //public async Task<IEnumerable<Holiday>> GetAll()
+        //{
+        //    var sql = "SELECT * FROM  hrms.holiday ";
+
+        //    return await Connection.QueryAsync<Holiday>(sql);
+        //}
+
         public async Task<IEnumerable<Holiday>> GetAllByCategory(int categoryId)
         {
-                var sql = "SELECT * FROM  hrms.holiday WHERE holidaycategoryid = @categoryId ORDER BY id";
+                var sql = "SELECT * FROM  hrms.holiday WHERE holidaycategoryid = @categoryId ORDER BY id desc";
 
                 return await Connection.QueryAsync<Holiday>(sql, new { categoryId });
         }

@@ -2,20 +2,20 @@
 
     <div class="button-right-wrapper">
         <button (click)="openCreate()" class="btn btn-success btn-add">
-            <i class="fa fal fa-plus fa-plus mr-1"></i>Add Meta Data
+            <i class="fa fal fa-plus fa-plus mr-1"></i>Add Metadata
         </button>
     </div>
     <table class="table m-0">
         <thead class="thead-themed">
             <tr>
-                <th>#</th>
+                <th>Sl No.</th>
                 <th>Asset Type</th>
-                <th>Meta Data</th>
+                <th>Metadata</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let type of assetType; let i= index;">
+            <tr *ngFor="let type of assetTypeWithMetadata; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ type.assettypename }}</td>
                 <td class="text-ellipsis">

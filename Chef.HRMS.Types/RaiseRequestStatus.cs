@@ -13,7 +13,10 @@ namespace Chef.HRMS.Types
        Rejected,
        Allocated,
        Unallocated,
-       Revoked
+       Revoked,
+       ChangeRequest,
+       ReturnRequest,
+       Recalled
 
     }
 }

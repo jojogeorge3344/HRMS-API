@@ -31,12 +31,14 @@ export class AssetMetadataEditComponent implements OnInit {
   assetTypeName;
   metas: any;
   newMetadata: any;
+  metadataLength: number;
   emptyValidation = false;
   duplicateValidation = false;
   assignedMetadata: AssetMetadataValue[];
   assignedMetadataId: Number[] = [];
   dataTypes: string[];
   maxAlert = false;
+  maxLength = false;
   isDisable = false;
   updateDisable = true;
 
@@ -56,7 +58,9 @@ export class AssetMetadataEditComponent implements OnInit {
     this.editForm = this.createFormGroup();
     this.metadataDatatypeKeys = Object.keys(this.metadataDatatype).filter(Number).map(Number);
     localStorage.setItem('assetTpId', JSON.stringify(this.assetTpId));
-    this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered);
+    this.metadataFiltered = this.metaData.filter(this.getMetadataFiltered).sort(function (a, b) {
+      return (a.id - b.id);
+    });
     this.getMetadataFilteredId(this.metadataFiltered);
     this.patchDataArray();
     this.getAllAssignedMetadata();
@@ -107,7 +111,6 @@ export class AssetMetadataEditComponent implements OnInit {
     if (!this.duplicateValidation) {
       const metdata = (this.editForm.get('dataRows') as FormArray).value.map((val, i) => ({
         ...val, assettypeId: this.assetTpId, id: this.metadataFilteredIds[i]
-        
       }));
       this.assetMetadataService.update(metdata).subscribe(result => {
         this.toastr.showSuccessMessage('Asset metadata updated successfully!');
@@ -154,7 +157,7 @@ export class AssetMetadataEditComponent implements OnInit {
       else {
         if (!this.duplicateValidation) {
           if (!this.emptyValidation) {
-            if (!this.maxAlert)
+            if (!this.maxLength)
               this.mdata.push(this.createMetadata());
           }
         }
@@ -169,32 +172,44 @@ export class AssetMetadataEditComponent implements OnInit {
     }
   }
 
+  updateEnable() {
+    this.updateDisable = false;
+  }
+
   fieldValidation() {
+    this.emptyValidation = false;
+    this.duplicateValidation = false;
     this.mdata = this.editForm.get('dataRows') as FormArray;
     this.metas = this.mdata.value;
     let l = this.metas.length;
     this.newMetadata = this.editForm.get('dataRows').value[l - 1].metadata.toLowerCase();
-    this.emptyValidation = false;
-    if (l > 1) {
-      var found = -1;
-      for (let i = 0; i < l - 1; i++) {
-        if (this.metas[i].metadata.toLowerCase() == this.newMetadata) {
-          found = 1;
-          break;
+    this.metadataLength = this.newMetadata.length;
+    if (this.metadataLength > 32) {
+      this.maxLength = true;
+    }
+    else {
+      this.maxLength = false;
+      if (l > 1) {
+        var found = -1;
+        for (let i = 0; i < l - 1; i++) {
+          if (this.metas[i].metadata.toLowerCase() == this.newMetadata) {
+            found = 1;
+            break;
+          }
         }
-      }
-      if (found !== -1) {
-        //console.log("Metadata already exists");
-        this.updateDisable = true;
-        this.duplicateValidation = true;
+        if (found !== -1) {
+          //console.log("Metadata already exists");
+          this.updateDisable = true;
+          this.duplicateValidation = true;
+        }
+        else {
+          this.updateDisable = false;
+          this.duplicateValidation = false;
+        }
       }
       else {
         this.updateDisable = false;
-        this.duplicateValidation = false;
       }
-    }
-    else {
-      this.updateDisable = false;
     }
   }
 
@@ -209,8 +224,8 @@ export class AssetMetadataEditComponent implements OnInit {
     // this.metadataFiltered.forEach(val => {
     //   if (val.metadata === name) { this.metadataId = val.id }
     // })
-    if(this.metadataFiltered[i]?.metadata===name){
-      this.metadataId=this.metadataFiltered[i].id;
+    if (this.metadataFiltered[i]?.metadata === name) {
+      this.metadataId = this.metadataFiltered[i].id;
     }
     let l = this.mdata.length;
     if (l > 1) {
@@ -221,9 +236,8 @@ export class AssetMetadataEditComponent implements OnInit {
         modalRef.result.then((userResponse) => {
           if (userResponse == true) {
             this.mdata.removeAt(i);
-            if(this.metadataFilteredIds[i])
-            {
-              this.metadataFilteredIds.splice(i, 1); 
+            if (this.metadataFilteredIds[i]) {
+              this.metadataFilteredIds.splice(i, 1);
             }
             this.assetMetadataService.deleteMetadata(this.metadataId).subscribe(result => {
               this.toastr.showSuccessMessage('Asset metadata deleted successfully!');

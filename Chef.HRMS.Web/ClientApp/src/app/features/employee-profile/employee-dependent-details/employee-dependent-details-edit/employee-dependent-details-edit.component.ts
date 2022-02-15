@@ -70,7 +70,8 @@ export class EmployeeDependentDetailsEditComponent implements OnInit {
       ]],
       phone: ['', [Validators.maxLength(16)
       ]],
-      phoneCode: [],
+      phoneCode: ['', [Validators.required,
+      Validators.maxLength(4)]],
       gender: [null, [
         Validators.required,
       ]],

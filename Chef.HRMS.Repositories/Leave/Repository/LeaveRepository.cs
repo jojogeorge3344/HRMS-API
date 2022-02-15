@@ -80,7 +80,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<Leave>> GetAllLeaveDetailsById(int employeeId)
         {
-                var sql = "SELECT * FROM  hrms.leave WHERE employeeid = @employeeId";
+            var sql = "SELECT * FROM hrms.leave WHERE employeeid = @employeeId order by id desc";
 
                 return await Connection.QueryAsync<Leave>(sql, new { employeeId });
         }
@@ -155,6 +155,19 @@ namespace Chef.HRMS.Repositories
 	                                        AND l.leavestatus = 2";
 
                 return await Connection.QueryAsync<Leave>(sql, new { employeeId });
+        }
+
+        public async Task<IEnumerable<Leave>> GetAllLeaveInfoByEmployeeId(int employeeId)
+        {
+            var sql = @"SELECT employeeid,
+                                    isfullday,
+                                    isfirstdayfirsthalf,
+                                    isfirstdaysecondhalf,
+                                    isseconddayfirsthalf,
+                                    isseconddaysecondhalf
+                                    FROM hrms.leave
+                                    WHERE employeeid = @employeeid";
+            return await Connection.QueryAsync<Leave>(sql, new { employeeId });
         }
     }
 }

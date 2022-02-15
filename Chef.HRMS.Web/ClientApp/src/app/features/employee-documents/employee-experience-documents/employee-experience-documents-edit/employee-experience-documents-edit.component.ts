@@ -28,6 +28,7 @@ export class EmployeeExperienceDocumentsEditComponent implements OnInit {
   directoryName = 'c:';
   previousEmploymentDocument;
   minDate;
+  maxDate;
   documentSave;
   fileName = '';
   isFileChanged = false;
@@ -43,18 +44,20 @@ export class EmployeeExperienceDocumentsEditComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService) {
-    const current = new Date();
-    this.minDate = {
-      year: current.getFullYear(),
-      month: current.getMonth() + 1,
-      day: current.getDate()
-    };
+    // const current = new Date();
+    // this.minDate = {
+    //   year: current.getFullYear(),
+    //   month: current.getMonth() + 1,
+    //   day: current.getDate()
+    // };
   }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\PreviousEmployment\\${this.currentUserId}\\`;
     this.editForm = this.createFormGroup();
+    this.setMaxDate();
+    this.setMinDate();
     if (this.previousEmployment.fileName.length > 40) {
       this.fileName = this.previousEmployment.fileName.substr(0, 40) + '...';
     } else {
@@ -164,6 +167,12 @@ export class EmployeeExperienceDocumentsEditComponent implements OnInit {
           this.toastr.showErrorMessage('There is an error in updating Previous Employment');
         });
     }
+  }
+  setMaxDate(){
+    this.maxDate = {year:new Date(this.editForm.controls["dateOfRelieving"].value).getFullYear(),month:new Date(this.editForm.controls["dateOfRelieving"].value).getMonth() + 1, day:new Date(this.editForm.controls["dateOfRelieving"].value).getDate()}  
+  }
+  setMinDate(){
+    this.minDate = {year:new Date(this.editForm.controls["dateOfJoining"].value).getFullYear(),month:new Date(this.editForm.controls["dateOfJoining"].value).getMonth() + 1, day:new Date(this.editForm.controls["dateOfJoining"].value).getDate()}    
   }
 
   createFormGroup(): FormGroup {

@@ -55,6 +55,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(onDuties);
         }
 
+        [HttpGet("GetJoinDateByEmployeeId/{employeeid}")]
+        public async Task<ActionResult<IEnumerable<JobDetails>>> GetJoinDateByEmployeeId(int employeeid)
+        {
+            var onDuties = await onDutyService.GetJoinDateByEmployeeId(employeeid);
+
+            return Ok(onDuties);
+        }
+
         [HttpGet("GetTotalRequestedDaysById/{id}")]
         public async Task<ActionResult<IEnumerable<OnDuty>>> GetTotalRequestedDaysById(int id)
         {

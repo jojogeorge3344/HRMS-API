@@ -22,13 +22,16 @@ export class RaiseRequestService {
   getAll(){
     return this.http.get<AssetRaiseRequest[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
+  getEmployeeDetails(){
+    return this.http.get<any[]>(this.baseUrl + 'getEmployeeDetails').pipe(map(response => { return response; }));
+  }
 
   getAllRaiseRequestList(currentUserId){
     return this.http.get<AssetRaiseRequest[]>(this.baseUrl + 'getAllRaiseRequestList/' + currentUserId).pipe(map(response => { return response; }));
   }
 
   update(raiseRequest: AssetRaiseRequest){
-  return this.http.post<AssetRaiseRequest>(this.baseUrl + 'update', raiseRequest).pipe(map(response => { return response; }));
+  return this.http.put<AssetRaiseRequest>(this.baseUrl + 'update', raiseRequest).pipe(map(response => { return response; }));
   }
 
   delete(id:number){

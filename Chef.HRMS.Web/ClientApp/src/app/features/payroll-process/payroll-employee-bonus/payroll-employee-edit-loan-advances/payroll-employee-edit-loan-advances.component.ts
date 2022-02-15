@@ -33,6 +33,7 @@ export class PayrollEmployeeEditLoanAdvancesComponent implements OnInit {
   loanTypeKeys: number[];
   todaysDate: Date;
   paymentTypeKeys: number[];
+  emiStartsFromYear:number;
   emiMinDate;
   loanNo: string;
   expectedOnUpdated: any;
@@ -54,6 +55,11 @@ export class PayrollEmployeeEditLoanAdvancesComponent implements OnInit {
     this.paymentTypeKeys = Object.keys(this.paymentTypes).filter(Number).map(Number);
     this.todaysDate = new Date();
     const current = new Date();
+    this.minDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
     // this.month = this.todaysDate.toLocaleString('default', { month: 'short' }).toUpperCase();
     // this.year = this.todaysDate.toLocaleString('default', { year: '2-digit' });
     const start = current.getFullYear();
@@ -62,16 +68,16 @@ export class PayrollEmployeeEditLoanAdvancesComponent implements OnInit {
     this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.route.queryParams.subscribe(params => {
       const date = params.date.split('-');
-      this.minDate = {
-        year: parseInt(date[1], 10),
-        month: parseInt(this.monthsEnum[date[0]], 10),
-        day: 1
-      };
-      this.maxDate = {
-        year: parseInt(date[1], 10),
-        month: parseInt(this.monthsEnum[date[0]], 10),
-        day: 31
-      };
+      // this.minDate = {
+      //   year: parseInt(date[1], 10),
+      //   month: parseInt(this.monthsEnum[date[0]], 10),
+      //   day: 1
+      // };
+      // this.maxDate = {
+      //   year: parseInt(date[1], 10),
+      //   month: parseInt(this.monthsEnum[date[0]], 10),
+      //   day: 31
+      // };
 
     });
   }
@@ -84,9 +90,13 @@ export class PayrollEmployeeEditLoanAdvancesComponent implements OnInit {
         requestedDate: new Date(res.requestedDate),
         expectedOn: new Date(res.expectedOn)
       };
+      console.log(res);
       this.editForm = this.createFormGroup();
       this.loanNo = res.loanNo;
       this.editForm.patchValue(res);
+      this.emiStartsFromYear=res.emiStartsFromYear;
+      console.log(res.emiStartsFromYear);////
+      
       this.editForm.patchValue({ modifiedBy: this.currentUserId, modifiedDate: new Date() });
       this.editForm.valueChanges.subscribe(res => {
         const expectedOnYear = new Date(res.expectedOn).getFullYear();

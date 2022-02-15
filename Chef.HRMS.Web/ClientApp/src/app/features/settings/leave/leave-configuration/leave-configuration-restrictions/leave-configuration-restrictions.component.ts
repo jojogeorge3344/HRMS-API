@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { LeaveConfigurationRestrictionsService } from '../leave-configuration-restrictions.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hrms-leave-configuration-restrictions',
@@ -13,6 +14,7 @@ export class LeaveConfigurationRestrictionsComponent implements OnChanges {
 
   currentUserId: number;
   editForm: FormGroup;
+  viewValue: boolean;
 
   @Input() leaveStructureId: number;
   @Input() leaveComponentId: number;
@@ -23,7 +25,22 @@ export class LeaveConfigurationRestrictionsComponent implements OnChanges {
   constructor(
     private formBuilder: FormBuilder,
     private leaveConfigurationRestrictionsService: LeaveConfigurationRestrictionsService,
-    private toastr: ToasterDisplayService) {}
+    private toastr: ToasterDisplayService,
+    private router: Router) {}
+
+    ngOnInit(){
+      let href = this.router.url.split('/');      
+      if(href.includes('view')){
+        this.viewValue = true;
+      }
+      else{
+        this.viewValue = false;
+      }
+      if(this.viewValue == true){
+        this.editForm.disable();
+      }
+      
+    }
 
   ngOnChanges(changes: SimpleChanges) {
     this.currentUserId = getCurrentUserId();

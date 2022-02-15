@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeAssetService } from '../employe-asset.service';
 import { AssetEmployeeWise } from '../employee-asset.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EmployeeAssetViewComponent } from '../employee-asset-view/employee-asset-view.component';
-import { EmployeeAssetRequestsComponent } from '../employee-asset-requests/employee-asset-requests.component';
-import { EmployeeAssetAllocatedComponent } from '../employee-asset-allocated/employee-asset-allocated.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { WorkerType } from 'src/app/models/common/types/workertype';
 
 @Component({
   selector: 'hrms-employee-asset-list',
@@ -13,6 +12,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EmployeeAssetListComponent implements OnInit {
   employees:AssetEmployeeWise[];
+  counts;
+  requestedBy:number;
+  requestedByName:string;
+  list: any;
+  empStatus=WorkerType;
 
   constructor(private employeeAsset:EmployeAssetService,
               public modalService: NgbModal,
@@ -21,16 +25,33 @@ export class EmployeeAssetListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
-    
   }
 
 getAll() {
-    this.employeeAsset.getAll().subscribe(result => {
-      this.employees=result
-      console.log(this.employees);
-      
-  })
+      forkJoin([
+        this.employeeAsset.getAll(),  
+        this.employeeAsset.GetAllCount()
+      ])
+      .subscribe(([employees,counts]) => {
+         employees=employees.map((employee)=>{
+            const selectedEmployee=counts.find(count => count.empId===employee.id)
+            if(selectedEmployee){
+              return {...employee,allocatedAsset:selectedEmployee.allocatedAsset,
+                requests:selectedEmployee.requests,}
+            }
+            return {
+              ...employee,allocatedAsset:0,
+                requests:0
+            }
+          })
+          console.log("vvv",employees);
+          this.employees=employees;
+      })
+        
+     
   }
+
+
 
   openAllocatedAssets(employees) {
     this.router.navigate(

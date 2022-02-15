@@ -6,7 +6,8 @@ Rejected,
 Allocated,
 Unallocated,
 Revoked,
-CancelRequest,
-ReturnRequest
+ChangeRequest,
+ReturnRequest,
+Recalled
 }
 

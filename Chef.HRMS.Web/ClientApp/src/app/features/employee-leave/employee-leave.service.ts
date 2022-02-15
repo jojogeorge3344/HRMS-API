@@ -4,6 +4,7 @@ import { EmployeeLeaveRequest } from './employee-leave-request.model';
 import { EmployeeLeaveBalance } from './employee-leave-balance.model';
 import { EmployeeLeaveSettingsViewModel } from './employee-leave-settings.model';
 import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,18 @@ export class EmployeeLeaveService {
 
   public baseUrl: string;
   public http: HttpClient;
+  allholiday: BehaviorSubject<any>=new BehaviorSubject(null);
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + 'api/leave/';
+  }
+  setListDetails(data: any) {
+
+    this.allholiday.next(data);
+    console.log("allthedate",data);
+    
+
   }
 
   add(leave: EmployeeLeaveRequest) {
@@ -71,6 +80,11 @@ export class EmployeeLeaveService {
     return this.http.get<any[]>(this.baseUrl + 'GetAllUnApprovedLeaveById/' + userId).pipe(map(response => response));
 
   }
+
+  getAllInfoLeave(employeeId) {
+    return this.http.get<EmployeeLeaveRequest[]>(this.baseUrl + 'GetAllLeaveInfoByEmployeeId/' + employeeId).pipe(map(response => response));
+  }
+
 
 
 }

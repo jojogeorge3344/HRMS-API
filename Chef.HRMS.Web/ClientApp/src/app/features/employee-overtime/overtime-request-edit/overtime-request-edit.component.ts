@@ -6,11 +6,13 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { OvertimeRequestService } from '../overtime-request.service';
+import { OvertimePolicyConfigurationService } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.service';
 import { Employee } from '@features/employee/employee.model';
 import { OvertimeRequest } from '../overtime-request.model';
 import { EmployeeService } from '@features/employee/employee.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { OvertimePolicyConfiguration } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.model';
 
 @Component({
   templateUrl: './overtime-request-edit.component.html',
@@ -27,6 +29,8 @@ export class OvertimeRequestEditComponent implements OnInit {
   markDisabled;
   employeeList: Employee[];
   selectedItems = [];
+  overtimeConfiguration: OvertimePolicyConfiguration;
+
 
   @Input() overtimeRequest: OvertimeRequest;
 
@@ -35,6 +39,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   constructor(
     private overtimeRequestService: OvertimeRequestService,
     private employeeService: EmployeeService,
+    private overtimePolicyConfigurationService: OvertimePolicyConfigurationService,
     private calendar: NgbCalendar,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -49,12 +54,36 @@ export class OvertimeRequestEditComponent implements OnInit {
       fromDate: new Date(this.overtimeRequest.fromDate),
       toDate: new Date(this.overtimeRequest.toDate)
     });
+    this.getOvertimeConfiguration();
     this.getEmployeeList();
   }
+  getOvertimeConfiguration() {
+    this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
+      this.overtimeConfiguration = result;
+      this.editForm.patchValue({ overTimePolicyId: this.overtimeConfiguration.overTimePolicyId });
+      if (this.overtimeConfiguration.isCommentRequired) {
+        this.editForm.get('reason').setValidators([Validators.required, Validators.maxLength(250)]);
+      }
+    },
+      error => {
+        console.error(error);
+      });
+  }
+
+  getOvertimeNotifyPersonnelByOvertimeId(){
+    this.overtimeRequestService.getOvertimeNotifyPersonnelByOvertimeId(this.overtimeRequest.id).subscribe((res:any) =>{
+      this.selectedItems = this.employeeList?.filter(({ id: id1 }) => res.some(({ notifyPersonnel: id2 }) => id2 === id1));
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the Notify personnel');
+      });
+    }
 
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
+      this.getOvertimeNotifyPersonnelByOvertimeId();
     },
       error => {
         console.error(error);
@@ -91,15 +120,22 @@ export class OvertimeRequestEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {
+    this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
       if (result.id !== -1) {
-        this.toastr.showSuccessMessage('Overtime request submitted successfully!');
-        this.activeModal.close('submit');
+        const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
+          overtimeId: this.overtimeRequest.id,
+          notifyPersonnel: notifyPerson.id
+        }));
+
+        this.overtimeRequestService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
+          this.toastr.showSuccessMessage('Overtime request updated successfully!');
+          this.activeModal.close('submit');
+        });
       }
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to submit the overtime request ');
+        this.toastr.showErrorMessage('Unable to update the overtime request ');
       });
   }
 
@@ -114,7 +150,8 @@ export class OvertimeRequestEditComponent implements OnInit {
         Validators.required
       ]],
       numberOfHours: [null, [
-        Validators.required
+        Validators.required,
+        Validators.max(524)
       ]],
       reason: ['', [
         Validators.required,

@@ -1,6 +1,6 @@
 <form [formGroup]="addForm" id="metadataForm" (validSubmit)="onSubmit()">
     <div class="modal-header">
-        <h4 class="modal-title">Add Meta Data </h4>
+        <h4 class="modal-title">Add Metadata </h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -8,9 +8,10 @@
     <div class="modal-body">
 
         <div class="d-flex align-items-baseline form-group mt-1">
-            <label for="assetType">Select Asset type</label>
-            <select class="form-control dropdown-width ml-7" formControlName="assetType" (change)="getAssetTypeId();" id="assetType">
-                <option [ngValue]="null">Select Asset Types</option>
+            <label for="assetType">Asset type</label>
+            <select class="form-control dropdown-width ml-7" formControlName="assetType" (change)="getAssetTypeId();"
+                id="assetType">
+                <option [ngValue]="null">Asset Types</option>
                 <ng-container *ngFor="let type of assetTypes">
                     <option>
                         {{type.assettypename}}
@@ -22,7 +23,7 @@
             <div class="border">
                 <div class="d-flex flex-wrap justify-content-center bg-gray-200 card-header metadataCardHeader col-12">
                     <div class="d-flex flex-wrap justify-content-center col-12">
-                        <div class="col-1">SlNo.</div>
+                        <div class="col-1">Sl No.</div>
                         <div class="col-5">Metadata</div>
                         <div class="col-3">Data Type</div>
                         <div class="col-2">Is Mandatory</div>
@@ -38,47 +39,50 @@
                                 <div class="col-1 py-2 pl-2">{{i+1}}
                                 </div>
                                 <div class="col-5 py-2 pl-2">
-                                    <input type="text" class="form-control" id="metadata" name="metadata" (change)="fieldValidation();"
-                                        formControlName="metadata">
+                                    <input type="text" class="form-control" id="metadata" name="metadata"
+                                        (input)="fieldValidation();" formControlName="metadata">
                                 </div>
-
                                 <div class="col-3 py-2 pl-2">
                                     <select class="form-control" formControlName="assetDataType" id="assetDataType"
                                         name="assetDataType">
                                         <option [ngValue]="0" disabled>Select Datatype</option>
-                                        <option *ngFor="let key of metadataDatatypeKeys" [ngValue]='key'>{{metadataDatatype[key]}}</option>
+                                        <option *ngFor="let key of metadataDatatypeKeys" [ngValue]='key'>
+                                            {{metadataDatatype[key]}}</option>
                                     </select>
                                 </div>
                                 <div class="col-2 py-2 pl-2">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="chkbox" name="isMandatory" for="isMandatory" id="isMandatory"
-                                            formControlName="isMandatory">
+                                        <input type="checkbox" class="chkbox" name="isMandatory" for="isMandatory"
+                                            id="isMandatory" formControlName="isMandatory">
                                     </div>
                                 </div>
                                 <div class="col-1 pt-2">
-                                    <button type="button" class="btn btn-outline-primary p-2" name="addbutton" (click)="removeMetadata(i)">
+                                    <button type="button" class="btn btn-outline-primary p-2" name="addbutton"
+                                        (click)="removeMetadata(i)">
                                         <i class="fal fa-minus"></i>
                                     </button>
                                 </div>
                             </div>
-
                         </div>
                         <div class="d-flex flex-wrap col-12">
                             <div class="d-flex flex-wrap col-12">
-                            <div class="col-11 py-2 pl-2">
-                                <span *ngIf="emptyValidation" class="valerr">Fields should not be empty.</span>
-                                <span *ngIf="duplicateValidation" class="valerr">Metadata already exists.</span>
-                                <span *ngIf="maxAlert" class="valerr">You've entered maximum number of metadata!!</span>
-                            </div>
-                            <div class="col-1 pt-2">
-                                <button type="button" class="btn btn-outline-primary p-2" (click)="createDataArray();"
-                                name="addbutton">
-                                <i class="fal fa-plus"></i>
-                            </button>
-                            </div>
+                                <div class="col-11 py-2 pl-2">
+                                    <span *ngIf="emptyValidation" class="valerr">Fields should not be empty.</span>
+                                    <span *ngIf="duplicateValidation" class="valerr">Metadata already exists.</span>
+                                    <span *ngIf="maxAlert" class="valerr">You've entered maximum number of
+                                        metadata!!</span>
+                                    <span class="valerr" *ngIf="maxLength"> Maximum of 32 characters</span>
+                                </div>
+
+                                <div class="col-1 pt-2">
+                                    <button type="button" class="btn btn-outline-primary p-2"
+                                        (click)="createDataArray();" name="addbutton">
+                                        <i class="fal fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                       
+
                     </ng-container>
                 </div>
             </div>
@@ -88,7 +92,8 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')">
             <i class="mr-1 fal fa-window-close"></i> Cancel</button>
-        <button type="submit" class="btn btn-success" [attr.disabled]="saveDisable?true:null"><i class="mr-1 fal fa-save"></i>Save</button>
+        <button type="submit" class="btn btn-success" [attr.disabled]="saveDisable?true:null"><i
+                class="mr-1 fal fa-save"></i>Save</button>
     </div>
 
 </form>

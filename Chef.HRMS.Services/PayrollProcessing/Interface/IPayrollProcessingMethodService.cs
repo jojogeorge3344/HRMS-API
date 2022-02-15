@@ -14,5 +14,6 @@ namespace Chef.HRMS.Services
         Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep);
         Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod);
         Task<int> InsertLOPDeduction(IEnumerable<LOPDeduction> lopDeduction);
+        Task<int> GetDetailsById(int employeeid, int month, int year);
     }
 }

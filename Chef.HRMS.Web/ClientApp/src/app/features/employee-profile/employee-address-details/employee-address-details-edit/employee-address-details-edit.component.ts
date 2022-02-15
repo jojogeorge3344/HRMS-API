@@ -54,6 +54,7 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
       currentPinCode: ['', [
         Validators.required,
         Validators.maxLength(16),
+        Validators.pattern("^[0-9]*$")
       ]],
       currentState: ['', [
         Validators.required,
@@ -72,6 +73,7 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
       permanentPinCode: ['', [
         Validators.required,
         Validators.maxLength(16),
+        Validators.pattern("^[0-9]*$"),
       ]],
       permanentState: ['', [
         Validators.required,
@@ -84,13 +86,13 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
   }
   getStatesByCountry(countryId, addressType) {
     if (addressType === 'current') {
-      this.currentstatesByCountry = this.states.filter((state) => state.countryId == countryId);
+      this.currentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       this.setpermanentAsCurrent(this.editForm.controls.currentCountry.value, 'permanentCountry');
       if (this.editForm.controls.ispermanentSameAsCurrent.value) {
-        this.permanentstatesByCountry = this.states.filter((state) => state.countryId == countryId);
+        this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       }
     } else {
-      this.permanentstatesByCountry = this.states.filter((state) => state.countryId == countryId);
+      this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
     }
   }
   currentAspermanent() {
