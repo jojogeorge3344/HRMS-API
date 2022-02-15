@@ -35,17 +35,10 @@ export class AssetMetadataService {
     return this.http.delete<AssetTypeMetadata>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
 
-
-
-  getAll(){
-    return this.http.get<AssetType[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
-  }
-
   getAllMetadata(){
     return this. http.get<AssetTypeMetadata[]>(this.baseUrl+ 'getAll').pipe(map(response => { return response; }));
   }
 
-  
   getAssetMetadataById(id: number) {
     return this.http.get<AssetTypeMetadata[]>(this.baseUrl + 'GetAllAssetTypeMetadataDetailsById/'+ id).pipe(map(response => { return response; }));
   }

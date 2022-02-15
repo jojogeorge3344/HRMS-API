@@ -7,6 +7,8 @@
     {
         Permanent = 1,
         Contract,
-        Intern
+        Intern,
+        Resigned,
+        OnProbation
     }
 }

@@ -43,6 +43,8 @@ export class ExpenseRequestListComponent implements OnInit {
   getExpenseRequests() {
     this.expenseRequestService.getAllExpenseDetailsById(this.currentUserId).subscribe((result: ExpenseRequest[]) => {
       this.expenseRequests = result;
+      console.log(result);
+      
       this.expenseRequestNames = this.expenseRequests.map(a => a.name.toLowerCase());
     },
       error => {

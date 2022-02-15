@@ -87,7 +87,7 @@ namespace Chef.HRMS.Web.Controllers
                 return NotFound();
             }
 
-            var result = await assetTypeMetadataService.DeleteAsync(id);
+            var result = await assetTypeMetadataService.DeleteMetadata(id);
 
             return Ok(result);
         }

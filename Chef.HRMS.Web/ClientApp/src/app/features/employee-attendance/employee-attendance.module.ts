@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgBootstrapFormValidationModule, CUSTOM_ERROR_MESSAGES } from 'ng-bootstrap-form-validation';
 import { DirectivesModule } from 'src/app/directives/directives.module';
-
+import { DatePipe } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 // import interactionPlugin from '@fullcalendar/interaction'; // a plugin
@@ -62,7 +62,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     DirectivesModule,
     FullCalendarModule
   ],
-  providers: [{
+  providers: [DatePipe,{
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: CUSTOM_ERRORS,
     multi: true

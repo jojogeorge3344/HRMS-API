@@ -33,7 +33,7 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.educationdocument ed 
                                            ON e.id = ed.educationid AND e.employeeid = @employeeId
                                    INNER JOIN hrms.document d 
-                                           ON ed.documentid = d.id";
+                                           ON ed.documentid = d.id order by e.id desc";
 
                 return await Connection.QueryAsync<EducationView>(sql, new { employeeId });
         }

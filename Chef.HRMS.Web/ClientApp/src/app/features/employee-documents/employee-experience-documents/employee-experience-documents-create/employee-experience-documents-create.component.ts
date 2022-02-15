@@ -28,6 +28,7 @@ export class EmployeeExperienceDocumentsCreateComponent implements OnInit {
   directoryName = 'c:';
   previousEmploymentDocument;
   minDate;
+  maxDate
   documentSave;
   fileName = '';
 
@@ -41,12 +42,12 @@ export class EmployeeExperienceDocumentsCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService) {
 
-    const current = new Date();
-    this.minDate = {
-      year: current.getFullYear(),
-      month: current.getMonth() + 1,
-      day: current.getDate()
-    };
+    // const current = new Date();
+    // this.minDate = {
+    //   year: current.getFullYear(),
+    //   month: current.getMonth() + 1,
+    //   day: current.getDate()
+    // };
   }
 
   ngOnInit(): void {
@@ -146,6 +147,12 @@ export class EmployeeExperienceDocumentsCreateComponent implements OnInit {
           console.error(error);
           this.toastr.showErrorMessage('There is an error in adding Previous Employment');
         });
+  }
+  setMaxDate(){
+    this.maxDate = {year:new Date(this.addForm.controls["dateOfRelieving"].value).getFullYear(),month:new Date(this.addForm.controls["dateOfRelieving"].value).getMonth() + 1, day:new Date(this.addForm.controls["dateOfRelieving"].value).getDate()}
+  }
+  setMinDate(){
+    this.minDate = {year:new Date(this.addForm.controls["dateOfJoining"].value).getFullYear(),month:new Date(this.addForm.controls["dateOfJoining"].value).getMonth() + 1, day:new Date(this.addForm.controls["dateOfJoining"].value).getDate()}  
   }
 
   createFormGroup(): FormGroup {

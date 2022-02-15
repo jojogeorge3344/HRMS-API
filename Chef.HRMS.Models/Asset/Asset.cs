@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -31,11 +32,13 @@ namespace Chef.HRMS.Models
         [Required]
         public string Description { get; set; }
 
-        //[Required]
-        //public string Status { get; set; }
+        [Required]
+        public AssetStatus Status { get; set; }
 
         [Required]
         public bool IsActive { get; set; }
+
+       // public string AssetTypeName { get; set; }
 
         [Write(false)]
         [Skip(true)]

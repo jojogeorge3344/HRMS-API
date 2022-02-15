@@ -353,7 +353,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
    // this.currentDate=new Date();
    // formatDate(new Date(), 'yyyy/MM/dd', 'en');
     console.log("datenow",this.currentDate);
-    
+   
     this.employeeLeaveService.add(addForm).subscribe((result) => {
       const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
         leaveId: result.id,
@@ -374,7 +374,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     });
   }
 
-  
+ 
 markDisabled =(date:NgbDateStruct)=>{
   const d = new Date(date.year,date.month - 1, date.day);
  let holidays=[];
@@ -386,7 +386,7 @@ markDisabled =(date:NgbDateStruct)=>{
   })
  }
 
-  return holidays.indexOf(d.getTime()) != -1;// return date.month !== current.month;  };
+  return holidays.indexOf(d.getTime()) != -1;// return date.month !== current.month;  };
 }
 
 
@@ -435,7 +435,7 @@ markDisabled =(date:NgbDateStruct)=>{
           y.date
         )
        
-        
+       
       })
       console.log("leavessting",this.leaveSettings);
     })

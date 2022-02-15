@@ -59,6 +59,11 @@ export class PayrollEmployeeCreateLoanAdvancesComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToasterDisplayService) {
     const current = new Date();
+    this.minDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
     this.todaysDate = new Date();
 
     const start = current.getFullYear();
@@ -74,17 +79,6 @@ export class PayrollEmployeeCreateLoanAdvancesComponent implements OnInit {
       const date = params.date.split('-');
       this.selectedMonth = this.monthsEnum[date[0]];
       this.selectedYear = date[1];
-      this.minDate = {
-        year: parseInt(date[1], 10),
-        month: parseInt(this.monthsEnum[date[0]], 10),
-        day: 1
-      };
-      this.maxDate = {
-        year: parseInt(date[1], 10),
-        month: parseInt(this.monthsEnum[date[0]], 10),
-        day: new Date(parseInt(date[1], 10), parseInt(this.monthsEnum[date[0]], 10), 0).getDate()
-      };
-
     });
     this.addForm = this.createFormGroup();
     this.month = this.todaysDate.toLocaleString('default', { month: 'short' }).toUpperCase();

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter, NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeOnDutyService } from '../employee-on-duty.service';
 import { Observable } from 'rxjs';
+import { DatePipe } from '@angular/common'
+import { EmployeeJobDetails } from 'src/app/features/employee/employee-job-details/employee-job-details.model';
 import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { getCurrentUserId, calculateDaysInBetween } from '@shared/utils/utils.functions';
 import { EmployeeOnDutyRequest } from '../employee-on-duty-request.model';
@@ -23,6 +25,8 @@ export class EmployeeOnDutyCreateComponent implements OnInit {
   isSingleDay: boolean;
   selectedButton: any;
   currentUserId: number;
+  EmployeeDetails: EmployeeJobDetails;
+  joinDate;
   minDateFrom;
   maxDateFrom;
   minDateTo;
@@ -44,24 +48,43 @@ export class EmployeeOnDutyCreateComponent implements OnInit {
     private employeeOnDutyService: EmployeeOnDutyService,
     private employeeService: EmployeeService,
     private calendar: NgbCalendar,
+    private datePipe:DatePipe,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService) {
 
     this.maxDateFrom = this.maxDateTo = {
-      year: this.current.getFullYear(),
+      year: (this.current.getFullYear()),
       month: this.current.getMonth() + 1,
       day: this.current.getDate() - 1
     };
+    
   }
 
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
+    this.getJoinDateById();
     this.addForm = this.createFormGroup();
     this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
     this.getEmployeeList();
     this.subscribeTochanges();
+  }
+
+  getJoinDateById() {
+    this.employeeOnDutyService.getJoiningDateByID(this.currentUserId).subscribe(result => {
+      this.EmployeeDetails = result;
+      this.joinDate=this.datePipe.transform(this.EmployeeDetails[0].dateOfJoin, 'yyyy-MM-dd').split('-');
+      console.log(this.joinDate);
+      this.minDateFrom =  {
+        year: parseInt(this.joinDate[0]),
+        month: parseInt(this.joinDate[1]),
+        day: parseInt(this.joinDate[2])
+      };
+    },
+      error => {
+        console.error(error);
+      });
   }
   subscribeTochanges() {
     this.addForm.valueChanges.subscribe(res => {
@@ -218,8 +241,8 @@ export class EmployeeOnDutyCreateComponent implements OnInit {
   onSubmit() {
     const addForm = this.addForm.value;
     addForm.numberOfDays = this.numberOfDays;
-    addForm.toDate = new Date (addForm.toDate.setHours(12));
-    addForm.fromDate = new Date (addForm.fromDate.setHours(12));
+    addForm.toDate = new Date(addForm.toDate.setHours(12));
+    addForm.fromDate = new Date(addForm.fromDate.setHours(12));
 
     this.employeeOnDutyService.add(addForm).subscribe((result: EmployeeOnDutyRequest) => {
 

@@ -18,9 +18,9 @@ import { AssetAssetsService } from '../../asset-assets/asset-assets.service';
 export class AssetMetadataListComponent implements OnInit {
 
   assetType: AssetType[];
+  assetTypeWithMetadata: AssetType[];
   assetTypeNames: AssetType[];
   assetMetadata: AssetTypeMetadata[];
-  // assetTypeNames :string[];
   assetMetadataNames: string[];
   assignedAssetTypeId: number[] = [];
   selectValueRelation: any[];
@@ -73,8 +73,10 @@ export class AssetMetadataListComponent implements OnInit {
   //To disable delete button =>fetching AssetTypeId which is assigned in Asset table, to array 'assignedAssetTypeId'
   getAllAssignedAssetType() {
     this.assetAssetService.getAll().subscribe(res => {
-      this.assignedAssetTypeId = res.map(type =>(type.assetTypeId));///
-      console.log(this.assignedAssetTypeId);
+      this.assignedAssetTypeId = res.map(type => (type.assetTypeId));
+      this.assignedAssetTypeId = this.assignedAssetTypeId.filter(function (item, index, inputArray) {
+        return inputArray.indexOf(item) == index;
+      });
     },
       error => {
         console.error(error);

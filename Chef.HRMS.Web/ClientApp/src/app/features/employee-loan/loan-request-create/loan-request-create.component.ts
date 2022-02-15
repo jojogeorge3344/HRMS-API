@@ -28,8 +28,11 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   expectedOnUpdated: any;
   currentUserId: number;
   loanSettingId: number;
+  minYear:number;
+  minMonth:number;
   years: any;
   months: any;
+  minDate = undefined;
 
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
@@ -46,9 +49,14 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) {
-    const current = new Date();
+   
     this.todaysDate = new Date();
-
+    const current = new Date();
+    this.minDate = {
+    year: current.getFullYear(),
+    month: current.getMonth() + 1,
+    day: current.getDate()
+  };
     const start = current.getFullYear();
     const end = start + 3;
     this.years = Array.from({ length: end - start }, (x, i) => i + start);
@@ -81,11 +89,12 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       }
     });
     this.controlSubscription = this.addForm.controls.expectedOn.valueChanges.subscribe(res => {
+      if(typeof res == "object"){
       const expectedOnYear = new Date(res.expectedOn).getFullYear();
       const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
       this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
       this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
-
+    }     
     });
 
   }
@@ -101,19 +110,21 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the Company details');
+        this.toastr.showErrorMessage('Unable to Fetch the Company Details');
       });
   }
 
   setLoanNo() {
     this.loanNo = 'LN-' + this.companyCode + '-' + this.month + this.year + '/' + this.nextLoanNumber.toString().padStart(4, '0');
   }
+ 
 
+ 
   onSubmit() {
-    const addloanRequestForm = this.addForm.value;
+    const addloanRequestForm = this.addForm.value;  
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = true;
+    addloanRequestForm.isapproved = false;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -141,15 +152,15 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     return this.formBuilder.group({
       loanNo: this.loanNo,
       loanType: [null, [Validators.required]],
-      loanAmount: ['', [Validators.required]],
+      loanAmount: ['', [Validators.required,Validators.max(99999999)]],
       paymentType: [null, [Validators.required]],
       expectedOn: [new Date(Date.now()), [
-        Validators.required,
+        Validators.required
       ]],
       emiStartsFromYear: [null, [Validators.required]],
       emiStartsFromMonth: [null, [Validators.required]],
       repaymentTerm: ['', [Validators.max(36), Validators.required]],
-      comments: ['', [Validators.required]],
+      comments: ['', [Validators.required,Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
     });

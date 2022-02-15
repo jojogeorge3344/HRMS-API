@@ -391,12 +391,11 @@ aside ::-webkit-scrollbar-thumb {
 }
 
 .valerr{
-  color: red;
+  color: #fd3995;
   background-color: rgb(255, 255, 255);
- 
   margin-left: 200px;
   margin-bottom: 250px;
- 
+  font-size:smaller;
 }
 
 .chkbox{
@@ -413,4 +412,9 @@ aside ::-webkit-scrollbar-thumb {
   padding:0.5rem !important;
 }
 /*Asset-metadata*/
+
+.lidisable{
+  pointer-events:none; 
+    opacity:0.6;        
+}
 
