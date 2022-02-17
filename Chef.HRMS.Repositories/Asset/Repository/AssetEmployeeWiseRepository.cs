@@ -205,7 +205,7 @@ namespace Chef.HRMS.Repositories
                                 am.assettypeid
                                  order by (select 1)) rn
                             from hrms.assetmetadatavalue am inner join hrms.asset aa on am.assetid=aa.id  
-							where aa.status=5 and am.assettypeid=@assettypeid
+							where (aa.status=5 and aa.isactive='true') and am.assettypeid=@assettypeid
                         ) t1
                         GROUP BY
 		                        t1.assetid,
