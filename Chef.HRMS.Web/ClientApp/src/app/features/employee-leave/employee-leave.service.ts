@@ -81,5 +81,10 @@ export class EmployeeLeaveService {
 
   }
 
+  getAllInfoLeave(employeeId) {
+    return this.http.get<EmployeeLeaveRequest[]>(this.baseUrl + 'GetAllLeaveInfoByEmployeeId/' + employeeId).pipe(map(response => response));
+  }
+
+
 
 }

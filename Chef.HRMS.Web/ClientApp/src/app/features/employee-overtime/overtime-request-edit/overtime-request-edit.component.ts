@@ -55,7 +55,6 @@ export class OvertimeRequestEditComponent implements OnInit {
       toDate: new Date(this.overtimeRequest.toDate)
     });
     this.getOvertimeConfiguration();
-    this.getOvertimeNotifyPersonnelByOvertimeId();
     this.getEmployeeList();
   }
   getOvertimeConfiguration() {
@@ -72,9 +71,8 @@ export class OvertimeRequestEditComponent implements OnInit {
   }
 
   getOvertimeNotifyPersonnelByOvertimeId(){
-    this.overtimeRequestService.getOvertimeNotifyPersonnelByOvertimeId(this.overtimeRequest.id).subscribe((result:any) =>{
-      this.selectedItems=this.formatter(result);
-      console.log('hhhhhhh',result);
+    this.overtimeRequestService.getOvertimeNotifyPersonnelByOvertimeId(this.overtimeRequest.id).subscribe((res:any) =>{
+      this.selectedItems = this.employeeList?.filter(({ id: id1 }) => res.some(({ notifyPersonnel: id2 }) => id2 === id1));
     },
       error => {
         console.error(error);
@@ -85,6 +83,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
+      this.getOvertimeNotifyPersonnelByOvertimeId();
     },
       error => {
         console.error(error);
@@ -101,13 +100,9 @@ export class OvertimeRequestEditComponent implements OnInit {
   )
 
   selected($event) {
-    console.log($event.item);
-    
     $event.preventDefault();
-    if (this.selectedItems?.indexOf($event.item) === -1) {
+    if (this.selectedItems.indexOf($event.item) === -1) {
       this.selectedItems.push($event.item);
-      console.log(this.selectedItems);
-      
     }
     this.notifyPersonnel.nativeElement.value = '';
   }
@@ -125,15 +120,22 @@ export class OvertimeRequestEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {
+    this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
       if (result.id !== -1) {
-        this.toastr.showSuccessMessage('Overtime request submitted successfully!');
-        this.activeModal.close('submit');
+        const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
+          overtimeId: this.overtimeRequest.id,
+          notifyPersonnel: notifyPerson.id
+        }));
+
+        this.overtimeRequestService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
+          this.toastr.showSuccessMessage('Overtime request updated successfully!');
+          this.activeModal.close('submit');
+        });
       }
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to submit the overtime request ');
+        this.toastr.showErrorMessage('Unable to update the overtime request ');
       });
   }
 

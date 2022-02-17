@@ -79,5 +79,10 @@ namespace Chef.HRMS.Services
         {
             return await leaveRepository.GetAllUnApprovedLeaveById(employeeId);
         }
+
+        public async Task<IEnumerable<Leave>> GetAllLeaveInfoByEmployeeId(int employeeId)
+        {
+            return await leaveRepository.GetAllLeaveInfoByEmployeeId(employeeId);
+        }
     }
 }

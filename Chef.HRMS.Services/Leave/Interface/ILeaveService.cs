@@ -19,5 +19,6 @@ namespace Chef.HRMS.Services
         Task<int> InsertUnmarkedAttendance(IEnumerable<Leave> leave);
 
         Task<IEnumerable<LeaveSettingsViewModel>> GetAllLeaveSettingsById(int employeeId);
+        Task<IEnumerable<Leave>> GetAllLeaveInfoByEmployeeId(int employeeId);
     }
 }
