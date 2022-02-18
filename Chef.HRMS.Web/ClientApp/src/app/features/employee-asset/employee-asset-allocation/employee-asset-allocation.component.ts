@@ -59,17 +59,18 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log("formValues",this.assetAllocationForm.getRawValue());
+    console.log("formValues",this.assetAllocationForm.getRawValue());
     let allValues= {...this.assetAllocationForm.getRawValue(),};
     let changeValues={
       allocatorcomments:allValues.CommentsAllocator,
       allocationId:allValues.allocationId,
       allocationTo:allValues.allocationTo,
+      empId:this.reqDetails.nameOfTeamMemberId,
       assetTypeId:this.checkedValues.assetTypeId,
       assetId:this.checkedValues.assetId,
       assetRaiseRequestId:this.reqId,
       assetMetadataValueId:this.checkedValues.assetMetadataValueId,
-      empId:this.empid,
+      // empId:this.empid,
       assetName:this.checkedValues.assetName,
       allocatedDate:new Date(),
       status:4,
@@ -109,7 +110,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       description: ["", [Validators.required]],
       allocationTo: ["", [Validators.required]],
       requestNo: ["", [Validators.required]],
-      CommentsAllocator: ["", [Validators.required]],
+      CommentsAllocator: ["", [Validators.required, Validators.maxLength(150)]],
     });
   }
 
