@@ -168,6 +168,7 @@ namespace Chef.HRMS.Repositories
                                    at.assettypename,
                                    ar.empid          AS requestedby,
                                    ar.description,
+                                   ar.nameofteammemberid,
                                    CONCAT(ee.firstname,'-',ee.lastname)   AS allocationto
                              FROM hrms.assetraiserequest AS ar INNER JOIN hrms.assettype AS at 
                                     ON ar.assettypeid=at.id INNER JOIN hrms.employee AS ee
