@@ -110,7 +110,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       description: ["", [Validators.required]],
       allocationTo: ["", [Validators.required]],
       requestNo: ["", [Validators.required]],
-      CommentsAllocator: ["", [Validators.required]],
+      CommentsAllocator: ["", [Validators.required, Validators.maxLength(150)]],
     });
   }
 

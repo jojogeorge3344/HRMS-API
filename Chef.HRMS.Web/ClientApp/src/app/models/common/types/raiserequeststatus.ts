@@ -6,7 +6,7 @@ export enum AssetStatus
     Allocated,
     Unallocated,
     Revoked,
-    ChangeRequest,
-    ReturnRequest 
+    Change_Request,
+    Return_Request 
 }
 
