@@ -13,6 +13,8 @@ namespace Chef.HRMS.Models
     [Table("assetallocated")]
     public class AssetAllocated : Model
     {
+        [Required]
+        public int AllocationId { get; set; }
 
         [ForeignKey("AssetRaiseRequest")]
         public int AssetTypeId { get; set; }
