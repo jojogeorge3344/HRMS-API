@@ -30,8 +30,8 @@ export class EmployeAssetService {
 
  
 
-  add(changeorswap: any[]){
-    return this.http.post<any>(this.baseUrl + 'insert', changeorswap).pipe(map(response => { return response; }));
+  add(allocate: any[]){
+    return this.http.post<any>(this.baseUrl + 'insert', allocate).pipe(map(response => { return response; }));
   }
 
   insertAllocate(changeorswap: any[]){
