@@ -318,5 +318,12 @@ namespace Chef.HRMS.Repositories
                                             SET status=4 WHERE id=@assetid";
                 return await Connection.ExecuteAsync(sql, assetAllocated);
         }
+
+        public async Task<IEnumerable<AssetAllocated>> GetAssetId(int assetraiserequestid)
+        {
+            var sql = "select assetid from hrms.assetallocated where assetraiserequestid=@assetraiserequestid";
+
+            return await Connection.QueryAsync<AssetAllocated>(sql, new {assetraiserequestid});
+        }
     }
 }

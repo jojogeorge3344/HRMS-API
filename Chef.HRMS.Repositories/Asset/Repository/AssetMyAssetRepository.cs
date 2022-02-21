@@ -29,7 +29,8 @@ namespace Chef.HRMS.Repositories
 		                    js.assetname,
                             js.allocateddate,
 		                    jk.description,
-		                    js.status
+		                    js.status,
+                            js.assetraiserequestid
 		                    FROM hrms.assetallocated as js
 		                    INNER JOIN hrms.asset as jk ON js.assetid = jk.id
 		                    WHERE (js.status = 4 OR js.status = 7 OR js.status=8 OR js.status=9) AND js.empid=@empid";
