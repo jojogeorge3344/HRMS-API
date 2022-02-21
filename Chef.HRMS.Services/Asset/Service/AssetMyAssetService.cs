@@ -68,7 +68,7 @@ namespace Chef.HRMS.Services
             try
             {
                 simpleUnitOfWork.BeginTransaction();
-                var exists = await assetMyAssetRepository.UpdateStatus(assetmyasset.AssetId);
+                //var exists = await assetMyAssetRepository.UpdateStatus(assetmyasset);
                 var result = await assetMyAssetRepository.Update(assetmyasset);
                 //var exists = result;
                 await assetMyAssetRepository.InsertAsync(assetmyasset);
