@@ -20,6 +20,13 @@ namespace Chef.HRMS.Models
         public int AssetId { get; set; }
 
 
+        [ForeignKey("AssetRaiseRequest")]
+        public int AssetRaiseRequestId { get; set; }
+
+        [ForeignKey("AssetRaiseRequest")]
+        public int AssetTypeId { get; set; }
+
+
         [Required]
         [ForeignKey("Employee")]
         public int EmpId { get; set; }
