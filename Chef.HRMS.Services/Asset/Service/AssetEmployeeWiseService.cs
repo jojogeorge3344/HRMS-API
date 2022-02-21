@@ -104,7 +104,7 @@ namespace Chef.HRMS.Services
         public async Task<int> UpdateStatus(int id, int status)
         {
             var result=await assetEmployeeWiseRepository.UpdateStatus(id, status);
-           // result = await assetEmployeeWiseRepository.DeleteAsync(id);
+            result = await assetEmployeeWiseRepository.Delete(id);
             return result;
         }
 
@@ -153,8 +153,9 @@ namespace Chef.HRMS.Services
             {
                 simpleUnitOfWork.BeginTransaction();
                 var result= await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
-                var exist = assetAllocated.Where(w => w.AssetId > 0);
+                var exist = assetAllocated.Where(w => w.AssetId > 0); 
                 result = await assetEmployeeWiseRepository.UpdateAssetStatus(exist);
+                // result = await assetEmployeeWiseRepository.UpdateRequest(result);
                 simpleUnitOfWork.Commit();
                 return result;
             }
@@ -166,7 +167,7 @@ namespace Chef.HRMS.Services
             }
         }
 
-        public async Task<IEnumerable<AssetAllocated>> GetAssetId(int assetraiserequestid)
+        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
         {
             return await assetEmployeeWiseRepository.GetAssetId(assetraiserequestid);
         }

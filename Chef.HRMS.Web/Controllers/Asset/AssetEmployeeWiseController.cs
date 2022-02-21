@@ -131,7 +131,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAssetId/{assetraiserequestid}")]
-        public async Task<ActionResult<IEnumerable<AssetAllocated>>> GetAssetId(int assetraiserequestid)
+        public async Task<ActionResult<IEnumerable<AssetViewModel>>> GetAssetId(int assetraiserequestid)
         {
             var asset = await assetEmployeeWiseService.GetAssetId(assetraiserequestid);
 
