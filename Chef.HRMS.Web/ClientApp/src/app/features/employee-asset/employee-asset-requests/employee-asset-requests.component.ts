@@ -10,6 +10,7 @@ import { NgbActiveModal, NgbModal,  }from '@ng-bootstrap/ng-bootstrap';
 import { RequestFor } from "src/app/models/common/types/requestfor";
 import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
 import { EmployeeAssetAllocationComponent } from "../employee-asset-allocation/employee-asset-allocation.component";
+import { EmployeeAssetChangereturnviewComponent } from "../employee-asset-changereturnview/employee-asset-changereturnview.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -83,7 +84,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   // }
 
   openChangeRequestView(emprequest) {
-    const modalRef = this.modalService.open(EmployeeAssetRequestViewComponent, {
+    const modalRef = this.modalService.open(EmployeeAssetChangereturnviewComponent, {
       centered: true,
       backdrop: "static",
     });
@@ -91,18 +92,12 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       if(userResponse){
         this.getEmployeeRequestById();
       }  
-    })
-      this.employeeAsset.getAssetId(emprequest.id).subscribe((res) => { 
-        console.log(res);
-        this.assetId=res; 
-      })
-    
+    }) 
     modalRef.componentInstance.assetId=this.assetId;
-    modalRef.componentInstance.id = emprequest.id;
+    modalRef.componentInstance.assetRaiseRequestId = emprequest.id;
     modalRef.componentInstance.empid = this.empid;
     modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
     modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
-    console.log(modalRef.componentInstance.requestId);
     this.employeeAsset.setListDetails({ data: emprequest });
   }
 
