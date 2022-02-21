@@ -21,8 +21,8 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   Astvalues: AssetAssets;
   assetId:number;
   employeeassetchangeReturnForm: FormGroup;
-  currentTypeMap: Map<any, any>;
-  currentTypeKeys: string[];
+  typeMap: Map<any, any>;
+  typeKeys: string[];
 
   constructor( public activeModal: NgbActiveModal,
                private formBuilder: FormBuilder,
@@ -33,13 +33,8 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
     { }
 
   ngOnInit(): void {
-    this.employeeAsset.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
-      console.log(res);
-      this.assetId=res[0].assetId;
-      console.log("assetid>>>>>>",this.assetId);
-      
-    })
-    this.getCurrentAssetById();
+    this.typeMap = new Map();
+    this.getAssetId();
     this.employeeassetchangeReturnForm = this.createFormGroup();
   }
 
@@ -56,17 +51,17 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   }
 
 
-  // getAssetId(){
-  //   this.employeeAsset.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
-  //     console.log(res);
-  //     this.assetId=res[0].assetId;
-  //     if(res[0].assetId){
-  //       this.getCurrentAssetById();
-  //     }
-  //     console.log("assetid>>>>>>",this.assetId);
+  getAssetId(){
+    this.employeeAsset.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
+      console.log(res);
+      this.assetId=res[0].assetid;
+      if(res[0].assetid){
+        this.getCurrentAssetById();
+      }
+      console.log("assetid>>>>>>",this.assetId);
       
-  //   })
-  // }
+    })
+  }
 
   getCurrentAssetById() {
     console.log("assetid",this.assetId);
@@ -75,17 +70,16 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
       this.assestassetService.getAssetById(this.assetId)
     ])
       .subscribe(([metadatas, asset]) => {
-        console.log("asset",asset);
-        
+        console.log("metadatas",metadatas); 
         metadatas.forEach(mdata => {
-          this.currentTypeMap.set(mdata.metadata, mdata);
+          this.typeMap.set(mdata.metadata, mdata);
           (this.employeeassetchangeReturnForm.get('metadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
-        this.currentTypeKeys = [...this.currentTypeMap.keys()];
+        this.typeKeys = [...this.typeMap.keys()];
         let mdatavalue = {};
-        console.log("typeks",this.currentTypeKeys);
+        console.log("typeks",this.typeKeys);
         
-        this.currentTypeKeys.map(key => {
-          mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.currentTypeMap.get(key).id)?.value || ''
+        this.typeKeys.map(key => {
+          mdatavalue[key] = asset.assetMetadataValues.find(mvalue => mvalue.assettypeMetadataId === this.typeMap.get(key).id)?.value || ''
         });
         this.employeeassetchangeReturnForm.patchValue({
           ...asset,
