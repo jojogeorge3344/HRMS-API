@@ -137,7 +137,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
             this.toastr.showSuccessMessage("request rejected successfully!");
           }
           else if (status == 6) {
-            this.toastr.showSuccessMessage("request rejected successfully!");
+            this.toastr.showSuccessMessage("request revoked successfully!");
           }
           this.activeModal.close("click");
           this.getEmployeeRequestById();
