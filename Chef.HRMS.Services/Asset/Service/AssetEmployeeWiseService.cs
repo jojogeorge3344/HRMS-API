@@ -167,7 +167,7 @@ namespace Chef.HRMS.Services
             }
         }
 
-        public async Task<IEnumerable<AssetAllocated>> GetAssetId(int assetraiserequestid)
+        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
         {
             return await assetEmployeeWiseRepository.GetAssetId(assetraiserequestid);
         }

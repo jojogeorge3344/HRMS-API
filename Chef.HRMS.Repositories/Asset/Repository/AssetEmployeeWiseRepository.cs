@@ -323,11 +323,11 @@ namespace Chef.HRMS.Repositories
                 return await Connection.ExecuteAsync(sql, assetAllocated);
         }
 
-        public async Task<IEnumerable<AssetAllocated>> GetAssetId(int assetraiserequestid)
+        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
         {
             var sql = "select assetid from hrms.assetallocated where assetraiserequestid=@assetraiserequestid";
 
-            return await Connection.QueryAsync<AssetAllocated>(sql, new {assetraiserequestid});
+            return await Connection.QueryAsync<AssetViewModel>(sql, new {assetraiserequestid});
         }
         public async Task<int> Delete(int id)
         {
