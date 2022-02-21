@@ -83,7 +83,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"Update hrms.assetallocated
                                     Set status=7 where Id=@Id;
                             UPDATE hrms.assetraiserequest
-                                  SET status=7 WHERE assetid=@assetid";
+                                  SET status=7 WHERE status=4 and assetid=@assetid";
                 var result = await Connection.ExecuteAsync(sql, assetmyasset);
                 return result;
             }
