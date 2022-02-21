@@ -104,7 +104,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      allocationId: [null, [Validators.required]],
+      allocationId: [0 ,[]],
       requestedBy: ["", []],
       // allocationDate: [new Date(Date.now()), [Validators.required]],
       description: ["", [Validators.required]],
