@@ -51,6 +51,7 @@ namespace Chef.HRMS.Models
         public AssetStatus Status { get; set; }
 
         [ForeignKey("Asset")]
+        [Required]
         public string Description { get; set; }
         public string AllocationTo { get; set; }
         public string AllocatorComments { get; set; }

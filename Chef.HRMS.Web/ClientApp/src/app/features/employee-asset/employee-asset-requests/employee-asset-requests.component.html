@@ -44,6 +44,10 @@
                                <li role="menuitem" [ngClass]="(emprequest.status ==3 || emprequest.status ==6 || emprequest.status==4)  ?'lidisable':''"  (click)="manageRequest(emprequest,3); clicked = true;"><a class="dropdown-item">Reject</a></li>
                                <li role="menuitem" [ngClass]="(emprequest.status ==4 || emprequest.status ==6 || emprequest.status==3 || emprequest.status ==1)?'lidisable':''"  (click)="openAllocate(emprequest)" ><a class="dropdown-item">Allocate</a></li>
                                <li role="menuitem"  [ngClass]="(emprequest.status ==4 || emprequest.status ==6)?'lidisable':''"   (click)="manageRequest(emprequest,6)"><a class="dropdown-item">Revoke</a></li>
+                               <li role="menuitem" *ngIf="emprequest?.status==7">View</li>
+                               <li role="menuitem" *ngIf="emprequest?.status==7">Change/Swap</li>
+                               <li role="menuitem" *ngIf="emprequest?.status==8">View</li>
+                               <li role="menuitem" *ngIf="emprequest?.status==8">Approve</li>
                             </ul>
                          </div>
                         

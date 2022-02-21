@@ -139,7 +139,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       newMetadatas: this.formBuilder.group([]),
       newDescription: ['', [
         Validators.required,
-        Validators.maxLength(128)
+        Validators.maxLength(10)
       ]],
       
     });

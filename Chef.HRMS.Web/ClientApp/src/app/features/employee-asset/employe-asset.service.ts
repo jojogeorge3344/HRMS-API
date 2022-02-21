@@ -104,4 +104,8 @@ export class EmployeAssetService {
   getAllocationDetails(reqId:number) {
     return this.http.get<any>(this.baseUrl + 'GetAllocationDetailsById/' + reqId).pipe(map(response => { return response; }));
   }
+
+  getAssetId(id:number){
+    return this.http.get(this.baseUrl + 'GetAssetId/' + id).pipe(map(response => { return response; }));
+  }
 }
