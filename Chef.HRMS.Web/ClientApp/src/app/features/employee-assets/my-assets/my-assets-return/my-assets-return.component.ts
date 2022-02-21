@@ -52,7 +52,7 @@ export class MyAssetsReturnComponent implements OnInit {
     this.assetData.returnDescription = this.returnAssetForm.get('returnDescription').value;
     this.assetData.returnType = toNumber(this.returnTypeSelected);
     this.myAssetService.updateStatus(this.assetData).subscribe(result => {
-      this.toastr.showSuccessMessage('Change request submitted successfully!');
+      this.toastr.showSuccessMessage('return request submitted successfully!');
       this.activeModal.close('submit');
     },
       error => {
