@@ -6,6 +6,8 @@ import { AssetAssetsService } from '@settings/asset/asset-assets/asset-assets.se
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { forkJoin } from 'rxjs';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { EmployeAssetService } from '../employe-asset.service';
 
 @Component({
@@ -19,6 +21,9 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   @Input() assetRaiseRequestId
   @Input() empid
   @Input() assetTypeName
+  returnDescription:string;
+  returnType:string;
+  assetChangeType=AssetChangeType;
   Astvalues: AssetAssets;
   assetId:number;
   employeeassetchangeReturnForm: FormGroup;
@@ -41,13 +46,15 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      valueId: ['', [
+      valueId: [{value:'', disabled:true}, [
         Validators.required,
       ]],
-      assetName: ['', [
+      assetName: [{value:'', disabled:true}, [
         Validators.required,
       ]],
       metadatas: this.formBuilder.group([]),
+      returnType: [{value:'', disabled:true}, []],
+      returnDescription: [{value:'', disabled:true}, []],
     });
   }
 
@@ -58,6 +65,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
       this.assetId=res[0].assetid;
       if(res[0].assetid){
         this.getCurrentAssetById();
+        this. getReasonAndDescription();
       }
       console.log("assetid>>>>>>",this.assetId); 
     })
@@ -65,8 +73,11 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
 
   getReasonAndDescription(){
     this.employeeAsset.getReasonAndDescription(this.assetRaiseRequestId,this.status).subscribe((res) => {
+      this.returnDescription=res[0].returnDescription
+      if(res[0].returnType=2)
+      this.returnType=this.assetChangeType[res[0].returnType]
+      this.employeeassetchangeReturnForm.patchValue({ returnDescription: this.returnDescription,returnType:this.returnType });
       console.log("reason and description",res);
-      
     })
   }
 

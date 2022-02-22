@@ -110,7 +110,6 @@ export class EmployeAssetService {
   }
 
   getReasonAndDescription(assetRaiseRequestId,status){
-    return this.http.put(this.baseUrl + 'GetReasonAndDescription/',{},                                                
-    { params: { assetRaiseRequestId: assetRaiseRequestId, status:status } }).pipe(map(response => { return response; }));
+    return this.http.get(this.baseUrl + 'GetReasonAndDescription/' + assetRaiseRequestId +'/' + status).pipe(map(response => { return response; }));
   }
 }
