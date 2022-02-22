@@ -319,14 +319,65 @@ namespace Chef.HRMS.Repositories
                 var sql = @"UPDATE hrms.asset
                                             SET status=4 WHERE id=@assetid;
                             UPDATE hrms.assetraiserequest
-                                            SET status=4, assettypeid=@assettypeid WHERE id=@assetraiserequestid";
+                                            SET status=4,requesttype=1,assetid=@assetid, assettypeid=@assettypeid WHERE id=@assetraiserequestid";
                 return await Connection.ExecuteAsync(sql, assetAllocated);
         }
 
+        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
+        {
+            var sql = "select assetid from hrms.assetallocated where assetraiserequestid=@assetraiserequestid";
+
+            return await Connection.QueryAsync<AssetViewModel>(sql, new {assetraiserequestid});
+        }
         public async Task<int> Delete(int id)
         {
             var sql = @"Delete from hrms.assetallocated where assetid=@id";
             return await Connection.ExecuteAsync(sql, new { id });
+        }
+
+        public async Task<IEnumerable<AssetMyAsset>> GetReasonAndDescription(int assetraiserequestid, int status)
+        {
+            
+            if (status == 7)
+            {
+                var sql = @"SELECT 
+                                changetype, 
+                                changedescription 
+                            FROM hrms.assetmyasset 
+                            WHERE assetraiserequestid = @assetraiserequestid";
+                 return await Connection.QueryAsync<AssetMyAsset>(sql, new { assetraiserequestid, status });
+                //return result;
+            }
+
+            else 
+            {
+                var sql = @"SELECT 
+                                returntype, 
+                                returndescription 
+                            FROM hrms.assetmyasset 
+                            WHERE assetraiserequestid = @assetraiserequestid";
+                 return await Connection.QueryAsync<AssetMyAsset>(sql, new { assetraiserequestid, status });
+                //return result;
+            }
+            //else
+            //{
+                
+            //}
+        }
+
+        public async Task<int> UpdateReturnStatus(int assetid, int status)
+        {
+            if (status == @status)
+            {
+                var sql = @"UPDATE hrms.asset
+                                            SET status=5 WHERE id=@id";
+                var result = await Connection.ExecuteAsync(sql, new { assetid, status });
+                return result;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         //public async Task<int> UpdateRequest(AssetRaiseRequest assetRaiseRequest)
@@ -335,11 +386,5 @@ namespace Chef.HRMS.Repositories
         //                                    SET status=4 WHERE id=@assetid";
         //    return await Connection.ExecuteAsync(sql, assetRaiseRequest);
         //}
-        public async Task<IEnumerable<AssetAllocated>> GetAssetId(int assetraiserequestid)
-        {
-            var sql = "select assetid from hrms.assetallocated where assetraiserequestid=@assetraiserequestid";
-
-            return await Connection.QueryAsync<AssetAllocated>(sql, new {assetraiserequestid});
-        }
     }
 }

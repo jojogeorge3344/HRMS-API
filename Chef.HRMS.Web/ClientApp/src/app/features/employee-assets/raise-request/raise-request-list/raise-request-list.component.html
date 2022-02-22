@@ -25,7 +25,7 @@
                 <td class="text-capitalize">{{ items.requestNo }}</td>
                 <td class="text-ellipsis">{{ items.requestedDate | date: 'yyyy-MM-dd' }}</td>
                 <td class="text-ellipsis">{{ raiseRequesttype[items.requestFor] }}</td>
-                <td class="text-ellipsis">{{ items.requestType }}</td>
+                <td class="text-ellipsis">{{ raiseRequestTypeList[items.requestType] }}</td>
                 <td class="text-ellipsis">{{ items.assetTypeName }}</td>
                 <td class="text-ellipsis">{{ raiseRequestStatus[items.status] }}</td>
                 <td>
