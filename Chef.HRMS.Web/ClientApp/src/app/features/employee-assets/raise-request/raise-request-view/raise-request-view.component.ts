@@ -35,7 +35,7 @@ export class RaiseRequestViewComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-   
+    console.log(this.raiseRequestDetails,"blabla");
     this.currentUserId = getCurrentUserId();
     this.viewForm = this.createFormGroup();
     this.getAllAssetTypes();
@@ -43,6 +43,9 @@ export class RaiseRequestViewComponent implements OnInit {
     this.viewForm.patchValue(this.raiseRequestDetails);
     this.viewForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'yyyy-MM-dd')})
     this.viewForm.patchValue({requestFor:this.raiseRequesttype[this.raiseRequestDetails.requestFor]});
+    if(this.raiseRequestDetails.requestFor==1){
+      this.viewForm.patchValue({nameOfTeamMember:null})
+    }
   }
   getvalue(i) { // self or team member
     console.log(this.viewForm.value.requestFor);
