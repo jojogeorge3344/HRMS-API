@@ -130,6 +130,14 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+        [HttpGet("GetAssetId/{assetraiserequestid}")]
+        public async Task<ActionResult<IEnumerable<AssetViewModel>>> GetAssetId(int assetraiserequestid)
+        {
+            var asset = await assetEmployeeWiseService.GetAssetId(assetraiserequestid);
+
+            return Ok(asset);
+        }
+
 
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]

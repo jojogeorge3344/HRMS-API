@@ -29,7 +29,8 @@ namespace Chef.HRMS.Repositories
 		                    js.assetname,
                             js.allocateddate,
 		                    jk.description,
-		                    js.status
+		                    js.status,
+                            js.assetraiserequestid
 		                    FROM hrms.assetallocated as js
 		                    INNER JOIN hrms.asset as jk ON js.assetid = jk.id
 		                    WHERE (js.status = 4 OR js.status = 7 OR js.status=8 OR js.status=9) AND js.empid=@empid";
@@ -92,7 +93,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"Update hrms.assetallocated
                                     Set status=8 where Id=@Id;
                             UPDATE hrms.assetraiserequest
-                                  SET status=8 WHERE assetid=@assetid";
+                                  SET status=8 WHERE status=4 and assetid=@assetid";
                 var result = await Connection.ExecuteAsync(sql, assetmyasset);
                 return result;
             }

@@ -72,6 +72,7 @@ export class MyAssetsListComponent implements OnInit {
       { centered: true, backdrop: 'static' });
       modalRef.componentInstance.assetData = assetData;
       modalRef.componentInstance.currentUserId = currentUserId;
+      console.log("assetdatavalues" ,modalRef.componentInstance.assetData);
       modalRef.result.then((result) => {
         if (result == 'submit') {
           this.getAllMyAssetList(this.currentUserId);
@@ -84,7 +85,7 @@ export class MyAssetsListComponent implements OnInit {
       { centered: true, backdrop: 'static' });
       modalRef.componentInstance.assetData = assetData;
       modalRef.componentInstance.currentUserId = currentUserId;
-    modalRef.result.then((result) => {
+      modalRef.result.then((result) => {
       if (result == 'submit') {
         this.getAllMyAssetList(this.currentUserId);
       }

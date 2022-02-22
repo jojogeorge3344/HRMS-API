@@ -40,7 +40,7 @@ namespace Chef.HRMS.Repositories
                                         FULL JOIN
                                         (SELECT empid, COUNT(*) AS requests
                                         FROM hrms.assetraiserequest
-                                        WHERE status = 1
+                                        WHERE (status = 1 or status = 7 or status =8)
                                         GROUP BY empid)b USING(empid)";
 
             return await Connection.QueryAsync<AssetCountViewModel>(sql);
@@ -117,7 +117,7 @@ namespace Chef.HRMS.Repositories
                                 rr. requesteddate
 					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee 
                                  ON rr.empid=employee.id INNER JOIN hrms.assettype as tt
-                                 ON rr.assettypeid=tt.id WHERE empid=@empid and rr.status not in (7)
+                                 ON rr.assettypeid=tt.id WHERE empid=@empid 
                                                         ORDER BY id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
@@ -323,6 +323,12 @@ namespace Chef.HRMS.Repositories
                 return await Connection.ExecuteAsync(sql, assetAllocated);
         }
 
+        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
+        {
+            var sql = "select assetid from hrms.assetallocated where assetraiserequestid=@assetraiserequestid";
+
+            return await Connection.QueryAsync<AssetViewModel>(sql, new {assetraiserequestid});
+        }
         public async Task<int> Delete(int id)
         {
             var sql = @"Delete from hrms.assetallocated where assetid=@id";

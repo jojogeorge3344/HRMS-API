@@ -166,5 +166,10 @@ namespace Chef.HRMS.Services
                 return 0;
             }
         }
+
+        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
+        {
+            return await assetEmployeeWiseRepository.GetAssetId(assetraiserequestid);
+        }
     }
 }
