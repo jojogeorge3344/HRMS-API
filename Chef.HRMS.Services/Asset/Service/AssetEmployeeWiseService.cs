@@ -116,7 +116,7 @@ namespace Chef.HRMS.Services
 
         public async Task<int> UpdateAllocateStatus(int id, int assetraiserequestid, int status)
         {
-            return await assetEmployeeWiseRepository.UpdateAllocateStatus(id, assetraiserequestid, status); ;
+            return await assetEmployeeWiseRepository.UpdateAllocateStatus(id, assetraiserequestid, status);
         }
 
         public Task<int> DeleteAsync(int id)
@@ -175,6 +175,11 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<AssetMyAsset>> GetReasonAndDescription(int assetraiserequestid, int status)
         {
             return await assetEmployeeWiseRepository.GetReasonAndDescription(assetraiserequestid,status);
+        }
+
+        public async Task<int> UpdateReturnStatus(int assetid, int status)
+        {
+            return await assetEmployeeWiseRepository.UpdateReturnStatus(assetid, status);
         }
     }
 }

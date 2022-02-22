@@ -12,6 +12,7 @@ import { RaiseRequestEditComponent } from '../raise-request-edit/raise-request-e
 import { RaiseRequestViewComponent } from '../raise-request-view/raise-request-view.component';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 
@@ -25,6 +26,7 @@ export class RaiseRequestListComponent implements OnInit {
   assetTypeNames: AssetType[];
   currentUserId: number;
   raiseRequesttype = RequestFor;
+  raiseRequestTypeList = RequestType;
   raiseRequestStatus = AssetStatus;
 
   constructor(

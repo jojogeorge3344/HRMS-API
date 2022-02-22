@@ -11,6 +11,7 @@ import { RequestFor } from "src/app/models/common/types/requestfor";
 import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
 import { EmployeeAssetAllocationComponent } from "../employee-asset-allocation/employee-asset-allocation.component";
 import { EmployeeAssetChangereturnviewComponent } from "../employee-asset-changereturnview/employee-asset-changereturnview.component";
+import { RequestType } from "src/app/models/common/types/requesttype";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -31,6 +32,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   reqid: number;
   assetTypeId: number;
   assetTypeName: string;
+  raiseRequestTypeList = RequestType;
 
   constructor(
     private employeeAsset: EmployeAssetService,
