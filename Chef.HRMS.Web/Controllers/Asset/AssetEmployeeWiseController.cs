@@ -137,6 +137,15 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(asset);
         }
+        
+        [HttpGet("GetReasonAndDescription/{assetraiserequestid}/{status}")]
+        public async Task<ActionResult<IEnumerable<AssetMyAsset>>> GetReasonAndDescription(int assetraiserequestid,int status)
+        {
+            var asset = await assetEmployeeWiseService.GetReasonAndDescription(assetraiserequestid, status);
+
+            return Ok(asset);
+        }
+
 
 
         [HttpPost("Insert")]

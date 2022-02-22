@@ -171,5 +171,10 @@ namespace Chef.HRMS.Services
         {
             return await assetEmployeeWiseRepository.GetAssetId(assetraiserequestid);
         }
+
+        public async Task<IEnumerable<AssetMyAsset>> GetReasonAndDescription(int assetraiserequestid, int status)
+        {
+            return await assetEmployeeWiseRepository.GetReasonAndDescription(assetraiserequestid,status);
+        }
     }
 }
