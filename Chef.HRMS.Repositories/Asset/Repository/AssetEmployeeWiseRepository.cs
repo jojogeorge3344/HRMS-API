@@ -183,7 +183,7 @@ namespace Chef.HRMS.Repositories
         {
             var sql = @"SELECT 
 	
-		                        concat(t1.assetname,'-',t1.assetid) AS assetcode,
+		                        concat(t1.assetname,'-',t1.valueid) AS assetcode,
 								t1.assetid,
 								t1.status,
 								t1.assetname,
@@ -200,7 +200,7 @@ namespace Chef.HRMS.Repositories
                                 max(CASE WHEN rn = 4 THEN id END) metadatavalueid4,
                                 max(CASE WHEN rn = 5 THEN id END) metadatavalueid5
                         FROM (
-                            select am.*,aa.assetname,aa.status,
+                            select am.*,aa.assetname,aa.status,aa.valueid,
 								aa.description,Row_number() over(partition by 
 		                        am.assetid,
                                 am.assettypeid
@@ -213,7 +213,8 @@ namespace Chef.HRMS.Repositories
                                 t1.assettypeid,
 								t1.assetname,
 								t1.description,
-								t1.status";
+								t1.status,
+                                t1.valueid";
 
             return await Connection.QueryAsync<AssetAllocationViewModel>(sql, new { assettypeid });
         }
@@ -255,7 +256,9 @@ namespace Chef.HRMS.Repositories
                         var sql = @"UPDATE hrms.asset
                                             SET status=5 WHERE id=@id;
                                     UPDATE hrms.assetallocated 
-                                            SET status=5 WHERE assetid=@id";
+                                            SET status=5 WHERE assetid=@id;
+                                    UPDATE hrms.assetraiserequest 
+                                            SET status=4 WHERE status=7 and assetid=@id";
                         result = await Connection.ExecuteAsync(sql, new { id, status });
                     }
                     transaction.Commit();
@@ -314,8 +317,23 @@ namespace Chef.HRMS.Repositories
         public async Task<int> UpdateAssetStatus(IEnumerable<AssetAllocated> assetAllocated)
         {
                 var sql = @"UPDATE hrms.asset
-                                            SET status=4 WHERE id=@assetid";
+                                            SET status=4 WHERE id=@assetid;
+                            UPDATE hrms.assetraiserequest
+                                            SET status=4, assettypeid=@assettypeid WHERE id=@assetraiserequestid";
                 return await Connection.ExecuteAsync(sql, assetAllocated);
         }
+
+        public async Task<int> Delete(int id)
+        {
+            var sql = @"Delete from hrms.assetallocated where assetid=@id";
+            return await Connection.ExecuteAsync(sql, new { id });
+        }
+
+        //public async Task<int> UpdateRequest(AssetRaiseRequest assetRaiseRequest)
+        //{
+        //    var sql = @"UPDATE hrms.assetraiserequest
+        //                                    SET status=4 WHERE id=@assetid";
+        //    return await Connection.ExecuteAsync(sql, assetRaiseRequest);
+        //}
     }
 }

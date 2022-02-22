@@ -52,12 +52,27 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, assetmyasset);
         }
 
-        public async Task<int> UpdateStatus(int assetid)
-        {
-            var sql = @"UPDATE hrms.assetraiserequest
-                        SET status=7 WHERE assetid=@assetid";
-            return await Connection.ExecuteAsync(sql, new { assetid });
-        }
+        //public async Task<int> UpdateStatus(AssetMyAsset assetmyasset)
+        //{
+        //    if (assetmyasset.ChangeType != 0)
+        //    {
+        //        var sql = @"UPDATE hrms.assetraiserequest
+        //                SET status=7 WHERE assetid=@assetid";
+        //        var result = await Connection.ExecuteAsync(sql, assetmyasset);
+        //        return result;
+        //    }
+        //    else if(assetmyasset.ReturnType != 0)
+        //    {
+        //        var sql = @"UPDATE hrms.assetraiserequest
+        //                SET status=8 WHERE assetid=@assetid";
+        //        var result = await Connection.ExecuteAsync(sql, assetmyasset);
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        return 0;
+        //    }
+        //}
 
         public async Task<int> Update(AssetMyAsset assetmyasset)
         {
@@ -65,7 +80,9 @@ namespace Chef.HRMS.Repositories
             {
 
                 var sql = @"Update hrms.assetallocated
-                                    Set status=7 where Id=@Id";
+                                    Set status=7 where Id=@Id;
+                            UPDATE hrms.assetraiserequest
+                                  SET status=7 WHERE status=4 and assetid=@assetid";
                 var result = await Connection.ExecuteAsync(sql, assetmyasset);
                 return result;
             }
@@ -73,7 +90,9 @@ namespace Chef.HRMS.Repositories
             else if (assetmyasset.ReturnType != 0)
             {
                 var sql = @"Update hrms.assetallocated
-                                    Set status=8 where Id=@Id";
+                                    Set status=8 where Id=@Id;
+                            UPDATE hrms.assetraiserequest
+                                  SET status=8 WHERE assetid=@assetid";
                 var result = await Connection.ExecuteAsync(sql, assetmyasset);
                 return result;
             }
