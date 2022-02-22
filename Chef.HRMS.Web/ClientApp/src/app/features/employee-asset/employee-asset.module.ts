@@ -11,11 +11,12 @@ import { EmployeeAssetRequestViewComponent } from './employee-asset-request-view
 import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswap/employee-asset-changeorswap.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/employee-asset-allocation.component';
+import { EmployeeAssetChangereturnviewComponent } from './employee-asset-changereturnview/employee-asset-changereturnview.component';
 
 
 
 @NgModule({
-  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent],
+  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent, EmployeeAssetChangereturnviewComponent],
   imports: [
     FormsModule,
     CommonModule,

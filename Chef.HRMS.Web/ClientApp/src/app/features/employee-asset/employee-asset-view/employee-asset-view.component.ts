@@ -23,7 +23,6 @@ export class EmployeeAssetViewComponent implements OnInit{
   empStatus=WorkerType;
   assetId:number;
   assetTypeId:number;
-  buttonStatus: number;
   
 
   constructor(private employeeAsset :EmployeAssetService,
@@ -66,10 +65,7 @@ export class EmployeeAssetViewComponent implements OnInit{
     console.log(this.empid);
     return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
         this.allocatedAssets = result;
-        this.allocatedAssets.forEach(stats => {
-          this.buttonStatus=stats.status;
-        });
-        console.log("allocated assets",this.allocatedAssets, this.buttonStatus);
+        console.log("allocated assets",this.allocatedAssets);
       });
   }
 
