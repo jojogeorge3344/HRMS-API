@@ -16,6 +16,7 @@ import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators'
 import { EmployeeLeaveService } from '@features/employee-leave/employee-leave.service';
 import { EmployeeService } from '@features/employee/employee.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class RaiseRequestCreateComponent implements OnInit {
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
+  raiseRequestTypeList = RequestType;
   raiseRequestStatus =AssetStatus;
   raiseRequestDetails : AssetRaiseRequest;
   isDisable = false;
@@ -68,6 +70,7 @@ export class RaiseRequestCreateComponent implements OnInit {
     this.raiseRequestDetails.nameOfTeamMemberId = this.addForm.controls['nameOfTeamMemberId'].value?this.addForm.controls['nameOfTeamMemberId'].value.empid: this.currentUserId;
     this.raiseRequestDetails.empId = this.currentUserId;
     this.raiseRequestDetails.status= this.raiseRequestStatus.Requested;
+    this.raiseRequestDetails.requestType = this.raiseRequestTypeList.NewAsset;
     // this.raiseRequestDetails.assetTypeName=_.find(this.assetTypeArray, ['id', this.addForm.controls['assetTypeId'].value]).assettypename;
     
     this.raiseRequestService.add(this.raiseRequestDetails).subscribe((result: any) => {

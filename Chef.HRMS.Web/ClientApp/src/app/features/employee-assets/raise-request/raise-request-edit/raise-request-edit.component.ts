@@ -10,6 +10,7 @@ import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { Employee } from '@features/employee/employee.model';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
@@ -27,6 +28,7 @@ export class RaiseRequestEditComponent implements OnInit {
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
+  raiseRequestTypeList = RequestType;
   raiseRequestStatus = AssetStatus;
   isDisable = false;
   raiseRequestEditData: AssetRaiseRequest;
@@ -104,7 +106,8 @@ export class RaiseRequestEditComponent implements OnInit {
       this.employeeList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment)); 
       this.editForm.patchValue(this.raiseRequestDetails);    
       this.editForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'yyyy-MM-dd')})
-      this.editForm.patchValue({nameOfTeamMemberId:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMemberId])}) 
+      this.editForm.patchValue({nameOfTeamMemberId:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMemberId])})
+      this.editForm.patchValue({requestType: this.raiseRequestTypeList[this.raiseRequestDetails.requestType]}) 
     },
       error => {
         console.error(error);
@@ -140,7 +143,7 @@ export class RaiseRequestEditComponent implements OnInit {
         Validators.required,
 
       ]],
-      requestType: [{ value: 'New Asset', disabled: true }, [
+      requestType: ['', [
         Validators.required,
       ]],
       requestedDate: ['', [

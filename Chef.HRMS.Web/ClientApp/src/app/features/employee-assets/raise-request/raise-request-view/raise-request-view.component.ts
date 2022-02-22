@@ -9,6 +9,7 @@ import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 import * as _ from 'lodash';
@@ -25,6 +26,7 @@ export class RaiseRequestViewComponent implements OnInit {
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
+  raiseRequestTypeList = RequestType;
   raiseRequestStatus =AssetStatus;
   isDisable = false;
 
@@ -46,6 +48,7 @@ export class RaiseRequestViewComponent implements OnInit {
     if(this.raiseRequestDetails.requestFor==1){
       this.viewForm.patchValue({nameOfTeamMember:null})
     }
+    this.viewForm.patchValue({requestType: this.raiseRequestTypeList[this.raiseRequestDetails.requestType]}) 
   }
   getvalue(i) { // self or team member
     console.log(this.viewForm.value.requestFor);
@@ -77,7 +80,7 @@ export class RaiseRequestViewComponent implements OnInit {
         Validators.required,
 
       ]],
-      requestType: [{ value: 'New Asset', disabled: true }, [
+      requestType: [{ disabled: true }, [
         Validators.required,
       ]],
       requestedDate: ['', [
