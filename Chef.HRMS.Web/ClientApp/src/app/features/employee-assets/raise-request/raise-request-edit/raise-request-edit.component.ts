@@ -63,6 +63,7 @@ export class RaiseRequestEditComponent implements OnInit {
 
   onSubmit() {
     this.raiseRequestEditData = this.editForm.getRawValue();
+    this.raiseRequestEditData.requestType = this.raiseRequestDetails.requestType
     this.raiseRequestEditData.nameOfTeamMemberId =  this.editForm.controls['nameOfTeamMemberId'].value?this.editForm.controls['nameOfTeamMemberId'].value.empid: this.currentUserId;
     this.raiseRequestEditData.status= this.raiseRequestStatus.Requested;
     this.raiseRequestEditData.empId = this.currentUserId;
