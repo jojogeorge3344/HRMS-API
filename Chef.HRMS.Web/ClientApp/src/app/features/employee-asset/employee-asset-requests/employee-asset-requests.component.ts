@@ -93,6 +93,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
         this.getEmployeeRequestById();
       }  
     }) 
+    modalRef.componentInstance.status=emprequest.status;
     modalRef.componentInstance.assetId=this.assetId;
     modalRef.componentInstance.assetRaiseRequestId = emprequest.id;
     modalRef.componentInstance.empid = this.empid;

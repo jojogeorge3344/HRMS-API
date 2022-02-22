@@ -15,6 +15,7 @@ import { EmployeAssetService } from '../employe-asset.service';
 export class EmployeeAssetChangereturnviewComponent implements OnInit {
 //  @Input() assetId
   @Input() assetTypeId
+  @Input() status
   @Input() assetRaiseRequestId
   @Input() empid
   @Input() assetTypeName
@@ -58,7 +59,13 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
       if(res[0].assetid){
         this.getCurrentAssetById();
       }
-      console.log("assetid>>>>>>",this.assetId);
+      console.log("assetid>>>>>>",this.assetId); 
+    })
+  }
+
+  getReasonAndDescription(){
+    this.employeeAsset.getReasonAndDescription(this.assetRaiseRequestId,this.status).subscribe((res) => {
+      console.log("reason and description",res);
       
     })
   }
