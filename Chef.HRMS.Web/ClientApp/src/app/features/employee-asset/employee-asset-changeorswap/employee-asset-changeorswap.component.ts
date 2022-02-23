@@ -20,11 +20,12 @@ import * as _ from 'lodash';
 })
 export class EmployeeAssetChangeorswapComponent implements OnInit {
   employeeassetchangeForm: FormGroup;
-  @Input() assetId
+  // @Input() assetId
   @Input() assetTypeId
   @Input() assetRaiseRequestId
   @Input() empid
   @Input() assetTypeName
+  assetId: number;
   Astvalues: AssetAssets;
   currentTypeMap: Map<any, any>;
   currentTypeKeys: string[];
@@ -50,12 +51,13 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("input values>>",this.assetRaiseRequestId,this.assetTypeId,this.empid,this.assetTypeName);
+    
+    this.getAssetId();
     this.currentTypeMap = new Map();
     this.newTypeMap = new Map();
     this.newMdataTypeMap=new Map();
     this.employeeassetchangeForm = this.createFormGroup();
-    this.getCurrentAssetById();
-    this.getAssetType();
   }
   onSubmit() {
     console.log(this.employeeassetchangeForm.getRawValue());
@@ -146,7 +148,18 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   }
 
 
+  getAssetId(){
+    this.employeAssetService.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
+      console.log(res);
+      this.assetId=res[0].assetid;
+      // console.log("assetid>>>>>>",this.assetId); 
+      this.getCurrentAssetById();
+      this.getAssetType();
+    })
+  }
+
   getCurrentAssetById() {
+    console.log("assetid>>>>>>",this.assetId); 
     forkJoin([
       this.assetMetadataService.getAssetMetadataById(this.assetTypeId),
       this.assestassetService.getAssetById(this.assetId)
