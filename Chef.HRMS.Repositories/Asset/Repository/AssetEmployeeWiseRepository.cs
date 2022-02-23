@@ -374,7 +374,9 @@ namespace Chef.HRMS.Repositories
             if (status == @status)
             {
                 var sql = @"UPDATE hrms.asset
-                                            SET status=5 WHERE id=@id";
+                                            SET status=5 WHERE id=@id;
+                            UPDATE hrms.assetallocated
+                                            SET status=10 WHERE id=@id";
                 var result = await Connection.ExecuteAsync(sql, new { assetid, status });
                 return result;
             }

@@ -16,7 +16,7 @@ namespace Chef.HRMS.Types
        Revoked,
        Change_Request,
        Return_Request,
-       Recalled
-
+       Recalled,
+       Returned
     }
 }
