@@ -16,13 +16,13 @@ import { EmployeAssetService } from '../employe-asset.service';
   templateUrl: './employee-asset-changereturnview.component.html',
 })
 export class EmployeeAssetChangereturnviewComponent implements OnInit {
-//  @Input() assetId
+//  @Input() requestType
   @Input() assetTypeId
   @Input() status
   @Input() assetRaiseRequestId
   @Input() empid
   @Input() assetTypeName
-  description:string;
+  comments:string;
   reason:string;
   assetChangeType=AssetChangeType;
   assetReturnType=AssetReturnType;
@@ -56,7 +56,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
       ]],
       metadatas: this.formBuilder.group([]),
       reason: [{value:'', disabled:true}, []],
-      description: [{value:'', disabled:true}, []],
+      comments: [{value:'', disabled:true}, []],
     });
   }
 
@@ -75,14 +75,20 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
 
   getReasonAndDescription(){
     this.employeeAsset.getReasonAndDescription(this.assetRaiseRequestId,this.status).subscribe((res) => {
-      this.description=res[0].description
-      if(res[0].type=2){
+      debugger;
+      if(res[0].type==2){
+      this.comments=res[0].comments
       this.reason=this.assetChangeType[res[0].reason]
-      this.employeeassetchangeReturnForm.patchValue({ description: this.description,type:this.reason });
+      console.log(this.assetChangeType[res[0].reason]);
+      
+      this.employeeassetchangeReturnForm.patchValue({ comments: this.comments,reason:this.reason });
       }
-      else if(res[0].type=3){
+      else if(res[0].type==3){
+      this.comments=res[0].comments
       this.reason=this.assetReturnType[res[0].reason]
-      this.employeeassetchangeReturnForm.patchValue({ description: this.description,type:this.reason });
+      console.log(this.assetReturnType[res[0].reason]);
+      
+      this.employeeassetchangeReturnForm.patchValue({ comments: this.comments,reason:this.reason });
       }
       console.log("reason and description",res);
     })

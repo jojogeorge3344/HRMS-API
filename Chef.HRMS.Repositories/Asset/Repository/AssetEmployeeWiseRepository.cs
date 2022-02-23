@@ -342,7 +342,7 @@ namespace Chef.HRMS.Repositories
             {
                 var sql = @"SELECT 
                                 am.changetype as reason, 
-                                am.changedescription as description,
+                                am.changedescription as comments,
                                 at.requesttype as type
                             FROM hrms.assetmyasset as am
 							INNER JOIN hrms.assetraiserequest as at ON am.assetraiserequestid = at.id
@@ -355,7 +355,7 @@ namespace Chef.HRMS.Repositories
             {
                 var sql = @"SELECT 
                                 am.returntype as reason, 
-                                am.returndescription as description,
+                                am.returndescription as comments,
                                 at.requesttype as type
                             FROM hrms.assetmyasset as am
 							INNER JOIN hrms.assetraiserequest as at ON am.assetraiserequestid = at.id

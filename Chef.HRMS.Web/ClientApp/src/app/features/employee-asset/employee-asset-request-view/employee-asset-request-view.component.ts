@@ -8,6 +8,7 @@ import { switchMap,tap } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { EmployeAssetService } from '../employe-asset.service';
 import { EmployeeAssetAllocationComponent } from '../employee-asset-allocation/employee-asset-allocation.component';
 
@@ -32,6 +33,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   requestViewForm: FormGroup;
   requetedByName: string;
   buttonStatus: number;
+  requestType=RequestType;
   requestResult=[];
 
 
@@ -88,6 +90,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
       tap(([result]) => {
         this.requestViewForm.patchValue(result);
         this.requestViewForm.patchValue({requestFor:this.reqForStatus[result.requestFor]})
+        this.requestViewForm.patchValue({requestType:this.requestType[result.requestType]})
         this.requestResult=result;
         console.log("request result",this.requestResult);
         

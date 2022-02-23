@@ -46,7 +46,7 @@
                                <li role="menuitem" *ngIf="emprequest?.status!=7 && emprequest?.status!=8"  [ngClass]="(emprequest.status ==4 || emprequest.status ==6 || emprequest.status ==3)?'lidisable':''"   (click)="manageRequest(emprequest,6)"><a class="dropdown-item">Revoke</a></li>
                                <li role="menuitem" *ngIf="emprequest?.status==8 || emprequest?.status==7" (click)="openChangeRequestView(emprequest)"><a class="dropdown-item">View</a></li>
                                <li role="menuitem" *ngIf="emprequest?.status==7" (click)="openChangeOrSwap(emprequest)"><a class="dropdown-item">Change/Swap</a></li>
-                               <li role="menuitem" *ngIf="emprequest?.status==8"><a class="dropdown-item">approve</a></li>
+                               <li role="menuitem" *ngIf="emprequest?.status==8" (click)="approveReturn(emprequest)"><a class="dropdown-item">approve</a></li>
                             </ul>
                          </div>
                         

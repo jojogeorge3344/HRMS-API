@@ -14,7 +14,7 @@ namespace Chef.HRMS.Models
 
         public int Type { get; set; }
 
-        public string Description { get; set; }
+        public string Comments { get; set; }
 
         public int Reason { get; set; }
 
