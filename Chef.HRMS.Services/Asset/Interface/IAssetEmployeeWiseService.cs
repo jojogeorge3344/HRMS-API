@@ -22,7 +22,7 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id);
         Task<IEnumerable<AssetAllocationViewModel>> GetMetadataDetailsById(int assettypeid);
         Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid);
-        Task<IEnumerable<AssetMyAsset>> GetReasonAndDescription(int assetraiserequestid,int status);
+        Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid,int status);
         Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated);
         Task<int> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated);
         Task<int> UpdateStatus(int id, int status);

@@ -21,8 +21,8 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   @Input() assetRaiseRequestId
   @Input() empid
   @Input() assetTypeName
-  returnDescription:string;
-  returnType:string;
+  description:string;
+  type:string;
   assetChangeType=AssetChangeType;
   Astvalues: AssetAssets;
   assetId:number;
@@ -53,8 +53,8 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
         Validators.required,
       ]],
       metadatas: this.formBuilder.group([]),
-      returnType: [{value:'', disabled:true}, []],
-      returnDescription: [{value:'', disabled:true}, []],
+      type: [{value:'', disabled:true}, []],
+      description: [{value:'', disabled:true}, []],
     });
   }
 
@@ -73,10 +73,15 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
 
   getReasonAndDescription(){
     this.employeeAsset.getReasonAndDescription(this.assetRaiseRequestId,this.status).subscribe((res) => {
-      this.returnDescription=res[0].returnDescription
-      if(res[0].returnType=2)
-      this.returnType=this.assetChangeType[res[0].returnType]
-      this.employeeassetchangeReturnForm.patchValue({ returnDescription: this.returnDescription,returnType:this.returnType });
+      this.description=res[0].description
+      if(res[0].type=2){
+      this.type=this.assetChangeType[res[0].type]
+      this.employeeassetchangeReturnForm.patchValue({ description: this.description,type:this.type });
+      }
+      else if(res[0].type=3){
+      this.type=this.assetChangeType[res[0].type]
+      this.employeeassetchangeReturnForm.patchValue({ description: this.description,type:this.type });
+      }
       console.log("reason and description",res);
     })
   }
