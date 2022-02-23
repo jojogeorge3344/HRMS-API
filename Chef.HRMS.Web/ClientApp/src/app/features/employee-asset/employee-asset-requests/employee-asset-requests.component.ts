@@ -12,6 +12,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { EmployeeAssetAllocationComponent } from "../employee-asset-allocation/employee-asset-allocation.component";
 import { EmployeeAssetChangereturnviewComponent } from "../employee-asset-changereturnview/employee-asset-changereturnview.component";
 import { RequestType } from "src/app/models/common/types/requesttype";
+import { EmployeeAssetChangeorswapComponent } from "../employee-asset-changeorswap/employee-asset-changeorswap.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -96,12 +97,25 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       }  
     }) 
     modalRef.componentInstance.status=emprequest.status;
-    modalRef.componentInstance.assetId=this.assetId;
+    // modalRef.componentInstance.assetId=this.assetId;
     modalRef.componentInstance.assetRaiseRequestId = emprequest.id;
     modalRef.componentInstance.empid = this.empid;
     modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
     modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
     this.employeeAsset.setListDetails({ data: emprequest });
+  }
+
+  openChangeOrSwap(emprequest) {
+    const modalRef = this.modalService.open(EmployeeAssetChangeorswapComponent,
+      { centered: true, backdrop: 'static' });
+     modalRef.componentInstance.assetRaiseRequestId=emprequest.id;
+     modalRef.componentInstance.empid=this.empid;
+     modalRef.componentInstance.assetTypeName=emprequest.assetTypeName;
+     modalRef.componentInstance.assetTypeId =  emprequest.assetTypeId;
+     modalRef.result.then((userResponse) => {
+      this.getEmployeeRequestById();
+     })
+  
   }
 
   openAllocate(emprequest){
