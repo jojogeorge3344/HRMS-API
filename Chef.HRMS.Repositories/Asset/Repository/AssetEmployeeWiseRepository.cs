@@ -335,28 +335,28 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, new { id });
         }
 
-        public async Task<IEnumerable<AssetMyAsset>> GetReasonAndDescription(int assetraiserequestid, int status)
+        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status)
         {
             
             if (status == 7)
             {
                 var sql = @"SELECT 
-                                changetype, 
-                                changedescription 
+                                changetype as type, 
+                                changedescription as description 
                             FROM hrms.assetmyasset 
                             WHERE assetraiserequestid = @assetraiserequestid";
-                 return await Connection.QueryAsync<AssetMyAsset>(sql, new { assetraiserequestid, status });
+                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status });
                 //return result;
             }
 
             else 
             {
                 var sql = @"SELECT 
-                                returntype, 
-                                returndescription 
+                                returntype as type, 
+                                returndescription as description
                             FROM hrms.assetmyasset 
                             WHERE assetraiserequestid = @assetraiserequestid";
-                 return await Connection.QueryAsync<AssetMyAsset>(sql, new { assetraiserequestid, status });
+                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status });
                 //return result;
             }
             //else
