@@ -131,7 +131,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     })
     modalRef.result.then((userResponse) => {
       if(userResponse == true) {
-        this.employeeAsset.updateReturnStatus(this.assetId,10).subscribe(res => {
+        this.employeeAsset.updateReturnStatus(this.assetId,10, emprequest.id).subscribe(res => {
           this.activeModal.close("click");
           this.getEmployeeRequestById()
         })
