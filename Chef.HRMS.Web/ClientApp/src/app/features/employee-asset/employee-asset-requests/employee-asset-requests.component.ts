@@ -117,7 +117,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
      })
   
   }
-
+      
   approveReturn(emprequest){
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       size: 'lg',
@@ -128,13 +128,19 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     this.employeeAsset.getAssetId(emprequest.id).subscribe(res => {
       this.assetId = res[0].assetid;
       console.log("id>>",this.assetId);
-      this.employeeAsset.updateReturnStatus(this.assetId,10).subscribe(res => {
-        this.activeModal.close("click");
-        this.getEmployeeRequestById();
-      })
     })
-
+    modalRef.result.then((userResponse) => {
+      if(userResponse == true) {
+        this.employeeAsset.updateReturnStatus(this.assetId,10).subscribe(res => {
+          this.activeModal.close("click");
+          this.getEmployeeRequestById()
+        })
+      }
+    })
   }
+   
+
+  
 
   openAllocate(emprequest){
     this.router.navigate(
