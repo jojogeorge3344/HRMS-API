@@ -341,10 +341,12 @@ namespace Chef.HRMS.Repositories
             if (status == 7)
             {
                 var sql = @"SELECT 
-                                changetype as type, 
-                                changedescription as description 
-                            FROM hrms.assetmyasset 
-                            WHERE assetraiserequestid = @assetraiserequestid";
+                                am.changetype as reason, 
+                                am.changedescription as description,
+                                at.requesttype as type
+                            FROM hrms.assetmyasset as am
+							INNER JOIN hrms.assetraiserequest as at ON am.assetraiserequestid = at.id
+                            WHERE am.assetraiserequestid = @assetraiserequestid";
                  return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status });
                 //return result;
             }
@@ -352,10 +354,12 @@ namespace Chef.HRMS.Repositories
             else 
             {
                 var sql = @"SELECT 
-                                returntype as type, 
-                                returndescription as description
-                            FROM hrms.assetmyasset 
-                            WHERE assetraiserequestid = @assetraiserequestid";
+                                am.returntype as reason, 
+                                am.returndescription as description,
+                                at.requesttype as type
+                            FROM hrms.assetmyasset as am
+							INNER JOIN hrms.assetraiserequest as at ON am.assetraiserequestid = at.id
+                            WHERE am.assetraiserequestid = @assetraiserequestid";
                  return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status });
                 //return result;
             }
