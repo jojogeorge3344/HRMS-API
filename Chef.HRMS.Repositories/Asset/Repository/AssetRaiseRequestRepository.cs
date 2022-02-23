@@ -66,6 +66,14 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<AssetEmployeeViewModel>(sql, new { });
         }
 
+        public async Task<int> UpdateRevoke(int id)
+        {
+            var sql = "update hrms.assetraiserequest set status=6 where id=@id";
+            return await Connection.ExecuteAsync(sql, new { id });
+        }
+
+
+
 
         //public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id)
         //{
