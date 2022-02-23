@@ -119,6 +119,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   }
       
   approveReturn(emprequest){
+    console.log(emprequest.id);
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       size: 'lg',
       centered: true,
