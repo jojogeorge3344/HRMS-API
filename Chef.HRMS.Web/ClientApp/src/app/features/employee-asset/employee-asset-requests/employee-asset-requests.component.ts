@@ -21,7 +21,7 @@ import { EmployeeAssetChangeorswapComponent } from "../employee-asset-changeorsw
 export class EmployeeAssetRequestsComponent implements OnInit {
   // assetStatus: AssetStatus;
   allocatedassets;
-  assetId: {};
+  assetId: number;
   currentUserId: number;
   assetRaiseRequestId: number;
   empid: string;
@@ -97,7 +97,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       }  
     }) 
     modalRef.componentInstance.status=emprequest.status;
-    // modalRef.componentInstance.assetId=this.assetId;
+    // modalRef.componentInstance.requestType=this.assetId;
     modalRef.componentInstance.assetRaiseRequestId = emprequest.id;
     modalRef.componentInstance.empid = this.empid;
     modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
@@ -117,6 +117,30 @@ export class EmployeeAssetRequestsComponent implements OnInit {
      })
   
   }
+      
+  approveReturn(emprequest){
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: "static",
+    });
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
+    this.employeeAsset.getAssetId(emprequest.id).subscribe(res => {
+      this.assetId = res[0].assetid;
+      console.log("id>>",this.assetId);
+    })
+    modalRef.result.then((userResponse) => {
+      if(userResponse == true) {
+        this.employeeAsset.updateReturnStatus(this.assetId,10, emprequest.id).subscribe(res => {
+          this.activeModal.close("click");
+          this.getEmployeeRequestById()
+        })
+      }
+    })
+  }
+   
+
+  
 
   openAllocate(emprequest){
     this.router.navigate(
