@@ -18,7 +18,8 @@ namespace Chef.HRMS.Services
 
         public Task<IEnumerable<AssetEmployeeViewModel>> GetEmployeeDetails();
 
-        
+        Task<int> UpdateRevoke(int id);
+
 
 
         //Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id);
