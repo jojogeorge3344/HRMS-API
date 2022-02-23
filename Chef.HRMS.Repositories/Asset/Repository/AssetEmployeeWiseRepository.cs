@@ -341,8 +341,8 @@ namespace Chef.HRMS.Repositories
             if (status == 7)
             {
                 var sql = @"SELECT 
-                                changetype, 
-                                changedescription 
+                                changetype as type, 
+                                changedescription as description 
                             FROM hrms.assetmyasset 
                             WHERE assetraiserequestid = @assetraiserequestid";
                  return await Connection.QueryAsync<AssetMyAsset>(sql, new { assetraiserequestid, status });
@@ -352,8 +352,8 @@ namespace Chef.HRMS.Repositories
             else 
             {
                 var sql = @"SELECT 
-                                returntype, 
-                                returndescription 
+                                returntype as type, 
+                                returndescription as description
                             FROM hrms.assetmyasset 
                             WHERE assetraiserequestid = @assetraiserequestid";
                  return await Connection.QueryAsync<AssetMyAsset>(sql, new { assetraiserequestid, status });
