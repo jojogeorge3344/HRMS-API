@@ -235,14 +235,14 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPut("UpdateReturnStatus")]
-        public async Task<ActionResult> UpdateReturnStatus(int assetid, int status)
+        public async Task<ActionResult> UpdateReturnStatus(int assetid, int status, int assetraiserequestid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await assetEmployeeWiseService.UpdateReturnStatus(assetid, status);
+            var result = await assetEmployeeWiseService.UpdateReturnStatus(assetid, status, assetraiserequestid);
 
             return Ok(result);
         }

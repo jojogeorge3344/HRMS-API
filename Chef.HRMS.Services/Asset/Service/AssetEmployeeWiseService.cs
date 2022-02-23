@@ -177,9 +177,9 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetReasonAndDescription(assetraiserequestid,status);
         }
 
-        public async Task<int> UpdateReturnStatus(int assetid, int status)
+        public async Task<int> UpdateReturnStatus(int assetid, int status,int assetraiserequestid)
         {
-            return await assetEmployeeWiseRepository.UpdateReturnStatus(assetid, status);
+            return await assetEmployeeWiseRepository.UpdateReturnStatus(assetid, status, assetraiserequestid);
         }
     }
 }
