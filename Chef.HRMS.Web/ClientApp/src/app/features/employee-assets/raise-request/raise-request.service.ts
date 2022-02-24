@@ -34,8 +34,9 @@ export class RaiseRequestService {
   return this.http.put<AssetRaiseRequest>(this.baseUrl + 'update', raiseRequest).pipe(map(response => { return response; }));
   }
 
-  delete(id:number){
-    return this.http.delete<AssetRaiseRequest>(this.baseUrl + 'delete/'+id).pipe(map(response => { return response; }));
+  delete(id){
+    return this.http.put<AssetRaiseRequest>(this.baseUrl + 'UpdateRevoke',{},
+    {params:{id:id}}).pipe(map(response => { return response; }));
   }
 
   get(id:number) {

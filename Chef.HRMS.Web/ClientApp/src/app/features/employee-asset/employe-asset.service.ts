@@ -113,8 +113,8 @@ export class EmployeAssetService {
     return this.http.get(this.baseUrl + 'GetReasonAndDescription/' + assetRaiseRequestId +'/' + status).pipe(map(response => { return response; }));
   }
 
-  updateReturnStatus(AssetId,status,reqId) {
+  updateReturnStatus(AssetId,status,assetraiserequestid) {
     return this.http.put(this.baseUrl + 'UpdateReturnStatus',{},                                                
-    { params: { AssetId: AssetId, status : status, reqId: reqId } }).pipe(map(response => { return response; }));
+    { params: { AssetId: AssetId, status : status, assetraiserequestid: assetraiserequestid } }).pipe(map(response => { return response; }));
   }
 }

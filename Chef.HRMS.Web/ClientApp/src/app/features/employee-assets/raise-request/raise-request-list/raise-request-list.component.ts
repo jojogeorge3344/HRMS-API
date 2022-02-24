@@ -109,11 +109,11 @@ export class RaiseRequestListComponent implements OnInit {
   delete(raiseRequest: AssetRaiseRequest) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
-    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete this raise request?`;
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke this raise request?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
         this.raiseRequestService.delete(raiseRequest.id).subscribe(() => {
-          this.toastr.showSuccessMessage('The raise request deleted successfully!');
+          this.toastr.showSuccessMessage('The raise request has been revoked successfully!');
           this.getAllRaiseRequestList(this.currentUserId);
         });
       }

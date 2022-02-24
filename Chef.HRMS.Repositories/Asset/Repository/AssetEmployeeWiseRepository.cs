@@ -298,7 +298,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"UPDATE hrms.asset
                                             SET status=4 WHERE id=@id;
                                     UPDATE hrms.assetallocated 
-                                            SET status=4 WHERE assetid=@id;
+                                            SET status=4 WHERE assetid=@id and assetraiserequestid=@assetraiserequestid;
                                     UPDATE hrms.assetraiserequest 
                                             SET status=4,assetid=@id WHERE id=@assetraiserequestid";
                 var result = await Connection.ExecuteAsync(sql, new { id, assetraiserequestid, status });
@@ -369,23 +369,23 @@ namespace Chef.HRMS.Repositories
             //}
         }
 
-        public async Task<int> UpdateReturnStatus(int assetid, int status,int assetraiserequestid)
+        public async Task<int> UpdateReturnStatus(int assetid, int status, int assetraiserequestid)
         {
-            if (status == @status)
-            {
-                var sql = @"UPDATE hrms.asset
-                                            SET status=5 WHERE id=@assetid;
-                            UPDATE hrms.assetallocated
-                                            SET status=10 WHERE assetraiserequestid=@assetraiserequestid;
-                            UPDATE hrms.assetraiserequest
-                                            SET status=10 WHERE id=@assetraiserequestid";
-                var result = await Connection.ExecuteAsync(sql, new { assetid, status, assetraiserequestid });
-                return result;
-            }
-            else
-            {
-                return 0;
-            }
+                    if (status == @status)
+                    {
+                        var sql = @"UPDATE hrms.asset
+                                                SET status=5 WHERE id=@assetid;
+                                UPDATE hrms.assetallocated
+                                                SET status=10 WHERE assetraiserequestid=@assetraiserequestid and assetid=@assetid;
+                                UPDATE hrms.assetraiserequest
+                                                SET status=10 WHERE id=@assetraiserequestid and assetid=@assetid";
+                        var result = await Connection.ExecuteAsync(sql, new { assetid, status, assetraiserequestid });
+                        return result;
+                    }
+                    else
+                    {
+                        return 0;
+                    }                     
         }
 
         //public async Task<int> UpdateRequest(AssetRaiseRequest assetRaiseRequest)

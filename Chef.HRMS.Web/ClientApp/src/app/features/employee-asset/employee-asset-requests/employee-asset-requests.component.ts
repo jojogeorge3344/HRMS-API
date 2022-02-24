@@ -32,6 +32,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   id: [];
   reqid: number;
   assetTypeId: number;
+  reqID:number
   assetTypeName: string;
   raiseRequestTypeList = RequestType;
 
@@ -119,6 +120,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   }
       
   approveReturn(emprequest){
+    console.log(emprequest.id);
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       size: 'lg',
       centered: true,
@@ -131,7 +133,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     })
     modalRef.result.then((userResponse) => {
       if(userResponse == true) {
-        this.employeeAsset.updateReturnStatus(this.assetId,10, emprequest.id).subscribe(res => {
+        this.reqID=emprequest.id;
+        console.log(">>>>>>>",this.reqID);
+        this.employeeAsset.updateReturnStatus(this.assetId, 10, this.reqID).subscribe(res => {
           this.activeModal.close("click");
           this.getEmployeeRequestById()
         })
