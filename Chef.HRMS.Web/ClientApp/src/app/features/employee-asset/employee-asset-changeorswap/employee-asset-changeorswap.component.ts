@@ -141,7 +141,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       newMetadatas: this.formBuilder.group([]),
       newDescription: ['', [
         Validators.required,
-        Validators.maxLength(10)
+        Validators.maxLength(150)
       ]],
       
     });
@@ -273,6 +273,18 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     map(term => this.assetList.filter((assetList:any) => new RegExp(term, 'mi').test(assetList.name)).slice(0, 10))
   )
 
+  clearSearch(ev){
+    console.log(">>>>>",ev,   "value>",ev.target.value);
+    console.log("<<<", this.employeeassetchangeForm.get('newMetadatas')as FormGroup) ;
+    if(ev.target.value===''){
+    Object.entries(( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).controls).forEach(([name,control]) => {
+      console.log(control);
+      ( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).removeControl(name)
+    })
+    this.newTypeKeys=[];
+  }
+    
+  }
   
 
 }
