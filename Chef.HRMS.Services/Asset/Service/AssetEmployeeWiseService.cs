@@ -172,9 +172,9 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetAssetId(assetraiserequestid);
         }
 
-        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status)
+        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status,int assetid)
         {
-            return await assetEmployeeWiseRepository.GetReasonAndDescription(assetraiserequestid,status);
+            return await assetEmployeeWiseRepository.GetReasonAndDescription(assetraiserequestid,status, assetid);
         }
 
         public async Task<int> UpdateReturnStatus(int assetid, int status,int assetraiserequestid)

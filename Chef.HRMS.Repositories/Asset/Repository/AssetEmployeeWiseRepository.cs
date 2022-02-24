@@ -335,7 +335,7 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, new { id });
         }
 
-        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status)
+        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status, int assetid)
         {
             
             if (status == 7)
@@ -346,8 +346,8 @@ namespace Chef.HRMS.Repositories
                                 at.requesttype as type
                             FROM hrms.assetmyasset as am
 							INNER JOIN hrms.assetraiserequest as at ON am.assetraiserequestid = at.id
-                            WHERE am.assetraiserequestid = @assetraiserequestid";
-                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status });
+                            WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid";
+                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
                 //return result;
             }
 
@@ -359,8 +359,8 @@ namespace Chef.HRMS.Repositories
                                 at.requesttype as type
                             FROM hrms.assetmyasset as am
 							INNER JOIN hrms.assetraiserequest as at ON am.assetraiserequestid = at.id
-                            WHERE am.assetraiserequestid = @assetraiserequestid";
-                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status });
+                            WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid";
+                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
                 //return result;
             }
             //else
