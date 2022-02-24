@@ -109,8 +109,8 @@ export class EmployeAssetService {
     return this.http.get(this.baseUrl + 'GetAssetId/' + id).pipe(map(response => { return response; }));
   }
 
-  getReasonAndDescription(assetRaiseRequestId,status){
-    return this.http.get(this.baseUrl + 'GetReasonAndDescription/' + assetRaiseRequestId +'/' + status).pipe(map(response => { return response; }));
+  getReasonAndDescription(assetRaiseRequestId,status,assetid){
+    return this.http.get(this.baseUrl + 'GetReasonAndDescription/' + assetRaiseRequestId +'/' + status +'/'+ assetid).pipe(map(response => { return response; }));
   }
 
   updateReturnStatus(AssetId,status,assetraiserequestid) {

@@ -74,8 +74,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   }
 
   getReasonAndDescription(){
-    this.employeeAsset.getReasonAndDescription(this.assetRaiseRequestId,this.status).subscribe((res) => {
-      debugger;
+    this.employeeAsset.getReasonAndDescription(this.assetRaiseRequestId,this.status,this.assetId).subscribe((res) => {
       if(res[0].type==2){
       this.comments=res[0].comments
       this.reason=this.assetChangeType[res[0].reason]
