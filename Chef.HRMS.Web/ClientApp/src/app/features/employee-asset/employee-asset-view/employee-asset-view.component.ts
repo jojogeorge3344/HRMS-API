@@ -48,6 +48,9 @@ export class EmployeeAssetViewComponent implements OnInit{
       employeeID: [{value:'', disabled:true} , [
         Validators.required,
       ]],
+      employeeNumber: [{value:'', disabled:true} , [
+        Validators.required,
+      ]],
       employeeStatus: [{value:'', disabled:true}, [
         Validators.required,
       ]],
@@ -84,7 +87,7 @@ export class EmployeeAssetViewComponent implements OnInit{
       modalRef.componentInstance.assetRaiseRequestId=allocatedAsset.assetRaiseRequestId
       modalRef.componentInstance.empid=allocatedAsset.empId
       modalRef.componentInstance.assetTypeName=allocatedAsset.assetTypeName
-      modalRef.componentInstance.assetId= allocatedAsset.assetId;
+      // modalRef.componentInstance.assetId= allocatedAsset.assetId;
       modalRef.componentInstance.assetTypeId = allocatedAsset.assetTypeId;
       modalRef.result.then((userResponse) => {
         this.getEmployeeDetailsById()
