@@ -139,7 +139,7 @@ namespace Chef.HRMS.Web.Controllers
         }
         
         [HttpGet("GetReasonAndDescription/{assetraiserequestid}/{status}")]
-        public async Task<ActionResult<IEnumerable<AssetMyAsset>>> GetReasonAndDescription(int assetraiserequestid,int status)
+        public async Task<ActionResult<IEnumerable<AssetReasonViewModel>>> GetReasonAndDescription(int assetraiserequestid,int status)
         {
             var asset = await assetEmployeeWiseService.GetReasonAndDescription(assetraiserequestid, status);
 
@@ -230,6 +230,19 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetEmployeeWiseService.UpdateStatusRecalled(empid, assetid, status);
+
+            return Ok(result);
+        }
+
+        [HttpPut("UpdateReturnStatus")]
+        public async Task<ActionResult> UpdateReturnStatus(int assetid, int status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.UpdateReturnStatus(assetid, status);
 
             return Ok(result);
         }

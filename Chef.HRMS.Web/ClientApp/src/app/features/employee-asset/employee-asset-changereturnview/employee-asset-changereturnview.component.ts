@@ -6,6 +6,8 @@ import { AssetAssetsService } from '@settings/asset/asset-assets/asset-assets.se
 import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metadata.service';
 import { forkJoin } from 'rxjs';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { EmployeAssetService } from '../employe-asset.service';
 
 @Component({
@@ -19,6 +21,9 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   @Input() assetRaiseRequestId
   @Input() empid
   @Input() assetTypeName
+  description:string;
+  type:string;
+  assetChangeType=AssetChangeType;
   Astvalues: AssetAssets;
   assetId:number;
   employeeassetchangeReturnForm: FormGroup;
@@ -41,13 +46,15 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      valueId: ['', [
+      valueId: [{value:'', disabled:true}, [
         Validators.required,
       ]],
-      assetName: ['', [
+      assetName: [{value:'', disabled:true}, [
         Validators.required,
       ]],
       metadatas: this.formBuilder.group([]),
+      type: [{value:'', disabled:true}, []],
+      description: [{value:'', disabled:true}, []],
     });
   }
 
@@ -58,6 +65,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
       this.assetId=res[0].assetid;
       if(res[0].assetid){
         this.getCurrentAssetById();
+        this. getReasonAndDescription();
       }
       console.log("assetid>>>>>>",this.assetId); 
     })
@@ -65,8 +73,16 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
 
   getReasonAndDescription(){
     this.employeeAsset.getReasonAndDescription(this.assetRaiseRequestId,this.status).subscribe((res) => {
+      this.description=res[0].description
+      if(res[0].type=2){
+      this.type=this.assetChangeType[res[0].type]
+      this.employeeassetchangeReturnForm.patchValue({ description: this.description,type:this.type });
+      }
+      else if(res[0].type=3){
+      this.type=this.assetChangeType[res[0].type]
+      this.employeeassetchangeReturnForm.patchValue({ description: this.description,type:this.type });
+      }
       console.log("reason and description",res);
-      
     })
   }
 
