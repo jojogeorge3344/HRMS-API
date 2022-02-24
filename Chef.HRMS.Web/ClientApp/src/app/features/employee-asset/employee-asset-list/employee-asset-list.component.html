@@ -22,7 +22,7 @@
             <tbody>
                 <tr class="text-center" *ngFor="let employee of employees; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ employee.employeeID }}</td>
+                    <td>{{ employee.employeeNumber }}</td>
                     <td class="text-capitalize">{{employee.firstName}} {{employee.lastName}}</td>
                     <td >{{ empStatus[employee.employeeStatus] }}</td>
                     <td > <a class="link text-primary mt-3"

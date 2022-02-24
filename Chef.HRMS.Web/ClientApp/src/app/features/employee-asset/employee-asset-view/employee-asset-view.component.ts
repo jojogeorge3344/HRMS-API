@@ -48,6 +48,9 @@ export class EmployeeAssetViewComponent implements OnInit{
       employeeID: [{value:'', disabled:true} , [
         Validators.required,
       ]],
+      employeeNumber: [{value:'', disabled:true} , [
+        Validators.required,
+      ]],
       employeeStatus: [{value:'', disabled:true}, [
         Validators.required,
       ]],

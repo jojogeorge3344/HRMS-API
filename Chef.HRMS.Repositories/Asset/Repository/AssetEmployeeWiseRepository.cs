@@ -19,6 +19,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetEmployeeWise>> GetAll()
         {
             var sql = @"SELECT  jt.id,
+                                jd.employeenumber,
                                 jd.employeeid,
                                 jt.firstname,
                                 jt.lastname,
@@ -86,6 +87,7 @@ namespace Chef.HRMS.Repositories
                var sql = @"SELECT   employeeid,
                                     firstname,
                                     jd.workertype AS employeestatus,
+									jd.employeenumber,
                                     jt.name AS designation
                                 FROM  hrms.employee INNER JOIN hrms.jobdetails AS jd
                                     ON hrms.employee.id=jd.employeeid INNER JOIN hrms.jobtitle AS jt 
