@@ -138,10 +138,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(asset);
         }
         
-        [HttpGet("GetReasonAndDescription/{assetraiserequestid}/{status}")]
-        public async Task<ActionResult<IEnumerable<AssetReasonViewModel>>> GetReasonAndDescription(int assetraiserequestid,int status)
+        [HttpGet("GetReasonAndDescription/{assetraiserequestid}/{status}/{assetid}")]
+        public async Task<ActionResult<IEnumerable<AssetReasonViewModel>>> GetReasonAndDescription(int assetraiserequestid,int status,int assetid)
         {
-            var asset = await assetEmployeeWiseService.GetReasonAndDescription(assetraiserequestid, status);
+            var asset = await assetEmployeeWiseService.GetReasonAndDescription(assetraiserequestid, status, assetid);
 
             return Ok(asset);
         }
