@@ -32,7 +32,7 @@ namespace Chef.HRMS.Repositories
                                at.requesteddate,
                                at.requestfor,
                                at.nameofteammemberid,
-                               concat (firstname ,lastname) as nameofteammember,
+                               concat (firstname,' ',lastname) as nameofteammember,
                                at.requesttype,
                                at.description,
                                at.status,at.empid
