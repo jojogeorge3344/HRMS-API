@@ -74,15 +74,16 @@ export class RaiseRequestEditComponent implements OnInit {
     this.raiseRequestService.update(this.raiseRequestEditData).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
-        this.toastr.showErrorMessage('Raised request already exists!');
-      } else {
-        this.toastr.showSuccessMessage('Request added successfully!');
+        this.toastr.showErrorMessage('Request already exists!');
+      }
+       else {
+        this.toastr.showSuccessMessage('Request Upadated Successfully!');
         this.activeModal.close('submit');
       }
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the request');
+        this.toastr.showErrorMessage('Unable to Upadate the Request');
       });
  }
 
@@ -119,6 +120,7 @@ export class RaiseRequestEditComponent implements OnInit {
   getvalue(i) { // self or team member
       if (i === 1) {
       this.isDisable = true;
+      this.editForm.controls['nameOfTeamMemberId'].reset()
       this.editForm.get("nameOfTeamMemberId").setValidators(null)
     }
     else {
