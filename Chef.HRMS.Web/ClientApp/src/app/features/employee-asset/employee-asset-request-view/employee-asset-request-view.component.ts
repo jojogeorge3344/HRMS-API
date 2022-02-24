@@ -53,9 +53,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
     console.log(this.reqForStatus);
   }
 
-  onSubmit() {
-
-  }
+ 
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
