@@ -9,11 +9,11 @@
             <div class="d-flex flex-wrap align-items-baseline">
                 <div class="col-6">
                     <div class="form-group form-input-line">
-                        <label class="col-form-label" for="name">Series Name</label>
+                        <label class="col-form-label" for="name">Series Name<span class="required">*</span></label>
                         <input type="text" class="form-control" id="name" name="name" formControlName="name">
                     </div>
                     <div class="form-group form-textarea-line">
-                        <label class="col-form-label" for="description">Description</label>
+                        <label class="col-form-label" for="description">Description<span class="required">*</span></label>
                         <textarea type="text" class="form-control" id="description" name="description" rows="3" formControlName="description" ></textarea>
                     </div> 
                     <div class="form-group ">
@@ -26,22 +26,22 @@
                 <div class="col-6 px-0">
                     <div class="d-flex flex-wrap align-items-baseline">
                         <div class="form-group col-6 form-input-line">
-                            <label class="col-form-label" for="prefix">Prefix</label>
+                            <label class="col-form-label" for="prefix">Prefix<span class="required">*</span></label>
                             <input type="text" class="form-control" id="prefix" formControlName="prefix">
                         </div>
                         <div class="form-group col-6 form-input-line">
-                            <label class="col-form-label" for="suffix" >Suffix</label>
+                            <label class="col-form-label" for="suffix" >Suffix<span class="required">*</span></label>
                             <input type="text" class="form-control" id="suffix" formControlName="suffix">
                         </div>
                     </div>
 
                     <div class="d-flex flex-wrap align-items-baseline">
                         <div class="form-group col-6 form-input-line">
-                            <label class="col-form-label" for="digitInNumber">Number of Digits</label>
+                            <label class="col-form-label" for="digitInNumber">Number of Digits<span class="required">*</span></label>
                             <input type="number" smartInputRestriction="integer" class="form-control" id="digitInNumber" formControlName="digitInNumber" >
                         </div>
                         <div class="form-group col-6 form-input-line" >
-                            <label class="col-form-label" for="nextNumber">Next Number</label>
+                            <label class="col-form-label" for="nextNumber">Next Number<span class="required">*</span></label>
                             <input smartInputRestriction="integer" type="number" class="form-control" id="nextNumber" formControlName="nextNumber" >
                         </div>
                     </div>

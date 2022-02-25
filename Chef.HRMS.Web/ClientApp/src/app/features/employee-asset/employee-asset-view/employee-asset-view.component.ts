@@ -6,6 +6,7 @@ import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-mod
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { WorkerType } from 'src/app/models/common/types/workertype';
+import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { EmployeAssetService } from '../employe-asset.service';
 import { EmployeeAssetChangeorswapComponent } from '../employee-asset-changeorswap/employee-asset-changeorswap.component';
 
@@ -30,6 +31,7 @@ export class EmployeeAssetViewComponent implements OnInit{
               public modalService: NgbModal,
               private toastr: ToasterDisplayService,
               private formBuilder: FormBuilder,
+              private splitByUpperCase: SplitByUpperCasePipe
               ) { }
 
 

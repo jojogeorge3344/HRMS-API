@@ -9,6 +9,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
 import { AssetReturnType } from 'src/app/models/common/types/assetreturntype';
 import { RequestType } from 'src/app/models/common/types/requesttype';
+import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { EmployeAssetService } from '../employe-asset.service';
 
 @Component({
@@ -37,7 +38,8 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
                private toastr: ToasterDisplayService,
                private employeeAsset: EmployeAssetService,
                private assestassetService: AssetAssetsService,
-               private assetMetadataService: AssetMetadataService,) 
+               private assetMetadataService: AssetMetadataService,
+               private splitByUpperCase: SplitByUpperCasePipe) 
     { }
 
   ngOnInit(): void {
@@ -80,14 +82,14 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
       this.reason=this.assetChangeType[res[0].reason]
       console.log(this.assetChangeType[res[0].reason]);
       
-      this.employeeassetchangeReturnForm.patchValue({ comments: this.comments,reason:this.reason });
+      this.employeeassetchangeReturnForm.patchValue({ comments:this.comments,reason: this.splitByUpperCase.transform(this.reason)});
       }
       else if(res[0].type==3){
       this.comments=res[0].comments
       this.reason=this.assetReturnType[res[0].reason]
       console.log(this.assetReturnType[res[0].reason]);
       
-      this.employeeassetchangeReturnForm.patchValue({ comments: this.comments,reason:this.reason });
+      this.employeeassetchangeReturnForm.patchValue({ comments: this.comments,reason:this.splitByUpperCase.transform(this.reason)});
       }
       console.log("reason and description",res);
     })
