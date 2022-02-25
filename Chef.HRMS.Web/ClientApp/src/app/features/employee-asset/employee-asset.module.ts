@@ -12,6 +12,7 @@ import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswa
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/employee-asset-allocation.component';
 import { EmployeeAssetChangereturnviewComponent } from './employee-asset-changereturnview/employee-asset-changereturnview.component';
+import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 
 
 
@@ -23,6 +24,7 @@ import { EmployeeAssetChangereturnviewComponent } from './employee-asset-changer
     ReactiveFormsModule,
     NgbModule,
     BsDropdownModule.forRoot(),
+    NgBootstrapFormValidationModule.forRoot(),
     RouterModule.forChild([
       {
         path: '', component: EmployeeAssetListComponent,
