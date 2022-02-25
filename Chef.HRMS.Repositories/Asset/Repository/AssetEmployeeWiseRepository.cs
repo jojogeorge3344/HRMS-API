@@ -84,7 +84,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
         {
                var sql = @"SELECT   employeeid,
-                                    firstname,
+                                    CONCAT (firstname ,' ' ,lastname) AS firstname,
                                     jd.workertype AS employeestatus,
                                     jt.name AS designation
                                 FROM  hrms.employee INNER JOIN hrms.jobdetails AS jd
