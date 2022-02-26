@@ -36,12 +36,12 @@ namespace Chef.HRMS.Repositories
             var sql = @"SELECT * FROM(		
                                 SELECT empid, COUNT(*) AS allocatedasset
                                         FROM hrms.assetallocated 
-                                        WHERE status = 4
+                                        WHERE status = 4 or status=7
                                         GROUP BY empid)a
                                         FULL JOIN
                                         (SELECT empid, COUNT(*) AS requests
                                         FROM hrms.assetraiserequest
-                                        WHERE (status = 1 or status = 7 or status =8)
+                                        WHERE (status = 1 OR status = 7 OR status =8)
                                         GROUP BY empid)b USING(empid)";
 
             return await Connection.QueryAsync<AssetCountViewModel>(sql);
@@ -69,7 +69,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
         {
-            var sql = @"SELECT distinct id,
+            var sql = @"SELECT DISTINCT id,
 			                           assettypeid,
 			                            assettypemetadataid,
 			                            valueid,
@@ -118,7 +118,7 @@ namespace Chef.HRMS.Repositories
 							     rr.nameofteammemberid,
                                 rr. requesteddate
 					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee 
-                                 ON rr.empid=employee.id INNER JOIN hrms.assettype as tt
+                                 ON rr.empid=employee.id INNER JOIN hrms.assettype AS tt
                                  ON rr.assettypeid=tt.id WHERE empid=@empid 
                                                         ORDER BY id desc";
 
@@ -185,7 +185,7 @@ namespace Chef.HRMS.Repositories
         {
             var sql = @"SELECT 
 	
-		                        concat(t1.assetname,'-',t1.valueid) AS assetcode,
+		                        CONCAT(t1.assetname,'-',t1.valueid) AS assetcode,
 								t1.assetid,
 								t1.status,
 								t1.assetname,
@@ -202,13 +202,13 @@ namespace Chef.HRMS.Repositories
                                 max(CASE WHEN rn = 4 THEN id END) metadatavalueid4,
                                 max(CASE WHEN rn = 5 THEN id END) metadatavalueid5
                         FROM (
-                            select am.*,aa.assetname,aa.status,aa.valueid,
-								aa.description,Row_number() over(partition by 
+                            SELECT am.*,aa.assetname,aa.status,aa.valueid,
+								aa.description,Row_number() OVER(PARTITION BY 
 		                        am.assetid,
                                 am.assettypeid
-                                 order by (select 1)) rn
-                            from hrms.assetmetadatavalue am inner join hrms.asset aa on am.assetid=aa.id  
-							where (aa.status=5 and aa.isactive='true') and am.assettypeid=@assettypeid
+                                 ORDER BY (select 1)) rn
+                            FROM hrms.assetmetadatavalue am INNER JOIN hrms.asset aa ON am.assetid=aa.id  
+							WHERE (aa.status=5 AND aa.isactive='true') AND am.assettypeid=@assettypeid
                         ) t1
                         GROUP BY
 		                        t1.assetid,
@@ -219,6 +219,45 @@ namespace Chef.HRMS.Repositories
                                 t1.valueid";
 
             return await Connection.QueryAsync<AssetAllocationViewModel>(sql, new { assettypeid });
+        }
+
+        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
+        {
+            var sql = "SELECT assetid FROM hrms.assetallocated WHERE assetraiserequestid=@assetraiserequestid";
+
+            return await Connection.QueryAsync<AssetViewModel>(sql, new { assetraiserequestid });
+        }
+
+        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status, int assetid)
+        {
+
+            if (status == 7)
+            {
+                var sql = @"SELECT 
+                                am.changetype as reason, 
+                                am.changedescription        AS comments,
+                                at.requesttype              AS type
+                            FROM hrms.assetmyasset    AS am
+							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
+                            WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid";
+
+                return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
+                //return result;
+            }
+
+            else
+            {
+                var sql = @"SELECT 
+                                am.returntype as reason, 
+                                am.returndescription     AS comments,
+                                at.requesttype           AS type
+                            FROM hrms.assetmyasset AS am
+							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
+                            WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid";
+
+                return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
+            }
+
         }
 
 
@@ -236,6 +275,7 @@ namespace Chef.HRMS.Repositories
             {
                 var sql = @"UPDATE hrms.assetraiserequest 
                                     SET status=@status WHERE id=@id";
+
                 var result = await Connection.ExecuteAsync(sql, new { id, status });
                 return result;
             }    
@@ -260,7 +300,8 @@ namespace Chef.HRMS.Repositories
                                     UPDATE hrms.assetallocated 
                                             SET status=5 WHERE assetid=@id;
                                     UPDATE hrms.assetraiserequest 
-                                            SET status=4 WHERE status=7 and assetid=@id";
+                                            SET status=4 WHERE status=7 AND assetid=@id";
+
                         result = await Connection.ExecuteAsync(sql, new { id, status });
                     }
                     transaction.Commit();
@@ -300,9 +341,10 @@ namespace Chef.HRMS.Repositories
                 var sql = @"UPDATE hrms.asset
                                             SET status=4 WHERE id=@id;
                                     UPDATE hrms.assetallocated 
-                                            SET status=4 WHERE assetid=@id and assetraiserequestid=@assetraiserequestid;
+                                            SET status=4 WHERE assetid=@id AND assetraiserequestid=@assetraiserequestid;
                                     UPDATE hrms.assetraiserequest 
                                             SET status=4,assetid=@id WHERE id=@assetraiserequestid";
+
                 var result = await Connection.ExecuteAsync(sql, new { id, assetraiserequestid, status });
                 return result;
             }
@@ -312,65 +354,18 @@ namespace Chef.HRMS.Repositories
             }
         }
 
-        public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
-        {
-            throw new NotImplementedException();
-        }
         public async Task<int> UpdateAssetStatus(IEnumerable<AssetAllocated> assetAllocated)
         {
                 var sql = @"UPDATE hrms.asset
                                             SET status=4 WHERE id=@assetid;
                             UPDATE hrms.assetraiserequest
-                                            SET status=4,requesttype=1,assetid=@assetid, assettypeid=@assettypeid WHERE id=@assetraiserequestid";
+                                            SET status=4,requesttype=1,assetid=@assetid, assettypeid=@assettypeid 
+                                                        WHERE id=@assetraiserequestid";
+
                 return await Connection.ExecuteAsync(sql, assetAllocated);
         }
 
-        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
-        {
-            var sql = "select assetid from hrms.assetallocated where assetraiserequestid=@assetraiserequestid";
-
-            return await Connection.QueryAsync<AssetViewModel>(sql, new {assetraiserequestid});
-        }
-        public async Task<int> Delete(int id)
-        {
-            var sql = @"Delete from hrms.assetallocated where assetid=@id";
-            return await Connection.ExecuteAsync(sql, new { id });
-        }
-
-        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status, int assetid)
-        {
-            
-            if (status == 7)
-            {
-                var sql = @"SELECT 
-                                am.changetype as reason, 
-                                am.changedescription as comments,
-                                at.requesttype as type
-                            FROM hrms.assetmyasset as am
-							INNER JOIN hrms.assetraiserequest as at ON am.assetraiserequestid = at.id
-                            WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid";
-                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
-                //return result;
-            }
-
-            else 
-            {
-                var sql = @"SELECT 
-                                am.returntype as reason, 
-                                am.returndescription as comments,
-                                at.requesttype as type
-                            FROM hrms.assetmyasset as am
-							INNER JOIN hrms.assetraiserequest as at ON am.assetraiserequestid = at.id
-                            WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid";
-                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
-                //return result;
-            }
-            //else
-            //{
-                
-            //}
-        }
-
+        
         public async Task<int> UpdateReturnStatus(int assetid, int status, int assetraiserequestid)
         {
                     if (status == @status)
@@ -378,9 +373,10 @@ namespace Chef.HRMS.Repositories
                         var sql = @"UPDATE hrms.asset
                                                 SET status=5 WHERE id=@assetid;
                                 UPDATE hrms.assetallocated
-                                                SET status=10 WHERE assetraiserequestid=@assetraiserequestid and assetid=@assetid;
+                                                SET status=10 WHERE assetraiserequestid=@assetraiserequestid AND assetid=@assetid;
                                 UPDATE hrms.assetraiserequest
-                                                SET status=10 WHERE id=@assetraiserequestid and assetid=@assetid";
+                                                SET status=10 WHERE id=@assetraiserequestid AND assetid=@assetid";
+
                         var result = await Connection.ExecuteAsync(sql, new { assetid, status, assetraiserequestid });
                         return result;
                     }
@@ -390,11 +386,25 @@ namespace Chef.HRMS.Repositories
                     }                     
         }
 
+
+        public async Task<int> Delete(int id)
+        {
+            var sql = @"DELETE FROM hrms.assetallocated WHERE assetid=@id";
+
+            return await Connection.ExecuteAsync(sql, new { id });
+        }
+
         //public async Task<int> UpdateRequest(AssetRaiseRequest assetRaiseRequest)
         //{
         //    var sql = @"UPDATE hrms.assetraiserequest
         //                                    SET status=4 WHERE id=@assetid";
         //    return await Connection.ExecuteAsync(sql, assetRaiseRequest);
         //}
+
+
+        public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
