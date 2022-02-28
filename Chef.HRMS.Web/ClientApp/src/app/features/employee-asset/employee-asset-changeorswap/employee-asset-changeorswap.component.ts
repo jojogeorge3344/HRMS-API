@@ -108,7 +108,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       if (result.id === -1) {
         this.toastr.showErrorMessage('asset already swaped!');
       } else {
-        this.toastr.showSuccessMessage('changed successfully successfully!');
+        this.toastr.showSuccessMessage('asset changed successfully!');
         this.activeModal.close('submit');
       }
     },
