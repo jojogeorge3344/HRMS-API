@@ -164,7 +164,10 @@ namespace Chef.HRMS.Repositories
                                     isfirstdayfirsthalf,
                                     isfirstdaysecondhalf,
                                     isseconddayfirsthalf,
-                                    isseconddaysecondhalf
+                                    isseconddaysecondhalf,
+                                     fromdate,
+                                      todate,
+                                    approveddate
                                     FROM hrms.leave
                                     WHERE employeeid = @employeeid";
             return await Connection.QueryAsync<Leave>(sql, new { employeeId });

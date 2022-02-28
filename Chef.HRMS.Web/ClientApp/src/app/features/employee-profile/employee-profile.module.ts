@@ -52,7 +52,7 @@ import { EmployeeDependentDetailsEditComponent } from './employee-dependent-deta
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    NgBootstrapFormValidationModule,
+    NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
     DirectivesModule,
     PipesModule

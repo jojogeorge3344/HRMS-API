@@ -40,6 +40,9 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   maxDateTo;
   currentDate;
   isValid = true;
+   fulldayLeaves=[];
+   firsthalfLeaves:string[]=[];
+   secondhalfLeaves=[];
 
   employeeList: Employee[];
   selectedItems = [];
@@ -99,12 +102,70 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.employeeId=this.requestId,
     this.addForm = this.createFormGroup();
     this.getLeaveBalance();
-    this.getEmployeeDetails();
+    this.getEmployeeDetails();  
     this.getEmployeeList();
     this.subscribeTochanges();
     this.getEmployeeHoliday();
     this.currentUserId = getCurrentUserId();
-    this.getAllInfoLeave(this.employeeId);
+    //this.getAllInfoLeave(this.employeeId);
+    this.formatLeaves()
+  }
+  formatLeaves() {
+    
+    debugger;
+    this.leaves.forEach(leave => {
+      if(new Date(leave.fromDate).setHours(0,0,0,0)==new Date(leave.toDate).setHours(0,0,0,0) ){
+        if (leave.isfullday) {
+          this.fulldayLeaves=[...this.fulldayLeaves,leave.fromDate]
+          
+        }
+        else if(leave.isFirstDayFirstHalf){
+          this.firsthalfLeaves=[...this.firsthalfLeaves,leave.fromDate]
+
+        }
+        else if (leave.isFirstDaySecondHalf){
+          this.secondhalfLeaves=[...this.secondhalfLeaves,leave.fromDate]
+        }
+        
+      }
+      else{
+        let d = new Date(leave.fromDate).setHours(0,0,0,0);
+        for (d; d <= new Date(leave.toDate).setHours(0,0,0,0);d=d+86400000) {
+          if(d==new Date(leave.fromDate).setHours(0,0,0,0)){
+             if(leave.isFirstDayFirstHalf){
+              this.firsthalfLeaves=[...this.firsthalfLeaves,leave.fromDate]
+    
+            }
+            else if (leave.isFirstDaySecondHalf){
+              this.secondhalfLeaves=[...this.secondhalfLeaves,leave.fromDate]
+            }
+            else{
+              this.fulldayLeaves=[...this.fulldayLeaves,leave.fromDate]
+             }
+           
+          }
+          else if(d==new Date(leave.toDate).setHours(0,0,0,0)){
+            if(leave.isSecondDayFirstHalf){
+              this.firsthalfLeaves=[...this.firsthalfLeaves,leave.toDate]
+   
+           }
+           else if (leave.isSecondDaySecondHalf){
+            this.secondhalfLeaves=[...this.secondhalfLeaves,leave.toDate]
+           }
+           else{
+            this.fulldayLeaves=[...this.fulldayLeaves,leave.toDate]
+           }
+          
+         }
+         else{
+          this.fulldayLeaves=[...this.fulldayLeaves,`${formatDate(d,'yyyy-MM-dd','en-US')}T00:00:00`]
+         }
+     
+   }
+      }
+      
+    });
+  
   }
   subscribeTochanges() {
     this.addForm.valueChanges.subscribe(res => {
@@ -247,6 +308,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.maxDateFrom = date;
   }
   checkDates() {
+    debugger;
     if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
       const d = new Date(this.fromDate);
       for (d; d <= this.toDate; d.setDate(d.getDate() + 1)) {
@@ -256,11 +318,25 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
           this.taken[1] = 'WFH';
           break;
         }
-        if (this.leaves.includes(currentDate)) {
+        if (this.fulldayLeaves.includes(currentDate)) {
           this.taken[0] = currentDate;
           this.taken[1] = 'leave';
           break;
         }
+        const [date]=currentDate.split('T')
+        if ((this.addForm.get('singleDay').value==2||this.addForm.get('firstDay').value==1||this.addForm.get('lastDay').value==1)&& 
+        this.firsthalfLeaves.some(d=>d.startsWith(date))) {
+          this.taken[0] = currentDate;
+          this.taken[1] = 'firsthalfleave';
+          break;
+        }
+        if ((this.addForm.get('singleDay').value==3||this.addForm.get('firstDay').value==2||this.addForm.get('lastDay').value==2)&& 
+        this.secondhalfLeaves.some(d=>d.startsWith(date))) {
+          this.taken[0] = currentDate;
+          this.taken[1] = 'secondhalfleave';
+          break;
+        }
+
         if (this.onDuty.includes(currentDate)) {
           this.taken[0] = currentDate;
           this.taken[1] = 'on duty';
@@ -440,13 +516,6 @@ markDisabled =(date:NgbDateStruct)=>{
       console.log("leavessting",this.leaveSettings);
     })
    }
-   getAllInfoLeave(employeeId){
-     this.employeeLeaveService.getAllInfoLeave(employeeId).subscribe(res => {
-       this.leaveInfo =res;
-       console.log("leaveinfo",this.leaveInfo);
-       
-
-     })
-   }
+  
 
 }

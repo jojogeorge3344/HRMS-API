@@ -207,9 +207,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       jobTitleId: ['', [
         Validators.required
       ]],
-      secondaryJobTitle: [''],
+      secondaryJobTitle: ['',[
+        Validators.required,
+        Validators.maxLength(26),
+      ]],
       businessUnit: ['', [
-        Validators.required
+        Validators.required,
       ]],
       department: ['', [
         Validators.required
