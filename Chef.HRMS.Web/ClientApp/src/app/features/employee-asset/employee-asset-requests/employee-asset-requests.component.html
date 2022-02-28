@@ -26,9 +26,9 @@
                     <td>{{ emprequest.requestNo}}</td>
                     <td class="text-capitalize">{{emprequest.requestedBy}}</td>
                     <td>{{ emprequest.requestedDate | date: 'yyyy-MM-dd'}}</td>
-                    <td>{{reqForStatus[emprequest.requestFor]}}</td>
-                    <td>{{raiseRequestTypeList[emprequest.requestType]}}</td>
-                    <td> {{status[emprequest.status]}}</td>
+                    <td>{{splitByUpperCase.transform(reqForStatus[emprequest.requestFor])}}</td>
+                    <td>{{splitByUpperCase.transform(raiseRequestTypeList[emprequest.requestType])}}</td>
+                    <td> {{splitByUpperCase.transform(status[emprequest.status])}}</td>
                     <td>
 
                         <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="true">

@@ -13,6 +13,7 @@ import { EmployeeAssetAllocationComponent } from "../employee-asset-allocation/e
 import { EmployeeAssetChangereturnviewComponent } from "../employee-asset-changereturnview/employee-asset-changereturnview.component";
 import { RequestType } from "src/app/models/common/types/requesttype";
 import { EmployeeAssetChangeorswapComponent } from "../employee-asset-changeorswap/employee-asset-changeorswap.component";
+import { SplitByUpperCasePipe } from "src/app/pipes/split-by-upper-case.pipe";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -43,6 +44,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
     public activeModal: NgbActiveModal,
+    private splitByUpperCase: SplitByUpperCasePipe
   ) {}
 
   ngOnInit(): void {
