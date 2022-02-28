@@ -48,8 +48,13 @@ export class PayrollProcessService {
   }
   updateProcess(payrollProcess) {
     return this.http.post<PayrollProcess>(this.baseUrl + 'InsertOrAlreadyExist/', payrollProcess).pipe(map(response => response));
-
   }
+
+  getPayrollStatusByEmpId(empId,month,year) {
+    
+    return this.http.get(this.baseUrl + 'getDetailsById/' + empId+ '/'+ month +'/' + year).pipe(map(response => response));
+  }
+
   getPreviousDetails() {
     return this.http.get<PayrollProcess[]>(this.baseUrl + 'GetPastSixMonthDetails/').pipe(map(response => response));
   }
