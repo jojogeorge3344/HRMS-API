@@ -3,7 +3,7 @@ import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeLeaveService } from '../employee-leave.service';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import { LeaveBalanceValidator, calculateDaysInBetween } from '@shared/utils/utils.functions';
+import { LeaveBalanceValidator, calculateDaysInBetween, getCurrentUserId } from '@shared/utils/utils.functions';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { LeaveComponent } from '@settings/leave/leave-component/leave-component.model';
@@ -13,6 +13,7 @@ import { SignalrService } from '@shared/services/signalr.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { HolidayService } from '@settings/holiday/holiday.service';
 import { formatDate ,DatePipe} from '@angular/common';
+import { result } from 'lodash';
 
 @Component({
   templateUrl: './employee-leave-request-create.component.html',
@@ -50,6 +51,9 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   @Input() wfh;
   @Input() onDuty;
   holidaydate: any;
+  leaveInfo: any;
+  currentUserId: number;
+  employeeId:number;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -91,14 +95,16 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('hhhhh',this.leaves);
-    
+    console.log("test",this.requestId);
+    this.employeeId=this.requestId,
     this.addForm = this.createFormGroup();
     this.getLeaveBalance();
     this.getEmployeeDetails();
     this.getEmployeeList();
     this.subscribeTochanges();
     this.getEmployeeHoliday();
+    this.currentUserId = getCurrentUserId();
+    this.getAllInfoLeave(this.employeeId);
   }
   subscribeTochanges() {
     this.addForm.valueChanges.subscribe(res => {
@@ -181,6 +187,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   getLeaveBalance() {
     this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(result => {
       this.leaveBalance = result;
+      console.log("avilable leave tyep",this.leaveBalance);
+      
     },
       error => {
         console.error(error);
@@ -342,7 +350,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       fromDate: new Date(addForm.fromDate.setHours(12)),
       leaveComponentId: parseInt(addForm.leaveComponentId, 10)
     };
-    this.currentDate=new Date();
+   // this.currentDate=new Date();
    // formatDate(new Date(), 'yyyy/MM/dd', 'en');
     console.log("datenow",this.currentDate);
    
@@ -431,6 +439,14 @@ markDisabled =(date:NgbDateStruct)=>{
       })
       console.log("leavessting",this.leaveSettings);
     })
+   }
+   getAllInfoLeave(employeeId){
+     this.employeeLeaveService.getAllInfoLeave(employeeId).subscribe(res => {
+       this.leaveInfo =res;
+       console.log("leaveinfo",this.leaveInfo);
+       
+
+     })
    }
 
 }

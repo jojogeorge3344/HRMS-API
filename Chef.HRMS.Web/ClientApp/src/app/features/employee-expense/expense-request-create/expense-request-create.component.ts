@@ -261,6 +261,8 @@ export class ExpenseRequestCreateComponent implements OnInit {
 
     if (this.documentToUpload.size >= 2097152) {
       (this.addForm.get('document') as FormGroup).controls.size.setErrors({ filesize: true });
+      console.log(this.addForm.controls.document["controls"].size);
+      
       return;
     }
 
@@ -301,6 +303,8 @@ export class ExpenseRequestCreateComponent implements OnInit {
   get name() { return this.addForm.get('name'); }
 
   onSubmit() {
+    console.log(this.addForm.controls.document["controls"].size);
+    
     if (this.isReceiptRequired) {
       if (this.addForm.get('document.name').value === null) {
         (this.addForm.get('document') as FormGroup).controls.name.setErrors({ filename: true });
@@ -311,6 +315,13 @@ export class ExpenseRequestCreateComponent implements OnInit {
     if (this.addForm.invalid) {
       return;
     }
+
+    if(this.documentSave==null){
+      this.toastr.showErrorMessage('Upload a document less than 2mb!!');
+      console.log("null upload");
+      return;
+    }
+
     let payload = this.addForm.getRawValue();
     payload.amount = payload.amount.toFixed(2); 
     

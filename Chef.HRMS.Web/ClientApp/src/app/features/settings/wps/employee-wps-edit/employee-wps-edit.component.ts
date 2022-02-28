@@ -48,20 +48,20 @@ export class EmployeeWpsEditComponent implements OnInit {
     return this.formBuilder.group({
       id: this.wpsDetails.id,
       groupCode: ['', [
-        Validators.maxLength(32),
-        Validators.required,
-        duplicateNameValidator(this.groupCodes)
+        Validators.maxLength(14),
+        Validators.required
+        //duplicateNameValidator(this.groupCodes)
       ]],
       groupName: ['', [
         Validators.maxLength(64),
-        Validators.required,
-        duplicateNameValidator(this.groupNames)
+        Validators.required
+        //duplicateNameValidator(this.groupNames)
       ]],
       establishmentId: ['', [
         Validators.pattern(/^\d{1,3}$/),
-        Validators.maxLength(13),
-        Validators.required,
-        duplicateNameValidator(this.establishmentId)
+        Validators.maxLength(3),
+        Validators.required
+        //duplicateNameValidator(this.establishmentId)
       ]],
       remarks: ['', [
         Validators.maxLength(128),

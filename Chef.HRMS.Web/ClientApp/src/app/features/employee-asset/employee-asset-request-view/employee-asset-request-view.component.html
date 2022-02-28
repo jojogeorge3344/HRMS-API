@@ -98,12 +98,6 @@
         (click)="activeModal.close('Close click')">
         <i class="mr-1 fal fa-window-close"></i> Cancel
       </button>
-      <button *ngIf="buttonStatus==2" type="submit" class="btn btn-success" >
-        <i class="mr-1 fal fa-save"></i> Allocate</button>
-        <button *ngIf="buttonStatus==3" type="submit" class="btn btn-primary"  (click)="manageRequest(id,2)">
-            <i class="mr-1 fal fa-save"></i> Approve</button>
-            <button *ngIf="buttonStatus==2" type="submit" class="btn btn-danger" (click)="manageRequest(id,3)">
-                <i class="mr-1 fal fa-save"></i> Reject</button>
     </div>
   </form>
 

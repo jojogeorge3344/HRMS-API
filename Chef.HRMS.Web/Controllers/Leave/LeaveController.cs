@@ -48,6 +48,15 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(leaves);
         }
 
+
+        [HttpGet("GetAllLeaveInfoByEmployeeId/{employeeid}")]
+        public async Task<ActionResult<IEnumerable<Leave>>> GetAllLeaveInfoByEmployeeId(int employeeid)
+        {
+            var leaves = await leaveService.GetAllLeaveInfoByEmployeeId(employeeid);
+
+            return Ok(leaves);
+        }
+
         [HttpGet("GetApproverById/{leaveRequestId}")]
         public async Task<ActionResult<IEnumerable<LeaveNotificationView>>> GetApproverById(int leaveRequestId)
         {

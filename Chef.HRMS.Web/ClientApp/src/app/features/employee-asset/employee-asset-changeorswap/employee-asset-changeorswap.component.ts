@@ -20,11 +20,12 @@ import * as _ from 'lodash';
 })
 export class EmployeeAssetChangeorswapComponent implements OnInit {
   employeeassetchangeForm: FormGroup;
-  @Input() assetId
+  // @Input() assetId
   @Input() assetTypeId
   @Input() assetRaiseRequestId
   @Input() empid
   @Input() assetTypeName
+  assetId: number;
   Astvalues: AssetAssets;
   currentTypeMap: Map<any, any>;
   currentTypeKeys: string[];
@@ -50,12 +51,13 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("input values>>",this.assetRaiseRequestId,this.assetTypeId,this.empid,this.assetTypeName);
+    
+    this.getAssetId();
     this.currentTypeMap = new Map();
     this.newTypeMap = new Map();
     this.newMdataTypeMap=new Map();
     this.employeeassetchangeForm = this.createFormGroup();
-    this.getCurrentAssetById();
-    this.getAssetType();
   }
   onSubmit() {
     console.log(this.employeeassetchangeForm.getRawValue());
@@ -76,7 +78,8 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
         allocatedDate:new Date(),
         status:4,
         description:allValues.newDescription,
-        assetTypeName:_.find(this.dataType,['id',allValues.newAssetType]).assettypename
+        assetTypeName:_.find(this.dataType,['id',allValues.newAssetType]).assettypename,
+        
       };
 
           this.newMdataTypeKeys.map((key,i) => {  
@@ -94,9 +97,10 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       console.log("allvalues>>",allValues);
   
     //this.employeAssetService.add(changeValues).subscribe((result) => {
-      debugger;
+    //this.employeAssetService.updateAllocateStatus(changeValues.assetId,changeValues.assetTypeId,changeValues.status)
+     
       forkJoin([
-        this.employeAssetService.add(changeValues),
+        this.employeAssetService.insertAllocate([changeValues]),
         this.employeAssetService.updateStatus(this.Astvalues.id,this.Astvalues.status)
       ]).subscribe(([result, asset]) => {
         console.log(asset);
@@ -137,14 +141,25 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       newMetadatas: this.formBuilder.group([]),
       newDescription: ['', [
         Validators.required,
-        Validators.maxLength(128)
+        Validators.maxLength(10)
       ]],
       
     });
   }
 
 
+  getAssetId(){
+    this.employeAssetService.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
+      console.log(res);
+      this.assetId=res[0].assetid;
+      // console.log("assetid>>>>>>",this.assetId); 
+      this.getCurrentAssetById();
+      this.getAssetType();
+    })
+  }
+
   getCurrentAssetById() {
+    console.log("assetid>>>>>>",this.assetId); 
     forkJoin([
       this.assetMetadataService.getAssetMetadataById(this.assetTypeId),
       this.assestassetService.getAssetById(this.assetId)

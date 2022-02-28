@@ -23,7 +23,7 @@ namespace Chef.HRMS.Models
         public RequestFor RequestFor { get; set; }
 
         [Required]
-        public string RequestType { get; set; }
+        public RequestType RequestType { get; set; }
 
         [ForeignKey("AssetType")]
         public int AssetTypeId { get; set; }
@@ -43,6 +43,9 @@ namespace Chef.HRMS.Models
         public int EmpId { get; set; }
    
         public string RequestedBy { get; set; }
+        public string AssetTypeName { get; set; }
+
+        public int AssetId { get; set; }
 
 
     }

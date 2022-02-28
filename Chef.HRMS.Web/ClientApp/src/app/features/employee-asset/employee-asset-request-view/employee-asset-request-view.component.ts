@@ -2,13 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AssetRaiseRequest } from '@features/employee-assets/raise-request/raise-request.model';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { switchMap,tap } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { EmployeAssetService } from '../employe-asset.service';
+import { EmployeeAssetAllocationComponent } from '../employee-asset-allocation/employee-asset-allocation.component';
 
 @Component({
   selector: 'hrms-employee-asset-request-view',
@@ -17,6 +19,8 @@ import { EmployeAssetService } from '../employe-asset.service';
 export class EmployeeAssetRequestViewComponent implements OnInit {
   @Input() id;
   @Input() empid;
+  @Input() assetTypeId;
+  @Input() assetTypeName;
   // empid: number;
   assetId:number
   assetRaiseRequestId:number;
@@ -29,6 +33,8 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   requestViewForm: FormGroup;
   requetedByName: string;
   buttonStatus: number;
+  requestType=RequestType;
+  requestResult=[];
 
 
   constructor(
@@ -38,6 +44,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
               private router: Router,
               private toastr: ToasterDisplayService,
               private formBuilder: FormBuilder,
+              public modalService: NgbModal,
                ) { }
 
   ngOnInit(): void {
@@ -83,8 +90,12 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
       tap(([result]) => {
         this.requestViewForm.patchValue(result);
         this.requestViewForm.patchValue({requestFor:this.reqForStatus[result.requestFor]})
+        this.requestViewForm.patchValue({requestType:this.requestType[result.requestType]})
+        this.requestResult=result;
+        console.log("request result",this.requestResult);
+        
         this.buttonStatus=result.status;
-        console.log(this.buttonStatus);
+        console.log("request view details",result);
         
       }),
       switchMap(([result]) =>  (this.employeeAsset.getEmployeeNameById(result.empId))
@@ -96,19 +107,10 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   }
 
 
-  manageRequest(id,status) {
-    console.log(id);
-       this.employeeAsset.manageRequest(id,status).subscribe(res=>{
-         if(status==2){
-          this.toastr.showSuccessMessage('Approved successfully!');
-         }
-         else if(status==3){
-          this.toastr.showSuccessMessage('Rejcted successfully!');
-         }
-         this.activeModal.close('click')
-       })
-      }
+ 
 
+     
 
+     
 
 }

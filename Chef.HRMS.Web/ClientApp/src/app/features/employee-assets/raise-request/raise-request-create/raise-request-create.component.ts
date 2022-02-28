@@ -16,6 +16,7 @@ import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators'
 import { EmployeeLeaveService } from '@features/employee-leave/employee-leave.service';
 import { EmployeeService } from '@features/employee/employee.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class RaiseRequestCreateComponent implements OnInit {
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
+  raiseRequestTypeList = RequestType;
   raiseRequestStatus =AssetStatus;
   raiseRequestDetails : AssetRaiseRequest;
   isDisable = false;
@@ -68,20 +70,21 @@ export class RaiseRequestCreateComponent implements OnInit {
     this.raiseRequestDetails.nameOfTeamMemberId = this.addForm.controls['nameOfTeamMemberId'].value?this.addForm.controls['nameOfTeamMemberId'].value.empid: this.currentUserId;
     this.raiseRequestDetails.empId = this.currentUserId;
     this.raiseRequestDetails.status= this.raiseRequestStatus.Requested;
+    this.raiseRequestDetails.requestType = this.raiseRequestTypeList.NewAsset;
     // this.raiseRequestDetails.assetTypeName=_.find(this.assetTypeArray, ['id', this.addForm.controls['assetTypeId'].value]).assettypename;
     
     this.raiseRequestService.add(this.raiseRequestDetails).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
-        this.toastr.showErrorMessage('Raised request already exists!');
+        this.toastr.showErrorMessage('Request Already Exists!');
       } else {
-        this.toastr.showSuccessMessage('Request added successfully!');
+        this.toastr.showSuccessMessage('Request Added Successfully!');
         this.activeModal.close('submit');
       }
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the request');
+        this.toastr.showErrorMessage('Unable to Add the Request');
       });
 
   }
@@ -129,6 +132,7 @@ export class RaiseRequestCreateComponent implements OnInit {
     console.log(this.addForm.value.requestFor);
     if (this.addForm.value.requestFor == '1') {
       this.isDisable = true;
+      this.addForm.controls['nameOfTeamMemberId'].reset()
       this.addForm.get("nameOfTeamMemberId").setValidators(null)
     }
     else {
@@ -143,7 +147,7 @@ export class RaiseRequestCreateComponent implements OnInit {
     }),
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the AssetType');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type');
       };
   }
 
@@ -156,14 +160,14 @@ export class RaiseRequestCreateComponent implements OnInit {
         Validators.required,
 
       ]],
-      requestFor: ['', [
+      requestFor: [0, [
         Validators.required,
 
       ]],
       nameOfTeamMemberId: ['', [
     
       ]],
-      assetTypeId: ['', [
+      assetTypeId: [0, [
         Validators.required,
 
       ]],

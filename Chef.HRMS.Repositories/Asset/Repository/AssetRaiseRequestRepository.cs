@@ -32,7 +32,7 @@ namespace Chef.HRMS.Repositories
                                at.requesteddate,
                                at.requestfor,
                                at.nameofteammemberid,
-                               concat (firstname ,lastname) as nameofteammember,
+                               concat (firstname,' ',lastname) as nameofteammember,
                                at.requesttype,
                                at.description,
                                at.status,at.empid
@@ -65,6 +65,14 @@ namespace Chef.HRMS.Repositories
                         on jd.employeeid = hrms.employee.id";
             return await Connection.QueryAsync<AssetEmployeeViewModel>(sql, new { });
         }
+
+        public async Task<int> UpdateRevoke(int id)
+        {
+            var sql = "update hrms.assetraiserequest set status=6 where id=@id";
+            return await Connection.ExecuteAsync(sql, new { id });
+        }
+
+
 
 
         //public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id)

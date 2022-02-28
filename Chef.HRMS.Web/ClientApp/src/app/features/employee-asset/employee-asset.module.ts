@@ -11,11 +11,12 @@ import { EmployeeAssetRequestViewComponent } from './employee-asset-request-view
 import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswap/employee-asset-changeorswap.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/employee-asset-allocation.component';
+import { EmployeeAssetChangereturnviewComponent } from './employee-asset-changereturnview/employee-asset-changereturnview.component';
 
 
 
 @NgModule({
-  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent],
+  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent, EmployeeAssetChangereturnviewComponent],
   imports: [
     FormsModule,
     CommonModule,
@@ -32,7 +33,7 @@ import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/em
         data: { breadcrumbs: ['Organization', 'Employee', 'view'], name: 'organization-asset' }
       },
       {
-        path: ':id/allocation/:reqId', component: EmployeeAssetAllocationComponent,
+        path: ':id/allocation/:reqId/:typeId/:assetTypeName', component: EmployeeAssetAllocationComponent,
         data: { breadcrumbs: ['Organization', 'Employee', 'allocation'], name: 'organization-asset' }
       },
       {

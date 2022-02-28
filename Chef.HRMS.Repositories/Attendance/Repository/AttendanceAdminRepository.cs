@@ -179,9 +179,9 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
         {
                 var sql = $@"WITH CTE (dates) AS (SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
-                                                  FROM  hrms.{tablename} 
-                                                  WHERE           employeeid=@employeeId)
-                                                SELECT dates FROM CTE WHERE date_trunc('year',dates)=date_trunc('year',NOW())";
+                    FROM hrms.{tablename}
+                    WHERE employeeid=@employeeId)
+                    SELECT dates FROM CTE WHERE date_trunc('year',dates)=date_trunc('year',NOW())";
                 return await Connection.QueryAsync<DateTime>(sql, new { tablename, employeeId });
 
         }

@@ -5153,3 +5153,33 @@ File name: 'NLog.MailKit, Culture=neutral, PublicKeyToken=null'
 2022-01-24 12:58:38.7404 Info Adding target FileTarget(Name=allfile)
 2022-01-24 12:58:38.7636 Info Adding target FileTarget(Name=ownFile-web)
 2022-01-24 12:58:38.8695 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\PROJECT\chef.hrms\Chef.HRMS.Web\bin\Debug\net5.0\nlog.config
+2022-02-22 12:34:00.9119 Info Message Template Auto Format enabled
+2022-02-22 12:34:00.9452 Info Loading assembly: NLog.Web.AspNetCore
+2022-02-22 12:34:00.9452 Info Loading assembly: NLog.MailKit
+2022-02-22 12:34:00.9646 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Error loading extensions: NLog.MailKit
+ ---> System.IO.FileNotFoundException: Could not load file or assembly 'NLog.MailKit, Culture=neutral, PublicKeyToken=null'. The system cannot find the file specified.
+File name: 'NLog.MailKit, Culture=neutral, PublicKeyToken=null'
+   at System.Reflection.RuntimeAssembly.InternalLoad(ObjectHandleOnStack assemblyName, ObjectHandleOnStack requestingAssembly, StackCrawlMarkHandle stackMark, Boolean throwOnFileNotFound, ObjectHandleOnStack assemblyLoadContext, ObjectHandleOnStack retAssembly)
+   at System.Reflection.RuntimeAssembly.InternalLoad(AssemblyName assemblyName, RuntimeAssembly requestingAssembly, StackCrawlMark& stackMark, Boolean throwOnFileNotFound, AssemblyLoadContext assemblyLoadContext)
+   at System.Reflection.Assembly.Load(String assemblyString)
+   at NLog.Internal.AssemblyHelpers.LoadFromName(String assemblyName)
+   at NLog.Config.LoggingConfigurationParser.ParseExtensionWithAssembly(String assemblyName, String prefix)
+   --- End of inner exception stack trace ---
+2022-02-22 12:34:01.1356 Info Adding target FileTarget(Name=allfile)
+2022-02-22 12:34:01.1710 Info Adding target FileTarget(Name=ownFile-web)
+2022-02-22 12:34:01.2159 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\projectarea\chef.hrms\Chef.HRMS.Web\bin\Debug\net5.0\nlog.config
+2022-02-22 16:36:28.7251 Info Message Template Auto Format enabled
+2022-02-22 16:36:28.7856 Info Loading assembly: NLog.Web.AspNetCore
+2022-02-22 16:36:28.7891 Info Loading assembly: NLog.MailKit
+2022-02-22 16:36:28.8071 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Error loading extensions: NLog.MailKit
+ ---> System.IO.FileNotFoundException: Could not load file or assembly 'NLog.MailKit, Culture=neutral, PublicKeyToken=null'. The system cannot find the file specified.
+File name: 'NLog.MailKit, Culture=neutral, PublicKeyToken=null'
+   at System.Reflection.RuntimeAssembly.InternalLoad(ObjectHandleOnStack assemblyName, ObjectHandleOnStack requestingAssembly, StackCrawlMarkHandle stackMark, Boolean throwOnFileNotFound, ObjectHandleOnStack assemblyLoadContext, ObjectHandleOnStack retAssembly)
+   at System.Reflection.RuntimeAssembly.InternalLoad(AssemblyName assemblyName, RuntimeAssembly requestingAssembly, StackCrawlMark& stackMark, Boolean throwOnFileNotFound, AssemblyLoadContext assemblyLoadContext)
+   at System.Reflection.Assembly.Load(String assemblyString)
+   at NLog.Internal.AssemblyHelpers.LoadFromName(String assemblyName)
+   at NLog.Config.LoggingConfigurationParser.ParseExtensionWithAssembly(String assemblyName, String prefix)
+   --- End of inner exception stack trace ---
+2022-02-22 16:36:29.0165 Info Adding target FileTarget(Name=allfile)
+2022-02-22 16:36:29.0407 Info Adding target FileTarget(Name=ownFile-web)
+2022-02-22 16:36:29.1391 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\projectarea\chef.hrms\Chef.HRMS.Web\bin\Debug\net5.0\nlog.config

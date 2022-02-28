@@ -130,12 +130,29 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(assetEmployeeWises);
         }
 
+        [HttpGet("GetAssetId/{assetraiserequestid}")]
+        public async Task<ActionResult<IEnumerable<AssetViewModel>>> GetAssetId(int assetraiserequestid)
+        {
+            var asset = await assetEmployeeWiseService.GetAssetId(assetraiserequestid);
+
+            return Ok(asset);
+        }
+        
+        [HttpGet("GetReasonAndDescription/{assetraiserequestid}/{status}/{assetid}")]
+        public async Task<ActionResult<IEnumerable<AssetReasonViewModel>>> GetReasonAndDescription(int assetraiserequestid,int status,int assetid)
+        {
+            var asset = await assetEmployeeWiseService.GetReasonAndDescription(assetraiserequestid, status, assetid);
+
+            return Ok(asset);
+        }
+
+
 
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(AssetAllocated assetAllocated)
+        public async Task<IActionResult> Insert(IEnumerable<AssetAllocated> assetAllocated)
         {
             if (!ModelState.IsValid)
             {
@@ -146,6 +163,20 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
+        [HttpPost("InsertAllocate")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.InsertAllocate(assetAllocated);
+            return Ok(result);
+        }
 
 
         [HttpPut("UpdateStatus")]
@@ -162,14 +193,14 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPut("UpdateAllocateStatus")]
-        public async Task<ActionResult> UpdateAllocateStatus(int id, int status)
+        public async Task<ActionResult> UpdateAllocateStatus(int id,int assetraiserequestid, int status)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await assetEmployeeWiseService.UpdateAllocateStatus(id, status);
+            var result = await assetEmployeeWiseService.UpdateAllocateStatus(id, assetraiserequestid, status);
 
             return Ok(result);
         }
@@ -199,6 +230,19 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetEmployeeWiseService.UpdateStatusRecalled(empid, assetid, status);
+
+            return Ok(result);
+        }
+
+        [HttpPut("UpdateReturnStatus")]
+        public async Task<ActionResult> UpdateReturnStatus(int assetid, int status, int assetraiserequestid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetEmployeeWiseService.UpdateReturnStatus(assetid, status, assetraiserequestid);
 
             return Ok(result);
         }

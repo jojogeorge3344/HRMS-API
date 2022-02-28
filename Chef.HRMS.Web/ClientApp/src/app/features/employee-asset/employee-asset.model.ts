@@ -5,6 +5,7 @@ export interface AssetEmployeeWise extends Model {
     firstName :string;
     lastName  :string;
     employeeStatus :WorkerType;
+    employeeNumber :string;
     allocatedAsset :number;
     requests :number;
     designation:string;
