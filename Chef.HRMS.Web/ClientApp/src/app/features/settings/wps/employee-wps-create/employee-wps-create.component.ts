@@ -53,12 +53,14 @@ export class EmployeeWpsCreateComponent implements OnInit {
         Validators.required,
         duplicateNameValidator(this.groupNames)
       ]],
-      establishmentId: ['', [
-        Validators.pattern(/^\d{1,3}$/),
+      establishmentId: ['', 
+        // [Validators.required,Validators.max(999),duplicateNameValidator(this.establishmentId)]
+      [ Validators.pattern(/^\d{1,3}$/),
         Validators.required,
-        duplicateNameValidator(this.establishmentId)
-      ]],
-      remarks: ['', [Validators.maxLength(120), Validators.required]],
+        Validators.maxLength(3),
+        duplicateNameValidator(this.establishmentId)]
+      ],
+      remarks: ['', [Validators.maxLength(128), Validators.required]],
     });
   }
 

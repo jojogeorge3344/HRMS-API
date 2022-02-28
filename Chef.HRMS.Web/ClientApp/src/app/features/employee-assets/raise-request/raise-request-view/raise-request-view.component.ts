@@ -9,6 +9,7 @@ import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 import * as _ from 'lodash';
@@ -25,6 +26,7 @@ export class RaiseRequestViewComponent implements OnInit {
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
+  raiseRequestTypeList = RequestType;
   raiseRequestStatus =AssetStatus;
   isDisable = false;
 
@@ -35,7 +37,7 @@ export class RaiseRequestViewComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-   
+    console.log(this.raiseRequestDetails,"blabla");
     this.currentUserId = getCurrentUserId();
     this.viewForm = this.createFormGroup();
     this.getAllAssetTypes();
@@ -43,6 +45,10 @@ export class RaiseRequestViewComponent implements OnInit {
     this.viewForm.patchValue(this.raiseRequestDetails);
     this.viewForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'yyyy-MM-dd')})
     this.viewForm.patchValue({requestFor:this.raiseRequesttype[this.raiseRequestDetails.requestFor]});
+    if(this.raiseRequestDetails.requestFor==1){
+      this.viewForm.patchValue({nameOfTeamMember:null})
+    }
+    this.viewForm.patchValue({requestType: this.raiseRequestTypeList[this.raiseRequestDetails.requestType]}) 
   }
   getvalue(i) { // self or team member
     console.log(this.viewForm.value.requestFor);
@@ -63,7 +69,7 @@ export class RaiseRequestViewComponent implements OnInit {
     }),
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the AssetType');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type');
       };
   }
 
@@ -74,7 +80,7 @@ export class RaiseRequestViewComponent implements OnInit {
         Validators.required,
 
       ]],
-      requestType: [{ value: 'New Asset', disabled: true }, [
+      requestType: [{ disabled: true }, [
         Validators.required,
       ]],
       requestedDate: ['', [

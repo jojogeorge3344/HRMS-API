@@ -110,7 +110,7 @@ export class AssetMetadataCreateComponent implements OnInit {
       metadata: ['', [
         Validators.required,
         Validators.maxLength(32),
-        Validators.pattern('^([a-zA-Z ])+$'),
+        Validators.pattern('^([a-zA-Z0-9])+$'),
       ]],
       assetDataType: [null, Validators.required],
       isMandatory: [false]

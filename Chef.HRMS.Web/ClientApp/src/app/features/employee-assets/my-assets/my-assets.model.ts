@@ -7,6 +7,8 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 export interface MyAssets extends Model {
   
   assetId: number;
+  assetRaiseRequestId:number;
+  assetTypeId:number;
   assetTypeName: string;
   empId: number;
   assetName: string;

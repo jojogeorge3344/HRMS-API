@@ -39,6 +39,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds current pin code
         /// </summary>
+        [Required]
         [StringLength(16)]
         public string CurrentPinCode { get; set; }
 
@@ -69,6 +70,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds permanent pin code
         /// </summary>
+        [Required]
         [StringLength(16)]
         public string PermanentPinCode { get; set; }
     }

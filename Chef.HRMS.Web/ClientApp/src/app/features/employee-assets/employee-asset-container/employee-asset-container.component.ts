@@ -7,8 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EmployeeAssetContainerComponent implements OnInit {
   tabs = [
-    { title: 'My Assets', fragment: 'my-assets' },
-    { title: 'Raise Request', fragment: 'raise-request' }
+    { title: 'Raise Request', fragment: 'my-assets' },
+    { title: 'My Assets', fragment: 'raise-request' }
   ];
 
   constructor(public route: ActivatedRoute) { }

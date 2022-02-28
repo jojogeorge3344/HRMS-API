@@ -4,21 +4,21 @@
         <input type="hidden" formControlName="leaveComponentId" />
         <div class="card-body">
             <div class="form-group row">
-                <label for="AnnualCasualLeaveQuota" class="col-sm-5 col-form-label">Annual Leave Quota</label>
+                <label for="AnnualCasualLeaveQuota" class="col-sm-5 col-form-label">Annual Leave Quota<span class="required">*</span></label>
                 <div class="col-sm-3 form-input-inline">
                     <input style="width: 100%;" type="number" class="form-control" formControlName="annualLeaveQuota">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="maxConsecutiveDays" class="col-sm-5 col-form-label">Maximum number of consecutive
-                    days</label>
+                    days<span class="required">*</span></label>
                 <div class="col-sm-3  form-input-inline">
                     <input type="number" class="form-control" formControlName="maxConsecutiveDays">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="maxNumberOfDaysPerMonth" class="col-sm-5 col-form-label">Maximum number of days per
-                    month</label>
+                    month<span class="required">*</span></label>
                 <div class="col-sm-3 form-input-inline">
                     <input type="number" class="form-control" (change)="onChange($event.target)" formControlName="maxNumberOfDaysPerMonth">
                     <span style="color: red" *ngIf="isInvalid"><small>Cannot be greater than the annual leave quota.</small></span>

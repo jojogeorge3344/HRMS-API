@@ -30,8 +30,8 @@ export class EmployeAssetService {
 
  
 
-  add(changeorswap: any[]){
-    return this.http.post<any>(this.baseUrl + 'insert', changeorswap).pipe(map(response => { return response; }));
+  add(allocate: any[]){
+    return this.http.post<any>(this.baseUrl + 'insert', allocate).pipe(map(response => { return response; }));
   }
 
   insertAllocate(changeorswap: any[]){
@@ -103,5 +103,18 @@ export class EmployeAssetService {
 
   getAllocationDetails(reqId:number) {
     return this.http.get<any>(this.baseUrl + 'GetAllocationDetailsById/' + reqId).pipe(map(response => { return response; }));
+  }
+
+  getAssetId(id:number){
+    return this.http.get(this.baseUrl + 'GetAssetId/' + id).pipe(map(response => { return response; }));
+  }
+
+  getReasonAndDescription(assetRaiseRequestId,status,assetid){
+    return this.http.get(this.baseUrl + 'GetReasonAndDescription/' + assetRaiseRequestId +'/' + status +'/'+ assetid).pipe(map(response => { return response; }));
+  }
+
+  updateReturnStatus(AssetId,status,assetraiserequestid) {
+    return this.http.put(this.baseUrl + 'UpdateReturnStatus',{},                                                
+    { params: { AssetId: AssetId, status : status, assetraiserequestid: assetraiserequestid } }).pipe(map(response => { return response; }));
   }
 }

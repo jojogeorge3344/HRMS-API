@@ -12,7 +12,13 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { OvertimePolicyConfiguration } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.model';
 import { OvertimePolicyConfigurationService } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+//import { TeamAttendanceService } from '@features/team-attendance/team-attendance.service';
 import { HolidayService } from '@settings/holiday/holiday.service';
+import { apply } from '@angular-devkit/schematics';
+import { toInteger, toNumber } from 'lodash';
+import { OvertimeRequest } from '../overtime-request.model';
+import { timeStamp } from 'console';
+
 
 @Component({
   templateUrl: './overtime-request-create.component.html',
@@ -25,6 +31,8 @@ export class OvertimeRequestCreateComponent implements OnInit {
   payrollProcessed: any;
   currentMonth: Number;
   currentYear: Number;
+  currentDay: Number;
+  otHours: Number;
   minDateFrom;
   maxDateFrom;
   minDateTo;
@@ -32,7 +40,11 @@ export class OvertimeRequestCreateComponent implements OnInit {
   fromDate;
   toDate;
   numberOfDays;
- // markDisabled;
+  noticeDayVal = false;
+  overtimeDetails: OvertimeRequest[];
+  overtimeApplied = '';
+  alreadyApplied=false;
+  // markDisabled;
   employeeList: Employee[];
   selectedItems = [];
   overtimeConfiguration: OvertimePolicyConfiguration;
@@ -48,6 +60,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
     private overtimePolicyConfigurationService: OvertimePolicyConfigurationService,
     private employeeService: EmployeeService,
     private payrollProcessService: PayrollProcessService,
+   // private teamAttendanceService: TeamAttendanceService,
     private calendar: NgbCalendar,
     private holidayService: HolidayService,
     public activeModal: NgbActiveModal,
@@ -59,12 +72,31 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getEmployeeList();
     this.getOvertimeConfiguration();
-    this.subscribeTochanges();
+   // this.getMarkedDates(this.currentUserId);
+    //  this.getOverTimeDetails();
+    // this.subscribeTochanges();
     // },
     //   error => {
     //     console.error(error);
     //   });
     // this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
+  }
+
+  // getMarkedDates(userId) {
+  //   var tablename = 'overtime'
+  //   this.teamAttendanceService.getMarkedDates(tablename, userId)
+  //     .subscribe(res => {
+  //       this.overtimeApplied = res;
+  //       console.log(this.overtimeApplied); 
+  //     });
+  // }
+
+  isAlreadyApplied(date) {
+    const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
+    if (this.overtimeApplied.includes(currentDate)) {
+      return { color: 'green' };
+    }
+    return;
   }
 
   getOvertimeConfiguration() {
@@ -82,22 +114,53 @@ export class OvertimeRequestCreateComponent implements OnInit {
       });
   }
 
+  getOverTimeDetails() {
+    this.overtimeRequestService.getAllOvertimeDetailsById(this.currentUserId).subscribe(result => {
+      this.overtimeDetails = result;
+      //  this.overtime=this.overtimeDetails
+      console.log(this.overtimeDetails);
+    },
+      error => {
+        console.error(error);
+      });
+  }
+
+  getWeekNumber(thisDate) {
+    var dt = new Date(thisDate);
+    var thisDay = dt.getDate();
+
+    var newDate = dt;
+    newDate.setDate(1); // first day of month
+    var digit = newDate.getDay();
+
+    var Q = (thisDay + digit) / 7;
+
+    var R = (thisDay + digit) % 7;
+
+    if (R !== 0) return Math.ceil(Q);
+    else return Q;
+  }
+
   setCalendar() {
-    const current = new Date();
-    const currentMonth = current.getMonth() + 1;
-    const currentYear = current.getFullYear();
-    const currentDay = current.getDay();
-    console.log(currentMonth, currentYear);
-    this.payrollProcessService.getPayrollStatusByEmpId(this.currentUserId, currentMonth, currentYear).subscribe(result => {
+    this.current = new Date();
+
+    var weekno = this.getWeekNumber(this.current);
+    console.log('hohoho', weekno);
+
+    this.currentMonth = this.current.getMonth() + 1;
+    this.currentYear = this.current.getFullYear();
+    this.currentDay = this.current.getDate();
+    console.log(this.currentMonth, this.currentYear);
+    this.payrollProcessService.getPayrollStatusByEmpId(this.currentUserId, this.currentMonth, this.currentYear).subscribe(result => {
       console.log(result);
 
       this.payrollProcessed = result;
       console.log(this.overtimeConfiguration.maximumPastDayLimit);
       const minDate = new Date();
-          console.log(minDate);
+      console.log(minDate);
       if (this.payrollProcessed === 0) {
         if (this.overtimeConfiguration.maximumPastDayLimit > 0 && !this.overtimeConfiguration.isApprovalRequired) {
-          
+
 
           minDate.setDate(minDate.getDate() - this.overtimeConfiguration.maximumPastDayLimit);
           console.log(minDate);
@@ -105,33 +168,29 @@ export class OvertimeRequestCreateComponent implements OnInit {
           this.minDateFrom = {
             year: minDate.getFullYear(),
             month: minDate.getMonth() + 1,
-            day: minDate.getDay() + 6
+            day: minDate.getDate()
           };
-          // console.log(this.minDateFrom);
+          console.log(this.minDateFrom);
 
         }
         else {
           minDate.setDate(minDate.getDate() + this.overtimeConfiguration.noticeDays);
           console.log(minDate);
-
           this.minDateFrom = {
             year: minDate.getFullYear(),
             month: minDate.getMonth() + 1,
-            day: minDate.getDay()
+            day: minDate.getDate() + this.overtimeConfiguration.noticeDays
           };
           // console.log(this.minDateFrom);
-
         }
       }
-      // else {
-      //   this.minDateFrom = {
-      //     year: currentYear,
-      //     month: currentMonth,
-      //     day: currentDay
-      //   };
-      // }
-
-
+      else {
+        this.minDateFrom = {
+          year: this.currentYear,
+          month: this.currentMonth,
+          day: this.currentDay
+        };
+      }
     },
       error => {
         console.error(error);
@@ -139,29 +198,96 @@ export class OvertimeRequestCreateComponent implements OnInit {
   }
 
   onFromDateSelection(date: NgbDate) {
-    console.log(date);
     this.minDateTo = date;
+    this.fromDate = date;
+    if (this.toDate) { this.validateRequest(); }
   }
 
   onToDateSelection(date: NgbDate) {
     this.maxDateFrom = date;
+    this.toDate = date;
+    if (this.fromDate) { this.validateRequest(); }
   }
 
-  subscribeTochanges() {
-    this.addForm.valueChanges.subscribe(res => {
-      this.fromDate = this.addForm.get('fromDate').value;
-      this.toDate = this.addForm.get('toDate').value;
-      if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
-        this.numberOfDays = calculateDaysInBetween(this.fromDate, this.toDate);
-        console.log(this.numberOfDays);
-        
+  // subscribeTochanges() {
+  //   this.addForm.valueChanges.subscribe(res => {
+  //     console.log("gwettyyyu");
+  //     this.fromDate = this.addForm.get('fromDate').value;
+  //     this.toDate = this.addForm.get('toDate').value;
+  //     this.otHours = this.addForm.get('numberOfHours').value;
+  //     if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
+  //       this.numberOfDays = calculateDaysInBetween(this.fromDate, this.toDate)+2;
+  //       console.log(this.fromDate, this.toDate);
+  //       console.log(this.numberOfDays);
+  //     }
+  //     this.validateRequest();
+  //   });
+  // }
+
+  calculateDaysInBetween(fromDate, toDate) {
+
+    let fromdateSec: any = fromDate;
+    let todateSec: any = toDate;
+
+    // this.isSingleDay = (todateSec - fromdateSec) === 0;
+
+    // Calculate days between dates
+    const millisecondsPerDay = 86400 * 1000; // Day in milliseconds
+    fromdateSec.setHours(0, 0, 0, 1); // Start just after midnight
+    todateSec.setHours(23, 59, 59, 999); // End just before midnight
+
+    const diff = todateSec - fromdateSec; // Milliseconds between datetime objects
+    let days = Math.ceil(diff / millisecondsPerDay);
+
+    // // Subtract two weekend days for every week in between
+    // const weeks = Math.floor(days / 7);
+    // days = days - (weeks * 2);
+
+    // // Handle special cases
+    // fromdateSec = fromdateSec.getDay();
+    // todateSec = todateSec.getDay();
+
+    // // Remove weekend not previously removed.
+    // if (fromdateSec - todateSec > 1) {
+    //   days = days - 2;
+    // }
+
+    // // Remove start day if span starts on Sunday but ends before Saturday
+    // if (fromdateSec == 0 && todateSec != 6) {
+    //   days = days - 1;
+    // }
+
+    // // Remove end day if span ends on Saturday but starts after Sunday
+    // if (todateSec === 6 && fromdateSec !== 0) {
+    //   days = days - 1;
+    // }
+    return days;
+  }
+
+  validateRequest() {
+    this.fromDate = this.addForm.get('fromDate').value;
+    this.toDate = this.addForm.get('toDate').value;
+    this.otHours = this.addForm.get('numberOfHours').value;
+    if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
+      this.numberOfDays = this.calculateDaysInBetween(this.fromDate, this.toDate);
+      console.log(this.fromDate);
+      console.log(this.toDate);
+
+      console.log(this.numberOfDays);
+      console.log(this.fromDate);
+      console.log(this.current);
+
+    }
+    if (this.overtimeConfiguration.isApprovalRequired) {
+      var prDays = toInteger(this.calculateDaysInBetween(this.fromDate, this.current));
+      console.log(prDays);
+      if (prDays < this.overtimeConfiguration.noticeDays) {
+        this.noticeDayVal = true;
       }
-      this.validateRequest();
-    });
-  }
+    }
 
-  validateRequest(){
-   // let overTimeHourse=this.overtimeConfiguration.
+
+    // let overTimeHourse=this.overtimeConfiguration.
   }
 
   getEmployeeHoliday() {
@@ -254,7 +380,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
         Validators.max(524)
       ]],
       reason: ['', [
-        Validators.maxLength(128),
+        Validators.maxLength(250),
       ]],
       employeeId: [this.currentUserId],
       requestStatus: [1]

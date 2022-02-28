@@ -12,6 +12,7 @@ import { RaiseRequestEditComponent } from '../raise-request-edit/raise-request-e
 import { RaiseRequestViewComponent } from '../raise-request-view/raise-request-view.component';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 
@@ -25,6 +26,7 @@ export class RaiseRequestListComponent implements OnInit {
   assetTypeNames: AssetType[];
   currentUserId: number;
   raiseRequesttype = RequestFor;
+  raiseRequestTypeList = RequestType;
   raiseRequestStatus = AssetStatus;
 
   constructor(
@@ -42,7 +44,7 @@ export class RaiseRequestListComponent implements OnInit {
   getAllRaiseRequestList(currentUserId) {
     this.raiseRequestService.getAllRaiseRequestList(currentUserId).subscribe(result => {
       this.raiseRequestList = result.sort(function(a, b) {
-        return (a.id - b.id);
+        return (b.id - a.id);
       });
       console.log(result);
 
@@ -52,7 +54,7 @@ export class RaiseRequestListComponent implements OnInit {
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type Details');
       });
   }
 
@@ -63,7 +65,7 @@ export class RaiseRequestListComponent implements OnInit {
     }),
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type Details');
       };
   }
 
@@ -107,11 +109,11 @@ export class RaiseRequestListComponent implements OnInit {
   delete(raiseRequest: AssetRaiseRequest) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
-    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete this raise request?`;
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke this Request?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
         this.raiseRequestService.delete(raiseRequest.id).subscribe(() => {
-          this.toastr.showSuccessMessage('The raise request deleted successfully!');
+          this.toastr.showSuccessMessage('Request Revoked Successfully!');
           this.getAllRaiseRequestList(this.currentUserId);
         });
       }

@@ -20,11 +20,12 @@ import * as _ from 'lodash';
 })
 export class EmployeeAssetChangeorswapComponent implements OnInit {
   employeeassetchangeForm: FormGroup;
-  @Input() assetId
+  // @Input() assetId
   @Input() assetTypeId
   @Input() assetRaiseRequestId
   @Input() empid
   @Input() assetTypeName
+  assetId: number;
   Astvalues: AssetAssets;
   currentTypeMap: Map<any, any>;
   currentTypeKeys: string[];
@@ -50,15 +51,17 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("input values>>",this.assetRaiseRequestId,this.assetTypeId,this.empid,this.assetTypeName);
+    
+    this.getAssetId();
     this.currentTypeMap = new Map();
     this.newTypeMap = new Map();
     this.newMdataTypeMap=new Map();
     this.employeeassetchangeForm = this.createFormGroup();
-    this.getCurrentAssetById();
-    this.getAssetType();
   }
   onSubmit() {
-    console.log(this.employeeassetchangeForm.getRawValue());
+    console.log(this.employeeassetchangeForm);
+    debugger;
     let allValues= {...this.employeeassetchangeForm.getRawValue(),
         // status:1,
         assetMetadataValueId:this.newMdataTypeKeys.map(key => {
@@ -106,7 +109,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       if (result.id === -1) {
         this.toastr.showErrorMessage('asset already swaped!');
       } else {
-        this.toastr.showSuccessMessage('changed successfully successfully!');
+        this.toastr.showSuccessMessage('asset changed successfully!');
         this.activeModal.close('submit');
       }
     },
@@ -130,23 +133,32 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       newAssetType: [ '', [
         Validators.required,
       ]],
-      newAssetId: ['', [
-        Validators.required,
-      ]],
+      newAssetId: ['', [ ]],
       newAssetName: ['', [
         Validators.required,
       ]],
       newMetadatas: this.formBuilder.group([]),
       newDescription: ['', [
         Validators.required,
-        Validators.maxLength(128)
+        Validators.maxLength(150)
       ]],
       
     });
   }
 
 
+  getAssetId(){
+    this.employeAssetService.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
+      console.log(res);
+      this.assetId=res[0].assetid;
+      // console.log("assetid>>>>>>",this.assetId); 
+      this.getCurrentAssetById();
+      this.getAssetType();
+    })
+  }
+
   getCurrentAssetById() {
+    console.log("assetid>>>>>>",this.assetId); 
     forkJoin([
       this.assetMetadataService.getAssetMetadataById(this.assetTypeId),
       this.assestassetService.getAssetById(this.assetId)
@@ -260,6 +272,18 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     map(term => this.assetList.filter((assetList:any) => new RegExp(term, 'mi').test(assetList.name)).slice(0, 10))
   )
 
+  clearSearch(ev){
+    console.log(">>>>>",ev,   "value>",ev.target.value);
+    console.log("<<<", this.employeeassetchangeForm.get('newMetadatas')as FormGroup) ;
+    if(ev.target.value===''){
+    Object.entries(( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).controls).forEach(([name,control]) => {
+      console.log(control);
+      ( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).removeControl(name)
+    })
+    this.newTypeKeys=[];
+  }
+    
+  }
   
 
 }
