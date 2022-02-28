@@ -8,7 +8,7 @@
     <div class="modal-body">
         <div class="form-group input-group form-input-inline col-sm">
             <label class="col-form-label col-12 px-0" for="returnDate">Return Date</label>
-            <input class="form-control" [minDate]="mindate" ngbDatepicker
+            <input class="form-control" [minDate]="minDateFrom" ngbDatepicker
                 [markDisabled]="markDisabled" #returnDate="ngbDatepicker" formControlName="returnDate">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="returnDate.toggle()"

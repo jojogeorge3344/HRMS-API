@@ -91,6 +91,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('hhhhh',this.leaves);
+    
     this.addForm = this.createFormGroup();
     this.getLeaveBalance();
     this.getEmployeeDetails();

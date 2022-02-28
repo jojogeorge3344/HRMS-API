@@ -54,7 +54,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     this.employeeLeaveService.getAllByID(this.currentUserId).subscribe(result => {
       this.leave = this.leaveLogsOnDisplay = result;
       console.log(this.leaveLogsOnDisplay);
-      
+
     },
       error => {
         console.error(error);
@@ -115,7 +115,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
   openRequestLeave() {
     const modalRef = this.modalService.open(EmployeeLeaveRequestCreateComponent,
-      {centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
     modalRef.componentInstance.requestId = this.currentUserId;
     modalRef.componentInstance.leaveBalance = this.leaveComponent;
     modalRef.componentInstance.leaveSettings = this.leaveSettings;

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { EmployeeBonusService } from '@features/employee/employee-bonus/employee-bonus.service';
 import {  ActivatedRoute } from '@angular/router';
 import { getCurrentUserId } from '@shared/utils/utils.functions';

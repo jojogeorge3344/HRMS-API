@@ -76,7 +76,7 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
       .subscribe(res => {
         switch (tablename) {
           case 'leave':
-            this.leavesApplied = res;
+            this.leavesApplied = res;            
             break;
           case 'onduty':
             this.onDutyApplied = res;
