@@ -36,7 +36,7 @@ namespace Chef.HRMS.Repositories
             var sql = @"SELECT * FROM(		
                                 SELECT empid, COUNT(*) AS allocatedasset
                                         FROM hrms.assetallocated 
-                                        WHERE status = 4 or status=7
+                                        WHERE status = 4 OR status=7 OR status=8
                                         GROUP BY empid)a
                                         FULL JOIN
                                         (SELECT empid, COUNT(*) AS requests
