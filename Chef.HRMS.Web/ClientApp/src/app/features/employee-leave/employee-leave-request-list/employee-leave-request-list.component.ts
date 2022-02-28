@@ -26,9 +26,10 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   @Input() leaveComponent: any;
   @Input() leaveSettings: any;
   @Output() getBalance = new EventEmitter<string>();
-  leavesApplied = '';
+  leavesApplied = [];
   wfhApplied = '';
   onDutyApplied = '';
+  leaveInfo: EmployeeLeaveRequest[];
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -65,9 +66,9 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     this.teamAttendanceService.getMarkedDates(tablename, userId)
       .subscribe(res => {
         switch (tablename) {
-          case 'leave':
-            this.leavesApplied = res;
-            break;
+          // case 'leave':
+          //   this.leavesApplied = res;
+          //   break;
           case 'onduty':
             this.onDutyApplied = res;
             break;
@@ -77,7 +78,16 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
           default:
             break;
         }
+       
+         
+        
       });
+      this.employeeLeaveService.getAllInfoLeave(this.currentUserId).subscribe(res => {
+        this.leavesApplied =res;
+        //console.log("leaveinfo",this.leaveInfo);
+        
+ 
+      })
   }
   openView(id: number) {
     const modalRef = this.modalService.open(EmployeeLeaveRequestViewComponent,

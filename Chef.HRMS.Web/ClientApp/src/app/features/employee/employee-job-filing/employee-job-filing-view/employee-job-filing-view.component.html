@@ -102,13 +102,13 @@
                 <div class="col-sm-7 py-2">
                     <div class="form-check-inline" payment>
                         <div *ngFor="let key of paymentModeKeys" payment="key"
-                            class="custom-control custom-radio custom-control-inline "  (click)="selectPayment(key)"  >
+                            class="custom-control custom-radio custom-control-inline "    >
                             <!-- <input disabled type="radio" class="custom-control-input" name="paymentMode" id="payment{{key}}"
                                 formControlName="paymentMode" [value]="key">
                             <label  class="col-form-label" for="payment{{key}} " class="custom-control-label">{{paymentMode[key]}}
                             </label> -->
-                            <input class="form-check-input" type="radio" name="paymentMode" id="payment{{key}}"  formControlName="paymentMode" [value]="key" disabled>
-                              <label class="form-check-label" for="payment{{key}} ">
+                            <input  class="form-check-input" type="radio" name="paymentMode" id="payment{{key}}"  formControlName="paymentMode" [value]="key" disabled>
+                              <label  class="form-check-label" for="payment{{key}} ">
                                {{paymentMode[key]}}
                               </label>
                         </div>

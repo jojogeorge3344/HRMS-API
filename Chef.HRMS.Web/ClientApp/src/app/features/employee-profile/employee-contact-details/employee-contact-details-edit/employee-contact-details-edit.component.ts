@@ -59,12 +59,13 @@ export class EmployeeContactDetailsEditComponent implements OnInit {
         Validators.required
       ]],
       mobile: [null, [
-        Validators.required
+        Validators.required,Validators.maxLength(16),
       ]],
       mobileCode: [null, [
         Validators.required
       ]],
-      workPhone: [null],
+      workPhone: [null,[Validators.required,Validators.maxLength(16),
+      ]],
       workPhoneCode: [null],
       homePhone: [null],
       homePhoneCode: [null],
