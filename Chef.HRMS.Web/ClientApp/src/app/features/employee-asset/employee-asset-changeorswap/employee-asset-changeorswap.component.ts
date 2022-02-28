@@ -60,7 +60,8 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     this.employeeassetchangeForm = this.createFormGroup();
   }
   onSubmit() {
-    console.log(this.employeeassetchangeForm.getRawValue());
+    console.log(this.employeeassetchangeForm);
+    debugger;
     let allValues= {...this.employeeassetchangeForm.getRawValue(),
         // status:1,
         assetMetadataValueId:this.newMdataTypeKeys.map(key => {
@@ -132,16 +133,14 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       newAssetType: [ '', [
         Validators.required,
       ]],
-      newAssetId: ['', [
-        Validators.required,
-      ]],
+      newAssetId: ['', [ ]],
       newAssetName: ['', [
         Validators.required,
       ]],
       newMetadatas: this.formBuilder.group([]),
       newDescription: ['', [
         Validators.required,
-        Validators.maxLength(10)
+        Validators.maxLength(150)
       ]],
       
     });
@@ -273,6 +272,18 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     map(term => this.assetList.filter((assetList:any) => new RegExp(term, 'mi').test(assetList.name)).slice(0, 10))
   )
 
+  clearSearch(ev){
+    console.log(">>>>>",ev,   "value>",ev.target.value);
+    console.log("<<<", this.employeeassetchangeForm.get('newMetadatas')as FormGroup) ;
+    if(ev.target.value===''){
+    Object.entries(( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).controls).forEach(([name,control]) => {
+      console.log(control);
+      ( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).removeControl(name)
+    })
+    this.newTypeKeys=[];
+  }
+    
+  }
   
 
 }
