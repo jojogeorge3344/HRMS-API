@@ -418,3 +418,9 @@ aside ::-webkit-scrollbar-thumb {
     opacity:0.6;        
 }
 
+/*validation * coloring*/
+
+.required {
+  color: red;
+}
+

@@ -1,7 +1,7 @@
 <form
   [formGroup]="assetAllocationForm"
   id="assetAllocationForm"
-  (submit)="onSubmit()"
+  (validSubmit)="onSubmit()"
 >
   <div class="modal-header">
     <h4 class="modal-title">Asset Allocation</h4>
@@ -76,7 +76,7 @@
 
       <div class="d-flex form-group form-input-inline col-6">
         <label class="col-4 col-form-label px-0" for="requestedOn"
-          >Comments Allocator:</label
+          >Comments Allocator:<span class="required">*</span></label
         >
         <input
           class="form-control w-100 height-xs"

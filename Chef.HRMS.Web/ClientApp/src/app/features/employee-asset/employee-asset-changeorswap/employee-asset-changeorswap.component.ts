@@ -60,7 +60,8 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     this.employeeassetchangeForm = this.createFormGroup();
   }
   onSubmit() {
-    console.log(this.employeeassetchangeForm.getRawValue());
+    console.log(this.employeeassetchangeForm);
+    debugger;
     let allValues= {...this.employeeassetchangeForm.getRawValue(),
         // status:1,
         assetMetadataValueId:this.newMdataTypeKeys.map(key => {
@@ -132,9 +133,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       newAssetType: [ '', [
         Validators.required,
       ]],
-      newAssetId: ['', [
-        Validators.required,
-      ]],
+      newAssetId: ['', [ ]],
       newAssetName: ['', [
         Validators.required,
       ]],
