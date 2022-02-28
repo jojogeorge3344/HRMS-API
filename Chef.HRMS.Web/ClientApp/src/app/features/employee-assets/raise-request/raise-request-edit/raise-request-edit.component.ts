@@ -74,16 +74,16 @@ export class RaiseRequestEditComponent implements OnInit {
     this.raiseRequestService.update(this.raiseRequestEditData).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
-        this.toastr.showErrorMessage('Request already exists!');
+        this.toastr.showErrorMessage('Request Already Exists!');
       }
        else {
-        this.toastr.showSuccessMessage('Request Upadated Successfully!');
+        this.toastr.showSuccessMessage('Request Updated Successfully!');
         this.activeModal.close('submit');
       }
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to Upadate the Request');
+        this.toastr.showErrorMessage('Unable to Update the Request');
       });
  }
 
@@ -135,7 +135,7 @@ export class RaiseRequestEditComponent implements OnInit {
     }),
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the AssetType');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type');
       };
   }
 

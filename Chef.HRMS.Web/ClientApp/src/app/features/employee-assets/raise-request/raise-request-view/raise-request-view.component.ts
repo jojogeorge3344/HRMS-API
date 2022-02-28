@@ -69,7 +69,7 @@ export class RaiseRequestViewComponent implements OnInit {
     }),
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the AssetType');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type');
       };
   }
 

@@ -44,7 +44,7 @@ export class RaiseRequestListComponent implements OnInit {
   getAllRaiseRequestList(currentUserId) {
     this.raiseRequestService.getAllRaiseRequestList(currentUserId).subscribe(result => {
       this.raiseRequestList = result.sort(function(a, b) {
-        return (a.id - b.id);
+        return (b.id - a.id);
       });
       console.log(result);
 
@@ -54,7 +54,7 @@ export class RaiseRequestListComponent implements OnInit {
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type Details');
       });
   }
 
@@ -65,7 +65,7 @@ export class RaiseRequestListComponent implements OnInit {
     }),
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the asset type Details');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type Details');
       };
   }
 
@@ -109,11 +109,11 @@ export class RaiseRequestListComponent implements OnInit {
   delete(raiseRequest: AssetRaiseRequest) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
-    modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke this raise request?`;
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke this Request?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
         this.raiseRequestService.delete(raiseRequest.id).subscribe(() => {
-          this.toastr.showSuccessMessage('The raise request has been revoked successfully!');
+          this.toastr.showSuccessMessage('Request Revoked Successfully!');
           this.getAllRaiseRequestList(this.currentUserId);
         });
       }

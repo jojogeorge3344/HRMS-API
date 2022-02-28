@@ -76,15 +76,15 @@ export class RaiseRequestCreateComponent implements OnInit {
     this.raiseRequestService.add(this.raiseRequestDetails).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
-        this.toastr.showErrorMessage('Raised request already exists!');
+        this.toastr.showErrorMessage('Request Already Exists!');
       } else {
-        this.toastr.showSuccessMessage('Request added successfully!');
+        this.toastr.showSuccessMessage('Request Added Successfully!');
         this.activeModal.close('submit');
       }
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the request');
+        this.toastr.showErrorMessage('Unable to Add the Request');
       });
 
   }
@@ -132,6 +132,7 @@ export class RaiseRequestCreateComponent implements OnInit {
     console.log(this.addForm.value.requestFor);
     if (this.addForm.value.requestFor == '1') {
       this.isDisable = true;
+      this.addForm.controls['nameOfTeamMemberId'].reset()
       this.addForm.get("nameOfTeamMemberId").setValidators(null)
     }
     else {
@@ -146,7 +147,7 @@ export class RaiseRequestCreateComponent implements OnInit {
     }),
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the AssetType');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type');
       };
   }
 
@@ -159,14 +160,14 @@ export class RaiseRequestCreateComponent implements OnInit {
         Validators.required,
 
       ]],
-      requestFor: ['', [
+      requestFor: [0, [
         Validators.required,
 
       ]],
       nameOfTeamMemberId: ['', [
     
       ]],
-      assetTypeId: ['', [
+      assetTypeId: [0, [
         Validators.required,
 
       ]],
