@@ -16,6 +16,7 @@ namespace Chef.HRMS.Models
         /// Holds emergency contact number
         /// </summary>
         [StringLength(16)]
+
         public string EmergencyContactNumber { get; set; }
 
         /// <summary>
@@ -60,6 +61,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds work phone number
         /// </summary>
+        [Required]
         [StringLength(16)]
         public string WorkPhone { get; set; }
     }

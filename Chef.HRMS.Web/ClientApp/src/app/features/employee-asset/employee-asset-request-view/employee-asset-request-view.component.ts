@@ -8,6 +8,8 @@ import { switchMap,tap } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
+import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { EmployeAssetService } from '../employe-asset.service';
 import { EmployeeAssetAllocationComponent } from '../employee-asset-allocation/employee-asset-allocation.component';
 
@@ -32,6 +34,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   requestViewForm: FormGroup;
   requetedByName: string;
   buttonStatus: number;
+  requestType=RequestType;
   requestResult=[];
 
 
@@ -43,6 +46,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
               private toastr: ToasterDisplayService,
               private formBuilder: FormBuilder,
               public modalService: NgbModal,
+              private splitByUpperCase: SplitByUpperCasePipe
                ) { }
 
   ngOnInit(): void {
@@ -51,9 +55,7 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
     console.log(this.reqForStatus);
   }
 
-  onSubmit() {
-
-  }
+ 
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -87,7 +89,14 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
     this.employeeAsset.getRequestById(this.id).pipe(
       tap(([result]) => {
         this.requestViewForm.patchValue(result);
-        this.requestViewForm.patchValue({requestFor:this.reqForStatus[result.requestFor]})
+        if(result.requestFor==2){
+          this.requestViewForm.patchValue({nameOfTeamMember:result.nameOfTeamMember})
+        }
+        else{
+          this.requestViewForm.patchValue({nameOfTeamMember:null})
+        }
+        this.requestViewForm.patchValue({requestFor:this.splitByUpperCase.transform(this.reqForStatus[result.requestFor])})
+        this.requestViewForm.patchValue({requestType:this.splitByUpperCase.transform(this.requestType[result.requestType])})
         this.requestResult=result;
         console.log("request result",this.requestResult);
         
@@ -104,41 +113,10 @@ export class EmployeeAssetRequestViewComponent implements OnInit {
   }
 
 
-  manageRequest(id,status) {
-    console.log(id);
-       this.employeeAsset.manageRequest(id,status).subscribe(res=>{
-         if(status==2){
-          this.toastr.showSuccessMessage('Approved successfully!');
-         }
-         else if(status==3){
-          this.toastr.showSuccessMessage('Rejcted successfully!');
-         }
-         this.activeModal.close('click')
-       })
-      }
+ 
 
-      // openAllocate() {
-      //   this.modalService.dismissAll();
-      //   const modalRef = this.modalService.open(EmployeeAssetAllocationComponent, {
-      //     centered: true,
-      //     backdrop: "static",
-      //     size:'xl'
-      //   });
-      //   modalRef.result.then((userResponse) => {
-      //     return userResponse;
-      //   })
-      //   modalRef.componentInstance.reqId = this.id;
-      //   modalRef.componentInstance.empid = this.empid;
-      //   modalRef.componentInstance.assetTypeId = this.assetTypeId;
-      //   modalRef.componentInstance.assetTypeName = this.assetTypeName;
-      //   console.log(modalRef.componentInstance.assetTypeName);
-      //   // this.employeeAsset.setListDetails({ data: emprequest });
-      // }
+     
 
-      openAllocate(){
-        this.router.navigate(
-          ['asset-employee-wise/'+ this.empid + '/allocation/'+this.id +'/'+this.assetTypeId + '/' + this.assetTypeName ],
-          { relativeTo: this.route.parent });
-      }
+     
 
 }

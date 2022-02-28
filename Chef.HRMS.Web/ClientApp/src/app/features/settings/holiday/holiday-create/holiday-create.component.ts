@@ -129,7 +129,7 @@ export class HolidayCreateComponent implements OnInit {
         Validators.required,
         duplicateNameValidator(this.holidayNames)
       ]],
-      description: ['', Validators.required],
+      description: ['', [Validators.required,Validators.maxLength(128)]],
       date: [null, Validators.required],
       isFloating: [false],
       holidayCategoryId: this.holidayCategory.id,

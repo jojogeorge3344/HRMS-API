@@ -26,9 +26,10 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   @Input() leaveComponent: any;
   @Input() leaveSettings: any;
   @Output() getBalance = new EventEmitter<string>();
-  leavesApplied = '';
+  leavesApplied = [];
   wfhApplied = '';
   onDutyApplied = '';
+  leaveInfo: EmployeeLeaveRequest[];
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -54,7 +55,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     this.employeeLeaveService.getAllByID(this.currentUserId).subscribe(result => {
       this.leave = this.leaveLogsOnDisplay = result;
       console.log(this.leaveLogsOnDisplay);
-      
+
     },
       error => {
         console.error(error);
@@ -65,9 +66,9 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     this.teamAttendanceService.getMarkedDates(tablename, userId)
       .subscribe(res => {
         switch (tablename) {
-          case 'leave':
-            this.leavesApplied = res;
-            break;
+          // case 'leave':
+          //   this.leavesApplied = res;
+          //   break;
           case 'onduty':
             this.onDutyApplied = res;
             break;
@@ -77,7 +78,16 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
           default:
             break;
         }
+       
+         
+        
       });
+      this.employeeLeaveService.getAllInfoLeave(this.currentUserId).subscribe(res => {
+        this.leavesApplied =res;
+        //console.log("leaveinfo",this.leaveInfo);
+        
+ 
+      })
   }
   openView(id: number) {
     const modalRef = this.modalService.open(EmployeeLeaveRequestViewComponent,
@@ -115,7 +125,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
   openRequestLeave() {
     const modalRef = this.modalService.open(EmployeeLeaveRequestCreateComponent,
-      {centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
     modalRef.componentInstance.requestId = this.currentUserId;
     modalRef.componentInstance.leaveBalance = this.leaveComponent;
     modalRef.componentInstance.leaveSettings = this.leaveSettings;

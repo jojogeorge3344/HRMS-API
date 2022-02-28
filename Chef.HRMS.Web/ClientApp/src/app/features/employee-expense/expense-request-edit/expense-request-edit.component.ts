@@ -354,8 +354,9 @@ export class ExpenseRequestEditComponent implements OnInit {
     if (this.editForm.invalid) {
       return;
     }
-
-    this.expenseRequestService.update(this.editForm.value).subscribe((expense: any) => {
+    let payload = this.editForm.value;
+    payload.amount = payload.amount.toFixed(2);
+    this.expenseRequestService.update(payload).subscribe((expense: any) => {
       if (expense === -1) {
         this.toastr.showErrorMessage('Expense request title already exists!');
       } else {

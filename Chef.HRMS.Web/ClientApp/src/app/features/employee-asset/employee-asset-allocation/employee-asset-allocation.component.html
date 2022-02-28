@@ -1,7 +1,7 @@
 <form
   [formGroup]="assetAllocationForm"
   id="assetAllocationForm"
-  (submit)="onSubmit()"
+  (validSubmit)="onSubmit()"
 >
   <div class="modal-header">
     <h4 class="modal-title">Asset Allocation</h4>
@@ -14,9 +14,10 @@
           >Allocation Id:</label
         >
         <input
+          placeholder="Auto-generated"
           class="form-control w-100"
           name="allocationId"
-          formControlName="allocationId"
+          disabled
         />
       </div>
 
@@ -76,7 +77,7 @@
 
       <div class="d-flex form-group form-input-inline col-6">
         <label class="col-4 col-form-label px-0" for="requestedOn"
-          >Comments Allocator:</label
+          >Comments Allocator:<span class="required">*</span></label
         >
         <input
           class="form-control w-100 height-xs"
@@ -126,7 +127,7 @@
               class="text-center"
               *ngFor="let unAllocatedAsset of unallocatedAssetsOndisplay; let i = index"
             >
-              <input type="checkbox" name="{{unAllocatedAsset.assetId}}" id="{{unAllocatedAsset.assetId}}" [value]="unAllocatedAsset"
+              <input class="mt-3" type="checkbox" name="{{unAllocatedAsset.assetId}}" id="{{unAllocatedAsset.assetId}}" [value]="unAllocatedAsset"
                (click)="onModelChange(unAllocatedAsset)" [checked]="checkedValues?.assetId===unAllocatedAsset.assetId">
               <td>{{ i + 1 }}</td>
               <td>{{ unAllocatedAsset.assetCode }}</td>

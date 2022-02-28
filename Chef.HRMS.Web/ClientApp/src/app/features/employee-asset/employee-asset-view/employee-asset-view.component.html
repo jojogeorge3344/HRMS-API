@@ -12,12 +12,12 @@
                 <div class="d-flex form-group form-input-inline col-6">
                 <label class="col-4 col-form-label px-0" for="assetid">Employee Id:</label>
                 <input
-                    name="employeeID"
-                    formControlName="employeeID"
+                    name="employeeNumber"
+                    formControlName="employeeNumber"
                     class="form-control w-100">
                 </div>
                 <div class="d-flex form-group form-input-inline col-6">
-                <label class="col-4 col-form-label px-0" for="date">employeeStatus:</label>
+                <label class="col-4 col-form-label px-0" for="date">Employee Status:</label>
                 <input
                     class="form-control w-100"
                     formControlName="employeeStatus"
@@ -66,7 +66,7 @@
                     <td >{{ allocatedAsset.assetId }}</td>
                     <td class="text-capitalize" >{{allocatedAsset.assetName }}</td>
                     <td >{{allocatedAsset.allocatedDate | date: 'dd-MM-yyyy'}}</td>
-                    <td >{{status[allocatedAsset.status]}}</td>
+                    <td >{{splitByUpperCase.transform(status[allocatedAsset.status])}}</td>
                     <td>
                         <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="true">
                             <button id="button-basic" dropdownToggle type="button" 
@@ -76,8 +76,9 @@
                             </button>
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
                                role="menu" click aria-labelledby="button-basic">
-                               <li *ngIf="buttonStatus !==9"  role="menuitem"  (click)="openChangeOrSwap(allocatedAsset)"><a class="dropdown-item">Change/Swap</a></li>
-                               <li *ngIf="buttonStatus ==4" role="menuitem"  (click)="openRecall(allocatedAsset)"><a class="dropdown-item">Recall</a></li>
+                               <li *ngIf="allocatedAsset?.status==4 || allocatedAsset?.status==7"    (click)="openChangeOrSwap(allocatedAsset)"><a class="dropdown-item">Change/Swap</a></li>
+                               <li [ngClass]="(allocatedAsset.status ==7 || allocatedAsset.status ==9 || allocatedAsset.status ==8) ?'lidisable':''"   (click)="openRecall(allocatedAsset)"><a class="dropdown-item">Recall</a></li>
+                               <li *ngIf="allocatedAsset?.status==8" ><a class="dropdown-item">Approve</a></li>
                             </ul>
                          </div>
                     </td>

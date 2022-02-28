@@ -57,15 +57,15 @@ export class EmployeePrimaryDetailsEditComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
 
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
-      displayName: ['', Validators.required],
-      gender: ['', Validators.required],
+      firstName: ['',[ Validators.required,Validators.maxLength(32)]],
+      middleName: ['',[Validators.required,Validators.maxLength(32)]],
+      lastName: ['', [Validators.required,Validators.maxLength(32)]],
+      displayName: ['', [Validators.required,Validators.maxLength(32)]],
+      gender: ['', [Validators.required]],
       dateOfBirth: [new Date(), Validators.required],
       bloodGroup: [null],
       maritalStatus: [null],
-      email: [''],
+      email: ['',[Validators.required]],
       createdBy: [],
       createdDate: [],
       modifiedBy: [this.currentUserId]

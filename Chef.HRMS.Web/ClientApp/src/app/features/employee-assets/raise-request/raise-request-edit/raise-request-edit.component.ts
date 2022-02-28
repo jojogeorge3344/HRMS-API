@@ -10,6 +10,7 @@ import { AssetRaiseRequest } from '../../raise-request/raise-request.model';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { Employee } from '@features/employee/employee.model';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
@@ -27,6 +28,7 @@ export class RaiseRequestEditComponent implements OnInit {
   assetTypeArray: AssetType[];
   raiseRequestKeys: number[];
   raiseRequesttype = RequestFor;
+  raiseRequestTypeList = RequestType;
   raiseRequestStatus = AssetStatus;
   isDisable = false;
   raiseRequestEditData: AssetRaiseRequest;
@@ -61,6 +63,7 @@ export class RaiseRequestEditComponent implements OnInit {
 
   onSubmit() {
     this.raiseRequestEditData = this.editForm.getRawValue();
+    this.raiseRequestEditData.requestType = this.raiseRequestDetails.requestType
     this.raiseRequestEditData.nameOfTeamMemberId =  this.editForm.controls['nameOfTeamMemberId'].value?this.editForm.controls['nameOfTeamMemberId'].value.empid: this.currentUserId;
     this.raiseRequestEditData.status= this.raiseRequestStatus.Requested;
     this.raiseRequestEditData.empId = this.currentUserId;
@@ -71,15 +74,16 @@ export class RaiseRequestEditComponent implements OnInit {
     this.raiseRequestService.update(this.raiseRequestEditData).subscribe((result: any) => {
       console.log("res", result)
       if (result.id === -1) {
-        this.toastr.showErrorMessage('Raised request already exists!');
-      } else {
-        this.toastr.showSuccessMessage('Request added successfully!');
+        this.toastr.showErrorMessage('Request Already Exists!');
+      }
+       else {
+        this.toastr.showSuccessMessage('Request Updated Successfully!');
         this.activeModal.close('submit');
       }
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the request');
+        this.toastr.showErrorMessage('Unable to Update the Request');
       });
  }
 
@@ -104,7 +108,8 @@ export class RaiseRequestEditComponent implements OnInit {
       this.employeeList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment)); 
       this.editForm.patchValue(this.raiseRequestDetails);    
       this.editForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'yyyy-MM-dd')})
-      this.editForm.patchValue({nameOfTeamMemberId:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMemberId])}) 
+      this.editForm.patchValue({nameOfTeamMemberId:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMemberId])})
+      this.editForm.patchValue({requestType: this.raiseRequestTypeList[this.raiseRequestDetails.requestType]}) 
     },
       error => {
         console.error(error);
@@ -115,6 +120,7 @@ export class RaiseRequestEditComponent implements OnInit {
   getvalue(i) { // self or team member
       if (i === 1) {
       this.isDisable = true;
+      this.editForm.controls['nameOfTeamMemberId'].reset()
       this.editForm.get("nameOfTeamMemberId").setValidators(null)
     }
     else {
@@ -129,7 +135,7 @@ export class RaiseRequestEditComponent implements OnInit {
     }),
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the AssetType');
+        this.toastr.showErrorMessage('Unable to Fetch the Asset Type');
       };
   }
 
@@ -140,7 +146,7 @@ export class RaiseRequestEditComponent implements OnInit {
         Validators.required,
 
       ]],
-      requestType: [{ value: 'New Asset', disabled: true }, [
+      requestType: ['', [
         Validators.required,
       ]],
       requestedDate: ['', [

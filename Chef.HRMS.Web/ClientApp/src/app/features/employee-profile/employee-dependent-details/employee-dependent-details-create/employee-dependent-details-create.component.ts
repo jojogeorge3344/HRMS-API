@@ -9,6 +9,7 @@ import { RelationshipType } from '../../../../models/common/types/relationshipty
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import * as _ from 'lodash';
+import { NgIf } from '@angular/common';
 
 @Component({
   templateUrl: './employee-dependent-details-create.component.html',
@@ -50,13 +51,29 @@ export class EmployeeDependentDetailsCreateComponent implements OnInit {
     console.log("depend",this.dependents);
 
     this.selectValueRelation = [];
+    // this.selectValueRelation=this.dependents.filter(y=>{if(y.relationship!==4  || y.relationship!==5 || y.relationship!==6){return y.relationship}})
+    // console.log("relation",this.selectValueRelation);
+    
 
     this.dependents.filter(y=>{
       this.selectValueRelation.push(
         y.relationship
       )
+      console.log("selected val",this.selectValueRelation);
+
     });
-    this.relationshipTypeKeys= _.difference(this.allRelationshipTypeKeys, this.selectValueRelation );
+    this.relationshipTypeKeys= _.difference(this.allRelationshipTypeKeys, this.selectValueRelation);
+    console.log(this.allRelationshipTypeKeys,this.relationshipTypeKeys);
+    
+    this.allRelationshipTypeKeys.map((item:any)=>{
+      if(item==4  || item==5 || item==6){
+        this.relationshipTypeKeys.push(item)
+      }
+
+    })
+    this.relationshipTypeKeys=_.uniq(this.relationshipTypeKeys)
+    console.log("keys",this.relationshipTypeKeys);
+    
   }
 
   createFormGroup(): FormGroup {
@@ -82,7 +99,7 @@ export class EmployeeDependentDetailsCreateComponent implements OnInit {
       relationship: [null, [
         Validators.required,
       ]],
-      profession: ['', [Validators.maxLength(24),
+      profession: ['', [Validators.maxLength(32),
 
       ]],
     });

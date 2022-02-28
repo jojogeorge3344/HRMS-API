@@ -81,9 +81,14 @@ namespace Chef.HRMS.Services
             }
         }
 
+        public async Task<int> UpdateRevoke(int id)
+        {
+            return await assetRaiseRequestRepository.UpdateRevoke(id);
+        }
+
         public async Task<int> UpdateAsync(AssetRaiseRequest assetRaiseRequest)
         {
-           return  await assetRaiseRequestRepository.UpdateAsync(assetRaiseRequest);
+            return await assetRaiseRequestRepository.UpdateAsync(assetRaiseRequest);
         }
     }
 }

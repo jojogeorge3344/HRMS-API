@@ -51,6 +51,18 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpPut("UpdateRevoke")]
+        public async Task<ActionResult> UpdateRevoke(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await assetRaiseRequestService.UpdateRevoke(id);
+
+            return Ok(result);
+        }
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -97,5 +109,6 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetemployeeList);
         }
+
     }
 }

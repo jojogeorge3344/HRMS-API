@@ -11,17 +11,22 @@ import { EmployeeAssetRequestViewComponent } from './employee-asset-request-view
 import { EmployeeAssetChangeorswapComponent } from './employee-asset-changeorswap/employee-asset-changeorswap.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/employee-asset-allocation.component';
+import { EmployeeAssetChangereturnviewComponent } from './employee-asset-changereturnview/employee-asset-changereturnview.component';
+import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
+import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 
 
 
 @NgModule({
-  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent, EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent],
+  declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent,
+                 EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent, EmployeeAssetChangereturnviewComponent,],
   imports: [
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
     NgbModule,
     BsDropdownModule.forRoot(),
+    NgBootstrapFormValidationModule.forRoot(),
     RouterModule.forChild([
       {
         path: '', component: EmployeeAssetListComponent,
@@ -51,6 +56,7 @@ import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/em
   ],
   providers: [
     NgbActiveModal,
+    SplitByUpperCasePipe
   ]
 })
 export class EmployeeAssetModule { }
