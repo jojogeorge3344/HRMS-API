@@ -10,6 +10,9 @@ import { NgbActiveModal, NgbModal,  }from '@ng-bootstrap/ng-bootstrap';
 import { RequestFor } from "src/app/models/common/types/requestfor";
 import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
 import { EmployeeAssetAllocationComponent } from "../employee-asset-allocation/employee-asset-allocation.component";
+import { EmployeeAssetChangereturnviewComponent } from "../employee-asset-changereturnview/employee-asset-changereturnview.component";
+import { RequestType } from "src/app/models/common/types/requesttype";
+import { EmployeeAssetChangeorswapComponent } from "../employee-asset-changeorswap/employee-asset-changeorswap.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -29,7 +32,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   id: [];
   reqid: number;
   assetTypeId: number;
+  reqID:number
   assetTypeName: string;
+  raiseRequestTypeList = RequestType;
 
   constructor(
     private employeeAsset: EmployeAssetService,
@@ -76,6 +81,71 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     this.employeeAsset.setListDetails({ data: emprequest });
   }
 
+  // getAllocatedAssetID(){
+  //   this.employeeAsset.getAssetId(emprequest.id).subscribe((res) => { 
+  //     this.assetId=res; 
+  //   })
+  // }
+
+  openChangeRequestView(emprequest) {
+    const modalRef = this.modalService.open(EmployeeAssetChangereturnviewComponent, {
+      centered: true,
+      backdrop: "static",
+    });
+    modalRef.result.then((userResponse) => {
+      if(userResponse){
+        this.getEmployeeRequestById();
+      }  
+    }) 
+    modalRef.componentInstance.status=emprequest.status;
+    // modalRef.componentInstance.requestType=this.assetId;
+    modalRef.componentInstance.assetRaiseRequestId = emprequest.id;
+    modalRef.componentInstance.empid = this.empid;
+    modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
+    modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
+    this.employeeAsset.setListDetails({ data: emprequest });
+  }
+
+  openChangeOrSwap(emprequest) {
+    const modalRef = this.modalService.open(EmployeeAssetChangeorswapComponent,
+      { centered: true, backdrop: 'static' });
+     modalRef.componentInstance.assetRaiseRequestId=emprequest.id;
+     modalRef.componentInstance.empid=this.empid;
+     modalRef.componentInstance.assetTypeName=emprequest.assetTypeName;
+     modalRef.componentInstance.assetTypeId =  emprequest.assetTypeId;
+     modalRef.result.then((userResponse) => {
+      this.getEmployeeRequestById();
+     })
+  
+  }
+      
+  approveReturn(emprequest){
+    console.log(emprequest.id);
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: "static",
+    });
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
+    this.employeeAsset.getAssetId(emprequest.id).subscribe(res => {
+      this.assetId = res[0].assetid;
+      console.log("id>>",this.assetId);
+    })
+    modalRef.result.then((userResponse) => {
+      if(userResponse == true) {
+        this.reqID=emprequest.id;
+        console.log(">>>>>>>",this.reqID);
+        this.employeeAsset.updateReturnStatus(this.assetId, 10, this.reqID).subscribe(res => {
+          this.activeModal.close("click");
+          this.getEmployeeRequestById()
+        })
+      }
+    })
+  }
+   
+
+  
+
   openAllocate(emprequest){
     this.router.navigate(
       ['./' + this.empid + '/allocation/'+emprequest.id +'/'+emprequest.assetTypeId + '/' + emprequest.assetTypeName ],
@@ -83,6 +153,8 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       console.log("emws",emprequest);
       // this.employeeAsset.setListDetails({data: emprequest})
   }
+
+
 
   // openAllocate(emprequest) {
   //   const modalRef = this.modalService.open(EmployeeAssetAllocationComponent, {
@@ -104,9 +176,9 @@ export class EmployeeAssetRequestsComponent implements OnInit {
 
   // getAllocatedAssetsById() {
   //   return this.employeeAsset.getAllocatedAssetsById(this.empid).subscribe((result) => {
-  //       // this.allocatedassets = result;
-  //       // this.assetId=result[0].assetId
-  //      // console.log(this.allocatedassets);
+  //       this.allocatedassets = result;
+  //       this.assetId=result[0].assetId
+  //      console.log(this.allocatedassets);
   //     });
   // }
 
@@ -137,7 +209,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
             this.toastr.showSuccessMessage("request rejected successfully!");
           }
           else if (status == 6) {
-            this.toastr.showSuccessMessage("request rejected successfully!");
+            this.toastr.showSuccessMessage("request revoked successfully!");
           }
           this.activeModal.close("click");
           this.getEmployeeRequestById();
@@ -147,7 +219,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     
   }
 
-  // disableApproved(){
-  //   return true;
-  // }
+
+
+
 }

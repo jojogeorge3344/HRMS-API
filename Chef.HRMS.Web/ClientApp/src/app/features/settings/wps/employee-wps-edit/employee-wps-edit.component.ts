@@ -48,7 +48,7 @@ export class EmployeeWpsEditComponent implements OnInit {
     return this.formBuilder.group({
       id: this.wpsDetails.id,
       groupCode: ['', [
-        Validators.maxLength(32),
+        Validators.maxLength(14),
         Validators.required
         //duplicateNameValidator(this.groupCodes)
       ]],
@@ -59,7 +59,7 @@ export class EmployeeWpsEditComponent implements OnInit {
       ]],
       establishmentId: ['', [
         Validators.pattern(/^\d{1,3}$/),
-        Validators.maxLength(13),
+        Validators.maxLength(3),
         Validators.required
         //duplicateNameValidator(this.establishmentId)
       ]],
