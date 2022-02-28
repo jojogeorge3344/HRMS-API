@@ -239,13 +239,13 @@ namespace Chef.HRMS.Repositories
                                 at.requesttype              AS type
                             FROM hrms.assetmyasset    AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
-                            WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid";
+                            WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid and am.status=7";
 
                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
                 //return result;
             }
 
-            else
+            else if(status==8 || status==10) 
             {
                 var sql = @"SELECT 
                                 am.returntype as reason, 
@@ -253,9 +253,13 @@ namespace Chef.HRMS.Repositories
                                 at.requesttype           AS type
                             FROM hrms.assetmyasset AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
-                            WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid";
+                            WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid and am.status=8";
 
                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
+            }
+            else
+            {
+                return null;
             }
 
         }
