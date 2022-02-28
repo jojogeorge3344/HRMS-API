@@ -12,6 +12,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { EmployeeAssetAllocationComponent } from "../employee-asset-allocation/employee-asset-allocation.component";
 import { EmployeeAssetChangereturnviewComponent } from "../employee-asset-changereturnview/employee-asset-changereturnview.component";
 import { RequestType } from "src/app/models/common/types/requesttype";
+import { EmployeeAssetChangeorswapComponent } from "../employee-asset-changeorswap/employee-asset-changeorswap.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -20,7 +21,7 @@ import { RequestType } from "src/app/models/common/types/requesttype";
 export class EmployeeAssetRequestsComponent implements OnInit {
   // assetStatus: AssetStatus;
   allocatedassets;
-  assetId: {};
+  assetId: number;
   currentUserId: number;
   assetRaiseRequestId: number;
   empid: string;
@@ -31,6 +32,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   id: [];
   reqid: number;
   assetTypeId: number;
+  reqID:number
   assetTypeName: string;
   raiseRequestTypeList = RequestType;
 
@@ -96,13 +98,53 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       }  
     }) 
     modalRef.componentInstance.status=emprequest.status;
-    modalRef.componentInstance.assetId=this.assetId;
+    // modalRef.componentInstance.requestType=this.assetId;
     modalRef.componentInstance.assetRaiseRequestId = emprequest.id;
     modalRef.componentInstance.empid = this.empid;
     modalRef.componentInstance.assetTypeId = emprequest.assetTypeId;
     modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
     this.employeeAsset.setListDetails({ data: emprequest });
   }
+
+  openChangeOrSwap(emprequest) {
+    const modalRef = this.modalService.open(EmployeeAssetChangeorswapComponent,
+      { centered: true, backdrop: 'static' });
+     modalRef.componentInstance.assetRaiseRequestId=emprequest.id;
+     modalRef.componentInstance.empid=this.empid;
+     modalRef.componentInstance.assetTypeName=emprequest.assetTypeName;
+     modalRef.componentInstance.assetTypeId =  emprequest.assetTypeId;
+     modalRef.result.then((userResponse) => {
+      this.getEmployeeRequestById();
+     })
+  
+  }
+      
+  approveReturn(emprequest){
+    console.log(emprequest.id);
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: "static",
+    });
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
+    this.employeeAsset.getAssetId(emprequest.id).subscribe(res => {
+      this.assetId = res[0].assetid;
+      console.log("id>>",this.assetId);
+    })
+    modalRef.result.then((userResponse) => {
+      if(userResponse == true) {
+        this.reqID=emprequest.id;
+        console.log(">>>>>>>",this.reqID);
+        this.employeeAsset.updateReturnStatus(this.assetId, 10, this.reqID).subscribe(res => {
+          this.activeModal.close("click");
+          this.getEmployeeRequestById()
+        })
+      }
+    })
+  }
+   
+
+  
 
   openAllocate(emprequest){
     this.router.navigate(
