@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -60,6 +61,9 @@ namespace Chef.HRMS.Services
             return await overTimeRepository.GetOvertimeNotifyPersonnelByOvertimeId(overtimeId);
         }
 
-        
+        public async Task<IEnumerable<DateTime>> AppliedDates(int employeeId)
+        {
+            return await overTimeRepository.AppliedDates(employeeId);
+        }
     }
 }
