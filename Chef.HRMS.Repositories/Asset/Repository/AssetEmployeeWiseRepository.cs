@@ -75,7 +75,7 @@ namespace Chef.HRMS.Repositories
 			                            valueid,
 			                            status,
 			                            CONCAT(assetname,'-',valueid) AS assetname 
-		                            FROM hrms.asset WHERE status=5  
+		                            FROM hrms.asset WHERE status=5 and isactive='true' 
                                                     AND assettypeid=@assettypeid";
 
             return await Connection.QueryAsync<Asset>(sql, new { assettypeid });

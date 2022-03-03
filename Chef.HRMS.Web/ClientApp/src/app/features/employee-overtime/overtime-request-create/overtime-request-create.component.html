@@ -8,7 +8,7 @@
     <div class="modal-body">
         <div class="row">
             <div class="form-group col-sm">
-                <label for="fromDate">From</label>
+                <label for="fromDate">From<span class="required">*</span></label>
                 <div class="input-group">
                     <input class="form-control" [minDate]="minDateFrom" [firstDayOfWeek]="1"  [showWeekNumbers]="true" [maxDate]="maxDateFrom" ngbDatepicker [markDisabled]="markDisabled" 
                     #fromDate="ngbDatepicker" formControlName="fromDate" (dateSelect)="onFromDateSelection($event)">
@@ -24,7 +24,7 @@
                 </span>
             </ng-template>
             <div class="form-group col-sm">
-                <label for="toDate">To</label>
+                <label for="toDate">To<span class="required">*</span></label>
                 <div class="input-group">
                     <input class="form-control" [minDate]="minDateTo" [firstDayOfWeek]="1"  [showWeekNumbers]="true" [maxDate]="maxDateTo" ngbDatepicker [markDisabled]="markDisabled"
                     #toDate="ngbDatepicker" formControlName="toDate" (dateSelect)="onToDateSelection($event)">
@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="numberOfHours">Overtime Hours</label>
+            <label for="numberOfHours">Overtime Hours<span class="required">*</span></label>
             <input type="number" formControlName="numberOfHours" class="form-control" id="numberOfHours">    
         </div> 
         
@@ -64,7 +64,7 @@
         </div> 
         
         <div class="form-group">
-            <label for="reason">Reason</label>
+            <label for="reason">Reason<span class="required">*</span></label>
                 <textarea class="form-control" id="reason" placeholder="Please enter reason for applying overtime" formControlName="reason" ></textarea>
         </div>         
 
