@@ -173,7 +173,7 @@ export class RaiseRequestCreateComponent implements OnInit {
       ]],
       description: ['', [
         Validators.required,
-
+        Validators.maxLength(256)
       ]],
     });
   }

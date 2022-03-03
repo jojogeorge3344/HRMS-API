@@ -89,9 +89,9 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       console.log(asset);
       console.log(this.checkedValues.assetId,this.checkedValues.status);
     if (result.id === -1) {
-      this.toastr.showErrorMessage('asset already Allocated!');
+      this.toastr.showErrorMessage('Asset already Allocated!');
     } else {
-      this.toastr.showSuccessMessage('Allocated successfully successfully!');
+      this.toastr.showSuccessMessage('Asset Allocated successfully!');
     }
   },
   error => {
@@ -104,7 +104,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      allocationId: [{ value: 'Auto-generated', disabled: true },[]],
+      //allocationId: [[]],
       requestedBy: ["", []],
       // allocationDate: [new Date(Date.now()), [Validators.required]],
       description: ["", [Validators.required]],

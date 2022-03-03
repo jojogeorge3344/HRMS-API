@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { AssetEmployeewiseRequest } from '../assetemployeewiserequest.model';
 import { EmployeAssetService } from '../employe-asset.service';
 import { AssetEmployeeWise } from '../employee-asset.model';
@@ -15,7 +16,8 @@ export class EmployeeAssetAllocatedComponent implements OnInit {
   status=AssetStatus;
 
   constructor(private employeeAsset :EmployeAssetService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private splitByUpperCase: SplitByUpperCasePipe) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {

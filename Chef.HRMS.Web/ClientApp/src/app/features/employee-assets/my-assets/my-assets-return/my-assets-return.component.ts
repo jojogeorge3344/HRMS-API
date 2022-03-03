@@ -13,7 +13,7 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
   templateUrl: './my-assets-return.component.html'
 })
 export class MyAssetsReturnComponent implements OnInit {
-  mindate: Date;
+  minDateFrom;
   markDisabled;
   returnTypeKeys: number[];
   returnType = AssetReturnType;
@@ -31,7 +31,12 @@ export class MyAssetsReturnComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-    this.mindate = new Date();
+    var current = new Date();
+    this.minDateFrom = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
     this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
     this.returnAssetForm = this.createFormGroup();
     this.returnTypeKeys = Object.keys(this.returnType).filter(Number).map(Number);

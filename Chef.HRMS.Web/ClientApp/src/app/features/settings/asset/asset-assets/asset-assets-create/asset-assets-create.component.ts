@@ -103,13 +103,13 @@ export class AssetAssetsCreateComponent implements OnInit {
       assetMetadataValues:[ ['', []]],
       assetName: ['', [
         Validators.required,
-        Validators.maxLength(32),
+        Validators.maxLength(24),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
       ]],
       isActive: [false, []],
       description: ['', [
         Validators.required,
-        Validators.maxLength(128)
+        Validators.maxLength(64)
       ]],
       metadatas: this.formBuilder.group([]),
     });

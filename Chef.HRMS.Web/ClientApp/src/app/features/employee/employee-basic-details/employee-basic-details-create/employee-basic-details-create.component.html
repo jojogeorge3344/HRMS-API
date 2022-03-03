@@ -30,7 +30,7 @@
             </div>
             <div class="form-group form-input-inline input-group col">
                 <label class="col-12 col-form-label px-0" for="dateOfBirth">Date of Birth</label>
-                <input class="form-control w-75" name="newDate" formControlName="dateOfBirth" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate"
+                <input readonly class="form-control w-75" name="newDate" formControlName="dateOfBirth" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate"
                      ngbDatepicker #dob="ngbDatepicker">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"

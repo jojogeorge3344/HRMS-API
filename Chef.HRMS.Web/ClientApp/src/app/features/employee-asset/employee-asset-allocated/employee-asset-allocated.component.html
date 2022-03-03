@@ -25,7 +25,7 @@
                     <td >{{ allocatedAsset.assetId }}</td>
                     <td class="primary mt-3">{{allocatedAsset.assetName }}</td>
                     <td class="primary mt-3">{{allocatedAsset.allocatedDate | date: 'yyyy-MM-dd'}}</td>
-                    <td class="primary mt-3">{{status[allocatedAsset.status]}}</td>
+                    <td class="primary mt-3">{{splitByUpperCase.transform(status[allocatedAsset.status])}}</td>
                     <td>
 
                         <!-- <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="false">

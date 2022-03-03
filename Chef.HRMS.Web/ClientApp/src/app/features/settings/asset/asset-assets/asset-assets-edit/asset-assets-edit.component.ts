@@ -60,6 +60,7 @@ export class AssetAssetsEditComponent implements OnInit {
 
   onSubmit(){
     debugger;
+    if(this.assetEditForm.valid){
     //console.log(this.assetEditForm.getRawValue().date);
     console.log(this.assetEditForm.getRawValue());
     //console.log(this.typeKeys);
@@ -96,6 +97,7 @@ export class AssetAssetsEditComponent implements OnInit {
     });
 
     }
+  }
     findId(id: any): any {
     return this.Astvalues.assetMetadataValues.find(mdata => mdata.assettypeMetadataId===id)?.id;
   }
@@ -163,10 +165,60 @@ export class AssetAssetsEditComponent implements OnInit {
         metadatas.forEach(mdata => {
           // this.assetForm.patchValue({assetMetadataId:mdata.id});
          //this.assetEditForm.get('assetTypeMetadataId').patchValue(mdata.id);
+         console.log("editmdata",mdata);
+         
           
           this.typeMap.set(mdata.metadata,mdata);
+          if(mdata.isMandatory){
+            switch(mdata.assetDataType){
+              case 1:{
+                (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required,Validators.pattern('^[0-9]+$')],
+              ));
+              break;
+              }
+              case 2:{
+                (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z ]*$/)],
+              ));
+              break;
+              }
+              case 3:{
+                (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required,Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)],
+              ));
+              break;
+              }
+              
+  
+            }
+              
+              // console.log(mdata); 
+               
+          }
+          else{
+            switch(mdata.assetDataType){
+              case 1:{
+                (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.pattern('^[0-9]+$')],
+              ));
+              break;
+              }
+              case 2:{
+                (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.pattern(/^[a-zA-Z ]*$/)],
+              ));
+              break;
+              }
+              case 3:{
+                (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)],
+              ));
+              break;
+              }
+              
+  
+            }
+           // (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', []));
+            // console.log(mdata);
+          }        
+  
 
-              (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
+             // (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
               
               // console.log(mdata);  
          
