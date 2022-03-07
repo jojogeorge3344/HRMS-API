@@ -17,6 +17,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
 
   wpsUserDetails: WpsUser[] = [];
   addForm: FormGroup;
+  editForm: FormGroup;
   groupId: any;
   currentUserId: number;
   id: any;
