@@ -327,7 +327,7 @@ export class ExpenseRequestCreateComponent implements OnInit {
     
     this.expenseRequestService.add(payload).subscribe((expense: ExpenseRequest) => {
       if (expense.id === -1) {
-        this.toastr.showErrorMessage('Expense request title already exists!');
+        this.toastr.showErrorMessage('Expense title already exists!');
       } else if (this.fileName) {
         forkJoin([
           this.documentService.add(this.addForm.value.document),

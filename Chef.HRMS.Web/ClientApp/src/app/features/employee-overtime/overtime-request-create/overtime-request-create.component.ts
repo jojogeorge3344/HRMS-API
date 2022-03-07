@@ -72,7 +72,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getEmployeeList();
     this.getOvertimeConfiguration();
-   // this.getMarkedDates(this.currentUserId);
+    this.getMarkedDates(this.currentUserId);
     //  this.getOverTimeDetails();
     // this.subscribeTochanges();
     // },
@@ -82,14 +82,14 @@ export class OvertimeRequestCreateComponent implements OnInit {
     // this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
   }
 
-  // getMarkedDates(userId) {
-  //   var tablename = 'overtime'
-  //   this.teamAttendanceService.getMarkedDates(tablename, userId)
-  //     .subscribe(res => {
-  //       this.overtimeApplied = res;
-  //       console.log(this.overtimeApplied); 
-  //     });
-  // }
+  getMarkedDates(userId) {
+    var tablename = 'overtime'
+    this.overtimeRequestService.getMarkedDates(userId)
+      .subscribe(res => {
+        this.overtimeApplied = res;
+        console.log(this.overtimeApplied); 
+      });
+  }
 
   isAlreadyApplied(date) {
     const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
@@ -285,9 +285,17 @@ export class OvertimeRequestCreateComponent implements OnInit {
         this.noticeDayVal = true;
       }
     }
-
+    this.checkAlreadyAppliedOrNot(this.fromDate,this.toDate,this.currentUserId);
 
     // let overTimeHourse=this.overtimeConfiguration.
+  }
+
+  checkAlreadyAppliedOrNot(fromDate,toDate,userId){
+    this.overtimeRequestService.getMarkedDates(userId)
+      .subscribe(res => {
+        this.overtimeApplied = res;
+        console.log(this.overtimeApplied); 
+      });
   }
 
   getEmployeeHoliday() {
