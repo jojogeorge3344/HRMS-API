@@ -53,6 +53,9 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
       valueId: [{value:'', disabled:true}, [
         Validators.required,
       ]],
+      assetTypeName: [{value:'', disabled:true}, [
+        Validators.required,
+      ]],
       assetName: [{value:'', disabled:true}, [
         Validators.required,
       ]],
@@ -67,6 +70,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
     this.employeeAsset.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
       console.log(res);
       this.assetId=res[0].assetid;
+      //this.employeeassetchangeReturnForm.patchValue(res);
       if(res[0].assetid){
         this.getCurrentAssetById();
         this. getReasonAndDescription();

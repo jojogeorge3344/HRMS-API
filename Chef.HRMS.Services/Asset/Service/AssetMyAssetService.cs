@@ -70,7 +70,7 @@ namespace Chef.HRMS.Services
                 simpleUnitOfWork.BeginTransaction();
                 //var exists = await assetMyAssetRepository.UpdateStatus(assetmyasset);
                 var result = await assetMyAssetRepository.Update(assetmyasset);
-                //var exists = result;
+                //var exists = await assetMyAssetRepository.InsertAsync(assetRaiseRequest);
                 await assetMyAssetRepository.InsertAsync(assetmyasset);
                 simpleUnitOfWork.Commit();
                 return result;
@@ -91,7 +91,11 @@ namespace Chef.HRMS.Services
 
         public async Task<int> InsertRequest(AssetRaiseRequest assetRaiseRequest)
         {
-            return await assetMyAssetRepository.InsertRequest(assetRaiseRequest);
+            var result = await assetMyAssetRepository.InsertAsync(assetRaiseRequest);
+            result = await assetMyAssetRepository.UpdateRaiseRequest(assetRaiseRequest);
+            assetRaiseRequest.RequestNo = "REQ-" + assetRaiseRequest.Id;
+            await assetMyAssetRepository.UpdateAsync(assetRaiseRequest);
+            return result;
         }
     }
 }

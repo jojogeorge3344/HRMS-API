@@ -31,6 +31,7 @@ export class MyAssetsChangeComponent implements OnInit {
   @Input() assetData: MyAssets;
   @Input() currentUserId: number;
 
+
   constructor(public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     public modalService: NgbModal,
@@ -46,6 +47,7 @@ export class MyAssetsChangeComponent implements OnInit {
     return this.formBuilder.group({
       changeTypeOptions: [null, Validators.required],
       changeDescription: ['', [
+        Validators.required,
         Validators.maxLength(256)
       ]],
     });
@@ -63,6 +65,7 @@ export class MyAssetsChangeComponent implements OnInit {
     this.raiseRequestData.status = this.assetStatus.ChangeRequest;
     this.raiseRequestData.empId = this.currentUserId;
     this.raiseRequestData.assetid = this.assetData.assetId;
+    this.raiseRequestData.nameOfTeamMemberId = this.currentUserId;
     console.log(this.raiseRequestData);
     forkJoin([
       this.myAssetService.updateStatus(this.assetData),
