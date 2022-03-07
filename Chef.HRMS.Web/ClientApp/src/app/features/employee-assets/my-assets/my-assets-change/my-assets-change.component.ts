@@ -46,7 +46,6 @@ export class MyAssetsChangeComponent implements OnInit {
     return this.formBuilder.group({
       changeTypeOptions: [null, Validators.required],
       changeDescription: ['', [
-        Validators.required,
         Validators.maxLength(256)
       ]],
     });
