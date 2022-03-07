@@ -61,6 +61,7 @@ export class MyAssetsChangeComponent implements OnInit {
     this.raiseRequestData.requestFor = this.requestFor.Self;
     this.raiseRequestData.requestType = this.requestType.ChangeAsset;
     this.raiseRequestData.assetTypeId = this.assetData.assetTypeId;
+    this.raiseRequestData.assetTypeName=this.assetData.assetTypeName;
     this.raiseRequestData.status = this.assetStatus.ChangeRequest;
     this.raiseRequestData.empId = this.currentUserId;
     this.raiseRequestData.assetid = this.assetData.assetId;

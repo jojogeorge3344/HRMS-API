@@ -72,6 +72,7 @@ export class MyAssetsReturnComponent implements OnInit {
     this.raiseRequestData.requestFor = this.requestFor.Self;
     this.raiseRequestData.requestType = this.requestType.ReturnAsset;
     this.raiseRequestData.assetTypeId = this.assetData.assetTypeId;
+    this.raiseRequestData.assetTypeName=this.assetData.assetTypeName;
     this.raiseRequestData.status = this.assetStatus.ReturnRequest;
     this.raiseRequestData.empId = this.currentUserId;
     this.raiseRequestData.assetid = this.assetData.assetId;
