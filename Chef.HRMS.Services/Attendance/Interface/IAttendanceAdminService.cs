@@ -17,6 +17,7 @@ namespace Chef.HRMS.Services
         public Task<int> AlreadyExistOrNot(DateTime fromDate, DateTime toDate, int employeeId);
 
         public Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId);
+        
 
     }
 }
