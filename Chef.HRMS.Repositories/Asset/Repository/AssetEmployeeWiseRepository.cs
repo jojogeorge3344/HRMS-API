@@ -39,10 +39,11 @@ namespace Chef.HRMS.Repositories
                                         WHERE status = 4 OR status=7 OR status=8
                                         GROUP BY empid)a
                                         FULL JOIN
-                                        (SELECT empid, COUNT(*) AS requests
+                                        (SELECT aa.empid, COUNT(*) AS requests
                                         FROM hrms.assetraiserequest
-                                        WHERE (status = 1 OR status = 7 OR status =8)
-                                        GROUP BY empid)b USING(empid)";
+										 INNER JOIN hrms.assetmyasset AS aa ON assetraiserequest.id = aa.assetraiserequestid
+                                        WHERE (assetraiserequest.status = 1 OR aa.status = 7 OR aa.status =8) 
+                                        GROUP BY aa.empid)b USING(empid)";
 
             return await Connection.QueryAsync<AssetCountViewModel>(sql);
         }
@@ -119,7 +120,9 @@ namespace Chef.HRMS.Repositories
                                 rr. requesteddate
 					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee 
                                  ON rr.empid=employee.id INNER JOIN hrms.assettype AS tt
-                                 ON rr.assettypeid=tt.id WHERE empid=@empid 
+                                 ON rr.assettypeid=tt.id
+                                 
+								 WHERE empid=@empid
                                                         ORDER BY id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
@@ -223,7 +226,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
         {
-            var sql = "SELECT assetid FROM hrms.assetallocated WHERE assetraiserequestid=@assetraiserequestid";
+            var sql = "SELECT assetid,assettypeid,assettypename FROM hrms.assetallocated WHERE assetraiserequestid=@assetraiserequestid";
 
             return await Connection.QueryAsync<AssetViewModel>(sql, new { assetraiserequestid });
         }
@@ -236,7 +239,8 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT 
                                 am.changetype as reason, 
                                 am.changedescription        AS comments,
-                                at.requesttype              AS type
+                                at.requesttype              AS type,
+                                am.assettypename
                             FROM hrms.assetmyasset    AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
                             WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid and am.status=7";
@@ -250,7 +254,9 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT 
                                 am.returntype as reason, 
                                 am.returndescription     AS comments,
-                                at.requesttype           AS type
+                                at.requesttype           AS type,
+                                am.assettypename,
+								am.returndate
                             FROM hrms.assetmyasset AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
                             WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid and am.status=8";
@@ -409,6 +415,21 @@ namespace Chef.HRMS.Repositories
         public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<int> UpdateAsync(AssetAllocated assetAllocated)
+        {
+            var sql = new QueryBuilder<AssetAllocated>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, assetAllocated);
+        }
+
+        public async Task<int> InsertAsync(AssetAllocated assetAllocated)
+        {
+            var sql = new QueryBuilder<AssetAllocated>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+            assetAllocated.Id = Convert.ToInt32(await Connection.ExecuteAsync(sql, assetAllocated));
+            return assetAllocated.Id;
         }
     }
 }

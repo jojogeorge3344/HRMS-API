@@ -36,7 +36,7 @@ namespace Chef.HRMS.Models
 
         public string NameOfTeamMember { get; set; }
 
-        [Required]
+        //[Required]
         public string Description { get; set; }
 
         [ForeignKey("Employee")]
