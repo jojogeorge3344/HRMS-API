@@ -14,7 +14,7 @@ namespace Chef.HRMS.Models
     public class AssetAllocated : Model
     {
         //[required]
-        public int AllocationId { get; set; }
+        public string AllocationId { get; set; }
 
         [ForeignKey("AssetRaiseRequest")]
         public int AssetTypeId { get; set; }
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Models
         public AssetStatus Status { get; set; }
 
         [ForeignKey("Asset")]
-        [Required]
+        //[Required]
         public string Description { get; set; }
         public string AllocationTo { get; set; }
         public string AllocatorComments { get; set; }
