@@ -65,7 +65,7 @@ export class RaiseRequestCreateComponent implements OnInit {
   
 
   onSubmit() {
-  
+    console.log('addform', this.addForm)
     this.raiseRequestDetails = this.addForm.getRawValue();
     this.raiseRequestDetails.nameOfTeamMemberId = this.addForm.controls['nameOfTeamMemberId'].value?this.addForm.controls['nameOfTeamMemberId'].value.empid: this.currentUserId;
     this.raiseRequestDetails.empId = this.currentUserId;
@@ -86,7 +86,6 @@ export class RaiseRequestCreateComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to Add the Request');
       });
-
   }
 
   checkTeammemberName(){
@@ -129,7 +128,6 @@ export class RaiseRequestCreateComponent implements OnInit {
   }
 
   getvalue(i) { // self or team member
-    console.log(this.addForm.value.requestFor);
     if (this.addForm.value.requestFor == '1') {
       this.isDisable = true;
       this.addForm.controls['nameOfTeamMemberId'].reset()
@@ -154,22 +152,18 @@ export class RaiseRequestCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       requestType: [{ value: 'New Asset', disabled: true }, [
-        Validators.required,
+        Validators.required
       ]],
       requestedDate: [new Date(Date.now()), [
-        Validators.required,
-
+        Validators.required
       ]],
-      requestFor: [0, [
-        Validators.required,
-
+      requestFor: ['', [
+        Validators.required
       ]],
       nameOfTeamMemberId: ['', [
-    
       ]],
-      assetTypeId: [0, [
-        Validators.required,
-
+      assetTypeId: ['', [
+        Validators.required
       ]],
       description: ['', [
         Validators.required,

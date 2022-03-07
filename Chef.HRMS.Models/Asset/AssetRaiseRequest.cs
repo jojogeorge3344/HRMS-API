@@ -25,6 +25,7 @@ namespace Chef.HRMS.Models
         [Required]
         public RequestType RequestType { get; set; }
 
+        [Required]
         [ForeignKey("AssetType")]
         public int AssetTypeId { get; set; }
 
