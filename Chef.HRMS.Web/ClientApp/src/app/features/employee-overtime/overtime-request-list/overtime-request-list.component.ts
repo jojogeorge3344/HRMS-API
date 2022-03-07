@@ -39,6 +39,8 @@ export class OvertimeRequestListComponent implements OnInit {
   getOvertimeRequests() {
     this.overtimeRequestService.getAllOvertimeDetailsById(this.currentUserId).subscribe((result: OvertimeRequest[]) => {
       this.overtimeRequests = result;
+      console.log(this.overtimeRequests);
+      
     },
       error => {
         console.error(error);

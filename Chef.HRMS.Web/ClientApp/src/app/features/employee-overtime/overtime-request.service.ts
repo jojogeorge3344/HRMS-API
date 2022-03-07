@@ -33,7 +33,7 @@ export class OvertimeRequestService {
   }
 
   add(overtimeRequest: OvertimeRequest) {
-    return this.http.post(this.baseUrl + 'insert', overtimeRequest).pipe(map(response => { return response; }));
+    return this.http.post<OvertimeRequest>(this.baseUrl + 'insert', overtimeRequest).pipe(map(response => { return response; }));
   }
 
   update(overtimeRequest: OvertimeRequest) {

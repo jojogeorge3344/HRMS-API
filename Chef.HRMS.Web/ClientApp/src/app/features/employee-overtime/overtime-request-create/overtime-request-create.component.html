@@ -19,7 +19,7 @@
             </div>
             <ng-template #customDay let-date let-currentMonth="currentMonth" let-selected="selected"
                 let-disabled="disabled" let-focused="focused">
-                <span class="pl-2" style="vertical-align: sub;" (click)="alreadyApplied=true;" [ngStyle]="isAlreadyApplied(date)">
+                <span class="pl-2" style="vertical-align: sub;" (click)="alreadyAppliedValidation(date)" [ngStyle]="isAlreadyApplied(date)">
                     {{ date.day }}
                 </span>
             </ng-template>

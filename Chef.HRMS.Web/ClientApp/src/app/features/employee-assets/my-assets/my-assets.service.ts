@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { MyAssets } from './my-assets.model';
 import { AssetAllocated } from './asset-allocated.model';
+import { AssetRaiseRequest } from '../raise-request/raise-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,12 @@ export class MyAssetsService {
   getAllMyAssetList(userId){
    return this.http.get<AssetAllocated[]>(this.baseUrl + 'getMyAssetById/'+ userId).pipe(map(response => { return response; }));
   }
+ 
   updateStatus(assetData:MyAssets){
     return this.http.post<MyAssets>(this.baseUrl + 'update' , assetData ).pipe(map(response => { return response; }));
+  }
+  insertRequest(raiseRequestData:any){
+    return this.http.post<any>(this.baseUrl + 'insertRequest' , raiseRequestData ).pipe(map(response => { return response; }));
   }
   // updateReturnStatus(assetData:MyAssets){
   //   return this.http.post<MyAssets>(this.baseUrl + 'updateReturn' , assetData ).pipe(map(response => { return response; }));
