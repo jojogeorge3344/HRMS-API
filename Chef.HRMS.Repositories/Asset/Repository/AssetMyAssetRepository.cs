@@ -81,9 +81,7 @@ namespace Chef.HRMS.Repositories
             {
 
                 var sql = @"Update hrms.assetallocated
-                                    Set status=7 where Id=@Id;
-                            UPDATE hrms.assetraiserequest
-                                  SET status=7,requesttype=2 WHERE status=4 and assetid=@assetid";
+                                    Set status=7 where Id=@Id";
                 var result = await Connection.ExecuteAsync(sql, assetmyasset);
                 return result;
             }
@@ -91,9 +89,7 @@ namespace Chef.HRMS.Repositories
             else if (assetmyasset.ReturnType != 0)
             {
                 var sql = @"Update hrms.assetallocated
-                                    Set status=8 where Id=@Id;
-                            UPDATE hrms.assetraiserequest
-                                  SET status=8,requesttype=3 WHERE status=4 and assetid=@assetid";
+                                    Set status=8 where Id=@Id";
                 var result = await Connection.ExecuteAsync(sql, assetmyasset);
                 return result;
             }
@@ -111,6 +107,20 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, assetallocated);
         }
 
-
+        public async Task<int> InsertRequest(AssetRaiseRequest assetRaiseRequest)
+        {
+            var sql = @"INSERT INTO hrms.assetraiserequest
+                                        (requesteddate, requestfor, requesttype, assettypeid,
+                                         empid, status,assettypename, assetid)
+                            VALUES      (@requesteddate,
+                                         @requestfor,
+                                         @requesttype,
+                                         @assettypeid,
+                                         @empid,
+                                         @status,
+                                         @assettypename,
+                                         @assetid); ";
+            return await Connection.ExecuteAsync(sql, assetRaiseRequest);
+        }
     }
 }

@@ -152,7 +152,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(IEnumerable<AssetAllocated> assetAllocated)
+        public async Task<IActionResult> Insert(AssetAllocated assetAllocated)
         {
             if (!ModelState.IsValid)
             {
@@ -160,7 +160,7 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await assetEmployeeWiseService.InsertAsync(assetAllocated);
-            return Ok(result);
+            return CreatedAtAction(nameof(Insert), result);
         }
         //Change/Swap
         [HttpPost("InsertAllocate")]

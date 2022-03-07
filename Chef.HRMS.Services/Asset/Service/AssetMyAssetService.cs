@@ -88,5 +88,10 @@ namespace Chef.HRMS.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<int> InsertRequest(AssetRaiseRequest assetRaiseRequest)
+        {
+            return await assetMyAssetRepository.InsertRequest(assetRaiseRequest);
+        }
     }
 }
