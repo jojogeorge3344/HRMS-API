@@ -63,8 +63,8 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   onSubmit() {
     console.log("formValues", this.assetAllocationForm.getRawValue());
     let allValues = { ...this.assetAllocationForm.getRawValue(), };
-    let changeValues = {
-      allocatorcomments: allValues.CommentsAllocator,
+    this.changeValues = {
+      allocatorComments: allValues.CommentsAllocator,
       allocationId: allValues.allocationId,
       allocationTo: allValues.allocationTo,
       empId: this.reqDetails.nameOfTeamMemberId,
@@ -80,12 +80,12 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       metadataValueId2: this.checkedValues.metadataValueId2,
       metadataValueId3: this.checkedValues.metadataValueId3,
       metadataValueId4: this.checkedValues.metadataValueId4,
-      metadataValueId5: this.checkedValues.metadataValueId5,
+      MetadataValueId5: this.checkedValues.metadataValueId5,
       assetTypeName: this.assetTypeName
     };
     console.log(this.changeValues);
     forkJoin([
-      this.employeeAsset.add([changeValues]),
+      this.employeeAsset.add(this.changeValues),
       this.employeeAsset.updateAllocateStatus(this.checkedValues.assetId, this.reqId, this.checkedValues.status)
     ]).subscribe(([result, asset]) => {
       console.log(asset);

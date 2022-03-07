@@ -40,7 +40,7 @@ namespace Chef.HRMS.Repositories
                                inner join   
                                hrms.employee on 
                                at.nameofteammemberid=employee.id
-                               where empid=@empid order by at.id desc";
+                               where nameofteammemberid=@empid order by at.id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
         }
