@@ -75,6 +75,7 @@ export class MyAssetsReturnComponent implements OnInit {
     this.raiseRequestData.status = this.assetStatus.ReturnRequest;
     this.raiseRequestData.empId = this.currentUserId;
     this.raiseRequestData.assetid = this.assetData.assetId;
+    this.raiseRequestData.nameOfTeamMemberId = this.currentUserId;
     console.log(this.raiseRequestData);
     
     forkJoin([

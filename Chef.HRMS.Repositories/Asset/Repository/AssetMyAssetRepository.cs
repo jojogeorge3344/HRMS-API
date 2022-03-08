@@ -55,25 +55,38 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> UpdateRaiseRequest(AssetRaiseRequest assetRaiseRequest)
         {
-                var sql = @"UPDATE hrms.assetmyasset
-                        SET assetraiserequestid=@id WHERE assetid=@assetid;
+            var sql = @"UPDATE hrms.assetmyasset
+                        SET assetraiserequestid=@id WHERE (status=7 OR status = 8) AND assetid=@assetid;
                             UPDATE hrms.assetallocated
                         SET assetraiserequestid=@id WHERE assetid=@assetid";
-                var result = await Connection.ExecuteAsync(sql, assetRaiseRequest);
-                return result;
+            var result = await Connection.ExecuteAsync(sql, assetRaiseRequest);
+            return result;
         }
-        //    else if(assetmyasset.ReturnType != 0)
-        //    {
-        //        var sql = @"UPDATE hrms.assetraiserequest
-        //                SET status=8 WHERE assetid=@assetid";
-        //        var result = await Connection.ExecuteAsync(sql, assetmyasset);
-        //        return result;
-        //    }
-        //    else
-        //    {
-        //        return 0;
-        //    }
-        //}
+
+            //if(assetRaiseRequest.Status = 7)
+            //{
+            //    var sql = @"UPDATE hrms.assetmyasset
+            //            SET assetraiserequestid=@id WHERE assetid=@assetid AND status=7 ;
+            //                UPDATE hrms.assetallocated
+            //            SET assetraiserequestid=@id WHERE assetid=@assetid";
+            //    var result = await Connection.ExecuteAsync(sql, assetRaiseRequest);
+            //    return result;
+            //}
+            //else if (assetRaiseRequest.Status = 8)
+            //{
+            //    var sql = @"UPDATE hrms.assetmyasset
+            //            SET assetraiserequestid=@id WHERE assetid=@assetid AND status= 8 ;
+            //                UPDATE hrms.assetallocated
+            //            SET assetraiserequestid=@id WHERE assetid=@assetid";
+            //    var result = await Connection.ExecuteAsync(sql, assetRaiseRequest);
+            //    return result;
+            //}
+            //else
+            //{
+            //    return 0;
+            //}
+        
+        
 
         public async Task<int> Update(AssetMyAsset assetmyasset)
         {

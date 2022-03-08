@@ -130,7 +130,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     });
     modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
     this.employeeAsset.getAssetId(emprequest.id).subscribe(res => {
-      this.assetId = res[0].assetid;
+      this.assetId = res[0].assetId;
       console.log("id>>",this.assetId);
     })
     modalRef.result.then((userResponse) => {
