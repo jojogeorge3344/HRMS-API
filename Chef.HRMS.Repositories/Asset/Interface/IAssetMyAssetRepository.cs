@@ -17,6 +17,9 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<AssetAllocated>> GetMyAssetById(int empid);
        // Task<int> UpdateStatus(AssetMyAsset assetmyasset);
         Task<int> Update(AssetMyAsset assetmyasset);
-        Task<int> InsertRequest(AssetRaiseRequest assetRaiseRequest);
+        //Task<int> InsertRequest(AssetRaiseRequest assetRaiseRequest);
+        Task<int> UpdateAsync(AssetRaiseRequest assetRaiseRequest);
+        Task<int> InsertAsync(AssetRaiseRequest assetRaiseRequest);
+        Task<int> UpdateRaiseRequest(AssetRaiseRequest assetRaiseRequest);
     }
 }
