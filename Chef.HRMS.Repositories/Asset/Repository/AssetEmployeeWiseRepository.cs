@@ -226,7 +226,13 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
         {
-            var sql = "SELECT assetid,assettypeid,assettypename FROM hrms.assetallocated WHERE assetraiserequestid=@assetraiserequestid";
+            var sql = @"SELECT af.assetid,
+                                af.assettypeid,
+                                af.assettypename,
+                                ad.returndate
+                                FROM hrms.assetallocated as af
+                                INNER JOIN hrms.assetmyasset as ad ON af.assetraiserequestid = ad.assetraiserequestid
+                                WHERE ad.assetraiserequestid = @assetraiserequestid";
 
             return await Connection.QueryAsync<AssetViewModel>(sql, new { assetraiserequestid });
         }
