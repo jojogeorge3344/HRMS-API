@@ -69,6 +69,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.current = new Date();
     this.addForm = this.createFormGroup();
     this.getEmployeeList();
     this.getOvertimeConfiguration();
@@ -149,8 +150,6 @@ export class OvertimeRequestCreateComponent implements OnInit {
   }
 
   setCalendar() {
-    this.current = new Date();
-
     var weekno = this.getWeekNumber(this.current);
     console.log('hohoho', weekno);
 
@@ -172,7 +171,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
           minDate.setDate(minDate.getDate() - this.overtimeConfiguration.maximumPastDayLimit);
           console.log(minDate);
 
-          this.minDateFrom = {
+          this.minDateFrom =this.minDateTo= {
             year: minDate.getFullYear(),
             month: minDate.getMonth() + 1,
             day: minDate.getDate()
@@ -183,7 +182,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
         else {
           minDate.setDate(minDate.getDate() + this.overtimeConfiguration.noticeDays);
           console.log(minDate);
-          this.minDateFrom = {
+          this.minDateFrom = this.minDateTo= {
             year: minDate.getFullYear(),
             month: minDate.getMonth() + 1,
             day: minDate.getDate() + this.overtimeConfiguration.noticeDays
@@ -415,7 +414,8 @@ getDates(fromDate, toDate) {
       ]],
       numberOfHours: [null, [
         Validators.required,
-        Validators.max(524)
+        Validators.max(524),
+        Validators.pattern('^[0-9]+$')
       ]],
       reason: ['', [
         Validators.maxLength(250),
