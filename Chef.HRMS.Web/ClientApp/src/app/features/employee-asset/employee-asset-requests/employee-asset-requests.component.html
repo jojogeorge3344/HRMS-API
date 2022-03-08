@@ -41,7 +41,7 @@
                                role="menu" click aria-labelledby="button-basic">
                                <li role="menuitem" *ngIf="emprequest?.status!=7 && emprequest?.status!=8 && emprequest.status!=10"   (click)="openRequestView(emprequest)"><a class="dropdown-item">View</a></li>
                                <li role="menuitem" *ngIf="emprequest?.status!=7 && emprequest?.status!=8" [ngClass]="(emprequest.status ==2 || emprequest.status ==6 || emprequest.status==4 ||
-                                emprequest.status ==3 || emprequest.status ==10) ?'lidisable':''"  (click)="manageRequest(emprequest,2); clicked = true;"><a class="dropdown-item">approve</a></li>
+                                emprequest.status ==3 || emprequest.status ==10) ?'lidisable':''"  (click)="manageRequest(emprequest,2); clicked = true;"><a class="dropdown-item">Approve</a></li>
                                <li role="menuitem" *ngIf="emprequest?.status!=7 && emprequest?.status!=8" [ngClass]="(emprequest.status ==3 || emprequest.status ==6 || emprequest.status==4 || 
                                 emprequest.status ==2 || emprequest.status ==10)  ?'lidisable':''"  (click)="manageRequest(emprequest,3); clicked = true;"><a class="dropdown-item">Reject</a></li>
                                <li role="menuitem" *ngIf="emprequest?.status!=7 && emprequest?.status!=8" [ngClass]="(emprequest.status ==4 || emprequest.status ==6 || emprequest.status==3 || 
@@ -50,7 +50,7 @@
                                emprequest.status ==10)?'lidisable':''"   (click)="manageRequest(emprequest,6)"><a class="dropdown-item">Revoke</a></li>
                                <li role="menuitem" *ngIf="emprequest?.status==8 || emprequest?.status==7 || emprequest.status==10" (click)="openChangeRequestView(emprequest)"><a class="dropdown-item">View</a></li>
                                <li role="menuitem" *ngIf="emprequest?.status==7" (click)="openChangeOrSwap(emprequest)"><a class="dropdown-item">Change/Swap</a></li>
-                               <li role="menuitem" *ngIf="emprequest?.status==8" (click)="approveReturn(emprequest)"><a class="dropdown-item">approve</a></li>
+                               <li role="menuitem" *ngIf="emprequest?.status==8" (click)="approveReturn(emprequest)"><a class="dropdown-item">Approve</a></li>
                             </ul>
                          </div>
                         
