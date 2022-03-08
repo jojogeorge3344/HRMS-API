@@ -239,8 +239,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT 
                                 am.changetype as reason, 
                                 am.changedescription        AS comments,
-                                at.requesttype              AS type,
-                                am.assettypename
+                                at.requesttype              AS type
                             FROM hrms.assetmyasset    AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
                             WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid and am.status=7";
@@ -254,9 +253,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT 
                                 am.returntype as reason, 
                                 am.returndescription     AS comments,
-                                at.requesttype           AS type,
-                                am.assettypename,
-								am.returndate
+                                at.requesttype           AS type
                             FROM hrms.assetmyasset AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
                             WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid and am.status=8";
@@ -428,7 +425,7 @@ namespace Chef.HRMS.Repositories
         {
             var sql = new QueryBuilder<AssetAllocated>().GenerateInsertQuery();
             sql = sql.Replace("RETURNING id", "");
-            assetAllocated.Id = Convert.ToInt32(await Connection.ExecuteAsync(sql, assetAllocated));
+            assetAllocated.Id = Convert.ToInt32(await Connection.ExecuteScalarAsync(sql, assetAllocated));
             return assetAllocated.Id;
         }
     }
