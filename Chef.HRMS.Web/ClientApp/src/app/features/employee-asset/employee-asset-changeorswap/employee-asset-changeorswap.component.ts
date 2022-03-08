@@ -149,7 +149,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   getAssetId(){
     this.employeAssetService.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
       console.log(res);
-      this.assetId=res[0].assetid;
+      this.assetId=res[0].assetId;
       // console.log("assetid>>>>>>",this.assetId); 
       this.getCurrentAssetById();
       this.getAssetType();

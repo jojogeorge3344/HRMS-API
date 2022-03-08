@@ -22,7 +22,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   @Input() status
   @Input() assetRaiseRequestId
   @Input() empid
-  @Input() assetTypeName
+  assetTypeName:string;
   comments:string;
   reason:string;
   assetChangeType=AssetChangeType;
@@ -69,9 +69,10 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   getAssetId(){
     this.employeeAsset.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
       console.log(res);
-      this.assetId=res[0].assetid;
-      //this.employeeassetchangeReturnForm.patchValue(res);
-      if(res[0].assetid){
+      this.assetId=res[0].assetId;
+      this.assetTypeName=res[0].assetTypeName
+      this.employeeassetchangeReturnForm.patchValue({ assetTypeName:this.assetTypeName});
+      if(res[0].assetId){
         this.getCurrentAssetById();
         this. getReasonAndDescription();
       }
