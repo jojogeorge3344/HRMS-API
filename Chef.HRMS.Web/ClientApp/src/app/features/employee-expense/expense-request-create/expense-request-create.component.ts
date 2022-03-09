@@ -401,6 +401,21 @@ export class ExpenseRequestCreateComponent implements OnInit {
       isReceiptAttached: [false],
     });
   }
+
+  validateNumber(ev) {
+    const keyCode = ev.keyCode;
+    const excludedKeys = [8, 110, 190];
+    if (
+      !(
+        (keyCode >= 48 && keyCode <= 57) ||
+        (keyCode >= 96 && keyCode <= 105) ||
+        excludedKeys.includes(keyCode)
+      )
+    ) {
+      ev.preventDefault();
+    }
+  }
+
 }
 
 function ExpiryDateValidator(days: number): ValidatorFn {
@@ -416,4 +431,5 @@ function ExpiryDateValidator(days: number): ValidatorFn {
 
     return null;
   };
+  
 }

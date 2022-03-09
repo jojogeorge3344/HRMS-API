@@ -39,10 +39,10 @@ namespace Chef.HRMS.Repositories
                                         WHERE status = 4 OR status=7 OR status=8
                                         GROUP BY empid)a
                                         FULL JOIN
-                                        (SELECT empid, COUNT(*) AS requests
+                                        (SELECT nameofteammemberid AS empid , COUNT(*) AS requests
                                         FROM hrms.assetraiserequest
                                         WHERE (status = 1 OR status = 7 OR status =8)
-                                        GROUP BY empid)b USING(empid)";
+                                        GROUP BY nameofteammemberid)b USING(empid)";
 
             return await Connection.QueryAsync<AssetCountViewModel>(sql);
         }
@@ -60,7 +60,7 @@ namespace Chef.HRMS.Repositories
                                     allocateddate,
                                     status 
                             FROM hrms.assetallocated 
-                            WHERE( status = 4 OR status = 8 OR status=9 OR status=7) AND empid=@empid";
+                            WHERE( status = 4 OR status = 8 OR status=9 OR status=7 OR status=10) AND empid=@empid";
 
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
@@ -119,7 +119,7 @@ namespace Chef.HRMS.Repositories
                                 rr. requesteddate
 					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee 
                                  ON rr.empid=employee.id INNER JOIN hrms.assettype AS tt
-                                 ON rr.assettypeid=tt.id WHERE empid=@empid 
+                                 ON rr.assettypeid=tt.id WHERE nameofteammemberid=@empid 
                                                         ORDER BY id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });

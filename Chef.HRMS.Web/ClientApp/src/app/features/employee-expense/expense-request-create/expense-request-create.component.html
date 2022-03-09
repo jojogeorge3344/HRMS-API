@@ -54,7 +54,7 @@
 
                 <div class="form-group" *ngIf="!isMileageCategory">
                     <label class="col-form-label" for="amount">Amount<span class="required">*</span></label>
-                    <input type="number" class="form-control"onkeydown="return event.keyCode !== 69" 
+                    <input type="number" class="form-control" (keydown)="validateNumber($event)"
                       formControlName="amount">
                 </div>
 
