@@ -40,16 +40,17 @@ export class OvertimeRequestCreateComponent implements OnInit {
   fromDate;
   toDate;
   numberOfDays;
+  overtimeours;
   noticeDayVal = false;
   overtimeDetails: OvertimeRequest[];
   overtimeApplied = '';
   alreadyApplied=false;
-  // markDisabled;
+  flag=0;
   employeeList: Employee[];
   selectedItems = [];
   overtimeConfiguration: OvertimePolicyConfiguration;
   holidaydate: any;
-
+  taken = ['', ''];
   @Input() currentUserId;
   @Input() policyId;
 
@@ -84,11 +85,12 @@ export class OvertimeRequestCreateComponent implements OnInit {
   }
 
   getMarkedDates(userId) {
-    var tablename = 'overtime'
+    debugger;
     this.overtimeRequestService.getMarkedDates(userId)
       .subscribe(res => {
         this.overtimeApplied = res;
-        console.log(this.overtimeApplied); 
+        console.log(this.overtimeApplied);
+        this.getOvertimeAppliedCount();
       });
   }
 
@@ -99,6 +101,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
     }
     return;
   }
+
   alreadyAppliedValidation(date){
     this.alreadyApplied=false;
     const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
@@ -147,6 +150,10 @@ export class OvertimeRequestCreateComponent implements OnInit {
 
     if (R !== 0) return Math.ceil(Q);
     else return Q;
+    
+
+    // var weeknoarray:any=[];
+    // var weeknoarray.push(Q)
   }
 
   setCalendar() {
@@ -291,9 +298,12 @@ export class OvertimeRequestCreateComponent implements OnInit {
         this.noticeDayVal = true;
       }
     }
-    var dateArray=this.getDates(this.fromDate,this.toDate);
-    console.log(dateArray);
+    // var dateArray=this.getDates(this.fromDate,this.toDate);
+    // console.log(dateArray);
+    if(this.overtimeConfiguration.periodType==1){
+      let maxOvertime=this.overtimeConfiguration.maximumLimit;
 
+    }
     
     //this.checkAlreadyAppliedOrNot(this.fromDate,this.toDate,this.currentUserId);
 
@@ -308,6 +318,69 @@ getDates(fromDate, toDate) {
         //currentDate = currentDate.addDays(1);
     }
     return dateArray;
+}
+
+checkDates() {
+  const d = new Date(this.fromDate);
+  for (d; d <= this.toDate; d.setDate(d.getDate() + 1)) {
+    const currentDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}T00:00:00`;
+    //taken = ['', ''];
+    // if (this.wfh.includes(currentDate)) {
+    //   this.taken[0] = currentDate;
+    //   this.taken[1] = 'WFH';
+    //   this.numberOfDays -= 1;
+    //   this.flag = 0;
+    //   break;
+    // }
+    if (this.overtimeApplied.includes(currentDate)) {
+      this.taken[0] = currentDate;
+      this.taken[1] = 'leave';
+      this.numberOfDays -= 1;         //////
+      this.flag = 0;
+      break;
+    }
+    // if (this.onDuty.includes(currentDate)) {
+    //   this.taken[0] = currentDate;
+    //   this.taken[1] = 'on duty';
+    //   this.numberOfDays -= 1;
+    //   this.flag = 0;
+    //   break;
+    // }
+  }
+  if (this.toDate <= d) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+getOvertimeAppliedCount() {
+  const d = new Date();
+  if (this.overtimeConfiguration.periodType === 1) {
+    let startingDate = new Date(d.setDate(d.getDate() - d.getDay() + 1));
+    let count = 0;
+    for (let index = 0; index < 7; index++) {
+      const DateString = `${startingDate.getUTCFullYear()}-${startingDate.getMonth() + 1}-${startingDate.getDate()}`;
+      if (this.overtimeApplied.indexOf(DateString) !== -1) {
+        count++;
+      }
+      startingDate = new Date(startingDate.setDate(startingDate.getDate() + 1));
+    }
+    console.log(count);
+    
+    return count;
+  } else if (this.overtimeConfiguration.periodType === 2) {
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = (d.getFullYear()).toString();
+    const re = new RegExp(`${year}-${month}-`, 'g');
+    console.log(this.overtimeApplied.match(re));
+    return (this.overtimeApplied.match(re) || []).length;
+  } else if (this.overtimeConfiguration.periodType === 3) {
+    const year = (d.getFullYear()).toString();
+    const re = new RegExp(`${year}-`, 'g');
+    console.log(this.overtimeApplied.match(re));
+    return (this.overtimeApplied.match(re) || []).length;
+  }
 }
 
   // checkAlreadyAppliedOrNot(fromDate,toDate,userId){
