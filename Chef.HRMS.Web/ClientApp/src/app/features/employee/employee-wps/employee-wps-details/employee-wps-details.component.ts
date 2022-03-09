@@ -67,7 +67,10 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     addWpsDetails.employeeId = parseInt(this.id, 10);
     this.employeeWpsUserService.add(addWpsDetails).subscribe((result: any) => {
       this.toastr.showSuccessMessage('WPS Details updated successfully!');
+      console.log("wps777",addWpsDetails);
       this.getWPSUserlistById();
+      
+      
     },
       error => {
         console.error(error);

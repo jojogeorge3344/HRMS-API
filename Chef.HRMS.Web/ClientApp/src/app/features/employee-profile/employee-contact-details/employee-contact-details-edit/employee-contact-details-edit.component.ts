@@ -16,6 +16,7 @@ export class EmployeeContactDetailsEditComponent implements OnInit {
   @Input() contact;
   @Input() countries: any;
   @Input() states: any;
+  emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   currentUserId: number;
   public currentstatesByCountry: any;
   public permenentstatesByCountry: any;
@@ -55,29 +56,32 @@ export class EmployeeContactDetailsEditComponent implements OnInit {
         Validators.email
       ]],
       personalEmail: [null, [
-        Validators.email,
-        Validators.required
+        Validators.required,
+        Validators.pattern(this.emailRegex),
       ]],
-      mobile: [null, [
-        Validators.required,Validators.maxLength(16),
+      mobile: [null,[Validators.required,Validators.maxLength(14),
       ]],
-      mobileCode: [null, [
-        Validators.required
+      mobileCode: [null,[Validators.required,Validators.maxLength(2)]],
+      workPhone: [null,[Validators.required,Validators.maxLength(14),
       ]],
-      workPhone: [null,[Validators.required,Validators.maxLength(16),
-      ]],
-      workPhoneCode: [null],
-      homePhone: [null],
-      homePhoneCode: [null],
+      workPhoneCode: [null,[Validators.required,Validators.maxLength(2)]],
+        // Validators.required
+      
+      //workPhone: ['',[Validators.required,Validators.pattern("[0-9 ]{14}"),
+      // ]],
+      // workPhoneCode: ['',[Validators.required,
+      //   Validators.pattern("[0-9 ]{2}")]],
+      homePhone: [null,[Validators.required,Validators.maxLength(14)]],
+      homePhoneCode: [null,[Validators.required,Validators.maxLength(2)]],
       skype: [null],
       emergencyContactName: [null, [
 
       ]],
-      emergencyContactNumber: [null, [
+      emergencyContactNumber: [null, [Validators.required,Validators.maxLength(14)]
 
-      ]],
-      emergencyContactCode: [null],
-      createdDate: []
+      ],
+      emergencyContactCode: [null,[Validators.required,Validators.maxLength(2)]],
+      //createdDate: []
 
     });
 
@@ -93,6 +97,7 @@ export class EmployeeContactDetailsEditComponent implements OnInit {
 
     if (updateContactForm.workPhoneCode && updateContactForm.workPhone) {
       updateContactForm.workPhone = `+${updateContactForm.workPhoneCode}-${updateContactForm.workPhone}`;
+      this.editForm.controls['workPhone'].setValidators([Validators.required])
     } else {
       updateContactForm.workPhone = '';
     }
