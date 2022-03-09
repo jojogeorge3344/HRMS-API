@@ -46,13 +46,13 @@ namespace Chef.HRMS.Models
         /// Holds Salary From 
         /// </summary>
         [Required]
-        public int SalaryFromRange { get; set; }
+        public decimal SalaryFromRange { get; set; }
 
         /// <summary>
         /// Holds  Salary To
         /// </summary>
         [Required]
-        public int SalaryToRange { get; set; }
+        public decimal SalaryToRange { get; set; }
 
         /// <summary>
         /// Holds Interest Rate

@@ -11,7 +11,7 @@
                 <div class="form-input-inline form-group ml-1">
 
                     <input type="number" (change)='updateValidation($event.target.value)' class="form-control  mr-1"
-                        id="maximumLimit" formControlName="maximumLimit">
+                        id="maximumLimit" formControlName="maximumLimit" (keydown)="validateNumber($event)">
                 </div>
             </label>
         </div>

@@ -92,7 +92,7 @@ namespace Chef.HRMS.Models
         /// Holds maximum limit per annum
         /// </summary>
         [Description("Maximum limit")]
-        public float MaximumLimit { get; set; }
+        public decimal MaximumLimit { get; set; }
 
         /// <summary>
         /// Holds a benefit code name
