@@ -22,6 +22,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   @Input() status
   @Input() assetRaiseRequestId
   @Input() empid
+  returnDate:Date;
   assetTypeName:string;
   comments:string;
   reason:string;
@@ -32,6 +33,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   employeeassetchangeReturnForm: FormGroup;
   typeMap: Map<any, any>;
   typeKeys: string[];
+  returnType: number;
 
   constructor( public activeModal: NgbActiveModal,
                private formBuilder: FormBuilder,
@@ -51,6 +53,9 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       valueId: [{value:'', disabled:true}, [
+        Validators.required,
+      ]],
+      returnDate: [{value:'', disabled:true}, [
         Validators.required,
       ]],
       assetTypeName: [{value:'', disabled:true}, [
@@ -82,6 +87,8 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
 
   getReasonAndDescription(){
     this.employeeAsset.getReasonAndDescription(this.assetRaiseRequestId,this.status,this.assetId).subscribe((res) => {
+      this.returnType=res[0].type
+      debugger;
       if(res[0].type==2){
       this.comments=res[0].comments
       this.reason=this.assetChangeType[res[0].reason]
@@ -90,6 +97,7 @@ export class EmployeeAssetChangereturnviewComponent implements OnInit {
       this.employeeassetchangeReturnForm.patchValue({ comments:this.comments,reason: this.splitByUpperCase.transform(this.reason)});
       }
       else if(res[0].type==3){
+       
       this.comments=res[0].comments
       this.reason=this.assetReturnType[res[0].reason]
       console.log(this.assetReturnType[res[0].reason]);
