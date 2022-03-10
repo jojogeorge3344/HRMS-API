@@ -8,16 +8,16 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'my-assets', pathMatch: 'full'
-      },
-      {
-        path: 'my-assets',
-        loadChildren: () => import('./my-assets/my-assets.module').then(m => m.MyAssetsModule),
-        data: { name: 'settings-expense' }
+        redirectTo: 'raise-request', pathMatch: 'full'
       },
       {
         path: 'raise-request',
         loadChildren: () => import('./raise-request/raise-request.module').then(m => m.RaiseRequestModule),
+        data: { name: 'settings-expense' }
+      },
+      {
+        path: 'my-assets',
+        loadChildren: () => import('./my-assets/my-assets.module').then(m => m.MyAssetsModule),
         data: { name: 'settings-expense' }
       }
     ]

@@ -30,7 +30,7 @@ export class EmployeAssetService {
 
  
 
-  add(allocate: any[]){
+  add(allocate: AssetAllocated){
     return this.http.post<any>(this.baseUrl + 'insert', allocate).pipe(map(response => { return response; }));
   }
 

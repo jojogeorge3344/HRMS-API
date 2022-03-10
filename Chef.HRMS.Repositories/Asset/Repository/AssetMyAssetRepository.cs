@@ -53,27 +53,40 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, assetmyasset);
         }
 
-        //public async Task<int> UpdateStatus(AssetMyAsset assetmyasset)
-        //{
-        //    if (assetmyasset.ChangeType != 0)
-        //    {
-        //        var sql = @"UPDATE hrms.assetraiserequest
-        //                SET status=7 WHERE assetid=@assetid";
-        //        var result = await Connection.ExecuteAsync(sql, assetmyasset);
-        //        return result;
-        //    }
-        //    else if(assetmyasset.ReturnType != 0)
-        //    {
-        //        var sql = @"UPDATE hrms.assetraiserequest
-        //                SET status=8 WHERE assetid=@assetid";
-        //        var result = await Connection.ExecuteAsync(sql, assetmyasset);
-        //        return result;
-        //    }
-        //    else
-        //    {
-        //        return 0;
-        //    }
-        //}
+        public async Task<int> UpdateRaiseRequest(AssetRaiseRequest assetRaiseRequest)
+        {
+            var sql = @"UPDATE hrms.assetmyasset
+                        SET assetraiserequestid=@id WHERE (status=7 OR status = 8) AND assetid=@assetid;
+                            UPDATE hrms.assetallocated
+                        SET assetraiserequestid=@id WHERE assetid=@assetid";
+            var result = await Connection.ExecuteAsync(sql, assetRaiseRequest);
+            return result;
+        }
+
+            //if(assetRaiseRequest.Status = 7)
+            //{
+            //    var sql = @"UPDATE hrms.assetmyasset
+            //            SET assetraiserequestid=@id WHERE assetid=@assetid AND status=7 ;
+            //                UPDATE hrms.assetallocated
+            //            SET assetraiserequestid=@id WHERE assetid=@assetid";
+            //    var result = await Connection.ExecuteAsync(sql, assetRaiseRequest);
+            //    return result;
+            //}
+            //else if (assetRaiseRequest.Status = 8)
+            //{
+            //    var sql = @"UPDATE hrms.assetmyasset
+            //            SET assetraiserequestid=@id WHERE assetid=@assetid AND status= 8 ;
+            //                UPDATE hrms.assetallocated
+            //            SET assetraiserequestid=@id WHERE assetid=@assetid";
+            //    var result = await Connection.ExecuteAsync(sql, assetRaiseRequest);
+            //    return result;
+            //}
+            //else
+            //{
+            //    return 0;
+            //}
+        
+        
 
         public async Task<int> Update(AssetMyAsset assetmyasset)
         {
@@ -81,9 +94,7 @@ namespace Chef.HRMS.Repositories
             {
 
                 var sql = @"Update hrms.assetallocated
-                                    Set status=7 where Id=@Id;
-                            UPDATE hrms.assetraiserequest
-                                  SET status=7,requesttype=2 WHERE status=4 and assetid=@assetid";
+                                    Set status=7 where Id=@Id";
                 var result = await Connection.ExecuteAsync(sql, assetmyasset);
                 return result;
             }
@@ -91,9 +102,7 @@ namespace Chef.HRMS.Repositories
             else if (assetmyasset.ReturnType != 0)
             {
                 var sql = @"Update hrms.assetallocated
-                                    Set status=8 where Id=@Id;
-                            UPDATE hrms.assetraiserequest
-                                  SET status=8,requesttype=3 WHERE status=4 and assetid=@assetid";
+                                    Set status=8 where Id=@Id";
                 var result = await Connection.ExecuteAsync(sql, assetmyasset);
                 return result;
             }
@@ -111,6 +120,35 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, assetallocated);
         }
 
+        //public async Task<int> InsertRequest(AssetRaiseRequest assetRaiseRequest)
+        //{
+        //    var sql = @"INSERT INTO hrms.assetraiserequest
+        //                                (requesteddate, requestfor, requesttype, assettypeid,
+        //                                 empid, status,assettypename, assetid)
+        //                    VALUES      (@requesteddate,
+        //                                 @requestfor,
+        //                                 @requesttype,
+        //                                 @assettypeid,
+        //                                 @empid,
+        //                                 @status,
+        //                                 @assettypename,
+        //                                 @assetid); ";
+        //    return await Connection.ExecuteAsync(sql, assetRaiseRequest);
+        //}
 
+        public async Task<int> UpdateAsync(AssetRaiseRequest assetRaiseRequest)
+        {
+            var sql = new QueryBuilder<AssetRaiseRequest>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, assetRaiseRequest);
+        }
+
+        public async Task<int> InsertAsync(AssetRaiseRequest assetRaiseRequest)
+        {
+            var sql = new QueryBuilder<AssetRaiseRequest>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+            assetRaiseRequest.Id = Convert.ToInt32(await Connection.ExecuteScalarAsync(sql, assetRaiseRequest));
+            return assetRaiseRequest.Id;
+        }
     }
 }
