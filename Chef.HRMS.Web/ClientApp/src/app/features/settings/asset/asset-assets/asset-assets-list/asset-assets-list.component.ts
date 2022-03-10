@@ -1,4 +1,4 @@
-import { Component, NgModuleRef, OnInit } from '@angular/core';
+import { Component, NgModuleRef, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {  AssetTypeMetadata } from '@settings/asset/asset-metadata/asset-metadata.model';
 import { AssetType } from '@settings/asset/asset-type/asset-type.model';
@@ -16,7 +16,7 @@ import { AssetAssetsService } from '../asset-assets.service';
   selector: 'hrms-asset-assets-list',
   templateUrl: './asset-assets-list.component.html'
 })
-export class AssetAssetsListComponent implements OnInit {
+export class AssetAssetsListComponent implements OnInit, OnDestroy {
   assetStatus=AssetStatus;
   assetId:AssetAssets;
   TypeId:AssetTypeMetadata;
@@ -33,6 +33,11 @@ export class AssetAssetsListComponent implements OnInit {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
      ) { }
+
+
+  ngOnDestroy(): void {
+   this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
    this.getAllAssetList();

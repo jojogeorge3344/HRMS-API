@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {  ActivatedRoute } from '@angular/router';
 
@@ -16,7 +16,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   templateUrl: './payroll-employee-bonus-list.component.html',
   styleUrls: ['./payroll-employee-bonus-list.component.scss']
 })
-export class PayrollEmployeeBonusListComponent implements OnInit {
+export class PayrollEmployeeBonusListComponent implements OnInit, OnDestroy {
 
   employeeId: number;
   id: number;
@@ -37,6 +37,10 @@ export class PayrollEmployeeBonusListComponent implements OnInit {
     });
     this.getAllBonusByEmployeeId();
     this.getBonusTypes();
+  }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
   }
 
   getBonusTypes() {

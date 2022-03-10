@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { EmployeeAssetListComponent } from './employee-asset-list/employee-asset-list.component';
 import { RouterModule } from '@angular/router';
 import { EmployeeAssetViewComponent } from './employee-asset-view/employee-asset-view.component';
@@ -56,7 +56,8 @@ import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
   ],
   providers: [
     NgbActiveModal,
-    SplitByUpperCasePipe
+    SplitByUpperCasePipe,
+    DatePipe
   ]
 })
 export class EmployeeAssetModule { }

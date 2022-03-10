@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { getCurrentUserId } from "@shared/utils/utils.functions";
 import { AssetStatus } from "src/app/models/common/types/assetstatus";
@@ -19,7 +19,7 @@ import { SplitByUpperCasePipe } from "src/app/pipes/split-by-upper-case.pipe";
   selector: "hrms-employee-asset-requests",
   templateUrl: "./employee-asset-requests.component.html",
 })
-export class EmployeeAssetRequestsComponent implements OnInit {
+export class EmployeeAssetRequestsComponent implements OnInit, OnDestroy {
   // assetStatus: AssetStatus;
   allocatedassets;
   assetId: number;
@@ -46,6 +46,12 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private splitByUpperCase: SplitByUpperCasePipe
   ) {}
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
+
+  
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
@@ -97,6 +103,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     modalRef.result.then((userResponse) => {
       if(userResponse){
         this.getEmployeeRequestById();
+          //  window.location.reload();
       }  
     }) 
     modalRef.componentInstance.status=emprequest.status;
@@ -107,7 +114,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
     this.employeeAsset.setListDetails({ data: emprequest });
   }
-
+  
   openChangeOrSwap(emprequest) {
     const modalRef = this.modalService.open(EmployeeAssetChangeorswapComponent,
       { centered: true, backdrop: 'static' });
