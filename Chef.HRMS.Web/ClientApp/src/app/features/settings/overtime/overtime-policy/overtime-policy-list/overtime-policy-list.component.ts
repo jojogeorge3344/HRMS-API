@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -16,7 +16,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   templateUrl: './overtime-policy-list.component.html'
 })
 
-export class OvertimePolicyListComponent implements OnInit {
+export class OvertimePolicyListComponent implements OnInit, OnDestroy {
   public overtimePolicies: OvertimePolicy[];
   assignedOvertimePolicies: number[] = [];
   overtimePolicyNames: string[];
@@ -31,6 +31,10 @@ export class OvertimePolicyListComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToasterDisplayService) {
       this.attendanceHoursTypeKeys = Object.keys(this.attendanceHoursTypes).filter(Number).map(Number);
+  }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
   }
 
   ngOnInit(): void {

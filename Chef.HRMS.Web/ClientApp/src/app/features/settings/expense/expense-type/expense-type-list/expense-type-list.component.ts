@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 
@@ -14,7 +14,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-expense-type-list',
   templateUrl: './expense-type-list.component.html'
 })
-export class ExpenseTypeListComponent implements OnInit {
+export class ExpenseTypeListComponent implements OnInit, OnDestroy {
 
   expenseTypes: any;
   expenseCategoryType = ExpenseCategoryType;
@@ -30,6 +30,10 @@ export class ExpenseTypeListComponent implements OnInit {
     private modalService: NgbModal) {
       this.expenseCategoryTypeKeys = Object.keys(this.expenseCategoryType).filter(Number).map(Number);
     }
+
+  ngOnDestroy(): void {
+  this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.getAllExpenseTypes();

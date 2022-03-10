@@ -229,7 +229,7 @@ namespace Chef.HRMS.Repositories
             var sql = @"SELECT af.assetid,
                                 af.assettypeid,
                                 af.assettypename,
-                                ad.returndate
+                                ad.createddate as returnDate
                                 FROM hrms.assetallocated as af
                                 INNER JOIN hrms.assetmyasset as ad ON af.assetraiserequestid = ad.assetraiserequestid
                                 WHERE ad.assetraiserequestid = @assetraiserequestid";

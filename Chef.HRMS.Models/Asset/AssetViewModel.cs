@@ -14,7 +14,7 @@ namespace Chef.HRMS.Models
         public int AssetTypeId { get; set; }
         public string AssetTypeName { get; set; }
 
-        public DateTime ReturnDate { get; set; }
+        public DateTime returnDate { get; set; }
         //public string ChangeDescription { get; set; }
         //public string ReturnDescription { get; set; }
         //public AssetChangeType ChangeType { get; set; }
