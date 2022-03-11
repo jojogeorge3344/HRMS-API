@@ -31,6 +31,7 @@ export class EmployeeWFHCreateComponent implements OnInit {
   markDisabled;
   current = new Date();
   taken = ['', ''];
+  flag = 0;
   @Input() WFHSettings: WorkFromHomeSettings;
   @Input() leaves;
   @Input() wfh;
@@ -57,7 +58,7 @@ export class EmployeeWFHCreateComponent implements OnInit {
     let priordays = this.WFHSettings.priorDays;
     for (let i = 0; i < priordays; i++) {
       var dayOfWeek = mindate.getDay();
-      if ((dayOfWeek==0 || dayOfWeek==6)) {
+      if ((dayOfWeek == 0 || dayOfWeek == 6)) {
         i--;
         mindate.setDate(mindate.getDate() - 1);
       }
@@ -65,7 +66,7 @@ export class EmployeeWFHCreateComponent implements OnInit {
         mindate.setDate(mindate.getDate() - 1);
       }
     }
-    
+
     this.minDateFrom = this.minDateTo = {
       year: mindate.getFullYear(),
       month: mindate.getMonth() + 1,
@@ -75,11 +76,11 @@ export class EmployeeWFHCreateComponent implements OnInit {
     let subsequentDays = this.WFHSettings.subsequentDays;
     for (let i = 0; i < subsequentDays; i++) {
       var dayOfWeek = maxdate.getDay();
-      if ((dayOfWeek==0 || dayOfWeek==6)) {
+      if ((dayOfWeek == 0 || dayOfWeek == 6)) {
         i--;
         maxdate.setDate(maxdate.getDate() + 1);
       }
-      else{
+      else {
         maxdate.setDate(maxdate.getDate() + 1);
       }
     }
@@ -222,16 +223,22 @@ export class EmployeeWFHCreateComponent implements OnInit {
       if (this.wfh.includes(currentDate)) {
         this.taken[0] = currentDate;
         this.taken[1] = 'WFH';
+        this.numberOfDays -= 1;
+        this.flag = 0;
         break;
       }
       if (this.leaves.includes(currentDate)) {
         this.taken[0] = currentDate;
         this.taken[1] = 'leave';
+        this.numberOfDays -= 1;         //////
+        this.flag = 0;
         break;
       }
       if (this.onDuty.includes(currentDate)) {
         this.taken[0] = currentDate;
         this.taken[1] = 'on duty';
+        this.numberOfDays -= 1;
+        this.flag = 0;
         break;
       }
     }
@@ -265,22 +272,24 @@ export class EmployeeWFHCreateComponent implements OnInit {
       console.log('No of work from home requests exceeded your limit.');
       return;
     }
-    this.employeeWFHService.add(addForm).subscribe((result: EmployeeWFHRequest) => {
+    if (this.flag === 0) {
+      this.employeeWFHService.add(addForm).subscribe((result: EmployeeWFHRequest) => {
 
-      const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
-        workFromHomeId: result.id,
-        notifyPersonnel: notifyPerson.id
-      }));
+        const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
+          workFromHomeId: result.id,
+          notifyPersonnel: notifyPerson.id
+        }));
 
-      this.employeeWFHService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
-        this.toastr.showSuccessMessage('Work from home request submitted successfully');
-        this.activeModal.close('submit');
-      },
-        error => {
-          console.error(error);
-          this.toastr.showErrorMessage('Unable to submit work from home request');
-        });
-    });
+        this.employeeWFHService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
+          this.toastr.showSuccessMessage('Work from home request submitted successfully');
+          this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to submit work from home request');
+          });
+      });
+    }
   }
 
   createFormGroup(): FormGroup {
