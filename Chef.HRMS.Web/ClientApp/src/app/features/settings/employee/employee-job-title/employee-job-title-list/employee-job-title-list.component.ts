@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 
@@ -13,7 +13,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-job-title-list',
   templateUrl: './employee-job-title-list.component.html'
 })
-export class EmployeeJobTitleListComponent implements OnInit {
+export class EmployeeJobTitleListComponent implements OnInit, OnDestroy {
 
   jobTitles: EmployeeJobTitle[];
   jobTitleNames: string[];
@@ -23,6 +23,10 @@ export class EmployeeJobTitleListComponent implements OnInit {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
     ) { }
+
+  ngOnDestroy(): void {
+  this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.getJobList();

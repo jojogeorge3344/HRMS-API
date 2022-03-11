@@ -82,6 +82,20 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
+        [HttpPost("InsertRequest")]
+        //[Consumes(MediaTypeNames.Application.Json)]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> InsertRequest(AssetRaiseRequest assetRaiseRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await assetmyassetService.InsertRequest(assetRaiseRequest);
+            return Ok(result);
+        }
+
         //[HttpPut("UpdateStatus/{assetid}/{status}")]
         ////[Consumes(MediaTypeNames.Application.Json)]
         ////[ProducesResponseType(StatusCodes.Status201Created)]
@@ -99,6 +113,6 @@ namespace Chef.HRMS.Web.Controllers
         //}
 
 
-        
+
     }
 }

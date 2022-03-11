@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoanRequestService } from '../loan-request.service';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +13,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 @Component({
   templateUrl: './loan-request-list.component.html'
 })
-export class LoanRequestListComponent implements OnInit {
+export class LoanRequestListComponent implements OnInit, OnDestroy {
 
   public loanRequests: any = [];
 
@@ -35,6 +35,10 @@ export class LoanRequestListComponent implements OnInit {
         day: current.getDate()
       };
      }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.getloanRequests();

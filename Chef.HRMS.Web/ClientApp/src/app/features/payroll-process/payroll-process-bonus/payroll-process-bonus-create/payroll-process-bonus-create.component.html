@@ -10,7 +10,7 @@
         <div class="d-flex flex-wrap">
 
             <div class="form-group col-6 form-input-line">
-                <label for="employeeId">Employee Name</label>
+                <label for="employeeId">Employee Name<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="employeeId" value="{{selectedEmployee}}"
                     id="employeeName" name="employeeName" [ngbTypeahead]="search" (selectItem)="selected($event)"
                     #employeeName [inputFormatter]="nameFormatter" [resultFormatter]="nameFormatter" [editable]='false'>
@@ -25,7 +25,7 @@
             </div>
 
             <div class="form-group col-6 form-input-line">
-                <label class=" col-form-label" for="bonusTypeId">Bonus Type </label>
+                <label class=" col-form-label" for="bonusTypeId">Bonus Type<span class="required">*</span> </label>
                 <select class="form-control" formControlName="bonusTypeId">
                     <option [ngValue]="null">Select a Bonus Type</option>
                     <option *ngFor="let bonusType of bonusTypes" [ngValue]="bonusType.id">
@@ -46,11 +46,11 @@
                 </div>
             </div>
             <div class="form-group col-6 form-input-line">
-                <label class=" col-form-label" for="amount">Amount</label>
+                <label class=" col-form-label" for="amount">Amount<span class="required">*</span></label>
                 <input type="number" class="form-control" formControlName="amount">
             </div>
             <div class="form-group col-6 form-input-line">
-                <label class=" col-form-label" for="remarks">Remarks </label>
+                <label class=" col-form-label" for="remarks">Remarks<span class="required">*</span> </label>
                 <textarea rows="4" class="form-control" formControlName="remarks">
                     </textarea>
             </div>

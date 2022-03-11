@@ -1,5 +1,5 @@
 export enum AssetChangeType {
     Upgrade = 1,
-    Defective,
-    NotWorking
+    Defective=2,
+    NotWorking=3
 }
