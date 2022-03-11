@@ -14,12 +14,13 @@ import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/em
 import { EmployeeAssetChangereturnviewComponent } from './employee-asset-changereturnview/employee-asset-changereturnview.component';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
+import { EmployeeAssetRejectRevokeComponent } from './employee-asset-reject-revoke/employee-asset-reject-revoke.component';
 
 
 
 @NgModule({
   declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent,
-                 EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent, EmployeeAssetChangereturnviewComponent,],
+                 EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent, EmployeeAssetChangereturnviewComponent, EmployeeAssetRejectRevokeComponent,],
   imports: [
     FormsModule,
     CommonModule,

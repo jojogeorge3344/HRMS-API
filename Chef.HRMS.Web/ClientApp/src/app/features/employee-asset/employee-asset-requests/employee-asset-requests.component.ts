@@ -14,6 +14,7 @@ import { EmployeeAssetChangereturnviewComponent } from "../employee-asset-change
 import { RequestType } from "src/app/models/common/types/requesttype";
 import { EmployeeAssetChangeorswapComponent } from "../employee-asset-changeorswap/employee-asset-changeorswap.component";
 import { SplitByUpperCasePipe } from "src/app/pipes/split-by-upper-case.pipe";
+import { EmployeeAssetRejectRevokeComponent } from "../employee-asset-reject-revoke/employee-asset-reject-revoke.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
@@ -191,7 +192,7 @@ export class EmployeeAssetRequestsComponent implements OnInit, OnDestroy {
   //     });
   // }
 
-  manageRequest(emprequest, status) {
+  manageRequest(emprequest, status,reason) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       size: 'lg',
       centered: true,
@@ -201,16 +202,17 @@ export class EmployeeAssetRequestsComponent implements OnInit, OnDestroy {
     const empreqid = emprequest.id;
     if (status == 2) {
       modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
-    } else if (status == 3) {
-      modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
-    }
-    else if (status == 6) {
-      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
-    }
+    } 
+    // else if (status == 3) {
+    //   modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
+    // }
+    // else if (status == 6) {
+    //   modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
+    // }
 
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.employeeAsset.manageRequest(empreqid, status).subscribe((res) => {
+        this.employeeAsset.manageRequest(empreqid, status,reason).subscribe((res) => {
           console.log(res);
           if (status == 2) {
             this.toastr.showSuccessMessage("request approved successfully!");
@@ -225,6 +227,47 @@ export class EmployeeAssetRequestsComponent implements OnInit, OnDestroy {
         });
       }
     });
+    
+  }
+
+
+
+  manageRejectRevoke(emprequest, status) {
+    const modalRef = this.modalService.open(EmployeeAssetRejectRevokeComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: "static",
+    });
+
+    modalRef.componentInstance.emprequest=emprequest.id;
+     modalRef.componentInstance.status=status;
+    console.log(emprequest);
+    const empreqid = emprequest.id;
+    if (status == 3) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
+    }
+    else if (status == 6) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
+    }
+
+    // modalRef.result.then((userResponse) => {
+    //   if (userResponse == true) {
+    //     this.employeeAsset.manageRequest(empreqid, status,description).subscribe((res) => {
+    //       console.log(res);
+    //       if (status == 2) {
+    //         this.toastr.showSuccessMessage("request approved successfully!");
+    //       } else if (status == 3) {
+    //         this.toastr.showSuccessMessage("request rejected successfully!");
+    //       }
+    //       else if (status == 6) {
+    //         this.toastr.showSuccessMessage("request revoked successfully!");
+    //       }
+    //       this.activeModal.close("click");
+    //       this.getEmployeeRequestById();
+    //     });
+    //   }
+    // }
+    // );
     
   }
 
