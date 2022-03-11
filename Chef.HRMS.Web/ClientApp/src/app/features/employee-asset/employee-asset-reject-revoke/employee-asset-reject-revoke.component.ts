@@ -1,7 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Params } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { componentDestroyed } from '@shared/utils/component.destroyed';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { takeUntil } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmployeAssetService } from '../employe-asset.service';
@@ -17,6 +19,7 @@ export class EmployeeAssetRejectRevokeComponent implements OnInit, OnDestroy {
   @Input() status;
   @Input() emprequest;
   rejectRevokeForm: FormGroup;
+  empId: number;
 
   constructor(public activeModal: NgbActiveModal,
               private formBuilder: FormBuilder,
@@ -27,6 +30,7 @@ export class EmployeeAssetRejectRevokeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void { }
 
   ngOnInit(): void {
+    this.empId = getCurrentUserId();
     this.rejectRevokeForm = this.createFormGroup();
     console.log("values", this.status, this.emprequest);  
   }
@@ -52,14 +56,27 @@ export class EmployeeAssetRejectRevokeComponent implements OnInit, OnDestroy {
       });
               if (this.status == 3) {
                 this.toastr.showSuccessMessage("Request Rejected Successfully!");
+                this.activeModal.close('submit');
               }
               else if (this.status == 6) {
                 this.toastr.showSuccessMessage("Request Revoked Successfully!");
+                this.activeModal.close('submit');
               }
               else {
               this.toastr.showErrorMessage("Can not do that!!!")
               }
   }
+
+
+  // getEmployeeRequestById() {
+  //   return this.employeeAsset
+  //     .getEmployeeRequestById(this.empId).subscribe((result) => {
+  //       console.log(result);
+  //       this.employeeWiseRequest = result;
+  //       this.reqid = result.id;
+  //       console.log("request details>>",this.employeeWiseRequest);
+  //     });
+  // }
 
 
 
