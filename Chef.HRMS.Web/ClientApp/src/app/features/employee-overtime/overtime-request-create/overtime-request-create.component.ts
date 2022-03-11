@@ -44,8 +44,9 @@ export class OvertimeRequestCreateComponent implements OnInit {
   noticeDayVal = false;
   overtimeDetails: OvertimeRequest[];
   overtimeApplied = '';
-  alreadyApplied=false;
-  flag=0;
+  overtimeAvailable;
+  alreadyApplied = false;
+  flag = 0;
   employeeList: Employee[];
   selectedItems = [];
   overtimeConfiguration: OvertimePolicyConfiguration;
@@ -61,7 +62,6 @@ export class OvertimeRequestCreateComponent implements OnInit {
     private overtimePolicyConfigurationService: OvertimePolicyConfigurationService,
     private employeeService: EmployeeService,
     private payrollProcessService: PayrollProcessService,
-   // private teamAttendanceService: TeamAttendanceService,
     private calendar: NgbCalendar,
     private holidayService: HolidayService,
     public activeModal: NgbActiveModal,
@@ -75,45 +75,21 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.getEmployeeList();
     this.getOvertimeConfiguration();
     this.getMarkedDates(this.currentUserId);
-    //  this.getOverTimeDetails();
-    // this.subscribeTochanges();
-    // },
-    //   error => {
-    //     console.error(error);
-    //   });
     // this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
   }
 
-  getMarkedDates(userId) {
-    debugger;
-    this.overtimeRequestService.getMarkedDates(userId)
-      .subscribe(res => {
-        this.overtimeApplied = res;
-        console.log(this.overtimeApplied);
-        this.getOvertimeAppliedCount();
+  getEmployeeList() {
+    this.employeeService.getAll().subscribe(result => {
+      this.employeeList = result.filter(employee => employee.id !== this.currentUserId);
+    },
+      error => {
+        console.error(error);
       });
-  }
-
-  isAlreadyApplied(date) {
-    const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
-    if (this.overtimeApplied.includes(currentDate)) {
-      return { color: 'green' };
-    }
-    return;
-  }
-
-  alreadyAppliedValidation(date){
-    this.alreadyApplied=false;
-    const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
-    if (this.overtimeApplied.includes(currentDate)) {
-      this.alreadyApplied=true;
-    }
   }
 
   getOvertimeConfiguration() {
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
       this.overtimeConfiguration = result;
-      console.log(this.overtimeConfiguration);
       this.setCalendar();
       this.addForm.patchValue({ overTimePolicyId: this.overtimeConfiguration.overTimePolicyId });
       if (this.overtimeConfiguration.isCommentRequired) {
@@ -125,76 +101,32 @@ export class OvertimeRequestCreateComponent implements OnInit {
       });
   }
 
-  getOverTimeDetails() {
-    this.overtimeRequestService.getAllOvertimeDetailsById(this.currentUserId).subscribe(result => {
-      this.overtimeDetails = result;
-      //  this.overtime=this.overtimeDetails
-      console.log(this.overtimeDetails);
-    },
-      error => {
-        console.error(error);
-      });
-  }
-
-  getWeekNumber(thisDate) {
-    var dt = new Date(thisDate);
-    var thisDay = dt.getDate();
-
-    var newDate = dt;
-    newDate.setDate(1); // first day of month
-    var digit = newDate.getDay();
-
-    var Q = (thisDay + digit) / 7;
-
-    var R = (thisDay + digit) % 7;
-
-    if (R !== 0) return Math.ceil(Q);
-    else return Q;
-    
-
-    // var weeknoarray:any=[];
-    // var weeknoarray.push(Q)
-  }
-
   setCalendar() {
-    var weekno = this.getWeekNumber(this.current);
-    console.log('hohoho', weekno);
-
     this.currentMonth = this.current.getMonth() + 1;
     this.currentYear = this.current.getFullYear();
     this.currentDay = this.current.getDate();
     console.log(this.currentMonth, this.currentYear);
     this.payrollProcessService.getPayrollStatusByEmpId(this.currentUserId, this.currentMonth, this.currentYear).subscribe(result => {
-      console.log(result);
-
       this.payrollProcessed = result;
       console.log(this.overtimeConfiguration.maximumPastDayLimit);
       const minDate = new Date();
       console.log(minDate);
       if (this.payrollProcessed === 0) {
         if (this.overtimeConfiguration.maximumPastDayLimit > 0 && !this.overtimeConfiguration.isApprovalRequired) {
-
-
           minDate.setDate(minDate.getDate() - this.overtimeConfiguration.maximumPastDayLimit);
-          console.log(minDate);
-
-          this.minDateFrom =this.minDateTo= {
+          this.minDateFrom = this.minDateTo = {
             year: minDate.getFullYear(),
             month: minDate.getMonth() + 1,
             day: minDate.getDate()
           };
-          console.log(this.minDateFrom);
-
         }
         else {
           minDate.setDate(minDate.getDate() + this.overtimeConfiguration.noticeDays);
-          console.log(minDate);
-          this.minDateFrom = this.minDateTo= {
+          this.minDateFrom = this.minDateTo = {
             year: minDate.getFullYear(),
             month: minDate.getMonth() + 1,
             day: minDate.getDate() + this.overtimeConfiguration.noticeDays
           };
-          // console.log(this.minDateFrom);
         }
       }
       else {
@@ -210,178 +142,169 @@ export class OvertimeRequestCreateComponent implements OnInit {
       });
   }
 
+  getMarkedDates(userId) {
+    this.overtimeRequestService.getMarkedDates(userId)
+      .subscribe(res => {
+        this.overtimeApplied = res;
+        console.log(this.overtimeApplied);
+        this.overtimeAvailable = this.overtimeConfiguration.maximumLimit - this.getOvertimeAppliedHour();
+      });
+  }
+
+  isAlreadyApplied(date) {
+    const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
+    if (this.overtimeApplied.includes(currentDate)) {
+      return { color: 'green' };
+    }
+    return;
+  }
+
+  alreadyAppliedValidation(date) {
+    this.alreadyApplied = false;
+    const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
+    if (this.overtimeApplied.includes(currentDate)) {
+      this.alreadyApplied = true;
+    }
+  }
+
+  getOverTimeDetails() {
+    this.overtimeRequestService.getAllOvertimeDetailsById(this.currentUserId).subscribe(result => {
+      this.overtimeDetails = result;
+    },
+      error => {
+        console.error(error);
+      });
+  }
+
+  // getWeekNumber(thisDate) {
+  //   var dt = new Date(thisDate);
+  //   var thisDay = dt.getDate();
+
+  //   var newDate = dt;
+  //   newDate.setDate(1); // first day of month
+  //   var digit = newDate.getDay();
+
+  //   var Q = (thisDay + digit) / 7;
+
+  //   var R = (thisDay + digit) % 7;
+
+  //   if (R !== 0) return Math.ceil(Q);
+  //   else return Q;
+  // }
+  
   onFromDateSelection(date: NgbDate) {
     this.minDateTo = date;
     this.fromDate = date;
-    if (this.toDate) { this.validateRequest(); }
+    //if (this.toDate) { this.validateRequest(); }
   }
 
   onToDateSelection(date: NgbDate) {
     this.maxDateFrom = date;
     this.toDate = date;
-    if (this.fromDate) { this.validateRequest(); }
+    // if (this.fromDate) { this.validateRequest(); }
   }
 
-  // subscribeTochanges() {
-  //   this.addForm.valueChanges.subscribe(res => {
-  //     console.log("gwettyyyu");
-  //     this.fromDate = this.addForm.get('fromDate').value;
-  //     this.toDate = this.addForm.get('toDate').value;
-  //     this.otHours = this.addForm.get('numberOfHours').value;
-  //     if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
-  //       this.numberOfDays = calculateDaysInBetween(this.fromDate, this.toDate)+2;
-  //       console.log(this.fromDate, this.toDate);
-  //       console.log(this.numberOfDays);
-  //     }
-  //     this.validateRequest();
-  //   });
-  // }
+  subscribeTochanges() {
+    this.addForm.valueChanges.subscribe(res => {
+      this.fromDate = this.addForm.get('fromDate').value;
+      this.toDate = this.addForm.get('toDate').value;
+      this.otHours = this.addForm.get('numberOfHours').value;
+      if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
+        this.numberOfDays = this.calculateDaysInBetween(this.fromDate, this.toDate);
+      }
+      if (this.overtimeConfiguration.isApprovalRequired) {
+        var prDays = toInteger(this.calculateDaysInBetween(this.fromDate, this.current));
+        if (prDays < this.overtimeConfiguration.noticeDays) {
+          this.noticeDayVal = true;
+        }
+      }
+      if (this.otHours < (this.numberOfDays * this.overtimeConfiguration.minimumOverTimeHour)) {
+        this.addForm.controls.numberOfHours.setErrors({ minHours: true });
+      } else {
+        this.addForm.controls.numberOfHours.setErrors(null);
+      }
+      this.validateRequest();
+    });
+  }
 
   calculateDaysInBetween(fromDate, toDate) {
-
     let fromdateSec: any = fromDate;
     let todateSec: any = toDate;
-
-    // this.isSingleDay = (todateSec - fromdateSec) === 0;
-
-    // Calculate days between dates
     const millisecondsPerDay = 86400 * 1000; // Day in milliseconds
     fromdateSec.setHours(0, 0, 0, 1); // Start just after midnight
     todateSec.setHours(23, 59, 59, 999); // End just before midnight
-
     const diff = todateSec - fromdateSec; // Milliseconds between datetime objects
     let days = Math.ceil(diff / millisecondsPerDay);
-
-    // // Subtract two weekend days for every week in between
-    // const weeks = Math.floor(days / 7);
-    // days = days - (weeks * 2);
-
-    // // Handle special cases
-    // fromdateSec = fromdateSec.getDay();
-    // todateSec = todateSec.getDay();
-
-    // // Remove weekend not previously removed.
-    // if (fromdateSec - todateSec > 1) {
-    //   days = days - 2;
-    // }
-
-    // // Remove start day if span starts on Sunday but ends before Saturday
-    // if (fromdateSec == 0 && todateSec != 6) {
-    //   days = days - 1;
-    // }
-
-    // // Remove end day if span ends on Saturday but starts after Sunday
-    // if (todateSec === 6 && fromdateSec !== 0) {
-    //   days = days - 1;
-    // }
     return days;
   }
 
   validateRequest() {
-    this.fromDate = this.addForm.get('fromDate').value;
-    this.toDate = this.addForm.get('toDate').value;
-    this.otHours = this.addForm.get('numberOfHours').value;
-    if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
-      this.numberOfDays = this.calculateDaysInBetween(this.fromDate, this.toDate);
-      // console.log(this.fromDate);
-      // console.log(this.toDate);
-
-      // console.log(this.numberOfDays);
-      // console.log(this.fromDate);
-      // console.log(this.current);
-
+    if (this.overtimeAvailable >= this.overtimeConfiguration.maximumLimit && (this.overtimeConfiguration.minimumOverTimeHour > this.overtimeAvailable)) {
+      this.addForm.controls.numberOfHours.setErrors({ numberOfHours: true });
+    } else {
+      this.addForm.controls.numberOfHours.setErrors(null);
     }
-    if (this.overtimeConfiguration.isApprovalRequired) {
-      var prDays = toInteger(this.calculateDaysInBetween(this.fromDate, this.current));
-      console.log(prDays);
-      if (prDays < this.overtimeConfiguration.noticeDays) {
-        this.noticeDayVal = true;
+    if (!this.addForm.controls.numberOfHours.hasError('numberOfHours')) {
+      if (!this.checkDates()) {
+        this.addForm.controls.numberOfHours.setErrors({ daysTaken: true });
+      } else {
+        this.addForm.controls.numberOfHours.setErrors(null);
       }
     }
-    // var dateArray=this.getDates(this.fromDate,this.toDate);
-    // console.log(dateArray);
-    if(this.overtimeConfiguration.periodType==1){
-      let maxOvertime=this.overtimeConfiguration.maximumLimit;
-
-    }
-    
-    //this.checkAlreadyAppliedOrNot(this.fromDate,this.toDate,this.currentUserId);
-
-    // let overTimeHourse=this.overtimeConfiguration.
   }
 
-getDates(fromDate, toDate) {
-    var dateArray = new Array();
-    var currentDate = fromDate;
-    while (currentDate <= toDate) {
-        dateArray.push(new Date (currentDate));
-        //currentDate = currentDate.addDays(1);
-    }
-    return dateArray;
-}
+  // getDates(fromDate, toDate) {
+  //   var dateArray = new Array();
+  //   var currentDate = fromDate;
+  //   while (currentDate <= toDate) {
+  //     dateArray.push(new Date(currentDate));
+  //   }
+  //   return dateArray;
+  // }
 
-checkDates() {
-  const d = new Date(this.fromDate);
-  for (d; d <= this.toDate; d.setDate(d.getDate() + 1)) {
-    const currentDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}T00:00:00`;
-    //taken = ['', ''];
-    // if (this.wfh.includes(currentDate)) {
-    //   this.taken[0] = currentDate;
-    //   this.taken[1] = 'WFH';
-    //   this.numberOfDays -= 1;
-    //   this.flag = 0;
-    //   break;
-    // }
-    if (this.overtimeApplied.includes(currentDate)) {
-      this.taken[0] = currentDate;
-      this.taken[1] = 'leave';
-      this.numberOfDays -= 1;         //////
-      this.flag = 0;
-      break;
-    }
-    // if (this.onDuty.includes(currentDate)) {
-    //   this.taken[0] = currentDate;
-    //   this.taken[1] = 'on duty';
-    //   this.numberOfDays -= 1;
-    //   this.flag = 0;
-    //   break;
-    // }
-  }
-  if (this.toDate <= d) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-getOvertimeAppliedCount() {
-  const d = new Date();
-  if (this.overtimeConfiguration.periodType === 1) {
-    let startingDate = new Date(d.setDate(d.getDate() - d.getDay() + 1));
-    let count = 0;
-    for (let index = 0; index < 7; index++) {
-      const DateString = `${startingDate.getUTCFullYear()}-${startingDate.getMonth() + 1}-${startingDate.getDate()}`;
-      if (this.overtimeApplied.indexOf(DateString) !== -1) {
-        count++;
+  checkDates() {
+    const d = new Date(this.fromDate);
+    for (d; d <= this.toDate; d.setDate(d.getDate() + 1)) {
+      const currentDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}T00:00:00`;
+      if (this.overtimeApplied.includes(currentDate)) {
+        this.taken[0] = currentDate;
+        this.taken[1] = 'leave';
+        this.numberOfDays -= 1;
+        this.flag = 0;
+        break;
       }
-      startingDate = new Date(startingDate.setDate(startingDate.getDate() + 1));
     }
-    console.log(count);
-    
-    return count;
-  } else if (this.overtimeConfiguration.periodType === 2) {
-    const month = (d.getMonth() + 1).toString().padStart(2, '0');
-    const year = (d.getFullYear()).toString();
-    const re = new RegExp(`${year}-${month}-`, 'g');
-    console.log(this.overtimeApplied.match(re));
-    return (this.overtimeApplied.match(re) || []).length;
-  } else if (this.overtimeConfiguration.periodType === 3) {
-    const year = (d.getFullYear()).toString();
-    const re = new RegExp(`${year}-`, 'g');
-    console.log(this.overtimeApplied.match(re));
-    return (this.overtimeApplied.match(re) || []).length;
+    if (this.toDate <= d) {
+      return true;
+    } else {
+      return false;
+    }
   }
-}
+
+  getOvertimeAppliedHour() {
+    const d = new Date();
+    if (this.overtimeConfiguration.periodType === 1) {
+      let startingDate = new Date(d.setDate(d.getDate() - d.getDay() + 1));
+      let count = 0;
+      for (let index = 0; index < 7; index++) {
+        const DateString = `${startingDate.getUTCFullYear()}-${startingDate.getMonth() + 1}-${startingDate.getDate()}`;
+        if (this.overtimeApplied.indexOf(DateString) !== -1) {
+          count++;
+        }
+        startingDate = new Date(startingDate.setDate(startingDate.getDate() + 1));
+      }
+      return (count * this.overtimeConfiguration.timeBeyondShiftHour);
+    } else if (this.overtimeConfiguration.periodType === 2) {
+      const month = (d.getMonth() + 1).toString().padStart(2, '0');
+      const year = (d.getFullYear()).toString();
+      const re = new RegExp(`${year}-${month}-`, 'g');
+      return ((this.overtimeApplied.match(re) || []).length * this.overtimeConfiguration.minimumOverTimeHour);
+    } else if (this.overtimeConfiguration.periodType === 3) {
+      const year = (d.getFullYear()).toString();
+      const re = new RegExp(`${year}-`, 'g');
+      return ((this.overtimeApplied.match(re) || []).length * this.overtimeConfiguration.minimumOverTimeHour);
+    }
+  }
 
   // checkAlreadyAppliedOrNot(fromDate,toDate,userId){
   //   this.overtimeRequestService.getMarkedDates(userId)
@@ -417,15 +340,6 @@ getOvertimeAppliedCount() {
     return holidays.indexOf(d.getTime()) != -1;// return date.month !== current.month;  };
   }
 
-  getEmployeeList() {
-    this.employeeService.getAll().subscribe(result => {
-      this.employeeList = result.filter(employee => employee.id !== this.currentUserId);
-    },
-      error => {
-        console.error(error);
-      });
-  }
-
   formatter = (employee) => employee.firstName;
 
   search = (text$: Observable<string>) => text$.pipe(
@@ -455,15 +369,12 @@ getOvertimeAppliedCount() {
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12))
     };
-    console.log("form values",addForm);
-    
     this.overtimeRequestService.add(addForm).subscribe((result: any) => {
       if (result.id !== -1) {
         const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
           overtimeId: result.id,
           notifyPersonnel: notifyPerson.id
         }));
-
         this.overtimeRequestService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
           this.toastr.showSuccessMessage('Overtime request submitted successfully!');
           this.activeModal.close('submit');

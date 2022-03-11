@@ -48,28 +48,34 @@
                 </div>
             </div>
         </div>
-
-        <!-- <div *ngIf="addForm.controls['numberOfDays'].errors?.numberOfDays" class="row" style="height: 65px;">
+        <div *ngIf="addForm.controls['numberOfHours'].errors?.numberOfHours" class="row" style="height: 65px;">
             <div class="form-group col-sm">
                 <div class="alert alert-danger" role="alert">
-                    {{numberOfDays}} days are not available.
+                    {{numberOfHours}} hours are not available.
                 </div>
             </div>
         </div>
-        <div *ngIf="addForm.controls['numberOfDays'].errors?.daysTaken" class="row" style="height: 65px;">
+        <div *ngIf="addForm.controls['numberOfHours'].errors?.minHours" class="row" style="height: 65px;">
+            <div class="form-group col-sm">
+                <div class="alert alert-danger" role="alert">
+                    Overtime hours are calculated only if the time is beyond {{OvertimeConfiguration.timeBeyondShiftHour}} hours from the normal shift hours.
+                </div>
+            </div>
+        </div>
+         <div *ngIf="addForm.controls['numberOfHours'].errors?.daysTaken" class="row" style="height: 65px;">
             <div class="form-group col-sm">
                 <div class="alert alert-danger" role="alert">
                     {{taken[0]|date}} is already applied for {{taken[1]}}.
                 </div>
             </div>
-        </div>
+        </div> 
         <div class="row" *ngIf="numberOfDays > 0" style="height: 65px;">
             <div class="form-group col-sm">
                 <div class="alert alert-info" role="alert">
-                    Apply work from home for {{numberOfDays}} Days
+                    Apply overtime for {{numberOfHours}} Hours
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <div class="form-group">
             <label for="numberOfHours">Overtime Hours</label>
