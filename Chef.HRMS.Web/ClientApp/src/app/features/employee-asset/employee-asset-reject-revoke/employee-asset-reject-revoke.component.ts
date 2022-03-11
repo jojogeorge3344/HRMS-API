@@ -33,7 +33,7 @@ export class EmployeeAssetRejectRevokeComponent implements OnInit, OnDestroy {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      description: ['', [
+      reason: ['', [
         Validators.required, , Validators.maxLength(150)
       ]]
     });
@@ -41,14 +41,14 @@ export class EmployeeAssetRejectRevokeComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     let allValues= {...this.rejectRevokeForm.getRawValue()}
-    let changeValues={description:allValues.description}
-    console.log(this.rejectRevokeForm.getRawValue());
+    let changeValues={reason:allValues.reason}
+    console.log("valuezzzz>>>",this.rejectRevokeForm.getRawValue(), allValues.reason, this.status);
     
     this.employeeAsset
-      .manageRequest(this.emprequest,this.status,allValues.description)
+      .manageRequest(this.emprequest,this.status,allValues.reason)
       .pipe(takeUntil(componentDestroyed(this)))
       .subscribe((res) => {
-       console.log(res);
+       console.log("response>>>",res);
       });
       if (this.status == 2) {
                 this.toastr.showSuccessMessage("request approved successfully!");
