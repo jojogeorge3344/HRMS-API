@@ -109,9 +109,9 @@ namespace Chef.HRMS.Services
         }
 
 
-        public async Task<int> UpdateApproveReject(int id, int status)
+        public async Task<int> UpdateApproveReject(int id, int status, string reason)
         {
-            return await assetEmployeeWiseRepository.UpdateApproveReject(id, status);
+            return await assetEmployeeWiseRepository.UpdateApproveReject(id, status, reason);
         }
 
 

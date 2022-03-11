@@ -207,14 +207,14 @@ namespace Chef.HRMS.Web.Controllers
 
 
         [HttpPut("UpdateApproveReject")]
-        public async Task<ActionResult> UpdateApproveReject(int id, int status)
+        public async Task<ActionResult> UpdateApproveReject(int id, int status,string reason)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await assetEmployeeWiseService.UpdateApproveReject(id, status);
+            var result = await assetEmployeeWiseService.UpdateApproveReject(id, status, reason);
 
             return Ok(result);
         }

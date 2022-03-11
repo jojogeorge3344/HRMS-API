@@ -47,6 +47,8 @@ namespace Chef.HRMS.Models
 
         public int AssetId { get; set; }
 
+        public string Reason { get; set; }
+
 
     }
 }

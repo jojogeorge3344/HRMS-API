@@ -27,7 +27,7 @@ namespace Chef.HRMS.Services
         Task<int> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated);
         Task<int> UpdateStatus(int id, int status);
         Task<int> UpdateAllocateStatus(int id, int assetraiserequestid, int status);
-        Task<int> UpdateApproveReject(int id, int status);
+        Task<int> UpdateApproveReject(int id, int status, string reason);
         Task<int> UpdateStatusRecalled(int empid, int assetid, int status);
 
         Task<int> UpdateReturnStatus(int assetid, int status, int assetraiserequestid);
