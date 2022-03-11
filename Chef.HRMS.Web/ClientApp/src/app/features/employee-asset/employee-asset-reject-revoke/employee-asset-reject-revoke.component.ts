@@ -50,13 +50,14 @@ export class EmployeeAssetRejectRevokeComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
        console.log("response>>>",res);
       });
-      if (this.status == 2) {
-                this.toastr.showSuccessMessage("request approved successfully!");
-              } else if (this.status == 3) {
-                this.toastr.showSuccessMessage("request rejected successfully!");
+              if (this.status == 3) {
+                this.toastr.showSuccessMessage("Request Rejected Successfully!");
               }
               else if (this.status == 6) {
-                this.toastr.showSuccessMessage("request revoked successfully!");
+                this.toastr.showSuccessMessage("Request Revoked Successfully!");
+              }
+              else {
+              this.toastr.showErrorMessage("Can not do that!!!")
               }
   }
 
