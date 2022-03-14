@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Services;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Loan;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -43,6 +44,11 @@ namespace Chef.HRMS.Services
         public async Task<int> GetLoanLastRequestId()
         {
             return await loanRequestRepository.GetLoanLastRequestId();
+        }
+
+        public async Task<IEnumerable<LoanRequestedViewModel>> GetRequestedDateByEmployeeId(int employeeId)
+        {
+            return await loanRequestRepository.GetRequestedDateByEmployeeId(employeeId);
         }
 
         public async Task<LoanRequest> InsertAsync(LoanRequest loanRequest)
