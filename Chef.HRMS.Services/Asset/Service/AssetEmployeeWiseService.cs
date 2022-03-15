@@ -102,7 +102,7 @@ namespace Chef.HRMS.Services
             {
                 simpleUnitOfWork.BeginTransaction();
                 var result = await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
-                assetAllocated.AllocationId = "AL-" + assetAllocated.Id;
+                assetAllocated.AllocationId = "AL- " + assetAllocated.Id;
                 var update = await assetEmployeeWiseRepository.UpdateAsync(assetAllocated);
                 simpleUnitOfWork.Commit();
                 return assetAllocated;

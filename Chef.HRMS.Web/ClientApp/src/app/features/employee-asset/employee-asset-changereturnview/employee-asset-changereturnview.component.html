@@ -20,9 +20,14 @@
             type="number"
             class="form-control w-100"
           />
-          
         </div>
        
+        <div *ngIf="returnType ==3" class="form-group form-input-inline col-6">
+          <label class="col-12 col-form-label px-0" for="returnDate"
+            >Return Date</label
+          >
+          <input formControlName="returnDate" class="form-control w-100" />
+        </div>
   
         <div class="form-group form-input-inline col-6">
           <label class="col-12 col-form-label px-0" for="AssetName"

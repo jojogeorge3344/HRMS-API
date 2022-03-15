@@ -111,8 +111,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.formatLeaves()
   }
   formatLeaves() {
-    
-    debugger;
     this.leaves.forEach(leave => {
       if(new Date(leave.fromDate).setHours(0,0,0,0)==new Date(leave.toDate).setHours(0,0,0,0) ){
         if (leave.isfullday) {
@@ -308,7 +306,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.maxDateFrom = date;
   }
   checkDates() {
-    debugger;
     if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
       const d = new Date(this.fromDate);
       for (d; d <= this.toDate; d.setDate(d.getDate() + 1)) {

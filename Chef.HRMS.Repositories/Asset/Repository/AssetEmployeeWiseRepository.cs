@@ -61,7 +61,7 @@ namespace Chef.HRMS.Repositories
                                     allocateddate,
                                     status 
                             FROM hrms.assetallocated 
-                            WHERE( status = 4 OR status = 8 OR status=9 OR status=7) AND empid=@empid";
+                            WHERE( status = 4 OR status = 8 OR status=9 OR status=7 OR status=10) AND empid=@empid";
 
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
@@ -226,7 +226,13 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
         {
-            var sql = "SELECT assetid,assettypeid,assettypename FROM hrms.assetallocated WHERE assetraiserequestid=@assetraiserequestid";
+            var sql = @"SELECT af.assetid,
+                                af.assettypeid,
+                                af.assettypename,
+                                ad.createddate as returnDate
+                                FROM hrms.assetallocated as af
+                                INNER JOIN hrms.assetmyasset as ad ON af.assetraiserequestid = ad.assetraiserequestid
+                                WHERE ad.assetraiserequestid = @assetraiserequestid";
 
             return await Connection.QueryAsync<AssetViewModel>(sql, new { assetraiserequestid });
         }
@@ -239,8 +245,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT 
                                 am.changetype as reason, 
                                 am.changedescription        AS comments,
-                                at.requesttype              AS type,
-                                am.assettypename
+                                at.requesttype              AS type
                             FROM hrms.assetmyasset    AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
                             WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid AND am.status=7";
@@ -254,9 +259,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT 
                                 am.returntype as reason, 
                                 am.returndescription     AS comments,
-                                at.requesttype           AS type,
-                                am.assettypename,
-								am.returndate
+                                at.requesttype           AS type
                             FROM hrms.assetmyasset AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
                             WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid AND am.status=8";
@@ -426,6 +429,19 @@ namespace Chef.HRMS.Repositories
             throw new NotImplementedException();
         }
 
-        
+        public async Task<int> UpdateAsync(AssetAllocated assetAllocated)
+        {
+            var sql = new QueryBuilder<AssetAllocated>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, assetAllocated);
+        }
+
+        public async Task<int> InsertAsync(AssetAllocated assetAllocated)
+        {
+            var sql = new QueryBuilder<AssetAllocated>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+            assetAllocated.Id = Convert.ToInt32(await Connection.ExecuteScalarAsync(sql, assetAllocated));
+            return assetAllocated.Id;
+        }
     }
 }

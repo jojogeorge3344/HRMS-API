@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 
@@ -14,7 +14,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
   selector: 'hrms-employee-address-details-view',
   templateUrl: './employee-address-details-view.component.html'
 })
-export class EmployeeAddressDetailsViewComponent implements OnInit {
+export class EmployeeAddressDetailsViewComponent implements OnInit, OnDestroy {
 
   public countries: any;
   public states: any;
@@ -29,6 +29,10 @@ export class EmployeeAddressDetailsViewComponent implements OnInit {
     public modalService: NgbModal,
     private stateService: StateService,
     private countryService: CountryService) { }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.userId = getCurrentUserId()

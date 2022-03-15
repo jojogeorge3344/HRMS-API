@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Loan;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -88,6 +89,12 @@ namespace Chef.HRMS.Repositories
                             LIMIT  1";
 
                 return await Connection.QueryFirstOrDefaultAsync<int>(sql);
+        }
+
+        public async Task<IEnumerable<LoanRequestedViewModel>> GetRequestedDateByEmployeeId(int employeeId)
+        {
+            var sql = @"SELECT requesteddate FROM hrms.loanrequest WHERE employeeid=@employeeid";
+            return await Connection.QueryAsync<LoanRequestedViewModel>(sql, new { employeeId = employeeId });
         }
     }
 }

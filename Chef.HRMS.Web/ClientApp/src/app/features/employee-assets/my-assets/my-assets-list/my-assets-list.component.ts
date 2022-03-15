@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { MyAssets } from '../my-assets.model';
@@ -18,7 +18,7 @@ import { AssetType } from '@settings/asset/asset-type/asset-type.model';
   selector: 'hrms-my-assets-list',
   templateUrl: './my-assets-list.component.html'
 })
-export class MyAssetsListComponent implements OnInit {
+export class MyAssetsListComponent implements OnInit, OnDestroy {
 
   myAssetList: AssetAllocated[];
   currentUserId:number;
@@ -31,6 +31,10 @@ export class MyAssetsListComponent implements OnInit {
     private assetTypeService:AssetTypeService,
     private toastr: ToasterDisplayService
   ) { }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
