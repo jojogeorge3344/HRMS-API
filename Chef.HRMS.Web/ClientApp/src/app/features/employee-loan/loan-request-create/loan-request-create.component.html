@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group ">
                     <label for="loanAmount">Loan Amount</label>
-                    <input type="number" class="form-control" id="loanAmount" name="loanAmount"
+                    <input type="number" class="form-control" id="loanAmount" name="loanAmount" (keydown)="validateNumber($event)"
                         formControlName="loanAmount">
                 </div>
             </div>
