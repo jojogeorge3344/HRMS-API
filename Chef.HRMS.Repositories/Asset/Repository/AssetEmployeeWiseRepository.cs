@@ -248,7 +248,7 @@ namespace Chef.HRMS.Repositories
                                 at.requesttype              AS type
                             FROM hrms.assetmyasset    AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
-                            WHERE am.assetraiserequestid = @assetraiserequestid and am.assetid=@assetid and am.status=7";
+                            WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid AND am.status=7";
 
                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
                 //return result;
@@ -262,7 +262,7 @@ namespace Chef.HRMS.Repositories
                                 at.requesttype           AS type
                             FROM hrms.assetmyasset AS am
 							INNER JOIN hrms.assetraiserequest AS at ON am.assetraiserequestid = at.id
-                            WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid and am.status=8";
+                            WHERE am.assetraiserequestid = @assetraiserequestid AND am.assetid=@assetid AND am.status=8";
 
                 return await Connection.QueryAsync<AssetReasonViewModel>(sql, new { assetraiserequestid, status, assetid });
             }
@@ -281,6 +281,13 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, assetAllocated);
         }
 
+        public async Task<int> InsertAsync(AssetAllocated assetAllocated)
+        {
+            var sql = new QueryBuilder<AssetAllocated>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+            assetAllocated.Id = Convert.ToInt32(await Connection.ExecuteAsync(sql, assetAllocated));
+            return assetAllocated.Id;
+        }
 
         public async Task<int> UpdateApproveReject(int id, int status)
         {
@@ -336,7 +343,10 @@ namespace Chef.HRMS.Repositories
             {
                 var sql = @"UPDATE hrms.assetallocated 
                                     SET status=9 WHERE status=4 
-                                        AND (empid =@empid AND assetid=@assetid)";
+                                        AND (empid =@empid AND assetid=@assetid);
+                            UPDATE hrms.asset 
+                                    SET status=5 WHERE status=4 
+                                         AND id=@assetid";
 
                 var result = await Connection.ExecuteAsync(sql, new { empid,assetid, status });
                 return result;
@@ -398,6 +408,12 @@ namespace Chef.HRMS.Repositories
                         return 0;
                     }                     
         }
+        public async Task<int> UpdateAsync(AssetAllocated assetAllocated)
+        {
+            var sql = new QueryBuilder<AssetAllocated>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, assetAllocated);
+        }
 
 
         public async Task<int> Delete(int id)
@@ -406,13 +422,6 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.ExecuteAsync(sql, new { id });
         }
-
-        //public async Task<int> UpdateRequest(AssetRaiseRequest assetRaiseRequest)
-        //{
-        //    var sql = @"UPDATE hrms.assetraiserequest
-        //                                    SET status=4 WHERE id=@assetid";
-        //    return await Connection.ExecuteAsync(sql, assetRaiseRequest);
-        //}
 
 
         public Task<IEnumerable<AssetEmployeeWise>> GetAllList()

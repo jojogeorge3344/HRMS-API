@@ -147,7 +147,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
 
-
+        //Asset Allocation
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -162,7 +162,7 @@ namespace Chef.HRMS.Web.Controllers
             var result = await assetEmployeeWiseService.InsertAsync(assetAllocated);
             return CreatedAtAction(nameof(Insert), result);
         }
-
+        //Change/Swap
         [HttpPost("InsertAllocate")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
