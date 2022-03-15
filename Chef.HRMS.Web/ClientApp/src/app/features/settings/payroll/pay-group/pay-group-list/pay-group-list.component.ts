@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 
@@ -16,7 +16,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-pay-group-list',
   templateUrl: './pay-group-list.component.html'
 })
-export class PayGroupListComponent implements OnInit, OnDestroy {
+export class PayGroupListComponent implements OnInit {
 
   payGroups: PayGroup[];
   assignedPayGroups: number[] = [];
@@ -31,11 +31,6 @@ export class PayGroupListComponent implements OnInit, OnDestroy {
     private payrollCalendarService: PayrollCalendarService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) { }
-
-  ngOnDestroy(): void {
-   this.modalService.dismissAll()
-  }
-
 
   ngOnInit(): void {
     this.getCalendars();

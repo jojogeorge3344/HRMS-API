@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { EmployeeBasicDetailsService } from '@features/employee/employee-basic-details/employee-basic-details.service'
@@ -14,7 +14,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
   selector: 'hrms-employee-primary-details-view',
   templateUrl: './employee-primary-details-view.component.html'
 })
-export class EmployeePrimaryDetailsViewComponent implements OnInit, OnDestroy {
+export class EmployeePrimaryDetailsViewComponent implements OnInit {
 
   primarydetails;
   genderTypes = GenderType;
@@ -24,10 +24,6 @@ export class EmployeePrimaryDetailsViewComponent implements OnInit, OnDestroy {
 
   constructor(public modalService: NgbModal,
     private basicdetailsService: EmployeeBasicDetailsService) { }
-
-  ngOnDestroy(): void {
-     this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId()

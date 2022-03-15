@@ -39,7 +39,7 @@ namespace Chef.HRMS.Repositories
                                         WHERE status = 4 OR status=7 OR status=8
                                         GROUP BY empid)a
                                         FULL JOIN
-                                        (SELECT empid , COUNT(*) AS requests
+                                        (SELECT empid, COUNT(*) AS requests
                                         FROM hrms.assetraiserequest
                                         WHERE (status = 1 OR status = 7 OR status =8)
                                         GROUP BY empid)b USING(empid)";
@@ -60,7 +60,7 @@ namespace Chef.HRMS.Repositories
                                     allocateddate,
                                     status 
                             FROM hrms.assetallocated 
-                            WHERE( status = 4 OR status = 8 OR status=9 OR status=7 OR status=10) AND empid=@empid";
+                            WHERE( status = 4 OR status = 8 OR status=9 OR status=7) AND empid=@empid";
 
             return await Connection.QueryAsync<AssetAllocated>(sql, new { empid });
         }
@@ -75,7 +75,7 @@ namespace Chef.HRMS.Repositories
 			                            valueid,
 			                            status,
 			                            CONCAT(assetname,'-',valueid) AS assetname 
-		                            FROM hrms.asset WHERE status=5 and isactive='true' 
+		                            FROM hrms.asset WHERE status=5  
                                                     AND assettypeid=@assettypeid";
 
             return await Connection.QueryAsync<Asset>(sql, new { assettypeid });
@@ -119,9 +119,7 @@ namespace Chef.HRMS.Repositories
                                 rr. requesteddate
 					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee 
                                  ON rr.empid=employee.id INNER JOIN hrms.assettype AS tt
-                                 ON rr.assettypeid=tt.id
-                                 
-								 WHERE empid=@empid
+                                 ON rr.assettypeid=tt.id WHERE empid=@empid 
                                                         ORDER BY id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });
@@ -225,13 +223,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
         {
-            var sql = @"SELECT af.assetid,
-                                af.assettypeid,
-                                af.assettypename,
-                                ad.createddate as returnDate
-                                FROM hrms.assetallocated as af
-                                INNER JOIN hrms.assetmyasset as ad ON af.assetraiserequestid = ad.assetraiserequestid
-                                WHERE ad.assetraiserequestid = @assetraiserequestid";
+            var sql = "SELECT assetid FROM hrms.assetallocated WHERE assetraiserequestid=@assetraiserequestid";
 
             return await Connection.QueryAsync<AssetViewModel>(sql, new { assetraiserequestid });
         }
@@ -281,28 +273,20 @@ namespace Chef.HRMS.Repositories
         }
 
 
-        public async Task<int> UpdateApproveReject(int id, int status, string reason)
+        public async Task<int> UpdateApproveReject(int id, int status)
         {
-            if (status == 2)
+            if (status == 2 || status == 3 || status==6)
             {
                 var sql = @"UPDATE hrms.assetraiserequest 
                                     SET status=@status WHERE id=@id";
 
-                var result = await Connection.ExecuteAsync(sql, new { id, status, reason });
+                var result = await Connection.ExecuteAsync(sql, new { id, status });
                 return result;
             }    
-            else if(status == 3 || status == 6)
-            {
-                var sql = @"UPDATE hrms.assetraiserequest 
-                                    SET status=@status,reason=@reason WHERE id=@id";
-
-                var result = await Connection.ExecuteAsync(sql, new { id, status, reason });
-                return result;
-            }
             else
             {
                 return 0;
-            }
+            }    
         }
 
 
@@ -425,21 +409,6 @@ namespace Chef.HRMS.Repositories
         public Task<IEnumerable<AssetEmployeeWise>> GetAllList()
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<int> UpdateAsync(AssetAllocated assetAllocated)
-        {
-            var sql = new QueryBuilder<AssetAllocated>().GenerateUpdateQuery();
-            sql = sql.Replace("RETURNING id", "");
-            return await Connection.ExecuteAsync(sql, assetAllocated);
-        }
-
-        public async Task<int> InsertAsync(AssetAllocated assetAllocated)
-        {
-            var sql = new QueryBuilder<AssetAllocated>().GenerateInsertQuery();
-            sql = sql.Replace("RETURNING id", "");
-            assetAllocated.Id = Convert.ToInt32(await Connection.ExecuteScalarAsync(sql, assetAllocated));
-            return assetAllocated.Id;
         }
     }
 }

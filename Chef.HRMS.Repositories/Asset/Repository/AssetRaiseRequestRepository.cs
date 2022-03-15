@@ -35,11 +35,11 @@ namespace Chef.HRMS.Repositories
                                concat (firstname,' ',lastname) as nameofteammember,
                                at.requesttype,
                                at.description,
-                               at.status,at.empid,at.reason
+                               at.status,at.empid
                                from hrms.assetraiserequest as at 
                                inner join   
                                hrms.employee on 
-                               at.empid=employee.id
+                               at.nameofteammemberid=employee.id
                                where empid=@empid order by at.id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });

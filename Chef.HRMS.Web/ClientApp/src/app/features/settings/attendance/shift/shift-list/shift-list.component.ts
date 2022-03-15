@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -17,7 +17,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   //styles:''
 })
 
-export class ShiftListComponent implements OnInit, OnDestroy {
+export class ShiftListComponent implements OnInit {
 
   shifts: Shift[];
   assignedShifts: number[] = [];
@@ -27,10 +27,6 @@ export class ShiftListComponent implements OnInit, OnDestroy {
     private shiftService: ShiftService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) { }
-
-  ngOnDestroy(): void {
-  this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.getShifts();

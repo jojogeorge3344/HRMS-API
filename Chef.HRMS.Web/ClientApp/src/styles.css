@@ -417,13 +417,6 @@ aside ::-webkit-scrollbar-thumb {
   pointer-events:none; 
     opacity:0.6;        
 }
-/* wordbreak for word wrap */
-.wordbreak{ 
-  white-space: break-spaces;
-  width: 80px;
-  max-width: 150px;
-  
-}
 
 /*validation * coloring*/
 

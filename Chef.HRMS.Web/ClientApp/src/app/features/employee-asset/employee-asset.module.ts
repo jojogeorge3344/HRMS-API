@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { EmployeeAssetListComponent } from './employee-asset-list/employee-asset-list.component';
 import { RouterModule } from '@angular/router';
 import { EmployeeAssetViewComponent } from './employee-asset-view/employee-asset-view.component';
@@ -14,13 +14,12 @@ import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/em
 import { EmployeeAssetChangereturnviewComponent } from './employee-asset-changereturnview/employee-asset-changereturnview.component';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
-import { EmployeeAssetRejectRevokeComponent } from './employee-asset-reject-revoke/employee-asset-reject-revoke.component';
 
 
 
 @NgModule({
   declarations: [EmployeeAssetListComponent, EmployeeAssetViewComponent, EmployeeAssetRequestsComponent, EmployeeAssetAllocatedComponent, EmployeeAssetRequestViewComponent,
-                 EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent, EmployeeAssetChangereturnviewComponent, EmployeeAssetRejectRevokeComponent,],
+                 EmployeeAssetChangeorswapComponent, EmployeeAssetAllocationComponent, EmployeeAssetChangereturnviewComponent,],
   imports: [
     FormsModule,
     CommonModule,
@@ -57,8 +56,7 @@ import { EmployeeAssetRejectRevokeComponent } from './employee-asset-reject-revo
   ],
   providers: [
     NgbActiveModal,
-    SplitByUpperCasePipe,
-    DatePipe
+    SplitByUpperCasePipe
   ]
 })
 export class EmployeeAssetModule { }

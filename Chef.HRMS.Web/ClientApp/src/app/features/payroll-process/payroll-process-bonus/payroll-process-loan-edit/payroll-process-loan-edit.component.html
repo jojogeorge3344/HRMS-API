@@ -12,14 +12,14 @@
         </div>
         <div class="d-flex flex-wrap">
             <div class="form-group col-6">
-                <label for="name">Employee<span class="required">*</span></label>
+                <label for="name">Employee</label>
 
                 <input type="text" class="form-control" formControlName="employeeId" [ngbTypeahead]="search"
                     [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]='false' placeholder="Employee">
             </div>
 
             <div class="form-group col-6">
-                <label for="loanType">Loan Type<span class="required">*</span></label>
+                <label for="loanType">Loan Type</label>
                 <select class="form-control" formControlName="loanType">
                     <option [ngValue]="null" disabled>Select Loan Type</option>
                     <option *ngFor="let key of loanTypeKeys" [ngValue]='key'>{{loanTypes[key]}}</option>
@@ -34,17 +34,17 @@
                 </select>
             </div>
             <div class="form-group col-6">
-                <label for="repaymentTerm">Repayment Terms (Months)<span class="required">*</span></label>
+                <label for="repaymentTerm">Repayment Terms (Months)</label>
                 <input type="number" class="form-control repaymentTerm" id="repaymentTerm" name="repaymentTerm"
                     placeholder="loan repayment terms in months" formControlName="repaymentTerm">
             </div>
             <div class="form-group col-6">
-                <label for="loanAmount">Loan Amount<span class="required">*</span></label>
+                <label for="loanAmount">Loan Amount</label>
                 <input type="number" class="form-control" id="loanAmount" name="loanAmount"
                     formControlName="loanAmount">
             </div>
             <div class="form-group col-6">
-                <label for="expectedOn">Disbursement Expected On<span class="required">*</span></label>
+                <label for="expectedOn">Disbursement Expected On</label>
                 <div class="input-group">
                     <input class="form-control" ngbDatepicker
                         formControlName="expectedOn" #expectedOn="ngbDatepicker"
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="form-group col-6">
-                <label for="emiStartsFrom">EMI Starts from<span class="required">*</span></label>
+                <label for="emiStartsFrom">EMI Starts from</label>
                 <div class="d-flex justify-content-between align-items-center">
                     <select class="col-5 form-control" formControlName="emiStartsFromMonth">
                         <option [ngValue]="null" disabled>Select Month</option>
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="form-group col-6">
-                <label for="comments">Comments<span class="required">*</span></label>
+                <label for="comments">Comments</label>
                 <textarea type="text" rows="6" class="form-control" id="comments" name="comments"
                     placeholder="Please provide the comment for applying loan" formControlName="comments"></textarea>
             </div>

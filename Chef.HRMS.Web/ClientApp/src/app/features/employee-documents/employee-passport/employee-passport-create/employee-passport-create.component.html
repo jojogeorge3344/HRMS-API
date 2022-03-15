@@ -9,15 +9,15 @@
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <label for="name">Given Name<span class="required">*</span></label>
+                    <label for="name">Given Name</label>
                     <input type="text" class="form-control" formControlName="name">
                 </div>
                 <div class="form-group">
-                    <label for="number">Passport Number<span class="required">*</span></label>
+                    <label for="number">Passport Number</label>
                     <input type="text" class="form-control" formControlName="number">
                 </div>
                 <div class="form-group">
-                    <label for="dateOfBirth">Date of Birth<span class="required">*</span></label>
+                    <label for="dateOfBirth">Date of Birth</label>
                     <div class="input-group">
                         <input class="form-control" [minDate]="minDateDOB" [maxDate]="maxDateDOB" ngbDatepicker 
                             #dateOfBirth="ngbDatepicker" formControlName="dateOfBirth" (dateSelect)="onDOBSelection($event)">
@@ -27,7 +27,7 @@
                     </div>                    
                 </div>
                 <div class="form-group">
-                    <label for="dateOfIssue">Date of Issue<span class="required">*</span></label>
+                    <label for="dateOfIssue">Date of Issue</label>
                     <div class="input-group">
                         <input class="form-control" [minDate]='minDateOfIssue' [maxDate]="maxDateOfIssue" ngbDatepicker #dateOfIssue="ngbDatepicker" formControlName="dateOfIssue">
                         <div class="input-group-append">
@@ -36,30 +36,30 @@
                     </div>                    
                 </div>
                 <div class="form-group">
-                    <label for="fatherName">Father's Name<span class="required">*</span></label>
+                    <label for="fatherName">Father's Name</label>
                     <input type="text" class="form-control" formControlName="fatherName">
                 </div>
                 <div class="form-group">
-                    <label for="address">Address<span class="required">*</span></label>
+                    <label for="address">Address</label>
                     <textarea type="text" rows="5" class="form-control" formControlName="address"></textarea>                    
                 </div>               
             </div>
             
             <div class="col-sm">                 
                 <div class="form-group">
-                    <label for="surName">Surname<span class="required">*</span></label>
+                    <label for="surName">Surname</label>
                     <input type="text" class="form-control" formControlName="surName">
                 </div>
                 <div class="form-group">
-                    <label for="placeOfIssue">Place of Issue<span class="required">*</span></label>
+                    <label for="placeOfIssue">Place of Issue</label>
                     <input type="text" class="form-control" formControlName="placeOfIssue">
                 </div> 
                 <div class="form-group">
-                    <label for="placeOfBirth">Place of Birth<span class="required">*</span></label>
+                    <label for="placeOfBirth">Place of Birth</label>
                     <input type="text" class="form-control" formControlName="placeOfBirth">
                 </div>
                 <div class="form-group">
-                    <label for="dateOfExpiry">Date of Expiry<span class="required">*</span></label>
+                    <label for="dateOfExpiry">Date of Expiry</label>
                     <div class="input-group">
                         <input class="form-control" [minDate]="minDateOfExpiry" [maxDate]="maxDateOfExpiry" ngbDatepicker #dateOfExpiry="ngbDatepicker" formControlName="dateOfExpiry">
                         <div class="input-group-append">
@@ -90,7 +90,7 @@
                                 Please upload a file.
                             </div>
                             <i class="fal fa-paperclip"></i>
-                            <a class="link">Add Attachment<span class="required">*</span></a>
+                            <a class="link">Add Attachment</a>
                         </label>
                     </div>
                     <div class="upload-file" id="file-name">

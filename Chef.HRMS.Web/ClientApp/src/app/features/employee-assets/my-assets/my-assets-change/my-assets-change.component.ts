@@ -8,9 +8,6 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
 import { toNumber } from 'lodash';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
-import { RequestFor } from 'src/app/models/common/types/requestfor';
-import { RequestType } from 'src/app/models/common/types/requesttype';
-import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -23,14 +20,10 @@ export class MyAssetsChangeComponent implements OnInit {
   changeType = AssetChangeType;
   changeTypeSelected: string;
   changeAssetForm: FormGroup;
-  assetStatus = AssetStatus;
-  requestFor = RequestFor;
-  requestType = RequestType;
-  raiseRequestData: any = {};
+  assetStatus=AssetStatus;
 
   @Input() assetData: MyAssets;
   @Input() currentUserId: number;
-
 
   constructor(public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -47,37 +40,26 @@ export class MyAssetsChangeComponent implements OnInit {
     return this.formBuilder.group({
       changeTypeOptions: [null, Validators.required],
       changeDescription: ['', [
+        Validators.required,
         Validators.maxLength(256)
       ]],
     });
   }
-
+ 
   onSubmit() {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
-    this.assetData.status = this.assetStatus.ChangeRequest;
-    this.assetData.changeDescription = this.changeAssetForm.get('changeDescription').value;
-    this.assetData.changeType = toNumber(this.changeTypeSelected);
-    this.raiseRequestData.requestedDate = new Date();
-    this.raiseRequestData.requestFor = this.requestFor.Self;
-    this.raiseRequestData.requestType = this.requestType.ChangeAsset;
-    this.raiseRequestData.assetTypeId = this.assetData.assetTypeId;
-    this.raiseRequestData.status = this.assetStatus.ChangeRequest;
-    this.raiseRequestData.empId = this.currentUserId;
-    this.raiseRequestData.assetid = this.assetData.assetId;
-    this.raiseRequestData.nameOfTeamMemberId = this.currentUserId;
-    console.log(this.raiseRequestData);
-    forkJoin([
-      this.myAssetService.updateStatus(this.assetData),
-      this.myAssetService.insertRequest(this.raiseRequestData)
-    ]).subscribe(([upRes, insRes]) => {
-      this.toastr.showSuccessMessage('Request submitted successfully!');
+    this.assetData.status=this.assetStatus.ChangeRequest;
+    this.assetData.changeDescription=this.changeAssetForm.get('changeDescription').value;
+    this.assetData.changeType=toNumber(this.changeTypeSelected);
+    this.myAssetService.updateStatus(this.assetData).subscribe(result => {
+      this.toastr.showSuccessMessage('Change request submitted successfully!');
       this.activeModal.close('submit');
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to submit return request.');
+        this.toastr.showErrorMessage('Unable to submit change request.');
       });
-  }
+    }
 }
 
 

@@ -78,7 +78,7 @@
                                role="menu" click aria-labelledby="button-basic">
                                <li *ngIf="allocatedAsset?.status==4 || allocatedAsset?.status==7"    (click)="openChangeOrSwap(allocatedAsset)"><a class="dropdown-item">Change/Swap</a></li>
                                <li [ngClass]="(allocatedAsset.status ==7 || allocatedAsset.status ==9 || allocatedAsset.status ==8) ?'lidisable':''"   (click)="openRecall(allocatedAsset)"><a class="dropdown-item">Recall</a></li>
-                               <!-- <li *ngIf="allocatedAsset?.status==8" ><a class="dropdown-item">Approve</a></li> -->
+                               <li *ngIf="allocatedAsset?.status==8" ><a class="dropdown-item">Approve</a></li>
                             </ul>
                          </div>
                     </td>

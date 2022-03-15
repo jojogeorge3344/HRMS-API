@@ -72,7 +72,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getEmployeeList();
     this.getOvertimeConfiguration();
-    this.getMarkedDates(this.currentUserId);
+   // this.getMarkedDates(this.currentUserId);
     //  this.getOverTimeDetails();
     // this.subscribeTochanges();
     // },
@@ -82,14 +82,14 @@ export class OvertimeRequestCreateComponent implements OnInit {
     // this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
   }
 
-  getMarkedDates(userId) {
-    var tablename = 'overtime'
-    this.overtimeRequestService.getMarkedDates(userId)
-      .subscribe(res => {
-        this.overtimeApplied = res;
-        console.log(this.overtimeApplied); 
-      });
-  }
+  // getMarkedDates(userId) {
+  //   var tablename = 'overtime'
+  //   this.teamAttendanceService.getMarkedDates(tablename, userId)
+  //     .subscribe(res => {
+  //       this.overtimeApplied = res;
+  //       console.log(this.overtimeApplied); 
+  //     });
+  // }
 
   isAlreadyApplied(date) {
     const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
@@ -97,13 +97,6 @@ export class OvertimeRequestCreateComponent implements OnInit {
       return { color: 'green' };
     }
     return;
-  }
-  alreadyAppliedValidation(date){
-    this.alreadyApplied=false;
-    const currentDate = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}T00:00:00`;
-    if (this.overtimeApplied.includes(currentDate)) {
-      this.alreadyApplied=true;
-    }
   }
 
   getOvertimeConfiguration() {
@@ -277,12 +270,12 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.otHours = this.addForm.get('numberOfHours').value;
     if (this.fromDate && this.toDate && typeof this.fromDate !== 'string' && typeof this.toDate !== 'string') {
       this.numberOfDays = this.calculateDaysInBetween(this.fromDate, this.toDate);
-      // console.log(this.fromDate);
-      // console.log(this.toDate);
+      console.log(this.fromDate);
+      console.log(this.toDate);
 
-      // console.log(this.numberOfDays);
-      // console.log(this.fromDate);
-      // console.log(this.current);
+      console.log(this.numberOfDays);
+      console.log(this.fromDate);
+      console.log(this.current);
 
     }
     if (this.overtimeConfiguration.isApprovalRequired) {
@@ -292,32 +285,10 @@ export class OvertimeRequestCreateComponent implements OnInit {
         this.noticeDayVal = true;
       }
     }
-    var dateArray=this.getDates(this.fromDate,this.toDate);
-    console.log(dateArray);
 
-    
-    //this.checkAlreadyAppliedOrNot(this.fromDate,this.toDate,this.currentUserId);
 
     // let overTimeHourse=this.overtimeConfiguration.
   }
-
-getDates(fromDate, toDate) {
-    var dateArray = new Array();
-    var currentDate = fromDate;
-    while (currentDate <= toDate) {
-        dateArray.push(new Date (currentDate));
-        //currentDate = currentDate.addDays(1);
-    }
-    return dateArray;
-}
-
-  // checkAlreadyAppliedOrNot(fromDate,toDate,userId){
-  //   this.overtimeRequestService.getMarkedDates(userId)
-  //     .subscribe(res => {
-  //       this.overtimeApplied = res;
-  //       console.log(this.overtimeApplied); 
-  //     });
-  // }
 
   getEmployeeHoliday() {
     this.holidayService.getAll().subscribe(res => {
@@ -376,16 +347,7 @@ getDates(fromDate, toDate) {
   }
 
   onSubmit() {
-    let addForm = this.addForm.value;
-    addForm.numberOfDays = this.numberOfDays;
-    addForm = {
-      ...addForm,
-      toDate: new Date(addForm.toDate.setHours(12)),
-      fromDate: new Date(addForm.fromDate.setHours(12))
-    };
-    console.log("form values",addForm);
-    
-    this.overtimeRequestService.add(addForm).subscribe((result: any) => {
+    this.overtimeRequestService.add(this.addForm.value).subscribe((result: any) => {
       if (result.id !== -1) {
         const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
           overtimeId: result.id,
@@ -424,4 +386,5 @@ getDates(fromDate, toDate) {
       requestStatus: [1]
     });
   }
+
 }
