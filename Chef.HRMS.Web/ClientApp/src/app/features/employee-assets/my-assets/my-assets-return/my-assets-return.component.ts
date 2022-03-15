@@ -12,7 +12,6 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { RequestType } from 'src/app/models/common/types/requesttype';
 import { AssetRaiseRequest } from '@features/employee-assets/raise-request/raise-request.model';
-
 @Component({
   selector: 'hrms-my-assets-return',
   templateUrl: './my-assets-return.component.html'
