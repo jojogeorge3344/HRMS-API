@@ -48,11 +48,24 @@ export class MyAssetsChangeComponent implements OnInit {
  
   onSubmit() {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
-    this.assetData.status=this.assetStatus.ChangeRequest;
-    this.assetData.changeDescription=this.changeAssetForm.get('changeDescription').value;
-    this.assetData.changeType=toNumber(this.changeTypeSelected);
-    this.myAssetService.updateStatus(this.assetData).subscribe(result => {
-      this.toastr.showSuccessMessage('Change request submitted successfully!');
+    this.assetData.status = this.assetStatus.ChangeRequest;
+    this.assetData.changeDescription = this.changeAssetForm.get('changeDescription').value;
+    this.assetData.changeType = toNumber(this.changeTypeSelected);
+    this.raiseRequestData.requestedDate = new Date();
+    this.raiseRequestData.requestFor = this.requestFor.Self;
+    this.raiseRequestData.requestType = this.requestType.ChangeAsset;
+    this.raiseRequestData.assetTypeId = this.assetData.assetTypeId;
+    this.raiseRequestData.assetTypeName=this.assetData.assetTypeName;
+    this.raiseRequestData.status = this.assetStatus.ChangeRequest;
+    this.raiseRequestData.empId = this.currentUserId;
+    this.raiseRequestData.assetid = this.assetData.assetId;
+    this.raiseRequestData.nameOfTeamMemberId = this.currentUserId;
+    console.log(this.raiseRequestData);
+    forkJoin([
+      this.myAssetService.updateStatus(this.assetData),
+      this.myAssetService.insertRequest(this.raiseRequestData)
+    ]).subscribe(([upRes, insRes]) => {
+      this.toastr.showSuccessMessage('Request submitted successfully!');
       this.activeModal.close('submit');
     },
       error => {

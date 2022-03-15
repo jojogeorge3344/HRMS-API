@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule , DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
+import { NgBootstrapFormValidationModule, CUSTOM_ERROR_MESSAGES } from 'ng-bootstrap-form-validation';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 
@@ -45,7 +45,7 @@ import { EmployeeBankDetailsActionsComponent } from './employee-bank-details/emp
 import { EmployeeBankDetailsViewComponent } from './employee-bank-details/employee-bank-details-view/employee-bank-details-view.component';
 
 import { EmployeeOfficialDocumentsListComponent } from './employee-official-documents/employee-official-documents-list/employee-official-documents-list.component';
-
+import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 
 @NgModule({
   declarations: [
@@ -93,6 +93,14 @@ import { EmployeeOfficialDocumentsListComponent } from './employee-official-docu
     NgBootstrapFormValidationModule,
     BsDropdownModule.forRoot(),
     DirectivesModule
-  ]
+  ],
+  providers: [{
+
+    provide: CUSTOM_ERROR_MESSAGES,
+    useValue: CUSTOM_ERRORS,
+    multi: true,
+    
+  },
+  DatePipe],
 })
 export class EmployeeDocumentsModule { }

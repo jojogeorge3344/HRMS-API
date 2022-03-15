@@ -12,7 +12,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { SignalrService } from '@shared/services/signalr.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { HolidayService } from '@settings/holiday/holiday.service';
-import { formatDate ,DatePipe} from '@angular/common';
+import { formatDate, DatePipe } from '@angular/common';
 import { result } from 'lodash';
 
 @Component({
@@ -39,10 +39,11 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   minDateTo;
   maxDateTo;
   currentDate;
+  flag = 0;
   isValid = true;
-   fulldayLeaves=[];
-   firsthalfLeaves:string[]=[];
-   secondhalfLeaves=[];
+  fulldayLeaves = [];
+  firsthalfLeaves: string[] = [];
+  secondhalfLeaves = [];
 
   employeeList: Employee[];
   selectedItems = [];
@@ -56,7 +57,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   holidaydate: any;
   leaveInfo: any;
   currentUserId: number;
-  employeeId:number;
+  employeeId: number;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -66,7 +67,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
-    private holidayService :HolidayService,
+    private holidayService: HolidayService,
     private datepipe: DatePipe,
   ) {
     const current = new Date();
@@ -98,11 +99,11 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("test",this.requestId);
-    this.employeeId=this.requestId,
-    this.addForm = this.createFormGroup();
+    console.log("test", this.requestId);
+    this.employeeId = this.requestId,
+      this.addForm = this.createFormGroup();
     this.getLeaveBalance();
-    this.getEmployeeDetails();  
+    this.getEmployeeDetails();
     this.getEmployeeList();
     this.subscribeTochanges();
     this.getEmployeeHoliday();
@@ -112,58 +113,58 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
   formatLeaves() {
     this.leaves.forEach(leave => {
-      if(new Date(leave.fromDate).setHours(0,0,0,0)==new Date(leave.toDate).setHours(0,0,0,0) ){
+      if (new Date(leave.fromDate).setHours(0, 0, 0, 0) == new Date(leave.toDate).setHours(0, 0, 0, 0)) {
         if (leave.isfullday) {
-          this.fulldayLeaves=[...this.fulldayLeaves,leave.fromDate]
-          
-        }
-        else if(leave.isFirstDayFirstHalf){
-          this.firsthalfLeaves=[...this.firsthalfLeaves,leave.fromDate]
+          this.fulldayLeaves = [...this.fulldayLeaves, leave.fromDate]
 
         }
-        else if (leave.isFirstDaySecondHalf){
-          this.secondhalfLeaves=[...this.secondhalfLeaves,leave.fromDate]
+        else if (leave.isFirstDayFirstHalf) {
+          this.firsthalfLeaves = [...this.firsthalfLeaves, leave.fromDate]
+
         }
-        
+        else if (leave.isFirstDaySecondHalf) {
+          this.secondhalfLeaves = [...this.secondhalfLeaves, leave.fromDate]
+        }
+
       }
-      else{
-        let d = new Date(leave.fromDate).setHours(0,0,0,0);
-        for (d; d <= new Date(leave.toDate).setHours(0,0,0,0);d=d+86400000) {
-          if(d==new Date(leave.fromDate).setHours(0,0,0,0)){
-             if(leave.isFirstDayFirstHalf){
-              this.firsthalfLeaves=[...this.firsthalfLeaves,leave.fromDate]
-    
+      else {
+        let d = new Date(leave.fromDate).setHours(0, 0, 0, 0);
+        for (d; d <= new Date(leave.toDate).setHours(0, 0, 0, 0); d = d + 86400000) {
+          if (d == new Date(leave.fromDate).setHours(0, 0, 0, 0)) {
+            if (leave.isFirstDayFirstHalf) {
+              this.firsthalfLeaves = [...this.firsthalfLeaves, leave.fromDate]
+
             }
-            else if (leave.isFirstDaySecondHalf){
-              this.secondhalfLeaves=[...this.secondhalfLeaves,leave.fromDate]
+            else if (leave.isFirstDaySecondHalf) {
+              this.secondhalfLeaves = [...this.secondhalfLeaves, leave.fromDate]
             }
-            else{
-              this.fulldayLeaves=[...this.fulldayLeaves,leave.fromDate]
-             }
-           
+            else {
+              this.fulldayLeaves = [...this.fulldayLeaves, leave.fromDate]
+            }
+
           }
-          else if(d==new Date(leave.toDate).setHours(0,0,0,0)){
-            if(leave.isSecondDayFirstHalf){
-              this.firsthalfLeaves=[...this.firsthalfLeaves,leave.toDate]
-   
-           }
-           else if (leave.isSecondDaySecondHalf){
-            this.secondhalfLeaves=[...this.secondhalfLeaves,leave.toDate]
-           }
-           else{
-            this.fulldayLeaves=[...this.fulldayLeaves,leave.toDate]
-           }
-          
-         }
-         else{
-          this.fulldayLeaves=[...this.fulldayLeaves,`${formatDate(d,'yyyy-MM-dd','en-US')}T00:00:00`]
-         }
-     
-   }
+          else if (d == new Date(leave.toDate).setHours(0, 0, 0, 0)) {
+            if (leave.isSecondDayFirstHalf) {
+              this.firsthalfLeaves = [...this.firsthalfLeaves, leave.toDate]
+
+            }
+            else if (leave.isSecondDaySecondHalf) {
+              this.secondhalfLeaves = [...this.secondhalfLeaves, leave.toDate]
+            }
+            else {
+              this.fulldayLeaves = [...this.fulldayLeaves, leave.toDate]
+            }
+
+          }
+          else {
+            this.fulldayLeaves = [...this.fulldayLeaves, `${formatDate(d, 'yyyy-MM-dd', 'en-US')}T00:00:00`]
+          }
+
+        }
       }
-      
+
     });
-  
+
   }
   subscribeTochanges() {
     this.addForm.valueChanges.subscribe(res => {
@@ -246,8 +247,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   getLeaveBalance() {
     this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(result => {
       this.leaveBalance = result;
-      console.log("avilable leave tyep",this.leaveBalance);
-      
+      console.log("avilable leave tyep", this.leaveBalance);
+
     },
       error => {
         console.error(error);
@@ -318,19 +319,22 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
         if (this.fulldayLeaves.includes(currentDate)) {
           this.taken[0] = currentDate;
           this.taken[1] = 'leave';
+          this.flag = 1;
           break;
         }
-        const [date]=currentDate.split('T')
-        if ((this.addForm.get('singleDay').value==2||this.addForm.get('firstDay').value==1||this.addForm.get('lastDay').value==1)&& 
-        this.firsthalfLeaves.some(d=>d.startsWith(date))) {
+        const [date] = currentDate.split('T')
+        if ((this.addForm.get('singleDay').value == 2 || this.addForm.get('firstDay').value == 1 || this.addForm.get('lastDay').value == 1) &&
+          this.firsthalfLeaves.some(d => d.startsWith(date))) {
           this.taken[0] = currentDate;
           this.taken[1] = 'firsthalfleave';
+          this.flag = 1;
           break;
         }
-        if ((this.addForm.get('singleDay').value==3||this.addForm.get('firstDay').value==2||this.addForm.get('lastDay').value==2)&& 
-        this.secondhalfLeaves.some(d=>d.startsWith(date))) {
+        if ((this.addForm.get('singleDay').value == 3 || this.addForm.get('firstDay').value == 2 || this.addForm.get('lastDay').value == 2) &&
+          this.secondhalfLeaves.some(d => d.startsWith(date))) {
           this.taken[0] = currentDate;
           this.taken[1] = 'secondhalfleave';
+          this.flag = 1;
           break;
         }
 
@@ -418,49 +422,50 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
-      currentDate:this.datepipe.transform(Date.now(),'yyyy-MM-dd hh:mm:ss'),
+      currentDate: this.datepipe.transform(Date.now(), 'yyyy-MM-dd hh:mm:ss'),
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12)),
       leaveComponentId: parseInt(addForm.leaveComponentId, 10)
     };
-   // this.currentDate=new Date();
-   // formatDate(new Date(), 'yyyy/MM/dd', 'en');
-    console.log("datenow",this.currentDate);
-   
-    this.employeeLeaveService.add(addForm).subscribe((result) => {
-      const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
-        leaveId: result.id,
-        notifyPersonnel: notifyPerson.id
-      }));
-      this.signalrService.invokeConnection(result.id)
-        .then(() => console.log('invoked'))
-        .catch(err => console.log('Error while invoking connection: ' + err));
-      this.employeeLeaveService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
-        this.getLeaveBalance();
-        this.toastr.showSuccessMessage('Leave Request submitted successfully');
-        this.activeModal.close('submit');
-      },
-        error => {
-          console.error(error);
-          this.toastr.showErrorMessage('Unable to submit Leave Request');
-        });
-    });
+    // this.currentDate=new Date();
+    // formatDate(new Date(), 'yyyy/MM/dd', 'en');
+    console.log("datenow", this.currentDate);
+    if (this.flag !== 1) {
+      this.employeeLeaveService.add(addForm).subscribe((result) => {
+        const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
+          leaveId: result.id,
+          notifyPersonnel: notifyPerson.id
+        }));
+        this.signalrService.invokeConnection(result.id)
+          .then(() => console.log('invoked'))
+          .catch(err => console.log('Error while invoking connection: ' + err));
+        this.employeeLeaveService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
+          this.getLeaveBalance();
+          this.toastr.showSuccessMessage('Leave Request submitted successfully');
+          this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to submit Leave Request');
+          });
+      });
+    }
   }
 
- 
-markDisabled =(date:NgbDateStruct)=>{
-  const d = new Date(date.year,date.month - 1, date.day);
- let holidays=[];
- if(this.holidaydate?.length){
-  this.holidaydate.map((item) => {
-    var myDate = item.split('-');
-    var newDate = new Date(myDate[0], myDate[1] - 1, myDate[2].split('T')[0]);
-    holidays.push(newDate.getTime());
-  })
- }
 
-  return holidays.indexOf(d.getTime()) != -1;// return date.month !== current.month;  };
-}
+  markDisabled = (date: NgbDateStruct) => {
+    const d = new Date(date.year, date.month - 1, date.day);
+    let holidays = [];
+    if (this.holidaydate?.length) {
+      this.holidaydate.map((item) => {
+        var myDate = item.split('-');
+        var newDate = new Date(myDate[0], myDate[1] - 1, myDate[2].split('T')[0]);
+        holidays.push(newDate.getTime());
+      })
+    }
+
+    return holidays.indexOf(d.getTime()) != -1;// return date.month !== current.month;  };
+  }
 
 
   createFormGroup(): FormGroup {
@@ -502,17 +507,17 @@ markDisabled =(date:NgbDateStruct)=>{
   getEmployeeHoliday() {
     this.holidayService.getAll().subscribe(res => {
       let holidaydata = res;
-      this.holidaydate=[];
-      holidaydata.filter(y=>{
+      this.holidaydate = [];
+      holidaydata.filter(y => {
         this.holidaydate.push(
           y.date
         )
-       
-       
+
+
       })
-      console.log("leavessting",this.leaveSettings);
+      console.log("leavessting", this.leaveSettings);
     })
-   }
-  
+  }
+
 
 }

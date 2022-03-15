@@ -13,19 +13,19 @@
     <table class="table m-0">
         <thead class="thead-themed">
             <tr>
-                <th>Sl No.</th>
-                <th>Employee</th>
-                <th>Employee code</th>
-                <th>Bonus type</th>
-                <th>Proposed Distribution Date</th>
-                <th>Amount</th>
-                <th>Action</th>
+                <th>#</th>
+                <th width="18%">Employee</th>
+                <th width="18%">Employee code</th>
+                <th width="18%">Bonus type</th>
+                <th width="18%">Proposed Distribution Date</th>
+                <th width="18%">Amount</th>
+                <th width="18%">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let bonus of bonuses; let i= index;">
                 <td>{{i+1}}</td>
-                <td> {{bonus.name}}</td>
+                <td>{{bonus.name}}</td>
                 <td>{{bonus.employeeCode}}</td>
                 <td>{{bonus.bonusType}}</td>
                 <td>{{bonus.disburseOn | date}}</td>
@@ -62,13 +62,13 @@
     <table class="table m-0">
         <thead class="thead-themed">
             <tr>
-                <th>Sl No.</th>
-                <th>Employee</th>
-                <th>Employee code</th>
-                <th>Loan No</th>
-                <th>Loan Type</th>
-                <th>Amount</th>
-                <th>Action</th>
+                <th>#</th>
+                <th width="18%">Employee</th>
+                <th width="18%">Employee code</th>
+                <th width="18%">Loan No</th>
+                <th width="18%">Loan Type</th>
+                <th width="18%">Amount</th>
+                <th width="18%">Action</th>
             </tr>
         </thead>
         <tbody>

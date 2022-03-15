@@ -54,6 +54,12 @@
               formControlName="description" disabled></textarea>
           </div>
       </div>
+      <div *ngIf="raiseRequestDetails.status == raiseRequestStatus.Rejected||raiseRequestDetails.status == raiseRequestStatus.Revoked" class="d-flex flex-wrap align-items-baseline">
+        <div class="form-group form-textarea-line col-12">
+          <label class="col-form-label" for="description">Reject/Revoke Comments</label>
+          <textarea type="text" rows="3" class="form-control" id="reason" name="reason" formControlName="reason" disabled></textarea>
+        </div>
+    </div>
   
   </div>
   </form>
