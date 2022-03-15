@@ -224,21 +224,21 @@ export class EmployeeWFHCreateComponent implements OnInit {
         this.taken[0] = currentDate;
         this.taken[1] = 'WFH';
         this.numberOfDays -= 1;
-        this.flag = 0;
+       // this.flag = 0;
         break;
       }
       if (this.leaves.includes(currentDate)) {
         this.taken[0] = currentDate;
         this.taken[1] = 'leave';
         this.numberOfDays -= 1;         //////
-        this.flag = 0;
+       // this.flag = 0;
         break;
       }
       if (this.onDuty.includes(currentDate)) {
         this.taken[0] = currentDate;
         this.taken[1] = 'on duty';
-        this.numberOfDays -= 1;
-        this.flag = 0;
+       // this.numberOfDays -= 1;
+      //  this.flag = 0;
         break;
       }
     }

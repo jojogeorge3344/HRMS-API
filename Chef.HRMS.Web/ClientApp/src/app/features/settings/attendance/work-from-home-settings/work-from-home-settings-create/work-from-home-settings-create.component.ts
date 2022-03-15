@@ -69,7 +69,7 @@ export class WorkFromHomeSettingsCreateComponent implements OnInit {
         break;
       }
       case this.periodTypes.Month: {
-        maximumLimitControl.setValidators([Validators.max(30)]);
+        maximumLimitControl.setValidators([Validators.max(31)]);
         break;
       }
       case this.periodTypes.Year: {
@@ -102,8 +102,7 @@ export class WorkFromHomeSettingsCreateComponent implements OnInit {
       isLimited: [{ value: false, disabled: true }],
       maximumLimit: [{ value: null, disabled: true }, [
         Validators.required,
-        Validators.min(1)
-      ]],
+        Validators.min(1)      ]],
       periodType: [{ value: null, disabled: true }, [
         Validators.required
       ]],

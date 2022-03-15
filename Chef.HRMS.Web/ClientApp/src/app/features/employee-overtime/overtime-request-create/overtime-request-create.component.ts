@@ -270,7 +270,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
         this.taken[0] = currentDate;
         this.taken[1] = 'leave';
         this.numberOfDays -= 1;
-        this.flag = 0;
+        //this.flag = 0;
         break;
       }
     }
