@@ -36,7 +36,7 @@ namespace Chef.HRMS.Models
 
         public string NameOfTeamMember { get; set; }
 
-        [Required]
+        //[Required]
         public string Description { get; set; }
 
         [ForeignKey("Employee")]
@@ -46,6 +46,8 @@ namespace Chef.HRMS.Models
         public string AssetTypeName { get; set; }
 
         public int AssetId { get; set; }
+
+        public string Reason { get; set; }
 
 
     }

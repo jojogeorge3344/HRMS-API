@@ -2,6 +2,7 @@
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -132,5 +133,14 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("AppliedDates/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<DateTime>>> AppliedDates(int employeeId)
+        {
+            var leaveLogs = await overTimeService.AppliedDates(employeeId);
+
+            return Ok(leaveLogs);
+        }
+
     }
 }

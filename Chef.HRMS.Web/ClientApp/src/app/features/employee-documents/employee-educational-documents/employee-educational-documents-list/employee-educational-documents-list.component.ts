@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -17,7 +17,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-educational-documents-list',
   templateUrl: './employee-educational-documents-list.component.html',
 })
-export class EmployeeEducationalDocumentsListComponent implements OnInit {
+export class EmployeeEducationalDocumentsListComponent implements OnInit, OnDestroy {
 
   educationDetails: any;
   currentUserId: number;
@@ -38,6 +38,10 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
     private documentService: DocumentService,
     private documentUploadService: DocumentUploadService,
   ) { }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();

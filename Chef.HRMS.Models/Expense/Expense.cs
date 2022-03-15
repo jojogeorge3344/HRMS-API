@@ -96,9 +96,9 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds  expense amount
         /// </summary>
-        [Range(0, float.MaxValue)]
+        //[Range(0, float.MaxValue)]
         [Description("Expense Amount")]
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Holds the comment 

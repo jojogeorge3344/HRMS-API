@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
@@ -22,7 +22,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-leave-structure-list',
   templateUrl: './leave-structure-list.component.html'
 })
-export class LeaveStructureListComponent implements OnInit {
+export class LeaveStructureListComponent implements OnInit, OnDestroy {
 
   leaveStructures: LeaveStructure[];
   assignedLeaveStructures: number[] = [];
@@ -41,6 +41,10 @@ export class LeaveStructureListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal) { }
+
+  ngOnDestroy(): void {
+  this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
