@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeWpsService } from '@settings/wps/employee-wps.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-employee-wps-details',
@@ -20,6 +21,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   groupId: any;
   currentUserId: number;
   id: any;
+  wpsId: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,6 +56,9 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   getWPSUserlistById() {
     this.employeeWpsUserService.get(this.id).subscribe(result => {
       this.wpsUserDetails = result;
+      console.log("details>>>>",this.wpsUserDetails);
+      this.wpsId=result[0].wpsId;
+      console.log("id>>",this.wpsId); 
       this.addForm.patchValue(result[0]);
     },
       error => {
@@ -63,16 +68,38 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    const addWpsDetails = this.addForm.value;
-    addWpsDetails.employeeId = parseInt(this.id, 10);
-    this.employeeWpsUserService.add(addWpsDetails).subscribe((result: any) => {
-      this.toastr.showSuccessMessage('WPS Details updated successfully!');
-      this.getWPSUserlistById();
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to update the WPS Details');
-      });
+    if(this.wpsId){
+      const addWpsDetails = this.addForm.value;
+      console.log("details",this.addForm.getRawValue());
+      
+      addWpsDetails.employeeId = parseInt(this.id, 10);
+      this.employeeWpsUserService.update(addWpsDetails).subscribe((result:any)=> {
+           this.toastr.showSuccessMessage('WPS Details updated successfully!');
+           console.log("wps777",addWpsDetails);
+           this.getWPSUserlistById();  
+      })
+    }
+    else{
+      const addWpsDetails = this.addForm.value;
+      addWpsDetails.employeeId = parseInt(this.id, 10);
+      this.employeeWpsUserService.add(addWpsDetails).subscribe((result:any) => {
+        this.toastr.showSuccessMessage('WPS Details updated successfully!');
+        console.log("wps777",addWpsDetails);
+        this.getWPSUserlistById();
+      })
+    }
+    // const addWpsDetails = this.addForm.value;
+    // addWpsDetails.employeeId = parseInt(this.id, 10);
+    // this.employeeWpsUserService.add(addWpsDetails).subscribe((result: any) => {
+    //   this.toastr.showSuccessMessage('WPS Details updated successfully!');
+    //   console.log("wps777",addWpsDetails);
+    //   this.getWPSUserlistById();  
+    // }
+    // ,
+    //   error => {
+    //     console.error(error);
+    //     this.toastr.showErrorMessage('Unable to update the WPS Details');
+    //   });
 
   }
 
@@ -91,5 +118,8 @@ export class EmployeeWpsDetailsComponent implements OnInit {
       ]],
     });
   }
+
+
+  
 
 }

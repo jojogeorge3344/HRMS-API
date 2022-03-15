@@ -46,7 +46,7 @@ export class AssetMetadataListComponent implements OnInit, OnDestroy {
     this.assetTypeWithMetadata = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
     console.log("assetType",this.assetType);
     this.selectValueRelation = [];
-    this.assetAssetService.setListDetails(this.assetType)
+    this.assetAssetService.setListDetails(this.assetTypeWithMetadata)
   }
 
   getAssetTypeList() {

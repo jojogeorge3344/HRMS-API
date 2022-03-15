@@ -56,6 +56,7 @@ export class ExpenseRequestCreateComponent implements OnInit {
   mileageUnit: string;
   maxLimit: number;
   currentUserId: number;
+  amounts:any;
 
   @Input() expenseTypes: ExpenseConfiguration[];
   @Input() expenseRequestNames: string[];
@@ -75,7 +76,7 @@ export class ExpenseRequestCreateComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.initialize();
-    this.onChanges();
+   
   }
 
   initialize() {
@@ -115,6 +116,9 @@ export class ExpenseRequestCreateComponent implements OnInit {
     const expenseConfigurationId = this.addForm.get('expenseConfigurationId').value;
     this.selectedExpenseType = this.expenseTypes.find(item => item.id === expenseConfigurationId);
     this.addForm.patchValue({ expenseTypeId: this.selectedExpenseType.expenseTypeId, expenseTypeName: this.selectedExpenseType.name });
+    console.log("selected44",this.selectedExpenseType);
+    //this.onChanges();
+    
     this.enableForm();
     this.setupMileageFields();
     this.checkMaxLimit();
@@ -128,7 +132,11 @@ export class ExpenseRequestCreateComponent implements OnInit {
   onChanges(): void {
     this.addForm.get('amount').valueChanges.subscribe(value => {
       if (this.selectedExpenseType.isCommentRequired) {
-        if (value > this.selectedExpenseType.maximumLimitComment) {
+        let maxvalue=this.selectedExpenseType.maximumLimitComment-this.amounts.totalAmount
+        console.log(this.amounts,maxvalue);
+        
+        if (value > maxvalue) {
+          
           this.addForm.get('comment').setValidators([Validators.required, Validators.maxLength(250)]);
         } else {
           this.addForm.get('comment').setValidators([Validators.maxLength(250)]);
@@ -150,26 +158,54 @@ export class ExpenseRequestCreateComponent implements OnInit {
     if (this.selectedExpenseType.isExpenseLimitEnabled) {
       this.expenseRequestService.getMaximumExpenseAmountById(this.currentUserId, this.selectedExpenseType.id, this.selectedExpenseType.expensePeriodType, new Date().toISOString())
       .subscribe((result: any) => {
+        this.amounts=result;
+        
+        console.log("valu444",result);
+        
         this.maxLimit = result.maximumExpenselimit - result.totalAmount;
+        //if(this.selectedExpenseType.isCommentRequired==false){
+
+        
         if (this.maxLimit <= 0) {
+         
+         if(this.selectedExpenseType.isCommentRequired==true){
+           this.onChanges();
+         }
+         else{
           this.toastr.showErrorMessage('Maximum amount limit reached for this expense type!');
           this.resetForm();
           return;
+         }
+         //console.log("ttttttttttt");
+          
+         // if(this.maxLimit==this.selectedExpenseType.maximumLimitComment)
+         
         } else {
-          this.addForm.get('amount').setValidators([Validators.required, Validators.min(1), Validators.max(this.maxLimit)]);
-
-          if (this.isMileageCategory) {
-            const maxMileage = +(this.maxLimit / this.selectedExpenseType.mileageRate).toFixed(2);
-            this.addForm.get('mileageCovered').setValidators([Validators.required, Validators.max(maxMileage)]);
-            this.addForm.get('mileageCovered').updateValueAndValidity();
+          if (this.selectedExpenseType.isCommentRequired==true) {
+            this.onChanges();
           }
+          else{
+            this.addForm.get('amount').setValidators([Validators.required, Validators.min(1), Validators.max(this.maxLimit)]);
+            if (this.isMileageCategory) {
+              const maxMileage = +(this.maxLimit / this.selectedExpenseType.mileageRate).toFixed(2);
+              this.addForm.get('mileageCovered').setValidators([Validators.required, Validators.max(maxMileage)]);
+              this.addForm.get('mileageCovered').updateValueAndValidity();
+            }
+  
+            this.addForm.get('amount').updateValueAndValidity();
+          }
+          
+          
 
-          this.addForm.get('amount').updateValueAndValidity();
+          
         }
+       // }
       },
         error => {
           console.error(error);
         });
+          
+        this.onChanges();
     }
 
     if (this.selectedExpenseType.isInstanceLimitEnabled) {
@@ -316,14 +352,16 @@ export class ExpenseRequestCreateComponent implements OnInit {
       return;
     }
 
-    if(this.documentSave==null){
-      this.toastr.showErrorMessage('Upload a document less than 2mb!!');
-      console.log("null upload");
-      return;
-    }
+    // if(this.documentSave==null){
+    //   this.toastr.showErrorMessage('Upload a document less than 2mb!!');
+    //   console.log("null upload");
+    //   return;
+    // }
 
     let payload = this.addForm.getRawValue();
     payload.amount = payload.amount.toFixed(2); 
+
+    
     
     this.expenseRequestService.add(payload).subscribe((expense: ExpenseRequest) => {
       if (expense.id === -1) {

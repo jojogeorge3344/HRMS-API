@@ -19,5 +19,13 @@ namespace Chef.HRMS.Repositories
 
                 return await Connection.QueryAsync<WPSUser>(sql, new { employeeId });
         }
+
+        public async Task<int> Update(WPSUser wpsUser)
+        {
+            var sql = @"update hrms.WPSUser 
+                        set wpsid=@wpsid,groupid=@groupid 
+                        where employeeid=@employeeid";
+            return await Connection.ExecuteAsync(sql, wpsUser);
+        }
     }
 }

@@ -24,6 +24,10 @@ export class EmployeeWpsUserService {
     return this.http.get<WpsUser[]>(this.baseUrl + 'GetAllByemployeeId/' + id).pipe(map(response => { return response; }));
   }
 
+  // getWpsDetailsById(id:number){
+  //   return this.http.get<WpsUser[]>(this.baseUrl + 'getWpsDetailsById/' + id).pipe(map(response => { return response; }));
+  // }
+
   add(wps: WpsUser) {
     return this.http.post(this.baseUrl + 'insert', wps).pipe(map(response => { return response; }));
   }
@@ -35,5 +39,13 @@ export class EmployeeWpsUserService {
   delete(id: number) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
+  // add(wps: WpsUser) {
+  //   if (wps.wpsId){
+  //     return this.http.post<number>(this.baseUrl + 'update',wps).pipe(map(response => { return response; }));
+  //   } 
+  //   else {
+  //     return this.http.put(this.baseUrl + 'insert',wps).pipe(map(response => { return response; }));
+  //   }
+  // }
 
 }
