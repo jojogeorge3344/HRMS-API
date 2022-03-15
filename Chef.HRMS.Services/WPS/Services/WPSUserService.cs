@@ -40,7 +40,7 @@ namespace Chef.HRMS.Services
 
         public async Task<int> UpdateAsync(WPSUser wpsUser)
         {
-            return await wpsUserRepository.UpdateAsync(wpsUser);
+            return await wpsUserRepository.Update(wpsUser);
         }
     }
 

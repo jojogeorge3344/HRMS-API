@@ -155,7 +155,7 @@ export class AssetAssetsCreateComponent implements OnInit {
 
           }
             
-            // console.log(mdata); 
+            // console.log(mdata);
              
         }
         else{
