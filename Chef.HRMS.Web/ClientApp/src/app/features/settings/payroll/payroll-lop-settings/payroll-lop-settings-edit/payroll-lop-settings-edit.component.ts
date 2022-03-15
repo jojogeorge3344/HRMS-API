@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -15,7 +15,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
   selector: 'hrms-payroll-lop-settings-edit',
   templateUrl: './payroll-lop-settings-edit.component.html'
 })
-export class PayrollLOPSettingsEditComponent implements OnInit {
+export class PayrollLOPSettingsEditComponent implements OnInit, OnDestroy {
 
   LopCalculationForm: FormGroup;
   currentUserId: number;
@@ -42,6 +42,11 @@ export class PayrollLOPSettingsEditComponent implements OnInit {
     this.LopCalculationForm.controls[this.obj[3]].markAsTouched();
     this.onChanges();
   }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
+
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 
@@ -16,7 +16,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-payroll-process-adhoc-list',
   templateUrl: './payroll-process-adhoc-list.component.html'
 })
-export class PayrollProcessAdhocListComponent implements OnInit {
+export class PayrollProcessAdhocListComponent implements OnInit, OnDestroy {
 
   months = Months;
   month = Months;
@@ -38,6 +38,10 @@ export class PayrollProcessAdhocListComponent implements OnInit {
     private route: ActivatedRoute,
     private payrollProcessAdhocService: PayrollProcessAdhocService,
   ) { }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();

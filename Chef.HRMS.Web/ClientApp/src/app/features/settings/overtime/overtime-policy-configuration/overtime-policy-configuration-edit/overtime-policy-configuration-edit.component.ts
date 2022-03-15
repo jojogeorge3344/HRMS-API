@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +16,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-overtime-policy-configuration-edit',
   templateUrl: './overtime-policy-configuration-edit.component.html'
 })
-export class OvertimePolicyConfigurationEditComponent implements OnInit {
+export class OvertimePolicyConfigurationEditComponent implements OnInit, OnDestroy {
 
   editForm: FormGroup;
   currentUserId: number;
@@ -33,6 +33,10 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     private toastr: ToasterDisplayService,
     private overtimePolicyService: OvertimePolicyService,
     private overtimePolicyConfigurationService: OvertimePolicyConfigurationService) { }
+
+  ngOnDestroy(): void {
+  this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();

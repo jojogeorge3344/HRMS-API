@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { ExpenseRequestService } from '../expense-request.service';
@@ -16,7 +16,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-expense-request-list',
   templateUrl: './expense-request-list.component.html'
 })
-export class ExpenseRequestListComponent implements OnInit {
+export class ExpenseRequestListComponent implements OnInit, OnDestroy {
 
   expenseRequests: ExpenseRequest[];
   expenseRequestStatusTypes = RequestStatus;
@@ -29,6 +29,10 @@ export class ExpenseRequestListComponent implements OnInit {
     private expenseConfigurationService: ExpenseConfigurationService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) {
+  }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
   }
 
   ngOnInit(): void {

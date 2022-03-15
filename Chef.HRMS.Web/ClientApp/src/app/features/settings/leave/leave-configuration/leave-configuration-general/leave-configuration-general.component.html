@@ -6,21 +6,21 @@
             <div class="form-group row">
                 <label for="AnnualCasualLeaveQuota" class="col-sm-5 col-form-label">Annual Leave Quota<span class="required">*</span></label>
                 <div class="col-sm-3 form-input-inline">
-                    <input style="width: 100%;" type="number" class="form-control" formControlName="annualLeaveQuota">
+                    <input style="width: 100%;" type="number" class="form-control" formControlName="annualLeaveQuota" (keydown)="validateNumber($event)">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="maxConsecutiveDays" class="col-sm-5 col-form-label">Maximum number of consecutive
                     days<span class="required">*</span></label>
                 <div class="col-sm-3  form-input-inline">
-                    <input type="number" class="form-control" formControlName="maxConsecutiveDays">
+                    <input type="number" class="form-control" formControlName="maxConsecutiveDays" (keydown)="validateNumber($event)">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="maxNumberOfDaysPerMonth" class="col-sm-5 col-form-label">Maximum number of days per
                     month<span class="required">*</span></label>
                 <div class="col-sm-3 form-input-inline">
-                    <input type="number" class="form-control" (change)="onChange($event.target)" formControlName="maxNumberOfDaysPerMonth">
+                    <input type="number" class="form-control" (change)="onChange($event.target)" formControlName="maxNumberOfDaysPerMonth" (keydown)="validateNumber($event)">
                     <span style="color: red" *ngIf="isInvalid"><small>Cannot be greater than the annual leave quota.</small></span>
                 </div>   
             </div>
@@ -28,20 +28,20 @@
                 <label for="numberOfDaysGapRequiredBetweenLeaves" class="col-sm-5 col-form-label">Number of days gap
                     required between leaves</label>
                 <div class="col-sm-3 form-input-inline">
-                    <input type="number" class="form-control" formControlName="numberOfDaysGapRequiredBetweenLeaves">
+                    <input type="number" class="form-control" formControlName="numberOfDaysGapRequiredBetweenLeaves" (keydown)="validateNumber($event)">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="LeaveQuotaAllocatedIntheJoiningMonthAfterDays" class="col-sm-5 col-form-label">Do not
                     allocate leave quota if joining date is beyond</label>
                 <div class="col-sm-3 form-input-inline">
-                    <input type="number" class="form-control" formControlName="noLeaveQuotaAfterJoiningDay">
+                    <input type="number" class="form-control" formControlName="noLeaveQuotaAfterJoiningDay" (keydown)="validateNumber($event)">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="priorCalendarDays" class="col-sm-5 col-form-label">Require prior notice (in days)</label>
                 <div class="col-sm-3 form-input-inline">
-                    <input type="number" class="form-control" formControlName="priorNoticeDays">
+                    <input type="number" class="form-control" formControlName="priorNoticeDays" (keydown)="validateNumber($event)">
                 </div>
             </div>
             <!-- <hr /> -->

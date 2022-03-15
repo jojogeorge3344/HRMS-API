@@ -102,6 +102,10 @@ export class RaiseRequestViewComponent implements OnInit {
         Validators.required,
 
       ]],
+      reason: ['', [
+        Validators.required,
+
+      ]],
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { EmployeeContactDetailsService } from '../employee-contact-details.service';
@@ -13,7 +13,7 @@ import { EmployeeBasicDetailsService } from '@features/employee/employee-basic-d
   selector: 'hrms-employee-contact-details-view',
   templateUrl: './employee-contact-details-view.component.html'
 })
-export class EmployeeContactDetailsViewComponent implements OnInit {
+export class EmployeeContactDetailsViewComponent implements OnInit, OnDestroy {
 
   public countries: any;
   public states: any;
@@ -23,6 +23,10 @@ export class EmployeeContactDetailsViewComponent implements OnInit {
   constructor(private contactService: EmployeeContactDetailsService,
     private basicdetailsService: EmployeeBasicDetailsService,
     public modalService: NgbModal) { }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.userId = getCurrentUserId();

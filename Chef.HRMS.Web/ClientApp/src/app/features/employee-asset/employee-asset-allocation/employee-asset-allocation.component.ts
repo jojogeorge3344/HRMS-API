@@ -9,6 +9,7 @@ import * as _ from "lodash";
 import { forkJoin } from "rxjs";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { AssetMetadataService } from "@settings/asset/asset-metadata/asset-metadata.service";
+import { AssetAllocated } from "@features/employee-assets/my-assets/asset-allocated.model";
 
 @Component({
   selector: "hrms-employee-asset-allocation",
@@ -31,6 +32,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   searchParameter = '';
   checkedValues;
   isSelected = false;
+  changeValues : AssetAllocated;
 
   constructor(
     private employeeAsset: EmployeAssetService,
@@ -61,8 +63,8 @@ export class EmployeeAssetAllocationComponent implements OnInit {
   onSubmit() {
     console.log("formValues", this.assetAllocationForm.getRawValue());
     let allValues = { ...this.assetAllocationForm.getRawValue(), };
-    let changeValues = {
-      allocatorcomments: allValues.CommentsAllocator,
+    this.changeValues = {
+      allocatorComments: allValues.CommentsAllocator,
       allocationId: allValues.allocationId,
       allocationTo: allValues.allocationTo,
       empId: this.reqDetails.nameOfTeamMemberId,
@@ -78,12 +80,12 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       metadataValueId2: this.checkedValues.metadataValueId2,
       metadataValueId3: this.checkedValues.metadataValueId3,
       metadataValueId4: this.checkedValues.metadataValueId4,
-      metadataValueId5: this.checkedValues.metadataValueId5,
+      MetadataValueId5: this.checkedValues.metadataValueId5,
       assetTypeName: this.assetTypeName
     };
-    console.log(changeValues);
+    console.log(this.changeValues);
     forkJoin([
-      this.employeeAsset.add([changeValues]),
+      this.employeeAsset.add(this.changeValues),
       this.employeeAsset.updateAllocateStatus(this.checkedValues.assetId, this.reqId, this.checkedValues.status)
     ]).subscribe(([result, asset]) => {
       console.log(asset);
@@ -107,7 +109,7 @@ export class EmployeeAssetAllocationComponent implements OnInit {
       //allocationId: [[]],
       requestedBy: ["", []],
       // allocationDate: [new Date(Date.now()), [Validators.required]],
-      description: ["", [Validators.required]],
+      description: ["",[]],
       allocationTo: ["", [Validators.required]],
       requestNo: ["", [Validators.required]],
       CommentsAllocator: ["", [Validators.required, Validators.maxLength(150)]],
