@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -12,7 +12,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 @Component({
   templateUrl: './payroll-calendar-list.component.html'
 })
-export class PayrollCalendarListComponent implements OnInit, OnDestroy {
+export class PayrollCalendarListComponent implements OnInit {
   public payrollCalendars: PayrollCalendar[];
   assignedPayrollCalendars: number[] = [];
 
@@ -32,11 +32,6 @@ export class PayrollCalendarListComponent implements OnInit, OnDestroy {
     private toastr: ToasterDisplayService) {
     this.payrollPeriodTypeKeys = Object.keys(this.payrollPeriodTypes).filter(Number).map(Number);
   }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
-
 
   ngOnInit(): void {
     this.getPayrollCalendars();

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RequestStatus } from '../../../models/common/types/requeststatustype';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { EmployeeLeaveService } from '../employee-leave.service';
@@ -14,7 +14,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-leave-request-list',
   templateUrl: './employee-leave-request-list.component.html'
 })
-export class EmployeeLeaveRequestListComponent implements OnInit, OnDestroy {
+export class EmployeeLeaveRequestListComponent implements OnInit {
   currentUserId: number;
   leaveStatusKeys: number[];
   leaveStatus = RequestStatus;
@@ -36,10 +36,6 @@ export class EmployeeLeaveRequestListComponent implements OnInit, OnDestroy {
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
     private teamAttendanceService: TeamAttendanceService) { }
-    
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.getLeaveBalance();

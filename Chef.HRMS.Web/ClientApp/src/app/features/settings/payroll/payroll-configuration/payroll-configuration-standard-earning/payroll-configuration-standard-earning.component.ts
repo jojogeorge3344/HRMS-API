@@ -55,7 +55,21 @@ export class PayrollConfigurationStandardEarningComponent implements OnChanges {
         this.toastr.showErrorMessage('Unable to configure payroll component');
       });
   }
-
+ 
+  validateNumber(ev) {
+    const keyCode = ev.keyCode;
+    const excludedKeys = [8, 110, 190];
+   if (
+      !(
+        (keyCode >= 48 && keyCode <= 57) ||
+        (keyCode >= 96 && keyCode <= 105) ||
+        excludedKeys.includes(keyCode)
+      )
+    ) {
+      ev.preventDefault();
+    }
+  }
+  
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [null],

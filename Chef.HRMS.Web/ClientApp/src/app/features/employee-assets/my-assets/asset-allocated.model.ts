@@ -2,7 +2,7 @@ import { Model } from '@shared/models/model';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 
 export interface AssetAllocated extends Model {
-    allocationId: string;
+    allocationId: number;
     assetTypeId:number;
     // assetMyAssetId:number;
     assetRaiseRequestId:number;

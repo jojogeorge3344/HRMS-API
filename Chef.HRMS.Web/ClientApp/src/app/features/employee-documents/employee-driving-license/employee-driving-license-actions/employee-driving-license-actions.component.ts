@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,7 +17,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-driving-license-actions',
   templateUrl: './employee-driving-license-actions.component.html'
 })
-export class EmployeeDrivingLicenseActionsComponent implements OnInit, OnDestroy {
+export class EmployeeDrivingLicenseActionsComponent implements OnInit {
 
   drivingLicense: EmployeeDrivingLicenseDetails;
   document: Document;
@@ -37,10 +37,6 @@ export class EmployeeDrivingLicenseActionsComponent implements OnInit, OnDestroy
     private sanitizer: DomSanitizer,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) { }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();

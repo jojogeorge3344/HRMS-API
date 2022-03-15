@@ -9,7 +9,7 @@
             <input type="checkbox" class="custom-control-input" id="isExpenseLimitEnabled" #isExpenseLimitEnabled
                 formControlName="isExpenseLimitEnabled" (change)="onChange(isExpenseLimitEnabled)">
             <label for="isExpenseLimitEnabled" class="custom-control-label align-items-baseline d-flex">
-                Limit the expense to{{ expenseConfiguration.currency }}<span class="required">*</span> 
+                Limit the expense to {{ expenseConfiguration.currency }}
                 <div class="form-input-inline form-group ml-1 mb-0">
                     <input type="number" formControlName="maximumExpenseLimit" class="form-control mr-3">
                 </div>
@@ -26,7 +26,7 @@
         <div class="custom-control custom-checkbox with-input">
             <input type="checkbox" class="custom-control-input" id="isInstanceLimitEnabled" #isInstanceLimitEnabled
                 formControlName="isInstanceLimitEnabled" (change)="onChange(isInstanceLimitEnabled)">
-            <label for="isInstanceLimitEnabled" class="custom-control-label align-items-baseline d-flex">Limit number of instances to<span class="required">*</span>
+            <label for="isInstanceLimitEnabled" class="custom-control-label align-items-baseline d-flex">Limit number of instances to
                 <div class="form-input-inline form-group ml-1 mb-0">
                     <input type="number" formControlName="maximumInstancesLimit"
                         class="d-inline form-control mr-3">
@@ -59,7 +59,7 @@
             <input type="checkbox" class="custom-control-input" id="isCommentRequired" #isCommentRequired
                 formControlName="isCommentRequired" (change)="onChange(isCommentRequired)">
             <label for="isCommentRequired" class="custom-control-label align-items-baseline d-flex">
-                Requires comment when amount exceeds {{ expenseConfiguration.currency }}<span class="required">*</span> 
+                Requires comment when amount exceeds {{ expenseConfiguration.currency }}
                 <div class="form-input-inline form-group ml-1 mb-0">
                     <input type="number" formControlName="maximumLimitComment" class="d-inline form-control ">
                 </div>
@@ -70,7 +70,7 @@
             <input type="checkbox" class="custom-control-input" id="isReceiptRequired" #isReceiptRequired
                 formControlName="isReceiptRequired" (change)="onChange(isReceiptRequired)">
             <label for="isReceiptRequired" class="custom-control-label align-items-baseline d-flex">
-                Requires receipts when amount exceeds {{ expenseConfiguration.currency }}<span class="required">*</span> 
+                Requires receipts when amount exceeds {{ expenseConfiguration.currency }}
                 <div class="form-input-inline form-group ml-1 mb-0">
                     <input type="number" formControlName="maximumLimitReceipt" class="d-inline form-control">
                 </div>

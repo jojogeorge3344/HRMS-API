@@ -2,7 +2,7 @@
     <div class="p-3">  
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="groupId">WPS Group Name<span class="required">*</span></label>
+                <label class="col-form-label" for="groupId">WPS Group Name</label>
                 <select class="form-control" formControlName="groupId">
                     <option value="" disabled>Select WPS Group</option>
                     <option *ngFor="let type of groupId" [ngValue]='type.id'>
@@ -11,7 +11,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="wpsId">WPS ID<span class="required">*</span></label>
+                <label class="col-form-label"  for="wpsId">WPS ID</label>
                 <input type="string" class="form-control" id="wpsId" name="wpsId" formControlName="wpsId">
             </div>
         </div>

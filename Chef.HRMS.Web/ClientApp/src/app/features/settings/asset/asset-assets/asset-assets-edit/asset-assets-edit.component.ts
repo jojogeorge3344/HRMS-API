@@ -59,7 +59,6 @@ export class AssetAssetsEditComponent implements OnInit {
   }
 
   onSubmit(){
-    debugger;
     if(this.assetEditForm.valid){
     //console.log(this.assetEditForm.getRawValue().date);
     console.log(this.assetEditForm.getRawValue());
@@ -231,7 +230,6 @@ export class AssetAssetsEditComponent implements OnInit {
         
       });
     //  console.log(mdatavalue, asset.assetMetadataValues,this.typeMap);
-     debugger;
       this.assetEditForm.patchValue({
         ...asset,
         metadatas:mdatavalue,

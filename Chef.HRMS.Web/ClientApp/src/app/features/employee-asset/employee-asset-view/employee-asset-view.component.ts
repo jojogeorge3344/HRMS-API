@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,7 @@ import { EmployeeAssetChangeorswapComponent } from '../employee-asset-changeorsw
   selector: 'hrms-employee-asset-view',
   templateUrl: './employee-asset-view.component.html',
 })
-export class EmployeeAssetViewComponent implements OnInit,OnDestroy{
+export class EmployeeAssetViewComponent implements OnInit{
   assetViewForm:FormGroup;
   empid:number;
   result:[];
@@ -34,10 +34,6 @@ export class EmployeeAssetViewComponent implements OnInit,OnDestroy{
               private splitByUpperCase: SplitByUpperCasePipe
               ) { }
 
-
-  ngOnDestroy(): void {
-  this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {

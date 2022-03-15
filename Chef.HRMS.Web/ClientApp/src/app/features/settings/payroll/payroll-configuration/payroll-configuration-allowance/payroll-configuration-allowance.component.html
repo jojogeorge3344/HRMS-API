@@ -7,10 +7,10 @@
         </div>
 
         <div class="custom-checkbox with-input">
-            <label class="align-items-baseline d-flex" for="maximumLimit">Maximum Limit per Annum<span class="required">*</span> 
+            <label class="align-items-baseline d-flex" for="maximumLimit">Maximum Limit per Annum
                 <div class="form-input-inline form-group ml-1">
                     <input type="number" class="form-control mr-1" id="maximumLimit"
-                        formControlName="maximumLimit">
+                        formControlName="maximumLimit" (keydown)="validateNumber($event)">
                 </div>
             </label>
         </div>

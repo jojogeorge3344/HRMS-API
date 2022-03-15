@@ -1,5 +1,5 @@
 import { EmployeeNumbers } from './../employee-numbers.model';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -12,7 +12,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-numbers-list',
   templateUrl: './employee-numbers-list.component.html'
 })
-export class EmployeeNumbersListComponent implements OnInit, OnDestroy {
+export class EmployeeNumbersListComponent implements OnInit {
 
   employeeNumberSeries: EmployeeNumbers[];
   assignedNumberSeries: number[] = [];
@@ -27,10 +27,6 @@ export class EmployeeNumbersListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getemployeenumberseries();
     this.getAssignedNumberSeries();
-  }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
   }
 
   getemployeenumberseries() {

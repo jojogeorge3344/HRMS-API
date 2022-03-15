@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -13,7 +13,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   templateUrl: './employee-wps-list.component.html',
   styleUrls: ['./employee-wps-list.component.scss']
 })
-export class EmployeeWpsListComponent implements OnInit, OnDestroy {
+export class EmployeeWpsListComponent implements OnInit {
 
   wpsDetails: WpsGroup[] = [];
   groupCodes: string[];
@@ -25,10 +25,6 @@ export class EmployeeWpsListComponent implements OnInit, OnDestroy {
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
   ) { }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.getWPSlist();

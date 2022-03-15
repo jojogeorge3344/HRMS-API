@@ -54,7 +54,7 @@
 
                     <div class="with-input form-group">
                         <label for="lastDayLimit" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Employee must submit overtime requests for each month, if any, before<span class="required">*</span> </span>
+                            <span class="text-nowrap">Employee must submit overtime requests for each month, if any, before</span>
                             <input type="number" class="d-inline form-control ml-2 mr-2" formControlName="lastDayLimit">
                             <span class="text-nowrap">days to include the same in the next payslip.</span>
                         </label>    
@@ -74,7 +74,7 @@
                         <input type="checkbox" class="custom-control-input" id="isPastDayRQPossible" formControlName="isPastDayRQPossible">
                         
                         <label for="isPastDayRQPossible" class="custom-control-label">
-                            <span class="text-nowrap">Employee can submit overtime requests for past<span class="required">*</span> </span>
+                            <span class="text-nowrap">Employee can submit overtime requests for past</span>
                             <input type="number" class="d-inline form-control ml-1 mr-1" formControlName="maximumPastDayLimit">   
                             <span class="text-nowrap">days.</span>
                         </label>                        
@@ -114,7 +114,7 @@
 
                     <div class="with-input form-group">
                         <label for="normalFormula" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Formula for normal working days overtime<span class="required">*</span> </span>
+                            <span class="text-nowrap">Formula for normal working days overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="normalFormula">
                             <button type="button" (click)="openFormulaEditor('normalFormula')" class="btn btn-outline-primary btn-sm ml-3">
                                 <i class="fal fa-edit"></i>
@@ -124,7 +124,7 @@
 
                     <div class="with-input form-group">
                         <label for="holidayFormula" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Formula for holiday overtime<span class="required">*</span> </span>
+                            <span class="text-nowrap">Formula for holiday overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="holidayFormula">
                             <button type="button" (click)="openFormulaEditor('holidayFormula')" class="btn btn-outline-primary btn-sm ml-3">
                                 <i class="fal fa-edit"></i>
@@ -134,7 +134,7 @@
 
                     <div class="with-input form-group">
                         <label for="specialFormula" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Formula for special overtime<span class="required">*</span> </span>
+                            <span class="text-nowrap">Formula for special overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="specialFormula">
                             <button type="button" (click)="openFormulaEditor('specialFormula')" class="btn btn-outline-primary btn-sm ml-3">
                                 <i class="fal fa-edit"></i>
@@ -144,14 +144,14 @@
 
                     <div class="with-input form-group">
                         <label for="minimumOverTimeHour" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Do not consider for overtime calculation if overtime hours are less than<span class="required">*</span> </span>
+                            <span class="text-nowrap">Do not consider for overtime calculation if overtime hours are less than</span>
                             <input type="number" class="d-inline form-control ml-2 mr-2" formControlName="minimumOverTimeHour">
                         </label>    
                     </div>
 
                     <div class="with-input form-group">
                         <label for="timeBeyondShiftHour" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Overtime hours are calculated only if the time is beyond<span class="required">*</span> </span>
+                            <span class="text-nowrap">Overtime hours are calculated only if the time is beyond</span>
                             <input type="number" class="d-inline form-control ml-2 mr-2" formControlName="timeBeyondShiftHour">
                             <span class="text-nowrap">hours from the normal shift hours.</span>
                         </label>    

@@ -5,7 +5,7 @@
     <div class="p-3">
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="leaveStructureId">Leave Structure<span class="required">*</span></label>
+                <label class="col-form-label" for="leaveStructureId">Leave Structure</label>
                 <select class="form-control" formControlName="leaveStructureId">
                     <option value="">Select Leave Structure</option>
                     <option *ngFor="let type of leaveStructureId" [ngValue]='type.id'>
@@ -14,7 +14,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="shiftId">Shift<span class="required">*</span></label>
+                <label class="col-form-label" for="shiftId">Shift</label>
                 <select class="form-control" formControlName="shiftId">
                     <option value="">Select Shift</option>
                     <option *ngFor="let type of shiftId" [ngValue]='type.id'>
@@ -23,7 +23,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="weekOff">Week Off<span class="required">*</span></label>
+                <label class="col-form-label" for="weekOff">Week Off</label>
                 <select class="form-control" formControlName="weekOff">
                     <option [ngValue]="null" disabled>Select Week Off</option>
                     <option *ngFor="let key of weekOffTypeKeys" [ngValue]='key'>{{weekOffType[key]}}
@@ -33,7 +33,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="holidayCategoryId">Holiday List<span class="required">*</span></label>
+                <label class="col-form-label" for="holidayCategoryId">Holiday List</label>
                 <select class="form-control" formControlName="holidayCategoryId">
                     <option value="">Select Holidays</option>
                     <option *ngFor="let type of holidayCategoryId" [ngValue]='type.id'>
@@ -42,7 +42,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="attendanceTracking">Attendance Tracking<span class="required">*</span></label>
+                <label class="col-form-label" for="attendanceTracking">Attendance Tracking</label>
                 <select class="form-control" formControlName="attendanceTracking">
                     <option [ngValue]="null" disabled>Select Attendance Tracking</option>
                     <option *ngFor="let key of attendanceTrackingTypeKeys" [ngValue]='key'>
@@ -50,7 +50,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="expensePolicyId">Expense Policy<span class="required">*</span></label>
+                <label class="col-form-label" for="expensePolicyId">Expense Policy</label>
                 <select class="form-control" formControlName="expensePolicyId">
                     <option value="">Select Expense Policy</option>
                     <option *ngFor="let type of expensePolicyId" [ngValue]='type.id'>
@@ -69,7 +69,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="attendanceCaptureScheme">Attendance Capture Scheme<span class="required">*</span></label>
+                <label class="col-form-label" for="attendanceCaptureScheme">Attendance Capture Scheme</label>
                 <select class="form-control" formControlName="attendanceCaptureScheme">
                     <option [ngValue]="null" disabled>Select Attendance Capture Scheme</option>
                     <option *ngFor="let key of attendanceCaptureSchemeTypeKeys" [ngValue]='key'>
@@ -77,7 +77,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="payrollStructureId">Payroll Structure<span class="required">*</span></label>
+                <label class="col-form-label" for="payrollStructureId">Payroll Structure</label>
                 <select class="form-control" formControlName="payrollStructureId">
                     <option value="" disabled>Select Payroll Structure</option>
                     <option *ngFor="let type of payrollStructureId" [ngValue]='type.id'>
@@ -86,7 +86,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="payGroupId">Pay Group<span class="required">*</span></label>
+                <label class="col-form-label" for="payGroupId">Pay Group</label>
                 <select class="form-control" formControlName="payGroupId">
                     <option value="" disabled>Select Pay Group</option>
                     <option *ngFor="let type of payGroupId" [ngValue]='type.id'>
@@ -97,7 +97,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="overTimePolicyId">Over Time Policy<span class="required">*</span></label>
+                <label class="col-form-label" for="overTimePolicyId">Over Time Policy</label>
                 <select class="form-control" formControlName="overTimePolicyId">
                     <option value="" disabled>Select Over Time Policy</option>
                     <option *ngFor="let type of overTimePolicyId" [ngValue]='type.id'>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 
@@ -17,7 +17,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-dependent-details-list',
   templateUrl: './employee-dependent-details-list.component.html'
 })
-export class EmployeeDependentDetailsListComponent implements OnInit, OnDestroy {
+export class EmployeeDependentDetailsListComponent implements OnInit {
 
   dependents: EmployeeDependentDetails[];
   genderTypes = GenderType;
@@ -30,10 +30,6 @@ export class EmployeeDependentDetailsListComponent implements OnInit, OnDestroy 
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
   ) { }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.userId = getCurrentUserId();

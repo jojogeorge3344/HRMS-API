@@ -20,6 +20,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   genderTypeKeys: number[];
   genderType = GenderType;
   maxDate;
+  emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   constructor(
     private employeeBasicDetailsService: EmployeeBasicDetailsService,
@@ -92,8 +93,8 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         Validators.required
       ]],
       email: ['', [
-        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"),
-        Validators.required
+        Validators.required,
+        Validators.pattern(this.emailRegex),
       ]],
       createdDate: [],
     });

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-defaults-view',
   templateUrl: './employee-defaults-view.component.html'
 })
-export class EmployeeDefaultsViewComponent implements OnInit, OnDestroy {
+export class EmployeeDefaultsViewComponent implements OnInit {
   employeeDefaults: EmployeeDefaults;
 
   constructor(
@@ -22,10 +22,6 @@ export class EmployeeDefaultsViewComponent implements OnInit, OnDestroy {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
   ) { }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.getEmployeeDefaultList();

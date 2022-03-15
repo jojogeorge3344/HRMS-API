@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeWFHCreateComponent } from '../employee-wfh/employee-wfh-create/employee-wfh-create.component';
 import { EmployeeRemoteLoginCreateComponent } from '../employee-regular-login/employee-remote-login-create/employee-remote-login-create.component';
@@ -16,7 +16,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-attendance-actions',
   templateUrl: './employee-attendance-actions.component.html'
 })
-export class EmployeeAttendanceActionsComponent implements OnInit, OnDestroy{
+export class EmployeeAttendanceActionsComponent implements OnInit {
 
   toDate: Date;
   minDate;
@@ -39,10 +39,6 @@ export class EmployeeAttendanceActionsComponent implements OnInit, OnDestroy{
     private teamAttendanceService: TeamAttendanceService
   ) {
     this.minDate = new Date();
-  }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
   }
 
   ngOnInit(): void {

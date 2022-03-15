@@ -185,7 +185,5 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<DateTime>(sql, new { tablename, employeeId });
 
         }
-
-       
     }
 }

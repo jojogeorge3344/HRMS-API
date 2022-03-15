@@ -50,7 +50,7 @@ export class LoanSettingsCreateComponent implements OnInit {
       }
     });
   }
-
+  
   onSubmit() {
     this.addForm.removeControl('eligiblePeriod');
     this.loanSettingsService.insert(this.addForm.value).subscribe((result: LoanSettings) => {
