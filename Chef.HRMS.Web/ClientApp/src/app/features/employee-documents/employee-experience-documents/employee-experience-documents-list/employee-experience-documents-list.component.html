@@ -21,11 +21,11 @@
         <tbody>
             <tr *ngFor="let previous of previousEmployment; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize wordbreak">{{ previous.companyName }}</td>
-                <td class="text-capitalize wordbreak">{{ previous.jobTitle }}</td>
+                <td class="text-capitalize">{{ previous.companyName }}</td>
+                <td class="text-capitalize">{{ previous.jobTitle }}</td>
                 <td>{{ previous.dateOfJoining | date }}</td>
                 <td>{{ previous.dateOfRelieving | date }}</td>
-                <td class="text-capitalize wordbreak">{{ previous.location }}</td>
+                <td class="text-capitalize">{{ previous.location }}</td>
                 <td title="Verified" *ngIf="previous.isApproved">
                     <span><i class="fal fa-check-circle text-success"></i></span>
                 </td>

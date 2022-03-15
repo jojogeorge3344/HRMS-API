@@ -9,15 +9,15 @@
         <div class="d-flex flex-wrap">
 
             <div class="col-6 form-group form-input-line">
-                <label class=" col-form-label" for="name">Name<span class="required">*</span></label>
+                <label class=" col-form-label" for="name">Name</label>
                 <input type="text" class="form-control" formControlName="name">
             </div>
             <div class="col-6 form-group form-input-line">
-                <label class=" col-form-label" for="code">Code<span class="required">*</span></label>
+                <label class=" col-form-label" for="code">Code</label>
                 <input type="text" class="form-control" formControlName="code">
             </div>
             <div class="col-6 form-group form-input-line">
-                <label class=" col-form-label" for="payrollCalendarId">Payroll Calendar<span class="required">*</span></label>
+                <label class=" col-form-label" for="payrollCalendarId">Payroll Calendar </label>
                 <select class="form-control" formControlName="payrollCalendarId">
                     <option [ngValue]="null">Select a Payroll Calendar</option>
                     <option *ngFor="let calender of calenders" [ngValue]="calender.id">
@@ -26,7 +26,7 @@
                 </select>
             </div>
             <div class="col-6 form-group form-input-line">
-                <label class=" col-form-label" for="startingYear">Starting year<span class="required">*</span></label>
+                <label class=" col-form-label" for="startingYear">Starting year </label>
                 <select class="form-control" formControlName="startingYear">
                     <option [ngValue]="null">Select a starting year</option>
                     <option *ngFor="let year of years" [ngValue]="year">

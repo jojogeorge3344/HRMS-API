@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { AssetTypeCreateComponent } from '../asset-type-create/asset-type-create.component';
@@ -12,7 +12,7 @@ import { AssetMetadataService } from '../../asset-metadata/asset-metadata.servic
   selector: 'hrms-asset-type-list',
   templateUrl: './asset-type-list.component.html'
 })
-export class AssetTypeListComponent implements OnInit, OnDestroy {
+export class AssetTypeListComponent implements OnInit {
 
   assetType: AssetType[];
   assetTypeNames: string[];
@@ -27,11 +27,8 @@ export class AssetTypeListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAssetTypeList();
-    this.getAssignedAssetType();     
-  }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
+    this.getAssignedAssetType();   
+    
   }
 
   getAssetTypeList() { 

@@ -3,7 +3,7 @@
         
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="firstName">First Name<span class="required">*</span></label>
+                <label class="col-form-label"  for="firstName">First Name</label>
                 <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName">
             </div>
             <div class="form-group form-input-line col-sm">
@@ -11,25 +11,25 @@
                 <input type="text" class="form-control" id="middleName" name="middleName" formControlName="middleName">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="lastName">Last Name<span class="required">*</span></label>
+                <label class="col-form-label"  for="lastName">Last Name</label>
                 <input type="test" class="form-control" id="lastName" name="lastName" formControlName="lastName">
             </div>
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="displayName">Display Name<span class="required">*</span></label>
+                <label class="col-form-label"  for="displayName">Display Name</label>
                 <input type="text" class="form-control" id="displayName" name="displayName"
                     formControlName="displayName">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="gender">Select Gender<span class="required">*</span></label>
+                <label class="col-form-label" for="gender">Select Gender</label>
                 <select class="form-control" formControlName="gender">
                     <option [ngValue]="null" disabled>Select Gender</option>
                     <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderType[key]}}</option>
                 </select>
             </div>
             <div class="form-group form-input-inline input-group col">
-                <label class="col-12 col-form-label px-0" for="dateOfBirth">Date of Birth<span class="required">*</span></label>
+                <label class="col-12 col-form-label px-0" for="dateOfBirth">Date of Birth</label>
                 <input readonly class="form-control w-75" name="newDate" formControlName="dateOfBirth" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate"
                      ngbDatepicker #dob="ngbDatepicker">
                 <div class="input-group-append">
@@ -40,7 +40,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label"  for="email">Email<span class="required">*</span></label>
+                <label class="col-form-label"  for="email">Email</label>
                 <input type="email" class="form-control"  formControlName="email">
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 
@@ -18,7 +18,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-holiday-category-list',
   templateUrl: './holiday-category-list.component.html'
 })
-export class HolidayCategoryListComponent implements OnInit, OnDestroy {
+export class HolidayCategoryListComponent implements OnInit {
 
   holidayCategories: HolidayCategory[];
   assignedHolidayCategories: number[] = [];
@@ -36,10 +36,6 @@ export class HolidayCategoryListComponent implements OnInit, OnDestroy {
     this.getHolidayCategories();
     this.getAssignedHolidayCategories();
     }
-
-  ngOnDestroy(): void {
-  this.modalService.dismissAll()
-  }
 
   getHolidayCategories() {
     this.holidayCategoryService.getAll().subscribe(res => {

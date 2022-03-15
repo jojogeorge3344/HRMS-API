@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DepartmentType } from 'src/app/models/common/types/departmenttype';
 import { EmployeeAttendanceService } from '../employee-attendance.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +20,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 
 })
-export class EmployeeAttendanceLogComponent implements OnInit, OnDestroy {
+export class EmployeeAttendanceLogComponent implements OnInit {
 
   fromDateFilter = null;
   toDateFilter = null;
@@ -73,10 +73,6 @@ export class EmployeeAttendanceLogComponent implements OnInit, OnDestroy {
     this.toDateFilter = toDate;
     this.fromDate = fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate() ;
     this.fromDateFilter = fromDate;
-  }
-  
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
   }
 
   ngOnInit(): void {

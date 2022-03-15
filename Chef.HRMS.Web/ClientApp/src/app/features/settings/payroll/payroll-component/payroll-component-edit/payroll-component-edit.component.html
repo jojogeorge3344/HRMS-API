@@ -8,17 +8,17 @@
     <div class="modal-body">
 
         <div class="form-group form-input-line col-12">
-            <label class="col-form-label" for="name">Name<span class="required">*</span> </label>
+            <label class="col-form-label" for="name">Name</label>
             <input type="text" class="form-control" formControlName="name">
         </div>
 
         <div class="form-group form-input-line col-12">
-            <label class="col-form-label" for="shortCode">Short Code<span class="required">*</span> </label>
+            <label class="col-form-label" for="shortCode">Short Code</label>
             <input type="text" class="form-control" formControlName="shortCode">
         </div>
 
         <div class="form-group form-input-line col-12">
-            <label class="col-form-label" for="payrollComponentType">Payroll Component Type<span class="required">*</span>  </label>
+            <label class="col-form-label" for="payrollComponentType">Payroll Component Type </label>
             <select class="form-control" formControlName="payrollComponentType">
                 <option [ngValue]='null' disabled>Select a Payroll Component Type</option>
                 <option *ngFor="let key of payrollComponentTypeKeys" [ngValue]='key'>
@@ -27,7 +27,7 @@
             </select>
         </div>
         <div class="form-group form-textarea-line col-12">
-            <label class="col-form-label" for="description">Description<span class="required">*</span> </label>
+            <label class="col-form-label" for="description">Description</label>
             <textarea type="text" rows="3" class="form-control" id="description" formControlName="description">
             </textarea>
         </div>

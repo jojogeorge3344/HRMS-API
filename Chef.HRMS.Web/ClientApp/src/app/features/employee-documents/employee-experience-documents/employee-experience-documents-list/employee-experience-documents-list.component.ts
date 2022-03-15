@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeExperienceDetailsService } from '../employee-experience-details.service';
 import { EmployeeExperienceDocumentsCreateComponent } from '../employee-experience-documents-create/employee-experience-documents-create.component';
@@ -16,7 +16,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-experience-documents-list',
   templateUrl: './employee-experience-documents-list.component.html'
 })
-export class EmployeeExperienceDocumentsListComponent implements OnInit, OnDestroy {
+export class EmployeeExperienceDocumentsListComponent implements OnInit {
 
   previousEmployment: any;
   currentUserId: number;
@@ -34,10 +34,6 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit, OnDestr
     private sanitizer: DomSanitizer,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) { }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();

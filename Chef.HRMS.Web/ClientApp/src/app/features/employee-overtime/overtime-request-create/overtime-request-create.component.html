@@ -10,8 +10,8 @@
             <div class="form-group col-sm">
                 <label for="fromDate">From</label>
                 <div class="input-group">
-                    <input class="form-control" [minDate]="minDateFrom" [firstDayOfWeek]="1" [maxDate]="maxDateFrom" ngbDatepicker [markDisabled]="markDisabled" 
-                    #fromDate="ngbDatepicker" [dayTemplate]="customDay" formControlName="fromDate" (dateSelect)="onFromDateSelection($event)">
+                    <input class="form-control" [minDate]="minDateFrom" [firstDayOfWeek]="1"  [showWeekNumbers]="true" [maxDate]="maxDateFrom" ngbDatepicker [markDisabled]="markDisabled" 
+                    #fromDate="ngbDatepicker" formControlName="fromDate" (dateSelect)="onFromDateSelection($event)">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="fromDate.toggle()" type="button"></button>
                     </div>
@@ -19,15 +19,15 @@
             </div>
             <ng-template #customDay let-date let-currentMonth="currentMonth" let-selected="selected"
                 let-disabled="disabled" let-focused="focused">
-                <span class="pl-2" style="vertical-align: sub;" (click)="alreadyAppliedValidation(date)" [ngStyle]="isAlreadyApplied(date)">
+                <span class="pl-2" style="vertical-align: sub;" (click)="alreadyApplied=true;" [ngStyle]="isAlreadyApplied(date)">
                     {{ date.day }}
                 </span>
             </ng-template>
             <div class="form-group col-sm">
                 <label for="toDate">To</label>
                 <div class="input-group">
-                    <input class="form-control" [minDate]="minDateTo" [firstDayOfWeek]="1" [maxDate]="maxDateTo" ngbDatepicker [markDisabled]="markDisabled"
-                    #toDate="ngbDatepicker" [dayTemplate]="customDay" formControlName="toDate" (dateSelect)="onToDateSelection($event)">
+                    <input class="form-control" [minDate]="minDateTo" [firstDayOfWeek]="1"  [showWeekNumbers]="true" [maxDate]="maxDateTo" ngbDatepicker [markDisabled]="markDisabled"
+                    #toDate="ngbDatepicker" formControlName="toDate" (dateSelect)="onToDateSelection($event)">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="toDate.toggle()" type="button"></button>
                     </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,7 +19,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-payroll-structure-list',
   templateUrl: './payroll-structure-list.component.html'
 })
-export class PayrollStructureListComponent implements OnInit, OnDestroy {
+export class PayrollStructureListComponent implements OnInit {
 
   payrollStructures: PayrollStructure[];
   assignedPayrollStructures: number[] = [];
@@ -37,10 +37,6 @@ export class PayrollStructureListComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal) { }
-
-  ngOnDestroy(): void {
-  this.modalService.dismissAll()
-  }
 
 
   ngOnInit(): void {

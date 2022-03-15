@@ -2,7 +2,6 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,14 +11,6 @@ namespace Chef.HRMS.Repositories
     {
         public OverTimeRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
         {
-        }
-
-        public async Task<IEnumerable<DateTime>> AppliedDates(int employeeId)
-        {
-            var sql = $@"SELECT DISTINCT hrms.get_inbetween_days(fromdate::date,todate::date) AS applieddates
-                    FROM hrms.overtime
-                    WHERE employeeid=@employeeId";
-            return await Connection.QueryAsync<DateTime>(sql, new {employeeId });
         }
 
         public async Task<IEnumerable<OverTime>> GetAllOvertimeDetailsById(int employeeId)

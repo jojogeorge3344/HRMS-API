@@ -1,6 +1,5 @@
 ﻿using Chef.Common.Services;
 using Chef.HRMS.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +11,6 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<OverTime>> GetAllOvertimeDetailsById(int employeeId);
         Task<int> GetAssignedOverTimePolicy(int employeeId);
         Task<IEnumerable<OvertimeViewModel>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId);
-        public Task<IEnumerable<DateTime>> AppliedDates( int employeeId);
+        
     }
 }

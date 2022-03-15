@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AssetType } from '../../../settings/asset/asset-type/asset-type.model';
 import { AssetTypeService } from '../../../settings/asset/asset-type/asset-type.service';
 import { RaiseRequestService } from '../../raise-request/raise-request.service';
@@ -20,7 +20,7 @@ import { AssetStatus } from 'src/app/models/common/types/assetstatus';
   selector: 'hrms-raise-request-list',
   templateUrl: './raise-request-list.component.html'
 })
-export class RaiseRequestListComponent implements OnInit, OnDestroy {
+export class RaiseRequestListComponent implements OnInit {
   raiseRequestList: any;
   assetType: AssetType[];
   assetTypeNames: AssetType[];
@@ -35,10 +35,6 @@ export class RaiseRequestListComponent implements OnInit, OnDestroy {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
   ) { }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();

@@ -22,12 +22,12 @@
         <tbody>
             <tr *ngFor="let education of educationDetails; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize wordbreak">{{ education.degree }}</td>
-                <td class="text-capitalize wordbreak">{{ education.specialization }}</td>
+                <td class="text-capitalize">{{ education.degree }}</td>
+                <td class="text-capitalize">{{ education.specialization }}</td>
                 <td>{{ education.yearOfJoining | date }}</td>
                 <td>{{ education.yearOfCompletion | date }}</td>
                 <td>{{ education.percentage }} %</td>
-                <td class="text-capitalize wordbreak">{{ education.university }}</td>
+                <td class="text-capitalize">{{ education.university }}</td>
                 <td title="Verified" *ngIf="education.isApproved">
                     <span><i class="fal fa-check-circle text-success"></i></span>
                 </td>

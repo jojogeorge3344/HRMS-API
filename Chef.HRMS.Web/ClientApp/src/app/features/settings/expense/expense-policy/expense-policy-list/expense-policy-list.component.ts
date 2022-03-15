@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -23,7 +23,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-expense-policy-list',
   templateUrl: './expense-policy-list.component.html'
 })
-export class ExpensePolicyListComponent implements OnInit, OnDestroy {
+export class ExpensePolicyListComponent implements OnInit {
 
   expensePolicies: ExpensePolicy[];
   allExpenseTypes: ExpenseType[];
@@ -42,10 +42,6 @@ export class ExpensePolicyListComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal) { }
-
-ngOnDestroy(): void {
-this.modalService.dismissAll()
-}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

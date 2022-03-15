@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 
@@ -17,7 +17,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   styles: [
   ]
 })
-export class PayrollAdhocListComponent implements OnInit, OnDestroy {
+export class PayrollAdhocListComponent implements OnInit {
   employeeId: number;
   id: number;
   @Input() employee;
@@ -31,10 +31,6 @@ export class PayrollAdhocListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private payrollProcessAdhocService: PayrollProcessAdhocService,
   ) { }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
