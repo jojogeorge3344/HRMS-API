@@ -147,6 +147,8 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
   }
   setMinDate(){
     this.minDate = {year:new Date(this.addForm.controls["yearOfJoining"].value).getFullYear(),month:new Date(this.addForm.controls["yearOfJoining"].value).getMonth() + 1, day:new Date(this.addForm.controls["yearOfJoining"].value).getDate()}  
+  console.log(this.addForm, "error");
+  
   }
 
   createFormGroup(): FormGroup {

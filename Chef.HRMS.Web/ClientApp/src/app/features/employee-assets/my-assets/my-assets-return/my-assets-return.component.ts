@@ -55,9 +55,24 @@ export class MyAssetsReturnComponent implements OnInit {
     this.returnTypeSelected = this.returnAssetForm.get('returnTypeOptions').value;
     this.assetData.status = this.assetStatus.ReturnRequest;
     this.assetData.returnDescription = this.returnAssetForm.get('returnDescription').value;
-    this.assetData.returnType = toNumber(this.returnTypeSelected);
-    this.myAssetService.updateStatus(this.assetData).subscribe(result => {
-      this.toastr.showSuccessMessage('return request submitted successfully!');
+    this.assetData.returnType = toNumber(this.returnTypeSelected);    
+    // this.raiseRequestData.requestedDate= this.datepipe.transform(this.current,'yyyy/MM/dd');
+    this.raiseRequestData.requestedDate = this.current;
+    this.raiseRequestData.requestFor = this.requestFor.Self;
+    this.raiseRequestData.requestType = this.requestType.ReturnAsset;
+    this.raiseRequestData.assetTypeId = this.assetData.assetTypeId;
+    this.raiseRequestData.assetTypeName=this.assetData.assetTypeName;
+    this.raiseRequestData.status = this.assetStatus.ReturnRequest;
+    this.raiseRequestData.empId = this.currentUserId;
+    this.raiseRequestData.assetid = this.assetData.assetId;
+    this.raiseRequestData.nameOfTeamMemberId = this.currentUserId;
+    console.log(this.raiseRequestData);
+    
+    forkJoin([
+      this.myAssetService.updateStatus(this.assetData),
+      this.myAssetService.insertRequest(this.raiseRequestData)
+    ]).subscribe(([upRes, insRes]) => {
+      this.toastr.showSuccessMessage('Request submitted successfully!');
       this.activeModal.close('submit');
     },
       error => {
@@ -66,5 +81,4 @@ export class MyAssetsReturnComponent implements OnInit {
       });
   }
 }
-
 

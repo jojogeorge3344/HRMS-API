@@ -58,7 +58,7 @@
                                 <div class="d-flex align-items-baseline">
                                     <div class="form-group ml-1 mb-0" style="min-height: 60px;">
                                         <input type="number" class="d-inline form-control  mr-1"
-                                            formControlName="salaryFromRange">
+                                            formControlName="salaryFromRange" (keydown)="validateNumber($event)">
                                         <div *ngIf="!editForm.controls.salaryFromRange.errors && editForm.errors?.range && (editForm.touched || editForm.dirty)"
                                             class="invalid-feedback d-block">
                                             Incorrect salary range.
@@ -67,7 +67,7 @@
                                     and
                                     <div class="form-group ml-1 mb-0" style="min-height: 60px;">
                                         <input type="number" class="d-inline form-control mr-1"
-                                            formControlName="salaryToRange">
+                                            formControlName="salaryToRange" (keydown)="validateNumber($event)">
                                     </div>
                                 </div>
 
@@ -107,7 +107,7 @@
                             <span class="text-nowrap">Maximum number of installments</span>
                             <div class="form-group ml-2" style="min-height: 60px;">
                                 <input type="number" class="d-inline form-control  mr-2"
-                                    formControlName="maxNumberofInstallments">
+                                    formControlName="maxNumberofInstallments" (keydown)="validateNumber($event)">
                             </div>
                         </label>
                     </div>

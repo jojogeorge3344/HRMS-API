@@ -20,7 +20,7 @@
             <div class="form-group input-group form-input-inline col-sm-4">
                 <label class="col-form-label col-12 px-0" for="toDate">Establishment ID</label>
                 <input class="form-control" id="establishmentId" name="establishmentId"
-                   value="" formControlName="establishmentId">
+                   value="" formControlName="establishmentId" (keydown)="validateNumber($event)">
             </div>
         </div>
   

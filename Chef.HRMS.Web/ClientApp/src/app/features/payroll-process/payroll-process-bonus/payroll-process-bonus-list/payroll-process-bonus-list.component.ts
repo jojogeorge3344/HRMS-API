@@ -77,6 +77,9 @@ export class PayrollProcessBonusListComponent implements OnInit {
       .subscribe(([bonusRes, loanRes]) => {
         this.bonuses = bonusRes;
         this.loans = loanRes;
+        console.log(this.bonuses);        
+        console.log("sameeeeeeeeeera",this.loans);
+        
       });
   }
   viewEditBonus(bonus) {

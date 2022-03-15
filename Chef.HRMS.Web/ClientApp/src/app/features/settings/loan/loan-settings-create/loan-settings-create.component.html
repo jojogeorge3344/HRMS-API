@@ -47,9 +47,9 @@
                         
                         <label for="isEligibleBasedonAnnualGrossSalary" class="custom-control-label">
                             Employees are eligible for loan if annual gross salary is between
-                            <input type="number" class="d-inline form-control ml-1 mr-1" formControlName="salaryFromRange"> 
+                            <input type="number" class="d-inline form-control ml-1 mr-1"  formControlName="salaryFromRange"> 
                             and 
-                            <input type="number" class="d-inline form-control ml-1 mr-1" formControlName="salaryToRange">            
+                            <input type="number" class="d-inline form-control ml-1 mr-1"  formControlName="salaryToRange">            
                         </label>
                         <div *ngIf="addForm.errors?.range && (addForm.touched || addForm.dirty)" class="invalid-feedback d-block">
                             Incorrect salary range.
