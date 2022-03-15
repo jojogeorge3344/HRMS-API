@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -13,7 +13,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-payroll-component-list',
   templateUrl: './payroll-component-list.component.html'
 })
-export class PayrollComponentListComponent implements OnInit {
+export class PayrollComponentListComponent implements OnInit, OnDestroy {
 
   public payrollComponents: any;
   assignedPayrollComponents: number[] = [];
@@ -30,6 +30,10 @@ export class PayrollComponentListComponent implements OnInit {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) {
       this.payrollComponentTypeKeys = Object.keys(this.payrollComponentTypes).filter(Number).map(Number);
+  }
+
+  ngOnDestroy(): void {
+   this.modalService.dismissAll()
   }
 
   ngOnInit(): void {

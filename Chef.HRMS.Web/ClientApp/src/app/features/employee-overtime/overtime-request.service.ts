@@ -33,7 +33,7 @@ export class OvertimeRequestService {
   }
 
   add(overtimeRequest: OvertimeRequest) {
-    return this.http.post(this.baseUrl + 'insert', overtimeRequest).pipe(map(response => { return response; }));
+    return this.http.post<OvertimeRequest>(this.baseUrl + 'insert', overtimeRequest).pipe(map(response => { return response; }));
   }
 
   update(overtimeRequest: OvertimeRequest) {
@@ -50,6 +50,13 @@ export class OvertimeRequestService {
 
   getOvertimeNotifyPersonnelByOvertimeId(id: number) {
     return this.http.get(this.baseUrl + 'getOvertimeNotifyPersonnelByOvertimeId/' + id).pipe(map(response => { return response; }));
+  }
+
+  getMarkedDates(empId:number){
+    return this.http.get<any>(this.baseUrl + 'appliedDates/' + empId)
+      .pipe(
+        map((res: string[]) => res.join('~!~'))
+      );
   }
 
   // getPayrollStatusByEmpId(checkPayrollProcessed) {

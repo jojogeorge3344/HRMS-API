@@ -39,7 +39,7 @@ namespace Chef.HRMS.Repositories
                                from hrms.assetraiserequest as at 
                                inner join   
                                hrms.employee on 
-                               at.nameofteammemberid=employee.id
+                               at.empid=employee.id
                                where empid=@empid order by at.id desc";
 
             return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { empid });

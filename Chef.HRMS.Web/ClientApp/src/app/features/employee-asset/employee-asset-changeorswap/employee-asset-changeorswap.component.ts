@@ -61,7 +61,6 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.employeeassetchangeForm);
-    debugger;
     let allValues= {...this.employeeassetchangeForm.getRawValue(),
         // status:1,
         assetMetadataValueId:this.newMdataTypeKeys.map(key => {
@@ -150,7 +149,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   getAssetId(){
     this.employeAssetService.getAssetId(this.assetRaiseRequestId).subscribe((res) => { 
       console.log(res);
-      this.assetId=res[0].assetid;
+      this.assetId=res[0].assetId;
       // console.log("assetid>>>>>>",this.assetId); 
       this.getCurrentAssetById();
       this.getAssetType();
@@ -193,8 +192,16 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   }
   
   getUnallocatedAssets(ev){
-    console.log(ev);
-    
+    if (this.employeeassetchangeForm.controls['newAssetName'].value) {
+      this.employeeassetchangeForm.controls['newAssetName'].reset()
+    }
+    Object.entries(( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).controls).forEach(([name,control]) => {
+      console.log(control);
+      ( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).removeControl(name)
+    })
+    this.newTypeKeys=[];
+    this.newTypeMap.clear();
+
     console.log(ev.target.value, this.employeeassetchangeForm.controls.newAssetType.value);
     const evevalue =  this.employeeassetchangeForm.controls.newAssetType.value;
     console.log(evevalue);
@@ -221,6 +228,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
     if (!this.employeeassetchangeForm.controls['newAssetName'].value) {
       this.employeeassetchangeForm.controls['newAssetName'].reset()
     }
+    
     else{
       this.newTypeId=this.employeeassetchangeForm.controls.newAssetName.value.typeId;
       this.newAssetId=this.employeeassetchangeForm.controls.newAssetName.value.assetId;
@@ -281,6 +289,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
       ( this.employeeassetchangeForm.get('newMetadatas')as FormGroup).removeControl(name)
     })
     this.newTypeKeys=[];
+    this.newTypeMap.clear();
   }
     
   }

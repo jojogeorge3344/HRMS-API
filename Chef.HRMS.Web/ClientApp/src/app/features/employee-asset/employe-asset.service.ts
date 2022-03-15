@@ -30,7 +30,7 @@ export class EmployeAssetService {
 
  
 
-  add(allocate: any[]){
+  add(allocate: AssetAllocated){
     return this.http.post<any>(this.baseUrl + 'insert', allocate).pipe(map(response => { return response; }));
   }
 
@@ -78,9 +78,9 @@ export class EmployeAssetService {
   }
 
 
-  manageRequest(id,status) {
+  manageRequest(id,status,reason) {
     return this.http.put(this.baseUrl + 'UpdateApproveReject',{},                                                
-    { params: { id: id, status : status } }).pipe(map(response => { return response; }));
+    { params: { id: id, status : status, reason:reason } }).pipe(map(response => { return response; }));
   }
 
 

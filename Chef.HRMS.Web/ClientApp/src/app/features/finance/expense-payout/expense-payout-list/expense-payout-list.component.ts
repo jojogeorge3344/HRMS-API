@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { ExpensePayoutService } from '../expense-payout.service';
 import { ExpensePayout } from '../expense-payout';
 import { DatePipe } from '@angular/common';
@@ -19,7 +19,7 @@ import { Employee } from '@features/employee/employee.model';
   selector: 'hrms-expense-payout-list',
   templateUrl: './expense-payout-list.component.html'
 })
-export class ExpensePayoutListComponent implements OnInit {
+export class ExpensePayoutListComponent implements OnInit, OnDestroy {
   expenses = [];
   expense;
   paymentMode = PaymentMode;
@@ -33,6 +33,10 @@ export class ExpensePayoutListComponent implements OnInit {
     public modalService: NgbModal,
 
   ) { }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
 
   ngOnInit(): void {
     this.getApprovedExpenses();

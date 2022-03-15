@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -13,7 +13,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 @Component({
   templateUrl: './overtime-request-list.component.html'
 })
-export class OvertimeRequestListComponent implements OnInit {
+export class OvertimeRequestListComponent implements OnInit, OnDestroy {
 
   overtimeRequests: OvertimeRequest[];
   overtimeRequestStatusTypes = RequestStatus;
@@ -24,6 +24,10 @@ export class OvertimeRequestListComponent implements OnInit {
     private overtimeRequestService: OvertimeRequestService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) {
+  }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
   }
 
   ngOnInit(): void {
@@ -39,6 +43,8 @@ export class OvertimeRequestListComponent implements OnInit {
   getOvertimeRequests() {
     this.overtimeRequestService.getAllOvertimeDetailsById(this.currentUserId).subscribe((result: OvertimeRequest[]) => {
       this.overtimeRequests = result;
+      console.log(this.overtimeRequests);
+      
     },
       error => {
         console.error(error);

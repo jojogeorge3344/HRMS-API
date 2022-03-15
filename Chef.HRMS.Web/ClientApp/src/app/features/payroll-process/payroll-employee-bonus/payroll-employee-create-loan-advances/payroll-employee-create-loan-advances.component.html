@@ -20,14 +20,14 @@
                     placeholder="Employee">
             </div>
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="loanType">Loan Type</label>
+                <label class="col-form-label" for="loanType">Loan Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="loanType">
                     <option [ngValue]="null" disabled>Select Loan Type</option>
                     <option *ngFor="let key of loanTypeKeys" [ngValue]='key'>{{loanTypes[key]}}</option>
                 </select>
             </div>
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="paymentType">Loan Disbursement Method</label>
+                <label class="col-form-label" for="paymentType">Loan Disbursement Method<span class="required">*</span></label>
                 <select class="form-control" formControlName="paymentType">
                     <option [ngValue]="null" disabled>Select Disbursement Type</option>
                     <option *ngFor="let key of paymentTypeKeys" [ngValue]='key'>
@@ -35,7 +35,7 @@
                 </select>
             </div>
             <div class="form-group form-input-inline input-group col-6">
-                <label class="col-12 col-form-label px-0" for="expectedOn">Disbursement Expected On</label>
+                <label class="col-12 col-form-label px-0" for="expectedOn">Disbursement Expected On<span class="required">*</span></label>
                 <input class="form-control" ngbDatepicker #expectedOn="ngbDatepicker" formControlName="expectedOn"
                     [minDate]="minDate">
                 <div class="input-group-append">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="loanAmount">Loan Amount</label>
+                <label class="col-form-label" for="loanAmount">Loan Amount<span class="required">*</span></label>
                 <input type="number" class="form-control" id="loanAmount" name="loanAmount"
                     formControlName="loanAmount">
             </div>
@@ -57,12 +57,12 @@
         </div>
         <div class="d-flex flex-row-reverse align-items-baseline">
             <div class="form-group form-input-inline col-6">
-                <label class="col-form-label" for="comments">Comments</label>
+                <label class="col-form-label" for="comments">Comments<span class="required">*</span></label>
                 <textarea type="text" rows="6" class="form-control" id="comments" name="comments"
                     placeholder="Please provide the comment for applying loan" formControlName="comments"></textarea>
             </div>
             <div class="align-items-baseline col-6 d-flex flex-wrap form-group justify-content-between mb-0">
-                <label class="col-12 col-form-label px-0" for="emiStartsFromMonth">EMI Starts from</label>
+                <label class="col-12 col-form-label px-0" for="emiStartsFromMonth">EMI Starts from<span class="required">*</span></label>
                 <select class="col-6 form-control" formControlName="emiStartsFromMonth">
                     <option [ngValue]="null" disabled>Select Month</option>
                     <option *ngFor="let month of months; let i = index" value="{{i+1}}">{{month}}</option>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { getCurrentUserId } from "@shared/utils/utils.functions";
 import { AssetStatus } from "src/app/models/common/types/assetstatus";
@@ -14,12 +14,13 @@ import { EmployeeAssetChangereturnviewComponent } from "../employee-asset-change
 import { RequestType } from "src/app/models/common/types/requesttype";
 import { EmployeeAssetChangeorswapComponent } from "../employee-asset-changeorswap/employee-asset-changeorswap.component";
 import { SplitByUpperCasePipe } from "src/app/pipes/split-by-upper-case.pipe";
+import { EmployeeAssetRejectRevokeComponent } from "../employee-asset-reject-revoke/employee-asset-reject-revoke.component";
 
 @Component({
   selector: "hrms-employee-asset-requests",
   templateUrl: "./employee-asset-requests.component.html",
 })
-export class EmployeeAssetRequestsComponent implements OnInit {
+export class EmployeeAssetRequestsComponent implements OnInit, OnDestroy {
   // assetStatus: AssetStatus;
   allocatedassets;
   assetId: number;
@@ -46,6 +47,12 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private splitByUpperCase: SplitByUpperCasePipe
   ) {}
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll()
+  }
+
+  
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
@@ -97,6 +104,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     modalRef.result.then((userResponse) => {
       if(userResponse){
         this.getEmployeeRequestById();
+          //  window.location.reload();
       }  
     }) 
     modalRef.componentInstance.status=emprequest.status;
@@ -107,7 +115,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     modalRef.componentInstance.assetTypeName = emprequest.assetTypeName;
     this.employeeAsset.setListDetails({ data: emprequest });
   }
-
+  
   openChangeOrSwap(emprequest) {
     const modalRef = this.modalService.open(EmployeeAssetChangeorswapComponent,
       { centered: true, backdrop: 'static' });
@@ -130,7 +138,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     });
     modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
     this.employeeAsset.getAssetId(emprequest.id).subscribe(res => {
-      this.assetId = res[0].assetid;
+      this.assetId = res[0].assetId;
       console.log("id>>",this.assetId);
     })
     modalRef.result.then((userResponse) => {
@@ -184,7 +192,7 @@ export class EmployeeAssetRequestsComponent implements OnInit {
   //     });
   // }
 
-  manageRequest(emprequest, status) {
+  manageRequest(emprequest, status,reason) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       size: 'lg',
       centered: true,
@@ -194,16 +202,17 @@ export class EmployeeAssetRequestsComponent implements OnInit {
     const empreqid = emprequest.id;
     if (status == 2) {
       modalRef.componentInstance.confirmationMessage = `Are you sure you want to approve the request ?`;
-    } else if (status == 3) {
-      modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
-    }
-    else if (status == 6) {
-      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
-    }
+    } 
+    // else if (status == 3) {
+    //   modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
+    // }
+    // else if (status == 6) {
+    //   modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
+    // }
 
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.employeeAsset.manageRequest(empreqid, status).subscribe((res) => {
+        this.employeeAsset.manageRequest(empreqid, status,reason).subscribe((res) => {
           console.log(res);
           if (status == 2) {
             this.toastr.showSuccessMessage("request approved successfully!");
@@ -219,6 +228,30 @@ export class EmployeeAssetRequestsComponent implements OnInit {
       }
     });
     
+  }
+
+
+
+  manageRejectRevoke(emprequest, status) {
+    const modalRef = this.modalService.open(EmployeeAssetRejectRevokeComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: "static",
+    });
+
+    modalRef.componentInstance.emprequest=emprequest.id;
+     modalRef.componentInstance.status=status;
+    console.log(emprequest);
+    const empreqid = emprequest.id;
+    if (status == 3) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to reject the request ?`;
+    }
+    else if (status == 6) {
+      modalRef.componentInstance.confirmationMessage = `Are you sure you want to revoke the request ?`;
+    }
+    modalRef.result.then((userResponse) => {
+      this.getEmployeeRequestById();
+     })
   }
 
 
