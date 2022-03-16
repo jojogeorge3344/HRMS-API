@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.Loan;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,14 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<IEnumerable<EmployeeLoanView>>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
             var loanRequests = await loanRequestServices.GetAllLoanByEmployeeId(employeeId, payrollProcessingMethodId);
+
+            return Ok(loanRequests);
+        }
+
+        [HttpGet("GetRequestedDateByEmployeeId/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<LoanRequestedViewModel>>> GetRequestedDateByEmployeeId(int employeeId)
+        {
+            var loanRequests = await loanRequestServices.GetRequestedDateByEmployeeId(employeeId);
 
             return Ok(loanRequests);
         }

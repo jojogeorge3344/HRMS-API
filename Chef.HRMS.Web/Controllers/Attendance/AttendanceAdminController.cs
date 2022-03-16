@@ -50,7 +50,6 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(leaveLogs);
         }
 
-
         [HttpGet("AlreadyExistOrNot/{fromDate}/{toDate}/{employeeId}")]
         public async Task<ActionResult<int>> AlreadyExistOrNot(DateTime fromDate, DateTime toDate, int employeeId)
         {

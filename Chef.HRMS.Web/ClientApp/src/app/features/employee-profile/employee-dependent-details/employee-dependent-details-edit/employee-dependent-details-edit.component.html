@@ -9,11 +9,11 @@
         <!-- <input type="hidden" class="form-control" formControlName="leavePlanId"> -->
         <div class="row">
             <div class="form-group col-6">
-                <label for="name">Name<span class="required">*</span></label>
+                <label for="name">Name</label>
                 <input type="text" class="form-control" id="name" formControlName="name">
             </div>
             <div class="form-group col-6">
-                <label for="description">Gender<span class="required">*</span></label>
+                <label for="description">Gender</label>
                 <select class="form-control" id="gender" formControlName="gender">
                     <option [ngValue]="null" disabled>Select a gender</option>
                     <option *ngFor="let key of genderTypeKeys" [ngValue]='key' q>
@@ -24,7 +24,7 @@
         </div>
         <div class="row">
             <div class="form-group col-6">
-                <label for="description">Date of Birth<span class="required">*</span></label>
+                <label for="description">Date of Birth</label>
                 <div class="input-group">
                     <input class="form-control" formControlName="dateOfBirth" [readonly]="true" [minDate]="{year: 1900, month: 1, day: 1}"
                         [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker">
@@ -37,7 +37,7 @@
             </div>
          
             <div class="form-group col-6 ">
-                <label for="phone">Phone<span class="required">*</span></label>
+                <label for="phone">Phone</label>
                 <div class="form-group d-flex flex-wrap align-items-center">
                     +<input type="number" class="form-control mx-1 width-10" formControlName="phoneCode">-
                     <input type="number" class="form-control ml-1 col" formControlName="phone">
@@ -47,7 +47,7 @@
         </div>
         <div class="row">
             <div class="form-group col-6">
-                <label for="relationship">Relation<span class="required">*</span></label>
+                <label for="relationship">Relation</label>
                 <select class="form-control" id="relationship" name="relationship" formControlName="relationship">
                     <option [ngValue]="null" disabled>Select a relation</option>
                     <option *ngFor="let key of relationshipTypeKeys"

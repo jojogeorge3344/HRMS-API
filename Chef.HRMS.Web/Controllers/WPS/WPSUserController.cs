@@ -79,7 +79,7 @@ namespace Chef.HRMS.Web.Controllers
             return CreatedAtAction(nameof(Insert), wpsUser);
         }
 
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

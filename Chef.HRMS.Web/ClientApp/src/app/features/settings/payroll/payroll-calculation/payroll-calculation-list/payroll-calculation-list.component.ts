@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 
@@ -11,7 +11,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 @Component({
   templateUrl: './payroll-calculation-list.component.html'
 })
-export class PayrollCalculationListComponent implements OnInit, OnDestroy {
+export class PayrollCalculationListComponent implements OnInit {
 
   payrollCalculation: any;
   payrollCalculationKeys: string[];
@@ -24,10 +24,6 @@ export class PayrollCalculationListComponent implements OnInit, OnDestroy {
     private payrollcalculationService: PayrollCalculationService,
     private payrollStructureService: PayrollStructureService
   ) { }
-
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.getPayrollCalculationDetails();

@@ -44,7 +44,7 @@ namespace Chef.HRMS.Models
         /// Holds loan amount
         /// </summary>
         [Required]
-        public float LoanAmount { get; set; }
+        public decimal LoanAmount { get; set; }
 
         /// <summary>
         /// Holds loan number
