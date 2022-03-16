@@ -11,13 +11,13 @@ const routes: Routes = [
         redirectTo: 'my-assets', pathMatch: 'full'
       },
       {
-        path: 'my-assets',
-        loadChildren: () => import('./my-assets/my-assets.module').then(m => m.MyAssetsModule),
+        path: 'raise-request',
+        loadChildren: () => import('./raise-request/raise-request.module').then(m => m.RaiseRequestModule),
         data: { name: 'settings-expense' }
       },
       {
-        path: 'raise-request',
-        loadChildren: () => import('./raise-request/raise-request.module').then(m => m.RaiseRequestModule),
+        path: 'my-assets',
+        loadChildren: () => import('./my-assets/my-assets.module').then(m => m.MyAssetsModule),
         data: { name: 'settings-expense' }
       }
     ]
