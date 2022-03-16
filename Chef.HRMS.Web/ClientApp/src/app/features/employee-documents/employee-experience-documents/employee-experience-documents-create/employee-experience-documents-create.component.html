@@ -9,22 +9,22 @@
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <label for="companyName">Company Name<span class="required">*</span></label>
+                    <label for="companyName">Company Name</label>
                     <input type="text" class="form-control" formControlName="companyName">
                 </div>
                 <div class="form-group">
-                    <label for="jobTitle">Job Title<span class="required">*</span></label>
+                    <label for="jobTitle">Job Title</label>
                     <input type="text" class="form-control" formControlName="jobTitle">
                 </div>                
                 <div class="form-group">
-                    <label for="location">Location<span class="required">*</span></label>
+                    <label for="location">Location</label>
                     <input type="text" class="form-control" formControlName="location">
                 </div>         
             </div>
             
             <div class="col-sm">  
                 <div class="form-group">
-                    <label for="dateOfJoining">Date of Joining<span class="required">*</span></label>
+                    <label for="dateOfJoining">Date of Joining</label>
                     <div class="input-group">
                         <input class="form-control" ngbDatepicker #dateOfJoining="ngbDatepicker" formControlName="dateOfJoining" [minDate]="{year: 1900, month: 1, day: 1}"  [maxDate]= "maxDate" (ngModelChange)="setMinDate()">
                         <div class="input-group-append">
@@ -33,7 +33,7 @@
                     </div>                    
                 </div>
                 <div class="form-group">
-                    <label for="dateOfRelieving">Date of Relieving<span class="required">*</span></label>
+                    <label for="dateOfRelieving">Date of Relieving</label>
                     <div class="input-group">
                         <input class="form-control" ngbDatepicker #dateOfRelieving="ngbDatepicker" formControlName="dateOfRelieving" [minDate]= "minDate" (ngModelChange)="setMaxDate()">
                         <div class="input-group-append">
@@ -56,7 +56,7 @@
                                 Please upload a file.
                             </div>
                             <i class="fal fa-paperclip"></i>
-                            <a class="link">Add Attachment<span class="required">*</span></a>
+                            <a class="link">Add Attachment</a>
                         </label>
                     </div>
                     <div class="upload-file" id="file-name">

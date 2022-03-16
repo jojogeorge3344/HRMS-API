@@ -9,12 +9,12 @@
         <div class="d-flex flex-wrap align-items-baseline">
             
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="name">Expense Title<span class="required">*</span></label>
+                <label class="col-form-label" for="name">Expense Title</label>
                 <input type="text" class="form-control" formControlName="name">
             </div>
 
             <div class="form-group form-input-inline input-group col-6">
-                <label for="expenseConfigurationId">Expense Type<span class="required">*</span></label>
+                <label for="expenseConfigurationId">Expense Type</label>
                 <input type="text" class="form-control" disabled name="expenseConfigurationId" value="{{ selectedExpenseType ?.name }}">
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="d-flex flex-wrap align-items-baseline">
             
             <div class="form-group form-input-inline input-group col-6">
-                <label class="col-12 col-form-label px-0" for="expenseDate">Expense Date<span class="required">*</span></label>                
+                <label class="col-12 col-form-label px-0" for="expenseDate">Expense Date</label>                
                 <input class="form-control w-75" name="expenseDate" ngbDatepicker [minDate]="minDate"
                     [maxDate]="maxDate" #expenseDate="ngbDatepicker" formControlName="expenseDate">
                 
@@ -46,9 +46,8 @@
             <div class="form-input-line col-6">
 
                 <div class="form-group" *ngIf="!isMileageCategory">
-                    <label class="col-form-label" for="amount">Amount<span class="required">*</span></label>
-                    <input type="number" class="form-control"  (keydown)="validateNumber($event)"
-                     formControlName="amount">
+                    <label class="col-form-label" for="amount">Amount</label>
+                    <input type="number" class="form-control" formControlName="amount">
                 </div>
 
                 <div class="form-row" *ngIf="isMileageCategory">
@@ -78,7 +77,7 @@
                                 Please upload a file.
                             </div>
                             <i class="fal fa-paperclip"></i>
-                            <a class="link">Add Attachment<span class="required">*</span></a>
+                            <a class="link">Add Attachment</a>
                         </label>
                     </div>
                     <div class="upload-file" id="file-name">

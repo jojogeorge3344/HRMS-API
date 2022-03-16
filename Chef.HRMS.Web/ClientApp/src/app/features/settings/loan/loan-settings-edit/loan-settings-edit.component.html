@@ -30,7 +30,7 @@
                                         <input type="number" formControlName="eligibleDaysFromJoining"
                                             class="d-inline form-control mr-1">
                                     </div>
-                                    <span class="required">*</span>days after joining date
+                                    days after joining date
                                 </label>
 
                             </div>
@@ -53,21 +53,21 @@
 
                         <label for="isEligibleBasedonAnnualGrossSalary"
                             class="align-items-baseline custom-control-label d-flex">
-                            Employees are eligible for loan if annual gross salary is between<span class="required">*</span> 
+                            Employees are eligible for loan if annual gross salary is between
                             <div>
                                 <div class="d-flex align-items-baseline">
                                     <div class="form-group ml-1 mb-0" style="min-height: 60px;">
                                         <input type="number" class="d-inline form-control  mr-1"
-                                            formControlName="salaryFromRange">
+                                            formControlName="salaryFromRange" (keydown)="validateNumber($event)">
                                         <div *ngIf="!editForm.controls.salaryFromRange.errors && editForm.errors?.range && (editForm.touched || editForm.dirty)"
                                             class="invalid-feedback d-block">
                                             Incorrect salary range.
                                         </div>
                                     </div>
-                                    and<span class="required">*</span> 
+                                    and
                                     <div class="form-group ml-1 mb-0" style="min-height: 60px;">
                                         <input type="number" class="d-inline form-control mr-1"
-                                            formControlName="salaryToRange">
+                                            formControlName="salaryToRange" (keydown)="validateNumber($event)">
                                     </div>
                                 </div>
 
@@ -94,7 +94,7 @@
 
                     <div class="with-input pb-0 pt-3">
                         <label for="standardInterestRate" class="mr-2 my-0 align-items-baseline d-flex flex-wrap">
-                            <span class="text-nowrap">Standard Interest Rate<span class="required">*</span> </span>
+                            <span class="text-nowrap">Standard Interest Rate</span>
                             <div class="form-group ml-2" style="min-height: 60px;">
                                 <input type="number" class="d-inline form-control  mr-2"
                                     formControlName="standardInterestRate">%
@@ -104,10 +104,10 @@
 
                     <div class="with-input py-0">
                         <label for="maxNumberofInstallments" class="mr-2 my-0 align-items-baseline d-flex flex-wrap">
-                            <span class="text-nowrap">Maximum number of installments<span class="required">*</span> </span>
+                            <span class="text-nowrap">Maximum number of installments</span>
                             <div class="form-group ml-2" style="min-height: 60px;">
                                 <input type="number" class="d-inline form-control  mr-2"
-                                    formControlName="maxNumberofInstallments">
+                                    formControlName="maxNumberofInstallments" (keydown)="validateNumber($event)">
                             </div>
                         </label>
                     </div>

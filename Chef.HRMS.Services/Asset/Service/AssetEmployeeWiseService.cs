@@ -74,7 +74,15 @@ namespace Chef.HRMS.Services
         {
             return await assetEmployeeWiseRepository.GetMetadatavaluesById(assetid);
         }
-       
+        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
+        {
+            return await assetEmployeeWiseRepository.GetAssetId(assetraiserequestid);
+        }
+
+        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status, int assetid)
+        {
+            return await assetEmployeeWiseRepository.GetReasonAndDescription(assetraiserequestid, status, assetid);
+        }
 
         public async Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id)
         {
@@ -87,31 +95,36 @@ namespace Chef.HRMS.Services
             return await assetEmployeeWiseRepository.GetMetadataDetailsById(assettypeid);
         }
 
-        public async Task<AssetAllocated> InsertAsync(AssetAllocated assetAllocated)
+        public async Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated)
         {
-            //return await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
+            return await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
+           
+        }
+        public async Task<int> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated)
+        {
             try
             {
                 simpleUnitOfWork.BeginTransaction();
                 var result = await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
-                assetAllocated.AllocationId = "AL- " + assetAllocated.Id;
-                var update = await assetEmployeeWiseRepository.UpdateAsync(assetAllocated);
+                var exist = assetAllocated.Where(w => w.AssetId > 0);
+                result = await assetEmployeeWiseRepository.UpdateAssetStatus(exist);
+                // result = await assetEmployeeWiseRepository.UpdateRequest(result);
                 simpleUnitOfWork.Commit();
-                return assetAllocated;
+                return result;
             }
-
             catch (Exception ex)
             {
                 simpleUnitOfWork.Rollback();
                 string msg = ex.Message;
-                return assetAllocated;
+                return 0;
             }
         }
 
 
-        public async Task<int> UpdateApproveReject(int id, int status, string reason)
+        public async Task<int> UpdateApproveReject(int id, int status)
         {
-            return await assetEmployeeWiseRepository.UpdateApproveReject(id, status, reason);
+            return await assetEmployeeWiseRepository.UpdateApproveReject(id, status);
+            
         }
 
 
@@ -131,6 +144,11 @@ namespace Chef.HRMS.Services
         public async Task<int> UpdateAllocateStatus(int id, int assetraiserequestid, int status)
         {
             return await assetEmployeeWiseRepository.UpdateAllocateStatus(id, assetraiserequestid, status);
+        }
+
+        public async Task<int> UpdateReturnStatus(int assetid, int status, int assetraiserequestid)
+        {
+            return await assetEmployeeWiseRepository.UpdateReturnStatus(assetid, status, assetraiserequestid);
         }
 
         public Task<int> DeleteAsync(int id)
@@ -161,39 +179,5 @@ namespace Chef.HRMS.Services
             throw new NotImplementedException();
         }
 
-        public async Task<int> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated)
-        {
-            try
-            {
-                simpleUnitOfWork.BeginTransaction();
-                var result= await assetEmployeeWiseRepository.InsertAsync(assetAllocated);
-                var exist = assetAllocated.Where(w => w.AssetId > 0); 
-                result = await assetEmployeeWiseRepository.UpdateAssetStatus(exist);
-                // result = await assetEmployeeWiseRepository.UpdateRequest(result);
-                simpleUnitOfWork.Commit();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                simpleUnitOfWork.Rollback();
-                string msg = ex.Message;
-                return 0;
-            }
-        }
-
-        public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
-        {
-            return await assetEmployeeWiseRepository.GetAssetId(assetraiserequestid);
-        }
-
-        public async Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status,int assetid)
-        {
-            return await assetEmployeeWiseRepository.GetReasonAndDescription(assetraiserequestid,status, assetid);
-        }
-
-        public async Task<int> UpdateReturnStatus(int assetid, int status,int assetraiserequestid)
-        {
-            return await assetEmployeeWiseRepository.UpdateReturnStatus(assetid, status, assetraiserequestid);
-        }
     }
 }

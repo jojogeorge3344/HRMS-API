@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 
@@ -15,7 +15,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   selector: 'hrms-employee-bank-details-actions',
   templateUrl: './employee-bank-details-actions.component.html'
 })
-export class EmployeeBankDetailsActionsComponent implements OnInit, OnDestroy {
+export class EmployeeBankDetailsActionsComponent implements OnInit {
 
   bankDetails: EmployeeBankDetails;
   currentUserId: number;
@@ -27,10 +27,6 @@ export class EmployeeBankDetailsActionsComponent implements OnInit, OnDestroy {
     private bankService: EmployeeBankDetailsService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService) { }
-
-  ngOnDestroy(): void {
-     this.modalService.dismissAll()
-  }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();

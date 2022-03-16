@@ -211,7 +211,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       jobTitleId: ['', [
         Validators.required
       ]],
-      secondaryJobTitle: [''],
+      secondaryJobTitle: ['',[Validators.maxLength(26)]],
       businessUnit: ['', [
         Validators.required
       ]],

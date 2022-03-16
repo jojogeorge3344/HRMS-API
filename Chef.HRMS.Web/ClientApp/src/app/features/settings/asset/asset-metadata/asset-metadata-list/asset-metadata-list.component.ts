@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { AssetMetadataCreateComponent } from '../asset-metadata-create/asset-metadata-create.component';
@@ -15,7 +15,7 @@ import { AssetAssetsService } from '../../asset-assets/asset-assets.service';
   selector: 'hrms-asset-metadata-list',
   templateUrl: './asset-metadata-list.component.html'
 })
-export class AssetMetadataListComponent implements OnInit, OnDestroy {
+export class AssetMetadataListComponent implements OnInit {
 
   assetType: AssetType[];
   assetTypeWithMetadata: AssetType[];
@@ -38,15 +38,11 @@ export class AssetMetadataListComponent implements OnInit, OnDestroy {
     this.getAllAssignedAssetType();
   }
 
-  ngOnDestroy(): void {
-    this.modalService.dismissAll()
-  }
-
   getAssetTypeWithMetadata() {
     this.assetTypeWithMetadata = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
     console.log("assetType",this.assetType);
     this.selectValueRelation = [];
-    this.assetAssetService.setListDetails(this.assetType)
+    this.assetAssetService.setListDetails(this.assetTypeWithMetadata)
   }
 
   getAssetTypeList() {

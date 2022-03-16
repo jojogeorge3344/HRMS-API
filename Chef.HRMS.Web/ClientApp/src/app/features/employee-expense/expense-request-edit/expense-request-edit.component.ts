@@ -424,17 +424,4 @@ export class ExpenseRequestEditComponent implements OnInit {
       createdDate: [],
     });
   }
-  validateNumber(ev) {
-    const keyCode = ev.keyCode;
-    const excludedKeys = [8, 110, 190];
-    if (
-      !(
-        (keyCode >= 48 && keyCode <= 57) ||
-        (keyCode >= 96 && keyCode <= 105) ||
-        excludedKeys.includes(keyCode)
-      )
-    ) {
-      ev.preventDefault();
-    }
-  }
 }

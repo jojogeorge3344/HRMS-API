@@ -8,9 +8,6 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
 import { toNumber } from 'lodash';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
-import { RequestFor } from 'src/app/models/common/types/requestfor';
-import { RequestType } from 'src/app/models/common/types/requesttype';
-import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -23,14 +20,10 @@ export class MyAssetsChangeComponent implements OnInit {
   changeType = AssetChangeType;
   changeTypeSelected: string;
   changeAssetForm: FormGroup;
-  assetStatus = AssetStatus;
-  requestFor = RequestFor;
-  requestType = RequestType;
-  raiseRequestData: any = {};
+  assetStatus=AssetStatus;
 
   @Input() assetData: MyAssets;
   @Input() currentUserId: number;
-
 
   constructor(public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -47,11 +40,12 @@ export class MyAssetsChangeComponent implements OnInit {
     return this.formBuilder.group({
       changeTypeOptions: [null, Validators.required],
       changeDescription: ['', [
+        Validators.required,
         Validators.maxLength(256)
       ]],
     });
   }
-
+ 
   onSubmit() {
     this.changeTypeSelected = this.changeAssetForm.get('changeTypeOptions').value;
     this.assetData.status = this.assetStatus.ChangeRequest;
@@ -76,9 +70,9 @@ export class MyAssetsChangeComponent implements OnInit {
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to submit return request.');
+        this.toastr.showErrorMessage('Unable to submit change request.');
       });
-  }
+    }
 }
 
 
