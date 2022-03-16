@@ -52,6 +52,12 @@ export class OvertimeRequestService {
     return this.http.get(this.baseUrl + 'getOvertimeNotifyPersonnelByOvertimeId/' + id).pipe(map(response => { return response; }));
   }
 
+  getMarkedDates(empId:number){
+    return this.http.get<any>(this.baseUrl + 'appliedDates/' + empId)
+      .pipe(
+        map((res: string[]) => res.join('~!~'))
+      );
+  }
   // getPayrollStatusByEmpId(checkPayrollProcessed) {
   //   return this.http.get(this.baseUrl + 'getDetailsById/', checkPayrollProcessed).pipe(map(response => { return response; }));
   // }
