@@ -8,6 +8,9 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { AssetChangeType } from 'src/app/models/common/types/assetchangetype';
 import { toNumber } from 'lodash';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
+import { RequestFor } from 'src/app/models/common/types/requestfor';
+import { RequestType } from 'src/app/models/common/types/requesttype';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -20,7 +23,10 @@ export class MyAssetsChangeComponent implements OnInit {
   changeType = AssetChangeType;
   changeTypeSelected: string;
   changeAssetForm: FormGroup;
-  assetStatus=AssetStatus;
+  assetStatus = AssetStatus;
+  requestFor = RequestFor;
+  requestType = RequestType;
+  raiseRequestData: any = {};
 
   @Input() assetData: MyAssets;
   @Input() currentUserId: number;

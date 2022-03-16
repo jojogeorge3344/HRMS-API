@@ -23,6 +23,9 @@ export class MyAssetsService {
   updateStatus(assetData:MyAssets){
     return this.http.post<MyAssets>(this.baseUrl + 'update' , assetData ).pipe(map(response => { return response; }));
   }
+  insertRequest(raiseRequestData:any){
+    return this.http.post<any>(this.baseUrl + 'insertRequest' , raiseRequestData ).pipe(map(response => { return response; }));
+  }
   // updateReturnStatus(assetData:MyAssets){
   //   return this.http.post<MyAssets>(this.baseUrl + 'updateReturn' , assetData ).pipe(map(response => { return response; }));
   // }
