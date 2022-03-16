@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { AssetReturnType } from 'src/app/models/common/types/assetreturntype';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { MyAssetsService } from '../my-assets.service';
 import { MyAssets } from '../my-assets.model';
+import { forkJoin } from 'rxjs';
 import { toNumber } from 'lodash';
 import { AssetStatus } from 'src/app/models/common/types/assetstatus';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
@@ -17,6 +19,7 @@ import { AssetRaiseRequest } from '@features/employee-assets/raise-request/raise
 export class MyAssetsReturnComponent implements OnInit {
   minDateFrom;
   markDisabled;
+  current: Date;
   returnTypeKeys: number[];
   returnType = AssetReturnType;
   @Input() assetData: MyAssets;
@@ -24,7 +27,9 @@ export class MyAssetsReturnComponent implements OnInit {
   returnAssetForm: FormGroup;
   returnTypeSelected: string;
   assetStatus = AssetStatus;
-
+  requestFor = RequestFor;
+  requestType = RequestType;
+  raiseRequestData: any={};
 
   constructor(private calendar: NgbCalendar,
     public activeModal: NgbActiveModal,
