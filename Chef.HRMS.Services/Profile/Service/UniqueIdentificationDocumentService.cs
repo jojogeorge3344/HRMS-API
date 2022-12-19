@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class UniqueIdentificationDocumentService : AsyncService, IUniqueIdentificationDocumentService
+    public class UniqueIdentificationDocumentService : AsyncService <UniqueIdentificationDocument>, IUniqueIdentificationDocumentService
     {
         private readonly IUniqueIdentificationDocumentRepository uniqueIdentificationDocumentRepository;
 
@@ -30,7 +31,7 @@ namespace Chef.HRMS.Services
             return uniqueIdentificationDocumentRepository.GetAsync(id);
         }
 
-        public Task<UniqueIdentificationDocument> InsertAsync(UniqueIdentificationDocument uniqueIdentificationDocument)
+        public Task<int> InsertAsync(UniqueIdentificationDocument uniqueIdentificationDocument)
         {
             return uniqueIdentificationDocumentRepository.InsertAsync(uniqueIdentificationDocument);
         }

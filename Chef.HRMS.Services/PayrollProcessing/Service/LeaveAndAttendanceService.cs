@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class LeaveAndAttendanceService : AsyncService, ILeaveAndAttendanceService
+    public class LeaveAndAttendanceService : AsyncService<LeaveAndAttendanceViewModel>, ILeaveAndAttendanceService
     {
         private readonly ILeaveAndAttendanceRepository leaveAndAttendanceRepository;
 
@@ -66,7 +67,7 @@ namespace Chef.HRMS.Services
             throw new System.NotImplementedException();
         }
 
-        public Task<LeaveAndAttendance> InsertAsync(LeaveAndAttendance obj)
+        public Task<int> InsertAsync(LeaveAndAttendance obj)
         {
             throw new System.NotImplementedException();
         }

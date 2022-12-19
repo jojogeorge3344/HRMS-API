@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpensePaymentRepository : GenericRepository<ExpensePayment>, IExpensePaymentRepository
     {
-        public ExpensePaymentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public ExpensePaymentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

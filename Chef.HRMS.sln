@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.HRMS.Models", "Chef.HRMS.Models\Chef.HRMS.Models.csproj", "{50B2294C-C88B-4030-88D1-F714E1E5D5B9}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -33,7 +33,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.HRMS.Types", "..\Chef.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.Common.Types", "..\Chef.Common\Chef.Common.Types\Chef.Common.Types.csproj", "{78CEE46C-2C4C-46F5-BB0B-93E02F3D4A9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chef.HRMS.Types", "Chef.HRMS.Types\Chef.HRMS.Types.csproj", "{068920E5-401B-4471-B4ED-2BBED6E53C28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.HRMS.Types", "Chef.HRMS.Types\Chef.HRMS.Types.csproj", "{068920E5-401B-4471-B4ED-2BBED6E53C28}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.Common.Authentication", "..\chef.common\Chef.Common.Authentication\Chef.Common.Authentication.csproj", "{613ABB57-4959-4FA2-9DD2-BAF7441BB48E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.Common.Api", "..\chef.common\Chef.Common.Api\Chef.Common.Api.csproj", "{7DD9AAA6-330C-41CB-853D-E39C67ACBBA9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.Common.Data", "..\chef.common\Chef.Common.Data\Chef.Common.Data.csproj", "{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +87,18 @@ Global
 		{068920E5-401B-4471-B4ED-2BBED6E53C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{068920E5-401B-4471-B4ED-2BBED6E53C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{068920E5-401B-4471-B4ED-2BBED6E53C28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{613ABB57-4959-4FA2-9DD2-BAF7441BB48E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{613ABB57-4959-4FA2-9DD2-BAF7441BB48E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{613ABB57-4959-4FA2-9DD2-BAF7441BB48E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{613ABB57-4959-4FA2-9DD2-BAF7441BB48E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DD9AAA6-330C-41CB-853D-E39C67ACBBA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD9AAA6-330C-41CB-853D-E39C67ACBBA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD9AAA6-330C-41CB-853D-E39C67ACBBA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD9AAA6-330C-41CB-853D-E39C67ACBBA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +108,9 @@ Global
 		{C40563BC-D1AE-446D-A1BF-E3FBB7349EC2} = {48172636-C88F-4F76-830A-54E5B467D7CF}
 		{783E36DE-C0D7-4C89-A648-D4A8C21C20D5} = {48172636-C88F-4F76-830A-54E5B467D7CF}
 		{78CEE46C-2C4C-46F5-BB0B-93E02F3D4A9B} = {48172636-C88F-4F76-830A-54E5B467D7CF}
+		{613ABB57-4959-4FA2-9DD2-BAF7441BB48E} = {48172636-C88F-4F76-830A-54E5B467D7CF}
+		{7DD9AAA6-330C-41CB-853D-E39C67ACBBA9} = {48172636-C88F-4F76-830A-54E5B467D7CF}
+		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C} = {48172636-C88F-4F76-830A-54E5B467D7CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A30C76FC-5552-46F9-AEE9-FB6B42F761B8}

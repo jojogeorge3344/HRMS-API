@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PANRepository : GenericRepository<PAN>, IPANRepository
     {
-        public PANRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PANRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

@@ -3,13 +3,13 @@ using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 namespace Chef.HRMS.Repositories
 {
-    public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<HRMSEmployee>, IEmployeeRepository
     {
-        public EmployeeRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public EmployeeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

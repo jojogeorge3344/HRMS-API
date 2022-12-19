@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-    public class AttendanceAdminRepository : GenericRepository<AttendanceAdminStatsView>, IAttendanceAdminRepository
+    public class AttendanceAdminRepository : TenantRepository<AttendanceAdminStatsView>, IAttendanceAdminRepository
     {
-        public AttendanceAdminRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AttendanceAdminRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

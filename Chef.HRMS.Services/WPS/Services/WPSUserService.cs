@@ -33,7 +33,7 @@ namespace Chef.HRMS.Services
             return await wpsUserRepository.GetAsync(id);
         }
 
-        public async Task<WPSUser> InsertAsync(WPSUser wpsUser)
+        public async Task<int> InsertAsync(WPSUser wpsUser)
         {
             return await wpsUserRepository.InsertAsync(wpsUser);
         }

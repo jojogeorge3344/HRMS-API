@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class CompanyService : ICompanyService
+    public class CompanyService : AsyncService<HRMSCompany>, ICompanyService
     {
         private readonly ICompanyRepository companyRepository;
 

@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayGroupRepository : GenericRepository<PayGroup>, IPayGroupRepository
     {
-        public PayGroupRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PayGroupRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

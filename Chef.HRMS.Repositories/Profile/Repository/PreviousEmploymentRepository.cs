@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PreviousEmploymentRepository : GenericRepository<PreviousEmployment>, IPreviousEmploymentRepository
     {
-        public PreviousEmploymentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PreviousEmploymentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

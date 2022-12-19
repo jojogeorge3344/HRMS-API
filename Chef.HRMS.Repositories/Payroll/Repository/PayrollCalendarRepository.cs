@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollCalendarRepository : GenericRepository<PayrollCalendar>, IPayrollCalendarRepository
     {
-        public PayrollCalendarRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PayrollCalendarRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

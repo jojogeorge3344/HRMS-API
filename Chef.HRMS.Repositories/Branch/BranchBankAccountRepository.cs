@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class BranchBankAccountRepository : GenericRepository<HRMSBranchBankAccount>, IBranchBankAccountRepository
     {
-        public BranchBankAccountRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public BranchBankAccountRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

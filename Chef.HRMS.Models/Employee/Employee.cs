@@ -7,8 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
-    [Table("employee")]
-    public class Employee : Model
+    [Table("hrmsemployee")]
+    public class HRMSEmployee : Model
     {
         /// <summary>
         /// Holds Date of Birth

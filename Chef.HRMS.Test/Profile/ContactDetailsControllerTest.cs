@@ -30,7 +30,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockContactDetails()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockContactDetails()));
 
             // Act
             var okResult = await contactDetailsController.Get(id);
@@ -56,7 +56,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockContactDetailsList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockContactDetailsList()));
 
             // Act
             var okResult = await contactDetailsController.GetAll();
@@ -73,7 +73,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             Contact contactDetails = GetMockContactDetails();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<Contact>())).Returns(Task.FromResult(GetMockContactDetails()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<Contact>())).Returns( await Task.FromResult(GetMockContactDetails()));
 
 
             // Act
@@ -119,8 +119,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockContactDetails()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockContactDetails()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await contactDetailsController.Delete(existingId);

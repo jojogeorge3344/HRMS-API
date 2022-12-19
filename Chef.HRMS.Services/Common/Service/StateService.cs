@@ -1,12 +1,12 @@
-﻿using Chef.Common.Models;
-using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class StateService : AsyncService, IStateService
+    public class StateService : AsyncService<State>, IStateService
     {
         private readonly IStateRepository stateRepository;
 
@@ -35,7 +35,7 @@ namespace Chef.HRMS.Services
             return await stateRepository.GetAsync(id);
         }
 
-        public async Task<State> InsertAsync(State obj)
+        public async Task<int> InsertAsync(State obj)
         {
             return await stateRepository.InsertAsync(obj);
         }

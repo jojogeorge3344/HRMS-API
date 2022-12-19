@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
             //Arrange
             var leaveStructureId = 2;
             var leaveComponentId = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>(), It.IsAny<int>())).Returns(Task.FromResult(GetMockLeaveAccrualSettings()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>(), It.IsAny<int>())).Returns( await Task.FromResult(GetMockLeaveAccrualSettings()));
 
             // Act
             var okResult = await leaveGeneralSettingsController.Get(leaveStructureId, leaveComponentId);

@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public class HolidayRepository : GenericRepository<Holiday>, IHolidayRepository
     {
-        public HolidayRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public HolidayRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

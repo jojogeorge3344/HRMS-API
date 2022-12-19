@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class OverTimePolicyService : AsyncService, IOverTimePolicyService
+    public class OverTimePolicyService : AsyncService<OverTimePolicy>, IOverTimePolicyService
     {
         private readonly IOverTimePolicyRepository overTimePolicyRepository;
 
@@ -46,7 +47,7 @@ namespace Chef.HRMS.Services
         }
 
 
-        public async Task<OverTimePolicy> InsertAsync(OverTimePolicy overTimePolicy)
+        public async Task<int> InsertAsync(OverTimePolicy overTimePolicy)
         {
             return await overTimePolicyRepository.InsertAsync(overTimePolicy);
         }

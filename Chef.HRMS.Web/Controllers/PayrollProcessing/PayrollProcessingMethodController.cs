@@ -101,7 +101,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(payrollProcessingMethodList);
         }
         [HttpGet("GetAllUnProcessedEmployees/{year}/{month}")]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetAllUnProcessedEmployees(int year, int month)
+        public async Task<ActionResult<IEnumerable<HRMSEmployee>>> GetAllUnProcessedEmployees(int year, int month)
         {
             var unProcessedEmployees = await payrollProcessingMethodService.GetAllUnProcessedEmployees(year, month);
 

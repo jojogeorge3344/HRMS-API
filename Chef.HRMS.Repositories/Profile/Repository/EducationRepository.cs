@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EducationRepository : GenericRepository<Education>, IEducationRepository
     {
-        public EducationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public EducationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

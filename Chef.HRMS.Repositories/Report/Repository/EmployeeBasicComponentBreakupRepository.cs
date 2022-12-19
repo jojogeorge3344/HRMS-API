@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeBasicComponentBreakupRepository : GenericRepository<EmployeeBasicComponentBreakupView>, IEmployeeBasicComponentBreakupRepository
     {
-        public EmployeeBasicComponentBreakupRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public EmployeeBasicComponentBreakupRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            branch = await branchService.InsertAsync(branch);
+            var id = await branchService.InsertAsync(branch);
 
-            return CreatedAtAction(nameof(Insert), branch);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class BranchSignatoryService : AsyncService, IBranchSignatoryService
+    public class BranchSignatoryService : AsyncService<HRMSBranchSignatory>, IBranchSignatoryService
     {
         private readonly IBranchSignatoryRepository branchSignatoryRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return await branchSignatoryRepository.GetAsync(id);
         }
 
-        public async Task<HRMSBranchSignatory> InsertAsync(HRMSBranchSignatory BranchSignatory)
+        public async Task<int> InsertAsync(HRMSBranchSignatory BranchSignatory)
         {
             return await branchSignatoryRepository.InsertAsync(BranchSignatory);
         }

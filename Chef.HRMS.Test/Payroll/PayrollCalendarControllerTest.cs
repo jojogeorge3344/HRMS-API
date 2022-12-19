@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayrollCalendar()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayrollCalendar()));
 
             // Act
             var okResult = await PayrollCalendarController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockPayrollCalendarList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockPayrollCalendarList()));
 
             // Act
             var okResult = await PayrollCalendarController.GetAll();
@@ -67,7 +67,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             PayrollCalendar PayrollCalendar = GetMockPayrollCalendar();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<PayrollCalendar>())).Returns(Task.FromResult(GetMockPayrollCalendar()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<PayrollCalendar>())).Returns( await Task.FromResult(GetMockPayrollCalendar()));
 
             // Act
             var createdResponse = await PayrollCalendarController.Insert(PayrollCalendar) as CreatedAtActionResult;
@@ -83,8 +83,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayrollCalendar()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayrollCalendar()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await PayrollCalendarController.Delete(existingId);

@@ -11,7 +11,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance>, ILeaveAndAttendanceRepository
     {
-        public LeaveAndAttendanceRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LeaveAndAttendanceRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

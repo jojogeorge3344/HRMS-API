@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class ExpensePolicyConfigurationService : AsyncService, IExpensePolicyConfigurationService
+    public class ExpensePolicyConfigurationService : AsyncService<ExpensePolicyConfiguration>, IExpensePolicyConfigurationService
     {
         private readonly IExpensePolicyConfigurationRepository expensePolicyConfigurationRepository;
 
@@ -40,7 +41,7 @@ namespace Chef.HRMS.Services
             return await expensePolicyConfigurationRepository.GetExpenseTypesById(employeeId);
         }
 
-        public async Task<ExpensePolicyConfiguration> InsertAsync(ExpensePolicyConfiguration expensePolicyConfiguration)
+        public async Task<int> InsertAsync(ExpensePolicyConfiguration expensePolicyConfiguration)
         {
             return await expensePolicyConfigurationRepository.InsertAsync(expensePolicyConfiguration);
         }

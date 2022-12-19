@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockWorkFromHomeAdminSettings()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockWorkFromHomeAdminSettings()));
 
             // Act
             var okResult = await workFromHomeAdminSettingsController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             WorkFromHomeSettings WorkFromHomeAdminSettings = GetMockWorkFromHomeAdminSettings();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<WorkFromHomeSettings>())).Returns(Task.FromResult(GetMockWorkFromHomeAdminSettings()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<WorkFromHomeSettings>())).Returns( await Task.FromResult(GetMockWorkFromHomeAdminSettings()));
 
             // Act
             var createdResponse = await workFromHomeAdminSettingsController.Insert(WorkFromHomeAdminSettings) as CreatedAtActionResult;

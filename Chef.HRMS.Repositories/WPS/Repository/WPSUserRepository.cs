@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class WPSUserRepository : GenericRepository<WPSUser>, IWPSUserRepository
     {
-        public WPSUserRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public WPSUserRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

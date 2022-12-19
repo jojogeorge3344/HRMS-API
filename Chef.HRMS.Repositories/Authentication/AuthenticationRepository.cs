@@ -4,13 +4,29 @@ using Dapper;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
+using Authentication = Chef.Common.Models.Authentication;
 
 namespace Chef.HRMS.Repositories
 {
-    public class AuthenticationRepository : GenericRepository<Authentication>, IAuthenticationRepository
+    public class AuthenticationRepository : TenantRepository<Authentication>, IAuthenticationRepository
     {
-        public AuthenticationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AuthenticationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
+        }
+
+        public Task<int> BulkInsertAsync(List<Models.Authentication> objs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> BulkUpdateAsync(List<Models.Authentication> objs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> InsertAsync(Models.Authentication obj)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Authentication> Login(Authentication credentials)
@@ -28,6 +44,11 @@ namespace Chef.HRMS.Repositories
                     return new Authentication();
                 }
 
+        }
+
+        public Task<Models.Authentication> Login(Models.Authentication credentials)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> ResetPassword(Authentication credentials)
@@ -48,6 +69,26 @@ namespace Chef.HRMS.Repositories
                     return false;
                 }
             }
+        }
+
+        public Task<bool> ResetPassword(Models.Authentication credentials)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> UpdateAsync(Models.Authentication obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Models.Authentication>> IGenericRepository<Models.Authentication>.GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Models.Authentication> IGenericRepository<Models.Authentication>.GetAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

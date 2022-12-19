@@ -1,16 +1,12 @@
 ﻿using Chef.Common.Repositories;
-using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class AssetEmployeeWiseService : AsyncService, IAssetEmployeeWiseService
+    public class AssetEmployeeWiseService : AsyncService<AssetEmployeeWise>, IAssetEmployeeWiseService
     {
         private readonly IAssetEmployeeWiseRepository assetEmployeeWiseRepository;
         private readonly ISimpleUnitOfWork simpleUnitOfWork;
@@ -58,7 +54,7 @@ namespace Chef.HRMS.Services
         }
 
 
-        public async Task<IEnumerable<Employee>> GetEmployeeNameById(int id)
+        public async Task<IEnumerable<HRMSEmployee>> GetEmployeeNameById(int id)
         {
             return await assetEmployeeWiseRepository.GetEmployeeNameById(id);
         }      

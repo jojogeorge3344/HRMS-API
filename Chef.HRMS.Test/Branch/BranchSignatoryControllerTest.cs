@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 13;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBranchSignatory()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBranchSignatory()));
 
             // Act
             var okResult = await branchSignatoryController.Get(id);
@@ -52,7 +52,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 13;
-            mockService.Setup(repo => repo.GetAllByBranch(It.IsAny<int>())).Returns(Task.FromResult(GetMockBranchSignatoryList()));
+            mockService.Setup(repo => repo.GetAllByBranch(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBranchSignatoryList()));
 
             // Act
             var okResult = await branchSignatoryController.GetAllByBranch(id);
@@ -82,7 +82,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             HRMSBranchSignatory BranchSignatory = GetMockBranchSignatory();
-            mockService.Setup(repo => repo.InsertAsync(It.IsAny<HRMSBranchSignatory>())).Returns(Task.FromResult(GetMockBranchSignatory()));
+            mockService.Setup(repo => repo.InsertAsync(It.IsAny<HRMSBranchSignatory>())).Returns( await Task.FromResult(GetMockBranchSignatory()));
 
             // Act
             var createdResponse = await branchSignatoryController.Insert(BranchSignatory) as CreatedAtActionResult;
@@ -127,8 +127,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 1;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBranchSignatory()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBranchSignatory()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResponse = await branchSignatoryController.Delete(existingId);

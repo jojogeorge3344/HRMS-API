@@ -35,7 +35,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("Get/{id}")]
-        public async Task<ActionResult<Employee>> Get(int id)
+        public async Task<ActionResult<HRMSEmployee>> Get(int id)
         {
             var employeeDetails = await employeeService.GetAsync(id);
 
@@ -47,7 +47,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(employeeDetails);
         }
         [HttpGet("GetEmployeeDetailsById/{id}")]
-        public async Task<ActionResult<Employee>> GetEmployeeDetailsById(int id)
+        public async Task<ActionResult<HRMSEmployee>> GetEmployeeDetailsById(int id)
         {
             var employeeDetails = await employeeService.GetEmployeeDetailsById(id);
 
@@ -60,7 +60,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetAll()
+        public async Task<ActionResult<IEnumerable<HRMSEmployee>>> GetAll()
         {
             var employeeList = await employeeService.GetAllAsync();
 
@@ -88,7 +88,7 @@ namespace Chef.HRMS.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("Insert")]
-        public async Task<IActionResult> Insert(Employee employee)
+        public async Task<IActionResult> Insert(HRMSEmployee employee)
         {
             if (!ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(Employee employee)
+        public async Task<ActionResult<int>> Update(HRMSEmployee employee)
         {
             if (!ModelState.IsValid)
             {

@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PassportRepository : GenericRepository<Passport>, IPassportRepository
     {
-        public PassportRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PassportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

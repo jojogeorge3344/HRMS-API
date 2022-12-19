@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBonusType()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBonusType()));
 
             // Act
             var okResult = await bonusTypeController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockBonusTypeList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockBonusTypeList()));
 
             // Act
             var okResult = await bonusTypeController.GetAll();
@@ -67,7 +67,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             BonusType bonusType = GetMockBonusType();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<BonusType>())).Returns(Task.FromResult(GetMockBonusType()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<BonusType>())).Returns( await Task.FromResult(GetMockBonusType()));
 
             // Act
             var createdResponse = await bonusTypeController.Insert(bonusType) as CreatedAtActionResult;
@@ -83,8 +83,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBonusType()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBonusType()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await bonusTypeController.Delete(existingId);

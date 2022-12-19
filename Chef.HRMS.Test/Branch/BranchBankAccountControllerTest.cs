@@ -26,7 +26,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 12;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBranchBankAccount()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBranchBankAccount()));
 
             // Act
             var okResult = await branchBankAccountController.Get(id);
@@ -52,7 +52,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockBranchBankAccountList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockBranchBankAccountList()));
 
             // Act
             var okResult = await branchBankAccountController.GetAll();
@@ -68,7 +68,7 @@ namespace Chef.HRMS.Test
         {
             //Assert
             HRMSBranchBankAccount BranchBankAccount = GetMockBranchBankAccount();
-            mockService.Setup(repo => repo.InsertAsync(It.IsAny<HRMSBranchBankAccount>())).Returns(Task.FromResult(GetMockBranchBankAccount()));
+            mockService.Setup(repo => repo.InsertAsync(It.IsAny<HRMSBranchBankAccount>())).Returns( await Task.FromResult(GetMockBranchBankAccount()));
 
             // Act
             var createdResponse = await branchBankAccountController.Insert(BranchBankAccount) as CreatedAtActionResult;
@@ -117,8 +117,8 @@ namespace Chef.HRMS.Test
             var existingId = 12;
             var mockService = new Mock<IBranchBankAccountService>();
             var branchBankAccountController = new BranchBankAccountController(mockService.Object);
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBranchBankAccount()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBranchBankAccount()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResponse = await branchBankAccountController.Delete(existingId);

@@ -1,47 +1,64 @@
+using Autofac;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
+using Serilog;
+using Autofac.Extensions.DependencyInjection;
+using Chef.Finance.Web.Extensions;
 
-namespace Chef.HRMS.Web
+namespace Chef.HRMS.Web.Extensions;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-             .ConfigureLogging(logging =>
-             {
-                 logging.ClearProviders();
-                 logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-             })
-             .UseNLog();
+        // The initial "bootstrap" logger is able to log errors during start-up. It's completely replaced by the
+        // logger configured in `UseSerilog()` below, once configuration and dependency-injection have both been
+        // set up successfully.
+        Log.Logger = new LoggerConfiguration()
+        .WriteTo.Console()
+        .CreateBootstrapLogger();
 
-        public static void Main(string[] args)
+        Log.Information("Starting Web Host");
+
+        try
         {
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-            try
-            {
-                logger.Debug("init main");
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch (Exception exception)
-            {
-                //NLog: catch setup errors
-                logger.Error(exception, "Stopped program because of exception");
-                throw;
-            }
-            finally
-            {
-                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-                NLog.LogManager.Shutdown();
-            }
+            CreateHostBuilder(args).Build().Run();
+            Log.Information("Stopping Web Host");
         }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Host terminated unexpectedly");
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
+    }
 
-        // NLog: Setup NLog for Dependency injection;
+    public static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host.CreateDefaultBuilder(args)
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config.AddJsonFile(
+                    "logsettings.json",
+                    optional: false,
+                    reloadOnChange: true);
+            })
+            .ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                builder.RegisterModule<AutofacRegisterModule>(); 
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            })
+            .UseSerilog();
+
     }
 }

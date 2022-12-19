@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class DrivingLicenseRepository : GenericRepository<DrivingLicense>, IDrivingLicenseRepository
     {
-        public DrivingLicenseRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public DrivingLicenseRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

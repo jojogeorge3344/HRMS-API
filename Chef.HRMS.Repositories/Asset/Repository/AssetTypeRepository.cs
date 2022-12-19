@@ -12,7 +12,7 @@ namespace Chef.HRMS.Repositories
 {
     public class AssetTypeRepository: GenericRepository<AssetType>, IAssetTypeRepository
     {
-        public AssetTypeRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AssetTypeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
            
         }

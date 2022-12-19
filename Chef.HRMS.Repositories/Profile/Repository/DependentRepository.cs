@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class DependentRepository : GenericRepository<Dependent>, IDependentRepository
     {
-        public DependentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public DependentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

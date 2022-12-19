@@ -11,7 +11,7 @@ namespace Chef.HRMS.Repositories
 {
     public class BasicComponentRepository : GenericRepository<PayrollBasicComponent>, IPayrollBasicComponentRepository
     {
-        public BasicComponentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public BasicComponentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

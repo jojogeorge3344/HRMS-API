@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockExpensePolicy()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockExpensePolicy()));
 
             // Act
             var okResult = await expensePolicyController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockExpensePolicyList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockExpensePolicyList()));
 
             // Act
             var okResult = await expensePolicyController.GetAll();
@@ -67,7 +67,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             ExpensePolicy expensePolicy = GetMockExpensePolicy();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<ExpensePolicy>())).Returns(Task.FromResult(GetMockExpensePolicy()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<ExpensePolicy>())).Returns( await Task.FromResult(GetMockExpensePolicy()));
 
             // Act
             var createdResponse = await expensePolicyController.Insert(expensePolicy) as CreatedAtActionResult;
@@ -97,8 +97,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockExpensePolicy()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockExpensePolicy()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await expensePolicyController.Delete(existingId);

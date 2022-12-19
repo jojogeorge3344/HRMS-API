@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class LOPTrackerService : AsyncService, ILOPTrackerService
+    public class LOPTrackerService : AsyncService<LOPTracker>, ILOPTrackerService
     {
         private readonly ILOPTrackerRepository lopTrackerRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return await lopTrackerRepository.GetLossOfPayDeductionByEmployee(employeeId, payrollProcessingMethodId);
         }
 
-        public async Task<LOPTracker> InsertAsync(LOPTracker lopTracker)
+        public async Task<int> InsertAsync(LOPTracker lopTracker)
         {
             return await lopTrackerRepository.InsertAsync(lopTracker);
         }

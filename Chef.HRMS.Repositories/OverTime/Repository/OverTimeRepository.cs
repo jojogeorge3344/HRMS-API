@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeRepository
     {
-        public OverTimeRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public OverTimeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

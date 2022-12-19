@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            uniqueIdentificationDocument = await uniqueIdentificationDocumentService.InsertAsync(uniqueIdentificationDocument);
+            var id = await uniqueIdentificationDocumentService.InsertAsync(uniqueIdentificationDocument);
 
-            return CreatedAtAction(nameof(Insert), uniqueIdentificationDocument);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Repositories;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class AssetTypeMetadataService : AsyncService, IAssetTypeMetadataService
+    public class AssetTypeMetadataService : AsyncService<AssetTypeMetadata>, IAssetTypeMetadataService
     {
         private readonly IAssetTypeMetadataRepository assetTypeMetadataRepository;
         private readonly ISimpleUnitOfWork simpleUnitOfWork;
@@ -50,7 +51,7 @@ namespace Chef.HRMS.Services
             return await assetTypeMetadataRepository.InsertAsync(assetTypeMetadata);
         }
 
-        public async Task<AssetTypeMetadata> InsertAsync(AssetTypeMetadata assetTypeMetadata)
+        public async Task<int> InsertAsync(AssetTypeMetadata assetTypeMetadata)
         {
             return await assetTypeMetadataRepository.InsertAsync(assetTypeMetadata);
         }

@@ -1,16 +1,15 @@
-﻿using Chef.Common.Repositories;
-using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
+//Queryable q;
 namespace Chef.HRMS.Services
 {
-    public class AssetService : AsyncService, IAssetService
+    public class AssetService : AsyncService<Asset>, IAssetService
     {
         private readonly IAssetRepository assetRepository;
         private readonly ISimpleUnitOfWork simpleUnitOfWork;
@@ -68,7 +67,7 @@ namespace Chef.HRMS.Services
                 //result=await assetRepository.UpdateAsync(asset)
                 if (asset.AssetMetadataValues !=null)
                 {
-                    asset.AssetMetadataValues.ForEach(c => c.AssetId = result.Id);
+                    asset.AssetMetadataValues.ForEach(c => c.AssetId = result);
                     var res = await assetRepository.BulkInsertAsync(asset.AssetMetadataValues);
                 }
            

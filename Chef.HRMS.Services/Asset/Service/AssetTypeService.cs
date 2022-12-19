@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class AssetTypeService : AsyncService, IAssetTypeService
+    public class AssetTypeService : AsyncService<AssetType>, IAssetTypeService
     {
         private readonly IAssetTypeRepository assetTypeRepository;
 
@@ -23,7 +24,7 @@ namespace Chef.HRMS.Services
             return await assetTypeRepository.InsertAsync(assetType);
         }
 
-        public async Task<AssetType> InsertAsync(AssetType assetType)
+        public async Task<int> InsertAsync(AssetType assetType)
         {
             return await assetTypeRepository.InsertAsync(assetType);
         }

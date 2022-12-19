@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PassportService : AsyncService, IPassportService
+    public class PassportService : AsyncService<Passport>, IPassportService
     {
         private readonly IPassportRepository passportRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return passportRepository.GetByEmployeeId(employeeId);
         }
 
-        public Task<Passport> InsertAsync(Passport passport)
+        public Task<int> InsertAsync(Passport passport)
         {
             return passportRepository.InsertAsync(passport);
         }

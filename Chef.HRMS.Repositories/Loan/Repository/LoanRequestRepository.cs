@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LoanRequestRepository : GenericRepository<LoanRequest>, ILoanRequestRepository
     {
-        public LoanRequestRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LoanRequestRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

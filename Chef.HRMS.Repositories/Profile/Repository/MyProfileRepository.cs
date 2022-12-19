@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class MyProfileRepository : GenericRepository<MyProfileView>, IMyProfileRepository
     {
-        public MyProfileRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public MyProfileRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

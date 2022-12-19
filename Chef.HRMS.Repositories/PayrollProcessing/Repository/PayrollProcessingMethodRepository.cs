@@ -1,16 +1,8 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Chef.HRMS.Repositories
+﻿namespace Chef.HRMS.Repositories
 {
-    public class PayrollProcessingMethodRepository : GenericRepository<PayrollProcessingMethod>, IPayrollProcessingMethodRepository
+    public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcessingMethod>, IPayrollProcessingMethodRepository
     {
-        public PayrollProcessingMethodRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PayrollProcessingMethodRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -296,7 +288,7 @@ namespace Chef.HRMS.Repositories
                 return await Connection.ExecuteAsync(sql, lopDeduction);
         }
 
-        public async Task<IEnumerable<Employee>> GetAllUnProcessedEmployees(int year, int month)
+        public async Task<IEnumerable<HRMSEmployee>> GetAllUnProcessedEmployees(int year, int month)
         {
                 var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.employee WHERE id NOT IN
 						                              (SELECT DISTINCT jf.employeeid from hrms.payrollprocessingmethod PM		
@@ -305,7 +297,7 @@ namespace Chef.HRMS.Repositories
 							                            jf.employeeid=pm.employeeid)
 						                              AND(pm.year=@year AND pm.month=@month))";
 
-                return await Connection.QueryAsync<Employee>(sql, new { year, month });
+                return await Connection.QueryAsync<HRMSEmployee>(sql, new { year, month });
         }
 
         public async Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails()

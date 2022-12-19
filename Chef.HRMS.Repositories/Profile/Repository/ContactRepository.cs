@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ContactRepository : GenericRepository<Contact>, IContactRepository
     {
-        public ContactRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public ContactRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

@@ -1,4 +1,4 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class ShiftService : AsyncService, IShiftService
+    public class ShiftService : AsyncService<Shift>, IShiftService
     {
         private readonly IShiftRepository shiftRepository;
 
@@ -35,7 +35,7 @@ namespace Chef.HRMS.Services
             return await shiftRepository.GetAsync(id);
         }
 
-        public async Task<Shift> InsertAsync(Shift shift)
+        public async Task<int> InsertAsync(Shift shift)
         {
             return await shiftRepository.InsertAsync(shift);
         }

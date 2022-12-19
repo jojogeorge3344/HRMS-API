@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            employeeLetter = await employeeLetterService.InsertAsync(employeeLetter);
+            var id  = await employeeLetterService.InsertAsync(employeeLetter);
 
-            return CreatedAtAction(nameof(Insert), employeeLetter);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

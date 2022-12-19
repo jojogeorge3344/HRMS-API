@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveComponentRestrictionSettingsRepository : GenericRepository<LeaveComponentRestrictionSettings>, ILeaveComponentRestrictionSettingsRepositry
     {
-        public LeaveComponentRestrictionSettingsRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LeaveComponentRestrictionSettingsRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

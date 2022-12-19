@@ -1,10 +1,4 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿ 
 
 namespace Chef.HRMS.Repositories
 {
@@ -17,7 +11,7 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid);
         Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid);
         Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id);
-        Task<IEnumerable<Employee>> GetEmployeeNameById(int id);
+        Task<IEnumerable<HRMSEmployee>> GetEmployeeNameById(int id);
         Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid);
         Task<IEnumerable<AssetMetadataValue>> GetMetadatavaluesById(int assetid);
         Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id);

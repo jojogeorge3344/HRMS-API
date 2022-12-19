@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class MyProfileService : AsyncService, IMyProfileService
+    public class MyProfileService : AsyncService<MyProfileView>, IMyProfileService
     {
         private readonly IMyProfileRepository myProfileRepository;
 

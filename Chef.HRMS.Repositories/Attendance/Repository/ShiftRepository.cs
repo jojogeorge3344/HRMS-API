@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ShiftRepository : GenericRepository<Shift>, IShiftRepository
     {
-        public ShiftRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public ShiftRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

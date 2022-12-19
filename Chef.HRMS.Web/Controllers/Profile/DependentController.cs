@@ -83,9 +83,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            dependent = await dependentService.InsertAsync(dependent);
+            var id = await dependentService.InsertAsync(dependent);
 
-            return CreatedAtAction(nameof(Insert), dependent);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

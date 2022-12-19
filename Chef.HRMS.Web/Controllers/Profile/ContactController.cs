@@ -79,9 +79,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            contact = await contactService.InsertAsync(contact);
+            var id = await contactService.InsertAsync(contact);
 
-            return CreatedAtAction(nameof(Insert), contact);
+
+            return Ok(id);
         }
 
         [HttpPost("Update")]

@@ -23,7 +23,7 @@ namespace Chef.HRMS.Repositories
             new Country{ Name = "Oman" }
         };
 
-        public TenantRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public TenantRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

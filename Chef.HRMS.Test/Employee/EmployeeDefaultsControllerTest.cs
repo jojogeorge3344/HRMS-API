@@ -1,5 +1,6 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
+using Chef.HRMS.Types;
 using Chef.HRMS.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -25,7 +26,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockEmployeeDefault()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockEmployeeDefault()));
 
             // Act
             var okResult = await employeeDefaultController.Get(id);
@@ -51,7 +52,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockEmployeeDefaultList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockEmployeeDefaultList()));
 
             // Act
             var okResult = await employeeDefaultController.GetAll();
@@ -68,7 +69,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             EmployeeDefaults employeeDefault = GetMockEmployeeDefault();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<EmployeeDefaults>())).Returns(Task.FromResult(GetMockEmployeeDefault()));
+          //  mockService.Setup(service => service.InsertAsync(It.IsAny<EmployeeDefaults>())).Returns(await Task.FromResult(GetMockEmployeeDefault()));
 
             // Act
             var createdResponse = await employeeDefaultController.Insert(employeeDefault) as CreatedAtActionResult;
@@ -98,8 +99,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 6;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockEmployeeDefault()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockEmployeeDefault()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await employeeDefaultController.Delete(existingId);

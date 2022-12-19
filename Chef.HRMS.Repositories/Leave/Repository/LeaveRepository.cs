@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveRepository : GenericRepository<Leave>, ILeaveRepository
     {
-        public LeaveRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LeaveRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

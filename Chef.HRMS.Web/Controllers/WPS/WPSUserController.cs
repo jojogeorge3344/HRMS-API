@@ -74,9 +74,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            wpsUser = await wpsUserService.InsertAsync(wpsUser);
+            var id  = await wpsUserService.InsertAsync(wpsUser);
 
-            return CreatedAtAction(nameof(Insert), wpsUser);
+            return Ok(id);
         }
 
         [HttpPut("Update")]

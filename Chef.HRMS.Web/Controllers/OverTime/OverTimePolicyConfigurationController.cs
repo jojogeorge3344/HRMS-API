@@ -99,9 +99,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            overTimePolicyConfiguration = await overTimePolicyConfigurationService.InsertAsync(overTimePolicyConfiguration);
+            var id = await overTimePolicyConfigurationService.InsertAsync(overTimePolicyConfiguration);
 
-            return CreatedAtAction(nameof(Insert), overTimePolicyConfiguration);
+
+            return Ok(id);
         }
 
         [HttpPut("Update")]

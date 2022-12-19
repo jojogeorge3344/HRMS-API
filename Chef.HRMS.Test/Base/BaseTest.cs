@@ -8,13 +8,13 @@ namespace Chef.HRMS.Test
     {
         private readonly IHttpContextAccessor context;
 
-        public ConnectionFactory ConnectionFactory
-        {
-            get
-            {
-                var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
-                return new ConnectionFactory(configuration, context);
-            }
-        }
+        //public ConnectionFactory ConnectionFactory
+        //{
+        //    get
+        //    {
+        //        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
+        //        return new ConnectionFactory(configuration, context);
+        //    }
+        //}
     }
 }

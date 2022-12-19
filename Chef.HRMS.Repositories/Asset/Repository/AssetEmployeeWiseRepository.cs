@@ -1,18 +1,8 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chef.HRMS.Repositories
+﻿namespace Chef.HRMS.Repositories
 {
-    public class AssetEmployeeWiseRepository : GenericRepository<AssetEmployeeWise>, IAssetEmployeeWiseRepository
+    public class AssetEmployeeWiseRepository :TenantRepository<AssetEmployeeWise>, IAssetEmployeeWiseRepository
     {
-        public AssetEmployeeWiseRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AssetEmployeeWiseRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -97,11 +87,11 @@ namespace Chef.HRMS.Repositories
         }
 
 
-        public async Task<IEnumerable<Employee>> GetEmployeeNameById(int id)
+        public async Task<IEnumerable<HRMSEmployee>> GetEmployeeNameById(int id)
         {
             var sql = @"SELECT firstname,lastname FROM hrms.employee WHERE id=@id";
 
-            return await Connection.QueryAsync<Employee>(sql, new { id });
+            return await Connection.QueryAsync<HRMSEmployee>(sql, new { id });
         }
 
 
@@ -419,5 +409,7 @@ namespace Chef.HRMS.Repositories
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

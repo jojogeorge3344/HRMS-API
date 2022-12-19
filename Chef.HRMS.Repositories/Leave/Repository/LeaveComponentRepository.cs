@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveComponentRepository : GenericRepository<LeaveComponent>, ILeaveComponentRepository
     {
-        public LeaveComponentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LeaveComponentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
         public async Task<IEnumerable<int>> GetAllAssignedLeaveComponents()

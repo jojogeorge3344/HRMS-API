@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class EmployeeService : AsyncService, IEmployeeService
+    public class EmployeeService : AsyncService<HRMSEmployee>, IEmployeeService
     {
         private readonly IEmployeeRepository employeeRepository;
 
@@ -20,7 +21,7 @@ namespace Chef.HRMS.Services
             return await employeeRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<Employee>> GetAllAsync()
+        public async Task<IEnumerable<HRMSEmployee>> GetAllAsync()
         {
             return await employeeRepository.GetAllAsync();
         }
@@ -30,17 +31,17 @@ namespace Chef.HRMS.Services
             return await employeeRepository.GetAllEmployeeDetails();
         }
 
-        public async Task<Employee> GetAsync(int id)
+        public async Task<HRMSEmployee> GetAsync(int id)
         {
             return await employeeRepository.GetAsync(id);
         }
 
-        public async Task<Employee> InsertAsync(Employee employee)
+        public async Task<int> InsertAsync(HRMSEmployee employee)
         {
             return await employeeRepository.InsertAsync(employee);
         }
 
-        public async Task<int> UpdateAsync(Employee employee)
+        public async Task<int> UpdateAsync(HRMSEmployee employee)
         {
             return await employeeRepository.UpdateAsync(employee);
         }

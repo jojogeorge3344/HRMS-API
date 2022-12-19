@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class AddressService : AsyncService, IAddressService
+    public class AddressService : AsyncService<Address>, IAddressService
     {
         private readonly IAddressRepository addressRepository;
 
@@ -15,7 +16,7 @@ namespace Chef.HRMS.Services
             this.addressRepository = addressRepository;
         }
 
-        public async Task<Address> InsertAsync(Address address)
+        public async Task<int> InsertAsync(Address address)
         {
             return await addressRepository.InsertAsync(address);
         }

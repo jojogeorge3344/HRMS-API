@@ -38,7 +38,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 29;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockLeaveStructureType()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockLeaveStructureType()));
 
             // Act
             var okResult = await leaveStructureLeaveComponentController.GetAll(id);

@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class BulkUploadRepository : GenericRepository<Leave>, IBulkUploadRepository
     {
-        public BulkUploadRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public BulkUploadRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

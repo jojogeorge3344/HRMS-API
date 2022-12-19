@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class RoleFeatureRepository : GenericRepository<RoleFeature>, IRoleFeatureRepository
     {
-        public RoleFeatureRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public RoleFeatureRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

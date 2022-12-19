@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class UniqueIdentificationDetailRepository : GenericRepository<UniqueIdentificationDetail>, IUniqueIdentificationDetailRepository
     {
-        public UniqueIdentificationDetailRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public UniqueIdentificationDetailRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

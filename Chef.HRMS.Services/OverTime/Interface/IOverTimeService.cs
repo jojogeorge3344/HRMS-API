@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Chef.Common.Core.Services;
 
 namespace Chef.HRMS.Services
 {

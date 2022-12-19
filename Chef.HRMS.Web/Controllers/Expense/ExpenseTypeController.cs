@@ -103,9 +103,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            expenseType = await expenseTypeService.InsertAsync(expenseType);
+            var id = await expenseTypeService.InsertAsync(expenseType);
 
-            return CreatedAtAction(nameof(Insert), expenseType);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PayrollBasicComponentService : AsyncService, IPayrollBasicComponentService
+    public class PayrollBasicComponentService : AsyncService<PayrollBasicComponent>, IPayrollBasicComponentService
     {
         private readonly IPayrollBasicComponentRepository basicComponentRepository;
 
@@ -14,32 +15,7 @@ namespace Chef.HRMS.Services
         {
             this.basicComponentRepository = basicComponentRepository;
         }
-
-        public async Task<int> DeleteAsync(int id)
-        {
-            return await basicComponentRepository.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<PayrollBasicComponent>> GetAllAsync()
-        {
-            return await basicComponentRepository.GetAllAsync();
-        }
-
-        public async Task<PayrollBasicComponent> GetAsync(int id)
-        {
-            return await basicComponentRepository.GetAsync(id);
-        }
-
-        public async Task<PayrollBasicComponent> InsertAsync(PayrollBasicComponent basicComponent)
-        {
-            return await basicComponentRepository.InsertAsync(basicComponent);
-        }
-
-        public async Task<int> UpdateAsync(PayrollBasicComponent basicComponent)
-        {
-            return await basicComponentRepository.UpdateAsync(basicComponent);
-        }
-
+               
         public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId, int year, int month)
         {
             return await basicComponentRepository.GetBasicComponentsByPaygroup(paygoupId, year, month);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class AttendanceAdminService : IAttendanceAdminService
+    public class AttendanceAdminService : AsyncService<AttendanceAdminStatsView>, IAttendanceAdminService
     {
         private readonly IAttendanceAdminRepository attendanceAdminRepository;
 

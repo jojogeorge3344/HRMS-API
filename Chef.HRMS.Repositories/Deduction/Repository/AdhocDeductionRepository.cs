@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class AdhocDeductionRepository : GenericRepository<AdhocDeduction>, IAdhocDeductionRepository
     {
-        public AdhocDeductionRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AdhocDeductionRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

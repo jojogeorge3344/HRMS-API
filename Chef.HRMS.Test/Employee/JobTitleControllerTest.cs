@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockJobTitle()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockJobTitle()));
 
             // Act
             var okResult = await jobTitleController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockJobTitleList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockJobTitleList()));
 
             // Act
             var okResult = await jobTitleController.GetAllJobTitleList();
@@ -68,7 +68,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             JobTitle JobTitle = GetMockJobTitle();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<JobTitle>())).Returns(Task.FromResult(GetMockJobTitle()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<JobTitle>())).Returns( await Task.FromResult(GetMockJobTitle()));
 
             // Act
             var createdResponse = await jobTitleController.Insert(JobTitle) as CreatedAtActionResult;
@@ -98,8 +98,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockJobTitle()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockJobTitle()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await jobTitleController.Delete(existingId);

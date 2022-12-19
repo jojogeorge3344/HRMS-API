@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class StateRepository : GenericRepository<State>, IStateRepository
     {
-        public StateRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public StateRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

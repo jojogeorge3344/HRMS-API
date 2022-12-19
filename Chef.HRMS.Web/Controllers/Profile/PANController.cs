@@ -80,9 +80,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            pan = await panService.InsertAsync(pan);
+            var id = await panService.InsertAsync(pan);
 
-            return CreatedAtAction(nameof(Insert), pan);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

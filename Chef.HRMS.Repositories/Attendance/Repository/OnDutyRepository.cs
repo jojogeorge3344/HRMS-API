@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class OnDutyRepository : GenericRepository<OnDuty>, IOnDutyRepository
     {
-        public OnDutyRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public OnDutyRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

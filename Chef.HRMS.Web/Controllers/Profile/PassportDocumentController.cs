@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            passportDocument = await passportDocumentService.InsertAsync(passportDocument);
+            var id = await passportDocumentService.InsertAsync(passportDocument);
 
-            return CreatedAtAction(nameof(Insert), passportDocument);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

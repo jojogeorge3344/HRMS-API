@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockJobFiling()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockJobFiling()));
 
             // Act
             var okResult = await jobFilingController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockJobFilingList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockJobFilingList()));
 
             // Act
             var okResult = await jobFilingController.GetAll();
@@ -68,7 +68,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             JobFiling jobFiling = GetMockJobFiling();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<JobFiling>())).Returns(Task.FromResult(GetMockJobFiling()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<JobFiling>())).Returns( await Task.FromResult(GetMockJobFiling()));
 
             // Act
             var createdResponse = await jobFilingController.Insert(jobFiling) as CreatedAtActionResult;
@@ -98,8 +98,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockJobFiling()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockJobFiling()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await jobFilingController.Delete(existingId);

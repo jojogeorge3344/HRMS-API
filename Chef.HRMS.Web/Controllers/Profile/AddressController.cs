@@ -31,9 +31,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            address = await addressService.InsertAsync(address);
+            var id = await addressService.InsertAsync(address);
 
-            return CreatedAtAction(nameof(Insert), address);
+
+            return Ok(id);
         }
 
         [HttpGet("GetAllByEmployeeId/{id}")]

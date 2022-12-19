@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public class RegularLoginRepository : GenericRepository<RegularLogin>, IRegularLoginRepository
     {
-        public RegularLoginRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public RegularLoginRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

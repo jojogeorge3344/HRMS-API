@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            wpsGroup = await wpsGroupService.InsertAsync(wpsGroup);
+            var id = await wpsGroupService.InsertAsync(wpsGroup);
 
-            return CreatedAtAction(nameof(Insert), wpsGroup);
+            return Ok(id);
         }
 
         [HttpPut("Update")]

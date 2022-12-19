@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public interface IEmployeeService : IAsyncService<Employee>
+    public interface IEmployeeService : IAsyncService<HRMSEmployee>
     {
         Task<IEnumerable<EmployeeView>> GetAllEmployeeDetails();
         Task<EmployeeView> GetEmployeeDetailsById(int employeeId);

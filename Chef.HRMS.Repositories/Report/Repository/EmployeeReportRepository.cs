@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeReportRepository : GenericRepository<EmployeeDetailView>, IEmployeeReportRepository
     {
-        public EmployeeReportRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public EmployeeReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

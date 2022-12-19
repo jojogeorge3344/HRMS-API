@@ -32,9 +32,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            authentication = await authenticationServices.InsertAsync(authentication);
+            var id = await authenticationServices.InsertAsync(authentication);
 
-            return CreatedAtAction(nameof(Insert), authentication);
+            return Ok(id);
         }
 
         [AllowAnonymous]

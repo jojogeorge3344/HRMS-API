@@ -1,6 +1,4 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using Chef.HRMS.Repositories;
+﻿using Chef.HRMS.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -8,10 +6,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Authentication = Chef.HRMS.Models.Authentication;
 
 namespace Chef.HRMS.Services
 {
-    public class AuthenticationServices : AsyncService, IAuthenticationServices
+    public class AuthenticationServices : AsyncService<Authentication>, IAuthenticationServices
     {
         private readonly IAuthenticationRepository authenticationRepository;
 
@@ -58,7 +57,7 @@ namespace Chef.HRMS.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Authentication> InsertAsync(Authentication authentication)
+        public async Task<int> InsertAsync(Authentication authentication)
         {
             return await authenticationRepository.InsertAsync(authentication);
         }

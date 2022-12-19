@@ -80,9 +80,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            leaveStructure = await leaveStructureService.InsertAsync(leaveStructure);
+            var id = await leaveStructureService.InsertAsync(leaveStructure);
 
-            return CreatedAtAction(nameof(Insert), leaveStructure);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

@@ -74,9 +74,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            userRole = await userRoleService.InsertAsync(userRole);
+            var id = await userRoleService.InsertAsync(userRole);
 
-            return CreatedAtAction(nameof(Insert), userRole);
+            return Ok(id);
         }
         [HttpPost("GroupInsert")]
         [Consumes(MediaTypeNames.Application.Json)]

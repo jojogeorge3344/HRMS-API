@@ -50,7 +50,7 @@ namespace Chef.HRMS.Services
             return await regularLoginRepository.GetAverageOnTimeDetails(employeeId, requestType);
         }
 
-        public async Task<RegularLogin> InsertAsync(RegularLogin regularLogin)
+        public async Task<int> InsertAsync(RegularLogin regularLogin)
         {
             return await regularLoginRepository.InsertAsync(regularLogin);
         }

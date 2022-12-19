@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class DrivingLicenseDocumentService : AsyncService, IDrivingLicenseDocumentService
+    public class DrivingLicenseDocumentService : AsyncService<DrivingLicenseDocument>, IDrivingLicenseDocumentService
     {
         private readonly IDrivingLicenseDocumentRepository drivingLicenseDocumentRepository;
 
@@ -30,7 +31,7 @@ namespace Chef.HRMS.Services
             return drivingLicenseDocumentRepository.GetAsync(id);
         }
 
-        public Task<DrivingLicenseDocument> InsertAsync(DrivingLicenseDocument drivingLicenseDocument)
+        public Task<int> InsertAsync(DrivingLicenseDocument drivingLicenseDocument)
         {
             return drivingLicenseDocumentRepository.InsertAsync(drivingLicenseDocument);
         }

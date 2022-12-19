@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-    public class AssetTypeMetadataRepository : GenericRepository<AssetTypeMetadata>, IAssetTypeMetadataRepository
+    public class AssetTypeMetadataRepository : TenantRepository<AssetTypeMetadata>, IAssetTypeMetadataRepository
     {
-        public AssetTypeMetadataRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AssetTypeMetadataRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

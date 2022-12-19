@@ -11,7 +11,7 @@ namespace Chef.HRMS.Repositories
 {
     public class UserRoleRepository : GenericRepository<UserRole>, IUserRoleRepository
     {
-        public UserRoleRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public UserRoleRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
         public async Task<int> AssignRolesToUser(IEnumerable<UserRole> userRole)

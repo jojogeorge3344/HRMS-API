@@ -1,14 +1,11 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
 namespace Chef.HRMS.Repositories
 {
     public interface IPayrollProcessingMethodRepository : IGenericRepository<PayrollProcessingMethod>
     {
         Task<IEnumerable<PayrollReview>> GetAllPayrollReviewByProcessingMethodId(int payrollProcessingMethodId);
-        Task<IEnumerable<Employee>> GetAllUnProcessedEmployees(int year, int month);
+        Task<IEnumerable<HRMSEmployee>> GetAllUnProcessedEmployees(int year, int month);
         Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails();
         Task<IEnumerable<PayrollReviewBreakup>> GetPayBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId);
 

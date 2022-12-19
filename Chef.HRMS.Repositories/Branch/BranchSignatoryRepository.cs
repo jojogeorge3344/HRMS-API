@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class BranchSignatoryRepository : GenericRepository<HRMSBranchSignatory>, IBranchSignatoryRepository
     {
-        public BranchSignatoryRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public BranchSignatoryRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
