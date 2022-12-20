@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.Common.Api", "..\chef.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.Common.Data", "..\chef.common\Chef.Common.Data\Chef.Common.Data.csproj", "{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chef.Console.TaxEngine", "..\chef.console\Chef.Console.Modules\Chef.Console.TaxEngine\Chef.Console.TaxEngine.csproj", "{6B9D2867-9667-443A-A287-5FADE607A7ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B9D2867-9667-443A-A287-5FADE607A7ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B9D2867-9667-443A-A287-5FADE607A7ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B9D2867-9667-443A-A287-5FADE607A7ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B9D2867-9667-443A-A287-5FADE607A7ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{613ABB57-4959-4FA2-9DD2-BAF7441BB48E} = {48172636-C88F-4F76-830A-54E5B467D7CF}
 		{7DD9AAA6-330C-41CB-853D-E39C67ACBBA9} = {48172636-C88F-4F76-830A-54E5B467D7CF}
 		{0141B9C3-A9FC-40A4-87B2-96DAD8C9D10C} = {48172636-C88F-4F76-830A-54E5B467D7CF}
+		{6B9D2867-9667-443A-A287-5FADE607A7ED} = {48172636-C88F-4F76-830A-54E5B467D7CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A30C76FC-5552-46F9-AEE9-FB6B42F761B8}

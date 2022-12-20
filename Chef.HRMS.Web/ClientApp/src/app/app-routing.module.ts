@@ -180,7 +180,7 @@ const routes: Routes = [
     LayoutModule, 
     CommonModule, 
     BrowserModule, 
-    RouterModule.forRoot(routes, { useHash: true })
+    RouterModule.forRoot(routes, { useHash: false })
   ],
   exports: [RouterModule]
 })

@@ -17,7 +17,7 @@ export class DropdownUserComponent {
     avatar: 'avatar-admin-3.png',
   };
   constructor(private router: Router, private authService: AuthService, private viewContainerRef: ViewContainerRef) {
-    this.user = getCurrentUser();
+    //this.user = getCurrentUser();
     this.user.name = 'Mr. Lawrance';
     this.user.avatar = 'avatar-admin-3.png';
     this.user.app = 'SmartChef';

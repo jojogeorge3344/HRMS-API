@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  app_url:'http://192.168.100.54:8080/api/'
+
+  app_url:'http://localhost:19631/',
+  authApiUrl:'http://localhost:19631/api/auth/',
+  baseApiUrl: 'http://localhost:19631/api/admin/'
 };
 
 /*

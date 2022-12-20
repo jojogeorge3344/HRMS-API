@@ -25,7 +25,7 @@ namespace Chef.HRMS.Web.Controllers.Profile
             }
             catch (IOException e)
             {
-                Console.WriteLine(e.Message);
+                throw;
             }
             return Ok(new { count = 1 });
         }
