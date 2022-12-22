@@ -40,7 +40,7 @@ namespace Chef.HRMS.Repositories
                                    lc.showleavedescription, 
                                    e.gender, 
                                    e.maritalstatus 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                                    INNER JOIN hrms.jobfiling jf 

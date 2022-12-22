@@ -34,7 +34,7 @@ namespace Chef.HRMS.Repositories
 									ot.name                           AS overtimepolicy,
 									pg.name                           AS paygroup,
 									jt.name                           AS jobtitle
-                            FROM hrms.employee AS e 
+                            FROM hrms.HRMSEmployee AS e 
                             INNER JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
                             INNER JOIN hrms.jobfiling AS jf 

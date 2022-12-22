@@ -33,7 +33,7 @@ namespace Chef.HRMS.Repositories
                                    amount, 
                                    disburseon, 
                                    remarks 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                                    INNER JOIN hrms.employeebonus eb 
@@ -75,7 +75,7 @@ namespace Chef.HRMS.Repositories
                                    eb.amount                             AS amount, 
                                    eb.disburseon                         AS disburseOn, 
                                    eb.remarks                            AS remarks 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                                    INNER JOIN hrms.employeebonus eb 

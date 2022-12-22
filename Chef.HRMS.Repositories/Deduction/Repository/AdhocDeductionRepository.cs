@@ -32,7 +32,7 @@ namespace Chef.HRMS.Repositories
                                             ad.createdby                             AS createdby, 
                                             ad.modifiedby                            AS modifiedby 
                             FROM   hrms.adhocdeduction ad 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON ad.employeeid = e.id 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ad.employeeid = jf.employeeid 
@@ -62,7 +62,7 @@ namespace Chef.HRMS.Repositories
                                             ad.createdby                             AS createdby, 
                                             ad.modifiedby                            AS modifiedby 
                             FROM   hrms.adhocdeduction ad 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON ad.employeeid = e.id 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ad.employeeid = jf.employeeid 

@@ -36,7 +36,7 @@ namespace Chef.HRMS.Repositories
 		                        ee.firstname
                         FROM hrms.overtimenotifypersonnel as op
                         INNER JOIN hrms.overtime as ot ON op.overtimeid = ot.id
-                        INNER JOIN hrms.employee as ee on op.notifypersonnel=ee.id
+                        INNER JOIN hrms.HRMSEmployee as ee on op.notifypersonnel=ee.id
                         WHERE       overtimeId = @overtimeId";
 
             return await Connection.QueryAsync<OvertimeViewModel>(sql, new { overtimeId });

@@ -290,7 +290,7 @@
 
         public async Task<IEnumerable<HRMSEmployee>> GetAllUnProcessedEmployees(int year, int month)
         {
-                var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.employee WHERE id NOT IN
+                var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.HRMSEmployee WHERE id NOT IN
 						                              (SELECT DISTINCT jf.employeeid from hrms.payrollprocessingmethod PM		
 						                              INNER JOIN hrms.jobfiling jf
 						                              ON (jf.paygroupid=pm.paygroupid OR

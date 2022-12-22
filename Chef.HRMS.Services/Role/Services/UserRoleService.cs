@@ -36,9 +36,9 @@ namespace Chef.HRMS.Services
             return await userRoleRepository.GetAsync(id);
         }
 
-        public async Task<IEnumerable<UserRoleView>> GetUserRole(int employeeId)
+        public async Task<IEnumerable<UserRoleView>> GetUserRole(string userId)
         {
-            return await userRoleRepository.GetUserRole(employeeId);
+            return await userRoleRepository.GetUserRole(userId);
         }
 
         public async Task<int> InsertAsync(UserRole userRole)

@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
                                                            lr.id                                         AS loanid,
                                                            lr.expectedon                                 AS disbursementdate       
                                                           
-                                                    FROM   hrms.employee e 
+                                                    FROM   hrms.HRMSEmployee e 
                                                            INNER JOIN hrms.jobdetails jd 
                                                                    ON e.id = jd.employeeid 
 														   INNER JOIN hrms.jobfiling jf
@@ -68,7 +68,7 @@ namespace Chef.HRMS.Repositories
                                    lr.id                                 AS loanid,
                                    lr.expectedon                         AS disbursementdate
                             FROM   hrms.loanrequest lr 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON lr.employeeid = e.id 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON lr.employeeid = jd.employeeid 

@@ -6,7 +6,7 @@ export const environment = {
   production: false,
 
   app_url:'http://localhost:19631/',
-  authApiUrl:'http://localhost:19631/api/auth/',
+  authApiUrl:'http://localhost:19631/api/Auth/',
   baseApiUrl: 'http://localhost:19631/api/admin/'
 };
 

@@ -13,6 +13,7 @@ namespace Chef.HRMS.Web.Controllers
         public TenantController(ITenantService tenantService)
         {
             this.tenantService = tenantService;
+             
         }
 
         [HttpGet("CreateDatabase")]

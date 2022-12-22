@@ -32,7 +32,7 @@ namespace Chef.HRMS.Repositories
                                                              - ( Sum( 
                                                              COALESCE((Select lp.emiamount where lp.loanid=lr.id), 0)) ) )             AS balanceamount, 
                                                            ( lr.repaymentterm - Count((Select lp.tenurenumber where lp.loanid=lr.id)) ) AS remainingtenure 
-                                                    FROM   hrms.employee e 
+                                                    FROM   hrms.HRMSEmployee e 
                                                            INNER JOIN hrms.jobdetails jd 
                                                                    ON e.id = jd.employeeid 
                                                            INNER JOIN hrms.jobfiling jf
@@ -88,7 +88,7 @@ namespace Chef.HRMS.Repositories
                                                              - ( Sum( 
                                                              COALESCE((Select lp.emiamount where lp.loanid=lr.id), 0)) ) )             AS balanceamount, 
                                                            ( lr.repaymentterm - Count((Select lp.tenurenumber where lp.loanid=lr.id)) ) AS remainingtenure 
-                                                    FROM   hrms.employee e 
+                                                    FROM   hrms.HRMSEmployee e 
                                                            INNER JOIN hrms.jobdetails jd 
                                                                    ON e.id = jd.employeeid 
                                                            INNER JOIN hrms.jobfiling jf

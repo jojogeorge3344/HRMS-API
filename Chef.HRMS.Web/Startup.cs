@@ -86,6 +86,8 @@ namespace Chef.HRMS.Web
 
             HttpHelper.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
 
+            
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

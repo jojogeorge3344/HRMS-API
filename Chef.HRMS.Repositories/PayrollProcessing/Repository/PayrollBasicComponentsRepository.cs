@@ -48,7 +48,7 @@ namespace Chef.HRMS.Repositories
                                            ON pc.id = pcalc.payrollcomponentid 
                                    INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON e.id = es.employeeid 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON jf.employeeid = e.id 
@@ -119,7 +119,7 @@ namespace Chef.HRMS.Repositories
                                            ON pc.id = pcalc.payrollcomponentid 
                                    INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON e.id = es.employeeid 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON jf.employeeid = e.id 

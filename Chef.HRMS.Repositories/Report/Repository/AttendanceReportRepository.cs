@@ -28,7 +28,7 @@ namespace Chef.HRMS.Repositories
                                              Concat(To_char(endtime - starttime, 'HH:MI'), ' hrs')    AS workinghours,
                                              'WFH'                                                    AS attendancetype
  
-                             FROM   hrms.employee e 
+                             FROM   hrms.HRMSEmployee e 
                                     INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
                                     INNER JOIN hrms.workfromhome wfh 
@@ -52,7 +52,7 @@ namespace Chef.HRMS.Repositories
                                               concat(to_char(format('%s:%s', round(extract('epoch' FROM checkouttime - checkintime) / 3600), to_char(checkouttime - checkintime, 'MI')) :: interval, 'HH24:MI'), ' hrs') AS workinghours,
                                              
                                             'Regular'                                                AS attendancetype 
-                             FROM   hrms.employee e 
+                             FROM   hrms.HRMSEmployee e 
                                     INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
                                     INNER JOIN hrms.regularlogin cio 
@@ -76,7 +76,7 @@ namespace Chef.HRMS.Repositories
 							                 s.name                                                   AS shift,
                                              Concat(To_char(endtime - starttime, 'HH:MI'), ' hrs')    AS workinghours,
                                              'Remote'                                                 AS attendancetype 
-                             FROM   hrms.employee e 
+                             FROM   hrms.HRMSEmployee e 
                                     INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
                                     INNER JOIN hrms.regularlogin cio 
@@ -100,7 +100,7 @@ namespace Chef.HRMS.Repositories
 							                 s.name                                                   AS shift,
                                              Concat(To_char(endtime - starttime, 'HH:MI'), ' hrs')    AS workinghours,
                                              'On Duty'                                                AS attendancetype 
-                             FROM   hrms.employee e 
+                             FROM   hrms.HRMSEmployee e 
                                     INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
                                     INNER JOIN hrms.onduty od 

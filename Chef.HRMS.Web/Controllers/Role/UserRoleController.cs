@@ -47,10 +47,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(userRole);
         }
 
-        [HttpGet("GetUserRole/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<UserRoleView>>> GetUserRole(int employeeId)
+        [HttpGet("GetUserRole/{userId}")]
+        public async Task<ActionResult<IEnumerable<UserRoleView>>> GetUserRole(string userId)
         {
-            var userRolees = await userRoleService.GetUserRole(employeeId);
+            var userRolees = await userRoleService.GetUserRole(userId);
 
             return Ok(userRolees);
         }

@@ -29,7 +29,7 @@ namespace Chef.HRMS.Repositories
                                            jd.employeenumber                                  employeecode, 
                                            jf.weekoff, 
                                            Count(h.date) numberOfholidays 
-                                    FROM   hrms.employee e 
+                                    FROM   hrms.HRMSEmployee e 
                                            INNER JOIN hrms.jobfiling jf 
                                                    ON e.id = jf.employeeid 
                                                       AND jf.paygroupid = @paygroupId 
@@ -144,7 +144,7 @@ namespace Chef.HRMS.Repositories
                             FROM            hrms.leave l 
                             INNER JOIN      hrms.leavecomponent lc 
                             ON              lc.id = l.leavecomponentid 
-                            INNER JOIN      hrms.employee e 
+                            INNER JOIN      hrms.HRMSEmployee e 
                             ON              l.approvedby = e.id 
                             WHERE           l.fromdate :: date >= @fromdate 
                             AND             l.todate ::   date <= @todate 
@@ -176,7 +176,7 @@ namespace Chef.HRMS.Repositories
                             FROM   hrms.LEAVE l 
                                    INNER JOIN hrms.leavecomponent lc 
                                            ON lc.id = l.leavecomponentid 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON l.approvedby = e.id 
                             WHERE  l.fromdate :: date >= @fromdate 
                                    AND l.todate :: date <= @todate 

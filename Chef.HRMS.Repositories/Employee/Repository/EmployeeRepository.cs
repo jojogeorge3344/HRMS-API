@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
                                     jd.location, 
                                     jd.employeenumber   AS employeenumber,
                                     jf.id               AS jobfilingid
-                            FROM hrms.employee AS e 
+                            FROM hrms.HRMSEmployee AS e 
                             LEFT JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
                             LEFT JOIN hrms.jobfiling AS jf 
@@ -55,7 +55,7 @@ namespace Chef.HRMS.Repositories
 									jf.expensepolicyid                AS expensepolicyid,
 									jf.payrollstructureid             AS payrollstructureid,
 									jf.overtimepolicyid               AS overtimepolicyid
-                            FROM hrms.employee AS e 
+                            FROM hrms.HRMSEmployee AS e 
                             LEFT JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
                             LEFT JOIN hrms.jobfiling AS jf 
@@ -71,7 +71,7 @@ namespace Chef.HRMS.Repositories
 
                 var sql = @"SELECT Concat (e.firstname, ' ', e.lastname) AS employeename, 
                                    jd.employeenumber                     AS employeenumber 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                             WHERE  jd.jobtitleid = @jobtitleid ";

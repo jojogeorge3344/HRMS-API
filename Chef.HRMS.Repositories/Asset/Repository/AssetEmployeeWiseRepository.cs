@@ -14,7 +14,7 @@
                                 jt.firstname,
                                 jt.lastname,
                                 jd.workertype AS employeestatus
-                                       FROM hrms.employee AS jt 
+                                       FROM hrms.HRMSEmployee AS jt 
                                        INNER JOIN hrms.jobdetails AS jd ON jt.id = jd.employeeid ORDER BY jt.id";
 
             return await Connection.QueryAsync<AssetEmployeeWise>(sql);
@@ -79,8 +79,8 @@
                                     jd.workertype AS employeestatus,
 									jd.employeenumber,
                                     jt.name AS designation
-                                FROM  hrms.employee INNER JOIN hrms.jobdetails AS jd
-                                    ON hrms.employee.id=jd.employeeid INNER JOIN hrms.jobtitle AS jt 
+                                FROM  hrms.HRMSEmployee INNER JOIN hrms.jobdetails AS jd
+                                    ON hrms.HRMSEmployee.id=jd.employeeid INNER JOIN hrms.jobtitle AS jt 
                                     ON jd.jobtitleid=jt.id WHERE employeeid=@employeeid";
 
             return await Connection.QueryAsync<AssetEmployeeWise>(sql,new { employeeid });
@@ -89,7 +89,7 @@
 
         public async Task<IEnumerable<HRMSEmployee>> GetEmployeeNameById(int id)
         {
-            var sql = @"SELECT firstname,lastname FROM hrms.employee WHERE id=@id";
+            var sql = @"SELECT firstname,lastname FROM hrms.HRMSEmployee WHERE id=@id";
 
             return await Connection.QueryAsync<HRMSEmployee>(sql, new { id });
         }
@@ -107,7 +107,7 @@
 	                             rr.empid,
 							     rr.nameofteammemberid,
                                 rr. requesteddate
-					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.employee 
+					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.HRMSEmployee 
                                  ON rr.empid=employee.id INNER JOIN hrms.assettype AS tt
                                  ON rr.assettypeid=tt.id WHERE empid=@empid 
                                                         ORDER BY id desc";
@@ -144,7 +144,7 @@
                                  rr.requesteddate,
                                  rr.description
 					    FROM hrms.assetraiserequest AS rr INNER JOIN hrms.assettype AS tt
-					             ON rr.assettypeid=tt.id INNER JOIN hrms.employee AS ee 
+					             ON rr.assettypeid=tt.id INNER JOIN hrms.HRMSEmployee AS ee 
                                  ON rr.nameofteammemberid=ee.id
                                                  WHERE rr.id=@id
                                                     ORDER BY rr.id";
@@ -163,7 +163,7 @@
                                    ar.nameofteammemberid,
                                    CONCAT(ee.firstname,'-',ee.lastname)   AS allocationto
                              FROM hrms.assetraiserequest AS ar INNER JOIN hrms.assettype AS at 
-                                    ON ar.assettypeid=at.id INNER JOIN hrms.employee AS ee
+                                    ON ar.assettypeid=at.id INNER JOIN hrms.HRMSEmployee AS ee
                                     ON ar.nameofteammemberid=ee.id 
                                                       WHERE ar.id=@id";
 

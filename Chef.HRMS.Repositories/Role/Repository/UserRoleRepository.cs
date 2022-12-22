@@ -21,27 +21,30 @@ namespace Chef.HRMS.Repositories
             return await Connection.ExecuteAsync(sql, userRole);
         }
 
-        public async Task<IEnumerable<UserRoleView>> GetUserRole(int employeeId)
+        public async Task<IEnumerable<UserRoleView>> GetUserRole(string userId)
         {
             var sql = @"SELECT ur.employeeid AS employeeid, 
                                        ur.roleid        AS roleid, 
                                        r.NAME           AS rolename, 
                                        f.NAME           AS featurename, 
                                        rf.featureid     AS featureid,
-									   rf.subfeatureid  AS subfeatureid,
-									   sf.subfeature    AS subfeaturename
+                                       rf.subfeatureid  AS subfeatureid,
+                                       sf.subfeature    AS subfeaturename
                                 FROM   hrms.userrole ur 
+                                        INNER JOIN hrms.hrmsemployee emp on  emp.userid = @userId
                                        INNER JOIN hrms.role r 
                                                ON ur.roleid = r.id 
-                                                  AND employeeid = @employeeid
+                                                  AND employeeid = emp.id
                                        INNER JOIN hrms.rolefeature rf 
                                                ON rf.roleid = r.id 
                                        INNER JOIN hrms.feature f 
                                                ON rf.featureid = f.id
-									   INNER JOIN hrms.subfeature sf 
+                                       INNER JOIN hrms.subfeature sf 
                                                ON sf.id = rf.subfeatureid";
 
-            return await Connection.QueryAsync<UserRoleView>(sql, new { employeeId });
+
+
+            return await Connection.QueryAsync<UserRoleView>(sql, new { userId });
         }
 
         public async Task<int> UpdateUserRoleGroup(int roleId, IEnumerable<UserRole> userRole)

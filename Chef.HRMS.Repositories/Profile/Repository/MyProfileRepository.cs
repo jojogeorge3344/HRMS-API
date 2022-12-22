@@ -29,7 +29,7 @@ namespace Chef.HRMS.Repositories
                                    jb.employeenumber, 
                                    jb.dateofjoin, 
                                    jb.noticeperiod 
-                            FROM   hrms.employee AS e 
+                            FROM   hrms.HRMSEmployee AS e 
                                    LEFT JOIN hrms.jobdetails AS jb 
                                           ON e.id = jb.employeeid 
                                    LEFT JOIN hrms.jobfiling AS jf 

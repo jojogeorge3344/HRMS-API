@@ -39,7 +39,7 @@ namespace Chef.HRMS.Repositories
                                at.reason
                                from hrms.assetraiserequest as at 
                                inner join   
-                               hrms.employee on 
+                               hrms.HRMSEmployee on 
                                at.nameofteammemberid=employee.id
                                where empid=@empid order by at.id desc";
 
@@ -62,8 +62,8 @@ namespace Chef.HRMS.Repositories
                         jd.employeeid as empid,
                         jd.department 
                         from hrms.jobdetails as jd 
-                        inner join hrms.employee
-                        on jd.employeeid = hrms.employee.id";
+                        inner join hrms.HRMSEmployee
+                        on jd.employeeid = hrms.HRMSEmployee.id";
             return await Connection.QueryAsync<AssetEmployeeViewModel>(sql, new { });
         }
 

@@ -9,6 +9,6 @@ namespace Chef.HRMS.Repositories
     {
         Task<int> AssignRolesToUser(IEnumerable<UserRole> userRole);
         Task<int> UpdateUserRoleGroup(int roleId, IEnumerable<UserRole> userRole);
-        Task<IEnumerable<UserRoleView>> GetUserRole(int employeeId);
+        Task<IEnumerable<UserRoleView>> GetUserRole(string userId);
     }
 }
