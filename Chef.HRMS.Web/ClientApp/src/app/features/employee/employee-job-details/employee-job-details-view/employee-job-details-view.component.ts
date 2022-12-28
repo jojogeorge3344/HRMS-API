@@ -76,9 +76,11 @@ export class EmployeeJobDetailsViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.route.params.subscribe((params: any) => {
+      console.log("params.jobDetailsId",params)
       this.jobDetailsId = params.jobDetailsId;
       this.id = parseInt(params.id, 10);
     });

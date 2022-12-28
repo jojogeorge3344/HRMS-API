@@ -18,12 +18,12 @@ export class FeaturesService {
     this.user = getCurrentUser();
   }
 
-  get() {
-    return this.http.get<any[]>(this.baseUrl + 'GetUserRole/' + this.user.employeeId)
-      .pipe(
-        map(res => res)
-      );
-  }
+  // get() {
+  //   return this.http.get<any[]>(this.baseUrl + 'GetUserRole/' + this.user.employeeId)
+  //     .pipe(
+  //       map(res => res)
+  //     );
+  // }
   getById(id) {
     return this.http.get<any[]>(this.baseUrl + 'GetUserRole/' + id)
       .pipe(

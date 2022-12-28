@@ -23,9 +23,9 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<Holiday>> GetAllByCategory(int categoryId)
         {
-                var sql = "SELECT * FROM  hrms.holiday WHERE holidaycategoryid = @categoryId ORDER BY id desc";
+            var sql = "SELECT * FROM  hrms.holiday WHERE holidaycategoryid = @categoryId and isarchived = false  ORDER BY id desc";  // Added "and  isarchived = false" by Nir
 
-                return await Connection.QueryAsync<Holiday>(sql, new { categoryId });
+            return await Connection.QueryAsync<Holiday>(sql, new { categoryId });
         }
 
         public async Task<IEnumerable<DateTime>> GetAllHolidaysByEmployee(int employeeId)

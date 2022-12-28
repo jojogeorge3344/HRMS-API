@@ -19,6 +19,7 @@ export class MainComponent implements OnInit {
   isAtAuth: boolean;
   features = [];
   subFeatures = [];
+  userid: any;
   constructor(
     private store: Store<any>,
     private featuresService: FeaturesService,
@@ -26,26 +27,36 @@ export class MainComponent implements OnInit {
     private authService: AuthService) {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.isAtAuth = this.router.url.startsWith('/auth');
-    // if (this.isLoggedIn && !this.isAtAuth) {
-    //   this.featuresService.get()
-    //     .subscribe(res => {
-    //       if (res) {
-    //         res = res.flatMap(feature => (
-    //           [
-    //             feature.featureName.toLowerCase(),
-    //             `${feature.featureName.toLowerCase()}-${feature.subFeatureName.toLowerCase()}`
-    //           ]
-    //         ));
-    //       }
-
-
-    //       this.features = res.filter((feature, i) => i % 2 === 0);
-    //       this.subFeatures = res.filter((feature, i) => i % 2 === 1);
-
-    //       localStorage.setItem('features', this.features.join(','));
-    //       localStorage.setItem('subFeatures', this.subFeatures.join(','));
-    //     });
-    // }
+    if (this.isLoggedIn && !this.isAtAuth) {
+      if (localStorage.getItem("token")) {
+        this.authService.getCurrentUser().subscribe((res) => {
+          if (res) {
+            debugger
+            this.userid = res.id
+            this.featuresService.getById(this.userid)
+            .subscribe(res => {
+              if (res) {
+                res = res.flatMap(feature => (
+                  [
+                    feature.featureName.toLowerCase(),
+                    `${feature.featureName.toLowerCase()}-${feature.subFeatureName.toLowerCase()}`
+                  ]
+                ));
+              }
+    
+    
+              this.features = res.filter((feature, i) => i % 2 === 0);
+              this.subFeatures = res.filter((feature, i) => i % 2 === 1);
+    
+              localStorage.setItem('features', this.features.join(','));
+              localStorage.setItem('subFeatures', this.subFeatures.join(','));
+            });
+            // this.getempid()
+          }
+        });
+      }
+    
+    }
 
   }
   ngOnInit() {

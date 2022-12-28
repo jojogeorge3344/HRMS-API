@@ -79,10 +79,12 @@ export class EmployeeCreateContainerComponent implements OnInit {
 
     this.employeeBasicDetailsService.add(this.basicDetailsForm).subscribe((result) => {
 
-      this.jobDetailsForm.employeeId = result.id;
+      this.jobDetailsForm.employeeId = result;
       this.jobDetailsForm.branchId = this.jobDetailsForm.location;
       this.jobDetailsForm.companyId = this.branches.find(c => c.id == this.jobDetailsForm.branchId).companyId;
-      this.jobFilingsForm.employeeId = result.id;
+ 
+      this.jobFilingsForm.employeeId = result;
+      console.log(this.jobFilingsForm.employeeId)
       this.jobDetailsForm.numberSeriesId = parseInt(this.jobDetailsForm.numberSeriesId, 10);
       const numberSeriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == this.jobDetailsForm.numberSeriesId);
       numberSeriesValue.nextNumber = numberSeriesValue.nextNumber + 1;

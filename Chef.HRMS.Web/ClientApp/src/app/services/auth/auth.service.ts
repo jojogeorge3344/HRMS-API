@@ -26,42 +26,20 @@ export class AuthService {
       return false
     
   }
-  // login(email: string, password: string) {
-  //   return this.http.post<any>(`${this.baseUrl}login`, { email, password })
-  //       .pipe(map(user => {
-  //           localStorage.setItem('currentUser', JSON.stringify(user));
-  //           return user;
-  //       }));
-  // }
-
-  
   login(auth) {
-    debugger
     return this.http
       .post<any>(this.baseUrl + "Login", auth)
-      .subscribe((res: any) => {
-        
+      .subscribe((res: any) => { 
         this.setToken(res.token);
-        if(localStorage.getItem("token")){
-                                
-            
+        if(localStorage.getItem("token")){ 
             this.getCurrentUser().subscribe((res)=>{
-            debugger
               if(res){
-                localStorage.setItem('currentUser', JSON.stringify(res));
-               this.userid= res.id
-                    
-                debugger                 
-                 this.getempid()
-           
-          
+                debugger
+               this.userid= res.id       
+                 this.getempid()         
               }
-           });
-     
-         
-         
-        }
-      
+           });      
+        }   
       });
   }
   logout() {
@@ -97,7 +75,7 @@ getempid(){
   this.featuresService.getById(this.userid).subscribe(response => {
       console.log('aaa',response)
     if (response) {
-      
+      localStorage.setItem('currentUser', JSON.stringify(response));
       response = response.flatMap(feature => (
         [
           feature.featureName.toLowerCase(),

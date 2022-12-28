@@ -29,7 +29,7 @@ namespace Chef.HRMS.Repositories
                                             jt.isarchived
                             FROM   hrms.jobtitle AS jt 
                                    LEFT JOIN hrms.jobdetails AS jd 
-                                          ON jt.id = jd.jobtitleid order by jt.id desc ";
+                                          ON jt.id = jd.jobtitleid WHERE jt.isarchived=false order by jt.id desc ";   // Added WHERE jt.isarchived=false by Nir";
 
                 return await Connection.QueryAsync<JobTitleView>(sql);
         }

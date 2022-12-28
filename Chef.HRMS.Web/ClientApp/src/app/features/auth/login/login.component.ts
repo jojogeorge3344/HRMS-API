@@ -81,43 +81,9 @@ export class LoginComponent implements OnInit {
       );
     }else{
       this.authService.login(this.loginForm.value)
-      if(localStorage.getItem("token")){
-        
-        this.authService.getCurrentUser().subscribe((response)=>{
-          
-           if(response){
-            this.router.navigate(['/']);
-            this.userid= response.id
-            setTimeout(()=>{                          
-              this.getempid()
-          }, 3000);
-       
-           }
-        });
-       
-       
-      }
+
     }
   
   } 
-  getempid(){
-    this.featuresService.getById(this.userid).subscribe(response => {
-        
-      if (response) {
-        
-        response = response.flatMap(feature => (
-          [
-            feature.featureName.toLowerCase(),
-            `${feature.featureName.toLowerCase()}-${feature.subFeatureName.toLowerCase()}`
-          ]
-        ));
-      }
-      this.features = response.filter((feature, i) => i % 2 === 0);
-      this.subFeatures = response.filter((feature, i) => i % 2 === 1);
-
-      localStorage.setItem('features', this.features.join(','));
-      localStorage.setItem('subFeatures', this.subFeatures.join(','));
-      this.router.navigateByUrl('');
-    });
-  }
+ 
 }

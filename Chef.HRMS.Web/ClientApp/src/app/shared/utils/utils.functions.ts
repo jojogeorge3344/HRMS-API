@@ -70,9 +70,16 @@ export function getCurrentUser() {
   return null;
 }
 export function getCurrentUserId() {
-  
+  debugger
   if (localStorage.getItem('currentUser')) {
-    return JSON.parse(localStorage.getItem('currentUser')).id;
+  
+    let a  =JSON.parse(localStorage.getItem('currentUser'))
+    let empid =a[0].employeeId
+   
+    return empid
+    return JSON.parse(localStorage.getItem('currentUser')).employeeId;
+    // return 1
+   
   }
   return 0;
 }
