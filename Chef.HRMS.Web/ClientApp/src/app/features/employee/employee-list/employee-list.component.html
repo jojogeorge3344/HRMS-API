@@ -25,12 +25,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let employee of employees; let i= index;">
+                <tr *ngFor="let employee of ; let i= index;">
                     <td>{{i+1}}</td>
                     <td>{{ employee.employeeNumber }}</td>
                     <td class="text-capitalize">{{employee.firstName}} {{employee.lastName}}</td>
                     <td>{{ employee.email }}</td>
-                    <td>{{ (departmentType[employee.department]) }}</td>
+                    <td>employees{{ (departmentType[employee.department]) }}</td>
                     <td class="text-capitalize">{{ showLocation(employee.location) }}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
