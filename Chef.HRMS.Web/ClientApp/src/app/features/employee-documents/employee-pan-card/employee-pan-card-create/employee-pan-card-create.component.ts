@@ -130,8 +130,8 @@ export class EmployeePANCardCreateComponent implements OnInit {
     ])
       .subscribe(([panCard, document]) => {
         this.panCardDocument = {
-          panId: panCard.id,
-          documentId: document.id
+          panId: panCard,
+          documentId: document
         };
 
         this.panCardDocumentService.add(this.panCardDocument).subscribe((result: any) => {

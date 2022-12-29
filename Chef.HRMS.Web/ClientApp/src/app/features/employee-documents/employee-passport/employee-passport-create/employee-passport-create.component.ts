@@ -161,8 +161,8 @@ export class EmployeePassportCreateComponent implements OnInit {
     ])
       .subscribe(([passport, document]) => {
         this.passportDocument = {
-          passportId: passport.id,
-          documentId: document.id
+          passportId: passport,
+          documentId: document
         };
 
         this.passportDocumentService.add(this.passportDocument).subscribe((result: any) => {

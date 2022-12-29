@@ -131,8 +131,8 @@ export class EmployeeExperienceDocumentsCreateComponent implements OnInit {
     ])
       .subscribe(([previousEmployment, document]) => {
         this.previousEmploymentDocument = {
-          previousEmploymentId: previousEmployment.id,
-          documentId: document.id
+          previousEmploymentId: previousEmployment,
+          documentId: document
         };
         this.previousEmploymentDocumentService.add(this.previousEmploymentDocument).subscribe((result: any) => {
           this.toastr.showSuccessMessage('Previous Employment added successfully!');

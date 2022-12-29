@@ -130,8 +130,8 @@ export class EmployeeUIDCreateComponent implements OnInit {
     ])
       .subscribe(([uniqueIdentificationDetail, document]) => {
         this.uniqueIdentificationDocument = {
-          uniqueIdentificationDetailId: uniqueIdentificationDetail.id,
-          documentId: document.id
+          uniqueIdentificationDetailId: uniqueIdentificationDetail,
+          documentId: document
         };
 
         this.uniqueIdentificationDocumentService.add(this.uniqueIdentificationDocument).subscribe((result: any) => {

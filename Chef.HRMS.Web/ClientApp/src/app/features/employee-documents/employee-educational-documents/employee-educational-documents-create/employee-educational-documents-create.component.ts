@@ -125,8 +125,8 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
     ])
     .subscribe(([education, document]) => {
       this.educationDocument = {
-        educationId: education.id,
-        documentId: document.id
+        educationId: education,
+        documentId: document
       };
       this.educationdocumentService.add(this.educationDocument).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Education Details Added successfully');

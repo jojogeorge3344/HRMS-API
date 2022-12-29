@@ -74,12 +74,20 @@ export class EmployeeCreateContainerComponent implements OnInit {
   }
 
   onSubmitJobFilings(jobFilingsForm) {
-
+debugger
     this.jobFilingsForm = jobFilingsForm;
 
     this.employeeBasicDetailsService.add(this.basicDetailsForm).subscribe((result) => {
 
+
+     
       this.jobDetailsForm.employeeId = result;
+      if (this.jobDetailsForm.employeeId == 0){
+        this.toastr.showErrorMessage('Employee added Failed!');
+        return
+      }else{
+
+    
       this.jobDetailsForm.branchId = this.jobDetailsForm.location;
       this.jobDetailsForm.companyId = this.branches.find(c => c.id == this.jobDetailsForm.branchId).companyId;
  
@@ -93,17 +101,18 @@ export class EmployeeCreateContainerComponent implements OnInit {
         .subscribe(([details, filing]) => {
           this.employeeNumbersService.update(numberSeriesValue).subscribe(() => {
           });
-          const newUserCredentails = {
-            email: this.basicDetailsForm.email,
-            password: 'test',
-            token: 'testtoken',
-            employeeId: this.jobDetailsForm.employeeId
-          };
-          this.authService.insertNewUser(newUserCredentails).subscribe(() => {
-          });
+          // const newUserCredentails = {
+          //   email: this.basicDetailsForm.email,
+          //   password: 'test',
+          //   token: 'testtoken',
+          //   employeeId: this.jobDetailsForm.employeeId
+          // };
+          // this.authService.insertNewUser(newUserCredentails).subscribe(() => {
+          // });
           this.toastr.showSuccessMessage('Employee added successfully!');
           this.router.navigateByUrl('/employee');
         });
+      }
     },
       error => {
         console.error(error);
