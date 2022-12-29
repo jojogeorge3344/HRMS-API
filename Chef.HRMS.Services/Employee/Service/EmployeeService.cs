@@ -1,7 +1,10 @@
-﻿using Chef.Common.Core.Services;
+﻿using Chef.Common.Authentication.Models;
+using Chef.Common.Authentication.Repositories;
+using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,10 +13,12 @@ namespace Chef.HRMS.Services
     public class EmployeeService : AsyncService<HRMSEmployee>, IEmployeeService
     {
         private readonly IEmployeeRepository employeeRepository;
+        private readonly IAuthService authService;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IAuthService authService )
         {
             this.employeeRepository = employeeRepository;
+            this.authService = authService;
         }
 
         public async Task<int> DeleteAsync(int id)
@@ -36,9 +41,26 @@ namespace Chef.HRMS.Services
             return await employeeRepository.GetAsync(id);
         }
 
-        public async Task<int> InsertAsync(HRMSEmployee employee)
+        public new async Task<int> InsertAsync(HRMSEmployee employee)
         {
-            return await employeeRepository.InsertAsync(employee);
+            var registerDto = new RegisterDto
+            {
+                Email = employee.Email,
+                FirstName = employee.FirstName,
+                IsActive = true,
+                LastName = employee.LastName,
+                Password = "FFFF" + employee.FirstName + "@@@@",
+                TimeZone = "5.30",
+                Username = employee.FirstName
+            };
+
+            if ((await authService.RegisterUser(registerDto)).Succeeded)
+            {
+                var user = await authService.GetUser(employee.FirstName);
+                employee.UserId = user.Id;
+                employee.Id = await employeeRepository.InsertAsync(employee);
+            }
+            return employee.Id;
         }
 
         public async Task<int> UpdateAsync(HRMSEmployee employee)

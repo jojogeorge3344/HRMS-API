@@ -29,6 +29,7 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\chef.common\Chef.Common.Authentication\Chef.Common.Authentication.csproj" />
     <ProjectReference Include="..\Chef.HRMS.Models\Chef.HRMS.Models.csproj" />
     <ProjectReference Include="..\Chef.HRMS.Repositories\Chef.HRMS.Repositories.csproj" />
     <ProjectReference Include="..\..\Chef.Common\Chef.Common.Models\Chef.Common.Models.csproj" />

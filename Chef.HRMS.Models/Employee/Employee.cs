@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Core;
 using Chef.Common.Types;
 using Chef.HRMS.Types;
+using Org.BouncyCastle.Bcpg;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -65,5 +66,7 @@ namespace Chef.HRMS.Models
         /// Holds blood group
         /// </summary>
         public BloodGroupType BloodGroup { get; set; }
+
+        public string UserId { get; set; }
     }
 }
