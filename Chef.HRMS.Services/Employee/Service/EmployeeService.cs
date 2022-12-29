@@ -49,7 +49,7 @@ namespace Chef.HRMS.Services
                 FirstName = employee.FirstName,
                 IsActive = true,
                 LastName = employee.LastName,
-                Password = "FFFF" + employee.FirstName + "@@@@",
+                Password = "FFFF1" + employee.FirstName + "@@@@",
                 TimeZone = "5.30",
                 Username = employee.FirstName
             };
