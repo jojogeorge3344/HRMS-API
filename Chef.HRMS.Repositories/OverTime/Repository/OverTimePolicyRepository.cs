@@ -38,9 +38,9 @@ namespace Chef.HRMS.Repositories
                                     FROM   hrms.jobfiling jf 
                                     WHERE  jf.overtimepolicyid = otp.id 
                                     GROUP  BY overtimepolicyid) AS NumberOfEmployees 
-                            FROM   hrms.overtimepolicy otp";
+                            FROM   hrms.overtimepolicy otp where otp.isarchived =false";   // Added where otp.isarchived =false  by Nir 
 
-                return await Connection.QueryAsync<OverTimePolicy>(sql);
+            return await Connection.QueryAsync<OverTimePolicy>(sql);
         }
 
         public async Task<IEnumerable<OverTimePolicy>> GetAllConfiguredOvertimePolicies()
