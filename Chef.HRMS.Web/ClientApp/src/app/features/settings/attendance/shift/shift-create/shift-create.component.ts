@@ -47,13 +47,15 @@ export class ShiftCreateComponent implements OnInit {
     if (this.fromTime && this.toTime) {
       const currentDate = new Date();
       this.startDate = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), this.fromTime.hour, this.fromTime.minute));
+
+      console.log(this.startDate.toISOString().split('.')[0])
       this.endDate = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), this.toTime.hour, this.toTime.minute));
 
       if (this.startDate > this.endDate) {
         this.endDate.setDate(this.endDate.getDate() + 1);
       }
 
-      this.addForm.patchValue({ startTime: this.startDate.toISOString(), endTime: this.endDate.toISOString() });
+      this.addForm.patchValue({ startTime: this.startDate.toISOString().split('.')[0], endTime: this.endDate.toISOString().split('.')[0] });
     } else {
       this.addForm.patchValue({ startTime: null, endTime: null });
     }
