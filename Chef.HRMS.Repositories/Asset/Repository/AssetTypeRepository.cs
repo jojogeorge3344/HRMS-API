@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AssetType>> GetAllAssetTypeList()
         {
 
-            var sql = @"select id,assettypename,description from hrms.assettype order by assettypename asc";
+            var sql = @"select id,assettypename,description from hrms.assettype where isarchived = false order by assettypename asc";  // Added for "where isarchived = false" by Nir
 
             return await Connection.QueryAsync<AssetType>(sql);
         }
