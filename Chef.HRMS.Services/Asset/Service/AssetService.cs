@@ -12,9 +12,9 @@ namespace Chef.HRMS.Services
     public class AssetService : AsyncService<Asset>, IAssetService
     {
         private readonly IAssetRepository assetRepository;
-        private readonly ISimpleUnitOfWork simpleUnitOfWork;
+        private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
 
-        public AssetService(IAssetRepository assetRepository, ISimpleUnitOfWork simpleUnitOfWork)
+        public AssetService(IAssetRepository assetRepository, ITenantSimpleUnitOfWork simpleUnitOfWork)
         {
             this.assetRepository = assetRepository;
             this.simpleUnitOfWork = simpleUnitOfWork;

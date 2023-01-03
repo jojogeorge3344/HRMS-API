@@ -1,24 +1,19 @@
-﻿using Chef.Common.Core.Services;
-using Chef.Common.Repositories;
-using Chef.Common.Services;
+﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class AssetTypeMetadataService : AsyncService<AssetTypeMetadata>, IAssetTypeMetadataService
-    {
+    public class AssetTypeMetadataService : IAsyncService<AssetTypeMetadata>, IAssetTypeMetadataService
+    {   
         private readonly IAssetTypeMetadataRepository assetTypeMetadataRepository;
-        private readonly ISimpleUnitOfWork simpleUnitOfWork;
-        public AssetTypeMetadataService(IAssetTypeMetadataRepository assetTypeMetadataRepository, ISimpleUnitOfWork simpleUnitOfWork)
+        private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
+        public AssetTypeMetadataService(IAssetTypeMetadataRepository assetTypeMetadataRepository, ITenantSimpleUnitOfWork TenantSimpleUnitOfWork)
         {
             this.assetTypeMetadataRepository = assetTypeMetadataRepository;
-            this.simpleUnitOfWork = simpleUnitOfWork;
+            this.simpleUnitOfWork = TenantSimpleUnitOfWork;
         }
 
         public async Task<int> DeleteAsync(int AssetTypeId)

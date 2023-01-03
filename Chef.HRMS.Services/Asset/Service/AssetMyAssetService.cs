@@ -14,9 +14,9 @@ namespace Chef.HRMS.Services
     public class AssetMyAssetService : AsyncService<AssetEmployeeWise>, IAssetMyAssetService
     {
         private readonly IAssetMyAssetRepository assetMyAssetRepository;
-        private readonly ISimpleUnitOfWork simpleUnitOfWork;
+        private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
 
-        public AssetMyAssetService(IAssetMyAssetRepository assetMyAssetRepository, ISimpleUnitOfWork simpleUnitOfWork)
+        public AssetMyAssetService(IAssetMyAssetRepository assetMyAssetRepository, ITenantSimpleUnitOfWork simpleUnitOfWork)
         {
             this.assetMyAssetRepository = assetMyAssetRepository;
             this.simpleUnitOfWork = simpleUnitOfWork;

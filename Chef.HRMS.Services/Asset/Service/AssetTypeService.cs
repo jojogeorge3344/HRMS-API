@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class AssetTypeService : AsyncService<AssetType>, IAssetTypeService
+    public class AssetTypeService : IAsyncService<AssetType>, IAssetTypeService
     {
         private readonly IAssetTypeRepository assetTypeRepository;
 

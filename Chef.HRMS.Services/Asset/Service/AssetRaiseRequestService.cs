@@ -13,10 +13,10 @@ namespace Chef.HRMS.Services;
 
 public class AssetRaiseRequestService: AsyncService<AssetRaiseRequest>, IAssetRaiseRequestService
 {
-    private readonly ISimpleUnitOfWork simpleUnitOfWork;
+    private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
     private readonly IAssetRaiseRequestRepository assetRaiseRequestRepository;
 
-    public AssetRaiseRequestService(IAssetRaiseRequestRepository assetRaiseRequestRepository, ISimpleUnitOfWork simpleUnitOfWork)
+    public AssetRaiseRequestService(IAssetRaiseRequestRepository assetRaiseRequestRepository, ITenantSimpleUnitOfWork simpleUnitOfWork)
     {
         this.assetRaiseRequestRepository = assetRaiseRequestRepository;
         this.simpleUnitOfWork = simpleUnitOfWork;

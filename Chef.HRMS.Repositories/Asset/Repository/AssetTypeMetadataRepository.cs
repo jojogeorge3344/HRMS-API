@@ -34,9 +34,11 @@ namespace Chef.HRMS.Repositories
         public async Task<int> InsertAsync(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             var sql = new QueryBuilder<AssetTypeMetadata>().GenerateInsertQuery();
-            sql = sql.Replace("RETURNING id", "");
 
-            return await Connection.ExecuteAsync(sql, assetTypeMetadata);
+            
+                return await Connection.ExecuteAsync(sql, assetTypeMetadata);
+            
+            return 1;
         }
 
         public async Task<int> DeleteAsset(int assetTypeId)
