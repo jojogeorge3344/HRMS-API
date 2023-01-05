@@ -116,6 +116,7 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
   }
 
   openWebClockIn() {
+    debugger
     const modalRef = this.modalService.open(EmployeeWebLoginCreateComponent,
       {centered: true, backdrop: 'static' });
     modalRef.result.then((result) => {
@@ -126,8 +127,10 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
   }
 
   openWebClockOut() {
+    debugger
     const clockOut = JSON.parse(localStorage.getItem('clockIn'));
     clockOut.checkOutTime = new Date(Date.now());
+    
     this.employeeRegularLoginService.update(clockOut).subscribe(result => {
       localStorage.removeItem('clockIn');
       this.setClockInOut();
