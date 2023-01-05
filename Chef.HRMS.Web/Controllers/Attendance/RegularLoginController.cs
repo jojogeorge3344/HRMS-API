@@ -68,9 +68,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var id = await regularLoginService.InsertAsync(regularLogin);
+            //var id = await regularLoginService.InsertAsync(regularLogin);
+            var result = await regularLoginService.InsertAsync(regularLogin);
 
-            return Ok(id);
+            return Ok(result);
         }
 
         [HttpPost("Update")]

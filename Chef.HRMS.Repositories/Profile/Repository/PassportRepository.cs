@@ -39,9 +39,9 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.passportdocument B 
                                            ON A.id = B.passportid AND A.employeeid = @employeeId
                                    INNER JOIN hrms.document C 
-                                           ON B.documentid = C.id ";
+                                           ON B.documentid = C.id where A.isarchived=false ";  // Added for where A.isarchived=false by Nir
 
-                return await Connection.QueryAsync<PassportView>(sql, new { employeeId });
+            return await Connection.QueryAsync<PassportView>(sql, new { employeeId });
         }
     }
 }

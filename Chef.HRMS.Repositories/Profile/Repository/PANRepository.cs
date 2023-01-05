@@ -31,9 +31,9 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.pandocument pd 
                                            ON p.id = pd.panid AND p.employeeid = @employeeId
                                    INNER JOIN hrms.document d 
-                                           ON pd.documentid = d.id ";
+                                           ON pd.documentid = d.id where d.isarchived =false "; // Added for where d.isarchived =false by  Nir
 
-                return await Connection.QueryAsync<PANView>(sql, new { employeeId });
+            return await Connection.QueryAsync<PANView>(sql, new { employeeId });
         }
     }
 }

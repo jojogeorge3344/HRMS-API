@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
       if (localStorage.getItem("token")) {
         this.authService.getCurrentUser().subscribe((res) => {
           if (res) {
-            debugger
+         
             this.userid = res.id
             this.featuresService.getById(this.userid)
             .subscribe(res => {

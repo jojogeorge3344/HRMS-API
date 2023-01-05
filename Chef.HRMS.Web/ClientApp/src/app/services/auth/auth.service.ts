@@ -34,7 +34,7 @@ export class AuthService {
         if(localStorage.getItem("token")){ 
             this.getCurrentUser().subscribe((res)=>{
               if(res){
-                debugger
+           
                this.userid= res.id       
                  this.getempid()         
               }

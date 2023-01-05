@@ -32,9 +32,9 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.previousemploymentdocument pd 
                                            ON p.id = pd.previousemploymentid AND p.employeeid = @employeeId
                                    INNER JOIN hrms.document d 
-                                           ON pd.documentid = d.id order by p.id desc ";
+                                           ON pd.documentid = d.id  where p.isarchived =false  order by p.id desc ";  //Added for where p.isarchived =false by Nir
 
-                return await Connection.QueryAsync<PreviousEmploymentView>(sql, new { employeeId });
+            return await Connection.QueryAsync<PreviousEmploymentView>(sql, new { employeeId });
         }
     }
 }

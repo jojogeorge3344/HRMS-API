@@ -40,7 +40,7 @@ namespace Chef.HRMS.Web.Controllers
         {
             var educationalDetails = await educationService.GetAllByEmployeeId(id);
 
-            if (educationalDetails == null)
+            if (educationalDetails==null)
             {
                 return NotFound();
             }

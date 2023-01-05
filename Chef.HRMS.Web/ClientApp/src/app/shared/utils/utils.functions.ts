@@ -70,7 +70,7 @@ export function getCurrentUser() {
   return null;
 }
 export function getCurrentUserId() {
-  debugger
+
   if (localStorage.getItem('currentUser')) {
   
     let a  =JSON.parse(localStorage.getItem('currentUser'))
