@@ -77,7 +77,7 @@ export function getCurrentUserId() {
     let empid =a[0].employeeId
    
     return empid
-    return JSON.parse(localStorage.getItem('currentUser')).employeeId;
+    // return JSON.parse(localStorage.getItem('currentUser')).employeeId;
     // return 1
    
   }
