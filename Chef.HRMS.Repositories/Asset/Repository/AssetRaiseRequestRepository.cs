@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Chef.HRMS.Repositories
 {
@@ -87,5 +88,40 @@ namespace Chef.HRMS.Repositories
         //                        on jd.employeeid=hrms.employee.id where jd.employeeid=@id";
         //    return await Connection.QueryAsync<AssetRaiseRequest>(sql, new { id });
         //}
+        public async Task<string> GenerateNewDocumentNumberAsync(string code)
+        {
+            //int idocumentType = (int)documentType;
+            //string branchprefix = string.Empty;
+            //string yearprefix = string.Empty;
+            int freeNumber = 1;
+            string docNumber = string.Empty;
+            string fmt = "00000";
+           // code = "REQ";
+
+            string sql = @"SELECT * FROM hrms.employeenumberseries where prefix = @code;";
+            EmployeeNumberSeries generalNumberingSchema = await Connection.QueryFirstOrDefaultAsync<EmployeeNumberSeries>(sql, new { code });
+            if (generalNumberingSchema == null)
+            {
+                docNumber = code + "-" + freeNumber.ToString(fmt);
+
+                ++freeNumber;
+                sql = @"INSERT INTO hrms.employeenumberseries( NextNumber, prefix,Name)
+	                                VALUES (@freeNumber,@Code,@code);";
+                await Connection.ExecuteAsync(sql, new { freeNumber, code});
+            }
+            else
+            {
+                docNumber = code + "-" + generalNumberingSchema.NextNumber.ToString(fmt);
+
+                generalNumberingSchema.NextNumber = generalNumberingSchema.NextNumber + 1;
+
+                sql = @"UPDATE hrms.employeenumberseries 
+                                    SET    NextNumber = @freeNumber 
+                                    WHERE  id = @id ;";
+                await Connection.ExecuteAsync(sql, new { freeNumber = generalNumberingSchema.NextNumber, id = generalNumberingSchema.Id });
+            }
+            return docNumber;
+        }
+
     }
 }

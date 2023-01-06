@@ -19,6 +19,7 @@ namespace Chef.HRMS.Services
         public Task<IEnumerable<AssetEmployeeViewModel>> GetEmployeeDetails();
 
         Task<int> UpdateRevoke(int id);
+        Task<string> GenerateNewDocumentNumberAsync(string code);
 
 
 
