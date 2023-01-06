@@ -107,8 +107,8 @@
 	                             rr.empid,
 							     rr.nameofteammemberid,
                                 rr. requesteddate
-					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.HRMSEmployee 
-                                 ON rr.empid=employee.id INNER JOIN hrms.assettype AS tt
+					        FROM hrms.assetraiserequest AS rr INNER JOIN hrms.HRMSEmployee emp
+                                 ON rr.empid=emp.id INNER JOIN hrms.assettype AS tt
                                  ON rr.assettypeid=tt.id WHERE empid=@empid 
                                                         ORDER BY id desc";
 
