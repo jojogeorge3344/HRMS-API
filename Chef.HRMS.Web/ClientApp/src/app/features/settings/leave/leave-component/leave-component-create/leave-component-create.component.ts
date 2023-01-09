@@ -70,7 +70,7 @@ export class LeaveComponentCreateComponent implements OnInit {
       if (result.id === -1) {
         this.toastr.showErrorMessage('Leave component already exists!');
       } else {
-        this.activeModal.close('submit');
+        this.activeModal.close(result);
         this.toastr.showSuccessMessage('Leave Component is created successfully!');
       }
     },

@@ -61,7 +61,7 @@ export class LeaveComponentListComponent implements OnInit {
     modalRef.componentInstance.leaveComponentCodes = this.leaveComponentCodes;
 
     modalRef.result.then((result) => {
-        if (result == 'submit') {
+        if (result) {
           this.getAllLeaveComponents();
         }
       });
