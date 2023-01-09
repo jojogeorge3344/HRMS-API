@@ -109,6 +109,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(assetemployeeList);
         }
+        [HttpGet("GenerateNewDocumentNumberAsync/{code}")]
+        public async Task<ActionResult<string>> GenerateNewDocumentNumberAsync(string code)
+        {
+            var AssetRaiseRequest = await assetRaiseRequestService.GenerateNewDocumentNumberAsync(code);
+
+            return Ok(AssetRaiseRequest);
+        }
 
     }
 }

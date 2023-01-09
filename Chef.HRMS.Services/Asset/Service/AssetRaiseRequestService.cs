@@ -91,4 +91,9 @@ public class AssetRaiseRequestService: AsyncService<AssetRaiseRequest>, IAssetRa
     {
         return await assetRaiseRequestRepository.UpdateAsync(assetRaiseRequest);
     }
+
+    public async Task<string> GenerateNewDocumentNumberAsync(string code)
+    {
+        return await assetRaiseRequestRepository.GenerateNewDocumentNumberAsync(code);
+    }
 }
