@@ -90,13 +90,9 @@ namespace Chef.HRMS.Repositories
         //}
         public async Task<string> GenerateNewDocumentNumberAsync(string code)
         {
-            //int idocumentType = (int)documentType;
-            //string branchprefix = string.Empty;
-            //string yearprefix = string.Empty;
             int freeNumber = 1;
             string docNumber = string.Empty;
             string fmt = "00000";
-           // code = "REQ";
 
             string sql = @"SELECT * FROM hrms.employeenumberseries where prefix = @code;";
             EmployeeNumberSeries generalNumberingSchema = await Connection.QueryFirstOrDefaultAsync<EmployeeNumberSeries>(sql, new { code });
