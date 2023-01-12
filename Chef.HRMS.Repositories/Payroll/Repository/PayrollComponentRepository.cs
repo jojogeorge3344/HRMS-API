@@ -30,7 +30,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollComponent>> GetAllOrderByPayrollComponent()
         {
-                var sql = "SELECT * FROM  hrms.payrollcomponent order by payrollcomponenttype";
+                var sql = "SELECT * FROM  hrms.payrollcomponent where isarchived=false order by payrollcomponenttype";
 
                 return await Connection.QueryAsync<PayrollComponent>(sql);
         }

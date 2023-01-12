@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<OverTime>> GetAllOvertimeDetailsById(int employeeId)
         {
-                var sql = "SELECT * FROM hrms.overtime WHERE employeeid=@Id order by id desc";
+                var sql = "SELECT * FROM hrms.overtime WHERE employeeid=@Id and isarchived = false order by id desc";
                 return await Connection.QueryAsync<OverTime>(sql, new { Id = employeeId });
         }
         public async Task<int> GetAssignedOverTimePolicy(int employeeId)
