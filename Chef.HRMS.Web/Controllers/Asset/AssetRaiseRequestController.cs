@@ -31,7 +31,8 @@ namespace Chef.HRMS.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            string slNo=await assetRaiseRequestService.GenerateNewDocumentNumberAsync("REQ");
+            assetRaiseRequest.RequestNo = slNo;
             var result = await assetRaiseRequestService.InsertAsync(assetRaiseRequest);
             return Ok(result);
         }
