@@ -62,6 +62,7 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
     this.modeOfPayrollProcessTypeKeys = Object.keys(this.modeOfPayrollProcessType).filter(Number).map(Number);
   }
   getPreviousDetails() {
+    debugger
     this.payrollProcessService.getPreviousDetails().subscribe(res => {
       this.previousDetails = res;
     });
@@ -164,6 +165,9 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
   }
 
   openPayrollProcessMonth() {
+    debugger
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    debugger
     const assignPayrollProcess = {
       ...this.addForm.value,
       name: `${this.months[this.selectedMonth]} - ${this.selectedYear} Payroll`,
@@ -179,7 +183,7 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
       assignPayrollProcess.payGroupId = 0;
 
     }
-    assignPayrollProcess.employeeId = assignPayrollProcess.employeeId.id;
+    assignPayrollProcess.employeeId = assignPayrollProcess.employeeId.id?assignPayrollProcess.employeeId.id:currentUser[0].employeeId;
     const completedProcess = this.previousDetails.find(process => {
       return ((process.modeOfProcessing === 2 && process.employeeId === assignPayrollProcess.employeeId) ||
         (process.modeOfProcessing === 1 && process.payGroupId === assignPayrollProcess.payGroupId)) &&
@@ -197,7 +201,7 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
               queryParams:
               {
                 date: `${this.months[this.selectedMonth]}-${this.selectedYear}`,
-                payGroup: assignPayrollProcess.payGroupId, id: res
+                payGroup: assignPayrollProcess.payGroupId, id: currentUser[0].employeeId
               }
             });
         } else {
