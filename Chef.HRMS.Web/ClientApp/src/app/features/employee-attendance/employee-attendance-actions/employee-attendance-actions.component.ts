@@ -126,11 +126,10 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
     });
   }
 
-  openWebClockOut() {
-    debugger
+  openWebClockOut() {  
     const clockOut = JSON.parse(localStorage.getItem('clockIn'));
     clockOut.checkOutTime = new Date(Date.now());
-    
+    clockOut.id = localStorage.getItem('id')
     this.employeeRegularLoginService.update(clockOut).subscribe(result => {
       localStorage.removeItem('clockIn');
       this.setClockInOut();
@@ -155,6 +154,7 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
   openRemoteClockOut() {
     const clockOut = JSON.parse(localStorage.getItem('RemoteClockIn'));
     clockOut.checkOutTime = new Date(Date.now());
+    clockOut.id = localStorage.getItem('id');
     this.employeeRegularLoginService.update(clockOut).subscribe(result => {
       localStorage.removeItem('RemoteClockIn');
       this.setRemoteClockInOut();

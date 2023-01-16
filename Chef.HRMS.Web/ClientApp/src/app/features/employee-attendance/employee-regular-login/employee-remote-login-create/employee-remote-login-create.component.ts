@@ -29,6 +29,7 @@ export class EmployeeRemoteLoginCreateComponent implements OnInit {
 
   onSubmit() {
     this.employeeRegularLoginService.add(this.addForm.value).subscribe(result => {
+      localStorage.setItem('id', JSON.stringify(result));
       localStorage.setItem('RemoteClockIn', JSON.stringify(this.addForm.value));
       this.toastr.showSuccessMessage('Remote Clock In success');
       this.activeModal.close('submit');
