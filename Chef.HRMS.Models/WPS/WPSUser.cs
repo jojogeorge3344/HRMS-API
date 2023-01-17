@@ -26,7 +26,7 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Required]
         [Description("WPSId")]
-        [StringLength(14)]
-        public string WPSId { get; set; }
+        //[StringLength(14)]
+        public int WPSId { get; set; }
     }
 }

@@ -29,6 +29,7 @@ export class EmployeeWebLoginCreateComponent implements OnInit {
 
   onSubmit() {
     this.employeeRegularLoginService.add(this.addForm.value).subscribe(result => {
+      localStorage.setItem('id', JSON.stringify(result))      
       localStorage.setItem('clockIn', JSON.stringify(this.addForm.value));
       this.toastr.showSuccessMessage('Web Clock "In" success');
       this.activeModal.close('submit');

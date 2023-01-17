@@ -195,7 +195,7 @@ namespace Chef.HRMS.Repositories
                                FROM   generate_series(@fromDate, @toDate, interval '1 day' day) actualdates 
                                WHERE  extract('ISODOW' FROM actualdates) BETWEEN 1 AND    5) 
                         SELECT actualdates 
-                        FROM   hrms.calendardays 
+                        FROM   calendardays 
                         WHERE  actualdates NOT IN (WITH markeddays AS 
                                                    ( 
                                                                    SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
@@ -219,9 +219,9 @@ namespace Chef.HRMS.Repositories
                                                                    FROM       hrms.holiday 
                                                                    INNER JOIN hrms.jobfiling jf 
                                                                    ON         jf.holidaycategoryid = holiday.holidaycategoryid
-                                                                   AND        jf.hrms. = @employeeId 
+                                                                   AND        jf.employeeid = @employeeId 
                                                                    WHERE      date BETWEEN @fromDate AND        @toDate)SELECT markeddates 
-                                        FROM   hrms.markeddays 
+                                        FROM   markeddays 
                                         WHERE  markeddates >= @fromDate 
                                         AND    markeddates <= @toDate )";
 
