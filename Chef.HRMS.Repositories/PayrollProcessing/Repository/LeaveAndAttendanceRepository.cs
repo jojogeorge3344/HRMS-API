@@ -347,7 +347,7 @@ namespace Chef.HRMS.Repositories
                                                                               WHERE           employeeid = @employeeId 
                                                                               AND             isapproved=true 
                                                               )SELECT Count(*) AS attendance 
-                                              FROM   hrms.onduty 
+                                              FROM   onduty 
                                               WHERE  days BETWEEN @fromDate AND    @toDate) 
                                              UNION ALL 
                                                        ( 
@@ -362,7 +362,7 @@ namespace Chef.HRMS.Repositories
                                                                                  WHERE           employeeid = @employeeId 
                                                                                  AND             isapproved=true 
                                                                  )SELECT Count(*) AS attendance 
-                                                 FROM   hrms.workfromhome 
+                                                 FROM  workfromhome 
                                                  WHERE  days BETWEEN @fromDate AND    @toDate))q1 
                             UNION ALL 
                                       ( 
@@ -395,7 +395,7 @@ namespace Chef.HRMS.Repositories
                                                                    WHERE           employeeid = @employeeId 
                                                    )SELECT 'appliedleave' AS type, 
                                           Count(*) 
-                                   FROM   hrms.appliedleave 
+                                   FROM   appliedleave 
                                    WHERE  days BETWEEN @fromDate AND    @toDate) 
                                   UNION ALL 
                                             ( 
@@ -412,7 +412,7 @@ namespace Chef.HRMS.Repositories
                                                                       WHERE           employeeid = @employeeId 
                                                       )SELECT 'approvedleave' AS type, 
                                              Count(*) 
-                                      FROM   hrms.approvedleave 
+                                      FROM   approvedleave 
                                       WHERE  days BETWEEN @fromDate AND    @toDate 
                                       AND    leavestatus=3) 
                                      UNION ALL 
@@ -430,7 +430,7 @@ namespace Chef.HRMS.Repositories
                                                                          WHERE           employeeid = @employeeId 
                                                          )SELECT 'UnApprovedleave' AS type, 
                                                 Count(*) 
-                                         FROM   hrms.unapprovedleave 
+                                         FROM   unapprovedleave 
                                          WHERE  days BETWEEN @fromDate AND    @toDate 
                                          AND    ( 
                                                        leavestatus=1 
