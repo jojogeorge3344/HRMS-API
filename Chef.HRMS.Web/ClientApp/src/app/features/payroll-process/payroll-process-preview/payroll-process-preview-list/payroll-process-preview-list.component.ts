@@ -93,12 +93,14 @@ export class PayrollProcessPreviewListComponent implements OnInit {
             this.endpayrollProcess();
           }
 
+        }  else {
+          this.endpayrollProcess();
         }
       });
   }
   endpayrollProcess(): void {
-    this.router.navigate(['../'], { relativeTo: this.route });
     this.toastr.showSuccessMessage('Payroll Process Completed');
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
 }
