@@ -147,5 +147,12 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetEmployeeDetails/{employeeid}/{paygroupid}")]
+        public async Task<ActionResult<IEnumerable<PayrollProcessingMethod>>> GetEmployeeDetails(int employeeid,int paygroupid)
+        {
+            var noGroupEmployee = await payrollProcessingMethodService.GetEmployeeDetails(employeeid, paygroupid);
+
+            return Ok(noGroupEmployee);
+        }
     }
 }

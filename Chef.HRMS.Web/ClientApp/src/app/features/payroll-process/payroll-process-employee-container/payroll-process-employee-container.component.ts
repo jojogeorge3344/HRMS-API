@@ -29,13 +29,13 @@ export class PayrollProcessEmployeeContainerComponent implements OnInit {
       this.id = parseInt(params.id, 10);
 
     });
-    this.getPayrollById();
+    // this.getPayrollById();
     this.employeeService.getDetails(this.employeeId).subscribe(res => {
       this.employee = res;
     });
   }
   getPayrollById() {
-    this.payrollProcessService.get(this.id).subscribe(result => {
+    this.payrollProcessService.getEmployeeDetails(this.id, this.employeeId).subscribe(result => {
       this.payrollProcessById = result;
       this.activateTab(result.processedStep + 1);
     });

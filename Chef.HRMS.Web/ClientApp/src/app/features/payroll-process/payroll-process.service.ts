@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { PayrollProcess } from './payroll-process.model';
 import { PayrollReview } from './payroll-process-preview/payroll-process-preview.model';
 import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,11 @@ export class PayrollProcessService {
 
   public baseUrl: string;
   public http: HttpClient;
+  public employeeDetails: BehaviorSubject<any>
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
+    this.employeeDetails = <BehaviorSubject<any>>new BehaviorSubject(null);
     this.baseUrl = baseUrl + 'api/settings/payrollprocessing/PayrollProcessingMethod/';
   }
 
@@ -43,8 +46,12 @@ export class PayrollProcessService {
       .pipe(map(response => response));
   }
 
-  get(id) {
-    return this.http.get<PayrollProcess>(this.baseUrl + 'get/' + id).pipe(map(response => response));
+  get( id) {
+    return this.http.get<PayrollProcess>(this.baseUrl + 'GetEmployeeDetails/' +   id).pipe(map(response => response));
+  }
+
+  getEmployeeDetails(empid,id) {
+    return this.http.get<PayrollProcess>(this.baseUrl + 'GetEmployeeDetails/' +empid+ "/"+   id).pipe(map(response => response));
   }
   updateProcess(payrollProcess) {
     return this.http.post<PayrollProcess>(this.baseUrl + 'InsertOrAlreadyExist/', payrollProcess).pipe(map(response => response));
@@ -57,6 +64,16 @@ export class PayrollProcessService {
 
   getPreviousDetails() {
     return this.http.get<PayrollProcess[]>(this.baseUrl + 'GetPastSixMonthDetails/').pipe(map(response => response));
+  }
+
+  setEmployeeDetails(data) {
+    this.employeeDetails.next(data)
+
+  }
+
+  getEmployeeDetailsSubject() {
+    return this.employeeDetails.asObservable()
+
   }
 
 }

@@ -1,5 +1,6 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
+using Chef.HRMS.Types;
 using Chef.HRMS.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -100,7 +101,7 @@ namespace Chef.HRMS.Test
                 Id = 1,
                 ModeOfProcessing = ModeOfProcessing.PayGroup,
                 PayGroupId = 2,
-                EmployeeId = 0
+                EmployeeId = 49
 
             };
         }
@@ -111,9 +112,9 @@ namespace Chef.HRMS.Test
             PayrollProcessingMethod payrollProcessingMethod = new PayrollProcessingMethod
             {
                 Id = 1,
-                ModeOfProcessing = ModeOfProcessing.PayGroup,
+                ModeOfProcessing = ModeOfProcessing.Employee,
                 PayGroupId = 2,
-                EmployeeId = 0
+                EmployeeId = 49
 
             };
             payrollProcessingMethodList.Add(payrollProcessingMethod);
