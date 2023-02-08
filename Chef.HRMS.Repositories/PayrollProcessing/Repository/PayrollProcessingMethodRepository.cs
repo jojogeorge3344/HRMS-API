@@ -1,4 +1,6 @@
-﻿namespace Chef.HRMS.Repositories
+﻿using System;
+
+namespace Chef.HRMS.Repositories
 {
     public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcessingMethod>, IPayrollProcessingMethodRepository
     {
@@ -328,6 +330,15 @@
             {
                 return 1;
             }
+        }
+
+        public async Task<IEnumerable<PayrollProcessingMethod>> GetEmployeeDetails(int employeeid, int paygroupid)
+        {
+            var sql = @"SELECT*FROM hrms.payrollprocessingmethod
+                        WHERE employeeid=@employeeid
+                        AND paygroupid=@paygroupid";
+
+            return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
         }
     }
 }

@@ -10,6 +10,8 @@ import { BonusTypes } from '@features/employee/employee-bonus/bonus-types.model'
 import { EmployeeBonusService } from '@features/employee/employee-bonus/employee-bonus.service';
 import { EmployeeBonus } from '@features/employee/employee-bonus/employee-bonus.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { PayrollProcessService } from '@features/payroll-process/payroll-process.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hrms-payroll-employee-bonus-list',
@@ -20,7 +22,9 @@ export class PayrollEmployeeBonusListComponent implements OnInit {
 
   employeeId: number;
   id: number;
+  methodId:number
   bonusTypes: BonusTypes[];
+  employeeSub: Subscription
   payrollEmployeeBonus: EmployeeBonus[] = [];
 
   constructor(
@@ -28,6 +32,7 @@ export class PayrollEmployeeBonusListComponent implements OnInit {
     public modalService: NgbModal,
     private route: ActivatedRoute,
     private employeeBonusService: EmployeeBonusService,
+    public payrollprocessSrv: PayrollProcessService
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +40,12 @@ export class PayrollEmployeeBonusListComponent implements OnInit {
       this.employeeId = parseInt(params.employee, 10);
       this.id = parseInt(params.id, 10);
     });
-    this.getAllBonusByEmployeeId();
+    // this.getAllBonusByEmployeeId();
+this.employeeSub = this.payrollprocessSrv.getEmployeeDetailsSubject().subscribe(resp => {
+  
+  this.methodId = +resp[0].id
+  this.getAllBonusByEmployeeId()
+})
     this.getBonusTypes();
   }
 
@@ -46,7 +56,7 @@ export class PayrollEmployeeBonusListComponent implements OnInit {
   }
 
   getAllBonusByEmployeeId() {
-    this.employeeBonusService.getBonusByEmployeeId(this.employeeId, this.id).subscribe(result => {
+    this.employeeBonusService.getBonusByEmployeeId(this.employeeId, this.methodId).subscribe(result => {
       this.payrollEmployeeBonus = result;
     },
     error => {
@@ -118,6 +128,10 @@ export class PayrollEmployeeBonusListComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.employeeSub) this.employeeSub.unsubscribe()
   }
 
 }

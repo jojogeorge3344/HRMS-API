@@ -13,6 +13,7 @@ import { Employee } from '@features/employee/employee.model';
 import { SendEmailService } from '../send-email.service';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { log } from 'console';
 
 @Component({
   selector: 'hrms-payroll-employee-leave',
@@ -39,21 +40,23 @@ export class PayrollEmployeeLeaveComponent implements OnInit {
     private router: Router,
     public modalService: NgbModal,
     private payrollProcessLeaveService: PayrollProcessLeaveService) {
+
+  }
+
+  ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
+      console.log("params", params)
       this.selectedYear = params.date.split('-')[1];
       this.selectedMonth = this.months[params.date.split('-')[0]];
       this.noOfCalendarDays = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
       this.employeeId = parseInt(params.employee, 10);
       this.id = parseInt(params.id, 10);
+        this.getPayrollProcess();
 
     });
   }
-
-  ngOnInit(): void {
-    this.getPayrollProcess();
-  }
   getPayrollProcess() {
-    this.payrollProcessService.get(this.id).subscribe(payrollProcess => {
+    this.payrollProcessService.getEmployeeDetails(this.employeeId, this.id).subscribe(payrollProcess => {
       if (payrollProcess.processedStep >= 1) {
         this.payrollProcessLeaveService.getByEmployee(this.employeeId, this.id)
           .subscribe(res => {

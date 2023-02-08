@@ -83,5 +83,8 @@ namespace Chef.HRMS.Models
         /// Holds overtimepolicyid of the employee
         /// </summary>
         public int OverTimePolicyId { get; set; }
+        public int PayGroupId { get; set; }
+        public int PaymentMethodeId { get; set; }
+        
     }
 }
