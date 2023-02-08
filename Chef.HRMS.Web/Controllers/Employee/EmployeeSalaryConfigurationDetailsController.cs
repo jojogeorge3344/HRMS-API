@@ -20,10 +20,10 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPost("InsertEmployeeSalaryConfigDetails")]
-        [Consumes(MediaTypeNames.Application.Json)]
+        //[Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> InsertEmployeeSalaryConfigDetails(IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
+        public async Task<IActionResult> InsertEmployeeSalaryConfigDetails([FromBody]IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
         {
             if (!ModelState.IsValid)
             {

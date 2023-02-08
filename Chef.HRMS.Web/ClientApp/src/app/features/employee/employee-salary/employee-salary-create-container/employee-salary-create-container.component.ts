@@ -114,6 +114,7 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
   }
 
   onSubmit() {
+    // debugger;
     this.salaryStructure = this.salaryFormComponent.salaryStructure;
     this.salaryTotalMonthly = this.salaryFormComponent.salaryTotalMonthly;
     this.salaryTotalYearly = this.salaryFormComponent.salaryTotalYearly;
@@ -146,12 +147,13 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
       };
     });
 
-    this.employeeSalaryConfigurationService.insert(employeeSalaryConfiguration).subscribe((result: EmployeeSalaryConfiguration) => {
+    this.employeeSalaryConfigurationService.insert(employeeSalaryConfiguration).subscribe((result: any) => {
       console.log(result, employeeSalaryConfigurationDetails);
+      // debugger;
       employeeSalaryConfigurationDetails = employeeSalaryConfigurationDetails.map(x => {
         return {
           ...x,
-          employeeSalaryConfigurationId: result.id,
+          employeeSalaryConfigurationId: result,
         };
       });
 

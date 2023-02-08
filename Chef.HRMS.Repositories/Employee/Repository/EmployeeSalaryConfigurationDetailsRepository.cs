@@ -15,7 +15,6 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> InsertEmployeeSalaryConfigDetails(IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
         {
-
                 var sql = new QueryBuilder<EmployeeSalaryConfigurationDetails>().GenerateInsertQuery();
 
                 return await Connection.ExecuteAsync(sql, employeeSalaryConfigurationDetails);
