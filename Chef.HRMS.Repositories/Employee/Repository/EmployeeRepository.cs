@@ -21,6 +21,7 @@ namespace Chef.HRMS.Repositories
                                     e.middlename, 
                                     e.lastname, 
                                     e.email, 
+                                    jf.paygroupid,
                                     jd.id               AS jobdetailsid, 
                                     jd.department, 
                                     jd.location, 

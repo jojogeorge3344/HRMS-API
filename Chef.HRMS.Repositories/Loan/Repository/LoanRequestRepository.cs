@@ -59,7 +59,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-                var sql = @"SELECT lr.employeeid                         AS employeeid, 
+                var sql = @"SELECT Distinct lr.employeeid                         AS employeeid, 
                                    lr.loantype                           AS loantype, 
                                    lr.loanno                             AS loanNumber, 
                                    lr.loanamount                         AS amount, 
@@ -74,7 +74,7 @@ namespace Chef.HRMS.Repositories
                                            ON lr.employeeid = jd.employeeid 
                                    INNER JOIN hrms.payrollprocessingmethod pm 
                                            ON 1 = 1 
-                                              AND pm.id = @payrollProcessingMethodId 
+                                             
                             WHERE  lr.employeeid = @employeeId 
                                    AND ( Extract(month FROM lr.expectedon) = pm.month 
                                          AND Extract(year FROM lr.expectedon) = pm.year )";
