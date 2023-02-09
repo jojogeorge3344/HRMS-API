@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
         {
                 var sql = @"SELECT * 
                                     FROM hrms.leavestructure
-                                    WHERE isconfigured=true";
+                                    WHERE isconfigured=true and isarchived=false";
 
                 return await Connection.QueryAsync<LeaveStructure>(sql);
         }
