@@ -218,7 +218,8 @@ namespace Chef.HRMS.Repositories
 							                            INNER JOIN hrms.jobfiling jf
 							                            ON jf.paygroupid=pm.paygroupid
 							                            AND(year=@year AND month=@month)	
-                                                        WHERE  jf.employeeid=@employeeId";
+                                                        WHERE  jf.employeeid=@employeeId
+                                                        AND pm.processedstep=5";
 
                         var data = await Connection.QueryFirstOrDefaultAsync<string>(getEmp, new { employeeId, year, month });
 
@@ -233,7 +234,8 @@ namespace Chef.HRMS.Repositories
 							                            INNER JOIN hrms.payrollprocessingmethod ppm
 							                            ON jf.employeeid=ppm.employeeid
 							                            AND(year=@year AND month=@month)	
-                                                        WHERE  jf.employeeid=@employeeId";
+                                                        WHERE  jf.employeeid=@employeeId
+                                                        AND pm.processedstep=5";
 
                             var info = await Connection.QueryFirstOrDefaultAsync<string>(get, new { employeeId, year, month });
                             if (info != null)

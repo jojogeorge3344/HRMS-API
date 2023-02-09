@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PayrollProcessService } from '../payroll-process.service';
 import { PayrollLopService } from '../payroll-process-preview/payroll-lop.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'hrms-payroll-employee-review',
@@ -21,6 +22,8 @@ export class PayrollEmployeeReviewComponent implements OnInit {
   bonus = { type: '', values: [], sum: 0 };
   lop;
   adhoc = { type: '', values: [], sum: 0 };
+  methodId:number
+  employeeSub: Subscription
   constructor(
     private payrollProcessService: PayrollProcessService,
     private route: ActivatedRoute,
@@ -37,11 +40,9 @@ export class PayrollEmployeeReviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.payrollLopService.getEmployeeLop(this.employeeId, this.id)
-      .subscribe(res =>
-        this.lop = res
-      );
-    this.payrollProcessPreviewServiceService.getEmployeeBreakup(this.employeeId, this.id)
+    this.employeeSub = this.payrollProcessService.getEmployeeDetailsSubject().subscribe(resp => {
+      this.methodId = +resp[0]?.id
+      this.payrollProcessPreviewServiceService.getEmployeeBreakup(this.employeeId, this.methodId)
       .subscribe((res: any) => {
         res.map(group => {
           group.sum = group.values.reduce((sum, x) => sum + x.amount, 0);
@@ -60,8 +61,20 @@ export class PayrollEmployeeReviewComponent implements OnInit {
           this.adhoc = res.find(component => component.type === 'Adhoc');
         }
       });
+      this.getEmployeeLop();
+  })
+
+
+    
 
   }
+ getEmployeeLop(){
+  debugger
+  this.payrollLopService.getEmployeeLop(this.employeeId, this.methodId)
+      .subscribe(res =>
+        this.lop = res
+      );
+ }
   onSubmit() {
     let lop;
     if (this.lop && this.lop.lossOfPay) {
@@ -74,9 +87,9 @@ export class PayrollEmployeeReviewComponent implements OnInit {
     }
 
 
-    this.payrollProcessService.updateProcessedStep(this.id, 5, { id: this.id, stepNumber: 5 })
+    this.payrollProcessService.updateProcessedStep(this.id, 5, { id: this.methodId, stepNumber: 5 })
       .subscribe(res => {
-        if (res) {
+        // if (res) {
           if (lop && lop .length) {
             this.payrollProcessService.insertLop(lop)
               .subscribe(() => {
@@ -86,7 +99,7 @@ export class PayrollEmployeeReviewComponent implements OnInit {
             this.endpayrollProcess();
           }
 
-        }
+        // }
       });
   }
   endpayrollProcess(): void {

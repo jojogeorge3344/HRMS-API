@@ -43,7 +43,7 @@ export class PayrollEmployeeBonusListComponent implements OnInit {
     // this.getAllBonusByEmployeeId();
 this.employeeSub = this.payrollprocessSrv.getEmployeeDetailsSubject().subscribe(resp => {
   
-  this.methodId = +resp[0].id
+  this.methodId = +resp[0]?.id
   this.getAllBonusByEmployeeId()
 })
     this.getBonusTypes();

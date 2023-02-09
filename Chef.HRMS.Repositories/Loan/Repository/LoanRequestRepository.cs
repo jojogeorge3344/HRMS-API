@@ -32,7 +32,7 @@ namespace Chef.HRMS.Repositories
 														   INNER JOIN hrms.jobfiling jf
 														           ON e.id=jf.employeeid
 														    INNER JOIN hrms.payrollProcessingMethod pm
-                                                                   ON jf.paygroupid=pm.paygroupid AND (pm.id = @payrollProcessingMethodId 
+                                                                   ON jf.paygroupid=pm.paygroupid AND (pm.employeeid = @payrollProcessingMethodId 
                                                                                                        AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
                                                                                                        WHERE  (pm.month = ppm.month
                                                                                                        AND pm.year = ppm.year)))	   
