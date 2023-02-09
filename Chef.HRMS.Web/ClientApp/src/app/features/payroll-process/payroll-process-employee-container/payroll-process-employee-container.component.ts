@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EmployeeService } from '@features/employee/employee.service';
 import { Employee } from '@features/employee/employee.model';
 import { PayrollProcessService } from '../payroll-process.service';
+import { log } from 'console';
 
 @Component({
   selector: 'hrms-payroll-process-employee-container',
@@ -29,19 +30,21 @@ export class PayrollProcessEmployeeContainerComponent implements OnInit {
       this.id = parseInt(params.id, 10);
 
     });
-    // this.getPayrollById();
+    this.getPayrollById();
     this.employeeService.getDetails(this.employeeId).subscribe(res => {
       this.employee = res;
     });
   }
   getPayrollById() {
-    this.payrollProcessService.getEmployeeDetails(this.id, this.employeeId).subscribe(result => {
+    this.payrollProcessService.getEmployeeDetails(this.employeeId,this.id).subscribe(result => {
       this.payrollProcessById = result;
+      this.payrollProcessService.setEmployeeDetails(this.payrollProcessById)
       this.activateTab(result.processedStep + 1);
     });
   }
   activateTab(tabId: number) {
-    this.payrollProcessById.processedStep = tabId - 1;
+    debugger
+    // this.payrollProcessById.processedStep = tabId - 1;
     this.activeTabId = tabId;
   }
 
