@@ -64,7 +64,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> InsertLeaveAndAttendanceDetails(IEnumerable<LeaveAndAttendance> leaveAndAttendances)
+        public async Task<IActionResult> InsertLeaveAndAttendanceDetails([FromBody]IEnumerable<LeaveAndAttendance> leaveAndAttendances)
         {
             if (!ModelState.IsValid)
             {

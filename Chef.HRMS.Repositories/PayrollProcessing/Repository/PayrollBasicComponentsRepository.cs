@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,7 +156,6 @@ namespace Chef.HRMS.Repositories
                             sql = sql.Replace("RETURNING Id", " ");
                             sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
                             sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
-
                             return await Connection.ExecuteAsync(sql, payrollBasicComponents);
                         }
                         else

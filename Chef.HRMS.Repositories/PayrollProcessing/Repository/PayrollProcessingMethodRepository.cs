@@ -235,7 +235,7 @@ namespace Chef.HRMS.Repositories
 							                            ON jf.employeeid=ppm.employeeid
 							                            AND(year=@year AND month=@month)	
                                                         WHERE  jf.employeeid=@employeeId
-                                                        AND pm.processedstep=5";
+                                                        AND ppm.processedstep=5";
 
                             var info = await Connection.QueryFirstOrDefaultAsync<string>(get, new { employeeId, year, month });
                             if (info != null)

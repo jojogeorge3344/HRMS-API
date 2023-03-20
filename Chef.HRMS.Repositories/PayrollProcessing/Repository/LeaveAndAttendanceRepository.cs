@@ -281,7 +281,8 @@ namespace Chef.HRMS.Repositories
                          });
                         var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
                         sql = sql.Replace("RETURNING id", "");
-                        sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
+                        //sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
+                        sql += " ON CONFLICT DO ";
                         sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
 
                         await Connection.ExecuteAsync(sql, leaveAndAttendances);

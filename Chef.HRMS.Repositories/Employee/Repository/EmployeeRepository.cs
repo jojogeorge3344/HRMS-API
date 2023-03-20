@@ -21,17 +21,32 @@ namespace Chef.HRMS.Repositories
                                     e.middlename, 
                                     e.lastname, 
                                     e.email, 
+                                    e.filenumber,
+                                    e.uidnumber,
+                                    e.languageknown,
                                     jf.paygroupid,
                                     jd.id               AS jobdetailsid, 
                                     jd.department, 
                                     jd.location, 
                                     jd.employeenumber   AS employeenumber,
-                                    jf.id               AS jobfilingid
+                                    jf.id               AS jobfilingid,
+                                    a.currentaddressline1,
+                                    a.currentaddressline2,
+                                    a.currentcountry,
+                                    a.currentstate,
+                                    a.currentpincode,
+                                    a.permanentaddressline1,
+                                    a.permanentaddressline2,
+                                    a.permanentcountry,
+                                    a.permanentstate,
+                                    a.permanentpincode
                             FROM hrms.HRMSEmployee AS e 
                             LEFT JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
                             LEFT JOIN hrms.jobfiling AS jf 
                                     ON e.id = jf.employeeid
+                            LEFT JOIN hrms.address AS a 
+                                    ON e.id = a.employeeid
                             WHERE e.isarchived=false
                             ORDER BY e.id desc";
 
@@ -46,6 +61,9 @@ namespace Chef.HRMS.Repositories
                                     e.middlename, 
                                     e.lastname, 
                                     e.email, 
+                                    e.filenumber,
+                                    e.uidnumber,
+                                    e.languageknown,
                                     jd.id                             AS jobdetailsid, 
                                     jd.department, 
                                     jd.location, 
