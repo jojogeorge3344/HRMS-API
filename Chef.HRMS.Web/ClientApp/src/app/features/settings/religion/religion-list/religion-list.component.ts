@@ -4,7 +4,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import{ReligionService} from '../religion-detail.service'
 import { ReligionGroup } from '../religion.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-
+import{ReligionEditComponent} from '../religion-edit/religion-edit.component';
+import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
+import{ReligionViewComponent} from '../religion-view/religion-view.component'
 @Component({
   selector: 'hrms-religion-list',
   templateUrl: './religion-list.component.html',
@@ -13,9 +15,8 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 export class ReligionListComponent implements OnInit {
 
   religionDetails: ReligionGroup[] = [];
-  groupCodes: string[];
-  establishmentId: string[];
-  groupNames: string[];
+  Codes: string[];
+  Names: string[];
 
   constructor(
     public modalService: NgbModal,
@@ -30,9 +31,9 @@ export class ReligionListComponent implements OnInit {
   getReligionlist() {
     this.religionService.getAll().subscribe(result => {
       this.religionDetails = result;
-      // this.groupCodes = this.wpsDetails.map(a => a.groupCode.toLowerCase());
-      // this.groupNames = this.wpsDetails.map(a => a.groupName.toLowerCase());
-      // this.establishmentId = this.wpsDetails.map(a => a.establishmentId.toLowerCase());
+      this.Codes = this.religionDetails.map(a => a.code.toLowerCase());
+      this.Names = this.religionDetails.map(a => a.name.toLowerCase());
+      
 
     },
     error => {
@@ -43,12 +44,53 @@ export class ReligionListComponent implements OnInit {
   openCreate() {
     const modalRef = this.modalService.open(ReligionCreateComponent,
       {size: 'lg', centered: true, backdrop: 'static' });
-    modalRef.componentInstance.groupCodes = this.groupCodes;
-    modalRef.componentInstance.groupNames = this.groupNames;
-    modalRef.componentInstance.establishmentId = this.establishmentId;
+    modalRef.componentInstance.code = this.Codes;
+    modalRef.componentInstance.name= this.Names;
     modalRef.result.then((result) => {
         if (result == 'submit') {
-         
+          this.getReligionlist()
         }
-    });  }
+    });  
+  }
+  openEdit(relDetails: ReligionGroup) {
+    const modalRef = this.modalService.open(ReligionEditComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.relDetails= relDetails;
+    modalRef.componentInstance.code = this.Codes;
+    modalRef.componentInstance.name = this.Names;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getReligionlist()
+      }
+    });
+  }
+  openView(relDetails: ReligionGroup) {
+    const modalRef = this.modalService.open(ReligionViewComponent,
+      { centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.relDetails = relDetails;
+    modalRef.componentInstance.code = this.Codes;
+    modalRef.componentInstance.name = this.Names;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getReligionlist();
+      }
+    });
+  }
+
+delete(relDetails: ReligionGroup) {
+  const modalRef = this.modalService.open(ConfirmModalComponent,
+    { centered: true, backdrop: 'static' });
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Religion ${relDetails.name}`;
+  modalRef.result.then((userResponse) => {
+    if (userResponse == true) {
+      this.religionService.delete(relDetails.id).subscribe(() => {
+        this.toastr.showSuccessMessage('Religion deleted successfully!');
+        this.getReligionlist()
+      });
+    }
+  });
+}
 }

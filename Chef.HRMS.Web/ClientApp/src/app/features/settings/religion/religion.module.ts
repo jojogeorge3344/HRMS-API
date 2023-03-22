@@ -10,13 +10,15 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 import { ReligionListComponent } from './religion-list/religion-list.component';
 import { ReligionCreateComponent } from './religion-create/religion-create.component';
 import { ReligionEditComponent } from './religion-edit/religion-edit.component';
+import { ReligionViewComponent } from './religion-view/religion-view.component';
 
 
 @NgModule({
   declarations: [
     ReligionListComponent,
     ReligionCreateComponent,
-    ReligionEditComponent
+    ReligionEditComponent,
+    ReligionViewComponent
   ],
   imports: [
     CommonModule,

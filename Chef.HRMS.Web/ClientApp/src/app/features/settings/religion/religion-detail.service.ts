@@ -20,8 +20,10 @@ export class ReligionService {
   getAll() {
     return this.http.get<ReligionGroup[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
-  add(wps: ReligionGroup) {
-    return this.http.post(this.baseUrl + 'insert', wps).pipe(map(response => { return response; }));
+  add(rel: ReligionGroup) {
+    return this.http.post(this.baseUrl + 'insert', rel).pipe(map(response => { return response; }));
   }
-
+  delete(id: number) {
+    return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
+  }
 }

@@ -25,14 +25,15 @@ export class ReligionCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     const religionForm = this.addForm.value;
     this.religionService.add(religionForm).subscribe(result => {
-      this.toastr.showSuccessMessage('The WPS added successfully!');
+      this.toastr.showSuccessMessage('The Religion added successfully!');
       this.activeModal.close('submit');
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the WPS');
+        this.toastr.showErrorMessage('Unable to add the Religion');
       });
   }
   
@@ -47,7 +48,9 @@ export class ReligionCreateComponent implements OnInit {
         Validators.maxLength(64),
         Validators.required,
       ]],
-     
+      status: ['', [
+        Validators.required,
+      ]],
     });
   }
 
