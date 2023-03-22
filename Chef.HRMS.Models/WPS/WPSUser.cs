@@ -28,5 +28,31 @@ namespace Chef.HRMS.Models
         [Description("WPSId")]
         //[StringLength(14)]
         public int WPSId { get; set; }
+
+        [Required]
+        [Description("molid")]
+        [StringLength(100)]
+        public string MolId { get; set; }
+
+        [Required]
+        [Description("routingid")]
+        [StringLength(100)]
+        public string RoutingId { get; set; }
+
+        [Required]
+        [Description("salarycardno")]
+        [StringLength(100)]
+        public string SalaryCardNo { get; set; }
+
+        [Required]
+        [Description("BankName")]
+        //[StringLength(200)]
+        public int BankId { get; set; }
+
+        [Required]
+        [Description("accountno")]
+        [StringLength(100)]
+        public string AccountNo { get; set; }
+
     }
 }
