@@ -42,6 +42,12 @@
         <hrms-employee-wps-details></hrms-employee-wps-details>
       </ng-template>
     </li>
+    <li [ngbNavItem]="6">
+      <a ngbNavLink>My Documents</a>
+      <ng-template ngbNavContent>
+        <employee-documents-container></employee-documents-container>
+      </ng-template>
+    </li>
   </ul>
   <div [ngbNavOutlet]="nav"></div>
 </div>

@@ -236,6 +236,13 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       noticePeriod: ['', [
         Validators.required
       ]],
+      employeeGroup: ['', [
+        Validators.required
+      ]],
+      visaDesignation: ['', [
+        Validators.required
+      ]],
+
       branchId: [''],
       companyId: [''],
       createdDate: [new Date()],
