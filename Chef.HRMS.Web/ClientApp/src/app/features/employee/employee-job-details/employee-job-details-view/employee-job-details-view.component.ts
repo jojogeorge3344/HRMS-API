@@ -221,6 +221,13 @@ export class EmployeeJobDetailsViewComponent implements OnInit {
       noticePeriod: ['', [
         Validators.required
       ]],
+      employeeGroup: ['', [
+        Validators.required
+      ]],
+      visaDesignation: ['', [
+        Validators.required
+      ]],
+
       createdDate: [],
     });
   }
