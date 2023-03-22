@@ -50,6 +50,8 @@ export class EmployeeBasicDetailsViewComponent implements OnInit {
 
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
+      console.log('result',result);
+      
       result.dateOfBirth = new Date(result.dateOfBirth);
       this.editForm.patchValue(result);
     },
@@ -85,6 +87,18 @@ export class EmployeeBasicDetailsViewComponent implements OnInit {
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'),
         Validators.required
       ]],
+      fileNum: ['', [
+        Validators.required,
+        Validators.pattern(/^-?(0|[1-9]\d*)?$/),
+      ]],
+      religion: ['', [
+        Validators.required,
+      ]],
+      uid: ['', [
+        Validators.required,
+        // Validators.pattern(/^-?(0|[1-9]\d*)?$/),
+      ]],
+
       createdDate: [],
      });
   }

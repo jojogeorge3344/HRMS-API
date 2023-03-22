@@ -43,6 +43,25 @@
                 <label class="col-form-label"  for="email">Email</label>
                 <input readonly type="email" class="form-control" id="email" name="email" formControlName="email">
             </div>
+
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label"  for="fileNum">File Number</label>
+                <input readonly type="test" class="form-control" id="fileNum" name="fileNum" formControlName="fileNum">
+            </div>
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label" for="religion">Religion</label>
+                <input readonly type="text" class="form-control" id="religion" name="religion" formControlName="religion">
+                <!-- <select class="form-control" formControlName="religion">
+                    <option [ngValue]="null" disabled>Select Religion</option>
+                    <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderType[key]}}</option>
+                </select> -->
+            </div>
         </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label"  for="uid">UID</label>
+                <input readonly type="text" class="form-control" id="uid" name="uid" formControlName="uid">
+            </div>  
+      </div>
     </div>
 </form>

@@ -116,12 +116,30 @@
                     formControlName="probationPeriod">
             </div>
 
-            <div class="form-group form-input-line">
+            <div class="form-group form-input-line col-sm-2">
                 <div style="height: 36.4px;"></div>
                 <select class="form-control" formControlName="periodType">
                     <option value="" disabled>Select Period</option>
                     <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>
                         {{periodType[key]}}</option>
+                </select>
+            </div>
+
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label" for="employeeGroup">Employee Group</label>
+                <select class="form-control" formControlName="employeeGroup">
+                    <option value="" disabled>Select Employee Group</option>
+                    <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>                    
+                        {{businessUnitType[key]}}</option>
+                </select>
+            </div>
+            
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label" for="visaDesignation">Visa Designation</label>
+                <select class="form-control" formControlName="visaDesignation">
+                    <option value="" disabled>Select Visa Designation</option>
+                    <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>                    
+                        {{businessUnitType[key]}}</option>
                 </select>
             </div>
 
