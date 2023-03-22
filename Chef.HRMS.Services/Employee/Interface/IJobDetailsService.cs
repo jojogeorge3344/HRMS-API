@@ -5,5 +5,6 @@ namespace Chef.HRMS.Services
 {
     public interface IJobDetailsService : IAsyncService<JobDetails>
     {
+        Task<IEnumerable<GroupCategory>> GetGroupCategory();
     }
 }
