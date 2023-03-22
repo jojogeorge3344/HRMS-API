@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ReligionController : ControllerBase
     {
         private readonly IReligionService religionService;
