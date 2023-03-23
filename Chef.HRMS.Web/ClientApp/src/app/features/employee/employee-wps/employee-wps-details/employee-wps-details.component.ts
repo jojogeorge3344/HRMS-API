@@ -23,6 +23,11 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   currentUserId: number;
   id: any;
   wpsId: any;
+  molId:any;
+  routingId:any;
+  salaryCardNo:any;
+  bankName:any;
+  accountNo:any
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +47,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     });
     this.getWPSGrouplist();
     this.getWPSUserlistById();
+    this.getMolId(this.id)
   }
 
   getWPSGrouplist() {
@@ -103,7 +109,16 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     //   });
 
   }
-
+  getMolId(id) {
+    debugger
+    this.employeeWpsService.getMol(id).subscribe(result => {
+      this.molId = result;
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the molid Details');
+      });
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       employeeId: [''],
@@ -116,6 +131,25 @@ export class EmployeeWpsDetailsComponent implements OnInit {
         Validators.required,
          Validators.maxLength(14),
         
+      ]],
+      molId: ['', [
+        Validators.maxLength(18),
+        Validators.required
+      ]],
+      routingId: ['', [
+        Validators.maxLength(18),
+        Validators.required
+      ]],
+      salaryCardNo: ['', [
+        Validators.maxLength(18),
+        Validators.required
+      ]],
+      bankName: ['', [
+        Validators.required
+      ]],
+      accountNo: ['', [
+        Validators.maxLength(18),
+        Validators.required
       ]],
     });
   }

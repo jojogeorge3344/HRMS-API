@@ -24,7 +24,9 @@ export class EmployeeWpsService {
   get(id) {
     return this.http.get<WpsGroup[]>(this.baseUrl + 'get/' + '/' + id).pipe(map(response => { return response; }));
   }
-
+  getMol(id) {
+    return this.http.get<WpsGroup[]>(this.baseUrl + 'get/' +  id).pipe(map(response => { return response; }));
+  }
   add(wps: WpsGroup) {
     return this.http.post(this.baseUrl + 'insert', wps).pipe(map(response => { return response; }));
   }
