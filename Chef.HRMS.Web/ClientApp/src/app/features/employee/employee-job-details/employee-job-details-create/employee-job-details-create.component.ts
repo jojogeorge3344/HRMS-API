@@ -96,10 +96,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     //   this.id = params.id;
     // });
     
-    this.employeeJobDetailsService.getCategory().subscribe((result)=>{
-      
-      this.groupCategory=result;
-      
+    this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
+      this.groupCategory=result;  
     })
 
     this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
@@ -256,13 +254,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       noticePeriod: ['', [
         Validators.required
       ]],
-      employeeGroup: ['', [
+      categoryId: ['', [
         Validators.required
       ]],
-      visaDesignation: ['', [
+      visaDesignationId: ['', [
         Validators.required
       ]],
-
       branchId: [''],
       companyId: [''],
       createdDate: [new Date()],

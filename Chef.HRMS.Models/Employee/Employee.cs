@@ -73,6 +73,7 @@ namespace Chef.HRMS.Models
         public int UIDNumber { get; set; }
 
         public string LanguageKnown { get; set; }
+        public int ReligionId { get; set; }
 
         //[Write(false)]
         //[Skip(true)]

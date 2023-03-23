@@ -117,24 +117,22 @@
                     </div>
                 </div>    
             </div>
-
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="employeeGroup">Employee Group</label>
-                <select class="form-control" formControlName="employeeGroup">
+                <label class="col-form-label" for="categoryId">Employee Group</label>
+                <select class="form-control"  formControlName="categoryId">
                     <option value="" disabled>Select Employee Group</option>
-                    <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>                    
-                        {{businessUnitType[key]}}</option>
+                    <option *ngFor="let key of groupCategory" [ngValue]='key.id'>                    
+                        {{key.name}}</option>
                 </select>
             </div>         
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="visaDesignation">Visa Designation</label>
-                <select class="form-control" formControlName="visaDesignation">
+                <label class="col-form-label" for="visaDesignationId">Visa Designation</label>
+                <select class="form-control" formControlName="visaDesignationId">
                     <option value="" disabled>Select Visa Designation</option>
-                    <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>                    
-                        {{businessUnitType[key]}}</option>
+                    <option *ngFor="let key of visaDesignation" [ngValue]='key.id'>                    
+                        {{key.name}}</option>
                 </select>
             </div>
-
         </div>   
     </div>
     <div class="modal-footer">
