@@ -39,7 +39,7 @@ export class EmployeeCreateContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBranches();
-    this.getEmployeeNumber();
+    this.getEmployeeNumber();    
   }
 
   getBranches() {
@@ -64,13 +64,18 @@ export class EmployeeCreateContainerComponent implements OnInit {
   }
 
   onSubmitBasicDetails(basicDetailsForm) {
+    debugger
     this.basicDetailsForm = basicDetailsForm;
     this.activeId = this.disableTabFrom = 2;
+    console.log('jobdtslsform1',this.basicDetailsForm);
+
   }
 
   onSubmitJobDetails(jobDetailsForm) {
     this.jobDetailsForm = jobDetailsForm;
     this.activeId = this.disableTabFrom = 3;
+    console.log('jobdtslsform',this.jobDetailsForm);
+
   }
 
   onSubmitJobFilings(jobFilingsForm) {

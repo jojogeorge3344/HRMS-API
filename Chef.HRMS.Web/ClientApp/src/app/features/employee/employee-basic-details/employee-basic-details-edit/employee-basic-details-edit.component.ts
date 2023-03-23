@@ -68,7 +68,6 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the Employee Basic Details');
       });
-
   }
 
   createFormGroup(): FormGroup {
@@ -96,6 +95,17 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
       email: ['', [
         Validators.required,
         Validators.pattern(this.emailRegex),
+      ]],
+      fileNum: ['', [
+        Validators.required,
+        Validators.pattern(/^-?(0|[1-9]\d*)?$/),
+      ]],
+      religion: ['', [
+        Validators.required,
+      ]],
+      uid: ['', [
+        Validators.required,
+        // Validators.pattern(/^-?(0|[1-9]\d*)?$/),
       ]],
       createdDate: [],
       uid: [null,[

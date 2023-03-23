@@ -94,6 +94,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
     BsDropdownModule.forRoot(),
     DirectivesModule
   ],
+  exports:[EmployeeDocumentsContainerComponent],
   providers: [{
 
     provide: CUSTOM_ERROR_MESSAGES,

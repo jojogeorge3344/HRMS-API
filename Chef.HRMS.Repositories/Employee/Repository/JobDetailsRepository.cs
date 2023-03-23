@@ -10,5 +10,11 @@ namespace Chef.HRMS.Repositories
         {
         }
 
+        public async Task<IEnumerable<GroupCategory>> GetGroupCategory()
+        {
+            var sql = @"SELECT*FROM hrms.category WHERE isarchived=false";   
+
+            return await Connection.QueryAsync<GroupCategory>(sql);
+        }
     }
 }
