@@ -25,7 +25,11 @@ export class ReligionCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
+      if(this.addForm.value.status=="Active"){
+      this.addForm.value.status=true
+      }else{
+        this.addForm.value.status=false
+      }
     const religionForm = this.addForm.value;
     this.religionService.add(religionForm).subscribe(result => {
       this.toastr.showSuccessMessage('The Religion added successfully!');

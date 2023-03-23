@@ -27,9 +27,23 @@ export class ReligionEditComponent implements OnInit {
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
     this.addForm.patchValue(this.relDetails);
+    if(this.addForm.value.status==true){
+      this.addForm.patchValue({
+        status:"Active"
+      })
+      }else{
+        this.addForm.patchValue({
+          status:"InActive"
+        })
+      }
   }
 
   onSubmit() {
+    if(this.addForm.value.status=="Active"){
+      this.addForm.value.status=true
+      }else{
+        this.addForm.value.status=false
+      }
     const religionForm = this.addForm.value;
     this.religionService.update(religionForm).subscribe(result => {
       this.toastr.showSuccessMessage('The Religion updated successfully!');
