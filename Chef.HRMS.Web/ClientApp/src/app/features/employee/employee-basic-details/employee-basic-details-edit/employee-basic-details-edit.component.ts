@@ -48,6 +48,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   }
 
   getBasicDetailsId() {
+    debugger
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
       result.dateOfBirth = new Date(result.dateOfBirth);
       this.editForm.patchValue(result);
@@ -97,6 +98,20 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         Validators.pattern(this.emailRegex),
       ]],
       createdDate: [],
+      uid: [null,[
+        Validators.required]
+      ],
+      language: [null,[
+        Validators.required]
+      ],
+      remarks:[null,[
+        Validators.required,
+        Validators.maxLength(250)]
+      ],
+      refno:[null,[
+        Validators.required,
+        Validators.maxLength(25)]
+      ],
     });
   }
 
