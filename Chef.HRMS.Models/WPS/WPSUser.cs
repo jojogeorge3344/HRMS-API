@@ -50,7 +50,7 @@ namespace Chef.HRMS.Models
         public int BankId { get; set; }
 
         [Required]
-        [Description("accountno")]
+        [Description("AccountNo")]
         [StringLength(100)]
         public string AccountNo { get; set; }
 
