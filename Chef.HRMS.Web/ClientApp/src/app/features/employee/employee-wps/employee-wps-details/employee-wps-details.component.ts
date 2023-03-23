@@ -47,7 +47,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     });
     this.getWPSGrouplist();
     this.getWPSUserlistById();
-    this.getMolId(this.id)
+    // this.getMolId(this.id)
   }
 
   getWPSGrouplist() {
@@ -109,16 +109,16 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     //   });
 
   }
-  getMolId(id) {
-    debugger
-    this.employeeWpsService.getMol(id).subscribe(result => {
-      this.molId = result;
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the molid Details');
-      });
-  }
+  // getMolId(id) {
+  //   debugger
+  //   this.employeeWpsUserService.get(id).subscribe(result => {
+  //     this.molId = result;
+  //   },
+  //     error => {
+  //       console.error(error);
+  //       this.toastr.showErrorMessage('Unable to fetch the molid Details');
+  //     });
+  // }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       employeeId: [''],
