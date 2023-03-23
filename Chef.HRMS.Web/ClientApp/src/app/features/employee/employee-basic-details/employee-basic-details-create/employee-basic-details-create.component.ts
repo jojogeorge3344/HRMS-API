@@ -65,6 +65,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       });
   }
   onSubmit() {
+    debugger
     const addBasicDetails = this.addForm.value;
     this.basicDetailsForm.emit(addBasicDetails);
   }
@@ -95,7 +96,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
         Validators.pattern(this.emailRegex),
        // emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       ]],
-      fileNum: ['', [
+      fileNumber: ['', [
         Validators.required,
         Validators.pattern(/^-?(0|[1-9]\d*)?$/),
       ]],

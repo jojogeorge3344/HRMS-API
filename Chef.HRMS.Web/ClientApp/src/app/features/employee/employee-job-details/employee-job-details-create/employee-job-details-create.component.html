@@ -129,8 +129,8 @@
                 <label class="col-form-label" for="employeeGroup">Employee Group</label>
                 <select class="form-control" formControlName="employeeGroup">
                     <option value="" disabled>Select Employee Group</option>
-                    <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>                    
-                        {{businessUnitType[key]}}</option>
+                    <option *ngFor="let key of groupCategory" [ngValue]='key'>                    
+                        {{key.name}}</option>
                 </select>
             </div>
             
@@ -138,8 +138,8 @@
                 <label class="col-form-label" for="visaDesignation">Visa Designation</label>
                 <select class="form-control" formControlName="visaDesignation">
                     <option value="" disabled>Select Visa Designation</option>
-                    <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>                    
-                        {{businessUnitType[key]}}</option>
+                    <option *ngFor="let key of visaDesignation" [ngValue]='key'>                    
+                        {{key.name}}</option>
                 </select>
             </div>
 

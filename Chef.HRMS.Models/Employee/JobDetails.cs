@@ -107,5 +107,7 @@ namespace Chef.HRMS.Models
         /// Holds worker type
         /// </summary>
         public WorkerType WorkerType { get; set; }
+        public int CategoryId { get; set; }
+        public int VisaDesignationId { get; set; }
     }
 }
