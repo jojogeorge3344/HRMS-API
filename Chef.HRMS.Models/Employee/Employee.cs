@@ -75,14 +75,14 @@ namespace Chef.HRMS.Models
 
         public string LanguageKnown { get; set; }
 
-        [Write(false)]
-        [Skip(true)]
-        [SqlKata.Ignore]
-        public JobDetails JobDetails { get; set; }
+        //[Write(false)]
+        //[Skip(true)]
+        //[SqlKata.Ignore]
+        //public JobDetails JobDetails { get; set; }
 
-        [Write(false)]
-        [Skip(true)]
-        [SqlKata.Ignore]
-        public JobFiling JobFiling { get; set; }
+        //[Write(false)]
+        //[Skip(true)]
+        //[SqlKata.Ignore]
+        //public JobFiling JobFiling { get; set; }
     }
 }
