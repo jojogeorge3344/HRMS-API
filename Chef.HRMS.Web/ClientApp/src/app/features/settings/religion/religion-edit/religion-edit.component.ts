@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReligionService } from '../religion-detail.service';
+import { ReligionGroup } from '../religion.model';
 
 @Component({
   selector: 'hrms-religion-edit',
@@ -12,6 +13,9 @@ import { ReligionService } from '../religion-detail.service';
 export class ReligionEditComponent implements OnInit {
 
   addForm: FormGroup;
+  @Input() relDetails: ReligionGroup;
+  @Input() Code: string[];
+  @Input() Name: string[];
 
   constructor(
     private religionService:ReligionService,
@@ -22,11 +26,12 @@ export class ReligionEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
+    this.addForm.patchValue(this.relDetails);
   }
 
   onSubmit() {
     const religionForm = this.addForm.value;
-    this.religionService.add(religionForm).subscribe(result => {
+    this.religionService.update(religionForm).subscribe(result => {
       this.toastr.showSuccessMessage('The Religion added successfully!');
       this.activeModal.close('submit');
     },
