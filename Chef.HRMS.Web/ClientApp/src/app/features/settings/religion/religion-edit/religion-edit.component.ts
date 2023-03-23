@@ -32,7 +32,7 @@ export class ReligionEditComponent implements OnInit {
   onSubmit() {
     const religionForm = this.addForm.value;
     this.religionService.update(religionForm).subscribe(result => {
-      this.toastr.showSuccessMessage('The Religion added successfully!');
+      this.toastr.showSuccessMessage('The Religion updated successfully!');
       this.activeModal.close('submit');
     },
       error => {
