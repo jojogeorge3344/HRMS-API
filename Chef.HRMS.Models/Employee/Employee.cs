@@ -1,7 +1,6 @@
 ﻿using Chef.Common.Core;
 using Chef.Common.Types;
 using Chef.HRMS.Types;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Org.BouncyCastle.Bcpg;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Chef.HRMS.Models
 {
     [Table("hrmsemployee")]
-    public class HRMSEmployee : Common.Core.Model
+    public class HRMSEmployee : Model
     {
         /// <summary>
         /// Holds Date of Birth
@@ -69,13 +68,20 @@ namespace Chef.HRMS.Models
         public BloodGroupType BloodGroup { get; set; }
 
         public string UserId { get; set; }
-        public string FileNumber { get; set; }
+        public int FileNumber { get; set; }
 
-        public string UIDNumber { get; set; }
+        public int UIDNumber { get; set; }
 
         public string LanguageKnown { get; set; }
 
+        //[Write(false)]
+        //[Skip(true)]
+        //[SqlKata.Ignore]
+        //public JobDetails JobDetails { get; set; }
 
-
+        //[Write(false)]
+        //[Skip(true)]
+        //[SqlKata.Ignore]
+        //public JobFiling JobFiling { get; set; }
     }
 }
