@@ -108,9 +108,6 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         // Validators.pattern(/^-?(0|[1-9]\d*)?$/),
       ]],
       createdDate: [],
-      uid: [null,[
-        Validators.required]
-      ],
       language: [null,[
         Validators.required]
       ],
