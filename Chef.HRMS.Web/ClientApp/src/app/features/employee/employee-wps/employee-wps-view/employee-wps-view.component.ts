@@ -62,11 +62,20 @@ export class EmployeeWpsViewComponent implements OnInit {
   }
 
   getWPSUserlistById() {
+    debugger
     this.employeeWpsUserService.get(this.id).subscribe(result => {
       this.wpsUserDetails = result;
       console.log("wps333",this.wpsUserDetails);
       
-      this.addForm.patchValue({wpsId:this.wpsUserDetails[0].wpsId});
+      this.addForm.patchValue({
+        wpsId:this.wpsUserDetails[0].wpsId,
+        molId:this.wpsUserDetails[0].molId,
+        routingId:this.wpsUserDetails[0].routingId,
+        salaryCardNo:this.wpsUserDetails[0].salaryCardNo,
+        bankName:this.wpsUserDetails[0].bankName,
+        accountNo:this.wpsUserDetails[0].accountNo,
+
+      });
       this.getWPSGrouplist();
     },
       error => {
@@ -86,7 +95,12 @@ export class EmployeeWpsViewComponent implements OnInit {
   Validators.required,
   Validators.maxLength(13)
 ]],
-    });
+molId:[''],
+routingId:[''],
+salaryCardNo:[''],
+bankName:[''],
+accountNo:['']
+});
   }
 
 }
