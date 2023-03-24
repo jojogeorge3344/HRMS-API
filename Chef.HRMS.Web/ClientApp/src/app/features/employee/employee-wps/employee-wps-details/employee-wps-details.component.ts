@@ -26,8 +26,9 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   molId:any;
   routingId:any;
   salaryCardNo:any;
-  bankName:any;
+  bankId:any;
   accountNo:any
+  bankList: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +49,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     this.getWPSGrouplist();
     this.getWPSUserlistById();
     // this.getMolId(this.id)
+    this.getWPSBanklist()
   }
 
   getWPSGrouplist() {
@@ -63,9 +65,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   getWPSUserlistById() {
     this.employeeWpsUserService.get(this.id).subscribe(result => {
       this.wpsUserDetails = result;
-      console.log("details>>>>",this.wpsUserDetails);
       this.wpsId=result[0].wpsId;
-      console.log("id>>",this.wpsId); 
       this.addForm.patchValue(result[0]);
     },
       error => {
@@ -82,7 +82,6 @@ export class EmployeeWpsDetailsComponent implements OnInit {
       addWpsDetails.employeeId = parseInt(this.id, 10);
       this.employeeWpsUserService.update(addWpsDetails).subscribe((result:any)=> {
            this.toastr.showSuccessMessage('WPS Details updated successfully!');
-           console.log("wps777",addWpsDetails);
            this.getWPSUserlistById();  
       })
     }
@@ -90,8 +89,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
       const addWpsDetails = this.addForm.value;
       addWpsDetails.employeeId = parseInt(this.id, 10);
       this.employeeWpsUserService.add(addWpsDetails).subscribe((result:any) => {
-        this.toastr.showSuccessMessage('WPS Details updated successfully!');
-        console.log("wps777",addWpsDetails);
+        this.toastr.showSuccessMessage('WPS Details added successfully!');
         this.getWPSUserlistById();
       })
     }
@@ -119,6 +117,15 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   //       this.toastr.showErrorMessage('Unable to fetch the molid Details');
   //     });
   // }
+  getWPSBanklist() {
+    this.employeeWpsUserService.getBank().subscribe(result => {
+      this.bankList = result;
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the WPS Group List Details');
+      });
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       employeeId: [''],
@@ -144,7 +151,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
         Validators.maxLength(18),
         Validators.required
       ]],
-      bankName: ['', [
+      bankId: ['', [
         Validators.required
       ]],
       accountNo: ['', [

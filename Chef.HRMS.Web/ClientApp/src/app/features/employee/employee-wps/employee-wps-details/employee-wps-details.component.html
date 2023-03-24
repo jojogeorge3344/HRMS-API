@@ -31,11 +31,11 @@
                 <input type="string" class="form-control" id="salaryCardNo" name="salaryCardNo" formControlName="salaryCardNo">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="bankName">Bank Name</label>
-                <select class="form-control" formControlName="bankName">
+                <label class="col-form-label"  for="bankId">Bank Name</label>
+                <select class="form-control" formControlName="bankId">
                     <option value="" disabled>Select Bank Name</option>
-                    <option *ngFor="let type of groupId" [ngValue]='type.id'>
-                        {{type.groupName}}
+                    <option *ngFor="let type of bankList" [ngValue]='type.id'>
+                        {{type.name}}
                     </option>
                 </select>
             </div>
