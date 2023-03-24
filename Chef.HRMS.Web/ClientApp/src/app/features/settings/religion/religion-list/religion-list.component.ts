@@ -31,6 +31,7 @@ export class ReligionListComponent implements OnInit {
   getReligionlist() {
     this.religionService.getAll().subscribe(result => {
       this.religionDetails = result;
+      this.religionDetails=this.religionDetails.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
       this.Codes = this.religionDetails.map(a => a.code.toLowerCase());
       this.Names = this.religionDetails.map(a => a.name.toLowerCase());
       
