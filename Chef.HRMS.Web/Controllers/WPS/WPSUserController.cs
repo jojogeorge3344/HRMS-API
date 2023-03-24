@@ -94,5 +94,12 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetBank")]
+        public async Task<ActionResult<IEnumerable<HRMSBank>>> GetBank()
+        {
+            var bank = await wpsUserService.GetBank();
+
+            return Ok(bank);
+        }
     }
 }

@@ -10,10 +10,12 @@ export class EmployeeBasicDetailsService {
 
   public baseUrl: string;
   public http: HttpClient;
+  public apiUrl:string;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + "api/employee/";
+    this.apiUrl=baseUrl + 'api/religion/'
   }
 
   add(basicDetails: EmployeeBasicDetails) {
@@ -32,6 +34,10 @@ export class EmployeeBasicDetailsService {
 
   get(id) {
     return this.http.get<EmployeeBasicDetails>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
+  }
+
+  getReligion(){
+    return this.http.get<any>(this.apiUrl + 'getAll/' ).pipe(map(response => { return response; }));
   }
 }
 
