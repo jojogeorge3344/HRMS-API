@@ -100,6 +100,9 @@ export class EmployeeBasicDetailsViewComponent implements OnInit {
       ]],
 
       createdDate: [],
+      languageKnown:[''],
+      refno:[''],
+      remarks:['']
      });
   }
 
