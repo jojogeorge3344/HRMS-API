@@ -79,7 +79,9 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
     const addBasicDetails = this.addForm.value;
     this.basicDetailsForm.emit(addBasicDetails);
   }
-
+  changeToUpperCase(){
+    this.addForm.value.languageKnown= this.addForm.value.languageKnown.toUpperCase()
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       firstName: ['', [
