@@ -13,12 +13,13 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class EmployeeBasicDetailsEditComponent implements OnInit {
-
+  
   editForm: FormGroup;
   currentUserId: number;
   id: any;
   genderTypeKeys: number[];
   genderType = GenderType;
+  religion:any;
   maxDate;
   emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -41,15 +42,25 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.genderTypeKeys = Object.keys(this.genderType).filter(Number).map(Number);
+
     this.route.params.subscribe((params: any) => {
       this.id = params['id'];
     });
+
     this.getBasicDetailsId();
+    console.log('basc detlas',this.getBasicDetailsId());
+
+   this.employeeBasicDetailsService.getReligion()
+   .subscribe((result)=>{    
+   this.religion=result; 
+   })
   }
 
   getBasicDetailsId() {
     debugger
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
+      console.log('edt ',result);
+      
       result.dateOfBirth = new Date(result.dateOfBirth);
       this.editForm.patchValue(result);
     },
@@ -96,16 +107,15 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         Validators.required,
         Validators.pattern(this.emailRegex),
       ]],
-      fileNum: ['', [
+      fileNumber: ['', [
         Validators.required,
         Validators.pattern(/^-?(0|[1-9]\d*)?$/),
       ]],
-      religion: ['', [
+      religionId: ['', [
         Validators.required,
       ]],
-      uid: ['', [
+      uidNumber: ['', [
         Validators.required,
-        // Validators.pattern(/^-?(0|[1-9]\d*)?$/),
       ]],
       createdDate: [],
       languageKnown: [null,[

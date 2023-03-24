@@ -10,69 +10,64 @@ namespace Chef.HRMS.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReligionController : ControllerBase
+    public class DocumentTypeMasterController : ControllerBase
     {
-        private readonly IReligionService religionService;
+        private readonly IDocumentTypeMasterService documentTypeMasterService;
 
-        public ReligionController(IReligionService religionService)
+        public DocumentTypeMasterController(IDocumentTypeMasterService documentTypeMasterService)
         {
-            this.religionService = religionService;
+            this.documentTypeMasterService = documentTypeMasterService;
         }
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(Religion religion)
+        public async Task<IActionResult> Insert(DocumentTypeMaster documentTypeMaster)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var religionDetails = await religionService.InsertAsync(religion);
+            var documentDetails = await documentTypeMasterService.InsertAsync(documentTypeMaster);
 
-            return CreatedAtAction(nameof(Insert), religionDetails);
+            return CreatedAtAction(nameof(Insert), documentDetails);
         }
         [HttpPost("Update")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(Religion religion)
+        public async Task<ActionResult<int>> Update(DocumentTypeMaster documentTypeMaster)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await religionService.UpdateAsync(religion);
+            var result = await documentTypeMasterService.UpdateAsync(documentTypeMaster);
 
             return Ok(result);
         }
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Religion>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DocumentTypeMaster>>> GetAll()
         {
-            var religionList = await religionService.GetAllAsync();
+            var documentList = await documentTypeMasterService.GetAllAsync();
 
-            return Ok(religionList);
+            return Ok(documentList);
         }
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult<int>> Delete(int id)
         {
-            var religiondelete = await religionService.GetAsync(id);
+            var documentdelete = await documentTypeMasterService.GetAsync(id);
 
-            if (religiondelete == null)
+            if (documentdelete == null)
             {
                 return NotFound();
             }
 
-            var result = await religionService.DeleteAsync(id);
+            var result = await documentTypeMasterService.DeleteAsync(id);
 
             return Ok(result);
-        }
-        [HttpGet("IsReligionCodeExist/{code}")]
-        public async Task<bool> IsReligionCodeExist(string code)
-        {
-            return await religionService.IsReligionCodeExist(code);
         }
     }
 }

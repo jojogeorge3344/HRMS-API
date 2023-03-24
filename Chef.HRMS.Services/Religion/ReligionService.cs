@@ -17,5 +17,9 @@ namespace Chef.HRMS.Services
             this.religionRepository = religionRepository;
         }
 
+        public async Task<bool> IsReligionCodeExist(string code)
+        {
+            return await religionRepository.IsReligionCodeExist(code);
+        }
     }
 }

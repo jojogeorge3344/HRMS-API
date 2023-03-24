@@ -53,7 +53,8 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   minDate;
   employeeList: Employee[];
   reportingManager: number;
-
+  groupCategory: any;
+  visaDesignation:any;
   constructor(
     private employeeService: EmployeeService,
     private employeeJobDetailsService: EmployeeJobDetailsService,
@@ -92,6 +93,14 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.getJobList();
     this.getEmployeeNumber();
     this.getBranches();
+
+    this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
+      this.groupCategory=result;
+    })
+    
+    this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
+       this.visaDesignation=result;
+    })
   }
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
@@ -239,10 +248,10 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       noticePeriod: ['', [
         Validators.required
       ]],
-      employeeGroup: ['', [
+      categoryId: ['', [
         Validators.required
       ]],
-      visaDesignation: ['', [
+      visaDesignationId: ['', [
         Validators.required
       ]],
       createdDate: [],
