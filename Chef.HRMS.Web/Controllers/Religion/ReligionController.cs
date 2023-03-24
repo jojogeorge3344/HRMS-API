@@ -69,5 +69,10 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("IsReligionCodeExist/{code}")]
+        public async Task<bool> IsReligionCodeExist(string code)
+        {
+            return await religionService.IsReligionCodeExist(code);
+        }
     }
 }
