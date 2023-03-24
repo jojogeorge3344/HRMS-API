@@ -29,4 +29,7 @@ export class ReligionService {
   delete(id: number) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
+  get(code){
+    return this.http.get<ReligionGroup[]>(this.baseUrl + 'IsReligionCodeExist/'+ code).pipe(map(response => { return response; }));
+  }
 }

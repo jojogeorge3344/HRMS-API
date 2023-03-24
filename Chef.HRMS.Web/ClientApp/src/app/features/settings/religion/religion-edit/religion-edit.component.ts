@@ -16,6 +16,7 @@ export class ReligionEditComponent implements OnInit {
   @Input() relDetails: ReligionGroup;
   @Input() Code: string[];
   @Input() Name: string[];
+  codeExistCheck:boolean=false
 
   constructor(
     private religionService:ReligionService,
@@ -46,6 +47,7 @@ export class ReligionEditComponent implements OnInit {
         this.addForm.value.status=false
       }
     const religionForm = this.addForm.value;
+    if(!this.codeExistCheck){
     this.religionService.update(religionForm).subscribe(result => {
       this.toastr.showSuccessMessage('The Religion updated successfully!');
       this.activeModal.close('submit');
@@ -54,8 +56,18 @@ export class ReligionEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to add the Religion');
       });
+    }
   }
-  
+  checkCodeEXist(event){
+    this.religionService.get(event).subscribe((result)=>{
+      if(result){
+        this.codeExistCheck=true
+     this.toastr.showWarningMessage("Already Code Exist")
+      }else{
+        this.codeExistCheck=false
+      }
+    })
+  }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

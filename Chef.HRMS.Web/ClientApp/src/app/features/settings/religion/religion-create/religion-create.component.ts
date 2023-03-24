@@ -31,16 +31,23 @@ export class ReligionCreateComponent implements OnInit {
         this.addForm.value.status=false
       }
     const religionForm = this.addForm.value;
-    this.religionService.add(religionForm).subscribe(result => {
-      this.toastr.showSuccessMessage('The Religion added successfully!');
-      this.activeModal.close('submit');
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the Religion');
-      });
-  }
+    this.religionService.get(religionForm.code).subscribe((result)=>{
+      if(result){
+     this.toastr.showWarningMessage("Already Code Exist")
+      }
+      else{
+        this.religionService.add(religionForm).subscribe(result => {
+          this.toastr.showSuccessMessage('The Religion added successfully!');
+          this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to add the Religion');
+          });
+      }
+    })
   
+  }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
