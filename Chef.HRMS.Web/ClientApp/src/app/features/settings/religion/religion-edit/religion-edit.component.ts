@@ -39,6 +39,7 @@ export class ReligionEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.addForm.value.id=this.relDetails.id
     if(this.addForm.value.status=="Active"){
       this.addForm.value.status=true
       }else{
