@@ -68,7 +68,7 @@ export class ReligionListComponent implements OnInit {
   }
   openView(relDetails: ReligionGroup) {
     const modalRef = this.modalService.open(ReligionViewComponent,
-      { centered: true, backdrop: 'static' });
+      { size: 'lg',centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.relDetails = relDetails;
     modalRef.componentInstance.code = this.Codes;
