@@ -62,7 +62,6 @@ export class EmployeeWpsViewComponent implements OnInit {
   }
 
   getWPSUserlistById() {
-    debugger
     this.employeeWpsUserService.get(this.id).subscribe(result => {
       this.wpsUserDetails = result;
       console.log("wps333",this.wpsUserDetails);
