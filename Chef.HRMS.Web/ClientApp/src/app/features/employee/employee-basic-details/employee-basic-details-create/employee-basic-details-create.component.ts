@@ -8,6 +8,8 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { Employee } from '@features/employee/employee.model';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeBasicDetailsService } from '../employee-basic-details.service';
+import { result } from 'lodash';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   maxDate;
   genderTypeKeys: number[];
   genderType = GenderType;
+  religion:any[]=[];
   currentUserId: number;
    emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   employees: Employee[] = [];
@@ -31,7 +34,9 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
+    private employeeBasicDetailsService:EmployeeBasicDetailsService,
     private toastr: ToasterDisplayService,
+
   ) {
 
     const current = new Date();
@@ -49,6 +54,11 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       this.addForm.patchValue(this.basicDetails);
     }
     this.genderTypeKeys = Object.keys(this.genderType).filter(Number).map(Number);
+
+   this.employeeBasicDetailsService.getReligion()
+   .subscribe((result)=>{
+   this.religion=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
+   })
   }
   // onChangeEmail() {
   //   this.getEmployeeDetails();
@@ -65,6 +75,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       });
   }
   onSubmit() {
+    debugger
     const addBasicDetails = this.addForm.value;
     this.basicDetailsForm.emit(addBasicDetails);
   }
@@ -95,18 +106,18 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
         Validators.pattern(this.emailRegex),
        // emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       ]],
-      fileNum: ['', [
+      fileNumber: ['', [
         Validators.required,
         Validators.pattern(/^-?(0|[1-9]\d*)?$/),
+        Validators.maxLength(30),
       ]],
-      religion: ['', [
+      religionId: ['', [
         Validators.required,
       ]],
-      uid: ['', [
+      uidNumber: ['', [
         Validators.required,
-        // Validators.pattern(/^-?(0|[1-9]\d*)?$/),
+        Validators.maxLength(30),
       ]],
-
     });
   }
 

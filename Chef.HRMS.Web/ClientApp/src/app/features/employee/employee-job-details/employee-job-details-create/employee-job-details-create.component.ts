@@ -21,6 +21,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeJobDetailsService } from '../employee-job-details.service';
 
 @Component({
   selector: 'hrms-employee-job-details-create',
@@ -36,6 +37,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   noticePeriod: object;
   employeeNumber = '';
   businessUnitTypeKeys: number[];
+  groupCategory:any;
+  visaDesignation:any;
   businessUnitType = BusinessUnitType;
   departmentTypeKeys: number[];
   departmentType = DepartmentType;
@@ -62,10 +65,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     private employeeService: EmployeeService,
     private employeeJobTitleService: EmployeeJobTitleService,
     private employeeNumbersService: EmployeeNumbersService,
+    private employeeJobDetailsService:EmployeeJobDetailsService,
     private branchService: BranchService,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
     private route: ActivatedRoute,
+
 
   ) {
     const current = new Date();
@@ -74,6 +79,10 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       month: current.getMonth() + 1,
       day: current.getDate()
     };
+
+    this.route.params.subscribe((params: any) => {
+      this.id = params.id;
+    });
   }
 
   ngOnInit(): void {
@@ -83,16 +92,25 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       this.addForm.patchValue(this.jobDetails);
       this.employeeNumber = this.jobDetails.employeeNumber;
     }
-    this.route.params.subscribe((params: any) => {
-      this.id = params.id;
-    });
+    // this.route.params.subscribe((params: any) => {
+    //   this.id = params.id;
+    // });
+    
+    this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
+      this.groupCategory=result;  
+    })
 
+    this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
+       this.visaDesignation=result;
+    })
+   
     this.businessUnitTypeKeys = Object.keys(this.businessUnitType).filter(Number).map(Number);
     this.departmentTypeKeys = Object.keys(this.departmentType).filter(Number).map(Number);
     this.workerTypeKeys = Object.keys(this.workerType).filter(Number).map(Number);
     this.timeTypeKeys = Object.keys(this.timeType).filter(Number).map(Number);
     this.periodTypeKeys = Object.keys(this.periodType).filter(Number).map(Number);
     this.noticePeriodTypeKeys = Object.keys(this.noticePeriodType).filter(Number).map(Number);
+
 
     this.getJobList();
     this.getEmployeeNumber();
@@ -236,13 +254,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       noticePeriod: ['', [
         Validators.required
       ]],
-      employeeGroup: ['', [
+      categoryId: ['', [
         Validators.required
       ]],
-      visaDesignation: ['', [
+      visaDesignationId: ['', [
         Validators.required
       ]],
-
       branchId: [''],
       companyId: [''],
       createdDate: [new Date()],

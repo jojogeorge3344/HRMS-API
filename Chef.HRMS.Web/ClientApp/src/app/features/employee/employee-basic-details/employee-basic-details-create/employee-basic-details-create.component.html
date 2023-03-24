@@ -22,7 +22,7 @@
                     formControlName="displayName">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="gender">Select Gender</label>
+                <label class="col-form-label" for="gender">Gender</label>
                 <select class="form-control" formControlName="gender">
                     <option [ngValue]="null" disabled>Select Gender</option>
                     <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderType[key]}}</option>
@@ -44,26 +44,24 @@
                 <input type="email" class="form-control"  formControlName="email">
             </div>
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label"  for="fileNum">File Number</label>
-                <input type="text" class="form-control" id="fileNum" name="fileNum" formControlName="fileNum">
+                <label class="col-form-label"  for="fileNumber">File Number</label>
+                <input type="text" class="form-control" id="fileNumber" name="fileNumber" formControlName="fileNumber">
             </div>
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="geligion">Select Religion</label>
-                <select class="form-control" formControlName="religion">
-                    <option [ngValue]="null" disabled>Select Religion</option>
-                    <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderType[key]}}</option>
+                <label class="col-form-label" for="religionId">Religion</label>
+                <select class="form-control" formControlName="religionId">
+                    <option Value="" disabled>Select Religion</option>
+                    <option *ngFor="let key of religion" [ngValue]='key.id'>{{key.name}}</option>
                 </select>
             </div>
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label"  for="uid">UID</label>
-                <input type="text" class="form-control" id="uid" name="uid" formControlName="uid">
+                <label class="col-form-label" for="uid">UID</label>
+                <input type="text" class="form-control" id="uidNumber" name="uidNumber" formControlName="uidNumber">
             </div>  
-      </div>
-
+       </div>
     </div>
-
     <div class="modal-footer">
         <a routerLink="/employee">
             <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
