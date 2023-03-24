@@ -107,7 +107,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
         Validators.required,
         // Validators.pattern(/^-?(0|[1-9]\d*)?$/),
       ]],
-      language: [null,[
+      languageKnown: [null,[
         Validators.required]
       ],
       remarks:[null,[
