@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Models;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +19,13 @@ namespace Chef.HRMS.Repositories
                 var sql = "SELECT * FROM  hrms.WPSUser WHERE employeeid = @employeeId  ORDER BY id";
 
                 return await Connection.QueryAsync<WPSUser>(sql, new { employeeId });
+        }
+
+        public async Task<IEnumerable<HRMSBank>> GetBank()
+        {
+            var sql = "SELECT * FROM  hrms.bank WHERE isarchived=false ORDER BY name";
+
+            return await Connection.QueryAsync<HRMSBank>(sql);
         }
 
         public async Task<int> Update(WPSUser wpsUser)
