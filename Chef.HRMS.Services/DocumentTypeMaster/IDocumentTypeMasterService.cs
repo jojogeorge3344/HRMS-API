@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public interface IReligionService : IAsyncService<Religion>
+    public interface IDocumentTypeMasterService : IAsyncService<Models.DocumentTypeMaster>
     {
-        Task<bool> IsReligionCodeExist(string code);
+
     }
 }
