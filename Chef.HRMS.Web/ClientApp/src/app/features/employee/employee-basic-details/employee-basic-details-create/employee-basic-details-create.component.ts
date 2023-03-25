@@ -128,9 +128,9 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(250)]
       ],
-      refno:[null,[
+      refNum:[null,[
         Validators.required,
-        Validators.maxLength(25)]
+        Validators.maxLength(30)]
       ],
     });
   }
