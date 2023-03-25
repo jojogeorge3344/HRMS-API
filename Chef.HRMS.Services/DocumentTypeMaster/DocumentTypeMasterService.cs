@@ -16,5 +16,10 @@ namespace Chef.HRMS.Services
         {
             this.documentTypeMasterRepository = documentTypeMasterRepository;
         }
+
+        public async Task<IEnumerable<DocumentTypeMaster>> GetEmployeeId(int id)
+        {
+            return await documentTypeMasterRepository.GetEmployeeId(id);
+        }
     }
 }

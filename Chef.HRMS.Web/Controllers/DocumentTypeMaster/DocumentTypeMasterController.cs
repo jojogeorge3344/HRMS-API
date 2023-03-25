@@ -69,5 +69,17 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetEmployeeId/{id}")]
+        public async Task<ActionResult<IEnumerable<DocumentTypeMaster>>> GetEmployeeId(int id)
+        {
+            var employee = await documentTypeMasterService.GetEmployeeId(id);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(employee);
+        }
     }
 }

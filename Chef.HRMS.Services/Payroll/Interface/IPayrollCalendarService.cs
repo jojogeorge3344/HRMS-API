@@ -1,5 +1,7 @@
 ﻿using Chef.Common.Core.Services;
 using Chef.HRMS.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,5 +11,6 @@ namespace Chef.HRMS.Services
     {
         Task<bool> IsDuplicateValueExists(string name);
         Task<IEnumerable<int>> GetAllAssignedPayCalendar();
+        Task<IEnumerable<string>> GetStartDateAndEndDate();
     }
 }

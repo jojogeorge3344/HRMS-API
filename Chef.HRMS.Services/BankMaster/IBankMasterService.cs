@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public interface IDocumentTypeMasterService : IAsyncService<Models.DocumentTypeMaster>
+    public interface IBankMasterService : IAsyncService<HRMSBank>
     {
-        Task<IEnumerable<DocumentTypeMaster>> GetEmployeeId(int id);
     }
 }
