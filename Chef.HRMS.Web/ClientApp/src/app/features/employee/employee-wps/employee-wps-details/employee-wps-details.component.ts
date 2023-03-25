@@ -8,6 +8,7 @@ import { EmployeeWpsService } from '@settings/wps/employee-wps.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { result } from 'lodash';
+import { EmployeeWpsBankerService } from '../employee-wps-bank.service';
 
 @Component({
   selector: 'hrms-employee-wps-details',
@@ -29,6 +30,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   bankId:any;
   accountNo:any
   bankList: any;
+  detailsUpdate: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +39,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
     private employeeWpsService: EmployeeWpsService,
-
+    private employeeWpsBankerService: EmployeeWpsBankerService,
   ) { }
 
   ngOnInit(): void {
@@ -66,6 +68,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     this.employeeWpsUserService.get(this.id).subscribe(result => {
       this.wpsUserDetails = result;
       this.wpsId=result[0].wpsId;
+      this.detailsUpdate=result[0].id
       this.addForm.patchValue(result[0]);
     },
       error => {
@@ -76,6 +79,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
 
   onSubmit() {
     if(this.wpsId){
+      this.addForm.value.id=this.detailsUpdate
       const addWpsDetails = this.addForm.value;
       console.log("details",this.addForm.getRawValue());
       
@@ -118,7 +122,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   //     });
   // }
   getWPSBanklist() {
-    this.employeeWpsUserService.getBank().subscribe(result => {
+    this.employeeWpsBankerService.getBank().subscribe(result => {
       this.bankList = result;
     },
       error => {
