@@ -80,7 +80,8 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
     this.basicDetailsForm.emit(addBasicDetails);
   }
   changeToUpperCase(){
-    this.addForm.value.languageKnown= this.addForm.value.languageKnown.toUpperCase()
+    debugger
+    this.addForm.value.languageKnown= this.addForm.value.languageKnown.value.toUpperCase()
   }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
