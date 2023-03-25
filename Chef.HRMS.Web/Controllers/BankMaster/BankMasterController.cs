@@ -69,6 +69,6 @@ namespace Chef.HRMS.Web.Controllers.BankMaster
 
             return Ok(result);
         }
-    {
+    
     }
 }
