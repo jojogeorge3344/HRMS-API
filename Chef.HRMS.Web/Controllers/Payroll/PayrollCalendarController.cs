@@ -2,6 +2,8 @@
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -91,6 +93,13 @@ namespace Chef.HRMS.Web.Controllers
             var result = await payrollCalendarService.UpdateAsync(payrollCalendar);
 
             return Ok(result);
+        }
+        [HttpGet("GetStartDateAndEndDate")]
+        public async Task<ActionResult<IEnumerable<string>>> GetStartDateAndEndDate()
+        {
+            var startAndEndDate = await payrollCalendarService.GetStartDateAndEndDate();
+
+            return Ok(startAndEndDate);
         }
     }
 }
