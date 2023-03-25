@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chef.Common.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,15 @@ namespace Chef.HRMS.Repositories
         public DocumentTypeMasterRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
 
+        }
+
+        public async Task<IEnumerable<DocumentTypeMaster>> GetEmployeeId(int id)
+        {
+            return await QueryFactory
+           .Query<DocumentTypeMaster>()
+           .Where("employeeid", id)
+           .WhereNotArchived()
+           .GetAsync<DocumentTypeMaster>();
         }
     }
 }
