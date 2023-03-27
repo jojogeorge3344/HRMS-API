@@ -37,6 +37,7 @@ import { EmployeeWpsViewComponent } from './employee-wps/employee-wps-view/emplo
 import { EmployeeJobDetailsViewComponent } from './employee-job-details/employee-job-details-view/employee-job-details-view.component';
 import { EmployeeJobFilingViewComponent } from './employee-job-filing/employee-job-filing-view/employee-job-filing-view.component';
 import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-container/employee-salary-view-container.component';
+import { EmployeeAddressEditComponent } from './employee-address-edit/employee-address-edit.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-con
     EmployeeWpsViewComponent,
     EmployeeJobDetailsViewComponent,
     EmployeeJobFilingViewComponent,
-    EmployeeSalaryViewContainerComponent
+    EmployeeSalaryViewContainerComponent,
+    EmployeeAddressEditComponent
   ],
   imports: [
     CommonModule,
