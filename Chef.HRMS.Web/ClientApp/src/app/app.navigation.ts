@@ -156,6 +156,11 @@ export const NavigationItems = [
         title: 'Asset',
         tags: 'settings-expense',
         routerLink: '/settings/asset'
+      },
+      {
+        title: 'Bank',
+        tags: 'settings-expense',
+        routerLink: '/settings/bank'
       }
     ]
   },

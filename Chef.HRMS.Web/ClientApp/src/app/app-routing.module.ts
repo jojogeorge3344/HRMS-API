@@ -141,6 +141,12 @@ const routes: Routes = [
         canActivateChild: [AuthGuard]
       },
       {
+        path: 'settings/bank',
+        loadChildren: () => import('./features/settings/bank/bank-employee.module').then(m => m.BankModule),
+        // canActivateChild: [AuthGuard],
+        data: { name: 'settings-expense'}
+      },
+      {
         path: 'employee',
         loadChildren: () => import('./features/employee/employee.module').then(m => m.EmployeeModule),
         canActivateChild: [AuthGuard]
