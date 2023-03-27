@@ -38,6 +38,7 @@ import { EmployeeJobDetailsViewComponent } from './employee-job-details/employee
 import { EmployeeJobFilingViewComponent } from './employee-job-filing/employee-job-filing-view/employee-job-filing-view.component';
 import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-container/employee-salary-view-container.component';
 import { EmployeeAddressEditComponent } from './employee-address-edit/employee-address-edit.component';
+import { EmployeeAddressViewComponent } from './employee-address-view/employee-address-view.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { EmployeeAddressEditComponent } from './employee-address-edit/employee-a
     EmployeeJobDetailsViewComponent,
     EmployeeJobFilingViewComponent,
     EmployeeSalaryViewContainerComponent,
-    EmployeeAddressEditComponent
+    EmployeeAddressEditComponent,
+    EmployeeAddressViewComponent
   ],
   imports: [
     CommonModule,

@@ -42,6 +42,13 @@
           <hrms-employee-wps-view></hrms-employee-wps-view>
         </ng-template>
       </li>
+      <li [ngbNavItem]="7">
+        <a ngbNavLink>Address</a>
+        <ng-template ngbNavContent>
+          <hrms-employee-address-view></hrms-employee-address-view>
+        </ng-template>
+      </li>
     </ul>
     <div [ngbNavOutlet]="nav"></div>
   </div>
+  

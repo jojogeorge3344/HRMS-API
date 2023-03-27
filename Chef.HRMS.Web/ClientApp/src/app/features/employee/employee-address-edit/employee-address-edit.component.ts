@@ -34,7 +34,6 @@ export class EmployeeAddressEditComponent implements OnInit {
 
 
   ngOnInit(): void {
-    debugger
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     console.log(this.countries,this.states,this.address,'fffffffffffff')
@@ -49,7 +48,6 @@ export class EmployeeAddressEditComponent implements OnInit {
       console.log('id',this.id);
       
     });
-    debugger
     this.getAll()
     this.getCountires()
     this.getStates()
@@ -126,7 +124,6 @@ export class EmployeeAddressEditComponent implements OnInit {
     });
   }
   getStatesByCountry(countryId, addressType) {
-    debugger
     if (addressType === 'current') {
       this.currentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       this.setpermanentAsCurrent(this.editForm.controls.currentCountry.value, 'permanentCountry');
@@ -169,7 +166,6 @@ export class EmployeeAddressEditComponent implements OnInit {
 
   }
   onSubmit() {
-    debugger
     const address = this.editForm.getRawValue();
     address.employeeId = this.currentUserId;
     if (this.editForm.value.id) {
@@ -185,7 +181,7 @@ export class EmployeeAddressEditComponent implements OnInit {
     this.addressService.update(address).subscribe(res => {
       if (res) {
         this.toastr.showSuccessMessage('The address updated successfully');
-        this.activeModal.close('submit');
+        // this.activeModal.close('submit');
       }
     }, error => {
       console.error(error);
