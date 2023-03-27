@@ -10,5 +10,7 @@ namespace Chef.HRMS.Services
     public interface IDocumentTypeMasterService : IAsyncService<Models.DocumentTypeMaster>
     {
         Task<IEnumerable<DocumentTypeMaster>> GetEmployeeId(int id);
+        Task<IEnumerable<DocumentTypeMasterView>> GetAllByEmployeeId(int employeeId);
+
     }
 }
