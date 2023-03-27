@@ -5,11 +5,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Chef.HRMS.Models
 {
-    public class HRMSBank : Model
+    public class HRMSBank:Model
     {
         [Required]
         [StringLength(100)]
@@ -26,8 +25,6 @@ namespace Chef.HRMS.Models
         [Required]
         [StringLength(50)]
         public string Status { get; set; }
-
     }
-
-     
 }
+

@@ -6,6 +6,6 @@
     public enum PayrollPeriodType
     {
         Weekly = 1,
-        Monthly,
+        Monthly=2,
     }
 }

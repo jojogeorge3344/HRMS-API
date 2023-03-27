@@ -2,6 +2,7 @@
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -48,6 +49,11 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<int>> GetAllAssignedPayCalendar()
         {
             return await payrollCalendarRepository.GetAllAssignedPayCalendar();
+        }
+
+        public async Task<IEnumerable<string>> GetStartDateAndEndDate()
+        {
+            return await payrollCalendarRepository.GetStartDateAndEndDate();
         }
     }
 }
