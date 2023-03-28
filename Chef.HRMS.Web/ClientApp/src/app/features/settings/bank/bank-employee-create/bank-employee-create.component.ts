@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { BankService } from '../bank-employee.service';
 
 @Component({
   selector: 'hrms-bank-employee-create',
@@ -7,9 +11,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BankEmployeeCreateComponent implements OnInit {
 
-  constructor() { }
+  addForm: FormGroup;
+
+  constructor(
+    private bankService:BankService,
+    public activeModal: NgbActiveModal,
+    private formBuilder: FormBuilder,
+    private toastr: ToasterDisplayService) {
+  }
 
   ngOnInit(): void {
+    this.addForm = this.createFormGroup();
+  }
+
+  onSubmit() {
+      if(this.addForm.value.status=="Active"){
+      this.addForm.value.status=true
+      }else{
+        this.addForm.value.status=false
+      }
+    const religionForm = this.addForm.value;
+    this.bankService.get(religionForm.code).subscribe((result)=>{
+      if(result){
+     this.toastr.showWarningMessage("Already Code Exist")
+      }
+      else{
+        this.bankService.add(religionForm).subscribe(result => {
+          this.toastr.showSuccessMessage('The Religion added successfully!');
+          this.activeModal.close('submit');
+        },
+          error => {
+            this.toastr.showErrorMessage('Unable to add the Religion');
+          });
+      }
+    })
+  
+  }
+
+  createFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      code: ['', [
+        Validators.maxLength(14),
+        Validators.required,
+      ]],
+      name: ['', [
+        Validators.maxLength(64),
+        Validators.required,
+      ]],
+      status: ['', [
+        Validators.required,
+      ]],
+    });
   }
 
 }
+
+
+
+

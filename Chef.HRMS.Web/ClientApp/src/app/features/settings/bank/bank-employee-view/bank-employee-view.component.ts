@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
+import { BankGroup } from '../bank-employee.model';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'hrms-bank-employee-view',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BankEmployeeViewComponent implements OnInit {
 
-  constructor() { }
+  @Input() relDetails: BankGroup;
+
+  constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
   }
 
 }
+
+
+
