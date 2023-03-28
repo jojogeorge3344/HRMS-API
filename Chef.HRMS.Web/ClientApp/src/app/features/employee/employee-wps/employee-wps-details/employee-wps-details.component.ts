@@ -8,6 +8,7 @@ import { EmployeeWpsService } from '@settings/wps/employee-wps.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { result } from 'lodash';
+import { EmployeeWpsBankerService } from '../employee-wps-bank.service';
 
 @Component({
   selector: 'hrms-employee-wps-details',
@@ -23,6 +24,13 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   currentUserId: number;
   id: any;
   wpsId: any;
+  molId:any;
+  routingId:any;
+  salaryCardNo:any;
+  bankId:any;
+  accountNo:any
+  bankList: any;
+  detailsUpdate: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +39,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
     private employeeWpsService: EmployeeWpsService,
-
+    private employeeWpsBankerService: EmployeeWpsBankerService,
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +50,8 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     });
     this.getWPSGrouplist();
     this.getWPSUserlistById();
+    // this.getMolId(this.id)
+    this.getWPSBanklist()
   }
 
   getWPSGrouplist() {
@@ -57,9 +67,8 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   getWPSUserlistById() {
     this.employeeWpsUserService.get(this.id).subscribe(result => {
       this.wpsUserDetails = result;
-      console.log("details>>>>",this.wpsUserDetails);
       this.wpsId=result[0].wpsId;
-      console.log("id>>",this.wpsId); 
+      this.detailsUpdate=result[0].id
       this.addForm.patchValue(result[0]);
     },
       error => {
@@ -70,13 +79,13 @@ export class EmployeeWpsDetailsComponent implements OnInit {
 
   onSubmit() {
     if(this.wpsId){
+      this.addForm.value.id=this.detailsUpdate
       const addWpsDetails = this.addForm.value;
       console.log("details",this.addForm.getRawValue());
       
       addWpsDetails.employeeId = parseInt(this.id, 10);
       this.employeeWpsUserService.update(addWpsDetails).subscribe((result:any)=> {
            this.toastr.showSuccessMessage('WPS Details updated successfully!');
-           console.log("wps777",addWpsDetails);
            this.getWPSUserlistById();  
       })
     }
@@ -84,8 +93,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
       const addWpsDetails = this.addForm.value;
       addWpsDetails.employeeId = parseInt(this.id, 10);
       this.employeeWpsUserService.add(addWpsDetails).subscribe((result:any) => {
-        this.toastr.showSuccessMessage('WPS Details updated successfully!');
-        console.log("wps777",addWpsDetails);
+        this.toastr.showSuccessMessage('WPS Details added successfully!');
         this.getWPSUserlistById();
       })
     }
@@ -103,7 +111,25 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     //   });
 
   }
-
+  // getMolId(id) {
+  //   debugger
+  //   this.employeeWpsUserService.get(id).subscribe(result => {
+  //     this.molId = result;
+  //   },
+  //     error => {
+  //       console.error(error);
+  //       this.toastr.showErrorMessage('Unable to fetch the molid Details');
+  //     });
+  // }
+  getWPSBanklist() {
+    this.employeeWpsBankerService.getBank().subscribe(result => {
+      this.bankList = result;
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the WPS Group List Details');
+      });
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       employeeId: [''],
@@ -116,6 +142,25 @@ export class EmployeeWpsDetailsComponent implements OnInit {
         Validators.required,
          Validators.maxLength(14),
         
+      ]],
+      molId: ['', [
+        Validators.maxLength(18),
+        Validators.required
+      ]],
+      routingId: ['', [
+        Validators.maxLength(18),
+        Validators.required
+      ]],
+      salaryCardNo: ['', [
+        Validators.maxLength(18),
+        Validators.required
+      ]],
+      bankId: ['', [
+        Validators.required
+      ]],
+      accountNo: ['', [
+        Validators.maxLength(18),
+        Validators.required
       ]],
     });
   }

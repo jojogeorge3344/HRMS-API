@@ -5,4 +5,9 @@ export interface WpsGroup extends Model {
     groupName: string;
     establishmentId: string;
     remarks: string;
+    molId:any;
+    routingId:any;
+    salaryCardNo:any;
+    bankName:any;
+    accountNo:any
 }
