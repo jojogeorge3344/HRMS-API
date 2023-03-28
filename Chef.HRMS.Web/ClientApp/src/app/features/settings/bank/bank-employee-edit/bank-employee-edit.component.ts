@@ -79,6 +79,10 @@ export class BankEmployeeEditComponent implements OnInit {
         Validators.maxLength(64),
         Validators.required,
       ]],
+      address: ['', [
+        Validators.maxLength(100),
+        Validators.required,
+      ]],
       status: ['', [
         Validators.required,
       ]],

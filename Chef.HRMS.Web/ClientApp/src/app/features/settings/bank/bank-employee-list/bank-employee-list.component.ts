@@ -18,6 +18,7 @@ export class BankEmployeeListComponent implements OnInit {
   religionDetails: BankGroup[] = [];
   Codes: string[];
   Names: string[];
+  Address:string[];
 
   constructor(
     public modalService: NgbModal,
