@@ -57,6 +57,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   }
 
   getBasicDetailsId() {
+    debugger
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
       console.log('edt ',result);
       
@@ -117,6 +118,17 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         Validators.required,
       ]],
       createdDate: [],
+      languageKnown: [null,[
+        Validators.required]
+      ],
+      remarks:[null,[
+        Validators.required,
+        Validators.maxLength(250)]
+      ],
+      refNum:[null,[
+        Validators.required,
+        Validators.maxLength(30)]
+      ],
     });
   }
 

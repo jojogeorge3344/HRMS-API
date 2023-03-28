@@ -79,7 +79,10 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
     const addBasicDetails = this.addForm.value;
     this.basicDetailsForm.emit(addBasicDetails);
   }
-
+  changeToUpperCase(){
+    debugger
+    this.addForm.value.languageKnown= this.addForm.value.languageKnown.value.toUpperCase()
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       firstName: ['', [
@@ -118,6 +121,17 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(30),
       ]],
+      languageKnown: [null,[
+        Validators.required]
+      ],
+      remarks:[null,[
+        Validators.required,
+        Validators.maxLength(250)]
+      ],
+      refNum:[null,[
+        Validators.required,
+        Validators.maxLength(30)]
+      ],
     });
   }
 
