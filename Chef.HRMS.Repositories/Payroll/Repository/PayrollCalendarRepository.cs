@@ -34,15 +34,31 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<WeekofDateList>> GetStartDateAndEndDate(string weekstart, string weekend)
         {
-            string sql = string.Format("SELECT date_trunc('week', date_trunc('year', CURRENT_DATE) + interval '{0}') " +
-                            "+(CASE WHEN EXTRACT(DOW FROM date_trunc('year', CURRENT_DATE)) = 1 " +
-                            "THEN interval '1 day' ELSE interval '1 day' END) " +
-                            "+(interval '1 day' * (EXTRACT(DOW FROM date_trunc('week', date_trunc('year', CURRENT_DATE) " +
-                            "+ interval '{0}')) - 1)) AS weekstartdate, date_trunc('week', date_trunc('year', CURRENT_DATE) " +
-                            "+ interval '{1}') + (CASE WHEN EXTRACT(DOW FROM date_trunc('year', CURRENT_DATE)) = 1 " +
-                            "THEN interval '1 day - 1 second' ELSE interval '-2 day' END) " +
-                            "+(interval '1 day' * (EXTRACT(DOW FROM date_trunc('week', date_trunc('year', CURRENT_DATE) " +
-                            "+ interval '{1}')) - 1)) AS weekenddate", weekstart, weekend);
+            string sql = string.Empty;
+            if (weekstart == "1 week")
+            {
+                sql = string.Format("SELECT date_trunc('week', date_trunc('year', CURRENT_DATE) + interval '{0}') " +
+                                "+(CASE WHEN EXTRACT(DOW FROM date_trunc('year', CURRENT_DATE)) = 1 " +
+                                "THEN interval '1 day' ELSE interval '1 day' END) " +
+                                "+(interval '1 day' * (EXTRACT(DOW FROM date_trunc('week', date_trunc('year', CURRENT_DATE) " +
+                                "+ interval '{0}')) - 1)) AS weekstartdate, date_trunc('week', date_trunc('year', CURRENT_DATE) " +
+                                "+ interval '{1}') + (CASE WHEN EXTRACT(DOW FROM date_trunc('year', CURRENT_DATE)) = 1 " +
+                                "THEN interval '1 day - 1 second' ELSE interval '-2 day' END) " +
+                                "+(interval '1 day' * (EXTRACT(DOW FROM date_trunc('week', date_trunc('year', CURRENT_DATE) " +
+                                "+ interval '{1}')) - 1)) AS weekenddate", weekstart, weekend);
+            }
+            else
+            {
+                sql = string.Format("SELECT date_trunc('week', date_trunc('year', CURRENT_DATE) + interval '{0}') " +
+                                    "+(CASE WHEN EXTRACT(DOW FROM date_trunc('year', CURRENT_DATE)) = 1 " +
+                                    "THEN interval '1 day' ELSE interval '1 day' END) " +
+                                    "+(interval '1 day' * (EXTRACT(DOW FROM date_trunc('week', date_trunc('year', CURRENT_DATE) " +
+                                    "+ interval '{0}')) - 1)) AS weekstartdate, date_trunc('week', date_trunc('year', CURRENT_DATE) " +
+                                    "+ interval '{1}') + (CASE WHEN EXTRACT(DOW FROM date_trunc('year', CURRENT_DATE)) = 1 " +
+                                    "THEN interval '1 day - 1 second' ELSE interval '-3 day' END) " +
+                                    "+(interval '1 day' * (EXTRACT(DOW FROM date_trunc('week', date_trunc('year', CURRENT_DATE) " +
+                                    "+ interval '{1}')) - 1)) AS weekenddate", weekstart, weekend);
+            }
 
             var data= await Connection.QueryAsync<WeekofDateList>(sql);
             return data;
