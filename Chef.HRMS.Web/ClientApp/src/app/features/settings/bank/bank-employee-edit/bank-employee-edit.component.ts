@@ -46,28 +46,27 @@ export class BankEmployeeEditComponent implements OnInit {
       }else{
         this.addForm.value.status=false
       }
-    const religionForm = this.addForm.value;
-    if(!this.codeExistCheck){
-    this.bankService.update(religionForm).subscribe(result => {
-      this.toastr.showSuccessMessage('The Religion updated successfully!');
+    const bankForm = this.addForm.value;
+    this.bankService.update(bankForm).subscribe(result => {
+      this.toastr.showSuccessMessage('The Bank updated successfully!');
       this.activeModal.close('submit');
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the Religion');
+        this.toastr.showErrorMessage('Unable to add the Bank');
       });
-    }
+    
   }
-  checkCodeEXist(event){
-    this.bankService.get(event).subscribe((result)=>{
-      if(result){
-        this.codeExistCheck=true
-     this.toastr.showWarningMessage("Already Code Exist")
-      }else{
-        this.codeExistCheck=false
-      }
-    })
-  }
+  // checkCodeEXist(event){
+  //   this.bankService.get(event).subscribe((result)=>{
+  //     if(result){
+  //       this.codeExistCheck=true
+  //    this.toastr.showWarningMessage("Already Code Exist")
+  //     }else{
+  //       this.codeExistCheck=false
+  //     }
+  //   })
+  // }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

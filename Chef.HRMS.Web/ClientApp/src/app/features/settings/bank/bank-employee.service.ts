@@ -14,7 +14,7 @@ export class BankService {
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
-    this.baseUrl = `${baseUrl}api/Religion/`;
+    this.baseUrl = `${baseUrl}api/BankMaster/`;
   }
 
   getAll() {
@@ -24,7 +24,7 @@ export class BankService {
     return this.http.post(this.baseUrl + 'insert', rel).pipe(map(response => { return response; }));
   }
   update(rel: BankGroup) {
-    return this.http.put<number>(this.baseUrl + 'update', rel).pipe(map(response => { return response; }));
+    return this.http.post<number>(this.baseUrl + 'update', rel).pipe(map(response => { return response; }));
   }
   delete(id: number) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));

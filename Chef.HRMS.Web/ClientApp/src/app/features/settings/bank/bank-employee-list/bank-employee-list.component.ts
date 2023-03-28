@@ -27,10 +27,10 @@ export class BankEmployeeListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getReligionlist()
+    this.getBanklist()
   }
 
-  getReligionlist() {
+  getBanklist() {
     this.bankService.getAll().subscribe(result => {
       this.religionDetails = result;
       this.religionDetails=this.religionDetails.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
@@ -51,7 +51,7 @@ export class BankEmployeeListComponent implements OnInit {
     modalRef.componentInstance.name= this.Names;
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getReligionlist()
+          this.getBanklist()
         }
     });  
   }
@@ -64,7 +64,7 @@ export class BankEmployeeListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getReligionlist()
+        this.getBanklist()
       }
     });
   }
@@ -78,7 +78,7 @@ export class BankEmployeeListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getReligionlist();
+        this.getBanklist();
       }
     });
   }
@@ -91,7 +91,7 @@ delete(relDetails: BankGroup) {
     if (userResponse == true) {
       this.bankService.delete(relDetails.id).subscribe(() => {
         this.toastr.showSuccessMessage('Religion deleted successfully!');
-        this.getReligionlist()
+        this.getBanklist()
       });
     }
   });

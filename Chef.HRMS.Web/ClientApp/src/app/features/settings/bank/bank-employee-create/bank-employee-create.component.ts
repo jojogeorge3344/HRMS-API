@@ -30,22 +30,14 @@ export class BankEmployeeCreateComponent implements OnInit {
       }else{
         this.addForm.value.status=false
       }
-    const religionForm = this.addForm.value;
-    this.bankService.get(religionForm.code).subscribe((result)=>{
-      if(result){
-     this.toastr.showWarningMessage("Already Code Exist")
-      }
-      else{
-        this.bankService.add(religionForm).subscribe(result => {
-          this.toastr.showSuccessMessage('The Religion added successfully!');
+    const BankForm = this.addForm.value;
+    this.bankService.add(BankForm).subscribe(result => {
+          this.toastr.showSuccessMessage('The Bank added successfully!');
           this.activeModal.close('submit');
         },
           error => {
-            this.toastr.showErrorMessage('Unable to add the Religion');
+            this.toastr.showErrorMessage('Unable to add the Bank');
           });
-      }
-    })
-  
   }
 
   createFormGroup(): FormGroup {
