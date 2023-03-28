@@ -17,13 +17,14 @@ import { ActivatedRoute } from '@angular/router';
 export class EmployeeAddressEditComponent implements OnInit {
 
   editForm: FormGroup;
-  @Input() address: EmployeeAddress;
+ // @Input() address: EmployeeAddress;
   public countries: any;
   public states: any;
   currentUserId: number;
   id:any
   public currentstatesByCountry: any;
   public permanentstatesByCountry: any;
+  getStateValue: any;
   constructor(private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
     private addressService: EmployeeAddressService,
@@ -34,23 +35,22 @@ export class EmployeeAddressEditComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.currentUserId = getCurrentUserId();
+    //this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
-    console.log(this.countries,this.states,this.address,'fffffffffffff')
     
-    if (this.address) {
-      this.editForm.patchValue(this.address);
-      this.getStatesByCountry(this.address.currentCountry, 'current');
-      this.getStatesByCountry(this.address.currentCountry, 'permenant');
-    }
+    // if (this.address) {
+    //   this.editForm.patchValue(this.address);
+    //   this.getStatesByCountry(this.address.currentCountry, 'current');
+    //   this.getStatesByCountry(this.address.currentCountry, 'permenant');
+    // }
     this.route.params.subscribe((params: any) => {
       this.id = parseInt(params.id, 10);
-      console.log('id',this.id);
-      
-    });
-    this.getAll()
-    this.getCountires()
-    this.getStates()
+      });
+     this.getCountires()
+     this.getStates()
+     this.getAll()
+     
+   
   }
   getCountires() {
     this.countryService.getAll().subscribe(result => {
@@ -59,6 +59,7 @@ export class EmployeeAddressEditComponent implements OnInit {
       error => {
         console.error(error);
       });
+      this.getStates()
   }
 
   getStates() {
@@ -72,10 +73,29 @@ export class EmployeeAddressEditComponent implements OnInit {
   getAll(){
     debugger
     this.addressService.get(this.id).subscribe((res)=>{
-      console.log('res',res);
-      
-      this.editForm.patchValue(res);
+      this.editForm.value.currentCountry=res[0].currentCountry
+      if(this.editForm.value.currentCountry){
+    this.getStatesByCountry(this.editForm.value.currentCountry, 'current');
+    this.getStatesByCountry(this.editForm.value.currentCountry, 'permenant');
+      }
+      this.getStateValue=res[0].id
+      this.editForm.patchValue({
+        employeeId: res[0].employeeId,
+        currentAddressLine1:res[0].currentAddressLine1,
+        currentAddressLine2:res[0].currentAddressLine2,
+        currentCountry: res[0].currentCountry,
+        currentState: res[0].currentState,
+        currentPinCode: res[0].currentPinCode,
+        permanentAddressLine1: res[0].permanentAddressLine1,
+        permanentAddressLine2: res[0].permanentAddressLine2,
+        permanentCountry: res[0].permanentCountry,
+        permanentState: res[0].permanentState,
+        permanentPinCode: res[0].permanentPinCode,
+        id:res[0].id
+      });
     })
+  
+    
   }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -124,6 +144,7 @@ export class EmployeeAddressEditComponent implements OnInit {
     });
   }
   getStatesByCountry(countryId, addressType) {
+    debugger
     if (addressType === 'current') {
       this.currentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       this.setpermanentAsCurrent(this.editForm.controls.currentCountry.value, 'permanentCountry');
@@ -166,18 +187,19 @@ export class EmployeeAddressEditComponent implements OnInit {
 
   }
   onSubmit() {
+    debugger
     const address = this.editForm.getRawValue();
-    address.employeeId = this.currentUserId;
-    if (this.editForm.value.id) {
-      address.id = this.editForm.value.id;
-    } else {
-      address.createdDate = new Date();
-    }
+    address.employeeId = this.id
+    address.createdDate = new Date();
+    if (this.getStateValue) {
+      address.id = this.getStateValue;
+    } 
 
     address.currentCountry = parseInt(address.currentCountry, 10);
     address.currentState = parseInt(address.currentState, 10);
     address.permanentCountry = parseInt(address.permanentCountry, 10);
     address.permanentState = parseInt(address.permanentState, 10);
+    if(address.id){
     this.addressService.update(address).subscribe(res => {
       if (res) {
         this.toastr.showSuccessMessage('The address updated successfully');
@@ -187,6 +209,19 @@ export class EmployeeAddressEditComponent implements OnInit {
       console.error(error);
       this.toastr.showErrorMessage('Unable to update the address');
     });
+  }else{
+
+    this.addressService.update(address).subscribe(res => {
+      if (res) {
+        this.toastr.showSuccessMessage('The address added successfully');
+        // this.activeModal.close('submit');
+      }
+    }, error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to add the address');
+    });
+  }
+
 
   }
 }
