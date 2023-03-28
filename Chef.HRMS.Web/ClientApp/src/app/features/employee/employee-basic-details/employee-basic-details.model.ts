@@ -8,4 +8,8 @@ export interface EmployeeBasicDetails extends Model {
     gender : number;
     dateOfBirth : Date;
     email :string;
+    uid:string,
+    language:string,
+    remarks:string,
+    refno:string
 }

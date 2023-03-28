@@ -30,12 +30,12 @@ namespace Chef.HRMS.Repositories
             .GetAsync<HRMSBank>();
         }
 
-        public async Task<int> Update(WPSUser wpsUser)
-        {
-            var sql = @"update hrms.WPSUser 
-                        set wpsid=@wpsid,groupid=@groupid 
-                        where employeeid=@employeeid";
-            return await Connection.ExecuteAsync(sql, wpsUser);
-        }
+        //public async Task<int> Update(WPSUser wpsUser)
+        //{
+        //    var sql = @"update hrms.WPSUser 
+        //                set wpsid=@wpsid,groupid=@groupid 
+        //                where employeeid=@employeeid";
+        //    return await Connection.ExecuteAsync(sql, wpsUser);
+        //}
     }
 }

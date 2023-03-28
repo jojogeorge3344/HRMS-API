@@ -158,6 +158,12 @@ export const NavigationItems = [
         routerLink: '/settings/asset'
       },
       {
+        title: 'Religion',
+        tags: 'settings-expense',
+        routerLink: '/settings/religion'
+      },
+      },
+      {
         title: 'Bank',
         tags: 'settings-expense',
         routerLink: '/settings/bank'

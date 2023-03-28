@@ -10,6 +10,8 @@ namespace Chef.HRMS.Repositories
     {
         Task<bool> IsDuplicateValueExists(string name);
         Task<IEnumerable<int>> GetAllAssignedPayCalendar();
-        Task<IEnumerable<string>> GetStartDateAndEndDate();
+        Task<IEnumerable<WeekofDateList>> GetStartDateAndEndDate(string weekstart, string weekend);
+        Task<IEnumerable<WeekOff>> GetWeekOff();
+
     }
 }

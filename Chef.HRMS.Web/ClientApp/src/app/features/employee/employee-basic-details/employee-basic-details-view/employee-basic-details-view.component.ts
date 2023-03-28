@@ -103,6 +103,9 @@ export class EmployeeBasicDetailsViewComponent implements OnInit {
         // Validators.pattern(/^-?(0|[1-9]\d*)?$/),
       ]],
       createdDate: [],
+      languageKnown:[''],
+      refNum:[''],
+      remarks:['']
      });
   }
 
