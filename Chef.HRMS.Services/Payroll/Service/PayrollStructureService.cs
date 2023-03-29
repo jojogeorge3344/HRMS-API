@@ -21,6 +21,11 @@ namespace Chef.HRMS.Services
             return await payrollStructureRepository.DeleteAsync(id);
         }
 
+        public async Task<IEnumerable<PayrollStructure>> GetAllActived()
+        {
+            return await payrollStructureRepository.GetAllActived();
+        }
+
         public async Task<IEnumerable<int>> GetAllAssignedPayrollStructure()
         {
             return await payrollStructureRepository.GetAllAssignedPayrollStructure();
