@@ -43,6 +43,11 @@ const routes: Routes = [
         path: 'payslip-configuration',
         loadChildren: () => import('./payslip/payslip.module').then(m => m.PayslipModule),
         data: { name: 'settings-overtime'}
+      },
+      {
+        path: 'user-variable',
+        loadChildren: () => import('./user-variable/user-variable.module').then(m => m.UserVariableGroupModule),
+        data: { name: 'settings-overtime'}
       }
     ]
   },
