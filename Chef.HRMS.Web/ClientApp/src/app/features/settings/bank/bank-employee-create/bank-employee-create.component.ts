@@ -30,7 +30,12 @@ export class BankEmployeeCreateComponent implements OnInit {
       // }else{
       //   this.addForm.value.status=false
       // }
-    const BankForm = this.addForm.value;
+      const BankForm = this.addForm.value;
+      this.bankService.get(BankForm.code).subscribe((result)=>{
+        if(result){
+       this.toastr.showWarningMessage("Already Code Exist")
+        }else{
+    
     this.bankService.add(BankForm).subscribe(result => {
           this.toastr.showSuccessMessage('The Bank added successfully!');
           this.activeModal.close('submit');
@@ -38,6 +43,8 @@ export class BankEmployeeCreateComponent implements OnInit {
           error => {
             this.toastr.showErrorMessage('Unable to add the Bank');
           });
+        }
+      }) 
   }
 
   createFormGroup(): FormGroup {

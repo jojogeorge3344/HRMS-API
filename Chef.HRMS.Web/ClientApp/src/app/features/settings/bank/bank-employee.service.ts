@@ -30,6 +30,6 @@ export class BankService {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
   get(code){
-    return this.http.get<BankGroup[]>(this.baseUrl + 'IsReligionCodeExist/'+ code).pipe(map(response => { return response; }));
+    return this.http.get<BankGroup[]>(this.baseUrl + 'IsBankCodeExist/'+ code).pipe(map(response => { return response; }));
   }
 }

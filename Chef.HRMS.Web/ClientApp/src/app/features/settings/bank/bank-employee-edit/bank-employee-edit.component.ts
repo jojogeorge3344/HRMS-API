@@ -47,7 +47,7 @@ export class BankEmployeeEditComponent implements OnInit {
     //     this.addForm.value.status=false
     //   }
     const bankForm = this.addForm.value;
-    this.bankService.update(bankForm).subscribe(result => {
+    if(!this.codeExistCheck){ this.bankService.update(bankForm).subscribe(result => {
       this.toastr.showSuccessMessage('The Bank updated successfully!');
       this.activeModal.close('submit');
     },
@@ -55,18 +55,18 @@ export class BankEmployeeEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to add the Bank');
       });
-    
+    }
   }
-  // checkCodeEXist(event){
-  //   this.bankService.get(event).subscribe((result)=>{
-  //     if(result){
-  //       this.codeExistCheck=true
-  //    this.toastr.showWarningMessage("Already Code Exist")
-  //     }else{
-  //       this.codeExistCheck=false
-  //     }
-  //   })
-  // }
+  checkCodeEXist(event){
+    this.bankService.get(event).subscribe((result)=>{
+      if(result){
+        this.codeExistCheck=true
+     this.toastr.showWarningMessage("Already Code Exist")
+      }else{
+        this.codeExistCheck=false
+      }
+    })
+  }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
