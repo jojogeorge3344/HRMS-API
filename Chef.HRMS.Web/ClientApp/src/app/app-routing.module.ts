@@ -142,6 +142,12 @@ const routes: Routes = [
         data: { name: 'settings-expense'}
       },
       {
+        path: 'settings/bank',
+        loadChildren: () => import('./features/settings/bank/bank-employee.module').then(m => m.BankModule),
+        // canActivateChild: [AuthGuard],
+        data: { name: 'settings-expense'}
+      },
+      {
         path: 'settings/roles',
         loadChildren: () => import('./features/settings/roles/roles.module').then(m => m.RolesModule),
         canActivateChild: [AuthGuard]
