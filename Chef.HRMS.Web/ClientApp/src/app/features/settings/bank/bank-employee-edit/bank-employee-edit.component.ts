@@ -47,7 +47,8 @@ export class BankEmployeeEditComponent implements OnInit {
     //     this.addForm.value.status=false
     //   }
     const bankForm = this.addForm.value;
-    if(!this.codeExistCheck){ this.bankService.update(bankForm).subscribe(result => {
+    if(!this.codeExistCheck){ 
+      this.bankService.update(bankForm).subscribe(result => {
       this.toastr.showSuccessMessage('The Bank updated successfully!');
       this.activeModal.close('submit');
     },
