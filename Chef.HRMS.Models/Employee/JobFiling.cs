@@ -71,7 +71,7 @@ namespace Chef.HRMS.Models
         /// Holds week off type
         /// </summary>
         [Required]
-        public WeekOff WeekOff { get; set; }
+        public int WeekOff { get; set; }
 
         /// <summary>
         /// Holds payment mode
