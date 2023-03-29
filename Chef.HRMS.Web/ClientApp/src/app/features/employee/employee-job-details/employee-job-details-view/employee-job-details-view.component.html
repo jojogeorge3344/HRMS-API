@@ -30,7 +30,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="jobTitleId">Job Title</label>
+                <label class="col-form-label" for="jobTitleId">Designation</label>
                 <select readonly class="form-control" formControlName="jobTitleId" disabled>
                     <option value="" disabled>Select Job Title</option>
                     <option *ngFor="let type of jobTitleId" [ngValue]='type.id'>
@@ -129,7 +129,7 @@
                 <label class="col-form-label" for="visaDesignationId">Visa Designation</label>
                 <select class="form-control" formControlName="visaDesignationId" disabled>
                     <option value="" disabled>Select Visa Designation</option>
-                    <option *ngFor="let key of visaDesignation" [ngValue]='key.id'>                    
+                    <option *ngFor="let key of jobTitleId" [ngValue]='key.id'>                    
                         {{key.name}}</option>
                 </select>
             </div>
