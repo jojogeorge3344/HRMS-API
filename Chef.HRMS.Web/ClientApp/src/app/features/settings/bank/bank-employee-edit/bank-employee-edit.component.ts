@@ -28,24 +28,24 @@ export class BankEmployeeEditComponent implements OnInit {
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
     this.addForm.patchValue(this.relDetails);
-    if(this.addForm.value.status==true){
-      this.addForm.patchValue({
-        status:"Active"
-      })
-      }else{
-        this.addForm.patchValue({
-          status:"InActive"
-        })
-      }
+    // if(this.addForm.value.status==true){
+    //   this.addForm.patchValue({
+    //     status:"Active"
+    //   })
+    //   }else{
+    //     this.addForm.patchValue({
+    //       status:"InActive"
+    //     })
+    //   }
   }
 
   onSubmit() {
     this.addForm.value.id=this.relDetails.id
-    if(this.addForm.value.status=="Active"){
-      this.addForm.value.status=true
-      }else{
-        this.addForm.value.status=false
-      }
+    // if(this.addForm.value.status=="Active"){
+    //   this.addForm.value.status=true
+    //   }else{
+    //     this.addForm.value.status=false
+    //   }
     const bankForm = this.addForm.value;
     this.bankService.update(bankForm).subscribe(result => {
       this.toastr.showSuccessMessage('The Bank updated successfully!');

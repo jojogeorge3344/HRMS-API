@@ -25,11 +25,11 @@ export class BankEmployeeCreateComponent implements OnInit {
   }
 
   onSubmit() {
-      if(this.addForm.value.status=="Active"){
-      this.addForm.value.status=true
-      }else{
-        this.addForm.value.status=false
-      }
+      // if(this.addForm.value.status=="Active"){
+      // this.addForm.value.status=true
+      // }else{
+      //   this.addForm.value.status=false
+      // }
     const BankForm = this.addForm.value;
     this.bankService.add(BankForm).subscribe(result => {
           this.toastr.showSuccessMessage('The Bank added successfully!');
