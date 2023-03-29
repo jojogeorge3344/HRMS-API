@@ -76,8 +76,8 @@ export class EmployeeAddressEditComponent implements OnInit {
       data=res
       this.editForm.value.currentCountry=res[0].currentCountry
       this.editForm.patchValue({
-        currentState:res[0].currentState ? res[0]?.currentState : "",
-        permanentState: res[0].permanentState ?  res[0]?.permanentState : "",
+        currentState:res[0].currentState ? res[0].currentState : "",
+        permanentState: res[0].permanentState ?  res[0].permanentState : "",
       })
       if(this.editForm.value.currentCountry){
       this.getStatesByCountry(this.editForm.value.currentCountry, 'current');
@@ -160,6 +160,7 @@ export class EmployeeAddressEditComponent implements OnInit {
     });
   }
   getStatesByCountry(countryId, addressType) {
+    debugger
     if (addressType === 'current') {
       this.currentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       this.setpermanentAsCurrent(this.editForm.controls.currentCountry.value, 'permanentCountry');
@@ -167,7 +168,12 @@ export class EmployeeAddressEditComponent implements OnInit {
         this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       }
     } else {
-      this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId); 
+      this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
+      // if(this.editForm.value.permanentState){
+      //   this.editForm.patchValue({
+      //     permanentState:this.editForm.value.permanentState
+      //   })
+      // }
     }
   }
   currentAspermanent() {
