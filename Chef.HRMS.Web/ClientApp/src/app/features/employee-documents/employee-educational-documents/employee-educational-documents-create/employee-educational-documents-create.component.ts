@@ -87,6 +87,8 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
 
     this.documentSave.append('document', this.documentToUpload);
     this.documentSave.append('path', this.documentPath);
+    console.log('path ed',this.documentPath);
+    
   }
 
   removeFile() {
@@ -110,6 +112,11 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
+
+     console.log('doc save',this.documentSave);
+     console.log('doc servce',this.addForm.value.document);
+
     if (this.addForm.get('document.name').value === null) {
       (this.addForm.get('document') as FormGroup).controls.name.setErrors({filename: true});
       return;
@@ -121,6 +128,7 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
     forkJoin([
       this.educationService.add(this.addForm.value),
       this.documentService.add(this.addForm.value.document),
+      
       this.documentUploadService.upload(this.documentSave)
     ])
     .subscribe(([education, document]) => {
@@ -128,6 +136,10 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
         educationId: education,
         documentId: document
       };
+      console.log('education',education);
+      console.log('document',document);
+
+
       this.educationdocumentService.add(this.educationDocument).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Education Details Added successfully');
       this.activeModal.close('submit');
@@ -142,12 +154,15 @@ export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
         this.toastr.showErrorMessage('There is an error in adding Education Details');
       });
   }
+  
   setMaxDate(){
     this.maxDate = {year:new Date(this.addForm.controls["yearOfCompletion"].value).getFullYear(),month:new Date(this.addForm.controls["yearOfCompletion"].value).getMonth() + 1, day:new Date(this.addForm.controls["yearOfCompletion"].value).getDate()}
   }
+
   setMinDate(){
-    this.minDate = {year:new Date(this.addForm.controls["yearOfJoining"].value).getFullYear(),month:new Date(this.addForm.controls["yearOfJoining"].value).getMonth() + 1, day:new Date(this.addForm.controls["yearOfJoining"].value).getDate()}  
+  this.minDate = {year:new Date(this.addForm.controls["yearOfJoining"].value).getFullYear(),month:new Date(this.addForm.controls["yearOfJoining"].value).getMonth() + 1, day:new Date(this.addForm.controls["yearOfJoining"].value).getDate()}  
   console.log(this.addForm, "error");
+  console.log('min date',this.minDate);
   
   }
 

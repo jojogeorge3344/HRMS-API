@@ -69,6 +69,11 @@ namespace Chef.HRMS.Web.Controllers.BankMaster
 
             return Ok(result);
         }
-    
+        [HttpGet("IsBankCodeExist/{code}")]
+        public async Task<bool> IsBankCodeExist(string code)
+        {
+            return await bankMasterService.IsBankCodeExist(code);
+        }
+
     }
 }

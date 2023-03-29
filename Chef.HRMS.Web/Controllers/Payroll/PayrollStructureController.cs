@@ -118,5 +118,12 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetAllActived")]
+        public async Task<ActionResult<IEnumerable<PayrollStructure>>> GetAllActived()
+        {
+            var actived = await payrollStructureService.GetAllActived();
+
+            return Ok(actived);
+        }
     }
 }

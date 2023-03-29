@@ -14,21 +14,20 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async Task<IEnumerable<DocumentTypeMasterView>> GetAllByEmployeeId(int employeeId)
+        public async Task<IEnumerable<DocumentTypeMasterView>> GetAllByEmployeeId(int employeeId,int documentid)
         {
-            var sql = @"SELECT e.id               AS documenttypemasterid, 
-                                   d.id               AS documentid, 
-                                   e.employeeid       AS employeeId,
+            var sql = @"SELECT e.*,
                                    d.extension        AS extension, 
                                    d.NAME             AS filename, 
                                    d.path             AS path 
                             FROM   hrms.documenttypemaster e                               
                                    INNER JOIN hrms.document d 
-                                   ON e.employeeid = d.employeeid 
-								   where d.employeeid=@employeeId
+                                   ON e.documentid = d.id 
+								   where e.employeeid=@employeeId
+                                   and d.id=@documentid
 								   and e.isarchived=false ";   // Added "where e.isarchived=false" for By Nir
 
-            return await Connection.QueryAsync<DocumentTypeMasterView>(sql, new { employeeId });
+            return await Connection.QueryAsync<DocumentTypeMasterView>(sql, new { employeeId, documentid });
         }
 
         public async Task<IEnumerable<DocumentTypeMaster>> GetEmployeeId(int id)
