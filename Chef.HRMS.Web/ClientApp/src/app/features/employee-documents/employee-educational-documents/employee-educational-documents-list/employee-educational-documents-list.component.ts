@@ -48,6 +48,8 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
     this.employeeEducationalDetailsService.getByEmployeeId(this.currentUserId).subscribe((result: any) => {
       if (result.length) {
         this.educationDetails = result;
+        console.log('ed details',this.educationDetails);
+        
         this.isEmpty = false;
         this.isApproved = result.isApproved;
         this.canDelete = !this.isApproved || this.isExpired;

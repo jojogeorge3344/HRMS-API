@@ -17,9 +17,9 @@ namespace Chef.HRMS.Services
             this.documentTypeMasterRepository = documentTypeMasterRepository;
         }
 
-        public async Task<IEnumerable<DocumentTypeMasterView>> GetAllByEmployeeId(int employeeId)
+        public async Task<IEnumerable<DocumentTypeMasterView>> GetAllByEmployeeId(int employeeId,int documentid)
         {
-            return await documentTypeMasterRepository.GetAllByEmployeeId(employeeId);
+            return await documentTypeMasterRepository.GetAllByEmployeeId(employeeId, documentid);
         }
 
         public async Task<IEnumerable<DocumentTypeMaster>> GetEmployeeId(int id)

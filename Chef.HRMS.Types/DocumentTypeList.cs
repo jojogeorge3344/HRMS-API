@@ -12,7 +12,7 @@ namespace Chef.HRMS.Types
         EmirateId = 2,
         Passport = 3,
         License = 4,
-        Insurence =5,
+        Insurance =5,
         Others = 6
     }
 }

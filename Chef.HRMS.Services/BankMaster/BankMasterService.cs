@@ -16,5 +16,10 @@ namespace Chef.HRMS.Services
         {
             this.bankMasterRepository = bankMasterRepository;
         }
+
+        public async Task<bool> IsBankCodeExist(string code)
+        {
+            return await bankMasterRepository.IsBankCodeExist(code);
+        }
     }
 }
