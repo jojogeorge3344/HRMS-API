@@ -1,4 +1,4 @@
-import { EmployeeIdentityDocument } from '../employee-identity-document.model';
+import { EmployeeIdentityDocument } from '../employee-identity-documents-container/model/employee-identity-document.model';
 
 export interface EmployeeDrivingLicenseDetails extends EmployeeIdentityDocument {
     address: string;

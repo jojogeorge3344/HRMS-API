@@ -46,6 +46,10 @@ import { EmployeeBankDetailsViewComponent } from './employee-bank-details/employ
 
 import { EmployeeOfficialDocumentsListComponent } from './employee-official-documents/employee-official-documents-list/employee-official-documents-list.component';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { EmployeeIdentityDocumentsEditComponent } from './employee-identity-documents-container/employee-identity-documents-edit/employee-identity-documents-edit.component';
+import { EmployeeIdentityDocumentsCreateComponent } from './employee-identity-documents-container/employee-identity-documents-create/employee-identity-documents-create.component';
+import { EmployeeIdentityDetailsService } from './employee-identity-documents-container/employee-identity-details.service';
+import { EmployeeIdentityDocumentsService } from './employee-identity-documents-container/employee-identity-documents.service';
 
 @NgModule({
   declarations: [
@@ -77,7 +81,9 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
     EmployeeBankDetailsEditComponent,
     EmployeeBankDetailsActionsComponent,
     EmployeeBankDetailsViewComponent,
-    EmployeeOfficialDocumentsListComponent
+    EmployeeOfficialDocumentsListComponent,
+    EmployeeIdentityDocumentsEditComponent,
+    EmployeeIdentityDocumentsCreateComponent
   ],
   imports: [
     CommonModule,
@@ -96,12 +102,13 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
   ],
   exports:[EmployeeDocumentsContainerComponent],
   providers: [{
-
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: CUSTOM_ERRORS,
     multi: true,
     
   },
+  EmployeeIdentityDetailsService,
+  EmployeeIdentityDocumentsService,
   DatePipe],
 })
 export class EmployeeDocumentsModule { }

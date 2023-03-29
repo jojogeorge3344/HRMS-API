@@ -10,6 +10,6 @@ namespace Chef.HRMS.Repositories
     public interface IDocumentTypeMasterRepository : IGenericRepository<Models.DocumentTypeMaster>
     {
         Task<IEnumerable<DocumentTypeMaster>> GetEmployeeId(int id);
-        Task<IEnumerable<DocumentTypeMasterView>> GetAllByEmployeeId(int employeeId);
+        Task<IEnumerable<DocumentTypeMasterView>> GetAllByEmployeeId(int employeeId,int documentid);
     }
 }

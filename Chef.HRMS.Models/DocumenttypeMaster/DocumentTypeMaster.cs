@@ -28,5 +28,7 @@ namespace Chef.HRMS.Models
         public string Remarks { get; set; }
         public bool Active { get; set; }
         public string RefNum { get; set; }
+        public int EmployeeId { get; set; }
+        public int DocumentId { get; set; }
     }
 }
