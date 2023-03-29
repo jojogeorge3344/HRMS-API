@@ -25,6 +25,8 @@ export class EmployeeAddressEditComponent implements OnInit {
   public currentstatesByCountry: any;
   public permanentstatesByCountry: any;
   getStateValue: any;
+  currentStateValue:any;
+  permanentStateValue: any;
   constructor(private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
     private addressService: EmployeeAddressService,
@@ -46,11 +48,8 @@ export class EmployeeAddressEditComponent implements OnInit {
     this.route.params.subscribe((params: any) => {
       this.id = parseInt(params.id, 10);
       });
+      this.getStates()
      this.getCountires()
-     this.getStates()
-     this.getAll()
-     
-   
   }
   getCountires() {
     this.countryService.getAll().subscribe(result => {
@@ -65,37 +64,54 @@ export class EmployeeAddressEditComponent implements OnInit {
   getStates() {
     this.stateService.getAll().subscribe(result => {
       this.states = result;
+      this.getAll()
     },
       error => {
         console.error(error);
       });
   }
   getAll(){
-    debugger
+    let data=[];
     this.addressService.get(this.id).subscribe((res)=>{
+      data=res
       this.editForm.value.currentCountry=res[0].currentCountry
+      this.editForm.patchValue({
+        currentState:res[0].currentState ? res[0]?.currentState : "",
+        permanentState: res[0].permanentState ?  res[0]?.permanentState : "",
+      })
       if(this.editForm.value.currentCountry){
-    this.getStatesByCountry(this.editForm.value.currentCountry, 'current');
-    this.getStatesByCountry(this.editForm.value.currentCountry, 'permenant');
+      this.getStatesByCountry(this.editForm.value.currentCountry, 'current');
+      this.getStatesByCountry(this.editForm.value.currentCountry, 'permenant');
       }
       this.getStateValue=res[0].id
-      this.editForm.patchValue({
-        employeeId: res[0].employeeId,
-        currentAddressLine1:res[0].currentAddressLine1,
-        currentAddressLine2:res[0].currentAddressLine2,
-        currentCountry: res[0].currentCountry,
-        currentState: res[0].currentState,
-        currentPinCode: res[0].currentPinCode,
-        permanentAddressLine1: res[0].permanentAddressLine1,
-        permanentAddressLine2: res[0].permanentAddressLine2,
-        permanentCountry: res[0].permanentCountry,
-        permanentState: res[0].permanentState,
-        permanentPinCode: res[0].permanentPinCode,
-        id:res[0].id
-      });
-    })
-  
+     
+      
+        this.editForm.patchValue({
+          employeeId: res[0].employeeId,
+          currentAddressLine1:res[0].currentAddressLine1,
+          currentAddressLine2:res[0].currentAddressLine2,
+          currentCountry: res[0].currentCountry,
+          currentState: res[0].currentState ? res[0]?.currentState : "",
+          currentPinCode: res[0].currentPinCode,
+          permanentAddressLine1: res[0].permanentAddressLine1,
+          permanentAddressLine2: res[0].permanentAddressLine2,
+          permanentCountry: res[0].permanentCountry,
+          permanentState: res[0].permanentState ?  res[0]?.permanentState : "",
+          permanentPinCode: res[0].permanentPinCode,
+          //id:res[0].id
+        });
+      
     
+       // this.setpermanentAsCurrent(this.editForm.value.currentState, 'permanentState');
+    
+    })
+// setTimeout(() => {
+//   this.editForm.patchValue({
+//     currentState: data[0].currentState,
+//     permanentState: data[0]?.permanentState,
+//   })
+// }, 200);
+
   }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -144,7 +160,6 @@ export class EmployeeAddressEditComponent implements OnInit {
     });
   }
   getStatesByCountry(countryId, addressType) {
-    debugger
     if (addressType === 'current') {
       this.currentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       this.setpermanentAsCurrent(this.editForm.controls.currentCountry.value, 'permanentCountry');
@@ -152,7 +167,7 @@ export class EmployeeAddressEditComponent implements OnInit {
         this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       }
     } else {
-      this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
+      this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId); 
     }
   }
   currentAspermanent() {
@@ -187,7 +202,7 @@ export class EmployeeAddressEditComponent implements OnInit {
 
   }
   onSubmit() {
-    debugger
+  
     const address = this.editForm.getRawValue();
     address.employeeId = this.id
     address.createdDate = new Date();
