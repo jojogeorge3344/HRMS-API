@@ -163,6 +163,11 @@ export const NavigationItems = [
         routerLink: '/settings/religion'
       },
       {
+        title: 'Document Type',
+        tags: 'settings-expense',
+        routerLink: '/settings/document-type'
+      },
+      {
         title: 'Bank',
         tags: 'settings-expense',
         routerLink: '/settings/bank'

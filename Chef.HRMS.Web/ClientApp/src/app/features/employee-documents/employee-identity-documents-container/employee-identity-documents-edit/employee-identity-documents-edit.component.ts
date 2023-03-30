@@ -19,7 +19,6 @@ import { result } from 'lodash';
   templateUrl: './employee-identity-documents-edit.component.html',
   styleUrls: ['./employee-identity-documents-edit.component.scss'],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
-
 })
 export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   editForm: FormGroup;
@@ -119,7 +118,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     this.editForm.patchValue({ document: { extension: documentExtension } });
     this.editForm.patchValue({ document: { size: this.documentToUpload.size } });
     this.editForm.patchValue({ employeeId:this.currentUserId });
-    this.editForm.patchValue({ documentId:this.identityDetails.documentId });
+    this.editForm.patchValue({ id:this.identityDetails.documentId });
 
     this.documentSave.append('document', this.documentToUpload);
     this.documentSave.append('path', this.documentPath);
@@ -177,8 +176,8 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     
     if (this.isFileChanged) {
       debugger
-      this.editForm.patchValue({ documentId:this.identityDetails.documentId });
-      this.editForm.value.document.documentId =this.identityDetails.documentId
+      this.editForm.patchValue({ id:this.identityDetails.documentId });
+      this.editForm.value.document.id =this.identityDetails.documentId
       this.editForm.value.document.employeeId =this.identityDetails.employeeId     
       forkJoin([
         this.documentService.update(this.editForm.value.document),
@@ -191,31 +190,30 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
            })
        debugger
       this.identityDetailsService.update(this.editForm.value).subscribe(()=>{
-debugger
       })
-          this.toastr.showSuccessMessage('Education Details updated successfully!');
+          this.toastr.showSuccessMessage('Document Details updated successfully!');
           this.activeModal.close('submit');
         },
           error => {
             console.error(error);
-            this.toastr.showErrorMessage('There is an error in updating Education Details');
+            this.toastr.showErrorMessage('There is an error in updating Document Details');
           });
     } else {
       this.identityDetailsService.update(this.editForm.value).subscribe((result: any) => {
-        this.toastr.showSuccessMessage('Education Details updated successfully!');
+        this.toastr.showSuccessMessage('Document Details updated successfully!');
         this.activeModal.close('submit');
       },
         error => {
           console.error(error);
-          this.toastr.showErrorMessage('There is an error in updating Education Details');
+          this.toastr.showErrorMessage('There is an error in updating document Details');
         });
     }
-
   }
 
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+      id:[this.identityDetails.id],
       employeeId: this.currentUserId,
       documentTypeList: ['', [
         Validators.required,
@@ -261,7 +259,7 @@ debugger
         extension: ['png'],
         size: [null],
         employeeId:[this.currentUserId],
-        documentId:[null]
+        id:[null]
       }),
      });
   }

@@ -123,13 +123,13 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
       },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('There is an error in adding Education Details');
+        this.toastr.showErrorMessage('There is an error in document Details');
       });
     
    },
      error => {
        console.error(error);
-       this.toastr.showErrorMessage('There is an error in adding Education Details');
+       this.toastr.showErrorMessage('There is an error in adding document Details');
      });
  }
  

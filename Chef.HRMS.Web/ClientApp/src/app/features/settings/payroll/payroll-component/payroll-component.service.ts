@@ -29,9 +29,13 @@ export class PayrollComponentService {
     return this.http.get<number[]>(this.baseUrl + 'getAllAssignedPayrollComponents').pipe(map(response => { return response; }));
   }
 
-  getAllPayrollComponentByType(payrollComponentType) {
-    return this.http.get<PayrollComponent>(this.baseUrl + 'getAllPayrollComponentByType/' + payrollComponentType).pipe(map(response => { return response; }));
+  // getAllPayrollComponentByType(payrollComponentType) {
+  //   return this.http.get<PayrollComponent>(this.baseUrl + 'getAllPayrollComponentByType/' + payrollComponentType).pipe(map(response => { return response; }));
+  // }
+  getAllPayrollComponentByType() {
+    return this.http.get<any>(this.baseUrl + 'getComponentType/').pipe(map(response => { return response; }));
   }
+
   
   add(payrollComponent: PayrollComponent) {
     return this.http.post<PayrollComponent>(this.baseUrl + 'insert', payrollComponent).pipe(map(response => { return response; }));

@@ -21,8 +21,8 @@
             <label class="col-form-label" for="payrollComponentType">Payroll Component Type </label>
             <select class="form-control" formControlName="payrollComponentType">
                 <option [ngValue]='null' disabled>Select a Payroll Component Type</option>
-                <option *ngFor="let key of payrollComponentTypeKeys" [ngValue]='key'>
-                    {{payrollComponentTypes[key]}}
+                <option *ngFor="let key of payrollComponentTypeKeys" [ngValue]='key.id'>
+                    {{key.name}}
                 </option>
             </select>`
         </div>
