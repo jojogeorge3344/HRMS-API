@@ -47,15 +47,15 @@ export class UserVariableEditComponent implements OnInit {
       }else{
         this.addForm.value.status=false
       }
-    const religionForm = this.addForm.value;
+    const userForm = this.addForm.value;
     if(!this.codeExistCheck){
-    this.userVariableService.update(religionForm).subscribe(result => {
-      this.toastr.showSuccessMessage('The Religion updated successfully!');
+    this.userVariableService.update(userForm).subscribe(result => {
+      this.toastr.showSuccessMessage('The User Variable updated successfully!');
       this.activeModal.close('submit');
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the Religion');
+        this.toastr.showErrorMessage('Unable to add the User Variable');
       });
     }
   }

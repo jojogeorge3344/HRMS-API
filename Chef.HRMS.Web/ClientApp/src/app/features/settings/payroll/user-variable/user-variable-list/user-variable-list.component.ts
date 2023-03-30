@@ -26,10 +26,10 @@ export class UserVariableListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getReligionlist()
+    this.getUserlist()
   }
 
-  getReligionlist() {
+  getUserlist() {
     this.userVariableService.getAll().subscribe(result => {
       this.userVariableDetails = result;
       this.userVariableDetails=this.userVariableDetails.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
@@ -40,7 +40,7 @@ export class UserVariableListComponent implements OnInit {
     },
     error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to fetch the Religion List Details');
+      this.toastr.showErrorMessage('Unable to fetch the User Variable List Details');
     });
   }
   openCreate() {
@@ -50,7 +50,7 @@ export class UserVariableListComponent implements OnInit {
     modalRef.componentInstance.name= this.Names;
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getReligionlist()
+          this.getUserlist()
         }
     });  
   }
@@ -63,7 +63,7 @@ export class UserVariableListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getReligionlist()
+        this.getUserlist()
       }
     });
   }
@@ -77,7 +77,7 @@ export class UserVariableListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getReligionlist();
+        this.getUserlist();
       }
     });
   }
@@ -85,12 +85,12 @@ export class UserVariableListComponent implements OnInit {
 delete(userDetails: UserVariableGroup) {
   const modalRef = this.modalService.open(ConfirmModalComponent,
     { centered: true, backdrop: 'static' });
-  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Religion ${userDetails.name}`;
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the User Variable ${userDetails.name}`;
   modalRef.result.then((userResponse) => {
     if (userResponse == true) {
       this.userVariableService.delete(userDetails.id).subscribe(() => {
-        this.toastr.showSuccessMessage('Religion deleted successfully!');
-        this.getReligionlist()
+        this.toastr.showSuccessMessage('User Variable deleted successfully!');
+        this.getUserlist()
       });
     }
   });

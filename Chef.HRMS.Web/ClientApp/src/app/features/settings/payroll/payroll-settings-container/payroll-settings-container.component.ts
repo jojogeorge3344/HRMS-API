@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PayrollSettingsContainerComponent implements OnInit {
 
   tabs = [
-    //{ title: 'Payroll Calendar', fragment: 'payroll-calendar' },
+    { title: 'Payroll Calendar', fragment: 'payroll-calendar' },
     { title: 'Pay Group', fragment: 'pay-group' },
     { title: 'Payroll Component', fragment: 'payroll-component' },
     { title: 'Payroll Structure', fragment: 'payroll-structure' },
@@ -16,7 +16,7 @@ export class PayrollSettingsContainerComponent implements OnInit {
     { title: 'Payslip Configuration', fragment: 'payslip-configuration' },
     { title: 'LOP Calculation', fragment: 'payroll-lop-settings' },
     { title: 'User Variable', fragment: 'user-variable' },
-    { title: 'System Variable', fragment: 'system-variable' }
+    //{ title: 'System Variable', fragment: 'system-variable' }
   ];
   
   constructor(public route: ActivatedRoute) { }
