@@ -52,11 +52,13 @@ export class EmployeeEducationalDocumentsEditComponent implements OnInit {
     this.editForm = this.createFormGroup();
     this.setMinDate();
     this.setMaxDate();
+    console.log('ed dtls',this.educationDetails);
+    
     if (this.educationDetails.fileName.length > 40) {
       this.fileName = this.educationDetails.fileName.substr(0, 40) + '...';
     } else {
       this.fileName = this.educationDetails.fileName;
-    }
+    }    
   }
 
   handleFileInput(files: FileList) {

@@ -1,0 +1,271 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbDateAdapter, NgbDateNativeAdapter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
+import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
+import { EmployeeIdentityDetailsService } from '../employee-identity-details.service';
+
+import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { DocumentService } from '@shared/services/document.service';
+import { DocumentUploadService } from '@shared/services/document-upload.service';
+import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { DocumentType } from 'src/app/models/common/types/documentType';
+import { result } from 'lodash';
+
+
+@Component({
+  selector: 'hrms-employee-identity-documents-edit',
+  templateUrl: './employee-identity-documents-edit.component.html',
+  styleUrls: ['./employee-identity-documents-edit.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+
+})
+export class EmployeeIdentityDocumentsEditComponent implements OnInit {
+  editForm: FormGroup;
+  isFileChanged = false;
+  currentUserId: number;
+  documentToUpload: File = null;
+  documentPath = '';
+  companyName = 'Company';
+  branchName = 'Branch';
+  directoryName = 'c:';
+  educationDocument;
+  documentSave;
+  isDisabled = true;
+  fileName = '';
+  documentTypeKeys: number[];
+  documentType = DocumentType;
+  minDate;
+  maxDate;
+  documentDetails;
+  identityDetails;
+
+  constructor(
+    private identityDetailsService: EmployeeIdentityDetailsService,
+    private documentService: DocumentService,
+    private documentUploadService: DocumentUploadService,
+    private formBuilder: FormBuilder,
+    private toastr: ToasterDisplayService,
+    public activeModal: NgbActiveModal,
+    public modalService: NgbModal,
+) { 
+
+  }
+
+  ngOnInit(): void {
+
+    this.currentUserId=getCurrentUserId()
+    this.getAllEmployeeDetails()
+    this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Education\\${this.currentUserId}\\`;
+    this.editForm = this.createFormGroup();
+    this.documentTypeKeys = Object.keys(this.documentType).filter(Number).map(Number);
+    this.editForm.patchValue(this.identityDetails);
+
+    this.editForm.get('issueDate').patchValue(this.formatDate(new Date(this.identityDetails.issueDate)));
+    this.editForm.get('expiryDate').patchValue(this.formatDate(new Date(this.identityDetails.expiryDate)));
+
+     debugger
+  }
+
+  getAllEmployeeDetails(){
+
+    this.identityDetailsService.getAllByEmployeeId(this.currentUserId,this.identityDetails.documentId)
+    .subscribe((result)=>{ 
+      console.log('result',result);
+      
+      this.identityDetails=result[0];   
+         if (this.identityDetails && this.identityDetails.fileName.length > 40) {
+      this.fileName = this.identityDetails.fileName.substr(0, 40) + '...';      
+    } else {
+      this.fileName = this.identityDetails.fileName;
+    }
+    })   
+  }
+
+  formatDate(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+
+  handleFileInput(files: FileList) {
+    debugger
+    if (files.length == 0) {
+      return;
+    }
+    this.resetFileData();
+    this.documentToUpload = (files.item(0) as File);
+    const documentExtension = this.documentToUpload.type.substring(this.documentToUpload.type.lastIndexOf('/') + 1);
+    const validExtensions = ['pdf', 'png', 'jpg', 'jpeg', 'doc', 'docx'];
+    if (!validExtensions.includes(documentExtension)) {
+      (this.editForm.get('document') as FormGroup).controls.extension.setErrors({ filetype: true });
+      return;
+    }
+    if (this.documentToUpload.size >= 2097152) {
+      (this.editForm.get('document') as FormGroup).controls.size.setErrors({ filesize: true });
+      return;
+    }
+
+    this.fileName = this.documentToUpload.name;
+    this.documentSave = new FormData();
+
+    this.editForm.patchValue({ document: { name: this.fileName } });
+    this.editForm.patchValue({ document: { path: this.documentPath + this.documentToUpload.name } });
+    this.editForm.patchValue({ document: { extension: documentExtension } });
+    this.editForm.patchValue({ document: { size: this.documentToUpload.size } });
+    this.editForm.patchValue({ employeeId:this.currentUserId });
+    this.editForm.patchValue({ documentId:this.identityDetails.documentId });
+
+    this.documentSave.append('document', this.documentToUpload);
+    this.documentSave.append('path', this.documentPath);
+    this.isFileChanged = true;
+  }
+
+  resetFileData() {
+    this.documentToUpload = null;
+    this.documentSave = null;
+    this.fileName = '';
+    this.editForm.get('document').reset();
+  }
+
+  removeFile() {
+    const documentPath = new FormData();
+    documentPath.append('path', this.identityDetails.path);
+
+    const modalRef = this.modalService.open(ConfirmModalComponent,
+      { centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.confirmationMessage = 'Are you sure you want to delete current document';
+
+    modalRef.result.then((userResponse) => {
+      console.log('user res',userResponse);
+      
+      if (userResponse == true) {
+        if (this.editForm.get('document').value) {
+          console.log('doc path',documentPath);         
+          this.documentUploadService.delete(documentPath).subscribe((result: any) => {
+            this.toastr.showSuccessMessage('Document deleted successfully!');
+            this.isDisabled = false;
+          },
+            error => {
+              console.error(error);
+              this.toastr.showErrorMessage('There is an error in deleting document');
+            });
+        }
+        this.resetFileData();
+      }
+    });
+  }
+  
+  onSubmit() {
+    debugger
+    if (this.editForm.get('document').value === null) {
+      (this.editForm.get('document') as FormGroup).controls.name.setErrors({ filename: true });
+      return;
+    }
+    if (this.editForm.invalid) {
+      console.log(this.editForm);
+      
+      return;
+
+    }
+    
+    if (this.isFileChanged) {
+      debugger
+      this.editForm.patchValue({ documentId:this.identityDetails.documentId });
+      this.editForm.value.document.documentId =this.identityDetails.documentId
+      this.editForm.value.document.employeeId =this.identityDetails.employeeId     
+      forkJoin([
+        this.documentService.update(this.editForm.value.document),
+        this.documentUploadService.upload(this.documentSave)
+      ])
+        .subscribe(([result]) => {
+          this.editForm.patchValue({
+            documentId:result
+      
+           })
+       debugger
+      this.identityDetailsService.update(this.editForm.value).subscribe(()=>{
+debugger
+      })
+          this.toastr.showSuccessMessage('Education Details updated successfully!');
+          this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('There is an error in updating Education Details');
+          });
+    } else {
+      this.identityDetailsService.update(this.editForm.value).subscribe((result: any) => {
+        this.toastr.showSuccessMessage('Education Details updated successfully!');
+        this.activeModal.close('submit');
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('There is an error in updating Education Details');
+        });
+    }
+
+  }
+
+
+  createFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      employeeId: this.currentUserId,
+      documentTypeList: ['', [
+        Validators.required,
+      ]],
+      documentNumber: ['', [
+        Validators.required,
+      ]],
+      issueDate: ['', [
+        Validators.required,
+      ]],
+      placeOfIssue: ['', [
+        Validators.required,
+      ]],
+      expiryDate: ['', [
+        // Validators.required
+      ]],
+      remarks: ['', [
+      ]],
+      refNum: ['', [
+      ]],  
+      name: ['hfd', [
+      ]],  
+      code: ['dvhj', [
+      ]],  
+      isExpired: [true, [
+      ]], 
+      expiryBeforeDays:[5, [
+      ]], 
+      displayOrder:[0, [
+      ]], 
+      documentReturnType:[4, [
+      ]], 
+      documentUpdateType:[2, [
+      ]], 
+      active:[true, [
+      ]], 
+      isApproved: [true],
+      documentId:[0],
+
+      document: this.formBuilder.group({
+        name: [null],
+        path: [''],
+        extension: ['png'],
+        size: [null],
+        employeeId:[this.currentUserId],
+        documentId:[null]
+      }),
+     });
+  }
+
+
+
+}

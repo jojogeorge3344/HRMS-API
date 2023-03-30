@@ -32,7 +32,7 @@
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="jobTitleId">Designation</label>
                 <select class="form-control" formControlName="jobTitleId">
-                    <option value="" disabled>Select Job Title</option>
+                    <option value="" disabled>Select Designation</option>
                     <option *ngFor="let type of jobTitleId" [ngValue]='type.id'>
                         {{type.name}}
                     </option>

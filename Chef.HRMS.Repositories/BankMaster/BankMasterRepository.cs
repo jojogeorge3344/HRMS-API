@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chef.Common.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,16 @@ namespace Chef.HRMS.Repositories
         public BankMasterRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
 
+        }
+
+        public async Task<bool> IsBankCodeExist(string code)
+        {
+            if (await QueryFactory
+           .Query<HRMSBank>()
+           .Where("code", code)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
         }
     }
 }

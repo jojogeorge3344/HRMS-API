@@ -101,5 +101,12 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetComponentType")]
+        public async Task<ActionResult<IEnumerable<PayrollComponentType>>> GetComponentType()
+        {
+            var componenttype = await payrollComponentService.GetComponentType();
+
+            return Ok(componenttype);
+        }
     }
 }

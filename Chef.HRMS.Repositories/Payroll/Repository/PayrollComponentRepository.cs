@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +34,14 @@ namespace Chef.HRMS.Repositories
                 var sql = "SELECT * FROM  hrms.payrollcomponent where isarchived=false order by payrollcomponenttype";
 
                 return await Connection.QueryAsync<PayrollComponent>(sql);
+        }
+
+        public async Task<IEnumerable<PayrollComponentType>> GetComponentType()
+        {
+            return await QueryFactory
+          .Query<PayrollComponentType>()
+          .WhereNotArchived()
+          .GetAsync<PayrollComponentType>();
         }
     }
 }

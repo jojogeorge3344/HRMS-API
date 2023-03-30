@@ -24,9 +24,9 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds the payroll component type
         /// </summary>
-        [Required]
-        [Description("Payroll component type")]
-        public PayrollComponentType PayrollComponentType { get; set; }
+        //[Required]
+        //[Description("Payroll component type")]
+        public int PayrollComponentType { get; set; }
 
         /// <summary>
         /// Holds the payroll component short code

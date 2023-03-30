@@ -8,6 +8,6 @@ namespace Chef.HRMS.Repositories
 {
     public interface IBankMasterRepository : IGenericRepository<HRMSBank>
     {
-
+        Task<bool> IsBankCodeExist(string code);
     }
 }
