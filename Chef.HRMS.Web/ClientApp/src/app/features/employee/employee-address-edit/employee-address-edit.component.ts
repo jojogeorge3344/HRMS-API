@@ -79,6 +79,7 @@ export class EmployeeAddressEditComponent implements OnInit {
         currentState:res[0].currentState ? res[0].currentState : "",
         permanentState: res[0].permanentState ?  res[0].permanentState : "",
       })
+      this.permanentStateValue= res[0].permanentState
       if(this.editForm.value.currentCountry){
       this.getStatesByCountry(this.editForm.value.currentCountry, 'current');
       this.getStatesByCountry(this.editForm.value.currentCountry, 'permenant');
@@ -105,6 +106,10 @@ export class EmployeeAddressEditComponent implements OnInit {
        // this.setpermanentAsCurrent(this.editForm.value.currentState, 'permanentState');
     
     })
+    debugger
+    if(!this.editForm.controls.ispermanentSameAsCurrent.value && this.permanentStateValue ){
+     this.editForm.value.permanentState=this.permanentStateValue
+    }
 // setTimeout(() => {
 //   this.editForm.patchValue({
 //     currentState: data[0].currentState,
