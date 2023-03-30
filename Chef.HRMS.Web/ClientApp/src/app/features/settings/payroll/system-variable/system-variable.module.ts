@@ -19,13 +19,13 @@ import { SystemVariableComponent } from './system-variable.component';
     RouterModule.forChild([
       { path: '', 
         component: SystemVariableComponent,
-        data: { breadcrumbs: ['Settings', 'Payroll', 'Payslip Configuration'], name: 'settings-overtime' }
+        data: { breadcrumbs: ['Settings', 'Payroll', 'System Variable'], name: 'settings-overtime' }
       },
       {
         path: '', 
         component: SystemVariableComponent,
         outlet: 'tab-content',
-        data: { breadcrumbs: ['Settings', 'Payroll', 'Payslip Configuration'], name: 'settings-overtime' }
+        data: { breadcrumbs: ['Settings', 'Payroll', 'System Variable'], name: 'settings-overtime' }
       }
     ]),
     NgbModule,
@@ -35,4 +35,4 @@ import { SystemVariableComponent } from './system-variable.component';
     DndModule.forRoot()
   ]
 })
-export class PayslipModule { }
+export class SystemVariableModule { }

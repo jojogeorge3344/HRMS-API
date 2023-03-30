@@ -48,6 +48,11 @@ const routes: Routes = [
         path: 'user-variable',
         loadChildren: () => import('./user-variable/user-variable.module').then(m => m.UserVariableGroupModule),
         data: { name: 'settings-overtime'}
+      },
+      {
+        path: 'system-variable',
+        loadChildren: () => import('./system-variable/system-variable.module').then(m => m.SystemVariableModule),
+        data: { name: 'settings-overtime'}
       }
     ]
   },
