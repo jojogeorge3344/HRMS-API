@@ -7,6 +7,7 @@ import { PayrollComponentType } from 'src/app/models/common/types/payrollcompone
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-payroll-component-create',
@@ -19,7 +20,7 @@ export class PayrollComponentCreateComponent implements OnInit {
   currentUserId: number;
   payrollComponentTypeKeys: number[];
 
-  @Input() payrollComponentTypes: PayrollComponentType;
+  // @Input() payrollComponentTypes: PayrollComponentType;
   @Input() payrollComponentNames: string[];
   @Input() payrollComponentCodes: string[];
 
@@ -34,8 +35,10 @@ export class PayrollComponentCreateComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
-    this.payrollComponentTypeKeys = Object.keys(this.payrollComponentTypes).filter(Number).map(Number);
-    this.payrollComponentTypeKeys.splice(this.payrollComponentTypeKeys.indexOf(this.payrollComponentTypes['Fixed']), 1);
+    this.payrollComponentService.getAllPayrollComponentByType()
+    .subscribe((result)=>{
+      this.payrollComponentTypeKeys=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
+    })
   }
 
   get name() { return this.addForm.get('name'); }

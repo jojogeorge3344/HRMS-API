@@ -100,7 +100,7 @@ import { EmployeeIdentityDocumentsService } from './employee-identity-documents-
     BsDropdownModule.forRoot(),
     DirectivesModule
   ],
-  exports:[EmployeeDocumentsContainerComponent],
+  exports:[],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: CUSTOM_ERRORS,
