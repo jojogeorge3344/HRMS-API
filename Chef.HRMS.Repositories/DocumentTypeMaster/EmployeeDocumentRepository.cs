@@ -39,5 +39,15 @@ namespace Chef.HRMS.Repositories
             .WhereNotArchived()
             .GetAsync<EmployeeDocument>();
         }
+
+        public async Task<bool> IsDocumentCodeExist(string documentnumber)
+        {
+            if (await QueryFactory
+           .Query<EmployeeDocument>()
+           .Where("documentnumber", documentnumber)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
+        }
     }
 }

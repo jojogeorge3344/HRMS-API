@@ -25,5 +25,10 @@ namespace Chef.HRMS.Services
         {
             return await employeeDocumentRepository.GetAllByEmployeeId(employeeId, documentid);
         }
+
+        public async Task<bool> IsDocumentCodeExist(string documentnumber)
+        {
+            return await employeeDocumentRepository.IsDocumentCodeExist(documentnumber);
+        }
     }
 }

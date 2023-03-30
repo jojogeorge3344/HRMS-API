@@ -93,5 +93,10 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(employeeDetails);
         }
+        [HttpGet("IsDocumentCodeExist/{documentnumber}")]
+        public async Task<bool> IsDocumentCodeExist(string documentnumber)
+        {
+            return await documentTypeService.IsDocumentCodeExist(documentnumber);
+        }
     }
 }
