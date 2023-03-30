@@ -1,8 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-// import { EmployeeIdentityDetails } from '';
 import { map } from "rxjs/operators";
-import { EmployeeIdentityDetails } from "./model/employee-identity-details.model";
+import { EmployeeIdentityDetails } from "./employee-identity-details.model";
 
 @Injectable({
   providedIn: "root",
