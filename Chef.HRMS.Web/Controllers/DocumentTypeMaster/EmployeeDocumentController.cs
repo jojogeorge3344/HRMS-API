@@ -10,26 +10,26 @@ namespace Chef.HRMS.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DocumentTypeMasterController : ControllerBase
+    public class EmployeeDocumentController : ControllerBase
     {
-        private readonly IDocumentTypeMasterService documentTypeMasterService;
+        private readonly IEmployeeDocumentService documentTypeService;
 
-        public DocumentTypeMasterController(IDocumentTypeMasterService documentTypeMasterService)
+        public EmployeeDocumentController(IEmployeeDocumentService documentTypeService)
         {
-            this.documentTypeMasterService = documentTypeMasterService;
+            this.documentTypeService = documentTypeService;
         }
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(DocumentTypeMaster documentTypeMaster)
+        public async Task<IActionResult> Insert(EmployeeDocument employeeDocument)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var documentDetails = await documentTypeMasterService.InsertAsync(documentTypeMaster);
+            var documentDetails = await documentTypeService.InsertAsync(employeeDocument);
 
             return CreatedAtAction(nameof(Insert), documentDetails);
         }
@@ -37,42 +37,42 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(DocumentTypeMaster documentTypeMaster)
+        public async Task<ActionResult<int>> Update(EmployeeDocument employeeDocument)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await documentTypeMasterService.UpdateAsync(documentTypeMaster);
+            var result = await documentTypeService.UpdateAsync(employeeDocument);
 
             return Ok(result);
         }
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<DocumentTypeMaster>>> GetAll()
+        public async Task<ActionResult<IEnumerable<EmployeeDocument>>> GetAll()
         {
-            var documentList = await documentTypeMasterService.GetAllAsync();
+            var documentList = await documentTypeService.GetAllAsync();
 
             return Ok(documentList);
         }
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult<int>> Delete(int id)
         {
-            var documentdelete = await documentTypeMasterService.GetAsync(id);
+            var documentdelete = await documentTypeService.GetAsync(id);
 
             if (documentdelete == null)
             {
                 return NotFound();
             }
 
-            var result = await documentTypeMasterService.DeleteAsync(id);
+            var result = await documentTypeService.DeleteAsync(id);
 
             return Ok(result);
         }
         [HttpGet("GetEmployeeId/{id}")]
-        public async Task<ActionResult<IEnumerable<DocumentTypeMaster>>> GetEmployeeId(int id)
+        public async Task<ActionResult<IEnumerable<EmployeeDocument>>> GetEmployeeId(int id)
         {
-            var employee = await documentTypeMasterService.GetEmployeeId(id);
+            var employee = await documentTypeService.GetEmployeeId(id);
 
             if (employee == null)
             {
@@ -82,9 +82,9 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(employee);
         }
         [HttpGet("GetAllByEmployeeId/{id}/{documentid}")]
-        public async Task<ActionResult<DocumentTypeMasterView>> GetAllByEmployeeId(int id,int documentid)
+        public async Task<ActionResult<EmployeeDocumentAttachment>> GetAllByEmployeeId(int id, int documentid)
         {
-            var employeeDetails = await documentTypeMasterService.GetAllByEmployeeId(id, documentid);
+            var employeeDetails = await documentTypeService.GetAllByEmployeeId(id, documentid);
 
             if (employeeDetails == null)
             {

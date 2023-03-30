@@ -1,6 +1,6 @@
 ﻿namespace Chef.HRMS.Types
 {
-    public enum DocumentType
+    public enum DocumentTypes
     {
         IncrementLetter = 1,
         AppointmentLetter
