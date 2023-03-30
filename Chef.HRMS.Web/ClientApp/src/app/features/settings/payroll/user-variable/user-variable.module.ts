@@ -10,6 +10,7 @@ import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
 import { UserVariableListComponent } from './user-variable-list/user-variable-list.component';
 import { UserVariableCreateComponent } from './user-variable-create/user-variable-create.component';
 import { UserVariableEditComponent } from './user-variable-edit/user-variable-edit.component';
+import { UserVariableViewComponent } from './user-variable-view/user-variable-view.component';
 
 
 
@@ -19,7 +20,7 @@ import { UserVariableEditComponent } from './user-variable-edit/user-variable-ed
   declarations: [
     UserVariableListComponent,
     UserVariableCreateComponent, 
-    UserVariableEditComponent
+    UserVariableEditComponent, UserVariableViewComponent
   ],
   imports: [
     CommonModule,

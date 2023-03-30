@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserVariableService } from '../user-variable-list/user-variable.service';
 
 @Component({
   selector: 'hrms-user-variable-create',
@@ -7,9 +11,74 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserVariableCreateComponent implements OnInit {
 
-  constructor() { }
+  addForm: FormGroup;
+
+  constructor(
+    private userVariableService:UserVariableService,
+    public activeModal: NgbActiveModal,
+    private formBuilder: FormBuilder,
+    private toastr: ToasterDisplayService) {
+  }
 
   ngOnInit(): void {
+    this.addForm = this.createFormGroup();
+  }
+
+  onSubmit() {
+      if(this.addForm.value.status=="Active"){
+      this.addForm.value.status=true
+      }else{
+        this.addForm.value.status=false
+      }
+    const userForm = this.addForm.value;
+    // this.userVariableService.get(userForm.code).subscribe((result)=>{
+    //   if(result){
+    //  this.toastr.showWarningMessage("Already Code Exist")
+    //   }
+    //   else{
+    //     this.userVariableService.add(userForm).subscribe(result => {
+    //       this.toastr.showSuccessMessage('The UserVariable added successfully!');
+    //       this.activeModal.close('submit');
+    //     },
+    //       error => {
+    //         this.toastr.showErrorMessage('Unable to add the UserVariable');
+    //       });
+    //   }
+    // })
+    this.userVariableService.add(userForm).subscribe(result => {
+      this.toastr.showSuccessMessage('The UserVariable added successfully!');
+      this.activeModal.close('submit');
+    },
+      error => {
+        this.toastr.showErrorMessage('Unable to add the UserVariable');
+      });
+  
+  }
+
+  createFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      code: ['', [
+        Validators.maxLength(14),
+        Validators.required,
+      ]],
+      name: ['', [
+        Validators.maxLength(64),
+        Validators.required,
+      ]],
+      type: ['', [
+        Validators.maxLength(64),
+        Validators.required,
+      ]],
+      status: ['', [
+        Validators.required,
+      ]],
+    });
   }
 
 }
+
+
+
+
+
+

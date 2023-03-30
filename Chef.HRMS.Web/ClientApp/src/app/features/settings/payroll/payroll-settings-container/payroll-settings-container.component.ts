@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PayrollSettingsContainerComponent implements OnInit {
 
   tabs = [
-    { title: 'Payroll Calendar', fragment: 'payroll-calendar' },
+    //{ title: 'Payroll Calendar', fragment: 'payroll-calendar' },
     { title: 'Pay Group', fragment: 'pay-group' },
     { title: 'Payroll Component', fragment: 'payroll-component' },
     { title: 'Payroll Structure', fragment: 'payroll-structure' },
