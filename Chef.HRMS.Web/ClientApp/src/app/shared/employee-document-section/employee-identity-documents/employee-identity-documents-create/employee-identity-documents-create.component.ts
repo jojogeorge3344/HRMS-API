@@ -204,7 +204,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
       displayOrder: [0, []],
       documentReturnType: [4, []],
       documentUpdateType: [2, []],
-      active: [true, []],
+      active: [""],
       isApproved: [true],
       documentId: [0],
 
