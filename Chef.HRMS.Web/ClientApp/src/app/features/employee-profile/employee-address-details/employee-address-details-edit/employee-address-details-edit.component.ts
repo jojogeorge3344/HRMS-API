@@ -35,7 +35,7 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
     if (this.address) {
       this.editForm.patchValue(this.address);
       this.getStatesByCountry(this.address.currentCountry, 'current');
-      this.getStatesByCountry(this.address.currentCountry, 'permenant');
+      this.getStatesByCountry(this.address.permanentCountry, 'permenant');
     }
 
   }
