@@ -206,11 +206,12 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
         ([result]) => {
           this.identityDetailsService
             .update(this.editForm.value)
-            .subscribe(() => {});
-          this.toastr.showSuccessMessage(
-            "Document Details updated successfully!"
-          );
-          this.activeModal.close("submit");
+            .subscribe(() => {
+              this.toastr.showSuccessMessage(
+                "Document Details updated successfully!"
+              );
+              this.activeModal.close("submit");
+            });
         },
         (error) => {
           console.error(error);
