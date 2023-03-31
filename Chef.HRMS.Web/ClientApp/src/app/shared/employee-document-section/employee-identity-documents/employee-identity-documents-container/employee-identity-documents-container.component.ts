@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import {
   NgbActiveModal,
   NgbModal,
@@ -26,13 +26,13 @@ import { EmployeeIdentityDocumentsEditComponent } from "../employee-identity-doc
   templateUrl: "./employee-identity-documents-container.component.html",
 })
 export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
+  @Input() employeeId: number;
   drivingLicense;
   passport;
   pan;
   uid;
   bankDetails;
   documentDetails: any;
-  currentUserId: number;
   identityDetails: any;
   documentAdded = false;
   isEmpty = true;
@@ -53,69 +53,21 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.identityDetailsService.getAll()
-    // .subscribe((result)=>{
-    //   console.log('res',result);
-    // })
-    this.currentUserId = getCurrentUserId();
     this.getIdentityDetails();
     this.identityDetailsService
-      .getAllByEmployeeId(this.currentUserId, this.identityDetails.documentId)
+      .getAllByEmployeeId(this.employeeId, this.identityDetails.documentId)
       .subscribe((result) => {
         console.log("res", result);
       });
   }
-
-  // setData(documentType: string, documentData: any) {
-  //   if (documentType === '1') {
-  //     this.drivingLicense = documentData;
-  //   }
-
-  //   if (documentType === '2') {
-  //     this.passport = documentData
-  //   }
-
-  //   if (documentType === '3') {
-  //     this.pan = documentData;
-  //   }
-
-  //   if (documentType === '4') {
-  //     this.uid = documentData;
-  //   }
-
-  //   if (documentType === '5') {
-  //     this.bankDetails = documentData;
-  //   }
-  // }
-
-  // beforeChange($event: NgbPanelChangeEvent) {
-
-  //   if ($event.panelId === '1' && this.drivingLicense === null) {
-  //     $event.preventDefault();
-  //   }
-
-  //   if ($event.panelId === '2' && this.passport === null) {
-  //     $event.preventDefault();
-  //   }
-
-  //   if ($event.panelId === '3' && this.pan === null) {
-  //     $event.preventDefault();
-  //   }
-
-  //   if ($event.panelId === '4' && this.uid === null) {
-  //     $event.preventDefault();
-  //   }
-
-  //   if ($event.panelId === '5' && this.bankDetails === null) {
-  //     $event.preventDefault();
-  //   }
-  // }
 
   openAdd() {
     const modalRef = this.modalService.open(
       EmployeeIdentityDocumentsCreateComponent,
       { size: "lg", centered: true, backdrop: "static" }
     );
+    modalRef.componentInstance.employeeId = this.employeeId;
+
     modalRef.result.then((result) => {
       if (result == "submit") {
         this.getIdentityDetails();
@@ -124,7 +76,7 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
   }
 
   getIdentityDetails() {
-    this.identityDetailsService.getEmployeeId(this.currentUserId).subscribe(
+    this.identityDetailsService.getEmployeeId(this.employeeId).subscribe(
       (result: any) => {
         if (result.length) {
           this.identityDetails = result;
@@ -209,7 +161,7 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
   viewDocument(document) {
     console.log("document", document);
     this.identityDetailsService
-      .getAllByEmployeeId(this.currentUserId, document.documentId)
+      .getAllByEmployeeId(this.employeeId, document.documentId)
       .subscribe((result) => {
         console.log("response", result);
         var url = result[0].path;

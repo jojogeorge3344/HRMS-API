@@ -63,4 +63,10 @@ export class EmployeeIdentityDetailsService {
         })
       );
   }
+
+  isDocumentCodeExist(documentNumber: string) {
+    return this.http.get<boolean>(
+      this.baseUrl + "IsDocumentCodeExist/" + documentNumber
+    );
+  }
 }

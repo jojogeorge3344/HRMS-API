@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   NgbDateAdapter,
@@ -73,7 +73,10 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
 
   getAllEmployeeDetails() {
     this.identityDetailsService
-      .getAllByEmployeeId(this.currentUserId, this.identityDetails.documentId)
+      .getAllByEmployeeId(
+        this.identityDetails.employeeId,
+        this.identityDetails.documentId
+      )
       .subscribe((result) => {
         console.log("result", result);
 
@@ -130,7 +133,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     this.editForm.patchValue({
       document: { size: this.documentToUpload.size },
     });
-    this.editForm.patchValue({ employeeId: this.currentUserId });
+    this.editForm.patchValue({ employeeId: this.identityDetails.employeeId });
 
     this.documentSave.append("document", this.documentToUpload);
     this.documentSave.append("path", this.documentPath);
@@ -237,7 +240,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [this.identityDetails.id],
-      employeeId: this.currentUserId,
+      employeeId: this.identityDetails.employeeId,
       documentTypeList: ["", [Validators.required]],
       documentNumber: ["", [Validators.required]],
       issueDate: ["", [Validators.required]],
@@ -260,7 +263,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
         path: [""],
         extension: ["png"],
         size: [null],
-        employeeId: [this.currentUserId],
+        employeeId: [this.identityDetails.employeeId],
         id: [null],
       }),
     });

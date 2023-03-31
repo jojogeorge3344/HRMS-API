@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   NgbDateAdapter,
@@ -24,6 +24,7 @@ import { getCurrentUserId } from "@shared/utils/utils.functions";
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
 export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
+  @Input() employeeId: number;
   addForm: FormGroup;
   currentUserId: number;
   isDisabled = false;
@@ -183,7 +184,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      employeeId: this.currentUserId,
+      employeeId: this.employeeId,
       documentTypeList: ["", [Validators.required]],
       documentNumber: [null, [Validators.required]],
       issueDate: ["", [Validators.required]],
@@ -212,7 +213,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
         path: [""],
         extension: ["png"],
         size: [null],
-        employeeId: [this.currentUserId],
+        employeeId: [this.employeeId],
       }),
     });
   }
