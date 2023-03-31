@@ -71,7 +71,7 @@ import { SharedModule } from "@shared/shared.module";
     EmployeeJobFilingViewComponent,
     EmployeeSalaryViewContainerComponent,
   ],
-  imports: [
+  imports: [   
     CommonModule,
     RouterModule.forChild([
       {
