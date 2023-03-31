@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { EmployeeExperienceDetailsService } from "../employee-experience-details.service";
-import { EmployeeExperienceDocumentsCreateComponent } from "../employee-experience-documents-create/employee-experience-documents-create.component";
-import { EmployeeExperienceDocumentsEditComponent } from "../employee-experience-documents-edit/employee-experience-documents-edit.component";
+import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { DomSanitizer } from "@angular/platform-browser";
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
-import { DomSanitizer } from "@angular/platform-browser";
+
 import { forkJoin } from "rxjs";
-import { getCurrentUserId } from "@shared/utils/utils.functions";
 import { EmployeeExperienceDetails } from "../employee-experience-details.model";
-import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { EmployeeExperienceDetailsService } from "../employee-experience-details.service";
+import { EmployeeExperienceDocumentsCreateComponent } from "../employee-experience-documents-create/employee-experience-documents-create.component";
+import { EmployeeExperienceDocumentsEditComponent } from "../employee-experience-documents-edit/employee-experience-documents-edit.component";
 
 @Component({
   selector: "hrms-employee-experience-documents-list",
@@ -19,13 +19,7 @@ import { ToasterDisplayService } from "src/app/core/services/toaster-service.ser
 export class EmployeeExperienceDocumentsListComponent implements OnInit {
   @Input() employeeId: number;
 
-  previousEmployment: any;
-  document: Document;
-  isApproved: boolean = null;
-  isExpired: boolean = null;
-  canDelete: boolean = null;
-  isEmpty = true;
-  downloadPath;
+  previousEmployment: EmployeeExperienceDetails[];
 
   constructor(
     private previousEmploymentService: EmployeeExperienceDetailsService,
@@ -45,10 +39,6 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
       (result: any) => {
         if (result.length) {
           this.previousEmployment = result;
-          this.isEmpty = false;
-          this.isApproved = result.isApproved;
-          this.isExpired = new Date(result.dateOfExpiry) < new Date();
-          this.canDelete = !this.isApproved || this.isExpired;
         }
       },
       (error) => {
@@ -59,8 +49,10 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
   }
 
   getDownloadPath(path) {
-    path = path.replace("c:", "http://127.0.0.1:8887");
-    return this.sanitizer.bypassSecurityTrustUrl(path);
+    if (path) {
+      path = path.replace("c:", "http://127.0.0.1:8887");
+      return this.sanitizer.bypassSecurityTrustUrl(path);
+    }
   }
 
   openAdd() {
@@ -68,6 +60,7 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
       EmployeeExperienceDocumentsCreateComponent,
       { size: "lg", centered: true, backdrop: "static" }
     );
+
     modalRef.componentInstance.employeeId = this.employeeId;
 
     modalRef.result.then((result) => {
@@ -115,7 +108,6 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
         ]).subscribe(
           () => {
             this.toastr.showSuccessMessage("Document deleted successfully!");
-            this.isEmpty = true;
             this.getPreviousEmployment();
           },
           (error) => {

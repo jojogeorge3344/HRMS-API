@@ -1,10 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import {
-  NgbActiveModal,
-  NgbModal,
-  NgbPanelChangeEvent,
-} from "@ng-bootstrap/ng-bootstrap";
-import { getCurrentUserId } from "@shared/utils/utils.functions";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { DomSanitizer } from "@angular/platform-browser";
 import { DocumentService } from "@shared/services/document.service";
@@ -12,14 +7,13 @@ import { DocumentUploadService } from "@shared/services/document-upload.service"
 import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
 
 import { forkJoin } from "rxjs";
-import { Router } from "@angular/router";
 import { enumSelector } from "@shared/utils/common.function";
 import { DocumentType } from "src/app/models/common/types/documentType";
-import { DocumentViewModalComponent } from "@shared/document-view-modal/document-view-modal.component";
 import { EmployeeIdentityDetails } from "../employee-identity-details.model";
 import { EmployeeIdentityDetailsService } from "../employee-identity-details.service";
 import { EmployeeIdentityDocumentsCreateComponent } from "../employee-identity-documents-create/employee-identity-documents-create.component";
 import { EmployeeIdentityDocumentsEditComponent } from "../employee-identity-documents-edit/employee-identity-documents-edit.component";
+import { DocumentViewModalComponent } from "@shared/document-view-modal/document-view-modal.component";
 
 @Component({
   selector: "hrms-employee-identity-documents-container",
@@ -27,52 +21,21 @@ import { EmployeeIdentityDocumentsEditComponent } from "../employee-identity-doc
 })
 export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
   @Input() employeeId: number;
-  drivingLicense;
-  passport;
-  pan;
-  uid;
-  bankDetails;
-  documentDetails: any;
-  identityDetails: any;
-  documentAdded = false;
-  isEmpty = true;
-  isExpired: Boolean = null;
-  isApproved: Boolean = null;
-  canDelete: Boolean = null;
-  downloadPath;
+
+  identityDetails: EmployeeIdentityDetails[];
   documentType = enumSelector(DocumentType);
 
   constructor(
-    private router: Router,
-    public modalService: NgbModal,
     private identityDetailsService: EmployeeIdentityDetailsService,
-    private toastr: ToasterDisplayService,
-    private sanitizer: DomSanitizer,
     private documentService: DocumentService,
-    private documentUploadService: DocumentUploadService
+    private documentUploadService: DocumentUploadService,
+    private sanitizer: DomSanitizer,
+    public modalService: NgbModal,
+    private toastr: ToasterDisplayService
   ) {}
 
   ngOnInit(): void {
     this.getIdentityDetails();
-    this.identityDetailsService
-      .getAllByEmployeeId(this.employeeId, this.identityDetails.documentId)
-      .subscribe((result) => {
-        console.log("res", result);
-      });
-  }
-
-  openAdd() {
-    const modalRef = this.modalService.open(
-      EmployeeIdentityDocumentsCreateComponent,
-      { size: "lg", centered: true, backdrop: "static" }
-    );
-    modalRef.componentInstance.employeeId = this.employeeId;
-
-    modalRef.result.then((result) => {
-      if (result == "submit") {
-        this.getIdentityDetails();
-      }
-    });
   }
 
   getIdentityDetails() {
@@ -85,9 +48,6 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
               element.documentTypeList
             );
           });
-          this.isEmpty = false;
-          this.isApproved = result.isApproved;
-          this.canDelete = !this.isApproved || this.isExpired;
         }
       },
       (error) => {
@@ -102,6 +62,20 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
       path = path.replace("c:", "http://127.0.0.1:8887");
       return this.sanitizer.bypassSecurityTrustUrl(path);
     }
+  }
+
+  openAdd() {
+    const modalRef = this.modalService.open(
+      EmployeeIdentityDocumentsCreateComponent,
+      { size: "lg", centered: true, backdrop: "static" }
+    );
+    modalRef.componentInstance.employeeId = this.employeeId;
+
+    modalRef.result.then((result) => {
+      if (result == "submit") {
+        this.getIdentityDetails();
+      }
+    });
   }
 
   openEditEducationalDetails(identityDetails: EmployeeIdentityDetails) {
@@ -120,8 +94,6 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
   }
 
   deleteEducationalDetails(identityDetails) {
-    console.log("identity details", identityDetails);
-
     const documentPath = new FormData();
     documentPath.append("path", identityDetails.path);
 
@@ -134,8 +106,6 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
       "Are you sure you want to delete this document";
 
     modalRef.result.then((userResponse) => {
-      console.log("user es", userResponse);
-
       if (userResponse == true) {
         forkJoin([
           this.identityDetailsService.delete(identityDetails.id),
@@ -144,7 +114,6 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
         ]).subscribe(
           () => {
             this.toastr.showSuccessMessage("Document deleted successfully!");
-            this.isEmpty = true;
             this.getIdentityDetails();
           },
           (error) => {
