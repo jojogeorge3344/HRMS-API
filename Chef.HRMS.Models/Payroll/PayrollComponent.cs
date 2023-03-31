@@ -39,5 +39,11 @@ namespace Chef.HRMS.Models
         /// Holds if it is fixed type
         /// </summary>
         public bool IsFixed { get; set; }
+        public PayHeadType PayHeadType { get; set; }
+        public PayHeadContractValueType PayHeadContractValueType { get; set; }
+        public ValueLimitsType ValueLimitsType { get; set; }
+        public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
+        public IncludeInPaySlipType IncludeInPaySlipType { get; set; }
+        public RoundingType RoundingType { get; set; }
     }
 }
