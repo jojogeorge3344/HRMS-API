@@ -24,7 +24,14 @@ export class DocumentTypeService {
   getAll() {
     return this.http.get<DocumentType[]>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
+  get(code){
+    return this.http.get<DocumentType[]>(this.baseUrl + 'isDocumentCodeExist/'+ code).pipe(map(response => { return response; }));
+  }
 
-
-
+  update(DocumentTypeDetails: DocumentType) {
+    return this.http.post<number>(this.baseUrl + 'update', DocumentTypeDetails).pipe(map(response => { return response; }));
+  }
+  delete(id: number) {
+    return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
+  }
 }

@@ -35,7 +35,7 @@
                     <td>{{ documentType.name }}</td>
                     <td>{{ documentType.isExpired }}</td>
                     <td>{{ documentType.expiryBeforeDays }}</td>
-                    <td>{{ documentType.isArchived==true ? 'Active' : 'InActive' }}</td>
+                    <td>{{ documentType.status==true ? 'Active' : 'Inactive' }}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
                             <button id="button-basic" dropdownToggle type="button"

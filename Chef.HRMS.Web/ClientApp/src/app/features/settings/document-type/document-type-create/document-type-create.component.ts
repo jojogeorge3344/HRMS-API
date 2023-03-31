@@ -51,22 +51,34 @@ export class DocumentTypeCreateComponent implements OnInit {
       }else{
         this.addForm.value.isExpired=false
       }
-    this.documentTypeService.add(this.addForm.value)
-    .subscribe((result)=>{
-      if(result){
-        this.toastr.showSuccessMessage('The Document Type added successfully!');
-        this.activeModal.close('submit');
-      }
-        },
-          error => {
-            this.toastr.showErrorMessage('Unable to add the Document Type');
-          });
+      if(this.addForm.value.status=="Active"){
+        this.addForm.value.status=true
+        }else{
+          this.addForm.value.status=false
+        }
+
+      this.documentTypeService.get(this.addForm.value.code)
+      .subscribe((result)=>{
+        if(result){          
+          this.toastr.showWarningMessage("Already Code Exist")
+        }else{
+          this.documentTypeService.add(this.addForm.value)
+          .subscribe((result)=>{
+            if(result){
+              this.toastr.showSuccessMessage('The Document Type added successfully!');         
+              this.activeModal.close('submit');
+
+            }
+              },
+                error => {
+                  this.toastr.showErrorMessage('Unable to add the Document Type');
+                });
+        }
+      })
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-
-      // employeeId: this.currentUserId,
       code: ['', [
         Validators.required,
       ]],
@@ -89,6 +101,9 @@ export class DocumentTypeCreateComponent implements OnInit {
       ]],
       documentUpdateType: ['', [
         Validators.required
+      ]],
+      status: ['', [
+        Validators.required,
       ]],
       isApproved: [true],
      });
