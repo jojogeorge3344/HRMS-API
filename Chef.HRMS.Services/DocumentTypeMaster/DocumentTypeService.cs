@@ -23,6 +23,11 @@ namespace Chef.HRMS.Services
         {
             this.documentTypeMasterRepository = documentTypeMasterRepository;
         }
+
+        public async Task<bool> IsDocumentCodeExist(string code)
+        {
+            return await documentTypeMasterRepository.IsDocumentCodeExist(code);
+        }
         //public async Task<string> DownloadPdf(string pdfGuid)
         //{
         //    var generatePdfsRetrieveUrl = "c:\\Company\\Branch\\Education\\45\\";

@@ -1,0 +1,29 @@
+<div class="card p-3" id="myDocuments">
+  <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs-clean nav nav-tabs">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Identity Documents</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-identity-documents-container></hrms-employee-identity-documents-container>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Educational Documents</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-educational-documents-list></hrms-employee-educational-documents-list>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Previous Experience Documents</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-experience-documents-list></hrms-employee-experience-documents-list>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <a ngbNavLink>Employee Letters</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-official-documents-list></hrms-employee-official-documents-list>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</div>

@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 namespace Chef.HRMS.Services
 {
     public interface IDocumentTypeService : IAsyncService<DocumentDetail>
-    {
-        //Task<string> DownloadPdf(string pdfGuid);
-        //Task<string> DownloadAttAchment(string fileName);
+    {   
+        Task<bool> IsDocumentCodeExist(string code);
     }
 }
