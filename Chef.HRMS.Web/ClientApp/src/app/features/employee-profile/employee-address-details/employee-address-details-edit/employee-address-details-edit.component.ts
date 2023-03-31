@@ -27,6 +27,8 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
     public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
+
+    console.log("this.states",this.states)
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
 

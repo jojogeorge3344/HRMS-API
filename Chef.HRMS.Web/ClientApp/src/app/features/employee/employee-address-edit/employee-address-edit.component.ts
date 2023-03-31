@@ -8,6 +8,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { StateService } from '@settings/branch/state.service';
 import { CountryService } from '@settings/branch/country.service';
 import { ActivatedRoute } from '@angular/router';
+import { CommonService } from './employee-address-state.service';
 
 @Component({
   selector: 'hrms-employee-address-edit',
@@ -33,6 +34,7 @@ export class EmployeeAddressEditComponent implements OnInit {
     private stateService: StateService,
     private countryService: CountryService,
     private route: ActivatedRoute,
+    private commonService: CommonService,
     ) { }
 
 
@@ -80,9 +82,9 @@ export class EmployeeAddressEditComponent implements OnInit {
         permanentState: res[0].permanentState ?  res[0].permanentState : "",
       })
       this.permanentStateValue= res[0].permanentState
-      if(this.editForm.value.currentCountry){
+      if(this.editForm.value.currentCountry || this.editForm.value.permanentCountry){
       this.getStatesByCountry(this.editForm.value.currentCountry, 'current');
-      this.getStatesByCountry(this.editForm.value.currentCountry, 'permenant');
+      this.getStatesByCountry(this.editForm.value.permanentCountry, 'permenant');
       }
       this.getStateValue=res[0].id
      
@@ -106,10 +108,10 @@ export class EmployeeAddressEditComponent implements OnInit {
        // this.setpermanentAsCurrent(this.editForm.value.currentState, 'permanentState');
     
     })
-    debugger
-    if(!this.editForm.controls.ispermanentSameAsCurrent.value && this.permanentStateValue ){
-     this.editForm.value.permanentState=this.permanentStateValue
-    }
+    
+    // if(!this.editForm.controls.ispermanentSameAsCurrent.value && this.permanentStateValue ){
+    //  this.editForm.value.permanentState=this.permanentStateValue
+    // }
 // setTimeout(() => {
 //   this.editForm.patchValue({
 //     currentState: data[0].currentState,
@@ -167,6 +169,10 @@ export class EmployeeAddressEditComponent implements OnInit {
   getStatesByCountry(countryId, addressType) {
     debugger
     if (addressType === 'current') {
+      // this.commonService.getStatesByCountryId(countryId).subscribe((result)=>{
+      //   this.currentstatesByCountry=result
+        
+      // })
       this.currentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
       this.setpermanentAsCurrent(this.editForm.controls.currentCountry.value, 'permanentCountry');
       if (this.editForm.controls.ispermanentSameAsCurrent.value) {
@@ -174,11 +180,7 @@ export class EmployeeAddressEditComponent implements OnInit {
       }
     } else {
       this.permanentstatesByCountry = this.states?.filter((state) => state.countryId == countryId);
-      // if(this.editForm.value.permanentState){
-      //   this.editForm.patchValue({
-      //     permanentState:this.editForm.value.permanentState
-      //   })
-      // }
+    
     }
   }
   currentAspermanent() {
