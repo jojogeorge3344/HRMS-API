@@ -9,7 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DocumentTypeEditComponent implements OnInit {
   editForm: FormGroup;
-
+  documentTypeKeys;
   constructor(
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,

@@ -15,13 +15,13 @@
                 <label for="name">Name</label>
                 <input type="text" class="form-control" formControlName="name">
             </div>
-            <div class="form-group form-input-line col-sm">
+            <!-- <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="documentTypeList">Document Type</label>
                 <select class="form-control" formControlName="documentTypeList">
                     <option Value="" disabled>Select Document Type</option>
                     <option *ngFor="let key of documentTypeKeys" [ngValue]='key'>{{documentType[key]}}</option>
                 </select>
-            </div>   
+            </div>    -->
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="isExpired">Is expired</label>
                 <select class="form-control" formControlName="isExpired">
@@ -34,20 +34,20 @@
                 <label for="expiryBeforeDays">Expiry Before Days</label>
                 <input type="Number" class="form-control" formControlName="expiryBeforeDays">
             </div>
-            <div class="form-group form-input-line col-sm-6">
+            <!-- <div class="form-group form-input-line col-sm-6">
                 <label class="col-form-label" for="documentReturnType">Document Return Type</label>
                 <select class="form-control" formControlName="documentReturnType">
                     <option Value="" disabled>Select Document Return Type</option>
                     <option *ngFor="let key of documentReturnTypeKeys" [ngValue]='key'>{{documentReturnType[key]}}</option>
                 </select>
-            </div>
-            <div class="form-group form-input-line col-sm-6">
+            </div> -->
+            <!-- <div class="form-group form-input-line col-sm-6">
                 <label class="col-form-label" for="documentUpdateType">Document Update Type</label>
                 <select class="form-control" formControlName="documentUpdateType">
                     <option Value="" disabled>Select Document Update Type</option>
                     <option *ngFor="let key of documentUpdateTypeKeys" [ngValue]='key'>{{documentUpdateType[key]}}</option>
                 </select>
-            </div>     
+            </div>-->
             </div>
         </div>
     <div class="modal-footer">
