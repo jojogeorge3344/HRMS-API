@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Extensions;
+using Chef.HRMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,16 @@ namespace Chef.HRMS.Repositories
         public DocumentTypeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
 
+        }
+
+        public async Task<bool> IsDocumentCodeExist(string code)
+        {
+            if (await QueryFactory
+           .Query<DocumentDetail>()
+           .Where("code", code)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
         }
     }
 }

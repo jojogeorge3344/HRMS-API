@@ -12,11 +12,11 @@ namespace Chef.HRMS.Web.Controllers
     [ApiController]
     public class EmployeeDocumentController : ControllerBase
     {
-        private readonly IEmployeeDocumentService documentTypeService;
+        private readonly IEmployeeDocumentService employeeDocumentService;
 
-        public EmployeeDocumentController(IEmployeeDocumentService documentTypeService)
+        public EmployeeDocumentController(IEmployeeDocumentService employeeDocumentService)
         {
-            this.documentTypeService = documentTypeService;
+            this.employeeDocumentService = employeeDocumentService;
         }
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -29,7 +29,7 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var documentDetails = await documentTypeService.InsertAsync(employeeDocument);
+            var documentDetails = await employeeDocumentService.InsertAsync(employeeDocument);
 
             return CreatedAtAction(nameof(Insert), documentDetails);
         }
@@ -44,35 +44,35 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await documentTypeService.UpdateAsync(employeeDocument);
+            var result = await employeeDocumentService.UpdateAsync(employeeDocument);
 
             return Ok(result);
         }
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<EmployeeDocument>>> GetAll()
         {
-            var documentList = await documentTypeService.GetAllAsync();
+            var documentList = await employeeDocumentService.GetAllAsync();
 
             return Ok(documentList);
         }
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult<int>> Delete(int id)
         {
-            var documentdelete = await documentTypeService.GetAsync(id);
+            var documentdelete = await employeeDocumentService.GetAsync(id);
 
             if (documentdelete == null)
             {
                 return NotFound();
             }
 
-            var result = await documentTypeService.DeleteAsync(id);
+            var result = await employeeDocumentService.DeleteAsync(id);
 
             return Ok(result);
         }
         [HttpGet("GetEmployeeId/{id}")]
         public async Task<ActionResult<IEnumerable<EmployeeDocument>>> GetEmployeeId(int id)
         {
-            var employee = await documentTypeService.GetEmployeeId(id);
+            var employee = await employeeDocumentService.GetEmployeeId(id);
 
             if (employee == null)
             {
@@ -84,7 +84,7 @@ namespace Chef.HRMS.Web.Controllers
         [HttpGet("GetAllByEmployeeId/{id}/{documentid}")]
         public async Task<ActionResult<EmployeeDocumentAttachment>> GetAllByEmployeeId(int id, int documentid)
         {
-            var employeeDetails = await documentTypeService.GetAllByEmployeeId(id, documentid);
+            var employeeDetails = await employeeDocumentService.GetAllByEmployeeId(id, documentid);
 
             if (employeeDetails == null)
             {
@@ -96,7 +96,7 @@ namespace Chef.HRMS.Web.Controllers
         [HttpGet("IsDocumentCodeExist/{documentnumber}")]
         public async Task<bool> IsDocumentCodeExist(string documentnumber)
         {
-            return await documentTypeService.IsDocumentCodeExist(documentnumber);
+            return await employeeDocumentService.IsDocumentCodeExist(documentnumber);
         }
     }
 }
