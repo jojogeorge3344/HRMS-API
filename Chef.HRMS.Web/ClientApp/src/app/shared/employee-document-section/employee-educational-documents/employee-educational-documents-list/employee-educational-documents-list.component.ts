@@ -1,17 +1,16 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
+import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { DomSanitizer } from "@angular/platform-browser";
-import { forkJoin } from "rxjs";
-import { EmployeeEducationalDocumentsCreateComponent } from "../employee-educational-documents-create/employee-educational-documents-create.component";
-import { EmployeeEducationalDocumentsEditComponent } from "../employee-educational-documents-edit/employee-educational-documents-edit.component";
-import { EmployeeEducationalDetailsService } from "../employee-educational-details.service";
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
-import { getCurrentUserId } from "@shared/utils/utils.functions";
+import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
+
+import { forkJoin } from "rxjs";
 import { EmployeeEducationalDetails } from "../employee-educational-details.model";
-import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { EmployeeEducationalDetailsService } from "../employee-educational-details.service";
+import { EmployeeEducationalDocumentsCreateComponent } from "../employee-educational-documents-create/employee-educational-documents-create.component";
+import { EmployeeEducationalDocumentsEditComponent } from "../employee-educational-documents-edit/employee-educational-documents-edit.component";
 
 @Component({
   selector: "hrms-employee-educational-documents-list",
@@ -20,21 +19,15 @@ import { ToasterDisplayService } from "src/app/core/services/toaster-service.ser
 export class EmployeeEducationalDocumentsListComponent implements OnInit {
   @Input() employeeId: number;
 
-  educationDetails: any;
-  documentAdded = false;
-  isEmpty = true;
-  isExpired: Boolean = null;
-  isApproved: Boolean = null;
-  canDelete: Boolean = null;
-  downloadPath;
+  educationDetails: EmployeeEducationalDetails[];
 
   constructor(
     private employeeEducationalDetailsService: EmployeeEducationalDetailsService,
-    private toastr: ToasterDisplayService,
-    public modalService: NgbModal,
-    private sanitizer: DomSanitizer,
     private documentService: DocumentService,
-    private documentUploadService: DocumentUploadService
+    private documentUploadService: DocumentUploadService,
+    private sanitizer: DomSanitizer,
+    public modalService: NgbModal,
+    private toastr: ToasterDisplayService
   ) {}
 
   ngOnInit(): void {
@@ -48,11 +41,6 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
         (result: any) => {
           if (result.length) {
             this.educationDetails = result;
-            console.log("ed details", this.educationDetails);
-
-            this.isEmpty = false;
-            this.isApproved = result.isApproved;
-            this.canDelete = !this.isApproved || this.isExpired;
           }
         },
         (error) => {
@@ -63,8 +51,10 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
   }
 
   getDownloadPath(path) {
-    path = path.replace("c:", "http://127.0.0.1:8887");
-    return this.sanitizer.bypassSecurityTrustUrl(path);
+    if (path) {
+      path = path.replace("c:", "http://127.0.0.1:8887");
+      return this.sanitizer.bypassSecurityTrustUrl(path);
+    }
   }
 
   openAdd() {
@@ -120,7 +110,6 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
         ]).subscribe(
           () => {
             this.toastr.showSuccessMessage("Document deleted successfully!");
-            this.isEmpty = true;
             this.getEducationalDetails();
           },
           (error) => {

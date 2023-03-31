@@ -1,66 +1,80 @@
 <div id="shift-list" class="p-3">
-
-    <div class="button-right-wrapper">
-        <button (click)="openAdd()" class="btn btn-success btn-add">
-            <i class="fa fal fa-plus fa-plus mr-1"></i>Add Educational Document
-        </button>
-    </div>
-    <table class="table m-0">
-        <thead class="thead-themed">
-            <tr>
-                <th>Sl No.</th>
-                <th>Degree</th>
-                <th>Branch/Specialization</th>
-                <th>Year Of Joining</th>
-                <th>Year Of Completion</th>
-                <th>Percentage</th>
-                <th>University</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let education of educationDetails; let i= index;">
-                <td>{{i+1}}</td>
-                <td class="text-capitalize">{{ education.degree }}</td>
-                <td class="text-capitalize">{{ education.specialization }}</td>
-                <td>{{ education.yearOfJoining | date }}</td>
-                <td>{{ education.yearOfCompletion | date }}</td>
-                <td>{{ education.percentage }} %</td>
-                <td class="text-capitalize">{{ education.university }}</td>
-                <td title="Verified" *ngIf="education.isApproved">
-                    <span><i class="fal fa-check-circle text-success"></i></span>
-                </td>
-                <td title="Pending Verification" *ngIf="!education.isApproved">
-                    <span><i class="fal fa-exclamation-circle text-warning"></i></span>
-                </td>
-                <td>
-                    <div class="btn-group" dropdown container="main">
-                        <button id="button-basic" dropdownToggle type="button"
-                            class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
-                            <span class="caret"></span>
-                        </button>
-                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
-                            aria-labelledby="button-basic">
-                            <li role="menuitem">
-                                <a class="dropdown-item" [href]="getDownloadPath(education.path)"
-                                    target="_blank">Download</a>
-                            </li>
-                            <!-- <li role="menuitem" (click)="openView(education)"><a class="dropdown-item">View</a></li> -->
-                            <li role="menuitem" (click)="openEditEducationalDetails(education)"><a
-                                    class="dropdown-item">Edit</a></li>
-                            <li role="menuitem" (click)="deleteEducationalDetails(education)"><a
-                                    class="dropdown-item">Delete</a></li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-            <tr *ngIf="!educationDetails?.length">
-                <td colspan="9" class="text-center">
-                    No rows found
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
+  <div class="button-right-wrapper">
+    <button (click)="openAdd()" class="btn btn-success btn-add">
+      <i class="fa fal fa-plus fa-plus mr-1"></i>Add Educational Document
+    </button>
+  </div>
+  <table class="table m-0">
+    <thead class="thead-themed">
+      <tr>
+        <th>Sl No.</th>
+        <th>Degree</th>
+        <th>Branch/Specialization</th>
+        <th>Year Of Joining</th>
+        <th>Year Of Completion</th>
+        <th>Percentage</th>
+        <th>University</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let education of educationDetails; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td class="text-capitalize">{{ education.degree }}</td>
+        <td class="text-capitalize">{{ education.specialization }}</td>
+        <td>{{ education.yearOfJoining | date }}</td>
+        <td>{{ education.yearOfCompletion | date }}</td>
+        <td>{{ education.percentage }} %</td>
+        <td class="text-capitalize">{{ education.university }}</td>
+        <td title="Verified" *ngIf="education.isApproved">
+          <span><i class="fal fa-check-circle text-success"></i></span>
+        </td>
+        <td title="Pending Verification" *ngIf="!education.isApproved">
+          <span><i class="fal fa-exclamation-circle text-warning"></i></span>
+        </td>
+        <td>
+          <div class="btn-group" dropdown container="main">
+            <button
+              id="button-basic"
+              dropdownToggle
+              type="button"
+              class="border-0 mr-2 pr-2 dropdown-toggle btn-more"
+              aria-controls="dropdown-basic"
+            >
+              <span class="caret"></span>
+            </button>
+            <ul
+              id="dropdown-basic"
+              *dropdownMenu
+              class="dropdown-menu dropdown-menu-right"
+              role="menu"
+              aria-labelledby="button-basic"
+            >
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  [href]="getDownloadPath(education.path)"
+                  target="_blank"
+                  >Download</a
+                >
+              </li>
+              <li
+                role="menuitem"
+                (click)="openEditEducationalDetails(education)"
+              >
+                <a class="dropdown-item">Edit</a>
+              </li>
+              <li role="menuitem" (click)="deleteEducationalDetails(education)">
+                <a class="dropdown-item">Delete</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="!educationDetails?.length">
+        <td colspan="9" class="text-center">No rows found</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
