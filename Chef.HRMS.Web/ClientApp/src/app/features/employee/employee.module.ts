@@ -37,6 +37,8 @@ import { EmployeeWpsViewComponent } from './employee-wps/employee-wps-view/emplo
 import { EmployeeJobDetailsViewComponent } from './employee-job-details/employee-job-details-view/employee-job-details-view.component';
 import { EmployeeJobFilingViewComponent } from './employee-job-filing/employee-job-filing-view/employee-job-filing-view.component';
 import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-container/employee-salary-view-container.component';
+import { EmployeeDocumentsContainerComponent } from '@features/employee-documents/employee-documents-container/employee-documents-container.component';
+import { EmployeeDocumentsModule } from '@features/employee-documents/employee-documents.module';
 
 
 @NgModule({
@@ -66,9 +68,9 @@ import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-con
     EmployeeWpsViewComponent,
     EmployeeJobDetailsViewComponent,
     EmployeeJobFilingViewComponent,
-    EmployeeSalaryViewContainerComponent
+    EmployeeSalaryViewContainerComponent,
   ],
-  imports: [
+  imports: [   
     CommonModule,
     RouterModule.forChild([
       {
@@ -101,8 +103,8 @@ import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-con
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
-    DirectivesModule
-  ],
+    DirectivesModule,
+    ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: CUSTOM_ERRORS,
