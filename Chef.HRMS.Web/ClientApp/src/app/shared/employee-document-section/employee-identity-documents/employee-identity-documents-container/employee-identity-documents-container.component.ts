@@ -4,22 +4,22 @@ import {
   NgbModal,
   NgbPanelChangeEvent,
 } from "@ng-bootstrap/ng-bootstrap";
-import { EmployeeIdentityDetailsService } from "./employee-identity-details.service";
-import { EmployeeIdentityDocumentsCreateComponent } from "./employee-identity-documents-create/employee-identity-documents-create.component";
 import { getCurrentUserId } from "@shared/utils/utils.functions";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { DomSanitizer } from "@angular/platform-browser";
-import { EmployeeIdentityDocumentsEditComponent } from "./employee-identity-documents-edit/employee-identity-documents-edit.component";
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
 
 import { forkJoin } from "rxjs";
 import { Router } from "@angular/router";
-import { EmployeeIdentityDetails } from "./model/employee-identity-details.model";
 import { enumSelector } from "@shared/utils/common.function";
 import { DocumentType } from "src/app/models/common/types/documentType";
 import { DocumentViewModalComponent } from "@shared/document-view-modal/document-view-modal.component";
+import { EmployeeIdentityDetails } from "../employee-identity-details.model";
+import { EmployeeIdentityDetailsService } from "../employee-identity-details.service";
+import { EmployeeIdentityDocumentsCreateComponent } from "../employee-identity-documents-create/employee-identity-documents-create.component";
+import { EmployeeIdentityDocumentsEditComponent } from "../employee-identity-documents-edit/employee-identity-documents-edit.component";
 
 @Component({
   selector: "hrms-employee-identity-documents-container",
