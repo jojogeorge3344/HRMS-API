@@ -36,12 +36,12 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<PayrollComponent>(sql);
         }
 
-        public async Task<IEnumerable<PayrollComponentType>> GetComponentType()
+        public async Task<IEnumerable<BenefitTypes>> GetComponentType()
         {
             return await QueryFactory
-          .Query<PayrollComponentType>()
+          .Query<BenefitTypes>()
           .WhereNotArchived()
-          .GetAsync<PayrollComponentType>();
+          .GetAsync<BenefitTypes>();
         }
     }
 }

@@ -10,6 +10,6 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<int>> GetAllAssignedPayrollComponents();
         Task<IEnumerable<PayrollComponent>> GetAllPayrollComponentByType(int payrollComponentType);
         Task<IEnumerable<PayrollComponent>> GetAllOrderByPayrollComponent();
-        Task<IEnumerable<PayrollComponentType>> GetComponentType();
+        Task<IEnumerable<BenefitTypes>> GetComponentType();
     }
 }
