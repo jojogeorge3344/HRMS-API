@@ -21,5 +21,6 @@ namespace Chef.HRMS.Models
         public DocumentTypeList DocumentTypeList { get; set; }
         public DocumentReturnType DocumentReturnType { get; set; }
         public DocumentUpdateType DocumentUpdateType { get; set; }
+        public bool Status { get; set; }
     }
 }
