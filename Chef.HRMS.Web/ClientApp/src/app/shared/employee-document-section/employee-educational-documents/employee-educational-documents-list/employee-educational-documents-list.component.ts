@@ -11,6 +11,7 @@ import { EmployeeEducationalDetails } from "../employee-educational-details.mode
 import { EmployeeEducationalDetailsService } from "../employee-educational-details.service";
 import { EmployeeEducationalDocumentsCreateComponent } from "../employee-educational-documents-create/employee-educational-documents-create.component";
 import { EmployeeEducationalDocumentsEditComponent } from "../employee-educational-documents-edit/employee-educational-documents-edit.component";
+import { EmployeeEducationalDocumentsViewComponent } from "../employee-educational-documents-view/employee-educational-documents-view.component";
 
 @Component({
   selector: "hrms-employee-educational-documents-list",
@@ -86,6 +87,15 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
         this.getEducationalDetails();
       }
     });
+  }
+
+  openViewEducationalDetails(educationDetails: EmployeeEducationalDetails) {
+    const modalRef = this.modalService.open(
+      EmployeeEducationalDocumentsViewComponent,
+      { size: "lg", centered: true, backdrop: "static" }
+    );
+
+    modalRef.componentInstance.educationDetails = educationDetails;
   }
 
   deleteEducationalDetails(educationDetails) {

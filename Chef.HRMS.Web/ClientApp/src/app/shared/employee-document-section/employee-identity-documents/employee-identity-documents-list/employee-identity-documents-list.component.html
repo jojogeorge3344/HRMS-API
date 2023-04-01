@@ -51,19 +51,19 @@
               </li>
               <li
                 role="menuitem"
-                (click)="openEditEducationalDetails(details)"
+                (click)="openEditIdentityDetails(details)"
                 *ngIf="!isView"
               >
                 <a class="dropdown-item">Edit</a>
               </li>
               <li
                 role="menuitem"
-                (click)="deleteEducationalDetails(details)"
+                (click)="deleteIdentityDetails(details)"
                 *ngIf="!isView"
               >
                 <a class="dropdown-item">Delete</a>
               </li>
-              <li role="menuitem" (click)="viewDocument(details.documentId)">
+              <li role="menuitem" (click)="openViewIdentityDetails(details)">
                 <a class="dropdown-item">View</a>
               </li>
             </ul>

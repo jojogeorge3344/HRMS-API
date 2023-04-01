@@ -11,6 +11,7 @@ import { EmployeeExperienceDetails } from "../employee-experience-details.model"
 import { EmployeeExperienceDetailsService } from "../employee-experience-details.service";
 import { EmployeeExperienceDocumentsCreateComponent } from "../employee-experience-documents-create/employee-experience-documents-create.component";
 import { EmployeeExperienceDocumentsEditComponent } from "../employee-experience-documents-edit/employee-experience-documents-edit.component";
+import { EmployeeExperienceDocumentsViewComponent } from "../employee-experience-documents-view/employee-experience-documents-view.component";
 
 @Component({
   selector: "hrms-employee-experience-documents-list",
@@ -84,6 +85,15 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
         this.getPreviousEmployment();
       }
     });
+  }
+
+  openViewPreviousEmployment(employmentDetails: EmployeeExperienceDetails) {
+    const modalRef = this.modalService.open(
+      EmployeeExperienceDocumentsViewComponent,
+      { size: "lg", centered: true, backdrop: "static" }
+    );
+
+    modalRef.componentInstance.employmentDetails = employmentDetails;
   }
 
   deletePreviousEmployment(previousEmployment: any) {

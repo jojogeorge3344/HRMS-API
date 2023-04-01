@@ -15,8 +15,6 @@ import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { DocumentType } from "src/app/models/common/types/documentType";
-import { result } from "lodash";
-
 @Component({
   selector: "hrms-employee-identity-documents-edit",
   templateUrl: "./employee-identity-documents-edit.component.html",
