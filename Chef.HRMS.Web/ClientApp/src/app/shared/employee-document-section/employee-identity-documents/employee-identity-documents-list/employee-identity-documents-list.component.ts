@@ -16,10 +16,10 @@ import { EmployeeIdentityDocumentsEditComponent } from "../employee-identity-doc
 import { DocumentViewModalComponent } from "@shared/document-view-modal/document-view-modal.component";
 
 @Component({
-  selector: "hrms-employee-identity-documents-container",
-  templateUrl: "./employee-identity-documents-container.component.html",
+  selector: "hrms-employee-identity-documents-list",
+  templateUrl: "./employee-identity-documents-list.component.html",
 })
-export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
+export class EmployeeIdentityDocumentsListComponent implements OnInit {
   @Input() employeeId: number;
 
   identityDetails: EmployeeIdentityDetails[];

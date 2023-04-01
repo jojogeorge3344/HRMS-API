@@ -23,7 +23,7 @@ import { EmployeeExperienceDocumentsListComponent } from "./employee-document-se
 import { EmployeeExperienceDocumentsCreateComponent } from "./employee-document-section/employee-experience-documents/employee-experience-documents-create/employee-experience-documents-create.component";
 import { EmployeeExperienceDocumentsEditComponent } from "./employee-document-section/employee-experience-documents/employee-experience-documents-edit/employee-experience-documents-edit.component";
 
-import { EmployeeIdentityDocumentsContainerComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-container/employee-identity-documents-container.component";
+import { EmployeeIdentityDocumentsListComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-list/employee-identity-documents-list.component";
 import { EmployeeIdentityDocumentsCreateComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-create/employee-identity-documents-create.component";
 import { EmployeeIdentityDocumentsEditComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-edit/employee-identity-documents-edit.component";
 
@@ -39,7 +39,7 @@ import { EmployeeOfficialDocumentsListComponent } from "./employee-document-sect
     EmployeeExperienceDocumentsListComponent,
     EmployeeExperienceDocumentsCreateComponent,
     EmployeeExperienceDocumentsEditComponent,
-    EmployeeIdentityDocumentsContainerComponent,
+    EmployeeIdentityDocumentsListComponent,
     EmployeeIdentityDocumentsCreateComponent,
     EmployeeIdentityDocumentsEditComponent,
     EmployeeOfficialDocumentsListComponent,
@@ -62,7 +62,7 @@ import { EmployeeOfficialDocumentsListComponent } from "./employee-document-sect
     EmployeeExperienceDocumentsListComponent,
     EmployeeExperienceDocumentsCreateComponent,
     EmployeeExperienceDocumentsEditComponent,
-    EmployeeIdentityDocumentsContainerComponent,
+    EmployeeIdentityDocumentsListComponent,
     EmployeeIdentityDocumentsCreateComponent,
     EmployeeIdentityDocumentsEditComponent,
     EmployeeOfficialDocumentsListComponent,
