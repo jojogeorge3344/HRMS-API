@@ -40,6 +40,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   maxDate;
   documentDetails;
   identityDetails;
+  isDuplicate: boolean = false;
 
   constructor(
     private identityDetailsService: EmployeeIdentityDetailsService,
@@ -181,6 +182,18 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     });
   }
 
+  checkDocumentNumber(documentNumber: string) {
+    this.identityDetailsService
+      .isDocumentCodeExist(documentNumber)
+      .subscribe((result) => {
+        if (result) {
+          this.isDuplicate = true;
+        } else {
+          this.isDuplicate = false;
+        }
+      });
+  }
+
   onSubmit() {
     if (this.editForm.get("document").value === null) {
       (this.editForm.get("document") as FormGroup).controls.name.setErrors({
@@ -188,7 +201,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
       });
       return;
     }
-    if (this.editForm.invalid) {
+    if (this.editForm.invalid || this.isDuplicate) {
       console.log(this.editForm);
 
       return;
