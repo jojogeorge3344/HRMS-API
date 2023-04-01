@@ -9,5 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public interface IEndOfServiceRepository : IGenericRepository<EndOfService>
     {
+        Task<IEnumerable<BenefitTypes>> GetComponentType();
+
     }
 }
