@@ -12,5 +12,12 @@ namespace Chef.HRMS.Repositories
         {
 
         }
+
+        public async Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id)
+        {
+            var sql = @"select*from hrms.leaveeligibility where leavecomponentid=@id";
+
+            return await Connection.QueryAsync<LeaveEligibility>(sql, new { id });
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace Chef.HRMS.Services
 {
     public interface ILeaveEligibilityService : IAsyncService<LeaveEligibility>
     {
+        Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id);
+
     }
 }

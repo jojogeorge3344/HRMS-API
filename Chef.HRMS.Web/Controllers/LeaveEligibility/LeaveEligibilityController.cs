@@ -69,5 +69,17 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetLeaveConfiguration/{id}")]
+        public async Task<ActionResult<IEnumerable<LeaveEligibility>>> GetLeaveConfiguration(int id)
+        {
+            var leaveConfig = await leaveEligibilityService.GetLeaveConfiguration(id);
+
+            if (leaveConfig == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(leaveConfig);
+        }
     }
 }

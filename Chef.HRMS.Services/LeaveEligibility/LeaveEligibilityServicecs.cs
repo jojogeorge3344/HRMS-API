@@ -16,5 +16,10 @@ namespace Chef.HRMS.Services
         {
             this.leaveEligibilityRepository = leaveEligibilityRepository;
         }
+
+        public async Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id)
+        {
+            return await leaveEligibilityRepository.GetLeaveConfiguration(id);
+        }
     }
 }

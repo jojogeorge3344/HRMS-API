@@ -26,6 +26,6 @@ namespace Chef.HRMS.Models
         public bool AccrueLeaveAmt { get; set; }
         public bool Encash { get; set; }
         public bool CarryForward { get; set; }
-        public int PayrollComponentId { get; set; }
+        public int LeaveComponentId { get; set; }
     }
 }
