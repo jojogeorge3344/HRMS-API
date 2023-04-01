@@ -11,6 +11,7 @@ import { UserVariableListComponent } from './user-variable-list/user-variable-li
 import { UserVariableCreateComponent } from './user-variable-create/user-variable-create.component';
 import { UserVariableEditComponent } from './user-variable-edit/user-variable-edit.component';
 import { UserVariableViewComponent } from './user-variable-view/user-variable-view.component';
+import { SystemVariableComponent } from '../system-variable-container/system-variable/system-variable.component';
 
 
 
@@ -20,7 +21,8 @@ import { UserVariableViewComponent } from './user-variable-view/user-variable-vi
   declarations: [
     UserVariableListComponent,
     UserVariableCreateComponent, 
-    UserVariableEditComponent, UserVariableViewComponent
+    UserVariableEditComponent, UserVariableViewComponent,
+    SystemVariableComponent
   ],
   imports: [
     CommonModule,
