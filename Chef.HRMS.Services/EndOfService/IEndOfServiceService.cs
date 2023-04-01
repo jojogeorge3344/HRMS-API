@@ -9,5 +9,7 @@ namespace Chef.HRMS.Services
 {
     public interface IEndOfServiceService : IAsyncService<EndOfService>
     {
+        Task<IEnumerable<BenefitTypes>> GetComponentType();
+
     }
 }

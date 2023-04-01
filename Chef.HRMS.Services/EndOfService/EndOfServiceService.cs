@@ -16,5 +16,10 @@ namespace Chef.HRMS.Services
         {
             this.endOfServiceRepository = endOfServiceRepository;
         }
+
+        public async Task<IEnumerable<BenefitTypes>> GetComponentType()
+        {
+            return await endOfServiceRepository.GetComponentType();
+        }
     }
 }
