@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class WPSUserService : IWPSUserService
+    public class WPSUserService : AsyncService<WPSUser>, IWPSUserService
     {
         private readonly IWPSUserRepository wpsUserRepository;
 
@@ -43,10 +43,10 @@ namespace Chef.HRMS.Services
             return await wpsUserRepository.InsertAsync(wpsUser);
         }
 
-        public async Task<int> UpdateAsync(WPSUser wpsUser)
-        {
-            return await wpsUserRepository.Update(wpsUser);
-        }
+        //public async Task<int> UpdateAsync(WPSUser wpsUser)
+        //{
+        //    //return await wpsUserRepository.Update(wpsUser);
+        //}
     }
 
 }

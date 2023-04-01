@@ -63,5 +63,7 @@ export class EmployeeWpsUserService {
   //     return this.http.put(this.baseUrl + 'insert',wps).pipe(map(response => { return response; }));
   //   }
   // }
-
+  getBank() {
+    return this.http.get<WpsUser[]>(this.baseUrl + 'GetBank').pipe(map(response => { return response; }));
+  }
 }

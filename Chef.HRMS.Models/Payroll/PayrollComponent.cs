@@ -24,9 +24,9 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds the payroll component type
         /// </summary>
-        [Required]
-        [Description("Payroll component type")]
-        public PayrollComponentType PayrollComponentType { get; set; }
+        //[Required]
+        //[Description("Payroll component type")]
+        public int PayrollComponentType { get; set; }
 
         /// <summary>
         /// Holds the payroll component short code
@@ -39,5 +39,16 @@ namespace Chef.HRMS.Models
         /// Holds if it is fixed type
         /// </summary>
         public bool IsFixed { get; set; }
+        public PayHeadType PayHeadType { get; set; }
+        public PayHeadContractValueType PayHeadContractValueType { get; set; }
+        public ValueLimitsType ValueLimitsType { get; set; }
+        public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
+        public IncludeInPaySlipType IncludeInPaySlipType { get; set; }
+        public RoundingType RoundingType { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string typename { get; set; }
     }
 }

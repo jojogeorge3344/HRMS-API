@@ -1,0 +1,70 @@
+<div id="shift-list" class="p-3">
+  <div class="button-right-wrapper">
+    <button (click)="openAdd()" class="btn btn-success btn-add">
+      <i class="fa fal fa-plus fa-plus mr-1"></i>Add Document
+    </button>
+  </div>
+  <table class="table m-0">
+    <thead class="thead-themed">
+      <tr>
+        <th>Sl No.</th>
+        <th>Document Type</th>
+        <th>Date Of Isuue</th>
+        <th>Place of Issue</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let details of identityDetails; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td class="text-capitalize">{{ details.documentType }}</td>
+        <td class="text-capitalize">{{ details.issueDate | date }}</td>
+        <td>{{ details.placeOfIssue }}</td>
+        <td>{{ details.active === true ? "Active" : "Inactive" }}</td>
+
+        <td>
+          <div class="btn-group" dropdown container="main">
+            <button
+              id="button-basic"
+              dropdownToggle
+              type="button"
+              class="border-0 mr-2 pr-2 dropdown-toggle btn-more"
+              aria-controls="dropdown-basic"
+            >
+              <span class="caret"></span>
+            </button>
+            <ul
+              id="dropdown-basic"
+              *dropdownMenu
+              class="dropdown-menu dropdown-menu-right"
+              role="menu"
+              aria-labelledby="button-basic"
+            >
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  [href]="getDownloadPath(details.path)"
+                  target="_blank"
+                  >Download</a
+                >
+              </li>
+              <li role="menuitem" (click)="openEditEducationalDetails(details)">
+                <a class="dropdown-item">Edit</a>
+              </li>
+              <li role="menuitem" (click)="deleteEducationalDetails(details)">
+                <a class="dropdown-item">Delete</a>
+              </li>
+              <li role="menuitem" (click)="viewDocument(details.documentId)">
+                <a class="dropdown-item">View</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="!identityDetails?.length">
+        <td colspan="6" class="text-center">No rows found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

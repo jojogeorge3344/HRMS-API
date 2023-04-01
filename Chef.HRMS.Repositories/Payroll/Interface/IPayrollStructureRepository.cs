@@ -10,5 +10,7 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<int>> GetAllAssignedPayrollStructure();
         Task<IEnumerable<PayrollStructure>> GetAllConfiguredPayrollStructures();
         Task<int> UpdatePayrollStructure(int id, bool isConfigured);
+        Task<IEnumerable<PayrollStructure>> GetAllActived();
+
     }
 }

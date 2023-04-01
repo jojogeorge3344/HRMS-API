@@ -35,6 +35,7 @@
     "@ngrx/store": "^9.2.0",
     "@ngrx/store-devtools": "^9.2.0",
     "@nguniversal/module-map-ngfactory-loader": "8.2.6",
+    "@types/moment": "^2.13.0",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.5.0",
     "chart.js": "^2.9.3",

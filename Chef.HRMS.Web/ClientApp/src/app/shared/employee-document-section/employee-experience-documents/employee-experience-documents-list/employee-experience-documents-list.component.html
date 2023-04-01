@@ -1,0 +1,78 @@
+<div id="shift-list" class="p-3">
+  <div class="button-right-wrapper">
+    <button (click)="openAdd()" class="btn btn-success btn-add">
+      <i class="fa fal fa-plus fa-plus mr-1"></i>Add Experience Document
+    </button>
+  </div>
+  <table class="table m-0">
+    <thead class="thead-themed">
+      <tr>
+        <th>Sl No.</th>
+        <th>Company Name</th>
+        <th>Job Title</th>
+        <th>Date of Joining</th>
+        <th>Date of Relieving</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let previous of previousEmployment; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td class="text-capitalize">{{ previous.companyName }}</td>
+        <td class="text-capitalize">{{ previous.jobTitle }}</td>
+        <td>{{ previous.dateOfJoining | date }}</td>
+        <td>{{ previous.dateOfRelieving | date }}</td>
+        <td class="text-capitalize">{{ previous.location }}</td>
+        <td title="Verified" *ngIf="previous.isApproved">
+          <span><i class="fal fa-check-circle text-success"></i></span>
+        </td>
+        <td title="Pending Verification" *ngIf="!previous.isApproved">
+          <span><i class="fal fa-exclamation-circle text-warning"></i></span>
+        </td>
+        <td>
+          <div class="btn-group" dropdown container="main">
+            <button
+              id="button-basic"
+              dropdownToggle
+              type="button"
+              class="border-0 mr-2 pr-2 dropdown-toggle btn-more"
+              aria-controls="dropdown-basic"
+            >
+              <span class="caret"></span>
+            </button>
+            <ul
+              id="dropdown-basic"
+              *dropdownMenu
+              class="dropdown-menu dropdown-menu-right"
+              role="menu"
+              aria-labelledby="button-basic"
+            >
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  [href]="getDownloadPath(previous.path)"
+                  target="_blank"
+                  >Download</a
+                >
+              </li>
+              <li
+                role="menuitem"
+                (click)="openEditPreviousEmployment(previous)"
+              >
+                <a class="dropdown-item">Edit</a>
+              </li>
+              <li role="menuitem" (click)="deletePreviousEmployment(previous)">
+                <a class="dropdown-item">Delete</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="!previousEmployment?.length">
+        <td colspan="8" class="text-center">No rows found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

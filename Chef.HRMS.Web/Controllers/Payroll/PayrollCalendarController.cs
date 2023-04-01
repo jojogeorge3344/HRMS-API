@@ -95,11 +95,18 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
         [HttpGet("GetStartDateAndEndDate")]
-        public async Task<ActionResult<IEnumerable<string>>> GetStartDateAndEndDate()
+        public async Task<ActionResult<IEnumerable<WeekofDateList>>> GetStartDateAndEndDate(string weekstart, string weekend)
         {
-            var startAndEndDate = await payrollCalendarService.GetStartDateAndEndDate();
+            var startAndEndDate = await payrollCalendarService.GetStartDateAndEndDate(weekstart,weekend);
 
             return Ok(startAndEndDate);
+        }
+        [HttpGet("GetWeekOff")]
+        public async Task<ActionResult<IEnumerable<WeekOff>>> GetWeekOff()
+        {
+            var Weekoff = await payrollCalendarService.GetWeekOff();
+
+            return Ok(Weekoff);
         }
     }
 }

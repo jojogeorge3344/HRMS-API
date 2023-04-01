@@ -54,5 +54,10 @@ namespace Chef.HRMS.Services
         {
             return await payrollComponentRepository.UpdateAsync(payrollComponent);
         }
+
+        public async Task<IEnumerable<BenefitTypes>> GetComponentType()
+        {
+            return await payrollComponentRepository.GetComponentType();
+        }
     }
 }

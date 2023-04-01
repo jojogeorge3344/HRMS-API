@@ -1,17 +1,23 @@
 <div class="subheader">
   <h1 class="subheader-title">
-    <div>
-      Edit Employee
-    </div>
+    <div>Edit Employee</div>
   </h1>
 </div>
 
 <div class="card p-3" id="editEmployee">
+  <button
+    routerLink="/employee"
+    class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+  >
+    <i class="fal fa-arrow-left mr-2"></i> Back to Employee
+  </button>
 
-  <button routerLink="/employee" class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"><i
-      class="fal fa-arrow-left mr-2"></i> Back to Employee</button>
-
-  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs-clean nav nav-tabs">
+  <ul
+    ngbNav
+    #nav="ngbNav"
+    [(activeId)]="activeTabId"
+    class="nav-tabs-clean nav nav-tabs"
+  >
     <li [ngbNavItem]="1">
       <a ngbNavLink>Basic Details</a>
       <ng-template ngbNavContent>
@@ -43,7 +49,7 @@
       </ng-template>
     </li>
     <li [ngbNavItem]="6">
-      <a ngbNavLink>My Documents</a>
+      <a ngbNavLink>Documents</a>
       <ng-template ngbNavContent>
         <employee-documents-container></employee-documents-container>
       </ng-template>
@@ -55,5 +61,7 @@
       </ng-template>
     </li>
   </ul>
-  <div [ngbNavOutlet]="nav"></div>
+  <div [ngbNavOutlet]="nav">
+
+  </div>
 </div>

@@ -136,6 +136,24 @@ const routes: Routes = [
         data: { name: 'settings-expense'}
       },
       {
+        path: 'settings/religion',
+        loadChildren: () => import('./features/settings/religion/religion.module').then(m => m.ReligionModule),
+        //canActivateChild: [AuthGuard],
+        data: { name: 'settings-expense'}
+      },
+      {
+        path: 'settings/document-type',
+        loadChildren: () => import('./features/settings/document-type/document-type.module').then(m => m.DocumentTypeModule),
+        //canActivateChild: [AuthGuard],
+        data: { name: 'settings-expense'}
+      },
+      {
+        path: 'settings/bank',
+        loadChildren: () => import('./features/settings/bank/bank-employee.module').then(m => m.BankModule),
+        // canActivateChild: [AuthGuard],
+        data: { name: 'settings-expense'}
+      },
+      {
         path: 'settings/roles',
         loadChildren: () => import('./features/settings/roles/roles.module').then(m => m.RolesModule),
         canActivateChild: [AuthGuard]
