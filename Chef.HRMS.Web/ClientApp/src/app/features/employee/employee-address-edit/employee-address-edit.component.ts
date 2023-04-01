@@ -245,7 +245,7 @@ export class EmployeeAddressEditComponent implements OnInit {
       }
     }, error => {
       console.error(error);
-      this.toastr.showErrorMessage('Unable to add the address');
+      this.toastr.showErrorMessage('Unable to add the address')
     });
   }
 
