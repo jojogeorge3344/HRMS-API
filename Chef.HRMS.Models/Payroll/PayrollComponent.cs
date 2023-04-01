@@ -45,6 +45,10 @@ namespace Chef.HRMS.Models
         public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
         public IncludeInPaySlipType IncludeInPaySlipType { get; set; }
         public RoundingType RoundingType { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
         public string typename { get; set; }
     }
 }
