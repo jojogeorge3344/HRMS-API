@@ -41,7 +41,7 @@ namespace Chef.HRMS.Models
         public bool IsFixed { get; set; }
         public PayHeadType PayHeadType { get; set; }
         public PayHeadContractValueType PayHeadContractValueType { get; set; }
-        public int ValueLimitsType { get; set; }
+        public int MinimumLimit { get; set; }
         public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
         public IncludeInPaySlipType IncludeInPaySlipType { get; set; }
         public RoundingType RoundingType { get; set; }
@@ -50,5 +50,6 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public string typename { get; set; }
+        public int MaximumLimit { get; set; }
     }
 }
