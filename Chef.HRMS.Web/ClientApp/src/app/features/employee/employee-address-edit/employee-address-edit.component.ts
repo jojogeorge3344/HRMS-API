@@ -167,7 +167,6 @@ export class EmployeeAddressEditComponent implements OnInit {
     });
   }
   getStatesByCountry(countryId, addressType) {
-    debugger
     if (addressType === 'current') {
       // this.commonService.getStatesByCountryId(countryId).subscribe((result)=>{
       //   this.currentstatesByCountry=result
