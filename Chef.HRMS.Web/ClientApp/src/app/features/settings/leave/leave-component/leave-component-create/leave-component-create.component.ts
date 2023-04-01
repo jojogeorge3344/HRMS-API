@@ -103,7 +103,23 @@ export class LeaveComponentCreateComponent implements OnInit {
       isSickLeave: [false],
       isStatutoryLeave: [false],
       isRestrictedToGender: [false],
-      isRestrictedToMaritalStatus: [false]
+      isRestrictedToMaritalStatus: [false],
+      BenefitCategoryId:[0],
+      BenefitTypeId:[0],
+      EligibleDays:[0],
+      EligibilityBase:[0],
+      MaxLeaveAtATime:[0],
+      VacationSalaryFormula:[null],
+      EncashBFCode:[null],
+      EncashLimitDays:[0],
+      CFLimitDays:[0],
+      BaseType:[],
+      IncludeLOPDays:[false],
+      LeaveType:[],
+      LeaveCutOffType:[],
+      AccrueLeaveAmt:[false],
+      Encash:[false],
+      carryforward:[false]
     });
   }
 }
