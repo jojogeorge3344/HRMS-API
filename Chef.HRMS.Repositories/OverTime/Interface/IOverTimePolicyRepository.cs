@@ -11,5 +11,7 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<OverTimePolicy>> GetAllAssignedOverTimePolicyCount();
         Task<IEnumerable<OverTimePolicy>> GetAllConfiguredOvertimePolicies();
         Task<int> UpdateOverTimePolicy(int id);
+        Task<IEnumerable<BenefitTypes>> GetBenefitType();
+
     }
 }

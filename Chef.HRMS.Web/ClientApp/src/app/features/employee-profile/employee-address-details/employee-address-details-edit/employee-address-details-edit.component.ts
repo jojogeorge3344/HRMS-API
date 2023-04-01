@@ -27,13 +27,15 @@ export class EmployeeAddressDetailsEditComponent implements OnInit {
     public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
+
+    console.log("this.states",this.states)
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
 
     if (this.address) {
       this.editForm.patchValue(this.address);
       this.getStatesByCountry(this.address.currentCountry, 'current');
-      this.getStatesByCountry(this.address.currentCountry, 'permenant');
+      this.getStatesByCountry(this.address.permanentCountry, 'permenant');
     }
 
   }
