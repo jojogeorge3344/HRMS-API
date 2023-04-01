@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chef.Common.Core.Extensions;
+using Org.BouncyCastle.Crypto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +20,13 @@ namespace Chef.HRMS.Repositories
             var sql = @"select*from hrms.leaveeligibility where leavecomponentid=@id";
 
             return await Connection.QueryAsync<LeaveEligibility>(sql, new { id });
+        }
+        public async Task<int> DeleteAsync(int id)
+        {
+            return await QueryFactory
+            .Query<LeaveEligibility>()
+            .Where("leavecomponentid", id)
+            .DeleteAsync();
         }
     }
 }

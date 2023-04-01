@@ -13,5 +13,6 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<LeaveComponent>> GetAllByLeaveStructure(int leaveStructureId);
         Task<IEnumerable<BenefitCategory>> GetBenefitCategory();
         Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid);
+        Task<int> DeleteAsync(int id);
     }
 }
