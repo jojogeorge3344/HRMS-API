@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.BenefitCategory;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -29,6 +30,33 @@ namespace Chef.HRMS.Repositories
                                 WHERE  LSLC.leavestructureid = @leaveStructureId";
 
                     return await Connection.QueryAsync<LeaveComponent>(sql, new { leaveStructureId });
+        }
+
+        public async Task<IEnumerable<BenefitCategory>> GetBenefitCategory()
+        {
+            var sql = @"SELECT * FROM hrms.benefitcategory
+                        WHERE isarchived=false AND id IN (1,2,3)";
+
+            return await Connection.QueryAsync<BenefitCategory>(sql);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid)
+        {
+            string sql = string.Empty;
+            if (categoryid == 1)
+            {
+                sql = @"select*from hrms.benefittypes where id=15";
+            }
+            else if (categoryid == 2)
+            {
+                sql = @"select*from hrms.benefittypes where id=36";
+            }
+            else
+            {
+                sql = @"select*from hrms.benefittypes where id=32";
+            }
+            var data = await Connection.QueryAsync<BenefitTypes>(sql, new {categoryid});
+            return data;
         }
     }
 }

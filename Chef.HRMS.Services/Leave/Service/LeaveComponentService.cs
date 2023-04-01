@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -48,6 +49,16 @@ namespace Chef.HRMS.Services
         public async Task<int> UpdateAsync(LeaveComponent leaveComponent)
         {
             return await leaveComponentRepository.UpdateAsync(leaveComponent);
+        }
+
+        public async Task<IEnumerable<BenefitCategory>> GetBenefitCategory()
+        {
+            return await leaveComponentRepository.GetBenefitCategory();
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid)
+        {
+            return await leaveComponentRepository.GetBenefitType(categoryid);
         }
     }
 }

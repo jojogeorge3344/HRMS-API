@@ -82,5 +82,8 @@ namespace Chef.HRMS.Models
         public bool AccrueLeaveAmt { get; set; }
         public bool Encash { get; set; }
         public bool carryforward { get; set; }
+        public int BenefitTypeId { get; set; }
+        public int BenefitCategoryId { get; set; }
+        public int LeaveEligibilityId { get; set; }
     }
 }
