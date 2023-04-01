@@ -21,6 +21,7 @@ import { DocumentViewModalComponent } from "@shared/document-view-modal/document
 })
 export class EmployeeIdentityDocumentsListComponent implements OnInit {
   @Input() employeeId: number;
+  @Input() isView: boolean;
 
   identityDetails: EmployeeIdentityDetails[];
   documentType = enumSelector(DocumentType);

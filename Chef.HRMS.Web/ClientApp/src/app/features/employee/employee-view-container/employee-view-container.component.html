@@ -1,47 +1,61 @@
 <div class="subheader">
-    <h1 class="subheader-title">
-      <div>
-        View Employee
-      </div>
-    </h1>
-  </div>
-  
-  <div class="card p-3" id="viewEmployee">
-  
-    <button routerLink="/employee" class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"><i
-        class="fal fa-arrow-left mr-2"></i> Back to Employee</button>
-  
-    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs-clean nav nav-tabs">
-      <li [ngbNavItem]="1">
-        <a ngbNavLink>Basic Details</a>
-        <ng-template ngbNavContent>
-          <hrms-employee-basic-details-view></hrms-employee-basic-details-view>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="2">
-        <a ngbNavLink>Job Details</a>
-        <ng-template ngbNavContent>
-          <hrms-employee-job-details-view></hrms-employee-job-details-view>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="3">
-        <a ngbNavLink>Job Filings</a>
-        <ng-template ngbNavContent>
-          <hrms-employee-job-filing-view></hrms-employee-job-filing-view>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="4">
-        <a ngbNavLink>Salary Details</a>
-        <ng-template ngbNavContent>
-          <hrms-employee-salary-view-container></hrms-employee-salary-view-container>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="5">
-        <a ngbNavLink>WPS Details</a>
-        <ng-template ngbNavContent>
-          <hrms-employee-wps-view></hrms-employee-wps-view>
-        </ng-template>
-      </li>
-    </ul>
-    <div [ngbNavOutlet]="nav"></div>
-  </div>
+  <h1 class="subheader-title">
+    <div>View Employee</div>
+  </h1>
+</div>
+
+<div class="card p-3" id="viewEmployee">
+  <button
+    routerLink="/employee"
+    class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+  >
+    <i class="fal fa-arrow-left mr-2"></i> Back to Employee
+  </button>
+
+  <ul
+    ngbNav
+    #nav="ngbNav"
+    [(activeId)]="activeTabId"
+    class="nav-tabs-clean nav nav-tabs"
+  >
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Basic Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-basic-details-view></hrms-employee-basic-details-view>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Job Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-job-details-view></hrms-employee-job-details-view>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Job Filings</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-job-filing-view></hrms-employee-job-filing-view>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <a ngbNavLink>Salary Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-salary-view-container></hrms-employee-salary-view-container>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="5">
+      <a ngbNavLink>WPS Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-wps-view></hrms-employee-wps-view>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="6">
+      <a ngbNavLink>Documents</a>
+      <ng-template ngbNavContent>
+        <employee-documents-container
+          [isView]="true"
+        ></employee-documents-container>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</div>

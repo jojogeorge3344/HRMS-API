@@ -51,11 +51,11 @@
     <li [ngbNavItem]="6">
       <a ngbNavLink>Documents</a>
       <ng-template ngbNavContent>
-        <employee-documents-container></employee-documents-container>
+        <employee-documents-container
+          [isView]="false"
+        ></employee-documents-container>
       </ng-template>
     </li>
   </ul>
-  <div [ngbNavOutlet]="nav">
-
-  </div>
+  <div [ngbNavOutlet]="nav"></div>
 </div>

@@ -18,6 +18,7 @@ import { EmployeeExperienceDocumentsEditComponent } from "../employee-experience
 })
 export class EmployeeExperienceDocumentsListComponent implements OnInit {
   @Input() employeeId: number;
+  @Input() isView: boolean;
 
   previousEmployment: EmployeeExperienceDetails[];
 

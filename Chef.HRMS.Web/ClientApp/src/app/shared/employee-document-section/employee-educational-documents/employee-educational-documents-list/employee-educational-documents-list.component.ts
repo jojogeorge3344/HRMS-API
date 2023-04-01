@@ -18,6 +18,7 @@ import { EmployeeEducationalDocumentsEditComponent } from "../employee-education
 })
 export class EmployeeEducationalDocumentsListComponent implements OnInit {
   @Input() employeeId: number;
+  @Input() isView: boolean;
 
   educationDetails: EmployeeEducationalDetails[];
 

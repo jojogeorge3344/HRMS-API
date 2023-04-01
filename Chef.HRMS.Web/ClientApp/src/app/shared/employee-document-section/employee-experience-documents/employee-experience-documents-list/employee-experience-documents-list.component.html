@@ -1,5 +1,5 @@
 <div id="shift-list" class="p-3">
-  <div class="button-right-wrapper">
+  <div class="button-right-wrapper" *ngIf="!isView">
     <button (click)="openAdd()" class="btn btn-success btn-add">
       <i class="fa fal fa-plus fa-plus mr-1"></i>Add Experience Document
     </button>
@@ -60,10 +60,15 @@
               <li
                 role="menuitem"
                 (click)="openEditPreviousEmployment(previous)"
+                *ngIf="!isView"
               >
                 <a class="dropdown-item">Edit</a>
               </li>
-              <li role="menuitem" (click)="deletePreviousEmployment(previous)">
+              <li
+                role="menuitem"
+                (click)="deletePreviousEmployment(previous)"
+                *ngIf="!isView"
+              >
                 <a class="dropdown-item">Delete</a>
               </li>
             </ul>
