@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { getCurrentUserId } from "@shared/utils/utils.functions";
 
@@ -7,6 +7,7 @@ import { getCurrentUserId } from "@shared/utils/utils.functions";
   selector: "employee-documents-container",
 })
 export class EmployeeDocumentsContainerComponent implements OnInit {
+  @Input() isView: boolean;
   employeeId: number;
   constructor(private route: ActivatedRoute) {}
 
