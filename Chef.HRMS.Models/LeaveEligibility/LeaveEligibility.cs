@@ -25,6 +25,7 @@ namespace Chef.HRMS.Models
         public LeaveCutOffType LeaveCutOffType { get; set; }
         public bool AccrueLeaveAmt { get; set; }
         public bool Encash { get; set; }
-        public bool carryforward { get; set; }
+        public bool CarryForward { get; set; }
+        public int PayrollComponentId { get; set; }
     }
 }
