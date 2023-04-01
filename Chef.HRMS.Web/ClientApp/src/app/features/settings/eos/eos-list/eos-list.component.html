@@ -1,0 +1,63 @@
+<div class="subheader mt-3">
+    <h1 class="subheader-title mb-2">
+        <div>
+            Eos
+        </div>
+    </h1>
+</div>
+<div id="wps" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content">
+            <div class="row">
+                <div class="col-md">
+                    <button (click)="openCreate()" class="btn btn-success btn-add mb-2 float-right">
+                        <i class="fa fal fa-plus fa-plus mr-1"></i>Add Eos
+                    </button>
+                </div>
+            </div> 
+        <div class="frame-wrap">
+        <table class="table m-0">
+            <thead class="thead-themed">
+                <tr>
+                    <th>Sl No.</th>
+                    <th>Benefit Name</th>
+                    <th>Retrospective Accrual</th>
+                    <th>Include Lop Days</th>
+                    <th>Include Probation Days</th>
+                    <th>Eos Settlement BF Code</th>
+                    <th>Included Benefits</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rel of eosDetails; let i= index;">
+                    <td>{{i+1}}</td>
+                    <td>{{ rel.benefitName }}</td>
+                    <td>{{ rel.retrospectiveAccrual }}</td>
+                    <td>{{ rel.includeLopDays}}</td>
+                    <td>{{ rel.includeProbationDays }}</td>
+                    <td>{{ rel.eosSettlement }}</td>
+                    <td>{{ rel.includedBenefits}}</td>
+                    <td>
+                        <div class="btn-group" dropdown container="main">
+                            <button id="button-basic" dropdownToggle type="button"
+                                class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                                aria-labelledby="button-basic">
+                                <!-- <li role="menuitem" (click)="openView(employee)"><a class="dropdown-item">View</a></li> -->
+                                <li role="menuitem" (click)="openView(rel)"><a class="dropdown-item">View</a></li>
+                                <li role="menuitem" (click)="openEdit(rel)"><a class="dropdown-item">Edit</a></li>
+                                <li role="menuitem" (click)="delete(rel)"><a class="dropdown-item">Delete</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr> 
+            
+            </tbody>
+        </table>
+        </div>
+    </div>    
+</div>
+
