@@ -31,27 +31,27 @@ export class UserVariableCreateComponent implements OnInit {
         this.addForm.value.status=false
       }
     const userForm = this.addForm.value;
-    // this.userVariableService.get(userForm.code).subscribe((result)=>{
-    //   if(result){
-    //  this.toastr.showWarningMessage("Already Code Exist")
-    //   }
-    //   else{
-    //     this.userVariableService.add(userForm).subscribe(result => {
-    //       this.toastr.showSuccessMessage('The UserVariable added successfully!');
-    //       this.activeModal.close('submit');
-    //     },
-    //       error => {
-    //         this.toastr.showErrorMessage('Unable to add the UserVariable');
-    //       });
-    //   }
-    // })
-    this.userVariableService.add(userForm).subscribe(result => {
-      this.toastr.showSuccessMessage('The UserVariable added successfully!');
-      this.activeModal.close('submit');
-    },
-      error => {
-        this.toastr.showErrorMessage('Unable to add the UserVariable');
-      });
+    this.userVariableService.get(userForm.code).subscribe((result)=>{
+      if(result){
+     this.toastr.showWarningMessage("Already Code Exist")
+      }
+      else{
+        this.userVariableService.add(userForm).subscribe(result => {
+          this.toastr.showSuccessMessage('The UserVariable added successfully!');
+          this.activeModal.close('submit');
+        },
+          error => {
+            this.toastr.showErrorMessage('Unable to add the UserVariable');
+          });
+      }
+    })
+    // this.userVariableService.add(userForm).subscribe(result => {
+    //   this.toastr.showSuccessMessage('The UserVariable added successfully!');
+    //   this.activeModal.close('submit');
+    // },
+    //   error => {
+    //     this.toastr.showErrorMessage('Unable to add the UserVariable');
+    //   });
   
   }
 

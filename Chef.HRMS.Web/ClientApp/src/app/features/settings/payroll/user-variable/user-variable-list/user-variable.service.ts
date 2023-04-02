@@ -30,6 +30,6 @@ export class UserVariableService {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
   get(code){
-    return this.http.get<UserVariableGroup[]>(this.baseUrl + 'IsReligionCodeExist/'+ code).pipe(map(response => { return response; }));
+    return this.http.get<UserVariableGroup[]>(this.baseUrl + 'IsUserVariableExist/'+ code).pipe(map(response => { return response; }));
   }
 }
