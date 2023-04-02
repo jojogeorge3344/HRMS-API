@@ -16,5 +16,6 @@ namespace Chef.HRMS.Models
         public bool IncludeProbationDays { get; set; }
         public string IncludedBenefits { get; set; }
         public string EOSSettlementBFCode { get; set; }
+        public int BenefitTypeId { get; set; }
     }
 }
