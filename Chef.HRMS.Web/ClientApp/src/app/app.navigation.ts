@@ -173,7 +173,7 @@ export const NavigationItems = [
         routerLink: '/settings/bank'
       },
       {
-        title: 'Eos',
+        title: 'EOS',
         tags: 'settings-expense',
         routerLink: '/settings/eos'
       }

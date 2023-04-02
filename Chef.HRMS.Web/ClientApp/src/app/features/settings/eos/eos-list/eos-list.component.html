@@ -20,11 +20,13 @@
             <thead class="thead-themed">
                 <tr>
                     <th>Sl No.</th>
+                    <th>Benefit Code</th>
                     <th>Benefit Name</th>
                     <th>Retrospective Accrual</th>
                     <th>Include Lop Days</th>
                     <th>Include Probation Days</th>
-                    <th>Eos Settlement BF Code</th>
+                    <!-- <th>Eos Set.BF Code I</th>
+                    <th>Eos Set.BF Code II</th> -->
                     <th>Included Benefits</th>
                     <th>Action</th>
                 </tr>
@@ -32,11 +34,13 @@
             <tbody>
                 <tr *ngFor="let rel of eosDetails; let i= index;">
                     <td>{{i+1}}</td>
+                    <td>{{ rel.bfCode }}</td>
                     <td>{{ rel.bfName }}</td>
                     <td>{{ rel.retrospectiveAccrual }}</td>
                     <td>{{ rel.includeLOPDays}}</td>
                     <td>{{ rel.includeProbationDays }}</td>
-                    <td>{{ rel.eosSettlementBFCode }}</td>
+                    <!-- <td>{{ rel.employeeEOSAccrualType }}</td>
+                    <td>{{ rel.employeeEOSpaymentType }}</td> -->
                     <td>{{ rel.includedBenefits}}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
@@ -47,7 +51,7 @@
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                                 aria-labelledby="button-basic">
                                 <!-- <li role="menuitem" (click)="openView(employee)"><a class="dropdown-item">View</a></li> -->
-                                <li role="menuitem" (click)="openView(rel)"><a class="dropdown-item">View</a></li>
+                                <!-- <li role="menuitem" (click)="openView(rel)"><a class="dropdown-item">View</a></li> -->
                                 <li role="menuitem" (click)="openEdit(rel)"><a class="dropdown-item">Edit</a></li>
                                 <li role="menuitem" (click)="delete(rel)"><a class="dropdown-item">Delete</a></li>
                             </ul>

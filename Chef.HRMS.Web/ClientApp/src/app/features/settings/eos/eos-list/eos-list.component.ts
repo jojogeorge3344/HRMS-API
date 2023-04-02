@@ -85,7 +85,7 @@ export class EosListComponent implements OnInit {
 delete(relDetails: EosGroup) {
   const modalRef = this.modalService.open(ConfirmModalComponent,
     { centered: true, backdrop: 'static' });
-  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Eos ${relDetails}`;
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Eos ${relDetails.bfName}`;
   modalRef.result.then((userResponse) => {
     if (userResponse == true) {
       this.eosService.delete(relDetails.id).subscribe(() => {

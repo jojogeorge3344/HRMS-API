@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EosService } from '../eos.service';
+import { EmployeeEOSAccrualType } from 'src/app/models/common/employeeEOSAccrualType';
+import { EmployeeEOSpaymentType } from 'src/app/models/common/types/employeeEOSpaymentType';
 
 @Component({
   selector: 'hrms-eos-create',
@@ -13,6 +15,12 @@ export class EosCreateComponent implements OnInit {
 
   addForm: FormGroup;
   componentType: any;
+  employeeEOSAccrualType: object;
+  employeeEOSAccrualTypeKeys: number[];
+  employeeEOSAccrual = EmployeeEOSAccrualType;
+  employeeEOSpaymentType: object;
+  employeeEOSpaymentTypeKeys: number[];
+  employeeEOSpayment = EmployeeEOSpaymentType;
 
   constructor( 
     private formBuilder: FormBuilder,
@@ -24,14 +32,16 @@ export class EosCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
-    this.getComponent()
+    // this.getComponent()
+    this.employeeEOSAccrualTypeKeys = Object.keys(this.employeeEOSAccrual).filter(Number).map(Number);
+    this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
   }
 
-  getComponent(){
-    this.eosService.get().subscribe((result)=>{
-    this.componentType=result
-  })
-  }
+  // getComponent(){
+  //   this.eosService.get().subscribe((result)=>{
+  //   this.componentType=result
+  // })
+  // }
   onSubmit() {
     if(this.addForm.value.retrospectiveAccrual=="yes"|| this.addForm.value.includeLOPDays=="yes" || this.addForm.value.includeProbationDays=="yes"){
       this.addForm.value.retrospectiveAccrual=true,
@@ -72,7 +82,10 @@ export class EosCreateComponent implements OnInit {
       includeProbationDays: [false, [
         Validators.required
       ]],
-      eosSettlementBFCode: ['', [
+      employeeEOSAccrualType: ['', [
+        Validators.required
+      ]],
+      employeeEOSpaymentType: ['', [
         Validators.required
       ]],
       includedBenefits: ['', [

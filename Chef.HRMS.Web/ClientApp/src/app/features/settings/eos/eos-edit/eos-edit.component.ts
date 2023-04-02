@@ -4,6 +4,8 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EosService } from '../eos.service';
 import { EosGroup } from '../eos.model';
+import { EmployeeEOSAccrualType } from 'src/app/models/common/employeeEOSAccrualType';
+import { EmployeeEOSpaymentType } from 'src/app/models/common/types/employeeEOSpaymentType';
 
 @Component({
   selector: 'hrms-eos-edit',
@@ -14,10 +16,13 @@ export class EosEditComponent implements OnInit {
 
   addForm: FormGroup;
   @Input() relDetails: EosGroup;
-  @Input() Code: string[];
-  @Input() Name: string[];
   codeExistCheck:boolean=false
-
+  employeeEOSAccrualType: object;
+  employeeEOSAccrualTypeKeys: number[];
+  employeeEOSAccrual = EmployeeEOSAccrualType;
+  employeeEOSpaymentType: object;
+  employeeEOSpaymentTypeKeys: number[];
+  employeeEOSpayment = EmployeeEOSpaymentType;
   constructor(
     private eosService:EosService,
     public activeModal: NgbActiveModal,
@@ -26,28 +31,33 @@ export class EosEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.addForm = this.createFormGroup();
     this.addForm.patchValue(this.relDetails);
-
+    this.employeeEOSAccrualTypeKeys = Object.keys(this.employeeEOSAccrual).filter(Number).map(Number);
+    this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
+    if(this.addForm.value.retrospectiveAccrual==true|| this.addForm.value.includeLOPDays==true|| this.addForm.value.includeProbationDays==true){
+      this.addForm.patchValue({
+        retrospectiveAccrual:"Yes",
+        includeLOPDays:"Yes",
+        includeProbationDays:"Yes"
+      })
+      
+      }else{
+        this.addForm.patchValue({
+          retrospectiveAccrual:"No",
+          includeLOPDays:"No",
+          includeProbationDays:"No"
+        })
+      }
   }
 
   onSubmit() {
     this.addForm.value.id=this.relDetails.id
-    if(this.addForm.value.retrospectiveAccrual=="yes"|| this.addForm.value.includeLOPDays=="yes" || this.addForm.value.includeProbationDays=="yes"){
-      this.addForm.value.retrospectiveAccrual=true,
-      this.addForm.value.includeLOPDays=true
-      this.addForm.value.includeProbationDays=true
-      }else{
-        this.addForm.value.retrospectiveAccrual=false,
-        this.addForm.value.includeLOPDays=false
-        this.addForm.value.includeProbationDays=false
-      }
-  
     const eosForm = this.addForm.value;
-  
     this.eosService.update(eosForm).subscribe(result => {
-      this.toastr.showSuccessMessage('The Eos updated successfully!');
-      this.activeModal.close('submit');
+    this.toastr.showSuccessMessage('The Eos updated successfully!');
+    this.activeModal.close('submit');
     },
       error => {
         console.error(error);
@@ -74,7 +84,10 @@ export class EosEditComponent implements OnInit {
       includeProbationDays: [false, [
         Validators.required
       ]],
-      eosSettlementBFCode: ['', [
+      employeeEOSAccrualType: ['', [
+        Validators.required
+      ]],
+      employeeEOSpaymentType: ['', [
         Validators.required
       ]],
       includedBenefits: ['', [
