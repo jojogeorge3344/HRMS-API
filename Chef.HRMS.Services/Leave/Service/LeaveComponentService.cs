@@ -11,15 +11,18 @@ namespace Chef.HRMS.Services
     public class LeaveComponentService : AsyncService<LeaveComponent>, ILeaveComponentService
     {
         private readonly ILeaveComponentRepository leaveComponentRepository;
+        private readonly ILeaveEligibilityRepository leaveEligibilityRepository;
 
-        public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository)
+        public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository,ILeaveEligibilityRepository leaveEligibilityRepository)
         {
             this.leaveComponentRepository = leaveComponentRepository;
+            this.leaveEligibilityRepository = leaveEligibilityRepository;
         }
 
         public async Task<int> DeleteAsync(int id)
         {
-            return await leaveComponentRepository.DeleteAsync(id);
+           await leaveComponentRepository.DeleteAsync(id);
+           return await leaveEligibilityRepository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<LeaveComponent>> GetAllAsync()
