@@ -70,5 +70,10 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("IsUserVariableExist/{code}")]
+        public async Task<bool> IsUserVariableExist(string code)
+        {
+            return await userVariableService.IsUserVariableExist(code);
+        }
     }
 }
