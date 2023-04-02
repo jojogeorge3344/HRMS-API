@@ -9,6 +9,9 @@ namespace Chef.HRMS.Types
     public enum BaseType
     {
         Days = 1,
-        LifeTime = 2
+        year = 2,
+        HalfYear=3,
+        LifeTime=4
+
     }
 }
