@@ -45,7 +45,7 @@ export class EosListComponent implements OnInit {
   }
   openCreate() {
     const modalRef = this.modalService.open(EosCreateComponent,
-      {size: 'lg', centered: true, backdrop: 'static' });
+      {size: 'xl', centered: true, backdrop: 'static' });
     // modalRef.componentInstance.code = this.Codes;
     // modalRef.componentInstance.name= this.Names;
     modalRef.result.then((result) => {
@@ -56,7 +56,7 @@ export class EosListComponent implements OnInit {
   }
   openEdit(relDetails: EosGroup) {
     const modalRef = this.modalService.open(EosEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'xl', centered: true, backdrop: 'static' });
     modalRef.componentInstance.relDetails= relDetails;
     // modalRef.componentInstance.code = this.Codes;
     // modalRef.componentInstance.name = this.Names;

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EosService } from '../eos.service';
 import { EmployeeEOSAccrualType } from 'src/app/models/common/employeeEOSAccrualType';
 import { EmployeeEOSpaymentType } from 'src/app/models/common/types/employeeEOSpaymentType';
+import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
 
 @Component({
   selector: 'hrms-eos-create',
@@ -27,31 +28,35 @@ export class EosCreateComponent implements OnInit {
     private toastr: ToasterDisplayService,
     private eosService:EosService,
     public activeModal: NgbActiveModal,
+    public modalService: NgbModal,
   
     ) { }
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
-    // this.getComponent()
     this.employeeEOSAccrualTypeKeys = Object.keys(this.employeeEOSAccrual).filter(Number).map(Number);
     this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
   }
 
-  // getComponent(){
-  //   this.eosService.get().subscribe((result)=>{
-  //   this.componentType=result
-  // })
-  // }
   onSubmit() {
-    if(this.addForm.value.retrospectiveAccrual=="yes"|| this.addForm.value.includeLOPDays=="yes" || this.addForm.value.includeProbationDays=="yes"){
-      this.addForm.value.retrospectiveAccrual=true,
-      this.addForm.value.includeLOPDays=true
-      this.addForm.value.includeProbationDays=true
-      }else{
-        this.addForm.value.retrospectiveAccrual=false,
-        this.addForm.value.includeLOPDays=false
-        this.addForm.value.includeProbationDays=false
+    if(this.addForm.value.retrospectiveAccrual=="Yes"){
+      this.addForm.value.retrospectiveAccrual=true
       }
+      else{
+        this.addForm.value.retrospectiveAccrual=false
+      }
+      if(this.addForm.value.includeLOPDays=="Yes"){
+        this.addForm.value.includeLOPDays=true
+        }
+        else{
+          this.addForm.value.includeLOPDays=false
+        }
+        if(this.addForm.value.includeProbationDays=="Yes"){
+          this.addForm.value.includeProbationDays=true
+          }
+          else{
+            this.addForm.value.includeProbationDays=false
+          }
     const eosForm = this.addForm.value;
     this.eosService.add(eosForm).subscribe(result => {
           this.toastr.showSuccessMessage('The Eos added successfully!');
@@ -63,7 +68,19 @@ export class EosCreateComponent implements OnInit {
     
   
   }
+  openFormulaEditor(type: string) {
+    const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
 
+    modalRef.componentInstance.formulaType = type;
+    modalRef.componentInstance.formula = '';
+
+    modalRef.result.then((result) => { console.log(result);
+                                       if (result !== 'Close click') {
+        this.addForm.get(type).patchValue(result);
+      }
+    });
+  }
   
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
