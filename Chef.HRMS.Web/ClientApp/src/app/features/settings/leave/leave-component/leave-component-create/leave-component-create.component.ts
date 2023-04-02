@@ -12,6 +12,7 @@ import { EligiblityBase } from '@settings/leave/Eligibilitybase.enum';
 import { LeaveCutoffType } from '@settings/leave/leavecuttoff.enum';
 import { LeaveType } from '@settings/leave/leavetype.enum';
 import { Loptype } from '@settings/leave/lopdays.enum';
+import { LeaveEligiblityService } from '../leave-eligiblity.service';
 
 
 
@@ -41,13 +42,15 @@ export class LeaveComponentCreateComponent implements OnInit {
   leavetype:[];
   genderTypeKeys: number[];
   maritalStatusTypeKeys: number[];
-
+  leavecomponentid:number;
+  isdisabled:boolean = true;
   @Input() leaveComponentNames: string[];
   @Input() leaveComponentCodes: string[];
   @ViewChild('myTabSet') tabSet: NgbTabset;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
+    private leaveeligiblityservice:LeaveEligiblityService,
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private toastr: ToasterDisplayService) {
@@ -77,8 +80,8 @@ console.log("result",result)
 }
 getLeavetype(e){
   debugger
-  console.log(this.addForm.value.BenefitCategoryId)
-  let categoryid=this.addForm.value.BenefitCategoryId
+  console.log(this.addForm.value.benefitCategoryId)
+  let categoryid=this.addForm.value.benefitCategoryId
   this.leaveComponentService.getbenefittype(categoryid).subscribe((result: any) => {
     this.leavetype =result;
 console.log("result",result)
@@ -106,11 +109,15 @@ console.log("result",result)
   get code() { return this.addForm.get('code'); }
 
   onSubmit() {
+    debugger
     this.leaveComponentService.add(this.addForm.value).subscribe((result: any) => {
+      debugger
       if (result.id === -1) {
         this.toastr.showErrorMessage('Leave component already exists!');
       } else {
+       this.leavecomponentid =result
         // this.activeModal.close(result);
+        this.isdisabled = false;
         
         this.toastr.showSuccessMessage('Basic Leave Component is created successfully!');
       }
@@ -145,36 +152,42 @@ console.log("result",result)
       isStatutoryLeave: [false],
       isRestrictedToGender: [false],
       isRestrictedToMaritalStatus: [false],
-      BenefitCategoryId:[0],
-      BenefitTypeId:[0],
+      benefitCategoryId:[null, [
+        Validators.required,]],
+      benefitTypeId:[null,[
+        Validators.required,]],
      
     });
   }
   createFormGroup2(): FormGroup {
     return this.formBuilder.group({
-      EligibleDays:[0],
-      EligibilityBase:[0],
-      MaxLeaveAtATime:[0],
-      VacationSalaryFormula:[null],
-      EncashBFCode:[null],
-      EncashLimitDays:[0],
-      CFLimitDays:[0],
-      BaseType:[],
-      IncludeLOPDays:[false],
-      LeaveType:[],
-      LeaveCutOffType:[],
-      AccrueLeaveAmt:[false],
-      Encash:[false],
-      carryforward:[false]
+      eligibleDays:[null],
+      eligibilityBase:[null],
+      maxLeaveAtATime:[null],
+      vacationSalaryFormula:[null],
+      encashBFCode:[null],
+      encashLimitDays:[null],
+      cfLimitDays:[null],
+      baseType:[null],
+      includeLOPDays:[null],
+      leaveType:[null],
+      leaveCutOffType:[null],
+      accrueLeaveAmt:[false],
+      encash:[false],
+      carryForward:[false],
+      leaveComponentId:[null]
     })
   }
   onSubmit2() {
-
-    this.leaveComponentService.add(this.addForm2.value).subscribe((result: any) => {
+debugger
+    this.addForm2.patchValue({
+      leaveComponentId:this.leavecomponentid
+    })
+    this.leaveeligiblityservice.add(this.addForm2.value).subscribe((result: any) => {
       if (result.id === -1) {
         this.toastr.showErrorMessage('Configure Leave component already exists!');
       } else {
-        // this.activeModal.close(result);
+        this.activeModal.close(result);
         
         this.toastr.showSuccessMessage('Configure Leave Component is created successfully!');
       }
