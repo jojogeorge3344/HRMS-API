@@ -15,17 +15,20 @@ import { DocumentViewModalComponent } from "./document-view-modal/document-view-
 
 import { EmployeeDocumentsContainerComponent } from "./employee-document-section/employee-documents-container/employee-documents-container.component";
 
+import { EmployeeIdentityDocumentsListComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-list/employee-identity-documents-list.component";
+import { EmployeeIdentityDocumentsCreateComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-create/employee-identity-documents-create.component";
+import { EmployeeIdentityDocumentsEditComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-edit/employee-identity-documents-edit.component";
+import { EmployeeIdentityDocumentsViewComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-view/employee-identity-documents-view.component";
+
 import { EmployeeEducationalDocumentsListComponent } from "./employee-document-section/employee-educational-documents/employee-educational-documents-list/employee-educational-documents-list.component";
 import { EmployeeEducationalDocumentsCreateComponent } from "./employee-document-section/employee-educational-documents/employee-educational-documents-create/employee-educational-documents-create.component";
 import { EmployeeEducationalDocumentsEditComponent } from "./employee-document-section/employee-educational-documents/employee-educational-documents-edit/employee-educational-documents-edit.component";
+import { EmployeeEducationalDocumentsViewComponent } from "./employee-document-section/employee-educational-documents/employee-educational-documents-view/employee-educational-documents-view.component";
 
 import { EmployeeExperienceDocumentsListComponent } from "./employee-document-section/employee-experience-documents/employee-experience-documents-list/employee-experience-documents-list.component";
 import { EmployeeExperienceDocumentsCreateComponent } from "./employee-document-section/employee-experience-documents/employee-experience-documents-create/employee-experience-documents-create.component";
 import { EmployeeExperienceDocumentsEditComponent } from "./employee-document-section/employee-experience-documents/employee-experience-documents-edit/employee-experience-documents-edit.component";
-
-import { EmployeeIdentityDocumentsContainerComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-container/employee-identity-documents-container.component";
-import { EmployeeIdentityDocumentsCreateComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-create/employee-identity-documents-create.component";
-import { EmployeeIdentityDocumentsEditComponent } from "./employee-document-section/employee-identity-documents/employee-identity-documents-edit/employee-identity-documents-edit.component";
+import { EmployeeExperienceDocumentsViewComponent } from "./employee-document-section/employee-experience-documents/employee-experience-documents-view/employee-experience-documents-view.component";
 
 import { EmployeeOfficialDocumentsListComponent } from "./employee-document-section/employee-official-documents/employee-official-documents-list/employee-official-documents-list.component";
 
@@ -39,10 +42,13 @@ import { EmployeeOfficialDocumentsListComponent } from "./employee-document-sect
     EmployeeExperienceDocumentsListComponent,
     EmployeeExperienceDocumentsCreateComponent,
     EmployeeExperienceDocumentsEditComponent,
-    EmployeeIdentityDocumentsContainerComponent,
+    EmployeeIdentityDocumentsListComponent,
     EmployeeIdentityDocumentsCreateComponent,
     EmployeeIdentityDocumentsEditComponent,
     EmployeeOfficialDocumentsListComponent,
+    EmployeeIdentityDocumentsViewComponent,
+    EmployeeExperienceDocumentsViewComponent,
+    EmployeeEducationalDocumentsViewComponent,
   ],
   imports: [
     CommonModule,
@@ -62,7 +68,7 @@ import { EmployeeOfficialDocumentsListComponent } from "./employee-document-sect
     EmployeeExperienceDocumentsListComponent,
     EmployeeExperienceDocumentsCreateComponent,
     EmployeeExperienceDocumentsEditComponent,
-    EmployeeIdentityDocumentsContainerComponent,
+    EmployeeIdentityDocumentsListComponent,
     EmployeeIdentityDocumentsCreateComponent,
     EmployeeIdentityDocumentsEditComponent,
     EmployeeOfficialDocumentsListComponent,

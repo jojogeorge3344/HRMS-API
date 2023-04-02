@@ -7,6 +7,7 @@ import { EmployeeOfficialDocumentsService } from "../employee-official-documents
 })
 export class EmployeeOfficialDocumentsListComponent implements OnInit {
   @Input() employeeId: number;
+  @Input() isView: boolean;
 
   employeeLetter: any;
 

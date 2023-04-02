@@ -42,6 +42,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
   directoryName = "c:";
   companyName = "Company";
   branchName = "Branch";
+  isDuplicate: boolean = false;
   @Output() identityDetailsForm = new EventEmitter<boolean>();
 
   constructor(
@@ -90,6 +91,18 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
     this.addForm.get("document").reset();
   }
 
+  checkDocumentNumber(documentNumber: string) {
+    this.identityDetailsService
+      .isDocumentCodeExist(documentNumber)
+      .subscribe((result) => {
+        if (result) {
+          this.isDuplicate = true;
+        } else {
+          this.isDuplicate = false;
+        }
+      });
+  }
+
   onSubmit() {
     console.log("doc save", this.documentSave);
     const identityDetailsForm = this.addForm.value;
@@ -102,7 +115,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
       return;
     }
 
-    if (this.addForm.invalid) {
+    if (this.addForm.invalid || this.isDuplicate) {
       return;
     }
 

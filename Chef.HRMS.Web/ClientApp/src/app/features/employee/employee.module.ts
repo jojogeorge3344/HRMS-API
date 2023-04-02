@@ -21,25 +21,28 @@ import { EmployeeBasicDetailsEditComponent } from "./employee-basic-details/empl
 import { EmployeeJobDetailsEditComponent } from "./employee-job-details/employee-job-details-edit/employee-job-details-edit.component";
 import { EmployeeJobFilingEditComponent } from "./employee-job-filing/employee-job-filing-edit/employee-job-filing-edit.component";
 
+
+
+import { EmployeeBonusListComponent } from './employee-bonus/employee-bonus-list/employee-bonus-list.component';
+import { EmployeeBonusCreateComponent } from './employee-bonus/employee-bonus-create/employee-bonus-create.component';
+import { EmployeeBonusEditComponent } from './employee-bonus/employee-bonus-edit/employee-bonus-edit.component';
+import { EmployeeBonusViewComponent } from './employee-bonus/employee-bonus-view/employee-bonus-view.component';
+import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { EmployeeWpsDetailsComponent } from './employee-wps/employee-wps-details/employee-wps-details.component';
+import { EmployeeBasicDetailsViewComponent } from './employee-basic-details/employee-basic-details-view/employee-basic-details-view.component';
+import { EmployeeViewContainerComponent } from './employee-view-container/employee-view-container.component';
+import { EmployeeWpsViewComponent } from './employee-wps/employee-wps-view/employee-wps-view.component';
+import { EmployeeJobDetailsViewComponent } from './employee-job-details/employee-job-details-view/employee-job-details-view.component';
+import { EmployeeJobFilingViewComponent } from './employee-job-filing/employee-job-filing-view/employee-job-filing-view.component';
+import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-container/employee-salary-view-container.component';
+import { EmployeeAddressEditComponent } from './employee-address-edit/employee-address-edit.component';
+import { EmployeeAddressViewComponent } from './employee-address-view/employee-address-view.component';
 import { EmployeeSalaryContainerComponent } from "./employee-salary-container/employee-salary-container.component";
 import { EmployeeSalaryCreateContainerComponent } from "./employee-salary/employee-salary-create-container/employee-salary-create-container.component";
 import { EmployeeSalaryEditContainerComponent } from "./employee-salary/employee-salary-edit-container/employee-salary-edit-container.component";
 import { EmployeeSalaryViewComponent } from "./employee-salary/employee-salary-view/employee-salary-view.component";
 import { EmployeeSalaryFormComponent } from "./employee-salary/employee-salary-form/employee-salary-form.component";
 import { EmployeeSalaryConfirmComponent } from "./employee-salary/employee-salary-confirm/employee-salary-confirm.component";
-
-import { EmployeeBonusListComponent } from "./employee-bonus/employee-bonus-list/employee-bonus-list.component";
-import { EmployeeBonusCreateComponent } from "./employee-bonus/employee-bonus-create/employee-bonus-create.component";
-import { EmployeeBonusEditComponent } from "./employee-bonus/employee-bonus-edit/employee-bonus-edit.component";
-import { EmployeeBonusViewComponent } from "./employee-bonus/employee-bonus-view/employee-bonus-view.component";
-import { CUSTOM_ERRORS } from "@shared/utils/validators.messages";
-import { EmployeeWpsDetailsComponent } from "./employee-wps/employee-wps-details/employee-wps-details.component";
-import { EmployeeBasicDetailsViewComponent } from "./employee-basic-details/employee-basic-details-view/employee-basic-details-view.component";
-import { EmployeeViewContainerComponent } from "./employee-view-container/employee-view-container.component";
-import { EmployeeWpsViewComponent } from "./employee-wps/employee-wps-view/employee-wps-view.component";
-import { EmployeeJobDetailsViewComponent } from "./employee-job-details/employee-job-details-view/employee-job-details-view.component";
-import { EmployeeJobFilingViewComponent } from "./employee-job-filing/employee-job-filing-view/employee-job-filing-view.component";
-import { EmployeeSalaryViewContainerComponent } from "./employee-salary-view-container/employee-salary-view-container.component";
 import { SharedModule } from "@shared/shared.module";
 
 @NgModule({
@@ -70,6 +73,8 @@ import { SharedModule } from "@shared/shared.module";
     EmployeeJobDetailsViewComponent,
     EmployeeJobFilingViewComponent,
     EmployeeSalaryViewContainerComponent,
+    EmployeeAddressEditComponent,
+    EmployeeAddressViewComponent
   ],
   imports: [   
     CommonModule,

@@ -197,6 +197,7 @@ export class EmployeeEducationalDocumentsEditComponent implements OnInit {
       );
     }
   }
+
   setMaxDate() {
     this.maxDate = {
       year: new Date(
@@ -208,6 +209,7 @@ export class EmployeeEducationalDocumentsEditComponent implements OnInit {
       day: new Date(this.editForm.controls["yearOfCompletion"].value).getDate(),
     };
   }
+
   setMinDate() {
     this.minDate = {
       year: new Date(
