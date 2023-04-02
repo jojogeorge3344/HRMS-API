@@ -1,10 +1,11 @@
 import { Model } from '@shared/models/model';
 
 export interface EosGroup extends Model {
-      benefitName:string
-      retrospectiveAccrual:string
-      includeLopDays:string
-      includeProbationDays:string
-      eosSettlement:string
-      includedBenefits:string
+      bfCode: string,
+      bfName: string,
+      retrospectiveAccrual: boolean,
+      includeLOPDays: boolean,
+      includeProbationDays: boolean,
+      includedBenefits: string,
+      eosSettlementBFCode: string
 }

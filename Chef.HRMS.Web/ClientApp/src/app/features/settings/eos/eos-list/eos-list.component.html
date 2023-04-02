@@ -1,7 +1,7 @@
 <div class="subheader mt-3">
     <h1 class="subheader-title mb-2">
         <div>
-            Eos
+            EOS
         </div>
     </h1>
 </div>
@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md">
                     <button (click)="openCreate()" class="btn btn-success btn-add mb-2 float-right">
-                        <i class="fa fal fa-plus fa-plus mr-1"></i>Add Eos
+                        <i class="fa fal fa-plus fa-plus mr-1"></i>Add EOS
                     </button>
                 </div>
             </div> 
@@ -32,11 +32,11 @@
             <tbody>
                 <tr *ngFor="let rel of eosDetails; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ rel.benefitName }}</td>
+                    <td>{{ rel.bfName }}</td>
                     <td>{{ rel.retrospectiveAccrual }}</td>
-                    <td>{{ rel.includeLopDays}}</td>
+                    <td>{{ rel.includeLOPDays}}</td>
                     <td>{{ rel.includeProbationDays }}</td>
-                    <td>{{ rel.eosSettlement }}</td>
+                    <td>{{ rel.eosSettlementBFCode }}</td>
                     <td>{{ rel.includedBenefits}}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
