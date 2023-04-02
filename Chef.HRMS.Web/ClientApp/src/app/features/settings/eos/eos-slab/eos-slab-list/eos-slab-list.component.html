@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md">
                     <button (click)="openCreate()" class="btn btn-success btn-add mb-2 float-right">
-                        <i class="fa fal fa-plus fa-plus mr-1"></i>Add EOS
+                        <i class="fa fal fa-plus fa-plus mr-1"></i>Add EOS SLAB
                     </button>
                 </div>
             </div> 
@@ -13,28 +13,24 @@
             <thead class="thead-themed">
                 <tr>
                     <th>Sl No.</th>
-                    <th>Benefit Code</th>
-                    <th>Benefit Name</th>
-                    <th>Retrospective Accrual</th>
-                    <th>Include Lop Days</th>
-                    <th>Include Probation Days</th>
-                    <!-- <th>Eos Set.BF Code I</th>
-                    <th>Eos Set.BF Code II</th> -->
-                    <th>Included Benefits</th>
+                    <!-- <th>Benefit Code</th>
+                    <th>Benefit Name</th> -->
+                    <th>Lower Limit</th>
+                    <th>Upper Limit</th>
+                    <th>Value Variable</th>
+                    <th>Value Type</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let rel of eosDetails; let i= index;">
+                <tr *ngFor="let rel of eosSlabDetails; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ rel.bfCode }}</td>
-                    <td>{{ rel.bfName }}</td>
-                    <td>{{ rel.retrospectiveAccrual }}</td>
-                    <td>{{ rel.includeLOPDays}}</td>
-                    <td>{{ rel.includeProbationDays }}</td>
-                    <!-- <td>{{ rel.employeeEOSAccrualType }}</td>
-                    <td>{{ rel.employeeEOSpaymentType }}</td> -->
-                    <td>{{ rel.includedBenefits}}</td>
+                    <!-- <td>{{ rel.bfCode }}</td>
+                    <td>{{ rel.bfName }}</td> -->
+                    <td>{{ rel.lowerLimit }}</td>
+                    <td>{{ rel.upperLimit}}</td>
+                    <td>{{ rel.valueVariable }}</td>
+                    <td>{{ rel.valueType}}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
                             <button id="button-basic" dropdownToggle type="button"
@@ -57,4 +53,5 @@
         </div>
     </div>    
 </div>
+
 

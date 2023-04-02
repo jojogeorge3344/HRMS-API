@@ -7,32 +7,31 @@ import { NgBootstrapFormValidationModule, CUSTOM_ERROR_MESSAGES } from 'ng-boots
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
-import { EosListComponent } from './eos-list/eos-list.component';
-import { EosCreateComponent } from './eos-create/eos-create.component';
-import { EosEditComponent } from './eos-edit/eos-edit.component';
-import { EosViewComponent } from './eos-view/eos-view.component';
+import { EosSlabListComponent } from './eos-slab-list/eos-slab-list.component';
+import { EosSlabCreateComponent } from './eos-slab-create/eos-slab-create.component';
+import { EosSlabEditComponent } from './eos-slab-edit/eos-slab-edit.component';
+
 
 
 @NgModule({
   declarations: [
-    EosListComponent,
-    EosCreateComponent,
-    EosEditComponent,
-    EosViewComponent
+    EosSlabListComponent,
+    EosSlabCreateComponent,
+    EosSlabEditComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
-        component: EosListComponent,
-        data: { breadcrumbs: ['Settings', 'List', 'EOS'], name: 'settings-expense' }
+        component: EosSlabListComponent,
+        data: { breadcrumbs: ['Settings', 'List', 'EOS SLAB'], name: 'settings-expense' }
       },
       {
         path: '', 
-        component: EosListComponent,
+        component: EosSlabListComponent,
         outlet: 'tab-content',
-        data: { breadcrumbs: ['Settings', 'List', 'EOS'], name: 'settings-expense'  }
+        data: { breadcrumbs: ['Settings', 'List', 'EOS SLAB'], name: 'settings-expense'  }
       }
     ]),
     NgbModule,
@@ -48,8 +47,8 @@ import { EosViewComponent } from './eos-view/eos-view.component';
     multi: true
   }],
   entryComponents: [
-    EosCreateComponent,
-    EosEditComponent,
+    EosSlabCreateComponent,
+    EosSlabEditComponent,
   ]
 })
-export class EosModule { }
+export class EosSlabModule { }

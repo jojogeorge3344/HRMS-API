@@ -155,7 +155,7 @@ const routes: Routes = [
       },
       {
         path: 'settings/eos',
-        loadChildren: () => import('./features/settings/eos/eos.module').then(m => m.EosModule),
+        loadChildren: () => import('./features/settings/eos/eos-common.module').then(m => m.EosCommonModule),
         // canActivateChild: [AuthGuard],
         data: { name: 'settings-expense'}
       },
