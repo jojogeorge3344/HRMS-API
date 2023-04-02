@@ -155,9 +155,9 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
-      normalOverTime8:[null],
-      holidayOvertime9:[null],
-      specialOvertime10:[null],
+      normalOverTime8:[0],
+      holidayOvertime9:[0],
+      specialOvertime10:[0],
 
       roundOffType: [{ value: 1, disabled: true }],
       noticeDays: [{ value: null, disabled: true }, [
