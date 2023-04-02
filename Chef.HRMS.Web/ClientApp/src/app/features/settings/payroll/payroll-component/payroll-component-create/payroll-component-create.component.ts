@@ -80,6 +80,7 @@ export class PayrollComponentCreateComponent implements OnInit {
   }
 
   onSubmit() {
+  
     const payrollComponentForm = this.addForm.value;
     payrollComponentForm.payrollComponentType = parseInt(
       payrollComponentForm.payrollComponentType,
