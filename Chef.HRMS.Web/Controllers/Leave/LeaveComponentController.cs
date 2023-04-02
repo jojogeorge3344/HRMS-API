@@ -117,7 +117,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(benefitlist);
         }
 
-        [HttpGet("GetBenefitType")]
+        [HttpGet("GetBenefitType/{categoryid}")]
         public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType(int categoryid)
         {
             var benefitlist = await leaveComponentService.GetBenefitType(categoryid);

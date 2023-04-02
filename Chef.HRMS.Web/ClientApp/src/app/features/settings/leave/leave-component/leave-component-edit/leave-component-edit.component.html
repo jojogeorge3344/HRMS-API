@@ -1,113 +1,321 @@
-<form [formGroup]="editForm" (validSubmit)="onSubmit()">
-    <div class="modal-header">
-        <h4 class="modal-title">Update Leave Component</h4>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <input type="hidden" formControlName="id" />
-        <div class="d-flex flex-wrap align-items-baseline">
-            <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="name">Name<span class="required">*</span></label>
-                <input type="text" class="form-control" formControlName="name">
-            </div>
-            <div class="form-group form-input-line col-6">
-                <label class="col-form-label " for="code">Code<span class="required">*</span></label>
-                <input type="text" class="form-control" formControlName="code">
-            </div>
-        </div>
-        <div class="form-group form-textarea-line col-12">
-            <label class="col-form-label" for="description">Description<span class="required">*</span></label>
-            <textarea type="text" rows="3" class="form-control" formControlName="description"></textarea>
-        </div>
+<div class="modal-header">
+    <h4 class="modal-title">Update Leave Component</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="max-height:94vh">
+    <ngb-tabset>
+        <ngb-tab title="Basic">
 
-        <div class="row">
-            <div class="col-sm">
-                <div class="form-group">
-                    <div class="col-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="showLeaveDescription"
-                                formControlName="showLeaveDescription">
-                            <label class="custom-control-label" for="showLeaveDescription">Show leave
-                                description</label>
+            <ng-template ngbTabContent>
+                <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+                    <input type="hidden" formControlName="id" />
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-6">
+                            <label class="col-form-label" for="name">Name<span class="required">*</span></label>
+                            <input type="text" class="form-control" formControlName="name">
+                        </div>
+                        <div class="form-group form-input-line col-6">
+                            <label class="col-form-label " for="code">Code<span class="required">*</span></label>
+                            <input type="text" class="form-control" formControlName="code">
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="isPaidLeave"
-                                formControlName="isPaidLeave">
-                            <label class="custom-control-label" for="isPaidLeave">Paid leave</label>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-6">
+                            <label class="col-form-label" for="benefitCategoryId">Deduction Type<span
+                                    class="required">*</span></label>
+                            <select class="form-control" formControlName="benefitCategoryId"
+                                (change)="getLeavetype()">
+                                <option [ngValue]="null" disabled>Select</option>
+                                <option *ngFor="let key of dedecutionarray" [ngValue]='key.id'>
+                                    {{key.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group form-input-line col-6">
+                            <label class="col-form-label " for="benefitTypeId">Leave Type<span
+                                    class="required">*</span></label>
+                            <select class="form-control" formControlName="benefitTypeId">
+                                <option [ngValue]="null" disabled>Select</option>
+                                <option *ngFor="let key of leaves" [ngValue]='key.id'>
+                                    {{key.name}}
+                                </option>
+                            </select>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-12">
-                        <div class="custom-control custom-checkbox">
-                            <input #isRestrictedToGender type="checkbox"
-                                (change)="toggleGender(isRestrictedToGender.checked)" class="custom-control-input"
-                                id="isRestrictedToGender" formControlName="isRestrictedToGender">
-                            <label class="custom-control-label" for="isRestrictedToGender">Restricted to
-                                gender</label>
+                    <div class="form-group form-textarea-line col-12">
+                        <label class="col-form-label" for="description">Description<span
+                                class="required">*</span></label>
+                        <textarea type="text" rows="3" class="form-control" formControlName="description"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="showLeaveDescription"
+                                            formControlName="showLeaveDescription">
+                                        <label class="custom-control-label" for="showLeaveDescription">Show leave
+                                            description</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="isPaidLeave"
+                                            formControlName="isPaidLeave">
+                                        <label class="custom-control-label" for="isPaidLeave">Paid leave</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input #isRestrictedToGender type="checkbox"
+                                            (change)="toggleGender(isRestrictedToGender.checked)"
+                                            class="custom-control-input" id="isRestrictedToGender"
+                                            formControlName="isRestrictedToGender">
+                                        <label class="custom-control-label" for="isRestrictedToGender">Restricted to
+                                            gender</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="isRestrictedToGender.checked" class="form-group col-12">
+                                <select class="form-control" formControlName="restrictedToGender">
+                                    <option [ngValue]="null" disabled>Select a gender</option>
+                                    <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>
+                                        {{genderTypes[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="isStatutoryLeave"
+                                            formControlName="isStatutoryLeave">
+                                        <label class="custom-control-label" for="isStatutoryLeave">Statuatory
+                                            leave</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="isSickLeave"
+                                            formControlName="isSickLeave">
+                                        <label class="custom-control-label" for="isSickLeave">Sick leave</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox"
+                                            (change)="toggleMaritalStatus(isRestrictedToMaritalStatus.checked)"
+                                            class="custom-control-input" #isRestrictedToMaritalStatus
+                                            id="isRestrictedToMaritalStatus"
+                                            formControlName="isRestrictedToMaritalStatus">
+                                        <label class="custom-control-label" for="isRestrictedToMaritalStatus">Restricted
+                                            to
+                                            marital
+                                            status</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="isRestrictedToMaritalStatus.checked" class="form-group">
+                                <select class="form-control" formControlName="restrictedToMaritalStatus">
+                                    <option [ngValue]="null" disabled>Select marital status</option>
+                                    <option *ngFor="let key of maritalStatusTypeKeys" [ngValue]='key'>
+                                        {{maritalStatusTypes[key]}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div *ngIf="isRestrictedToGender.checked" class="form-group col-12">
-                    <select class="form-control" formControlName="restrictedToGender">
-                        <option [ngValue]="null" disabled>Select a gender</option>
-                        <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>
-                            {{genderTypes[key]}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="form-group">
-                    <div class="col-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="isStatutoryLeave"
-                                formControlName="isStatutoryLeave">
-                            <label class="custom-control-label" for="isStatutoryLeave">Statuatory leave</label>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end" style="margin-top: 10px;">
+                           
+                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save</button>
+                         
+                            &nbsp;&nbsp;
+                                <button type="button" class="btn btn-warning p-2" (click)="activeModal.close('Close click')"><i
+                                    class="mr-1 fal fa-window-close"></i> Cancel</button>  
+                        
+                           
+                    
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="isSickLeave"
-                                formControlName="isSickLeave">
-                            <label class="custom-control-label" for="isSickLeave">Sick leave</label>
+                </form>
+            </ng-template>
+        </ngb-tab>
+        
+        <ngb-tab title="Configure">
+            <ng-template ngbTabContent>
+                <form [formGroup]="editForm2" (validSubmit)="onSubmit2()">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="eligibleDays">Eligible days</label>
+                                <input type="number" class="form-control" formControlName="eligibleDays">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="eligibilityBase">Eligibility base</label>
+                                <select class="form-control" formControlName="eligibilityBase">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of eligiblitybases" [ngValue]='key'>
+                                        {{eligiblitybase[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="baseType">Base type</label>
+                                <select class="form-control" formControlName="baseType">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of basetypes" [ngValue]='key'>
+                                        {{basetype[key]}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" (change)="toggleMaritalStatus(isRestrictedToMaritalStatus.checked)"
-                                class="custom-control-input" #isRestrictedToMaritalStatus
-                                id="isRestrictedToMaritalStatus" formControlName="isRestrictedToMaritalStatus">
-                            <label class="custom-control-label" for="isRestrictedToMaritalStatus">Restricted to
-                                marital
-                                status</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="includeLOPDays">Include LOP days</label>
+                                <select class="form-control" formControlName="includeLOPDays">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of lopday" [ngValue]='key'>
+                                        {{lopdays[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="leaveType">Leave type</label>
+                                <select class="form-control" formControlName="leaveType">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of leavetypearray" [ngValue]='key'>
+                                        {{leavetypes[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="leaveCutOffType">Leavecutoff</label>
+                                <select class="form-control" formControlName="leaveCutOffType">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of leavecutoff" [ngValue]='key'>
+                                        {{leavecutofftype[key]}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div *ngIf="isRestrictedToMaritalStatus.checked" class="form-group">
-                    <select class="form-control" formControlName="restrictedToMaritalStatus">
-                        <option [ngValue]="null" disabled>Select marital status</option>
-                        <option *ngFor="let key of maritalStatusTypeKeys" [ngValue]='key'>
-                            {{maritalStatusTypes[key]}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
-                class="mr-1 fal fa-window-close"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
-    </div>
-</form>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="maxLeaveAtATime">MaxLeaveAt aTime</label>
+                                <input type="number" class="form-control" formControlName="maxLeaveAtATime">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="accrueLeaveAmt">Accrue Leave Amount</label>
+                                <select class="form-control" formControlName="accrueLeaveAmt">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option [ngValue]=true>
+                                     Yes
+                                    </option>
+                                    <option [ngValue]=false>
+                                        No
+                                       </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="cfLimitDays">C/F Limit Days</label>
+                                <input type="number" class="form-control" formControlName="cfLimitDays">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="encash">Encash</label>
+                                <select class="form-control" formControlName="encash">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option [ngValue]=true>
+                                        Yes
+                                       </option>
+                                       <option [ngValue]=false>
+                                           No
+                                          </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="encashBFCode">Encash BF code</label>
+                                <input type="number" class="form-control" formControlName="encashBFCode">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="encashLimitDays">Encash Limit Days</label>
+                                <input type="number" class="form-control" formControlName="encashLimitDays">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="carryForward">Carry Forward</label>
+                                <select class="form-control" formControlName="carryForward">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option [ngValue]=true>
+                                        Yes
+                                       </option>
+                                       <option [ngValue]=false>
+                                           No
+                                          </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="vacationSalaryFormula">Vacation Salary Formula</label>
+                                <input type="text" class="form-control" formControlName="vacationSalaryFormula">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end" style="margin-top: 10px;">
+                           <div>
+                            <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save</button>
+
+                           </div>
+                         &nbsp;  &nbsp;
+                            <div>
+                                <button type="button" class="btn btn-warning p-2" (click)="activeModal.close('Close click')"><i
+                                    class="mr-1 fal fa-window-close"></i> Cancel</button>  
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>
