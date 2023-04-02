@@ -57,7 +57,7 @@ export class LeaveComponentCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
+    
     this.genderTypeKeys = Object.keys(this.genderTypes).filter(Number).map(Number);
     this.basetypes = Object.keys(this.basetype).filter(Number).map(Number);
     this.maritalStatusTypeKeys = Object.keys(this.maritalStatusTypes).filter(Number).map(Number);
@@ -69,22 +69,21 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.addForm2 = this.createFormGroup2();
     this.getdeductiontype();
+    this.getLeavetype();
   }
 getdeductiontype(){
   this.leaveComponentService.getbenefitcategory().subscribe((result: any) => {
     this.dedecutionarray =result;
-console.log("result",result)
+
 
 })
 
 }
-getLeavetype(e){
-  debugger
-  console.log(this.addForm.value.benefitCategoryId)
+getLeavetype(){
   let categoryid=this.addForm.value.benefitCategoryId
   this.leaveComponentService.getbenefittype(categoryid).subscribe((result: any) => {
     this.leavetype =result;
-console.log("result",result)
+
 
 })
 }
@@ -109,9 +108,9 @@ console.log("result",result)
   get code() { return this.addForm.get('code'); }
 
   onSubmit() {
-    debugger
+    
     this.leaveComponentService.add(this.addForm.value).subscribe((result: any) => {
-      debugger
+      
       if (result.id === -1) {
         this.toastr.showErrorMessage('Leave component already exists!');
       } else {
@@ -179,7 +178,7 @@ console.log("result",result)
     })
   }
   onSubmit2() {
-debugger
+
     this.addForm2.patchValue({
       leaveComponentId:this.leavecomponentid
     })

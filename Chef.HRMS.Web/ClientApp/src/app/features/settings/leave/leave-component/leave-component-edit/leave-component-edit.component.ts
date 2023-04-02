@@ -57,7 +57,6 @@ export class LeaveComponentEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-debugger
     this.genderTypeKeys = Object.keys(this.genderTypes).filter(Number).map(Number);
     this.maritalStatusTypeKeys = Object.keys(this.maritalStatusTypes).filter(Number).map(Number);
     this.eligiblitybases = Object.keys(this.eligiblitybase).filter(Number).map(Number);
@@ -77,6 +76,7 @@ debugger
     console.log("this.leaveComponent",this.leaveComponent)
     // console.log("this.leaveComponent",this.leaveComponent)
     console.log("this.editForm2.value",this.editForm.value)
+    this.getLeavetype();
   }
   getdeductiontype(){
     this.leaveComponentService.getbenefitcategory().subscribe((result: any) => {
@@ -87,13 +87,13 @@ debugger
   
   }
   getconfiguredata(){
-    debugger
+    
     this.leaveeligiblityservice.get(this.leaveComponent.id).subscribe(res => {
 
-      debugger
+      
       let result =res[0]
       this.editForm2.patchValue(result);
-      console.log("this.editForm2.value",this.editForm2.value)
+     
     })
   }
   toggleGender(checked) {
@@ -180,13 +180,13 @@ debugger
       leaveComponentId:[null]
     })
   }
-  getLeavetype(e){
-    debugger
-    console.log(this.editForm.value.benefitCategoryId)
+  getLeavetype(){
+    
+  
     let categoryid=this.editForm.value.benefitCategoryId
     this.leaveComponentService.getbenefittype(categoryid).subscribe((result: any) => {
       this.leaves =result;
-  console.log("result",result)
+
   
   })
   }

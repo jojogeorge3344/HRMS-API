@@ -4,7 +4,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<div class="modal-body">
+<div class="modal-body" style="max-height:94vh">
     <ngb-tabset>
         <ngb-tab title="Basic">
 
@@ -26,7 +26,7 @@
                             <label class="col-form-label" for="benefitCategoryId">Deduction Type<span
                                     class="required">*</span></label>
                             <select class="form-control" formControlName="benefitCategoryId"
-                                (change)="getLeavetype($event)">
+                                (change)="getLeavetype()">
                                 <option [ngValue]="null" disabled>Select</option>
                                 <option *ngFor="let key of dedecutionarray" [ngValue]='key.id'>
                                     {{key.name}}
@@ -160,15 +160,13 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group form-input-line">
-                                <label class="col-form-label" for="eligibleDays">Eligible days<span
-                                        class="required">*</span></label>
-                                <input type="text" class="form-control" formControlName="eligibleDays">
+                                <label class="col-form-label" for="eligibleDays">Eligible days</label>
+                                <input type="number" class="form-control" formControlName="eligibleDays">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="eligibilityBase">Eligibility base<span
-                                        class="required">*</span></label>
+                                <label class="col-form-label" for="eligibilityBase">Eligibility base</label>
                                 <select class="form-control" formControlName="eligibilityBase">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of eligiblitybases" [ngValue]='key'>
@@ -192,8 +190,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="includeLOPDays">Include LOP days<span
-                                        class="required">*</span></label>
+                                <label class="col-form-label" for="includeLOPDays">Include LOP days</label>
                                 <select class="form-control" formControlName="includeLOPDays">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of lopday" [ngValue]='key'>
@@ -204,8 +201,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="leaveType">Leave type<span
-                                        class="required">*</span></label>
+                                <label class="col-form-label" for="leaveType">Leave type</label>
                                 <select class="form-control" formControlName="leaveType">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of leavetypearray" [ngValue]='key'>
@@ -216,8 +212,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="leaveCutOffType">Leavecutoff<span
-                                        class="required">*</span></label>
+                                <label class="col-form-label" for="leaveCutOffType">Leavecutoff</label>
                                 <select class="form-control" formControlName="leaveCutOffType">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of leavecutoff" [ngValue]='key'>
@@ -230,15 +225,13 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group form-input-line">
-                                <label class="col-form-label" for="maxLeaveAtATime">MaxLeaveAt aTime<span
-                                        class="required">*</span></label>
-                                <input type="text" class="form-control" formControlName="maxLeaveAtATime">
+                                <label class="col-form-label" for="maxLeaveAtATime">MaxLeaveAt aTime</label>
+                                <input type="number" class="form-control" formControlName="maxLeaveAtATime">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="accrueLeaveAmt">Accrue Leave Amount<span
-                                        class="required">*</span></label>
+                                <label class="col-form-label" for="accrueLeaveAmt">Accrue Leave Amount</label>
                                 <select class="form-control" formControlName="accrueLeaveAmt">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option [ngValue]=true>
@@ -252,17 +245,15 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group form-input-line">
-                                <label class="col-form-label" for="cfLimitDays">C/F Limit Days<span
-                                        class="required">*</span></label>
-                                <input type="text" class="form-control" formControlName="cfLimitDays">
+                                <label class="col-form-label" for="cfLimitDays">C/F Limit Days</label>
+                                <input type="number" class="form-control" formControlName="cfLimitDays">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="encash">Encash<span
-                                        class="required">*</span></label>
+                                <label class="col-form-label" for="encash">Encash</label>
                                 <select class="form-control" formControlName="encash">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option [ngValue]=true>
@@ -276,24 +267,21 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group form-input-line">
-                                <label class="col-form-label" for="encashBFCode">Encash BF code<span
-                                        class="required">*</span></label>
-                                <input type="text" class="form-control" formControlName="encashBFCode">
+                                <label class="col-form-label" for="encashBFCode">Encash BF code</label>
+                                <input type="number" class="form-control" formControlName="encashBFCode">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group form-input-line">
-                                <label class="col-form-label" for="encashLimitDays">Encash Limit Days<span
-                                        class="required">*</span></label>
-                                <input type="text" class="form-control" formControlName="encashLimitDays">
+                                <label class="col-form-label" for="encashLimitDays">Encash Limit Days</label>
+                                <input type="number" class="form-control" formControlName="encashLimitDays">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="carryForward">Carry Forward<span
-                                        class="required">*</span></label>
+                                <label class="col-form-label" for="carryForward">Carry Forward</label>
                                 <select class="form-control" formControlName="carryForward">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option [ngValue]=true>
@@ -307,8 +295,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-input-line">
-                                <label class="col-form-label" for="vacationSalaryFormula">Vacation Salary Formula<span
-                                        class="required">*</span></label>
+                                <label class="col-form-label" for="vacationSalaryFormula">Vacation Salary Formula</label>
                                 <input type="text" class="form-control" formControlName="vacationSalaryFormula">
                             </div>
                         </div>
