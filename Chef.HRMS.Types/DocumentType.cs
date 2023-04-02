@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Types
 {
-    public enum DocumentTypeList
+    public enum DocumentType
     {
         LabourCard = 1,
         EmirateId = 2,

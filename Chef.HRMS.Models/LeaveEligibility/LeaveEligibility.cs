@@ -20,12 +20,12 @@ namespace Chef.HRMS.Models
         public int EncashLimitDays { get; set; }
         public int CFLimitDays { get; set; }
         public BaseType BaseType { get; set; }
-        public bool IncludeLOPDays { get; set; }
+        public bool IsIncludeLOPDays { get; set; }
         public LeaveType LeaveType { get; set; }
         public LeaveCutOffType LeaveCutOffType { get; set; }
-        public bool AccrueLeaveAmt { get; set; }
-        public bool Encash { get; set; }
-        public bool CarryForward { get; set; }
+        public bool IsAccruedLeaveAmount { get; set; }
+        public bool IsEncash { get; set; }
+        public bool IsCarryForward { get; set; }
         public int LeaveComponentId { get; set; }
     }
 }

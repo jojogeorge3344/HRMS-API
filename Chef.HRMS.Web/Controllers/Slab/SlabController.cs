@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.Slab;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,74 +7,68 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-
 namespace Chef.HRMS.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserVariableController : ControllerBase
+    public class SlabController : ControllerBase
     {
-        private readonly IUserVariableService userVariableService;
+        private readonly ISlabService slabService;
 
-        public UserVariableController(IUserVariableService userVariableService)
+        public SlabController(ISlabService slabService)
         {
-            this.userVariableService = userVariableService;
+            this.slabService = slabService;
         }
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(UserVariable uservariables)
+        public async Task<IActionResult> Insert(Slab slab)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userVariableDetails = await userVariableService.InsertAsync(uservariables);
+            var slabdetails = await slabService.InsertAsync(slab);
 
-            return CreatedAtAction(nameof(Insert), userVariableDetails);
+            return CreatedAtAction(nameof(Insert), slabdetails);
         }
         [HttpPost("Update")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(UserVariable userVariable)
+        public async Task<ActionResult<int>> Update(Slab slab)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await userVariableService.UpdateAsync(userVariable);
+            var result = await slabService.UpdateAsync(slab);
 
             return Ok(result);
         }
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<UserVariable>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Slab>>> GetAll()
         {
-            var religionList = await userVariableService.GetAllAsync();
+            var slablist = await slabService.GetAllAsync();
 
-            return Ok(religionList);
+            return Ok(slablist);
         }
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult<int>> Delete(int id)
         {
-            var religiondelete = await userVariableService.GetAsync(id);
+            var slabdetails = await slabService.GetAsync(id);
 
-            if (religiondelete == null)
+            if (slabdetails == null)
             {
                 return NotFound();
             }
 
-            var result = await userVariableService.DeleteAsync(id);
+            var result = await slabService.DeleteAsync(id);
 
             return Ok(result);
-        }
-        [HttpGet("IsUserVariableExist/{code}")]
-        public async Task<bool> IsUserVariableExist(string code)
-        {
-            return await userVariableService.IsUserVariableExist(code);
         }
     }
 }

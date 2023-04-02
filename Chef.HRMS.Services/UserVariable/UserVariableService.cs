@@ -16,5 +16,10 @@ namespace Chef.HRMS.Services
         {
             this.userVariableRepository = userVariableRepository;
         }
+
+        public async Task<bool> IsUserVariableExist(string code)
+        {
+            return await userVariableRepository.IsUserVariableExist(code);
+        }
     }
 }
