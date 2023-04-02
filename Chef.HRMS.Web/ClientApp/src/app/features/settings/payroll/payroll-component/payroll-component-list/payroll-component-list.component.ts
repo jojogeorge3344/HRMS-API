@@ -38,8 +38,11 @@ export class PayrollComponentListComponent implements OnInit {
   }
 
   getPayrollComponents() {
+    debugger
     this.payrollComponentService.getAll().subscribe(result => {
       this.payrollComponents = result;
+      console.log('comp',this.payrollComponents);
+      
       this.payrollComponentNames = this.payrollComponents.map(a => a.name.toLowerCase());
       this.payrollComponentCodes = this.payrollComponents.map(a => a.shortCode.toLowerCase());
     },
@@ -51,7 +54,10 @@ export class PayrollComponentListComponent implements OnInit {
 
   getAssignedPayrollComponents() {
     this.payrollComponentService.getAllAssignedPayrollComponents().subscribe(res => {
+
       this.assignedPayrollComponents = res;
+      console.log('comp',this.assignedPayrollComponents);
+
     },
     error => {
       console.error(error);
@@ -63,6 +69,7 @@ export class PayrollComponentListComponent implements OnInit {
   }
 
   getPayrollComponentTypeName(payrollComponentTypeId) {
+  
     return Object.keys(this.payrollComponentTypes).find(key => this.payrollComponentTypes[key] === payrollComponentTypeId.toString());
   }
 

@@ -14,8 +14,6 @@ import { result } from 'lodash';
   templateUrl: './payroll-component-create.component.html'
 })
 export class PayrollComponentCreateComponent implements OnInit {
-
-
   addForm: FormGroup;
   currentUserId: number;
   payrollComponentTypeKeys: number[];
@@ -46,6 +44,7 @@ export class PayrollComponentCreateComponent implements OnInit {
   get code() { return this.addForm.get('shortCode'); }
 
   onSubmit() {
+  
     const payrollComponentForm = this.addForm.value;
     payrollComponentForm.payrollComponentType = parseInt(payrollComponentForm.payrollComponentType, 10);
 
