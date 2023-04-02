@@ -69,7 +69,7 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.addForm2 = this.createFormGroup2();
     this.getdeductiontype();
-    this.getLeavetype();
+   
   }
 getdeductiontype(){
   this.leaveComponentService.getbenefitcategory().subscribe((result: any) => {
