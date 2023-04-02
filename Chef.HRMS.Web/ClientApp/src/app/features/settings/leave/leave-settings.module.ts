@@ -4,6 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LeaveSettingsRoutingModule } from './leave-settings-routing.module';
 import { LeaveSettingsContainerComponent } from "./leave-settings-container/leave-settings-container.component";
+import { NgbNavModule, NgbNavItem } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { LeaveSettingsContainerComponent } from "./leave-settings-container/leav
   imports: [
     CommonModule,
     NgbModule,
-    LeaveSettingsRoutingModule
+    LeaveSettingsRoutingModule,
+    NgbNavModule
   ]
 })
 export class LeaveSettingsModule { }

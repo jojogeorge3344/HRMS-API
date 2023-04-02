@@ -43,4 +43,11 @@ export class LeaveComponentService {
   delete(id) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
+  getbenefitcategory() {
+    return this.http.get<number[]>(this.baseUrl + 'GetBenefitCategory').pipe(map(response => { return response; }));
+
+  }
+  getbenefittype(id) {
+    return this.http.get<LeaveComponent>(this.baseUrl + 'GetBenefitType/' + id).pipe(map(response => { return response; }));
+  }
 }
