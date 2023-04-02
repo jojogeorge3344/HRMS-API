@@ -15,8 +15,6 @@ import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { DocumentType } from "src/app/models/common/types/documentType";
-import { result } from "lodash";
-
 @Component({
   selector: "hrms-employee-identity-documents-edit",
   templateUrl: "./employee-identity-documents-edit.component.html",
@@ -42,6 +40,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   maxDate;
   documentDetails;
   identityDetails;
+  isDuplicate: boolean = false;
 
   constructor(
     private identityDetailsService: EmployeeIdentityDetailsService,
@@ -183,6 +182,18 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     });
   }
 
+  checkDocumentNumber(documentNumber: string) {
+    this.identityDetailsService
+      .isDocumentCodeExist(documentNumber)
+      .subscribe((result) => {
+        if (result) {
+          this.isDuplicate = true;
+        } else {
+          this.isDuplicate = false;
+        }
+      });
+  }
+
   onSubmit() {
     if (this.editForm.get("document").value === null) {
       (this.editForm.get("document") as FormGroup).controls.name.setErrors({
@@ -190,7 +201,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
       });
       return;
     }
-    if (this.editForm.invalid) {
+    if (this.editForm.invalid || this.isDuplicate) {
       console.log(this.editForm);
 
       return;

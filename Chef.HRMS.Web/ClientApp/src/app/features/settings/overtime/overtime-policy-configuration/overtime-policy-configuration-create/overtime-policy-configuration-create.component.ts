@@ -10,7 +10,9 @@ import { WorkFromHomePeriodType } from '../../../../../models/common/types/workf
 import { OvertimePolicyCalculationComponent } from '../overtime-policy-calculation/overtime-policy-calculation.component';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-
+import { HolidayOvertime9 } from 'src/app/models/common/types/holidayOvertime';
+import { NormalOverTime8 } from 'src/app/models/common/types/normalOvertime';
+import { SpecialOvertime10 } from 'src/app/models/common/types/specialOvertime';
 
 @Component({
   selector: 'hrms-overtime-policy-configuration-create',
@@ -23,6 +25,12 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   overtimePolicy: OvertimePolicy;
   periodTypes = WorkFromHomePeriodType;
   periodTypeKeys: number[];
+  holidayOvertime=HolidayOvertime9;
+  holidayOvertimeKeys:number[]
+  normalOverTime=NormalOverTime8;
+  normalOverTimeKeys:number[]
+  specialOvertime=SpecialOvertime10
+  specialOvertimeKeys:number[]
 
   constructor(
     private router: Router,
@@ -38,6 +46,9 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.periodTypeKeys = Object.keys(this.periodTypes).filter(Number).map(Number);
 
+    this.normalOverTimeKeys = Object.keys(this.normalOverTime).filter(Number).map(Number);
+    this.holidayOvertimeKeys = Object.keys(this.holidayOvertime).filter(Number).map(Number);
+    this.specialOvertimeKeys = Object.keys(this.specialOvertime).filter(Number).map(Number);
     this.route.params.subscribe(params => {
       this.getOvertimePolicy(params.overtimePolicyId);
     });
@@ -144,6 +155,10 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
+      normalOverTime8:[0],
+      holidayOvertime9:[0],
+      specialOvertime10:[0],
+
       roundOffType: [{ value: 1, disabled: true }],
       noticeDays: [{ value: null, disabled: true }, [
         Validators.required,

@@ -17,4 +17,7 @@ export interface OvertimePolicyConfiguration {
     specialFormula: string;
     minimumOverTimeHour: number;
     timeBeyondShiftHour: number;
+    normalOverTime8:number;
+    holidayOvertime9:number;
+    specialOvertime10:number;
 }

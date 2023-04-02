@@ -1,0 +1,112 @@
+<form [formGroup]="viewForm" id="educationDetailsForm">
+  <div class="modal-header">
+    <h4 class="modal-title">View Educational Document</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="degree">Degree</label>
+        <input
+          type="text"
+          readonly
+          class="form-control"
+          id="degree"
+          name="degree"
+          formControlName="degree"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="specialization">Branch/Specialization</label>
+        <input
+          type="text"
+          readonly
+          class="form-control"
+          id="specialization"
+          name="specialization"
+          formControlName="specialization"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="yearOfJoining">Year Of Joining</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="date"
+            readonly
+            formControlName="yearOfJoining"
+          />
+        </div>
+      </div>
+      <div class="form-group col-sm">
+        <label for="yearOfCompletion">Year Of Completion</label>
+
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="date"
+            readonly
+            formControlName="yearOfCompletion"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <label for="percentage">Percentage</label>
+        <input
+          type="number"
+          readonly
+          class="form-control"
+          id="percentage"
+          name="percentage"
+          formControlName="percentage"
+        />
+      </div>
+      <div class="form-group col-sm">
+        <label for="university">University</label>
+        <input
+          type="text"
+          readonly
+          class="form-control"
+          id="university"
+          name="university"
+          formControlName="university"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm">
+        <div
+          formGroupName="document"
+          [ngClass]="{ 'text-primary': !isDisabled, disabled: isDisabled }"
+        >
+          <label>
+            <input
+              type="file"
+              [disabled]="isDisabled"
+              multiple
+              style="display: none"
+              accept="application/msword, application/pdf, image/*"
+            />
+
+            <i class="fal fa-paperclip"></i>
+            <a class="link"> Attachment</a>
+          </label>
+        </div>
+        <div class="color-fusion-300 font-weight-bold" id="file-name">
+          {{ fileName }}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -13,14 +13,16 @@ import { EmployeeIdentityDetails } from "../employee-identity-details.model";
 import { EmployeeIdentityDetailsService } from "../employee-identity-details.service";
 import { EmployeeIdentityDocumentsCreateComponent } from "../employee-identity-documents-create/employee-identity-documents-create.component";
 import { EmployeeIdentityDocumentsEditComponent } from "../employee-identity-documents-edit/employee-identity-documents-edit.component";
+import { EmployeeIdentityDocumentsViewComponent } from "../employee-identity-documents-view/employee-identity-documents-view.component";
 import { DocumentViewModalComponent } from "@shared/document-view-modal/document-view-modal.component";
 
 @Component({
-  selector: "hrms-employee-identity-documents-container",
-  templateUrl: "./employee-identity-documents-container.component.html",
+  selector: "hrms-employee-identity-documents-list",
+  templateUrl: "./employee-identity-documents-list.component.html",
 })
-export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
+export class EmployeeIdentityDocumentsListComponent implements OnInit {
   @Input() employeeId: number;
+  @Input() isView: boolean;
 
   identityDetails: EmployeeIdentityDetails[];
   documentType = enumSelector(DocumentType);
@@ -78,7 +80,7 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
     });
   }
 
-  openEditEducationalDetails(identityDetails: EmployeeIdentityDetails) {
+  openEditIdentityDetails(identityDetails: EmployeeIdentityDetails) {
     const modalRef = this.modalService.open(
       EmployeeIdentityDocumentsEditComponent,
       { size: "lg", centered: true, backdrop: "static" }
@@ -93,7 +95,16 @@ export class EmployeeIdentityDocumentsContainerComponent implements OnInit {
     });
   }
 
-  deleteEducationalDetails(identityDetails) {
+  openViewIdentityDetails(identityDetails: EmployeeIdentityDetails) {
+    const modalRef = this.modalService.open(
+      EmployeeIdentityDocumentsViewComponent,
+      { size: "lg", centered: true, backdrop: "static" }
+    );
+
+    modalRef.componentInstance.identityDetails = identityDetails;
+  }
+
+  deleteIdentityDetails(identityDetails) {
     const documentPath = new FormData();
     documentPath.append("path", identityDetails.path);
 

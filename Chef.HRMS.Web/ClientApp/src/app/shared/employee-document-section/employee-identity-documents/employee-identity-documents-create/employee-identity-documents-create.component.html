@@ -18,7 +18,11 @@
           type="text"
           class="form-control"
           formControlName="documentNumber"
+          (input)="checkDocumentNumber($event.target.value)"
         />
+        <div *ngIf="isDuplicate" class="invalid-feedback d-block">
+          Document number already exists.
+        </div>
       </div>
       <div class="form-group form-input-line col-sm">
         <label class="col-form-label" for="documentTypeList"

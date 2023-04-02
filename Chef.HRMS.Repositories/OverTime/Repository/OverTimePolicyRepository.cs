@@ -52,6 +52,13 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<OverTimePolicy>(sql);
         }
 
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id IN(8,9,10)";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+
         public async Task<int> UpdateOverTimePolicy(int id)
         {
                 var sql = @"UPDATE hrms.overtimepolicy
