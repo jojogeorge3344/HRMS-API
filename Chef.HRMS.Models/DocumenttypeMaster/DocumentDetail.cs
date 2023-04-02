@@ -18,7 +18,7 @@ namespace Chef.HRMS.Models
         public bool IsExpired { get; set; }
         public int ExpiryBeforeDays { get; set; }
         public int DisplayOrder { get; set; }
-        public DocumentTypeList DocumentTypeList { get; set; }
+        public Types.DocumentType DocumentType { get; set; }
         public DocumentReturnType DocumentReturnType { get; set; }
         public DocumentUpdateType DocumentUpdateType { get; set; }
         public bool Status { get; set; }

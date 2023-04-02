@@ -23,6 +23,6 @@ namespace Chef.HRMS.Models
         public string RefNum { get; set; }
         public int EmployeeId { get; set; }
         public int DocumentId { get; set; }
-        public DocumentTypeList DocumentTypeList { get; set; }
+        public DocumentType DocumentTypeList { get; set; }
     }
 }

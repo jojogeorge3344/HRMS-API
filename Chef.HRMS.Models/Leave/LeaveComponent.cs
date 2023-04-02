@@ -67,7 +67,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds show leave description status
         /// </summary>
-        public bool ShowLeaveDescription { get; set; }
+        public bool IsShowLeaveDescription { get; set; }
         public int EligibleDays { get; set; }
         public int EligibilityBase { get; set; }
         public int MaxLeaveAtATime { get; set; }

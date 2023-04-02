@@ -8,7 +8,7 @@ namespace Chef.HRMS.Types
 {
     public enum LeaveType
     {
-        ACRUED = 1,
-        FIXED = 2
+        Accrued = 1,
+        Fixed = 2
     }
 }
