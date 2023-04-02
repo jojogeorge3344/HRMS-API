@@ -1,40 +1,129 @@
 <form [formGroup]="addForm" (validSubmit)="onSubmit()">
-    <div class="modal-header">
-        <h4 class="modal-title">Create Payroll Component</h4>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
+  <div class="modal-header">
+    <h4 class="modal-title">Create Payroll Component</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex flex-wrap align-items-baseline">
+      <div class="form-group col-6">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" formControlName="name" />
+      </div>
 
-        <div class="form-group form-input-line col-12">
-            <label class="col-form-label" for="name">Name</label>
-            <input type="text" class="form-control" formControlName="name">
-        </div>
+      <div class="form-group col-6">
+        <label for="shortCode">Short Code</label>
+        <input type="text" class="form-control" formControlName="shortCode" />
+      </div>
 
-        <div class="form-group form-input-line col-12">
-            <label class="col-form-label" for="shortCode">Short Code</label>
-            <input type="text" class="form-control" formControlName="shortCode">
-        </div>
+      <div class="form-group col-6">
+        <label for="payrollComponentType"> Payroll Component Type </label>
+        <select class="form-control" formControlName="payrollComponentType">
+          <option [ngValue]="null" disabled>
+            Select a Payroll Component Type
+          </option>
+          <option
+            *ngFor="let key of payrollComponentTypeKeys"
+            [ngValue]="key.id"
+          >
+            {{ key.name }}
+          </option>
+        </select>
+      </div>
 
-        <div class="form-group form-input-line col-12">
-            <label class="col-form-label" for="payrollComponentType">Payroll Component Type </label>
-            <select class="form-control" formControlName="payrollComponentType">
-                <option [ngValue]='null' disabled>Select a Payroll Component Type</option>
-                <option *ngFor="let key of payrollComponentTypeKeys" [ngValue]='key'>
-                    {{payrollComponentTypes[key]}}
-                </option>
-            </select>`
-        </div>
-        <div class="form-group form-textarea-line col-12">
-            <label class="col-form-label" for="description">Description</label>
-            <textarea type="text" rows="3" class="form-control" id="description" formControlName="description">
-            </textarea>
-        </div>                                      
+      <div class="form-group col-6">
+        <label for="payHeadType">Pay Head Type</label>
+        <select class="form-control" formControlName="payHeadType">
+          <option [ngValue]="null" disabled>Select a Pay Head Type</option>
+          <option *ngFor="let key of payHeadTypeKeys" [ngValue]="key">
+            {{ payHeadTypes[key] }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label for="payHeadContractValueType"> Pay Head Contract Value </label>
+        <select class="form-control" formControlName="payHeadContractValueType">
+          <option [ngValue]="null" disabled>
+            Select Pay Head Contract Value
+          </option>
+          <option *ngFor="let key of payContractTypeKeys" [ngValue]="key">
+            {{ payContractTypes[key] }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label for="payHeadBaseUnitType">Pay Head Base Unit</label>
+        <select class="form-control" formControlName="payHeadBaseUnitType">
+          <option [ngValue]="null" disabled>Select Pay Head Base Unit</option>
+          <option *ngFor="let key of payBaseUnitTypeKeys" [ngValue]="key">
+            {{ payBaseUnitTypes[key] }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label for="minimumLimit">Minimum Limit</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="minimumLimit"
+        />
+      </div>
+      <div class="form-group col-6">
+        <label for="maximumLimit">Maximum Limit</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="maximumLimit"
+        />
+      </div>
+      <div class="form-group col-6">
+        <label for="includeInPaySlipType">Include In Pay Slip</label>
+        <select class="form-control" formControlName="includeInPaySlipType">
+          <option [ngValue]="null" disabled>Select</option>
+          <option *ngFor="let key of includePaySlipTypeKeys" [ngValue]="key">
+            {{ includePaySlipTypes[key] }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label for="roundingType">Rounding</label>
+        <select class="form-control" formControlName="roundingType">
+          <option [ngValue]="null" disabled>Select</option>
+          <option *ngFor="let key of roundingTypeKeys" [ngValue]="key">
+            {{ roundingTypes[key] }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group col-12">
+        <label for="description">Description</label>
+        <textarea
+          type="text"
+          rows="3"
+          class="form-control"
+          id="description"
+          formControlName="description"
+        >
+        </textarea>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
-                class="mr-1 fal fa-window-close"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-warning"
+      (click)="activeModal.close('Close click')"
+    >
+      <i class="mr-1 fal fa-window-close"></i> Cancel
+    </button>
+    <button type="submit" class="btn btn-success">
+      <i class="mr-1 fal fa-save"></i> Save
+    </button>
+  </div>
 </form>

@@ -10,6 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public interface IUserVariableRepository : IAsyncService<Models.UserVariable>
     {
+        Task<bool> IsUserVariableExist(string code);
 
     }
 }

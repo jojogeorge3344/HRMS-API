@@ -46,6 +46,10 @@ namespace Chef.HRMS.Services
             return await overTimePolicyRepository.GetAsync(id);
         }
 
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType()
+        {
+            return await overTimePolicyRepository.GetBenefitType();
+        }
 
         public async Task<int> InsertAsync(OverTimePolicy overTimePolicy)
         {

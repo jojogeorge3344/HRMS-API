@@ -1,0 +1,122 @@
+<form [formGroup]="viewForm" id="identityDetailsForm">
+  <div class="modal-header">
+    <h4 class="modal-title">View Identity Documents</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex flex-wrap align-items-baseline">
+      <div class="form-group col-6">
+        <label for="documentNumber">Document Number</label>
+        <input
+          type="text"
+          readonly
+          class="form-control"
+          formControlName="documentNumber"
+        />
+      </div>
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="documentTypeList">
+          Document Type
+        </label>
+        <select
+          class="form-control"
+          formControlName="documentTypeList"
+          disabled
+        >
+          <option Value="" disabled>Select Document Type</option>
+          <option *ngFor="let key of documentTypeKeys" [ngValue]="key">
+            {{ documentType[key] }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label for="issueDate">Date of Issue</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="date"
+            formControlName="issueDate"
+            readonly
+          />
+        </div>
+      </div>
+      <div class="form-group col-6">
+        <label for="placeOfIssue">Place of Issue</label>
+        <input
+          this.value="this.value.toUpperCase()"
+          type="text"
+          readonly
+          class="form-control"
+          formControlName="placeOfIssue"
+        />
+      </div>
+      <div class="form-group col-6">
+        <label for="expiryDate">Date of Expiry</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="date"
+            readonly
+            formControlName="expiryDate"
+          />
+        </div>
+      </div>
+      <div class="form-group col-6">
+        <label for="refNum">Ref No</label>
+        <input
+          type="text"
+          readonly
+          class="form-control"
+          formControlName="refNum"
+        />
+      </div>
+      <div class="form-group col-6">
+        <label for="remarks">Remarks</label>
+        <textarea
+          rows="4"
+          type="text"
+          class="form-control"
+          formControlName="remarks"
+          readonly
+        ></textarea>
+      </div>
+      <div class="form-group form-input-line col-6">
+        <label class="col-form-label" for="active">Status</label>
+        <select class="form-control" formControlName="active" disabled>
+          <option value="" disabled>Select Status</option>
+          <option value="true">Active</option>
+          <option value="false">Inactive</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group col-6">
+      <div
+        formGroupName="document"
+        [ngClass]="{ 'text-primary': !isDisabled, disabled: isDisabled }"
+      >
+        <label>
+          <input
+            type="file"
+            [disabled]="isDisabled"
+            multiple
+            style="display: none"
+            accept="application/msword, application/pdf, image/*"
+          />
+          <i class="fal fa-paperclip"></i>
+          <a class="link"> Attachment</a>
+        </label>
+      </div>
+      <div class="color-fusion-300 font-weight-bold" id="file-name">
+        {{ fileName }}
+      </div>
+      <div class="form-group col-6"></div>
+    </div>
+  </div>
+</form>

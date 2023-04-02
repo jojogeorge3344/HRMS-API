@@ -1,0 +1,144 @@
+<form [formGroup]="editForm" (submit)="onSubmit()">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Previous Employment</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="companyName">Company Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="companyName"
+          />
+        </div>
+        <div class="form-group">
+          <label for="jobTitle">Job Title</label>
+          <input type="text" class="form-control" formControlName="jobTitle" />
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" class="form-control" formControlName="location" />
+        </div>
+      </div>
+
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="dateOfJoining">Date of Joining</label>
+          <div class="input-group">
+            <input
+              class="form-control"
+              ngbDatepicker
+              #dateOfJoining="ngbDatepicker"
+              formControlName="dateOfJoining"
+              [minDate]="{ year: 1900, month: 1, day: 1 }"
+              [maxDate]="maxDate"
+              (ngModelChange)="setMinDate()"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary fal fa-calendar-alt"
+                (click)="dateOfJoining.toggle()"
+                type="button"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dateOfRelieving">Date of Relieving</label>
+          <div class="input-group">
+            <input
+              class="form-control"
+              ngbDatepicker
+              #dateOfRelieving="ngbDatepicker"
+              formControlName="dateOfRelieving"
+              [minDate]="minDate"
+              (ngModelChange)="setMaxDate()"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary fal fa-calendar-alt"
+                (click)="dateOfRelieving.toggle()"
+                type="button"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm">
+          <div
+            formGroupName="document"
+            [ngClass]="{ 'text-primary': !isDisabled, disabled: isDisabled }"
+          >
+            <label>
+              <input
+                type="file"
+                [disabled]="isDisabled"
+                multiple
+                style="display: none"
+                accept="application/msword, application/pdf, image/*"
+                (change)="handleFileInput($event.target.files)"
+              />
+              <div
+                *ngIf="
+                  editForm.controls.document['controls'].size.errors?.filesize
+                "
+                class="invalid-feedback d-block"
+              >
+                File size should be less than 2Mb
+              </div>
+              <div
+                *ngIf="
+                  editForm.controls.document['controls'].extension.errors
+                    ?.filetype
+                "
+                class="invalid-feedback d-block"
+              >
+                Please upload file having extensions .jpeg/.jpg/.png/.pdf only.
+              </div>
+              <div
+                *ngIf="
+                  editForm.controls.document['controls'].name.errors?.filename
+                "
+                class="invalid-feedback d-block"
+              >
+                Please upload a file.
+              </div>
+              <i class="fal fa-paperclip"></i>
+              <a class="link">Add Attachment</a>
+            </label>
+          </div>
+          <div class="upload-file" id="file-name">
+            {{ fileName }}
+            <i
+              class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl"
+              *ngIf="fileName"
+              (click)="removeFile()"
+            ></i>
+          </div>
+          <small class="upload-size"> Max file size allowed is 2MB </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-warning"
+      (click)="activeModal.close('Close click')"
+    >
+      <i class="mr-1 fal fa-window-close"></i> Cancel
+    </button>
+    <button type="submit" class="btn btn-success">
+      <i class="mr-1 fal fa-save"></i> Save
+    </button>
+  </div>
+</form>

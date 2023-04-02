@@ -1,8 +1,12 @@
 ﻿using Chef.Common.Core.Extensions;
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Chef.HRMS.Types;
 using Dapper;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -31,17 +35,20 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollComponent>> GetAllOrderByPayrollComponent()
         {
-                var sql = "SELECT * FROM  hrms.payrollcomponent where isarchived=false order by payrollcomponenttype";
+                var sql = @"SELECT pc.*,bt.name AS typename FROM  hrms.payrollcomponent pc
+                            INNER JOIN hrms.benefittypes bt
+                            ON pc.payrollcomponenttype = bt.id
+                            WHERE pc.isarchived = false ORDER BY payrollcomponenttype";
 
                 return await Connection.QueryAsync<PayrollComponent>(sql);
         }
 
-        public async Task<IEnumerable<PayrollComponentType>> GetComponentType()
+        public async Task<IEnumerable<BenefitTypes>> GetComponentType()
         {
             return await QueryFactory
-          .Query<PayrollComponentType>()
+          .Query<BenefitTypes>()
           .WhereNotArchived()
-          .GetAsync<PayrollComponentType>();
+          .GetAsync<BenefitTypes>();
         }
     }
 }

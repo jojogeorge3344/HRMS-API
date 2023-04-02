@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -106,6 +107,22 @@ namespace Chef.HRMS.Web.Controllers
             var result = await leaveComponentService.UpdateAsync(leaveComponent);
 
             return Ok(result);
+        }
+
+        [HttpGet("GetBenefitCategory")]
+        public async Task<ActionResult<IEnumerable<BenefitCategory>>> GetBenefitCategory()
+        {
+            var benefitlist = await leaveComponentService.GetBenefitCategory();
+
+            return Ok(benefitlist);
+        }
+
+        [HttpGet("GetBenefitType")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType(int categoryid)
+        {
+            var benefitlist = await leaveComponentService.GetBenefitType(categoryid);
+
+            return Ok(benefitlist);
         }
     }
 }
