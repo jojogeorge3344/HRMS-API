@@ -136,7 +136,6 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
           (result: any) => {
             this.toastr.showSuccessMessage("Document Added successfully");
             this.activeModal.close("submit");
-            window.location.reload();
           },
           (error) => {
             console.error(error);

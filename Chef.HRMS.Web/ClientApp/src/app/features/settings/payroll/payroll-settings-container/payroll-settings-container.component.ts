@@ -14,7 +14,9 @@ export class PayrollSettingsContainerComponent implements OnInit {
     { title: 'Payroll Structure', fragment: 'payroll-structure' },
     { title: 'Payroll Calculation', fragment: 'payroll-calculation' },
     { title: 'Payslip Configuration', fragment: 'payslip-configuration' },
-    { title: 'LOP Calculation', fragment: 'payroll-lop-settings' }
+    { title: 'LOP Calculation', fragment: 'payroll-lop-settings' },
+    { title: 'Variables', fragment: 'variable' },
+    //{ title: 'System Variable', fragment: 'system-variable' }
   ];
   
   constructor(public route: ActivatedRoute) { }
