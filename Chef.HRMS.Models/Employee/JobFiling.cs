@@ -78,5 +78,7 @@ namespace Chef.HRMS.Models
         /// </summary>
         public PaymentMode PaymentMode { get; set; }
         public int EOSId { get; set; }
+        public string BFCode { get; set; }
+        public string BFName { get; set; }
     }
 }

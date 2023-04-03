@@ -37,7 +37,7 @@ namespace Chef.HRMS.Repositories
                                    lc.restrictedtogender, 
                                    lc.isrestrictedtomaritalstatus, 
                                    lc.restrictedtomaritalstatus, 
-                                   lc.showleavedescription, 
+                                   lc.isshowleavedescription, 
                                    e.gender, 
                                    e.maritalstatus 
                             FROM   hrms.HRMSEmployee e 
@@ -70,7 +70,7 @@ namespace Chef.HRMS.Repositories
                                       lc.restrictedtogender, 
                                       lc.isrestrictedtomaritalstatus, 
                                       lc.restrictedtomaritalstatus, 
-                                      lc.showleavedescription, 
+                                      lc.isshowleavedescription, 
                                       e.gender, 
                                       e.maritalstatus 
                             ORDER  BY lc.NAME ";
