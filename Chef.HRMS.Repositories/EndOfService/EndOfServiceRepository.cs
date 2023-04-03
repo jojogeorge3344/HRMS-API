@@ -13,10 +13,17 @@ namespace Chef.HRMS.Repositories
         {
 
         }
-        public async Task<IEnumerable<BenefitTypes>> GetComponentType()
+        public async Task<IEnumerable<BenefitTypes>> GetEmployeeEOSAccrualType()
         {
             var sql = @"SELECT * FROM hrms.benefittypes
-                        WHERE isarchived=false AND id IN (13,30)";
+                        WHERE isarchived=false AND id =30";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+        public async Task<IEnumerable<BenefitTypes>> GetEmployeeEOSpaymentType()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id =13";
 
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }

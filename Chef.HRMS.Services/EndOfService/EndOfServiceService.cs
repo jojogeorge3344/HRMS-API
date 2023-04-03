@@ -17,9 +17,14 @@ namespace Chef.HRMS.Services
             this.endOfServiceRepository = endOfServiceRepository;
         }
 
-        public async Task<IEnumerable<BenefitTypes>> GetComponentType()
+        public async Task<IEnumerable<BenefitTypes>> GetEmployeeEOSAccrualType()
         {
-            return await endOfServiceRepository.GetComponentType();
+            return await endOfServiceRepository.GetEmployeeEOSAccrualType();
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetEmployeeEOSpaymentType()
+        {
+            return await endOfServiceRepository.GetEmployeeEOSpaymentType();
         }
     }
 }
