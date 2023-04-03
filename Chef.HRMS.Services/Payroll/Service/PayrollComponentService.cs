@@ -59,5 +59,10 @@ namespace Chef.HRMS.Services
         {
             return await payrollComponentRepository.GetComponentType();
         }
+
+        public async Task<bool> IsPayrollComponentCodeExist(string code)
+        {
+            return await payrollComponentRepository.IsPayrollComponentCodeExist(code);
+        }
     }
 }

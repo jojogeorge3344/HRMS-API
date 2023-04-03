@@ -11,5 +11,6 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<PayrollComponent>> GetAllPayrollComponentByType(int payrollComponentType);
         Task<IEnumerable<PayrollComponent>> GetAllOrderByPayrollComponent();
         Task<IEnumerable<BenefitTypes>> GetComponentType();
+        Task<bool> IsPayrollComponentCodeExist(string code);
     }
 }

@@ -50,5 +50,14 @@ namespace Chef.HRMS.Repositories
           .WhereNotArchived()
           .GetAsync<BenefitTypes>();
         }
+        public async Task<bool> IsPayrollComponentCodeExist(string code)
+        {
+            if (await QueryFactory
+           .Query<PayrollComponent>()
+           .Where("shortcode", code)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
+        }
     }
 }
