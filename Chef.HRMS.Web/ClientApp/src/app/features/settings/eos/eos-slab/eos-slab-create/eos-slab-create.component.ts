@@ -47,12 +47,23 @@ export class EosSlabCreateComponent implements OnInit {
   
   }
 
+
   getBfDetails() {
     this.eosService.getAll().subscribe((result) => {
       for(let i=0;i<result.length;i++){
         this.BfDetails = result
       }
     })
+  }
+  getBfName(event){
+    if(event){
+     let a=this.BfDetails.filter((value)=>value.bfCode==event)
+     this.addForm.patchValue({
+      bfName:a[0].bfName,
+      eosId:a[0].id
+     })
+    }
+
   }
   
   createFormGroup(): FormGroup {
@@ -76,7 +87,7 @@ export class EosSlabCreateComponent implements OnInit {
       valuetype: ['', [
         Validators.required
       ]],
-      
+      eosId: ['', ],
     });
   }
 

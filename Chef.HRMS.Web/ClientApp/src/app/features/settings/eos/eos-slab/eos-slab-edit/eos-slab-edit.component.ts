@@ -53,6 +53,16 @@ export class EosSlabEditComponent implements OnInit {
       }
     })
   }
+  getBfName(event){
+    if(event){
+     let a=this.BfDetails.filter((value)=>value.bfCode==event)
+     this.addForm.patchValue({
+      bfName:a[0].bfName,
+      eosId:a[0].id
+     })
+    }
+
+  }
   
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -75,7 +85,7 @@ export class EosSlabEditComponent implements OnInit {
       valuetype: ['', [
         Validators.required
       ]],
-      
+      eosId: ['', ],
     });
   }
 
