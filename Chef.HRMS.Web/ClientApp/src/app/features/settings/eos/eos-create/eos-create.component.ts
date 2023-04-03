@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EosService } from '../eos.service';
-import { EmployeeEOSAccrualType } from 'src/app/models/common/employeeEOSAccrualType';
-import { EmployeeEOSpaymentType } from 'src/app/models/common/types/employeeEOSpaymentType';
+// import { EmployeeEOSAccrualType } from 'src/app/models/common/employeeEOSAccrualType';
+// import { EmployeeEOSpaymentType } from 'src/app/models/common/types/employeeEOSpaymentType';
 import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
 
 @Component({
@@ -15,13 +15,15 @@ import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-
 export class EosCreateComponent implements OnInit {
 
   addForm: FormGroup;
-  componentType: any;
-  employeeEOSAccrualType: object;
-  employeeEOSAccrualTypeKeys: number[];
-  employeeEOSAccrual = EmployeeEOSAccrualType;
-  employeeEOSpaymentType: object;
-  employeeEOSpaymentTypeKeys: number[];
-  employeeEOSpayment = EmployeeEOSpaymentType;
+  EOSAccrualTypeDetails: any;
+  EOSPaymentTypeDetails: any
+  // componentType: any;
+  // employeeEOSAccrualType: object;
+  // employeeEOSAccrualTypeKeys: number[];
+  // employeeEOSAccrual = EmployeeEOSAccrualType;
+  // employeeEOSpaymentType: object;
+  // employeeEOSpaymentTypeKeys: number[];
+  // employeeEOSpayment = EmployeeEOSpaymentType;
 
   constructor( 
     private formBuilder: FormBuilder,
@@ -34,10 +36,23 @@ export class EosCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
-    this.employeeEOSAccrualTypeKeys = Object.keys(this.employeeEOSAccrual).filter(Number).map(Number);
-    this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
-  }
+    this.getEmployeeEOSAccrualTypeDetail()
+    this.getEmployeeEOSpaymentTypeDetail()
 
+   
+    // this.employeeEOSAccrualTypeKeys = Object.keys(this.employeeEOSAccrual).filter(Number).map(Number);
+    // this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
+  }
+  getEmployeeEOSAccrualTypeDetail(){
+    this.eosService.getEmployeeEOSAccrual().subscribe(res=>{
+      this.EOSAccrualTypeDetails=res
+    })
+  }
+  getEmployeeEOSpaymentTypeDetail(){
+    this.eosService.getEmployeeEOSpaymentType().subscribe(res=>{
+      this.EOSPaymentTypeDetails=res
+    })
+  }
   onSubmit() {
     if(this.addForm.value.retrospectiveAccrual=="Yes"){
       this.addForm.value.retrospectiveAccrual=true

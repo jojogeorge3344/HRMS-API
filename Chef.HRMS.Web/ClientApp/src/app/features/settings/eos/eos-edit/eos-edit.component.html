@@ -101,8 +101,8 @@
             <div class="form-group form-input-line col-4">
                 <label class="col-form-label" for="employeeEOSAccrualType">Eos Settlement BF Code</label>
                 <select class="form-control" formControlName="employeeEOSAccrualType">
-                    <option [ngValue]="null" disabled>Select Week Off</option>
-                    <option *ngFor="let key of employeeEOSAccrualTypeKeys" [ngValue]='key'>{{employeeEOSAccrual[key]}}</option>
+                    <option [ngValue]="null" disabled>Select Eos Settlement BF Code</option>
+                    <option *ngFor="let key of EOSAccrualTypeDetails" [ngValue]='key.id'>{{key.name}}</option>
                 </select>
             </div>
         </div>
@@ -110,8 +110,8 @@
             <div class="form-group form-input-line col-4">
                 <label class="col-form-label" for="employeeEOSpaymentType">Eos Payment BF Code </label>
                 <select class="form-control" formControlName="employeeEOSpaymentType">
-                    <option [ngValue]="null" disabled>Select Week Off</option>
-                    <option *ngFor="let key of employeeEOSpaymentTypeKeys" [ngValue]='key'>{{employeeEOSpayment[key]}}</option>
+                    <option [ngValue]="null" disabled>Select Eos Payment BF Code </option>
+                    <option *ngFor="let key of EOSPaymentTypeDetails" [ngValue]='key.id'>{{key.name}}</option>
                 </select>
             </div>
           

@@ -18,12 +18,14 @@ export class EosEditComponent implements OnInit {
   addForm: FormGroup;
   @Input() relDetails: EosGroup;
   codeExistCheck:boolean=false
-  employeeEOSAccrualType: object;
-  employeeEOSAccrualTypeKeys: number[];
-  employeeEOSAccrual = EmployeeEOSAccrualType;
-  employeeEOSpaymentType: object;
-  employeeEOSpaymentTypeKeys: number[];
-  employeeEOSpayment = EmployeeEOSpaymentType;
+  EOSAccrualTypeDetails: any;
+  EOSPaymentTypeDetails: any
+  // employeeEOSAccrualType: object;
+  // employeeEOSAccrualTypeKeys: number[];
+  // employeeEOSAccrual = EmployeeEOSAccrualType;
+  // employeeEOSpaymentType: object;
+  // employeeEOSpaymentTypeKeys: number[];
+  // employeeEOSpayment = EmployeeEOSpaymentType;
   constructor(
     private eosService:EosService,
     public activeModal: NgbActiveModal,
@@ -33,11 +35,12 @@ export class EosEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.addForm = this.createFormGroup();
     this.addForm.patchValue(this.relDetails);
-    this.employeeEOSAccrualTypeKeys = Object.keys(this.employeeEOSAccrual).filter(Number).map(Number);
-    this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
+    this.getEmployeeEOSAccrualTypeDetail()
+    this.getEmployeeEOSpaymentTypeDetail()
+    // this.employeeEOSAccrualTypeKeys = Object.keys(this.employeeEOSAccrual).filter(Number).map(Number);
+    // this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
     if(this.addForm.value.retrospectiveAccrual==true){
       this.addForm.patchValue({
         retrospectiveAccrual:"Yes",
@@ -69,7 +72,16 @@ export class EosEditComponent implements OnInit {
             })
           }
   }
-
+  getEmployeeEOSAccrualTypeDetail(){
+    this.eosService.getEmployeeEOSAccrual().subscribe(res=>{
+      this.EOSAccrualTypeDetails=res
+    })
+  }
+  getEmployeeEOSpaymentTypeDetail(){
+    this.eosService.getEmployeeEOSpaymentType().subscribe(res=>{
+      this.EOSPaymentTypeDetails=res
+    })
+  }
   onSubmit() {
     this.addForm.value.id=this.relDetails.id
     if(this.addForm.value.retrospectiveAccrual=="Yes"){
