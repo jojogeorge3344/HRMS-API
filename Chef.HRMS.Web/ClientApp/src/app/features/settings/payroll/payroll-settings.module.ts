@@ -5,9 +5,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PayrollSettingsRoutingModule } from './payroll-settings-routing.module';
 import { PayrollSettingsContainerComponent } from "./payroll-settings-container/payroll-settings-container.component";
 
+
+
 @NgModule({
   declarations: [
-    PayrollSettingsContainerComponent
+    PayrollSettingsContainerComponent,
+
   ],
   imports: [
     CommonModule,
