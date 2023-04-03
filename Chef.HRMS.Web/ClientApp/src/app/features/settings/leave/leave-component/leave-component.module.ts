@@ -43,6 +43,7 @@ import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
     BsDropdownModule.forRoot(),
     DirectivesModule
   ],
+  
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: CUSTOM_ERRORS,
