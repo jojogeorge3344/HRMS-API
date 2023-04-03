@@ -103,14 +103,17 @@ export class EosEditComponent implements OnInit {
             this.addForm.value.includeProbationDays=false
           }
     const eosForm = this.addForm.value;
-    this.eosService.update(eosForm).subscribe(result => {
-    this.toastr.showSuccessMessage('The Eos updated successfully!');
-    this.activeModal.close('submit');
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the Eos');
-      });
+    if(!this.codeExistCheck){
+      this.eosService.update(eosForm).subscribe(result => {
+        this.toastr.showSuccessMessage('The Eos updated successfully!');
+        this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to add the Eos');
+          });
+    }
+   
     
   }
 
@@ -126,6 +129,16 @@ export class EosEditComponent implements OnInit {
         this.addForm.get(type).patchValue(result);
       }
     });
+  }
+  checkCodeEXist(event){
+    this.eosService.getCode(event).subscribe((result)=>{
+      if(result){
+        this.codeExistCheck=true
+     this.toastr.showWarningMessage("Already Code Exist")
+      }else{
+        this.codeExistCheck=false
+      }
+    })
   }
   
   createFormGroup(): FormGroup {

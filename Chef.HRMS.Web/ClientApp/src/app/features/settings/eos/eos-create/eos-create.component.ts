@@ -73,14 +73,21 @@ export class EosCreateComponent implements OnInit {
             this.addForm.value.includeProbationDays=false
           }
     const eosForm = this.addForm.value;
-    this.eosService.add(eosForm).subscribe(result => {
+  
+    this.eosService.getCode(eosForm.bfCode).subscribe((result)=>{
+      if(result){
+     this.toastr.showWarningMessage("Already Code Exist")
+      }
+      else{
+        this.eosService.add(eosForm).subscribe(result => {
           this.toastr.showSuccessMessage('The Eos added successfully!');
           this.activeModal.close('submit');
         },
           error => {
             this.toastr.showErrorMessage('Unable to add the Eos');
     });
-    
+      }
+    })
   
   }
   openFormulaEditor(type: string) {
