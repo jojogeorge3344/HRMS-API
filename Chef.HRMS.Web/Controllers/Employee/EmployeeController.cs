@@ -122,6 +122,10 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(leaves);
         }
-
+        [HttpGet("IsNameExist/{name}")]
+        public async Task<bool> IsNameExist(string name)
+        {
+            return await employeeService.IsNameExist(name);
+        }
     }
 }

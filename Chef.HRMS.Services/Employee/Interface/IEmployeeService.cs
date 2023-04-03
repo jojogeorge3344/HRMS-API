@@ -11,5 +11,7 @@ namespace Chef.HRMS.Services
         Task<EmployeeView> GetEmployeeDetailsById(int employeeId);
         Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId);
         Task<IEnumerable<Notification>> GetAllNotificationById(int employeeId);
+        Task<bool> IsNameExist(string name);
+
     }
 }
