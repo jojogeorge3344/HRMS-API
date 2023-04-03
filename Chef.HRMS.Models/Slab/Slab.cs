@@ -15,5 +15,7 @@ namespace Chef.HRMS.Models.Slab
         public int ValueVariable { get; set; }
         public string valuetype { get; set; }
         public int EOSId { get; set; }
+        public string BFcode { get; set; }
+        public string BFName { get; set; }
     }
 }

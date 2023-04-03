@@ -49,7 +49,7 @@ namespace Chef.HRMS.Models
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
-        public string typename { get; set; }
+        public string TypeName { get; set; }
         public int MaximumLimit { get; set; }
     }
 }

@@ -120,5 +120,26 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetNormalOverTime")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetNormalOverTime()
+        {
+            var componenttype = await overTimePolicyConfigurationService.GetNormalOverTime();
+
+            return Ok(componenttype);
+        }
+        [HttpGet("GetHolidayOverTime")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetHolidayOverTime()
+        {
+            var componentpaymenttype = await overTimePolicyConfigurationService.GetHolidayOverTime();
+
+            return Ok(componentpaymenttype);
+        }
+        [HttpGet("GetSpecialOvertime")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetSpecialOvertime()
+        {
+            var componentpaymenttype = await overTimePolicyConfigurationService.GetSpecialOvertime();
+
+            return Ok(componentpaymenttype);
+        }
     }
 }
