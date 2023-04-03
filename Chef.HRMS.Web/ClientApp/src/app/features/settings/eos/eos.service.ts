@@ -29,7 +29,13 @@ export class EosService {
   delete(id: number) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
-  get(){
+  get() {
     return this.http.get<EosGroup[]>(this.baseUrl + 'GetComponentType').pipe(map(response => { return response; }));
+  }
+  getEmployeeEOSAccrual() {
+    return this.http.get<EosGroup[]>(this.baseUrl + 'GetEmployeeEOSAccrualType').pipe(map(response => { return response; }));
+  }
+  getEmployeeEOSpaymentType() {
+    return this.http.get<EosGroup[]>(this.baseUrl + 'GetEmployeeEOSpaymentType').pipe(map(response => { return response; }));
   }
 }
