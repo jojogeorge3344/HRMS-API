@@ -14,7 +14,7 @@ export class EosSlabService {
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
-    this.baseUrl = `${baseUrl}api/EndOfService/`;
+    this.baseUrl = `${baseUrl}api/Slab/`;
   }
 
   getAll() {
@@ -29,7 +29,7 @@ export class EosSlabService {
   delete(id: number) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
-  get(){
-    return this.http.get<EosSlabGroup[]>(this.baseUrl + 'GetComponentType').pipe(map(response => { return response; }));
-  }
+  // get(){
+  //   return this.http.get<EosSlabGroup[]>(this.baseUrl + 'GetComponentType').pipe(map(response => { return response; }));
+  // }
 }

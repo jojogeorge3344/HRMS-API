@@ -24,10 +24,10 @@ export class EosSlabListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getEoslist()
+    this.getEosSlablist()
   }
 
-  getEoslist() {
+  getEosSlablist() {
     this.eosSlabService.getAll().subscribe(result => {
       this.eosSlabDetails = result;
     },
@@ -38,25 +38,25 @@ export class EosSlabListComponent implements OnInit {
   }
   openCreate() {
     const modalRef = this.modalService.open(EosSlabCreateComponent,
-      {size: 'xl', centered: true, backdrop: 'static' });
+      {size: 'lg', centered: true, backdrop: 'static' });
     // modalRef.componentInstance.code = this.Codes;
     // modalRef.componentInstance.name= this.Names;
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getEoslist()
+          this.getEosSlablist()
         }
     });  
   }
   openEdit(relDetails: EosSlabGroup) {
     const modalRef = this.modalService.open(EosSlabEditComponent,
-      { size: 'xl', centered: true, backdrop: 'static' });
+      { size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.relDetails= relDetails;
     // modalRef.componentInstance.code = this.Codes;
     // modalRef.componentInstance.name = this.Names;
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getEoslist()
+        this.getEosSlablist()
       }
     });
   }
@@ -70,7 +70,7 @@ export class EosSlabListComponent implements OnInit {
 
   //   modalRef.result.then((result) => {
   //     if (result == 'submit') {
-  //       this.getEoslist();
+  //       this.getEosSlablist();
   //     }
   //   });
   // }
@@ -83,7 +83,7 @@ delete(relDetails: EosSlabGroup) {
     if (userResponse == true) {
       this.eosSlabService.delete(relDetails.id).subscribe(() => {
         this.toastr.showSuccessMessage('Eos deleted successfully!');
-        this.getEoslist()
+        this.getEosSlablist()
       });
     }
   });

@@ -13,8 +13,8 @@
             <thead class="thead-themed">
                 <tr>
                     <th>Sl No.</th>
-                    <!-- <th>Benefit Code</th>
-                    <th>Benefit Name</th> -->
+                    <th>Benefit Code</th>
+                    <th>Benefit Name</th>
                     <th>Lower Limit</th>
                     <th>Upper Limit</th>
                     <th>Value Variable</th>
@@ -25,12 +25,12 @@
             <tbody>
                 <tr *ngFor="let rel of eosSlabDetails; let i= index;">
                     <td>{{i+1}}</td>
-                    <!-- <td>{{ rel.bfCode }}</td>
-                    <td>{{ rel.bfName }}</td> -->
+                    <td>{{ rel.bfCode }}</td>
+                    <td>{{ rel.bfName }}</td>
                     <td>{{ rel.lowerLimit }}</td>
                     <td>{{ rel.upperLimit}}</td>
                     <td>{{ rel.valueVariable }}</td>
-                    <td>{{ rel.valueType}}</td>
+                    <td>{{ rel.valuetype}}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
                             <button id="button-basic" dropdownToggle type="button"
