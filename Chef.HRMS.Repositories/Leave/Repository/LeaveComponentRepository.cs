@@ -45,15 +45,15 @@ namespace Chef.HRMS.Repositories
             string sql = string.Empty;
             if (categoryid == 1)
             {
-                sql = @"select*from hrms.benefittypes where id=15";
+                sql = @"SELECT * FROM hrms.benefittypes WHERE id=15";
             }
             else if (categoryid == 2)
             {
-                sql = @"select*from hrms.benefittypes where id=36";
+                sql = @"SELECT * FROM hrms.benefittypes WHERE id=36";
             }
             else
             {
-                sql = @"select*from hrms.benefittypes where id=32";
+                sql = @"SELECT * FROM hrms.benefittypes WHERE id=32";
             }
             var data = await Connection.QueryAsync<BenefitTypes>(sql, new {categoryid});
             return data;

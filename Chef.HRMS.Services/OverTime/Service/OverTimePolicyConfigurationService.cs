@@ -41,9 +41,24 @@ namespace Chef.HRMS.Services
             return await overTimePolicyConfigurationRepository.GetByOverTimePolicyId(overTimePolicyId);
         }
 
+        public async Task<IEnumerable<BenefitTypes>> GetHolidayOverTime()
+        {
+            return await overTimePolicyConfigurationRepository.GetHolidayOverTime();
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetNormalOverTime()
+        {
+            return await overTimePolicyConfigurationRepository.GetNormalOverTime();
+        }
+
         public async Task<OverTimePolicyConfiguration> GetOvertimeConfigurationById(int employeeId)
         {
             return await overTimePolicyConfigurationRepository.GetOvertimeConfigurationById(employeeId);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetSpecialOvertime()
+        {
+            return await overTimePolicyConfigurationRepository.GetSpecialOvertime();
         }
 
         public async Task<int> InsertAsync(OverTimePolicyConfiguration OverTimePolicyConfiguration)

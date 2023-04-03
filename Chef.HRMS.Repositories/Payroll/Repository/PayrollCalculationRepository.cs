@@ -82,7 +82,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollCalculation>> GetAllCalculationDetailsById(int id)
         {
-                var sql = "SELECT * from hrms.payrollcalculation where payrollstructureid=@id";
+                var sql = "SELECT * From hrms.payrollcalculation WHERE payrollstructureid=@id";
 
                 return await Connection.QueryAsync<PayrollCalculation>(sql, new { id });
         }
