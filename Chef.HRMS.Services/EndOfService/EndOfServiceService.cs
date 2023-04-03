@@ -26,5 +26,10 @@ namespace Chef.HRMS.Services
         {
             return await endOfServiceRepository.GetEmployeeEOSpaymentType();
         }
+
+        public async Task<bool> IsBFCodeExist(string code)
+        {
+            return await endOfServiceRepository.IsBFCodeExist(code);
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Chef.HRMS.Services
     {
         Task<IEnumerable<BenefitTypes>> GetEmployeeEOSAccrualType();
         Task<IEnumerable<BenefitTypes>> GetEmployeeEOSpaymentType();
+        Task<bool> IsBFCodeExist(string code); 
 
     }
 }

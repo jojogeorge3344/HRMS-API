@@ -83,5 +83,10 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(componentpaymenttype);
         }
+        [HttpGet("IsBFCodeExist/{code}")]
+        public async Task<bool> IsBFCodeExist(string code)
+        {
+            return await endOfServiceService.IsBFCodeExist(code);
+        }
     }
 }
