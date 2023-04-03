@@ -13,9 +13,9 @@ namespace Chef.HRMS.Models.Slab
         public int LowerLimit { get; set; }
         public int UpperLimit { get; set; }
         public int ValueVariable { get; set; }
-        public string valuetype { get; set; }
+        public string ValueType { get; set; }
         public int EOSId { get; set; }
-        public string BFcode { get; set; }
+        public string BFCode { get; set; }
         public string BFName { get; set; }
     }
 }
