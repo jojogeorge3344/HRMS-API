@@ -48,9 +48,8 @@ export class EosSlabEditComponent implements OnInit {
   }
   getBfDetails() {
     this.eosService.getAll().subscribe((result) => {
-      for(let i=0;i<result.length;i++){
         this.BfDetails = result
-      }
+      
     })
   }
   getBfName(event){

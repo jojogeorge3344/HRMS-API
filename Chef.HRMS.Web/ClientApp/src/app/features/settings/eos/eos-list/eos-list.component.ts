@@ -32,6 +32,7 @@ export class EosListComponent implements OnInit {
   getEoslist() {
     this.eosService.getAll().subscribe(result => {
       this.eosDetails = result;
+      this.eosDetails=this.eosDetails.sort((a, b) => a.bfName.toLowerCase().localeCompare(b.bfName.toLowerCase()))
       // this.eosDetails=this.eosDetails.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
       // this.Codes = this.eosDetails.map(a => a.code.toLowerCase());
       // this.Names = this.eosDetails.map(a => a.name.toLowerCase());

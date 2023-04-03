@@ -30,6 +30,7 @@ export class EosSlabListComponent implements OnInit {
   getEosSlablist() {
     this.eosSlabService.getAll().subscribe(result => {
       this.eosSlabDetails = result;
+      this.eosSlabDetails=this.eosSlabDetails.sort((a, b) => a.bfName.toLowerCase().localeCompare(b.bfName.toLowerCase()));
     },
     error => {
       console.error(error);

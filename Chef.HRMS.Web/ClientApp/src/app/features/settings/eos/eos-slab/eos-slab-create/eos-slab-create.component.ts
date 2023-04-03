@@ -69,7 +69,7 @@ export class EosSlabCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
 
-      bFcode: ['', [
+      bfCode: ['', [
         Validators.required
       ]],
       bfName: ['', [

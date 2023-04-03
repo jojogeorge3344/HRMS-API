@@ -8,8 +8,8 @@
     <div class="modal-body">
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="bFcode">Benefit Code</label>
-                <select class="form-control" formControlName="bFcode" (change)="getBfName($event.target.value)">
+                <label class="col-form-label" for="bfCode">Benefit Code</label>
+                <select class="form-control" formControlName="bfCode" (change)="getBfName($event.target.value)">
                     <option [ngValue]="null" disabled>Select Benefit Code</option>
                     <option *ngFor="let key of BfDetails">{{key.bfCode}}</option>
                 </select>
