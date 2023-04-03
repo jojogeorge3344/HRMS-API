@@ -38,4 +38,7 @@ export class EosService {
   getEmployeeEOSpaymentType() {
     return this.http.get<EosGroup[]>(this.baseUrl + 'GetEmployeeEOSpaymentType').pipe(map(response => { return response; }));
   }
+  getCode(code){
+    return this.http.get<EosGroup[]>(this.baseUrl + 'IsBFCodeExist/'+ code).pipe(map(response => { return response; }));
+  }
 }
