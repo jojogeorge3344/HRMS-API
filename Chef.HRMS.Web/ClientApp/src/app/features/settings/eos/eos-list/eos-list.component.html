@@ -29,9 +29,9 @@
                     <td>{{i+1}}</td>
                     <td>{{ rel.bfCode }}</td>
                     <td>{{ rel.bfName }}</td>
-                    <td>{{ rel.retrospectiveAccrual }}</td>
-                    <td>{{ rel.includeLOPDays}}</td>
-                    <td>{{ rel.includeProbationDays }}</td>
+                    <td>{{ rel.retrospectiveAccrual==true ? 'Yes' : 'No'  }}</td>
+                    <td>{{ rel.includeLOPDays==true ? 'Yes' : 'No'}}</td>
+                    <td>{{ rel.includeProbationDays==true ? 'Yes' : 'No' }}</td>
                     <!-- <td>{{ rel.employeeEOSAccrualType }}</td>
                     <td>{{ rel.employeeEOSpaymentType }}</td> -->
                     <td>{{ rel.includedBenefits}}</td>
