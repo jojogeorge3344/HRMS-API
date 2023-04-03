@@ -27,25 +27,20 @@ export class EosSlabEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.addForm = this.createFormGroup();
-    this.addForm.patchValue(this.relDetails);
+    this.addForm.patchValue({
+      bfCode:this.relDetails.bfCode,
+      bfName:this.relDetails.bfName,
+      lowerLimit:this.relDetails.lowerLimit,
+      upperLimit:this.relDetails.upperLimit,
+      valueVariable:this.relDetails.valueVariable,
+      valueType:this.relDetails.valueType
+
+    });
+  
     this.getBfDetails()
   }
 
-  onSubmit() {
-    this.addForm.value.id=this.relDetails.id
-    const eosForm = this.addForm.value;
-    this.eosSlabService.update(eosForm).subscribe(result => {
-    this.toastr.showSuccessMessage('The EosSlab updated successfully!');
-    this.activeModal.close('submit');
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the EosSlab');
-      });
-    
-  }
   getBfDetails() {
     this.eosService.getAll().subscribe((result) => {
         this.BfDetails = result
@@ -63,6 +58,19 @@ export class EosSlabEditComponent implements OnInit {
 
   }
   
+  onSubmit() {
+    this.addForm.value.id=this.relDetails.id
+    const eosForm = this.addForm.value;
+    this.eosSlabService.update(eosForm).subscribe(result => {
+    this.toastr.showSuccessMessage('The EosSlab updated successfully!');
+    this.activeModal.close('submit');
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to add the EosSlab');
+      });
+    
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
 
@@ -81,10 +89,10 @@ export class EosSlabEditComponent implements OnInit {
       valueVariable: ['', [
         Validators.required
       ]],
-      valuetype: ['', [
+      valueType: ['', [
         Validators.required
       ]],
-      eosId: ['', ],
+      eosId: [0, ],
     });
   }
 

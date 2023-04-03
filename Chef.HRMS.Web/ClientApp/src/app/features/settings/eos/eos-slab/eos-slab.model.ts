@@ -7,5 +7,5 @@ export interface EosSlabGroup extends Model {
       lowerLimit:number,
       upperLimit:number,
       valueVariable:number,
-      valuetype:string
+      valueType:string
 }

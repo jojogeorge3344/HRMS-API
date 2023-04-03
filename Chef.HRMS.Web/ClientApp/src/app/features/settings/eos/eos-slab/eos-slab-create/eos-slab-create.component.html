@@ -11,7 +11,7 @@
                 <label class="col-form-label" for="bfCode">Benefit Code</label>
                 <select (change)="getBfName($event.target.value)" class="form-control" formControlName="bfCode" >
                     <option [ngValue]="null" disabled>Select Benefit Code</option>
-                    <option *ngFor="let key of BfDetails">{{key.bfCode}}</option>
+                    <option *ngFor="let key of BfDetails" value='{{key.bfCode}}'>{{key.bfCode}}</option>
                 </select>
             </div>
             <div class="form-group form-input-line col-6">
