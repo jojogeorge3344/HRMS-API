@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
@@ -127,6 +128,15 @@ namespace Chef.HRMS.Repositories
 
                 return await Connection.QueryAsync<Notification>(sql, new { employeeId });
 
+        }
+        public async Task<bool> IsNameExist(string name)
+        {
+            if (await QueryFactory
+           .Query<HRMSEmployee>()
+           .Where("firstname", name)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
         }
 
     }

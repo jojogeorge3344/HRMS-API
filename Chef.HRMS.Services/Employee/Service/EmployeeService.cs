@@ -81,5 +81,10 @@ namespace Chef.HRMS.Services
         {
             return await employeeRepository.GetAllNotificationById(employeeId);
         }
+
+        public async Task<bool> IsNameExist(string name)
+        {
+           return await employeeRepository.IsNameExist(name);
+        }
     }
 }

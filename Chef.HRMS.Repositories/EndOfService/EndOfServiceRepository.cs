@@ -1,9 +1,11 @@
-﻿using Chef.HRMS.Models.BenefitCategory;
+﻿using Chef.Common.Core.Extensions;
+using Chef.HRMS.Models.BenefitCategory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Chef.HRMS.Repositories
 {
@@ -26,6 +28,16 @@ namespace Chef.HRMS.Repositories
                         WHERE isarchived=false AND id =13";
 
             return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+
+        public async Task<bool> IsBFCodeExist(string code)
+        {
+            if (await QueryFactory
+            .Query<EndOfService>()
+            .Where("bfcode", code)
+            .WhereNotArchived()
+            .CountAsync<int>() > 0) return true;
+            else return false;
         }
     }
 }
