@@ -77,5 +77,6 @@ namespace Chef.HRMS.Models
         /// Holds payment mode
         /// </summary>
         public PaymentMode PaymentMode { get; set; }
+        public int EOSId { get; set; }
     }
 }
