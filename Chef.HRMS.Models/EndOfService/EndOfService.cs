@@ -16,8 +16,8 @@ namespace Chef.HRMS.Models
         public bool IncludeLOPDays { get; set; }
         public bool IncludeProbationDays { get; set; }
         public string IncludedBenefits { get; set; }
-        public EmployeeEOSAccrualType employeeEOSAccrualType { get; set; }
-        public EmployeeEOSpaymentType employeeEOSpaymentType { get; set; }
+        public int EmployeeEOSAccrualType { get; set; }
+        public int EmployeeEOSpaymentType { get; set; }
         public int BenefitTypeId { get; set; }
     }
 }

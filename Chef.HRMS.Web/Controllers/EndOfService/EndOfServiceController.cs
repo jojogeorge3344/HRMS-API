@@ -69,12 +69,19 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
-        [HttpGet("GetComponentType")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetComponentType()
+        [HttpGet("GetEmployeeEOSAccrualType")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetEmployeeEOSAccrualType()
         {
-            var componenttype = await endOfServiceService.GetComponentType();
+            var componenttype = await endOfServiceService.GetEmployeeEOSAccrualType();
 
             return Ok(componenttype);
+        }
+        [HttpGet("GetEmployeeEOSpaymentType")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetEmployeeEOSpaymentType()
+        {
+            var componentpaymenttype = await endOfServiceService.GetEmployeeEOSpaymentType();
+
+            return Ok(componentpaymenttype);
         }
     }
 }
