@@ -16,10 +16,10 @@
                 <input type="text" class="form-control" formControlName="name">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="documentTypeList">Document Type</label>
-                <select class="form-control" formControlName="documentTypeList">
+                <label class="col-form-label" for="documentType">Document Type</label>
+                <select class="form-control" formControlName="documentType">
                     <option Value="" disabled>Select Document Type</option>
-                    <option *ngFor="let key of documentTypeKeys" [ngValue]='key'>{{documentType[key]}}</option>
+                    <option *ngFor="let key of documentTypeKeys" [ngValue]='key'>{{documentTypeList[key]}}</option>
                 </select>
             </div>   
             <div class="form-group form-input-line col-6">

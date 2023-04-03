@@ -11,9 +11,6 @@ import { WorkFromHomePeriodType } from '../../../../../models/common/types/workf
 import { OvertimePolicyCalculationComponent } from '../overtime-policy-calculation/overtime-policy-calculation.component';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-import { HolidayOvertime9 } from 'src/app/models/common/types/holidayOvertime';
-import { NormalOverTime8 } from 'src/app/models/common/types/normalOvertime';
-import { SpecialOvertime10 } from 'src/app/models/common/types/specialOvertime';
 
 @Component({
   selector: 'hrms-overtime-policy-configuration-edit',
@@ -27,12 +24,9 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   overtimePolicyConfiguration: OvertimePolicyConfiguration;
   periodTypes = WorkFromHomePeriodType;
   periodTypeKeys: number[];
-  holidayOvertime=HolidayOvertime9;
-  holidayOvertimeKeys:number[]
-  normalOverTime=NormalOverTime8;
-  normalOverTimeKeys:number[]
-  specialOvertime=SpecialOvertime10
-  specialOvertimeKeys:number[]
+  holidayOverTime;
+  normalOverTime;
+  specialOverTime;
 
   constructor(
     private router: Router,
@@ -46,11 +40,23 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
-    this.periodTypeKeys = Object.keys(this.periodTypes).filter(Number).map(Number);
-    this.normalOverTimeKeys = Object.keys(this.normalOverTime).filter(Number).map(Number);
-    this.holidayOvertimeKeys = Object.keys(this.holidayOvertime).filter(Number).map(Number);
-    this.specialOvertimeKeys = Object.keys(this.specialOvertime).filter(Number).map(Number);
+    this.editForm.get('holidayOverTime').disable();
+    this.editForm.get('normalOverTime').disable();
+    this.editForm.get('specialOverTime').disable();
+    this.overtimePolicyConfigurationService.getNormalOverTime()
+    .subscribe((result)=>{
+      this.normalOverTime=result  
+    })
+    this.overtimePolicyConfigurationService.getHolidayOverTime()
+    .subscribe((result)=>{
+      this.holidayOverTime=result  
+    })
+    this.overtimePolicyConfigurationService.getSpecialOverTime()
+    .subscribe((result)=>{
+      this.specialOverTime=result  
+    })
 
+    this.periodTypeKeys = Object.keys(this.periodTypes).filter(Number).map(Number);
     this.onChanges();
 
     this.route.params.subscribe(params => {
@@ -61,6 +67,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   }
 
   getOvertimePolicy(overtimePolicyId) {
+    debugger
     this.overtimePolicyService.get(overtimePolicyId).subscribe((result) => {
       this.overtimePolicy = result;
       this.editForm.patchValue({
@@ -74,6 +81,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   }
 
   getOvertimeConfiguration(overtimePolicyId) {
+    debugger
     this.overtimePolicyConfigurationService.getByOverTimePolicyId(overtimePolicyId).subscribe((result) => {
       this.overtimePolicyConfiguration = result;
       this.editForm.patchValue(this.overtimePolicyConfiguration);
@@ -126,6 +134,30 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
         this.editForm.patchValue( {isRoundOffLowest: true} );
       }
     });
+    this.editForm.get('holidayFormula').valueChanges.subscribe(value => {
+      if (value) {
+        this.editForm.get('holidayOverTime').enable(); 
+      } else{
+        this.editForm.get('holidayOverTime').disable(); 
+        this.editForm.get('holidayOverTime').reset();
+      }
+    }); 
+    this.editForm.get('specialFormula').valueChanges.subscribe(value => {
+      if (value) {
+        this.editForm.get('specialOverTime').enable();
+      }else{
+        this.editForm.get('specialOverTime').disable();
+        this.editForm.get('specialOverTime').reset();
+      }
+    }); 
+    this.editForm.get('normalFormula').valueChanges.subscribe(value => {
+      if (value) {
+        this.editForm.get('normalOverTime').enable();
+      }else{
+        this.editForm.get('normalOverTime').disable();
+        this.editForm.get('normalOverTime').reset();
+      }
+    }); 
   }
 
   openFormulaEditor(type: string) {
@@ -136,13 +168,15 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     modalRef.componentInstance.formula = this.editForm.get(type).value;
 
     modalRef.result.then((result) => { console.log(result);
-                                       if (result !== 'Close click') {
-        this.editForm.get(type).patchValue(result);
+        if (result !== 'Close click') {
+        this.editForm.get(type).patchValue(result);        
       }
     });
   }
 
   onSubmit() {
+    debugger
+    console.log(this.editForm.value)
     this.overtimePolicyConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Overtime Policy configured successfully!');
       this.router.navigate(['./settings/overtime']);
@@ -164,11 +198,13 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
-      normalOverTime8:[null],
-      holidayOvertime9:[null],
-      specialOvertime10:[null],
-
-      roundOffType: [{ value: 1, disabled: true }],
+      normalOverTime:[null,[
+        Validators.required]],
+      holidayOverTime:[null,[
+        Validators.required,]],
+      specialOverTime:[null,[
+        Validators.required,]],      
+        roundOffType: [{ value: 1, disabled: true }],
       noticeDays: [{ value: null, disabled: true }, [
         Validators.required,
         Validators.min(1),
@@ -203,15 +239,12 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
         Validators.max(999999999)
       ]],
       normalFormula: ['', [
-        Validators.required,
         Validators.maxLength(256)
       ]],
       holidayFormula: ['', [
-        Validators.required,
         Validators.maxLength(256)
       ]],
       specialFormula: ['', [
-        Validators.required,
         Validators.maxLength(256)
       ]],
       createdDate: [],

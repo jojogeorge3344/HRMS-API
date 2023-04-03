@@ -27,7 +27,7 @@ export class DocumentTypeViewComponent implements OnInit {
   ngOnInit(): void {
     debugger
     console.log('dtls',this.documentTypeDetails);
-    this.documentTypeValue=DocumentType[this.documentTypeDetails.documentTypeList]
+    this.documentTypeValue=DocumentType[this.documentTypeDetails.documentType]
     this.documentReturnTypeValue=DocumentReturnType[this.documentTypeDetails.documentReturnType]
     this.documentUpdateTypeValue=DocumentUpdateType[this.documentTypeDetails.documentUpdateType]
   

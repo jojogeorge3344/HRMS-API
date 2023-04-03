@@ -33,7 +33,7 @@
                     <td>{{i+1}}</td>
                     <td>{{ documentType.code }}</td>
                     <td>{{ documentType.name }}</td>
-                    <td>{{ documentType.isExpired }}</td>
+                    <td>{{ documentType.isExpired==true? 'Yes' :'No' }}</td>
                     <td>{{ documentType.expiryBeforeDays }}</td>
                     <td>{{ documentType.status==true ? 'Active' : 'Inactive' }}</td>
                     <td>

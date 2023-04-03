@@ -49,5 +49,6 @@ export class EmployeeJobFilingService {
   getWeekendPolicyById(id) {
     return this.http.get<number>(this.baseUrl + 'getWeekendPolicyById/' + id).pipe(map(response => { return response; }));
   }
+  
 
 }

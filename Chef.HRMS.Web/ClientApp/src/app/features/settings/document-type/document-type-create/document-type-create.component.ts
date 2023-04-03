@@ -23,7 +23,7 @@ export class DocumentTypeCreateComponent implements OnInit {
   documentReturnTypeKeys: number[];
   documentUpdateTypeKeys:number[];
   documentTypeKeys:number[]
-  documentType = DocumentType;
+  documentTypeList = DocumentType;
   documentReturnType = DocumentReturnType;
   documentUpdateType = DocumentUpdateType
 
@@ -37,12 +37,13 @@ export class DocumentTypeCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
-    this.documentTypeKeys = Object.keys(this.documentType).filter(Number).map(Number);
+    this.documentTypeKeys = Object.keys(this.documentTypeList).filter(Number).map(Number);
     this.documentReturnTypeKeys = Object.keys(this.documentReturnType).filter(Number).map(Number);
     this.documentUpdateTypeKeys = Object.keys(this.documentUpdateType).filter(Number).map(Number);
   }
 
   onSubmit(){
+    debugger
     if(this.addForm.invalid){
       return
     }
@@ -67,25 +68,26 @@ export class DocumentTypeCreateComponent implements OnInit {
             if(result){
               this.toastr.showSuccessMessage('The Document Type added successfully!');         
               this.activeModal.close('submit');
-
             }
               },
-                error => {
-                  this.toastr.showErrorMessage('Unable to add the Document Type');
-                });
+              );
         }
       })
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+      // id: [0, [
+      //   Validators.required,
+      // ]],
+
       code: ['', [
         Validators.required,
       ]],
       name: ['', [
         Validators.required,
       ]],
-      documentTypeList: ['', [
+      documentType: ['', [
         Validators.required,
       ]],
       isExpired:['', [

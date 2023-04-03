@@ -28,6 +28,7 @@ export class DocumentTypeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDocumentTypelist()
+   
   }
 
 

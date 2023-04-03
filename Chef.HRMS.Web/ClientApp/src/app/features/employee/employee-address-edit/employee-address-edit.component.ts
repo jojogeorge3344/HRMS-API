@@ -55,7 +55,7 @@ export class EmployeeAddressEditComponent implements OnInit {
   }
   getCountires() {
     this.countryService.getAll().subscribe(result => {
-      this.countries = result;
+      this.countries = result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
     },
       error => {
         console.error(error);
@@ -65,7 +65,7 @@ export class EmployeeAddressEditComponent implements OnInit {
 
   getStates() {
     this.stateService.getAll().subscribe(result => {
-      this.states = result;
+      this.states = result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.getAll()
     },
       error => {

@@ -111,8 +111,8 @@
                     </div>                    
 
                     <div class="h6 mt-4 mb-4">Overtime Calculation</div>
-
-                    <div class="with-input form-group d-inline-block">
+              <div class="row">
+                    <div class="with-input form-group d-inline-block col-6">
                         <label for="normalFormula" class="mr-2 align-items-center d-flex flex-wrap ">
                             <span class="text-nowrap">Formula for normal working days overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="normalFormula">
@@ -121,22 +121,19 @@
                             </button>                            
                         </label>    
                     </div>
-                    <span class="form-group form-input-line col-3 d-inline-block">
-                        <select class="form-control" formControlName="normalOverTime8">
+                    <div class="form-group form-input-line col-3 d-inline-block">
+                        <select class="form-control" formControlName="normalOverTime">
                             <option value="" disabled>select</option>
-                            <option *ngFor="let key of normalOverTimeKeys" [ngValue]='key'>
-                                {{normalOverTime[key]}}
+                            <option *ngFor="let item of normalOverTime" [ngValue]='item.id'>
+                                {{item.name}}
                             </option>
                         </select>
-                    </span>
-                    <span class="custom-control custom-checkbox col-1 d-inline-block">
-                        <input type="checkbox" class="custom-control-input" id="normalOverTimeIsRequired"
-                            formControlName="normalOverTimeIsRequired">
-                        <label class="custom-control-label" for="normalOverTimeIsRequired">
-                        </label>
-                    </span>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
 
-                    <div class="with-input form-group d-inline-block">
+                <div class="row">
+                    <div class="with-input form-group d-inline-block col-6">
                         <label for="holidayFormula" class="mr-2 align-items-center d-flex flex-wrap">
                             <span class="text-nowrap">Formula for holiday overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="holidayFormula">
@@ -145,21 +142,18 @@
                             </button>
                         </label>    
                     </div>
-                    <span class="form-group form-input-line col-3 d-inline-block">
-                        <select class="form-control" formControlName="holidayOvertime9">
+                    <div class="form-group form-input-line col-3 d-inline-block ">
+                        <select class="form-control" formControlName="holidayOverTime">
                             <option value="" disabled>Select</option>
-                            <option *ngFor="let key of holidayOvertimeKeys" [ngValue]='key'>
-                                {{holidayOvertime[key]}}
+                            <option *ngFor="let item of holidayOverTime" [ngValue]='item.id'>
+                                {{item.name}}
                             </option>
                         </select>
-                    </span>
-                    <span class="custom-control custom-checkbox col-1 d-inline-block">
-                        <input type="checkbox" class="custom-control-input" id="holidayOvertimeisRequired"
-                            formControlName="holidayOvertimeisRequired">
-                        <label class="custom-control-label" for="holidayOvertimeisRequired">
-                        </label>
-                    </span>
-                    <div class="with-input form-group d-inline-block">
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+                <div class="row">
+                    <div class="with-input form-group d-inline-block col-6">
                         <label for="specialFormula" class="mr-2 align-items-center d-flex flex-wrap">
                             <span class="text-nowrap">Formula for special overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="specialFormula">
@@ -168,21 +162,16 @@
                             </button>
                         </label>    
                     </div>
-                    <span class="form-group form-input-line col-3 d-inline-block">
-                        <select class="form-control" formControlName="specialOvertime10">
+                    <div class="form-group form-input-line col-3 d-inline-block">
+                        <select class="form-control" formControlName="specialOverTime">
                             <option value="" disabled>Select</option>
-                            <option *ngFor="let key of specialOvertimeKeys" [ngValue]='key'>
-                                {{specialOvertime[key]}}
+                            <option *ngFor="let item of specialOverTime" [ngValue]='item.id'>
+                                {{item.name}}
                             </option>
                         </select>
-                    </span>
-                    <span class="custom-control custom-checkbox col-1 d-inline-block">
-                        <input type="checkbox" class="custom-control-input" id="specialOvertimeIsrequired"
-                            formControlName="specialOvertimeIsrequired">
-                        <label class="custom-control-label" for="specialOvertimeIsrequired">
-                        </label>
-                    </span>
-
+                    </div>
+                    <div class="col-3"></div>
+                </div>
                     <div class="with-input form-group">
                         <label for="minimumOverTimeHour" class="mr-2 align-items-center d-flex flex-wrap">
                             <span class="text-nowrap">Do not consider for overtime calculation if overtime hours are less than</span>
