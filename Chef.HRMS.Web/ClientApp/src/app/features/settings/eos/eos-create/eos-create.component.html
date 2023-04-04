@@ -1,0 +1,88 @@
+<form [formGroup]="addForm" id="religionGroupForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">EOS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="bfCode">Benefit Code</label>
+                <input type="string" class="form-control" id="bfCode" name="bfCode" formControlName="bfCode">
+            </div>
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="bfName">Benefit Name</label>
+                <input type="string" class="form-control" id="bfName" name="bfName" formControlName="bfName">
+            </div>
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="retrospectiveAccrual">Retrospective Accrual</label>
+                    <select class="form-control" formControlName="retrospectiveAccrual">
+                         <option value="" disabled>Select</option>
+                         <option value="Yes">Yes</option>
+                         <option value="No">No</option>
+                     </select>
+            </div>
+           
+           
+        </div>
+        <div class="d-flex flex-wrap align-items-baseline">
+       
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="includeLOPDays">Include Lop Days</label>
+                    <select class="form-control" formControlName="includeLOPDays">
+                         <option value="" disabled>Select</option>
+                         <option value="Yes">Yes</option>
+                         <option value="No">No</option>
+                    </select>
+            </div>
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="includeProbationDays">Include Probation Days</label>
+                    <select class="form-control" formControlName="includeProbationDays">
+                        <option value="" disabled>Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+            </div>
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="employeeEOSAccrualType">EOS Settlement BF Code</label>
+                <select class="form-control" formControlName="employeeEOSAccrualType">
+                    <option [ngValue]="null" disabled>Select EOS Settlement BF Code</option>
+                    <option *ngFor="let key of EOSAccrualTypeDetails" [ngValue]='key.id' >{{key.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="employeeEOSpaymentType">EOS Payment BF Code </label>
+                <select class="form-control" formControlName="employeeEOSpaymentType">
+                    <option [ngValue]="null" disabled>Select Eos Payment BF Code </option>
+                    <option *ngFor="let key of EOSPaymentTypeDetails" [ngValue]='key.id'>{{key.name}}</option>
+                </select>
+            </div>
+          
+        </div>
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="includedBenefits">Included Benefits</label>
+                <input type="string" readOnly class="form-control" id="includedBenefits" name="includedBenefits" formControlName="includedBenefits">
+                
+            </div>
+            <div class="form-group form-input-line col-4" >
+                     <button style="margin-top: 70px;" type="button" (click)="openFormulaEditor('includedBenefits')"
+                     class="btn btn-outline-primary btn-sm ml-3">
+                     <i class="fal fa-edit"></i>
+                     </button>
+            </div>  
+                
+            
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+    </div>
+</form>
+
+

@@ -13,6 +13,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { HolidayOvertime9 } from 'src/app/models/common/types/holidayOvertime';
 import { NormalOverTime8 } from 'src/app/models/common/types/normalOvertime';
 import { SpecialOvertime10 } from 'src/app/models/common/types/specialOvertime';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-overtime-policy-configuration-create',
@@ -25,13 +26,10 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   overtimePolicy: OvertimePolicy;
   periodTypes = WorkFromHomePeriodType;
   periodTypeKeys: number[];
-  holidayOvertime=HolidayOvertime9;
-  holidayOvertimeKeys:number[]
-  normalOverTime=NormalOverTime8;
-  normalOverTimeKeys:number[]
-  specialOvertime=SpecialOvertime10
-  specialOvertimeKeys:number[]
-
+  holidayOverTime;
+  normalOverTime;
+  specialOverTime;
+  disableholiday:boolean;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -44,11 +42,29 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
+    this.addForm.get('holidayOverTime').disable();
+    this.addForm.get('normalOverTime').disable();
+    this.addForm.get('specialOverTime').disable();
+    debugger
+
+    this.overtimePolicyConfigurationService.getNormalOverTime()
+    .subscribe((result)=>{
+      this.normalOverTime=result  
+    })
+    this.overtimePolicyConfigurationService.getHolidayOverTime()
+    .subscribe((result)=>{
+      this.holidayOverTime=result  
+    })
+    this.overtimePolicyConfigurationService.getSpecialOverTime()
+    .subscribe((result)=>{
+      this.specialOverTime=result  
+    })
+
     this.periodTypeKeys = Object.keys(this.periodTypes).filter(Number).map(Number);
 
-    this.normalOverTimeKeys = Object.keys(this.normalOverTime).filter(Number).map(Number);
-    this.holidayOvertimeKeys = Object.keys(this.holidayOvertime).filter(Number).map(Number);
-    this.specialOvertimeKeys = Object.keys(this.specialOvertime).filter(Number).map(Number);
+    // this.normalOverTimeKeys = Object.keys(this.normalOverTime).filter(Number).map(Number);
+    // this.holidayOvertimeKeys = Object.keys(this.holidayOvertime).filter(Number).map(Number);
+    // this.specialOvertimeKeys = Object.keys(this.specialOvertime).filter(Number).map(Number);
     this.route.params.subscribe(params => {
       this.getOvertimePolicy(params.overtimePolicyId);
     });
@@ -99,7 +115,29 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         this.addForm.patchValue( {isRoundOffLowest: true} );
       }
     });
-  }
+    this.addForm.get('holidayFormula').valueChanges.subscribe(value => {
+      if (value) {
+        this.addForm.get('holidayOverTime').enable(); 
+      }else{
+        this.addForm.get('holidayOverTime').disable(); 
+      } 
+    }); 
+    this.addForm.get('specialFormula').valueChanges.subscribe(value => {
+      if (value) {
+        this.addForm.get('specialOverTime').enable();
+      }else{
+        this.addForm.get('specialOverTime').disable();
+      }
+    }); 
+    this.addForm.get('normalFormula').valueChanges.subscribe(value => {
+      if (value) {
+        this.addForm.get('normalOverTime').enable();
+      }else{
+        this.addForm.get('normalOverTime').disable(); 
+      }
+    }); 
+
+   }
 
   getOvertimePolicy(overtimePolicyId) {
     this.overtimePolicyService.get(overtimePolicyId).subscribe((result) => {
@@ -124,11 +162,14 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
     modalRef.result.then((result) => { console.log(result);
                                        if (result !== 'Close click') {
         this.addForm.get(type).patchValue(result);
+        console.log('reslt',result);
+
       }
     });
   }
 
   onSubmit() {
+    debugger
     this.overtimePolicyConfigurationService.add(this.addForm.value).subscribe(() => {
       this.overtimePolicy.isConfigured = true;
       this.overtimePolicyService.update(this.overtimePolicy).subscribe(() => {
@@ -155,9 +196,12 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
-      normalOverTime8:[0],
-      holidayOvertime9:[0],
-      specialOvertime10:[0],
+      normalOverTime:[null,[
+        Validators.required]],
+      holidayOverTime:[null,[
+        Validators.required,]],
+      specialOverTime:[null,[
+        Validators.required,]],
 
       roundOffType: [{ value: 1, disabled: true }],
       noticeDays: [{ value: null, disabled: true }, [
@@ -198,11 +242,11 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         Validators.maxLength(256)
       ]],
       holidayFormula: ['', [
-        Validators.required,
+        // Validators.required,
         Validators.maxLength(256)
       ]],
       specialFormula: ['', [
-        Validators.required,
+        // Validators.required,
         Validators.maxLength(256)
       ]]
     });

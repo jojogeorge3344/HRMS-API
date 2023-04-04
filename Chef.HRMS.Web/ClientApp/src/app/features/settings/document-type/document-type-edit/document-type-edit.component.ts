@@ -17,7 +17,7 @@ export class DocumentTypeEditComponent implements OnInit {
   documentReturnTypeKeys: number[];
   documentUpdateTypeKeys:number[];
   documentTypeKeys:number[]
-  documentType = DocumentType;
+  documentTypeList = DocumentType;
   documentReturnType = DocumentReturnType;
   documentUpdateType = DocumentUpdateType
 
@@ -38,7 +38,7 @@ export class DocumentTypeEditComponent implements OnInit {
   ngOnInit(): void {
     this.editForm = this.createFormGroup();
     this.editForm.patchValue(this.documentTypeDetails);
-    this.documentTypeKeys = Object.keys(this.documentType).filter(Number).map(Number);
+    this.documentTypeKeys = Object.keys(this.documentTypeList).filter(Number).map(Number);
     this.documentReturnTypeKeys = Object.keys(this.documentReturnType).filter(Number).map(Number);
     this.documentUpdateTypeKeys = Object.keys(this.documentUpdateType).filter(Number).map(Number);
     debugger
@@ -78,7 +78,7 @@ export class DocumentTypeEditComponent implements OnInit {
           this.editForm.value.status=false
         }
         if(!this.codeExistCheck){
-          this.documentTypeService.get( this.editForm.value.code)
+          this.documentTypeService.update( this.editForm.value)
           .subscribe((result)=>{        
                 this.toastr.showSuccessMessage('The Document Type updated successfully!');
             this.activeModal.close('submit');
@@ -100,7 +100,7 @@ export class DocumentTypeEditComponent implements OnInit {
       name: ['', [
         Validators.required,
       ]],
-      documentTypeList: ['', [
+      documentType: ['', [
         Validators.required,
       ]],
       isExpired:['', [
