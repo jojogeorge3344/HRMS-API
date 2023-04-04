@@ -69,7 +69,7 @@ export class PayGroupCreateComponent implements OnInit {
       ]],
       code: ['', [
         Validators.required,
-        Validators.maxLength(4),
+        Validators.maxLength(7),
         Validators.pattern('^([a-zA-Z0-9])+$'),
         duplicateNameValidator(this.payGroupCodes)
       ]],

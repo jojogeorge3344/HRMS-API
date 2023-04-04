@@ -74,11 +74,12 @@ export class PayrollComponentCreateComponent implements OnInit {
       );
       });
   }
-  // searchPayroll(){
-  //   this.payrollComponentTypeKeys=this.payrollComponentTypeKeysSearch.filter((res)=>{
-  //     return res.name.toLocaleLowerCase().match(this.payrollComponentTypeKeys.)
-  //   })
-  // }
+  searchPayrlol(event){
+    debugger
+    this.payrollComponentTypeKeys=this.payrollComponentTypeKeysSearch.filter((res)=>{
+      return res.name.toLocaleLowerCase().match(this.payrollComponentTypeKeys.filter((res:any)=>res.name.toLocaleLowerCase()))
+    })
+  }
   get name() {
     return this.addForm.get("name");
   }

@@ -22,7 +22,7 @@
       </div>
       <div class="form-group col-6">
         <label for="payrollComponentType"> Payroll Component Type </label>
-        <select class="form-control" formControlName="payrollComponentType">
+        <select class="form-control" formControlName="payrollComponentType" (change)="searchPayrlol($event)">
           <option [ngValue]="null" disabled>
             Select a Payroll Component Type
           </option>
