@@ -113,7 +113,7 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Required]
         [Description("Payroll Component Type")]
-        public PayrollComponentType PayrollComponentType { get; set; }
+        public Chef.HRMS.Types.PayrollComponentType PayrollComponentType { get; set; }
 
         /// <summary>
         /// Holds the payroll component id

@@ -60,7 +60,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(PayrollComponentConfigurationInsert payrollComponentConfigurationInsert)
+        public async Task<ActionResult> Insert(PayrollComponentConfigurationInsert payrollComponentConfigurationInsert)
         {
             if (!ModelState.IsValid)
             {
