@@ -8,6 +8,7 @@ import { PayrollsettingsService } from '../../../../../services/payrollsettings.
 import { PayrollComponent } from '../../payroll-component/payroll-component.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { formulaValidator } from '@shared/utils/validators.functions';
+import{PayrollStructureService} from '../../payroll-structure/payroll-structure.service'
 
 
 
@@ -24,6 +25,7 @@ export class PayrollCalculationEditComponent implements OnInit {
   @Input() selectedPayrollComponent: any;
   @Input() selectedComponentName: any;
   @Input() selectedComponentCode: any;
+  @Input() structureId: any;
   preview = false;
   selectedComponent: any;
 
@@ -32,7 +34,8 @@ export class PayrollCalculationEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
     private payrollsettingsService: PayrollsettingsService,
-    private payrollCalculationService: PayrollCalculationService
+    private payrollCalculationService: PayrollCalculationService,
+    private payrollStructureService:PayrollStructureService
   ) {
   }
 
@@ -40,7 +43,10 @@ export class PayrollCalculationEditComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.editForm.patchValue({ formula: this.selectedPayrollComponent[0].formula });
-    this.calculationVariables = this.selectedPayrollComponents;
+    //this.calculationVariables = this.selectedPayrollComponents;
+    this.payrollStructureService.getAllActived(this.structureId).subscribe((res)=>{
+      this.calculationVariables =res
+    })
   }
 
   onChange(element) {
