@@ -13,11 +13,11 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<PayrollStructure>> GetAllActived()
+        public async Task<IEnumerable<PayrollStructure>> GetAllActived(int payrollstructureid)
         {
             var sql = @"WITH my_cte AS (
                         SELECT name,shortcode AS code
-                        FROM hrms.payrollcomponent WHERE isarchived=false
+                        FROM hrms.payrollcomponentconfiguration WHERE payrollstructureid=@payrollstructureid AND isarchived=false
                         UNION  
                         SELECT name,code FROM hrms.systemvariable WHERE isarchived=false AND status=true
                         UNION 
@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
                         SELECT name,code FROM my_cte
                         GROUP BY name,code";
 
-            return await Connection.QueryAsync<PayrollStructure>(sql);
+            return await Connection.QueryAsync<PayrollStructure>(sql, new { payrollstructureid });
         }
 
         public async Task<IEnumerable<int>> GetAllAssignedPayrollStructure()
