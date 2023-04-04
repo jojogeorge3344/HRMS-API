@@ -100,7 +100,7 @@ namespace Chef.HRMS.Repositories
         public async Task<int> InsertPayrollFixedCalculation(PayrollCalculation payrollCalculation)
         {
                 var sql = new QueryBuilder<PayrollCalculation>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+                sql = sql.Replace("RETURNING Id", "");
                 sql += " ON CONFLICT ON CONSTRAINT payrollcalculation_componentid_structureid_ukey DO NOTHING";
                 return await Connection.ExecuteAsync(sql, payrollCalculation);
         }

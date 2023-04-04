@@ -17,11 +17,11 @@ namespace Chef.HRMS.Repositories
         {
             var sql = @"WITH my_cte AS (
                         SELECT name,shortcode AS code
-                        FROM hrms.payrollcomponentconfiguration WHERE payrollstructureid=@payrollstructureid AND isarchived=false
+                        FROM hrms.payrollcomponentconfiguration WHERE payrollstructureid = @payrollstructureid AND isarchived = false
                         UNION  
-                        SELECT name,code FROM hrms.systemvariable WHERE isarchived=false AND status=true
+                        SELECT name,code FROM hrms.systemvariable WHERE isarchived = false AND status = true
                         UNION 
-                        SELECT name,code FROM hrms.uservariable WHERE isarchived=false AND status=true
+                        SELECT name,code FROM hrms.uservariable WHERE isarchived = false AND status = true
                         )
                         SELECT name,code FROM my_cte
                         GROUP BY name,code";
