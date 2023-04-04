@@ -122,9 +122,8 @@
                     </div>
 
                     <div class="h6 mt-4 mb-4">Overtime Calculation</div>
-
-                    <div class="row">
-                    <div class="with-input form-group d-inline-block col-6">
+                <div class="form-row flex-v-center">
+                    <div class="with-input form-group d-inline-block col-md-6">
                         <label for="normalFormula" class="mr-2 align-items-center d-flex flex-wrap">
                             <span class="text-nowrap">Formula for normal working days overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2"
@@ -135,7 +134,7 @@
                             </button>
                         </label>
                     </div>
-                    <div class="form-group form-input-line col-3 d-inline-block">
+                    <div class="form-group form-input-line col-md-3 d-inline-block">
                         <select class="form-control" formControlName="normalOverTime">
                             <option value="" disabled>select</option>
                             <option *ngFor="let items of normalOverTime" [ngValue]='items.id'>
@@ -143,10 +142,10 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-3"></div>
+                    <div class="col-md-3"></div>
                 </div>
             <div class="row">
-                    <div class="with-input form-group d-inline-block col-6">
+                    <div class="with-input form-group d-inline-block col-md-6">
                         <label for="holidayFormula" class="mr-2 align-items-center d-flex flex-wrap">
                             <span class="text-nowrap">Formula for holiday overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2"
@@ -157,7 +156,7 @@
                             </button>
                         </label>
                     </div>
-                    <div class="form-group form-input-line col-3 d-inline-block">
+                    <div class="form-group form-input-line col-md-3 d-inline-block">
                         <select class="form-control" formControlName="holidayOverTime" [disabled]=disableholiday>
                             <option value="" disabled>Select</option>
                             <option *ngFor="let item of holidayOverTime" [ngValue]='item.id'>
@@ -165,10 +164,10 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-md-4"></div>
                 </div>
                 <div class="row">
-                    <div class="with-input form-group d-inline-block col-6">
+                    <div class="with-input form-group d-inline-block col-md-6">
                         <label for="specialFormula" class="mr-2 align-items-center d-flex flex-wrap">
                             <span class="text-nowrap">Formula for special overtime</span>
                             <input type="text" readOnly class="d-inline form-control ml-2 mr-2"
@@ -179,7 +178,7 @@
                             </button>
                         </label>
                     </div>
-                    <div class="form-group form-input-line col-3 d-inline-block">
+                    <div class="form-group form-input-line col-md-3 d-inline-block">
                         <select class="form-control" formControlName="specialOverTime">
                             <option value="" disabled>Select</option>
                             <option *ngFor="let item of specialOverTime" [ngValue]='item.id'>
@@ -187,7 +186,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-md-4"></div>
                 </div>
 
                     <div class="with-input form-group">

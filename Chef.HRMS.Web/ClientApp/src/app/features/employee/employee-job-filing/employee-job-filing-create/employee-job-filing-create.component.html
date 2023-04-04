@@ -57,24 +57,26 @@
                 </select>
             </div>
         </div>
-        <div class="row align-items-baseline">
-            <div class="form-group form-input-line col-sm-4">
+        <div class="row">
+            <div class="form-group form-input-line col-4">
                 <label class="col-form-label" for="attendanceCaptureScheme">Attendance Capture Scheme</label>
                 <select class="form-control" formControlName="attendanceCaptureScheme">
                     <option [ngValue]="null" disabled>Select Attendance Capture Scheme</option>
                     <option *ngFor="let key of attendanceCaptureSchemeTypeKeys" [ngValue]='key'>{{attendanceCaptureSchemeType[key]}}</option>
                 </select>
-            </div>
         </div>
-        <div class="form-group form-input-line col-sm-4">
-            <label class="col-form-label" for="overTimePolicyId">EOS Type</label>
-            <select class="form-control" formControlName="overTimePolicyId">
+        <div class="form-group form-input-line col-4">
+            <label class="col-form-label" for="">EOS Type</label>
+            <select class="form-control" formControlName="eosId"  (change)='onOptionsSelected()'>
                 <option value="" disabled>Select EOS Type</option>
-                <option *ngFor="let type of " [ngValue]='type.id'>
-                    {{type.name}}
+                <option value="" disabled>Code  &nbsp;  &nbsp; Name</option>
+                <option *ngFor="let items of eosTypes" [ngValue]='items.id'>
+                 {{items.bfName}}
                 </option>
             </select>
         </div>
+        <div class="col-4"></div>
+    </div>
     </div>
     <div class="modal-footer">
         <a routerLink="/employee">
