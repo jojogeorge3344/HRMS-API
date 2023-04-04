@@ -35,6 +35,7 @@ export class PayrollComponentCreateComponent implements OnInit {
 
   @Input() payrollComponentNames: string[];
   @Input() payrollComponentCodes: string[];
+  payrollComponentTypeKeysSearch: any;
 
   constructor(
     private payrollComponentService: PayrollComponentService,
@@ -68,9 +69,16 @@ export class PayrollComponentCreateComponent implements OnInit {
         this.payrollComponentTypeKeys = result.sort((a, b) =>
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
+        this.payrollComponentTypeKeysSearch = result.sort((a, b) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      );
       });
   }
-
+  // searchPayroll(){
+  //   this.payrollComponentTypeKeys=this.payrollComponentTypeKeysSearch.filter((res)=>{
+  //     return res.name.toLocaleLowerCase().match(this.payrollComponentTypeKeys.)
+  //   })
+  // }
   get name() {
     return this.addForm.get("name");
   }
@@ -111,7 +119,6 @@ export class PayrollComponentCreateComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.maxLength(24),
           Validators.pattern("^([a-zA-Z0-9 ])+$"),
           duplicateNameValidator(this.payrollComponentNames),
         ],
@@ -121,7 +128,7 @@ export class PayrollComponentCreateComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.maxLength(3),
+          Validators.maxLength(7),
           Validators.pattern("^([a-zA-Z0-9])+$"),
           duplicateNameValidator(this.payrollComponentCodes),
         ],
@@ -129,8 +136,8 @@ export class PayrollComponentCreateComponent implements OnInit {
       description: ["", [Validators.required, Validators.maxLength(128)]],
       payHeadType: [null, Validators.required],
       payHeadContractValueType: [null, Validators.required],
-      minimumLimit: [null, Validators.required],
-      maximumLimit: [null, Validators.required],
+      minimumLimit: [null],
+      maximumLimit: [null],
       payHeadBaseUnitType: [null, Validators.required],
       includeInPaySlipType: [null, Validators.required],
       roundingType: [null, Validators.required],

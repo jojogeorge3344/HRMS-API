@@ -114,7 +114,6 @@ export class PayrollComponentEditComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.maxLength(24),
           Validators.pattern("^([a-zA-Z0-9 ])+$"),
           duplicateNameValidator(this.payrollComponentNames),
         ],
@@ -127,7 +126,7 @@ export class PayrollComponentEditComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.maxLength(3),
+          Validators.maxLength(7),
           Validators.pattern("^([a-zA-Z0-9])+$"),
           duplicateNameValidator(this.payrollComponentCodes),
         ],
@@ -135,8 +134,8 @@ export class PayrollComponentEditComponent implements OnInit {
       description: ["", [Validators.required, Validators.maxLength(128)]],
       payHeadType: [null, Validators.required],
       payHeadContractValueType: [null, Validators.required],
-      minimumLimit: [null, Validators.required],
-      maximumLimit: [null, Validators.required],
+      minimumLimit: [null],
+      maximumLimit: [null],
       payHeadBaseUnitType: [null, Validators.required],
       includeInPaySlipType: [null, Validators.required],
       roundingType: [null, Validators.required],
