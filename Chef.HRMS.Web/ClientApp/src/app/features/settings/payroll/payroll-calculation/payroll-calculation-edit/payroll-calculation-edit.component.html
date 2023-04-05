@@ -19,7 +19,7 @@
                         <label for="calculationVariable">Component</label>                     
                     </div>
                     <ul class="list-group" *ngFor ="let variable of calculationVariables">
-                        <li class="list-group-item link list-link" (click)="passVariable(variable)">{{variable.payrollComponentName}}</li>
+                        <li class="list-group-item link list-link" (click)="passVariable(variable)">{{variable.name}}</li>
                     </ul>
                     <!-- <div class="col-sm-4">
                         <div class="form-group">
