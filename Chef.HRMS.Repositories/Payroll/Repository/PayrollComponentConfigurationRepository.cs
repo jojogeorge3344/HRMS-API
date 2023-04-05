@@ -18,7 +18,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollStuctureId(int payrollStructureId)
         {
             var sql = @"SELECT * FROM  hrms.payrollcomponentconfiguration WHERE payrollstructureid = @payrollStructureId 
-                        AND isarchived = false";
+                        AND isarchived = false ORDER BY name ASC";
 
             return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollStructureId });
         }
