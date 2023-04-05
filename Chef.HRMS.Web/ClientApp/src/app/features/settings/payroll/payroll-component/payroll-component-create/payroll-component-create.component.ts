@@ -74,25 +74,25 @@ export class PayrollComponentCreateComponent implements OnInit {
       );
       });
   }
-  searchPayroll(value){
-    debugger
-    this.payrollComponentTypeKeys=this.payrollComponentTypeKeysSearch.filter((res)=>{
-      return res.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    })
+  // searchPayroll(value){
+  //   debugger
+  //   this.payrollComponentTypeKeys=this.payrollComponentTypeKeysSearch.filter((res)=>{
+  //     return res.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+  //   })
   
-  // let a = event.toUpperCase();
+  // // let a = event.toUpperCase();
   
 
-  // for (let i = 0; i <
-  //   this.payrollComponentTypeKeys.length; i++) {
-  //   let txtValue = a[i].textContent || a[i].innerText;
-  //   if (txtValue.toUpperCase().indexOf(a) > -1) {
-  //     a[i]= "";
-  //   } else {
-  //     a[i] = "none";
-  //   }
+  // // for (let i = 0; i <
+  // //   this.payrollComponentTypeKeys.length; i++) {
+  // //   let txtValue = a[i].textContent || a[i].innerText;
+  // //   if (txtValue.toUpperCase().indexOf(a) > -1) {
+  // //     a[i]= "";
+  // //   } else {
+  // //     a[i] = "none";
+  // //   }
+  // // }
   // }
-  }
   // filterDropdown(e) {
   //   debugger
   //   console.log("e in filterDropdown -------> ", e);
