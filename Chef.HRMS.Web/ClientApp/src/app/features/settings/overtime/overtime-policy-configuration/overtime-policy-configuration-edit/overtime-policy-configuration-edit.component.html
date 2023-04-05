@@ -1,198 +1,347 @@
 <div id="OvertimeConfiguration">
-    <div class="subheader mt-3">
-        <h1 class="subheader-title mb-2">
-            <div>
-                Overtime Configuration
-            </div>
-        </h1>
+  <div class="subheader mt-3">
+    <h1 class="subheader-title mb-2">
+      <div>Overtime Configuration</div>
+    </h1>
+  </div>
+
+  <div class="card p-3 h-100" id="configuration">
+    <div class="d-flex justify-content-end">
+      <a routerLink="/settings/overtime">
+        <button class="btn btn-outline-primary btn-sm btn-redirect pull-right">
+          <i class="fal fa-arrow-left mr-2"></i> Back to overtime settings
+        </button>
+      </a>
     </div>
 
-    <div class="card p-3 h-100" id="configuration">
-        
-        <div class="d-flex justify-content-end">
-            <a routerLink="/settings/overtime">
-                <button class="btn btn-outline-primary btn-sm btn-redirect pull-right"><i class="fal fa-arrow-left mr-2"></i> Back to overtime settings</button>
-            </a>
-        </div>
-        
-        <div class="col-sm" *ngIf="overtimePolicy">
-            <div class="font-weight-bold h5 text-capitalize"> {{ overtimePolicy.name }} Configuration</div>
-            <div class="h6 mt-4"></div>
-            <div class="ml-2">    
-                <form [formGroup]="editForm" (validSubmit)="onSubmit()">
-            
-                    <div class="h6 mt-4 mb-4">Basic Configuration</div>
+    <div class="col-sm" *ngIf="overtimePolicy">
+      <div class="font-weight-bold h5 text-capitalize">
+        {{ overtimePolicy.name }} Configuration
+      </div>
+      <div class="h6 mt-4"></div>
+      <div class="ml-2">
+        <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+          <div class="h6 mt-4 mb-4">Basic Configuration</div>
 
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox custom-switch">
-                            <input type="checkbox" #isApprovalRequired class="custom-control-input" id="isApprovalRequired" formControlName="isApprovalRequired">
-                            <label class="custom-control-label" for="isApprovalRequired">
-                                Overtime requests should be approved before employee does overtime
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="with-input form-group" [hidden]="!isApprovalRequired.checked">
-                        <label for="noticeDays" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Employee must provide</span>
-                            <input type="number" class="d-inline form-control ml-2 mr-2" formControlName="noticeDays">
-                            <span class="text-nowrap">days prior notice before doing overtime.</span>
-                        </label>    
-                    </div>
-
-                    <div class="with-input form-group" [hidden]="!isApprovalRequired.checked">
-                        <label for="maximumLimit" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Overtime hours can not exceed</span>
-                            <input type="number" class="d-inline form-control ml-2 mr-2" formControlName="maximumLimit">
-                            <span class="text-nowrap">hours in a </span>
-                            <select formControlName="periodType" class="d-inline form-control ml-2 mr-2">
-                                <option [ngValue]='null' disabled>Select Period Type</option>
-                                <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>{{periodTypes[key]}}</option>
-                            </select>
-                        </label>    
-                    </div>
-
-                    <div class="with-input form-group">
-                        <label for="lastDayLimit" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Employee must submit overtime requests for each month, if any, before</span>
-                            <input type="number" class="d-inline form-control ml-2 mr-2" formControlName="lastDayLimit">
-                            <span class="text-nowrap">days to include the same in the next payslip.</span>
-                        </label>    
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="isCommentRequired" formControlName="isCommentRequired">
-                            <label class="custom-control-label" for="isCommentRequired">
-                                Comment is required for submitting overtime request
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="custom-control custom-checkbox with-input form-group">
-                        
-                        <input type="checkbox" class="custom-control-input" id="isPastDayRQPossible" formControlName="isPastDayRQPossible">
-                        
-                        <label for="isPastDayRQPossible" class="custom-control-label">
-                            <span class="text-nowrap">Employee can submit overtime requests for past</span>
-                            <input type="number" class="d-inline form-control ml-1 mr-1" formControlName="maximumPastDayLimit">   
-                            <span class="text-nowrap">days.</span>
-                        </label>                        
-                    </div>
-
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox custom-switch">
-                            <input type="checkbox" #isRoundOffRequired class="custom-control-input" id="isRoundOffRequired" formControlName="isRoundOffRequired">
-                            <label class="custom-control-label" for="isRoundOffRequired">
-                                Round off overtime hours
-                            </label>
-                        </div>
-                        <div class="form-check" [hidden]="!isRoundOffRequired.checked">
-                            <div class="custom-control custom-radio py-2">
-                                <input type="radio" class="custom-control-input" id="isRoundOffNearest" formControlName="roundOffType" [value]="1">
-                                <label class="custom-control-label" for="isRoundOffNearest">
-                                    to nearest value
-                                    <span class="small text-secondary">
-                                        (If the round off chosen is 12 minutes its rounded to 10 minutes and if it is 14 minutes it will be rounded to 15 minutes)
-                                    </span>
-                                </label>
-                            </div>
-
-                            <div class="custom-control custom-radio py-2">
-                                <input type="radio" class="custom-control-input" id="isRoundOffLowest" formControlName="roundOffType" [value]="2">
-                                <label class="custom-control-label" for="isRoundOffLowest">
-                                    to lowest value
-                                    <span class="small text-secondary">
-                                        (If the round off chosen is 12 minutes its rounded to 10 minutes and if it is 14 minutes it will be rounded to 10 minutes)
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>                    
-
-                    <div class="h6 mt-4 mb-4">Overtime Calculation</div>
-              <div class="row">
-                    <div class="with-input form-group d-inline-block col-md-6">
-                        <label for="normalFormula" class="mr-2 align-items-center d-flex flex-wrap ">
-                            <span class="text-nowrap">Formula for normal working days overtime</span>
-                            <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="normalFormula">
-                            <button type="button" (click)="openFormulaEditor('normalFormula')" class="btn btn-outline-primary btn-sm ml-3">
-                                <i class="fal fa-edit"></i>
-                            </button>                            
-                        </label>    
-                    </div>
-                    <div class="form-group form-input-line col-md-3 d-inline-block">
-                        <select class="form-control" formControlName="normalOverTime">
-                            <option value="" disabled>select</option>
-                            <option *ngFor="let item of normalOverTime" [ngValue]='item.id'>
-                                {{item.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-3"></div>
-                </div>
-
-                <div class="row">
-                    <div class="with-input form-group d-inline-block col-md-6">
-                        <label for="holidayFormula" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Formula for holiday overtime</span>
-                            <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="holidayFormula">
-                            <button type="button" (click)="openFormulaEditor('holidayFormula')" class="btn btn-outline-primary btn-sm ml-3">
-                                <i class="fal fa-edit"></i>
-                            </button>
-                        </label>    
-                    </div>
-                    <div class="form-group form-input-line col-md-3 d-inline-block ">
-                        <select class="form-control" formControlName="holidayOverTime">
-                            <option value="" disabled>Select</option>
-                            <option *ngFor="let item of holidayOverTime" [ngValue]='item.id'>
-                                {{item.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-3"></div>
-                </div>
-                <div class="row">
-                    <div class="with-input form-group d-inline-block col-md-6">
-                        <label for="specialFormula" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Formula for special overtime</span>
-                            <input type="text" readOnly class="d-inline form-control ml-2 mr-2" formControlName="specialFormula">
-                            <button type="button" (click)="openFormulaEditor('specialFormula')" class="btn btn-outline-primary btn-sm ml-3">
-                                <i class="fal fa-edit"></i>
-                            </button>
-                        </label>    
-                    </div>
-                    <div class="form-group form-input-line col-md-3 d-inline-block">
-                        <select class="form-control" formControlName="specialOverTime">
-                            <option value="" disabled>Select</option>
-                            <option *ngFor="let item of specialOverTime" [ngValue]='item.id'>
-                                {{item.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-3"></div>
-                </div>
-                    <div class="with-input form-group">
-                        <label for="minimumOverTimeHour" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Do not consider for overtime calculation if overtime hours are less than</span>
-                            <input type="number" class="d-inline form-control ml-2 mr-2" formControlName="minimumOverTimeHour">
-                        </label>    
-                    </div>
-
-                    <div class="with-input form-group">
-                        <label for="timeBeyondShiftHour" class="mr-2 align-items-center d-flex flex-wrap">
-                            <span class="text-nowrap">Overtime hours are calculated only if the time is beyond</span>
-                            <input type="number" class="d-inline form-control ml-2 mr-2" formControlName="timeBeyondShiftHour">
-                            <span class="text-nowrap">hours from the normal shift hours.</span>
-                        </label>    
-                    </div>
-
-                    <div class="d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
-                    </div> 
-                </form>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox custom-switch">
+              <input
+                type="checkbox"
+                #isApprovalRequired
+                class="custom-control-input"
+                id="isApprovalRequired"
+                formControlName="isApprovalRequired"
+              />
+              <label class="custom-control-label" for="isApprovalRequired">
+                Overtime requests should be approved before employee does
+                overtime
+              </label>
             </div>
-        </div>
+          </div>
+
+          <div
+            class="with-input form-group"
+            [hidden]="!isApprovalRequired.checked"
+          >
+            <label
+              for="noticeDays"
+              class="mr-2 align-items-center d-flex flex-wrap"
+            >
+              <span class="text-nowrap">Employee must provide</span>
+              <input
+                type="number"
+                class="d-inline form-control ml-2 mr-2"
+                formControlName="noticeDays"
+              />
+              <span class="text-nowrap"
+                >days prior notice before doing overtime.</span
+              >
+            </label>
+          </div>
+
+          <div
+            class="with-input form-group"
+            [hidden]="!isApprovalRequired.checked"
+          >
+            <label
+              for="maximumLimit"
+              class="mr-2 align-items-center d-flex flex-wrap"
+            >
+              <span class="text-nowrap">Overtime hours can not exceed</span>
+              <input
+                type="number"
+                class="d-inline form-control ml-2 mr-2"
+                formControlName="maximumLimit"
+              />
+              <span class="text-nowrap">hours in a </span>
+              <select
+                formControlName="periodType"
+                class="d-inline form-control ml-2 mr-2"
+              >
+                <option [ngValue]="null" disabled>Select Period Type</option>
+                <option *ngFor="let key of periodTypeKeys" [ngValue]="key">
+                  {{ periodTypes[key] }}
+                </option>
+              </select>
+            </label>
+          </div>
+
+          <div class="with-input form-group">
+            <label
+              for="lastDayLimit"
+              class="mr-2 align-items-center d-flex flex-wrap"
+            >
+              <span class="text-nowrap"
+                >Employee must submit overtime requests for each month, if any,
+                before</span
+              >
+              <input
+                type="number"
+                class="d-inline form-control ml-2 mr-2"
+                formControlName="lastDayLimit"
+              />
+              <span class="text-nowrap"
+                >days to include the same in the next payslip.</span
+              >
+            </label>
+          </div>
+
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="isCommentRequired"
+                formControlName="isCommentRequired"
+              />
+              <label class="custom-control-label" for="isCommentRequired">
+                Comment is required for submitting overtime request
+              </label>
+            </div>
+          </div>
+
+          <div class="custom-control custom-checkbox with-input form-group">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="isPastDayRQPossible"
+              formControlName="isPastDayRQPossible"
+            />
+
+            <label for="isPastDayRQPossible" class="custom-control-label">
+              <span class="text-nowrap"
+                >Employee can submit overtime requests for past</span
+              >
+              <input
+                type="number"
+                class="d-inline form-control ml-1 mr-1"
+                formControlName="maximumPastDayLimit"
+              />
+              <span class="text-nowrap">days.</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <div class="custom-control custom-checkbox custom-switch">
+              <input
+                type="checkbox"
+                #isRoundOffRequired
+                class="custom-control-input"
+                id="isRoundOffRequired"
+                formControlName="isRoundOffRequired"
+              />
+              <label class="custom-control-label" for="isRoundOffRequired">
+                Round off overtime hours
+              </label>
+            </div>
+            <div class="form-check" [hidden]="!isRoundOffRequired.checked">
+              <div class="custom-control custom-radio py-2">
+                <input
+                  type="radio"
+                  class="custom-control-input"
+                  id="isRoundOffNearest"
+                  formControlName="roundOffType"
+                  [value]="1"
+                />
+                <label class="custom-control-label" for="isRoundOffNearest">
+                  to nearest value
+                  <span class="small text-secondary">
+                    (If the round off chosen is 12 minutes its rounded to 10
+                    minutes and if it is 14 minutes it will be rounded to 15
+                    minutes)
+                  </span>
+                </label>
+              </div>
+
+              <div class="custom-control custom-radio py-2">
+                <input
+                  type="radio"
+                  class="custom-control-input"
+                  id="isRoundOffLowest"
+                  formControlName="roundOffType"
+                  [value]="2"
+                />
+                <label class="custom-control-label" for="isRoundOffLowest">
+                  to lowest value
+                  <span class="small text-secondary">
+                    (If the round off chosen is 12 minutes its rounded to 10
+                    minutes and if it is 14 minutes it will be rounded to 10
+                    minutes)
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="h6 mt-4 mb-4">Overtime Calculation</div>
+          <div class="row">
+            <div class="with-input form-group d-inline-block col-md-6">
+              <label
+                for="normalFormula"
+                class="mr-2 align-items-center d-flex flex-wrap"
+              >
+                <span class="text-nowrap">
+                  Formula for normal working days overtime
+                </span>
+                <input
+                  type="text"
+                  readOnly
+                  class="d-inline form-control ml-2 mr-2"
+                  formControlName="normalFormula"
+                />
+                <button
+                  type="button"
+                  (click)="openFormulaEditor('normalFormula')"
+                  class="btn btn-outline-primary btn-sm ml-3"
+                >
+                  <i class="fal fa-edit"></i>
+                </button>
+              </label>
+            </div>
+            <div class="form-group form-input-line col-md-3 d-inline-block">
+              <select class="form-control" formControlName="normalOverTime">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let item of normalOverTime" [ngValue]="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="with-input form-group d-inline-block col-md-6">
+              <label
+                for="holidayFormula"
+                class="mr-2 align-items-center d-flex flex-wrap"
+              >
+                <span class="text-nowrap">Formula for holiday overtime</span>
+                <input
+                  type="text"
+                  readOnly
+                  class="d-inline form-control ml-2 mr-2"
+                  formControlName="holidayFormula"
+                />
+                <button
+                  type="button"
+                  (click)="openFormulaEditor('holidayFormula')"
+                  class="btn btn-outline-primary btn-sm ml-3"
+                >
+                  <i class="fal fa-edit"></i>
+                </button>
+              </label>
+            </div>
+            <div class="form-group form-input-line col-md-3 d-inline-block">
+              <select class="form-control" formControlName="holidayOverTime">
+                <option value="" disabled>Select</option>
+                <option
+                  *ngFor="let item of holidayOverTime"
+                  [ngValue]="item.id"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
+          <div class="row">
+            <div class="with-input form-group d-inline-block col-md-6">
+              <label
+                for="specialFormula"
+                class="mr-2 align-items-center d-flex flex-wrap"
+              >
+                <span class="text-nowrap">Formula for special overtime</span>
+                <input
+                  type="text"
+                  readOnly
+                  class="d-inline form-control ml-2 mr-2"
+                  formControlName="specialFormula"
+                />
+                <button
+                  type="button"
+                  (click)="openFormulaEditor('specialFormula')"
+                  class="btn btn-outline-primary btn-sm ml-3"
+                >
+                  <i class="fal fa-edit"></i>
+                </button>
+              </label>
+            </div>
+            <div class="form-group form-input-line col-md-3 d-inline-block">
+              <select class="form-control" formControlName="specialOverTime">
+                <option value="" disabled>Select</option>
+                <option
+                  *ngFor="let item of specialOverTime"
+                  [ngValue]="item.id"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
+          <div class="with-input form-group">
+            <label
+              for="minimumOverTimeHour"
+              class="mr-2 align-items-center d-flex flex-wrap"
+            >
+              <span class="text-nowrap"
+                >Do not consider for overtime calculation if overtime hours are
+                less than</span
+              >
+              <input
+                type="number"
+                class="d-inline form-control ml-2 mr-2"
+                formControlName="minimumOverTimeHour"
+              />
+            </label>
+          </div>
+
+          <div class="with-input form-group">
+            <label
+              for="timeBeyondShiftHour"
+              class="mr-2 align-items-center d-flex flex-wrap"
+            >
+              <span class="text-nowrap"
+                >Overtime hours are calculated only if the time is beyond</span
+              >
+              <input
+                type="number"
+                class="d-inline form-control ml-2 mr-2"
+                formControlName="timeBeyondShiftHour"
+              />
+              <span class="text-nowrap"
+                >hours from the normal shift hours.</span
+              >
+            </label>
+          </div>
+
+          <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-success">
+              <i class="mr-1 fal fa-save"></i>Save
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
-
