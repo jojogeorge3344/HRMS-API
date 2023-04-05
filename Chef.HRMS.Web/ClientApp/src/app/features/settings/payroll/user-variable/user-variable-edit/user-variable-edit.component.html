@@ -1,45 +1,74 @@
-<form [formGroup]="addForm" id="uservariableGroupForm" (validSubmit)="onSubmit()">
-    <div class="modal-header">
-        <h4 class="modal-title">User Variable</h4>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
+<form
+  [formGroup]="addForm"
+  id="uservariableGroupForm"
+  (validSubmit)="onSubmit()"
+>
+  <div class="modal-header">
+    <h4 class="modal-title">User Variable</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row align-items-baseline">
+      <div class="form-group input-group form-input-inline col-sm-4">
+        <label class="col-form-label col-12 px-0" for="code">Code</label>
+        <input
+          class="form-control"
+          id="code"
+          name="code"
+          value=""
+          formControlName="code"
+          (input)="checkCodeEXist($event.target.value)"
+        />
+      </div>
+      <div class="form-group input-group form-input-inline col-sm-4">
+        <label class="col-form-label col-12 px-0" for="name">Name</label>
+        <input
+          class="form-control"
+          id="name"
+          name="name"
+          value=""
+          formControlName="name"
+        />
+      </div>
+      <div class="form-group input-group form-input-inline col-sm-4">
+        <label class="col-form-label col-12 px-0" for="type">Type</label>
+        <input
+          class="form-control"
+          id="type"
+          name="type"
+          value=""
+          formControlName="type"
+        />
+      </div>
     </div>
-    <div class="modal-body">
-        <div class="row align-items-baseline">
-            <div class="form-group input-group form-input-inline col-sm-4">
-                <label class="col-form-label col-12 px-0" for="code">Code</label>
-                <input class="form-control" id="code" name="code"
-                    value="" formControlName="code" (input)="checkCodeEXist($event.target.value)">
-            </div>
-            <div class="form-group input-group form-input-inline col-sm-4">
-                <label class="col-form-label col-12 px-0" for="name">Name</label>
-                <input class="form-control" id="name" name="name"
-                     value="" formControlName="name">
-            </div>
-            <div class="form-group input-group form-input-inline col-sm-4">
-                <label class="col-form-label col-12 px-0" for="type">Type</label>
-                <input class="form-control" id="type" name="type"
-                     value="" formControlName="type">
-            </div>
-          
-        </div>
-        <div class="row align-items-baseline">
-            <div class="form-group input-group form-input-inline col-sm-4">
-                <label class="col-form-label col-12 px-0" for="status">Status</label>
-                <select class="form-control" formControlName="status">
-                    <option value="" disabled>Select Status</option>
-                    <option value="Active">Active</option>
-                    <option value="InActive">InActive</option>
-                </select>
-            </div>
-        </div>
+    <div class="row align-items-baseline">
+      <div class="form-group input-group form-input-inline col-sm-4">
+        <label class="col-form-label col-12 px-0" for="status">Status</label>
+        <select class="form-control" formControlName="status">
+          <option value="" disabled>Select Status</option>
+          <option value="Active">Active</option>
+          <option value="InActive">Inactive</option>
+        </select>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
-                class="mr-1 fal fa-window-close"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-warning"
+      (click)="activeModal.close('Close click')"
+    >
+      <i class="mr-1 fal fa-window-close"></i> Cancel
+    </button>
+    <button type="submit" class="btn btn-success">
+      <i class="mr-1 fal fa-save"></i>Save
+    </button>
+  </div>
 </form>
-
-
