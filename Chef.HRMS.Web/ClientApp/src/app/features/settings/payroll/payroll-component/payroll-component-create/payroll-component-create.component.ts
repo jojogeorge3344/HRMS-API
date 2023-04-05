@@ -74,12 +74,45 @@ export class PayrollComponentCreateComponent implements OnInit {
       );
       });
   }
-  searchPayrlol(event){
+  searchPayroll(value){
     debugger
     this.payrollComponentTypeKeys=this.payrollComponentTypeKeysSearch.filter((res)=>{
-      return res.name.toLocaleLowerCase().match(this.payrollComponentTypeKeys.filter((res:any)=>res.name.toLocaleLowerCase()))
+      return res.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
     })
+  
+  // let a = event.toUpperCase();
+  
+
+  // for (let i = 0; i <
+  //   this.payrollComponentTypeKeys.length; i++) {
+  //   let txtValue = a[i].textContent || a[i].innerText;
+  //   if (txtValue.toUpperCase().indexOf(a) > -1) {
+  //     a[i]= "";
+  //   } else {
+  //     a[i] = "none";
+  //   }
+  // }
   }
+  // filterDropdown(e) {
+  //   debugger
+  //   console.log("e in filterDropdown -------> ", e);
+  //   window.scrollTo(window.scrollX, window.scrollY + 1);
+  //   let searchString = e.toLowerCase();
+  //   if (!searchString) {
+  //     this.payrollComponentTypeKeys = this.payrollComponentTypeKeysSearch.slice();
+  //     return;
+  //   } else {
+  //     this.payrollComponentTypeKeys = this.payrollComponentTypeKeysSearch.filter(
+  //       user => user.name.toLowerCase().indexOf(searchString) > -1
+  //     );
+  //   }
+  //   window.scrollTo(window.scrollX, window.scrollY - 1);
+  //   console.log("this.filteredList indropdown -------> ", this.payrollComponentTypeKeys);
+  // }
+
+  // selectValue(name) {
+  //   this.selectedValue = name;
+  // }
   get name() {
     return this.addForm.get("name");
   }
