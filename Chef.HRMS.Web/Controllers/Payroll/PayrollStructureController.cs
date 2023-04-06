@@ -119,7 +119,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
         [HttpGet("GetAllActived/{payrollstructureid}")]
-        public async Task<ActionResult<IEnumerable<PayrollStructure>>> GetAllActived(int payrollstructureid)
+        public async Task<ActionResult<IEnumerable<SystemVariable>>> GetAllActived(int payrollstructureid)
         {
             var actived = await payrollStructureService.GetAllActived(payrollstructureid);
 

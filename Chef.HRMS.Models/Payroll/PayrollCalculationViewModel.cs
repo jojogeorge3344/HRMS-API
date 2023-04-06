@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.HRMS.Types;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
@@ -28,5 +29,7 @@ namespace Chef.HRMS.Models
         public bool IsCustomizedAndOverridenAtEmployeeLevel { get; set; }
 
         public float MaximumLimit { get; set; }
+        public PayHeadType PayHeadType { get; set; }
+        public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
     }
 }

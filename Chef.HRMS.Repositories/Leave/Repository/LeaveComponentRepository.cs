@@ -40,23 +40,25 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<BenefitCategory>(sql);
         }
 
-        public async Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid)
+        public async Task<IEnumerable<BenefitTypes>> GetAccrualBenefitType()
         {
-            string sql = string.Empty;
-            if (categoryid == 1)
-            {
-                sql = @"SELECT * FROM hrms.benefittypes WHERE id=15";
-            }
-            else if (categoryid == 2)
-            {
-                sql = @"SELECT * FROM hrms.benefittypes WHERE id=36";
-            }
-            else
-            {
-                sql = @"SELECT * FROM hrms.benefittypes WHERE id=32";
-            }
-            var data = await Connection.QueryAsync<BenefitTypes>(sql, new {categoryid});
-            return data;
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id=15";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetAccrualType()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id=32";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetDeductionType()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id=36";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
         }
     }
 }

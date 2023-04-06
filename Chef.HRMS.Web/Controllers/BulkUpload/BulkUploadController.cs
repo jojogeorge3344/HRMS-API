@@ -192,6 +192,11 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(uploadDetails);
         }
 
+        [HttpGet("ExportExcelFormat")]
+        public async Task<ActionResult<byte[]>> ExportExcelFormat()
+        {
+            return await bulkUploadService.ExportExcelFormat();
 
+        }
     }
 }
