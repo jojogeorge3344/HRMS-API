@@ -73,7 +73,7 @@ export class PayGroupEditComponent implements OnInit {
       id: [],
       name: ['', [
         Validators.required,
-        Validators.maxLength(64),
+        Validators.maxLength(50),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.payGroupNames)
       ]],
@@ -82,7 +82,7 @@ export class PayGroupEditComponent implements OnInit {
       ]],
       code: ['', [
         Validators.required,
-        Validators.maxLength(4),
+        Validators.maxLength(10),
         Validators.pattern('^([a-zA-Z0-9])+$'),
         duplicateNameValidator(this.payGroupCodes)
       ]],
