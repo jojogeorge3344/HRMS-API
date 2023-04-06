@@ -10,7 +10,7 @@ namespace Chef.HRMS.Models
         /// Holds pay group name
         /// </summary>
         [Required]
-        [StringLength(64)]
+        [StringLength(50)]
         public string Name { get; set; }
 
         /// <summary>
