@@ -27,6 +27,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   holidayOverTime;
   normalOverTime;
   specialOverTime;
+  required:boolean;
 
   constructor(
     private router: Router,
@@ -137,6 +138,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     this.editForm.get('holidayFormula').valueChanges.subscribe(value => {
       if (value) {
         this.editForm.get('holidayOverTime').enable(); 
+        this.required=true;
       } else{
         this.editForm.get('holidayOverTime').disable(); 
         this.editForm.get('holidayOverTime').reset();
@@ -145,6 +147,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     this.editForm.get('specialFormula').valueChanges.subscribe(value => {
       if (value) {
         this.editForm.get('specialOverTime').enable();
+        this.required=true;
       }else{
         this.editForm.get('specialOverTime').disable();
         this.editForm.get('specialOverTime').reset();
@@ -153,6 +156,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     this.editForm.get('normalFormula').valueChanges.subscribe(value => {
       if (value) {
         this.editForm.get('normalOverTime').enable();
+        this.required=true;
       }else{
         this.editForm.get('normalOverTime').disable();
         this.editForm.get('normalOverTime').reset();

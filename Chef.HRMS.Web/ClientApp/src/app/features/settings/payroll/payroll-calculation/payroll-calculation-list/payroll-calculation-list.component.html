@@ -32,7 +32,7 @@
                             <td>{{component.formula? component.formula : '--'}}</td>
                             <td [ngClass]="{ 'disabled': isDisabled(component, payroll.structureId)}">
                                 <button [disabled]="isDisabled(component, payroll.structureId)"
-                                    (click)="openAddCalculationOvertime(payroll.components, component.payrollComponentId,component.payrollComponentName, component.shortCode)"
+                                    (click)="openAddCalculationOvertime(payroll.components, component.payrollComponentId,component.payrollComponentName, component.shortCode,payroll.structureId)"
                                     class="card-link btn btn-outline-primary btn-sm"><i
                                         class="fal fa-edit"></i></button>
                             </td>

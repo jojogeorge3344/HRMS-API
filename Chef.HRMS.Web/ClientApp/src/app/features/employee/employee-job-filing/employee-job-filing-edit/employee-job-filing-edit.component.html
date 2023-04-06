@@ -120,11 +120,11 @@
                 </div>
             </div>
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="overTimePolicyId">EOS Type</label>
-                <select class="form-control" formControlName="overTimePolicyId">
+                <label class="col-form-label" for="">EOS Type</label>
+                <select class="form-control" formControlName="eosId"  (change)='onOptionsSelected()'>
                     <option value="" disabled>Select EOS Type</option>
-                    <option *ngFor="let type of overTimePolicyId" [ngValue]='type.id'>
-                        {{type.name}}
+                    <option  style="width: 100px;" *ngFor="let items of eosTypes" [ngValue]='items.id'>
+                        <div style="width: 130px;">{{items.bfName}}</div>
                     </option>
                 </select>
             </div>

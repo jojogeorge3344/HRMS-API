@@ -59,7 +59,7 @@ export class PayrollCalculationListComponent implements OnInit {
     });
   }
 
-  openAddCalculationOvertime(seletedPayroll, selectedComponentId, selectedComponentName, selectedComponentCode) {
+  openAddCalculationOvertime(seletedPayroll, selectedComponentId, selectedComponentName, selectedComponentCode,structureId) {
     const selectedPayrollComponents = seletedPayroll.filter((item) => item.payrollComponentId !== selectedComponentId);
     const selectedPayrollComponent = seletedPayroll.filter((item) => item.payrollComponentId == selectedComponentId);
 
@@ -69,6 +69,7 @@ export class PayrollCalculationListComponent implements OnInit {
     modalRef.componentInstance.selectedPayrollComponent = selectedPayrollComponent;
     modalRef.componentInstance.selectedComponentName = selectedComponentName;
     modalRef.componentInstance.selectedComponentCode = selectedComponentCode;
+    modalRef.componentInstance.structureId = structureId;
     modalRef.result.then((result) => {
       if (result == 'submit') {
         this.getPayrollCalculationDetails();

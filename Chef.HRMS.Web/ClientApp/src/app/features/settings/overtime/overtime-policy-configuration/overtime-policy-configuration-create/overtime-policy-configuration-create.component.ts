@@ -120,6 +120,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         this.addForm.get('holidayOverTime').enable(); 
       }else{
         this.addForm.get('holidayOverTime').disable(); 
+        this.addForm.get('holidayOverTime').reset(); 
       } 
     }); 
     this.addForm.get('specialFormula').valueChanges.subscribe(value => {
@@ -127,6 +128,8 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         this.addForm.get('specialOverTime').enable();
       }else{
         this.addForm.get('specialOverTime').disable();
+        this.addForm.get('specialOverTime').reset(); 
+
       }
     }); 
     this.addForm.get('normalFormula').valueChanges.subscribe(value => {
@@ -134,6 +137,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         this.addForm.get('normalOverTime').enable();
       }else{
         this.addForm.get('normalOverTime').disable(); 
+        this.addForm.get('normalOverTime').reset(); 
       }
     }); 
 
