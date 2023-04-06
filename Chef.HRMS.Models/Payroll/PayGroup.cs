@@ -17,7 +17,7 @@ namespace Chef.HRMS.Models
         /// Holds pay group code
         /// </summary>
         [Required]
-        [StringLength(4)]
+        [StringLength(10)]
         public string Code { get; set; }
 
         /// <summary>
