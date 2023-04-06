@@ -116,6 +116,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
       ]],
       uidNumber: ['', [
         Validators.required,
+        Validators.maxLength(30),
       ]],
       createdDate: [],
       languageKnown: [null,[
