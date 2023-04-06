@@ -10,14 +10,14 @@ namespace Chef.HRMS.Models
         /// Holds pay group name
         /// </summary>
         [Required]
-        [StringLength(64)]
+        [StringLength(50)]
         public string Name { get; set; }
 
         /// <summary>
         /// Holds pay group code
         /// </summary>
         [Required]
-        [StringLength(4)]
+        [StringLength(10)]
         public string Code { get; set; }
 
         /// <summary>
