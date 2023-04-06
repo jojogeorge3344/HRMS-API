@@ -60,5 +60,11 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
+        public async Task<IEnumerable<LeaveComponent>> GetAllAsync()
+        {
+            var sql = @"SELECT * FROM hrms.leavecomponent WHERE isarchived = false ORDER BY name ASC";
+
+            return await Connection.QueryAsync<LeaveComponent>(sql);
+        }
     }
 }
