@@ -23,5 +23,14 @@ namespace Chef.HRMS.Repositories
            .CountAsync<int>() > 0) return true;
             else return false;
         }
+        public async Task<bool> IsReligionNameExist(string name)
+        {
+            if (await QueryFactory
+            .Query<Religion>()
+           .Where("name", name)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
+        }
     }
 }
