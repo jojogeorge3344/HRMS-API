@@ -29,7 +29,7 @@ namespace Chef.HRMS.Models
         public bool IsCustomizedAndOverridenAtEmployeeLevel { get; set; }
 
         public float MaximumLimit { get; set; }
-        public PayHeadType PayHeadType { get; set; }
+        public PayHeadContractValueType PayHeadContractValueType { get; set; }
         public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
     }
 }
