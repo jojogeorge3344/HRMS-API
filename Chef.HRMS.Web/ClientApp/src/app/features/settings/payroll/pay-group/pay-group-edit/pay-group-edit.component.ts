@@ -45,6 +45,7 @@ export class PayGroupEditComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
+    this.calenders=this.calenders.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
     if (this.calenders.find(calender => this.payGroup.payrollCalendarId == calender.id) && this.calenders.find(calender => this.payGroup.payrollCalendarId == calender.id).periodType == 1) {
       this.isStartingMonth = false;
     } else {

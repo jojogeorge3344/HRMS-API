@@ -44,6 +44,7 @@ export class PayGroupCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     this.onChanges();
+    this.calenders=this.calenders.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
   }
 
   onChanges(): void {
