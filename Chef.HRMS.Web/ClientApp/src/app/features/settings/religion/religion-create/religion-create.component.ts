@@ -35,6 +35,13 @@ export class ReligionCreateComponent implements OnInit {
       if(result){
      this.toastr.showWarningMessage("Already Code Exist")
       }
+      else if(religionForm.name){
+     this.religionService.getName(religionForm.name).subscribe((result)=>{
+      if(result){
+        this.toastr.showWarningMessage("Already name Exist")
+         }
+     })
+      }
       else{
         this.religionService.add(religionForm).subscribe(result => {
           this.toastr.showSuccessMessage('The Religion added successfully!');

@@ -32,4 +32,7 @@ export class ReligionService {
   get(code){
     return this.http.get<ReligionGroup[]>(this.baseUrl + 'IsReligionCodeExist/'+ code).pipe(map(response => { return response; }));
   }
+  getName(name){
+    return this.http.get<ReligionGroup[]>(this.baseUrl + 'IsReligionCodeExist/'+ name).pipe(map(response => { return response; }));
+  }
 }
