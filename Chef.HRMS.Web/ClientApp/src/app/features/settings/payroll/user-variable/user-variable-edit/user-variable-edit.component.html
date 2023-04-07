@@ -39,13 +39,10 @@
       </div>
       <div class="form-group input-group form-input-inline col-sm-4">
         <label class="col-form-label col-12 px-0" for="type">Type</label>
-        <input
-          class="form-control"
-          id="type"
-          name="type"
-          value=""
-          formControlName="type"
-        />
+        <select class="form-control" formControlName="type">
+          <option [ngValue]="null" disabled>Select Type</option>
+          <option *ngFor="let key of userVariableTypeKeys" [ngValue]='key'>{{userVariableTypeOf[key]}}</option>
+      </select>
       </div>
     </div>
     <div class="row align-items-baseline">
