@@ -1,4 +1,5 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Models;
+using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,11 @@ namespace Chef.HRMS.Services
         public async Task<bool> IsReligionCodeExist(string code)
         {
             return await religionRepository.IsReligionCodeExist(code);
+        }
+
+        public async Task<bool> IsReligionNameExist(string name)
+        {
+            return await religionRepository.IsReligionNameExist(name);
         }
     }
 }
