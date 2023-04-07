@@ -36,6 +36,7 @@ export class AssetTypeListComponent implements OnInit {
       this.assetType = result.sort(function(a, b) {
         return (a.id - b.id);
       });
+      this.assetType=result.sort((a, b) => a.assettypename.toLowerCase().localeCompare(b.assettypename.toLowerCase())) 
       this.assetTypeNames = this.assetType.map(a => a.assettypename.toLowerCase());
     },
     error => {

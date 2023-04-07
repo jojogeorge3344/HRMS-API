@@ -82,10 +82,10 @@ export class DocumentTypeCreateComponent implements OnInit {
       // ]],
 
       code: ['', [
-        Validators.required,
+        Validators.required, Validators.maxLength(14),
       ]],
       name: ['', [
-        Validators.required,
+        Validators.required, Validators.maxLength(50),
       ]],
       documentType: ['', [
         Validators.required,

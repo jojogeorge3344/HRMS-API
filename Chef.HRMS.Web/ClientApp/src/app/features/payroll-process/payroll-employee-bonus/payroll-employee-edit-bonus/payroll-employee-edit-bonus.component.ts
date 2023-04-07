@@ -74,7 +74,7 @@ export class PayrollEmployeeEditBonusComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       employeeId: ['', [
-        // Validators.required,
+        // Validators.required,Validators.max(0),
       ]],
       bonusTypeId: [null, [
         Validators.required,

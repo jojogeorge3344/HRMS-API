@@ -8,7 +8,7 @@
     <div class="modal-body">
 
         <div class="d-flex align-items-baseline form-group mt-1">
-            <label for="assetType">Asset type</label>
+            <label for="assetType">Asset type<span class="required">*</span></label>
             <select class="form-control dropdown-width ml-7" formControlName="assetType" (change)="getAssetTypeId();"
                 id="assetType">
                 <option [ngValue]="null">Asset Types</option>
