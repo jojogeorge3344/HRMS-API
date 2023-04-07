@@ -62,6 +62,7 @@ export class PayGroupListComponent implements OnInit {
     this.payGroupService.getAll()
       .subscribe(res => {
         this.payGroups = res;
+        this.payGroups= res.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
         this.payGroupNames = this.payGroups.map(a => a.name.toLowerCase());
         this.payGroupCodes = this.payGroups.map(a => a.code.toLowerCase());
       });
