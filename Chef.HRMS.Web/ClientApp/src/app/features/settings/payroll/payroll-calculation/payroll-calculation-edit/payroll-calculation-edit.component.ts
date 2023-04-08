@@ -70,7 +70,7 @@ export class PayrollCalculationEditComponent implements OnInit {
 
   passVariable(variable) {
     const formulaValue = this.editForm.value.formula ? this.editForm.value.formula : '';
-    const value = formulaValue + (variable.shortCode ? `[${variable.shortCode}]` : `{${variable.name}}`);
+    const value = formulaValue + (variable.shortCode ? `[${variable.shortCode}]` : `{${variable.code}}`);
     // const value = [] + (variable.shortCode? `[${variable.shortCode}]` : `{${variable.name}}`)
     this.editForm.patchValue({
       formula: value
