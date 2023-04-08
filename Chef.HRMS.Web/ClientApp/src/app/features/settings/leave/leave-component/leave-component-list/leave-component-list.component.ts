@@ -55,7 +55,7 @@ export class LeaveComponentListComponent implements OnInit {
 
   openCreateLeaveComponent() {
     const modalRef = this.modalService.open(LeaveComponentCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'xl', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.leaveComponentNames = this.leaveComponentNames;
     modalRef.componentInstance.leaveComponentCodes = this.leaveComponentCodes;
@@ -70,7 +70,7 @@ export class LeaveComponentListComponent implements OnInit {
   openEditLeaveComponent(leaveComponent: LeaveComponent) {
     console.log(leaveComponent);
     const modalRef = this.modalService.open(LeaveComponentEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'xl', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.leaveComponent = leaveComponent;
     modalRef.componentInstance.isDisabled = this.isDisabled(leaveComponent);
