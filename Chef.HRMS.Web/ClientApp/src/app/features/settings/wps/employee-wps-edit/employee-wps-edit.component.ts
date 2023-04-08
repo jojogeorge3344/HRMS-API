@@ -39,7 +39,7 @@ export class EmployeeWpsEditComponent implements OnInit {
       this.activeModal.close('submit');
     },
       error => {
-        console.error(error);
+        
         this.toastr.showWarningMessage('wpsgroup does not exist');
       });
   }
