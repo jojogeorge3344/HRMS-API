@@ -73,5 +73,10 @@ namespace Chef.HRMS.Services
         {
             return await leaveComponentRepository.GetDeductionType();
         }
+
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid)
+        {
+            return await leaveComponentRepository.GetBenefitType(categoryid);
+        }
     }
 }

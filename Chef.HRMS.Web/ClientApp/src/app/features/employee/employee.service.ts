@@ -62,5 +62,7 @@ export class EmployeeService {
   getEmployeeDetailsByJobTile(jobTitleId: number) {
     return this.http.get<Employee[]>(this.baseUrl + 'getEmployeeDetailsByJobTile/' + jobTitleId).pipe(map(response => { return response; }));
   }
-
+  getName(name) {
+    return this.http.get<Employee[]>(this.baseUrl + 'IsNameExist/' + name).pipe(map(response => { return response; }));
+  }
 }

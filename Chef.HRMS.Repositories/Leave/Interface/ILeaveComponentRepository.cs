@@ -14,5 +14,6 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<BenefitTypes>> GetAccrualBenefitType();
         Task<IEnumerable<BenefitTypes>> GetAccrualType(); 
         Task<IEnumerable<BenefitTypes>> GetDeductionType();
+        Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid);
     }
 }

@@ -3,7 +3,7 @@
         
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="firstName">First Name</label>
+                <label class="col-form-label"  for="firstName">First Name<span class="required">*</span></label>
                 <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName">
             </div>
             <div class="form-group form-input-line col-sm">
@@ -11,25 +11,25 @@
                 <input type="text" class="form-control" id="middleName" name="middleName" formControlName="middleName">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="lastName">Last Name</label>
+                <label class="col-form-label"  for="lastName">Last Name<span class="required">*</span></label>
                 <input type="test" class="form-control" id="lastName" name="lastName" formControlName="lastName">
             </div>
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="displayName">Display Name</label>
+                <label class="col-form-label"  for="displayName">Display Name<span class="required">*</span></label>
                 <input type="text" class="form-control" id="displayName" name="displayName"
                     formControlName="displayName">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="gender">Gender</label>
+                <label class="col-form-label" for="gender">Gender<span class="required">*</span></label>
                 <select class="form-control" formControlName="gender">
                     <option [ngValue]="null" disabled>Select Gender</option>
                     <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderType[key]}}</option>
                 </select>
             </div>
             <div class="form-group form-input-inline input-group col">
-                <label class="col-12 col-form-label px-0" for="dateOfBirth">Date of Birth</label>
+                <label class="col-12 col-form-label px-0" for="dateOfBirth">Date of Birth<span class="required">*</span></label>
                 <input readonly class="form-control w-75" name="newDate" formControlName="dateOfBirth" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate"
                      ngbDatepicker #dob="ngbDatepicker">
                 <div class="input-group-append">
@@ -40,15 +40,15 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label"  for="email">Email</label>
+                <label class="col-form-label"  for="email">Email<span class="required">*</span></label>
                 <input type="email" class="form-control"  formControlName="email">
             </div>
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label"  for="fileNumber">File Number</label>
+                <label class="col-form-label"  for="fileNumber">File Number<span class="required">*</span></label>
                 <input type="text" class="form-control" id="fileNumber" name="fileNumber" formControlName="fileNumber">
             </div>
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="religionId">Religion</label>
+                <label class="col-form-label" for="religionId">Religion<span class="required">*</span></label>
                 <select class="form-control" formControlName="religionId">
                     <option Value="" disabled>Select Religion</option>
                     <option *ngFor="let key of religion" [ngValue]='key.id'>{{key.name}}</option>
@@ -57,21 +57,21 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="uid">UID</label>
+                <label class="col-form-label" for="uid">UID<span class="required">*</span></label>
                 <input type="text" class="form-control" id="uidNumber" name="uidNumber" formControlName="uidNumber">
             </div>  
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="languageKnown">Language Known</label>
+                <label class="col-form-label" for="languageKnown">Language Known<span class="required">*</span></label>
                 <input type="text" class="form-control"  formControlName="languageKnown" add oninput="this. value = this. value. toUpperCase()">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="refNum">Ref Number</label>
+                <label class="col-form-label"  for="refNum">Ref Number<span class="required">*</span></label>
                 <input type="text" class="form-control"  formControlName="refNum">
             </div>
        </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label"  for="remarks">Remarks</label>
+                <label class="col-form-label"  for="remarks">Remarks<span class="required">*</span></label>
                 <textarea type="text" class="form-control"  style="height:100px" formControlName="remarks"></textarea>
             </div>
         </div>

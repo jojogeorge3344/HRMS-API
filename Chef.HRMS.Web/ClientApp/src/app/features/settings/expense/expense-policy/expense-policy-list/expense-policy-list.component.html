@@ -58,8 +58,8 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Sl No.</th>
-                            <th>Expense Type</th>
                             <th>Expense A/C Code</th>
+                            <th>Expense Type</th>
                             <th>Expense Category</th>
                             <th>Maximum Limit</th>
                             <th>Actions</th>
@@ -68,8 +68,8 @@
                     <tbody>
                         <tr *ngFor="let expensePolicyConfiguration of expensePolicyConfigurations; let i= index;">
                             <td>{{i+1}}</td>
-                            <td class="text-capitalize">{{expensePolicyConfiguration.name}}</td>
                             <td class="text-uppercase">{{expensePolicyConfiguration.code}}</td>
+                            <td class="text-capitalize">{{expensePolicyConfiguration.name}}</td>
                             <td>{{expenseCategoryTypes[expensePolicyConfiguration.category]}}</td>
                             <td>{{expensePolicyConfiguration.maximumExpenseLimit==0? 'No Maximum Limit' : expensePolicyConfiguration.currency + ' ' + expensePolicyConfiguration.maximumExpenseLimit}}
                             </td>

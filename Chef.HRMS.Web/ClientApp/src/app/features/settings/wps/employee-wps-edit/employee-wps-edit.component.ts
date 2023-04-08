@@ -39,8 +39,8 @@ export class EmployeeWpsEditComponent implements OnInit {
       this.activeModal.close('submit');
     },
       error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to update the WPS');
+        
+        this.toastr.showWarningMessage('wpsgroup does not exist');
       });
   }
 

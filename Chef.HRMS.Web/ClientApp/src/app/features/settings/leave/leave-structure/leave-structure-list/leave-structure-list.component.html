@@ -62,16 +62,16 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Sl No.</th>
+                            <th>Code</th>
                             <th>Name</th>
-                            <th>Short Code</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let leaveComponent of assignedLeaveComponents; let i= index;">
                             <td>{{i+1}}</td>
-                            <td class="text-capitalize">{{leaveComponent.name}}</td>
                             <td class="text-uppercase">{{leaveComponent.code}}</td>
+                            <td class="text-capitalize">{{leaveComponent.name}}</td>
                             <td>
                                 <div class="btn-group" dropdown container="main">
                                     

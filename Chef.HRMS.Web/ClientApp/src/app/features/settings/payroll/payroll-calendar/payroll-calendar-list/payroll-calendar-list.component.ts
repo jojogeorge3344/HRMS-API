@@ -45,6 +45,7 @@ export class PayrollCalendarListComponent implements OnInit {
   getPayrollCalendars() {
     this.payrollCalendarService.getAll().subscribe((result: PayrollCalendar[]) => {
       this.payrollCalendars = result;
+      this.payrollCalendars=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.payrollCalendarNames = this.payrollCalendars.map(a => a.name.toLowerCase());
       console.log(result);
     },

@@ -65,8 +65,8 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Sl No.</th>
-                            <th>Name</th>
                             <th>Short Code</th>
+                            <th>Name</th>
                             <th>Maximum Limit</th>
                             <th>Individual Override</th>
                             <th>Actions</th>
@@ -75,8 +75,8 @@
                     <tbody>
                         <tr *ngFor="let assignedPayrollComponent of assignedPayrollComponents; let i= index;">
                             <td>{{i+1}}</td>
-                            <td class="text-capitalize">{{assignedPayrollComponent.name}}</td>
                             <td class="text-uppercase">{{assignedPayrollComponent.shortCode}}</td>
+                            <td class="text-capitalize">{{assignedPayrollComponent.name}}</td>
                             <td>
                                 {{assignedPayrollComponent.maximumLimit==0? 'No Limit' : assignedPayrollComponent.maximumLimit}}
                             </td>
