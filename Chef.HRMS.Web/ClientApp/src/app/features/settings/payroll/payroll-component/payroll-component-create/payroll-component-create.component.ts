@@ -112,6 +112,8 @@ export class PayrollComponentCreateComponent implements OnInit {
 
   // selectValue(name) {
   //   this.selectedValue = name;
+  //   console.log(this.selectedValue)
+  
   // }
   get name() {
     return this.addForm.get("name");
