@@ -66,5 +66,23 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<LeaveComponent>(sql);
         }
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid)
+        {
+            string sql = string.Empty;
+            if (categoryid == 1)
+            {
+                sql = @"select*from hrms.benefittypes where id=15";
+            }
+            else if (categoryid == 2)
+            {
+                sql = @"select*from hrms.benefittypes where id=36";
+            }
+            else
+            {
+                sql = @"select*from hrms.benefittypes where id=32";
+            }
+            var data = await Connection.QueryAsync<BenefitTypes>(sql, new { categoryid });
+            return data;
+        }
     }
 }

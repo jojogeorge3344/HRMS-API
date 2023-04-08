@@ -16,5 +16,6 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<BenefitTypes>> GetAccrualType();
         Task<IEnumerable<BenefitTypes>> GetDeductionType();
         Task<int> DeleteAsync(int id);
+        Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid);
     }
 }
