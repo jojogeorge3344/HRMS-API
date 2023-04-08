@@ -32,7 +32,7 @@
 
     <div class="d-flex flex-wrap align-items-baseline">
       <div class="form-group form-input-line col-4">
-        <label class="col-form-label" for="name">Request For</label>
+        <label class="col-form-label" for="name">Request For<span class="required">*</span></label>
         <select class="form-control" (change)="getvalue($event)" formControlName="requestFor" id="requestFor" 
           name="requestFor">
           <option value="" disabled>Select Request For</option>
@@ -47,7 +47,7 @@
             placeholder="Search Employee" formControlName="nameOfTeamMemberId" (change)="checkTeammemberName()">
       </div>
       <div class="form-group form-input-line col-4">
-        <label class="col-form-label" for="name">Asset Type</label>
+        <label class="col-form-label" for="name">Asset Type<span class="required">*</span></label>
         <select class="form-control" formControlName="assetTypeId" id="assetTypeId"
               name="assetTypeId">
               <option [ngValue]="0" disabled>Select Asset Type</option>
@@ -57,7 +57,7 @@
     </div>
     <div class="d-flex flex-wrap align-items-baseline">
         <div class="form-group form-textarea-line col-12">
-          <label class="col-form-label" for="description">Description</label>
+          <label class="col-form-label" for="description">Description<span class="required">*</span></label>
           <textarea type="text" rows="3" class="form-control" id="description" name="description"
             formControlName="description"></textarea>
         </div>

@@ -61,7 +61,7 @@ export class ExpenseTypeEditComponent implements OnInit {
       id: [this.expenseType.id],
       name: [this.expenseType.name, [
         Validators.required,
-        Validators.maxLength(32),
+        Validators.maxLength(50),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.expenseTypeNames)
       ]],

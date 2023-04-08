@@ -10,8 +10,8 @@
         <thead class="thead-themed">
             <tr>
                 <th>Sl No.</th>
-                <th>Leave Component Name</th>
                 <th>Leave Component Code</th>
+                <th>Leave Component Name</th>
                 <th>Description</th>
                 <th>Actions</th>
             </tr>
@@ -19,8 +19,8 @@
         <tbody>
             <tr *ngFor="let leaveComponent of leaveComponents; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize">{{leaveComponent.name}}</td>
                 <td class="text-uppercase">{{leaveComponent.code}}</td>
+                <td class="text-capitalize">{{leaveComponent.name}}</td>
                 <td class="text-ellipsis" title="{{ leaveComponent.description }}">{{ leaveComponent.description }}</td>
                 <td>
                     <div class="btn-group" dropdown container="main">

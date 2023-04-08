@@ -77,7 +77,15 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   onSubmit() {
     debugger
     const addBasicDetails = this.addForm.value;
-    this.basicDetailsForm.emit(addBasicDetails);
+    this.employeeService.getName(addBasicDetails.firstName).subscribe((res)=>{
+      if(res){
+        this.toastr.showWarningMessage("User Name is already exist")
+      }else{
+        this.basicDetailsForm.emit(addBasicDetails);
+      }
+
+    })
+    
   }
   changeToUpperCase(){
     debugger

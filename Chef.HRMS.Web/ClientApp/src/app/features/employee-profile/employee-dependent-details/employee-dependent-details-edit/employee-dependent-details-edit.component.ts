@@ -66,7 +66,7 @@ export class EmployeeDependentDetailsEditComponent implements OnInit {
       ]],
       name: ['', [
         Validators.required,
-        Validators.maxLength(32),
+        Validators.maxLength(50),
       ]],
       phone: ['', [Validators.required,
               Validators.pattern("[0-9 ]{10}")

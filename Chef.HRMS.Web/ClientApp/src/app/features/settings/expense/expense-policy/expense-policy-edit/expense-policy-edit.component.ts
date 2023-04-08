@@ -55,7 +55,7 @@ export class ExpensePolicyEditComponent implements OnInit {
       id: [this.expensePolicy.id],
       name: [this.expensePolicy.name, [
         Validators.required,
-        Validators.maxLength(32),
+        Validators.maxLength(50),
         Validators.pattern('^([a-zA-Z0-9 -])+$'),
         duplicateNameValidator(this.expensePolicyNames)
       ]],
