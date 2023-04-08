@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GenderType } from '../../../../models/common/types/gendertype';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeService } from '@features/employee/employee.service';
 
 @Component({
   selector: 'hrms-employee-basic-details-edit',
@@ -22,13 +23,15 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   religion:any;
   maxDate;
   emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  nameCheck: any;
 
   constructor(
     private employeeBasicDetailsService: EmployeeBasicDetailsService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private toastr: ToasterDisplayService,
-    private router: Router
+    private router: Router,
+    private employeeService: EmployeeService,
   ) {
     const current = new Date();
     this.maxDate = {
@@ -69,9 +72,19 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to fetch the Employee Basic Details');
       });
   }
-
+  checkCodeName(event){
+    this.employeeService.getName(event).subscribe((result)=>{
+      if(result){
+        this.nameCheck=true
+     this.toastr.showWarningMessage("Already Code Exist")
+      }else{
+        this.nameCheck=false
+      }
+    })
+  }
   onSubmit() {
     var editBasicDetails = this.editForm.value;
+    if(!this.nameCheck){
     this.employeeBasicDetailsService.update(editBasicDetails).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Basic Details updated successfully!');
     },
@@ -79,6 +92,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the Employee Basic Details');
       });
+    }
   }
 
   createFormGroup(): FormGroup {
