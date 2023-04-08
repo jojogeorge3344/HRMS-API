@@ -37,7 +37,7 @@ export class EmployeeWpsCreateComponent implements OnInit {
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the WPS');
+        this.toastr.showWarningMessage('wpsgroup does not exist');
       });
   }
   validateNumber(event) {

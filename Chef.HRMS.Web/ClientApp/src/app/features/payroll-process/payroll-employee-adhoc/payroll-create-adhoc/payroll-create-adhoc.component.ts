@@ -48,10 +48,10 @@ export class PayrollCreateAdhocComponent implements OnInit {
         Validators.required
       ]],
       employeeName: [{ value: `${this.employee.firstName} ${this.employee.middleName} ${this.employee.lastName}`, disabled: true }, [
-        Validators.required
+        Validators.required, Validators.maxLength(50)
       ]],
       employeeCode: [{ value: this.employee.employeeNumber, disabled: true }, [
-        Validators.required
+        Validators.required, Validators.maxLength(10)
       ]],
       deductionName: ['', [
         Validators.required,

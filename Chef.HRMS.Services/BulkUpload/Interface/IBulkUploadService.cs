@@ -12,5 +12,6 @@ namespace Chef.HRMS.Services
         Task<int> BulkInsertWorkFromHome(IEnumerable<WorkFromHome> workFromHome);
         Task<int> BulkInsertOnduty(IEnumerable<OnDuty> onDuty);
         Task<int> BulkInsertRegularLogin(IEnumerable<RegularLogin> regularLogin);
+        Task<byte[]> ExportExcelFormat();
     }
 }

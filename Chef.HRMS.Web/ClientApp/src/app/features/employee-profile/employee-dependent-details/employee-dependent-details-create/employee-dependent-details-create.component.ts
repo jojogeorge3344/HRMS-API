@@ -83,7 +83,7 @@ export class EmployeeDependentDetailsCreateComponent implements OnInit {
       ]],
       name: ['', [
         Validators.required,
-        Validators.maxLength(32),
+        Validators.maxLength(50),
       ]],
       phone: ['', [
         Validators.required,

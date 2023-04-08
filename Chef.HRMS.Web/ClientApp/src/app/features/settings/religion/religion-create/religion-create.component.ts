@@ -12,6 +12,8 @@ import { ReligionService } from '../religion-detail.service';
 export class ReligionCreateComponent implements OnInit {
 
   addForm: FormGroup;
+  codeCheck: boolean=false;
+  nameCheck: boolean=false;
 
   constructor(
     private religionService:ReligionService,
@@ -23,7 +25,28 @@ export class ReligionCreateComponent implements OnInit {
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
   }
-
+  getCode(event){
+    this.religionService.get(event).subscribe((result)=>{
+      
+      if(result){
+        this.codeCheck=true
+     this.toastr.showWarningMessage("Already Code Exist")
+      }else{
+        this.codeCheck=false
+      }
+    })
+  }
+  getName(event){
+    this.religionService.getName(event).subscribe((result)=>{
+      if(result){
+        this.nameCheck=true
+        this.toastr.showWarningMessage("Already name Exist")
+         }else{
+          this.nameCheck=false
+         }
+          
+     })
+  }
   onSubmit() {
       if(this.addForm.value.status=="Active"){
       this.addForm.value.status=true
@@ -31,20 +54,15 @@ export class ReligionCreateComponent implements OnInit {
         this.addForm.value.status=false
       }
     const religionForm = this.addForm.value;
-    this.religionService.get(religionForm.code).subscribe((result)=>{
-      if(result){
-     this.toastr.showWarningMessage("Already Code Exist")
-      }
-      else{
-        this.religionService.add(religionForm).subscribe(result => {
-          this.toastr.showSuccessMessage('The Religion added successfully!');
-          this.activeModal.close('submit');
-        },
-          error => {
-            this.toastr.showErrorMessage('Unable to add the Religion');
-          });
-      }
-    })
+    if(!this.nameCheck && !this.codeCheck){
+      this.religionService.add(religionForm).subscribe(result => {
+        this.toastr.showSuccessMessage('The Religion added successfully!');
+        this.activeModal.close('submit');
+      },
+        error => {
+          this.toastr.showErrorMessage('Unable to add the Religion');
+        });
+    }
   
   }
 

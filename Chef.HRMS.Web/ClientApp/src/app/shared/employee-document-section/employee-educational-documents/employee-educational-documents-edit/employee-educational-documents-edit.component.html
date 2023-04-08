@@ -8,17 +8,17 @@
     <div class="modal-body">
         <div class="row">
             <div class="form-group col-sm">
-                <label for="degree">Degree</label>
+                <label for="degree">Degree<span class="required">*</span></label>
                 <input type="text" class="form-control" id="degree" name="degree" formControlName="degree">
             </div>
             <div class="form-group col-sm">
-                <label for="specialization">Branch/Specialization</label>
+                <label for="specialization">Branch/Specialization<span class="required">*</span></label>
                 <input type="text" class="form-control" id="specialization" name="specialization" formControlName="specialization">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm">
-                <label for="yearOfJoining">Year Of Joining</label>
+                <label for="yearOfJoining">Year Of Joining<span class="required">*</span></label>
                 <div class="">
                     <div class="input-group">
                         <input class="form-control" ngbDatepicker #yoj="ngbDatepicker" formControlName="yearOfJoining" [minDate]="{year: 1900, month: 1, day: 1}"  [maxDate]= "maxDate" (ngModelChange)="setMinDate()">
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="form-group col-sm">
-                <label for="yearOfCompletion">Year Of Completion</label>
+                <label for="yearOfCompletion">Year Of Completion<span class="required">*</span></label>
                 <div class="">
                     <div class="input-group">
                         <input class="form-control" ngbDatepicker #yoc="ngbDatepicker" formControlName="yearOfCompletion" [minDate]= "minDate" (ngModelChange)="setMaxDate()">
@@ -44,11 +44,11 @@
         </div>
         <div class="row">
             <div class="form-group col-sm">
-                <label for="percentage">Percentage</label>
+                <label for="percentage">Percentage<span class="required">*</span></label>
                 <input type="number" class="form-control" id="percentage" name="percentage" formControlName="percentage">
             </div>
             <div class="form-group col-sm">
-                <label for="university">University</label>
+                <label for="university">University<span class="required">*</span></label>
                 <input type="text" class="form-control" id="university" name="university" formControlName="university">
             </div>
         </div>
@@ -68,7 +68,7 @@
                             Please upload a file.
                         </div>
                         <i class="fal fa-paperclip"></i>
-                        <a class="link">Add Attachment</a>
+                        <a class="link">Add Attachment<span class="required">*</span></a>
                     </label>
                 </div>
                 <div class="color-fusion-300 font-weight-bold" id="file-name">

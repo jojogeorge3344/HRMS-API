@@ -8,11 +8,11 @@
     <div class="modal-body">
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="name">Name</label>
+                <label class="col-form-label" for="name">Name<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="name">
             </div>
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="currency">Currency</label>
+                <label class="col-form-label" for="currency">Currency<span class="required">*</span></label>
                 <select class="form-control" formControlName="currency">
                     <option value="null" disabled>Select Currency</option>
                     <option value="INR">INR</option>
@@ -21,7 +21,7 @@
                 </select>
             </div>
             <div class="form-group form-textarea-line col-12">
-                <label class="col-form-label" for="description">Description</label>
+                <label class="col-form-label" for="description">Description<span class="required">*</span></label>
                 <textarea type="text" rows="3" class="form-control" formControlName="description"></textarea>
             </div>
         </div>

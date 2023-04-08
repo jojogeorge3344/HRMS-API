@@ -40,22 +40,48 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<BenefitCategory>(sql);
         }
 
+        public async Task<IEnumerable<BenefitTypes>> GetAccrualBenefitType()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id=15";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetAccrualType()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id=32";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetDeductionType()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id=36";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+        public async Task<IEnumerable<LeaveComponent>> GetAllAsync()
+        {
+            var sql = @"SELECT * FROM hrms.leavecomponent WHERE isarchived = false ORDER BY name ASC";
+
+            return await Connection.QueryAsync<LeaveComponent>(sql);
+        }
         public async Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid)
         {
             string sql = string.Empty;
             if (categoryid == 1)
             {
-                sql = @"SELECT * FROM hrms.benefittypes WHERE id=15";
+                sql = @"select*from hrms.benefittypes where id=15";
             }
             else if (categoryid == 2)
             {
-                sql = @"SELECT * FROM hrms.benefittypes WHERE id=36";
+                sql = @"select*from hrms.benefittypes where id=36";
             }
             else
             {
-                sql = @"SELECT * FROM hrms.benefittypes WHERE id=32";
+                sql = @"select*from hrms.benefittypes where id=32";
             }
-            var data = await Connection.QueryAsync<BenefitTypes>(sql, new {categoryid});
+            var data = await Connection.QueryAsync<BenefitTypes>(sql, new { categoryid });
             return data;
         }
     }

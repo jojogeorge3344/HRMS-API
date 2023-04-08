@@ -27,5 +27,8 @@ namespace Chef.HRMS.Models
         public bool IsEncash { get; set; }
         public bool IsCarryForward { get; set; }
         public int LeaveComponentId { get; set; }
+        public int AnnualLeave { get; set; }
+        public int LeaveEncashment { get; set; }
+        public int LeaveDeduction { get; set; }
     }
 }

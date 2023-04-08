@@ -54,8 +54,8 @@ export class PayrollEditAdhocComponent implements OnInit {
       id: [],
       payrollProcessingMethodId: this.processId,
       employeeId: this.adhocDeduction.employeeId,
-      employeeName: [{ value: this.adhocDeduction.name, disabled: true }],
-      employeeCode: [{ value: this.adhocDeduction.employeeCode, disabled: true }],
+      employeeName: [{ value: this.adhocDeduction.name, disabled: true }, Validators.maxLength(50)],
+      employeeCode: [{ value: this.adhocDeduction.employeeCode, disabled: true }, Validators.maxLength(12)],
       deductionName: ['', [
         Validators.required
       ]],

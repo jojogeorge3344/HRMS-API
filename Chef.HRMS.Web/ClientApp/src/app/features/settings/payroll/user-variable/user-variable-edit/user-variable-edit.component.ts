@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserVariableService } from '../user-variable-list/user-variable.service';
 import { UserVariableGroup } from '../user-variable-list/user-variable.model';
+import {UserVariableType} from '../user-variable.model'
 
 @Component({
   selector: 'hrms-user-variable-edit',
@@ -14,6 +15,9 @@ import { UserVariableGroup } from '../user-variable-list/user-variable.model';
 export class UserVariableEditComponent implements OnInit {
 
   addForm: FormGroup;
+  userVariableType: object;
+  userVariableTypeKeys: number[];
+  userVariableTypeOf = UserVariableType;
   @Input() userDetails: UserVariableGroup;
   @Input() Code: string[];
   @Input() Name: string[];
@@ -27,6 +31,7 @@ export class UserVariableEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userVariableTypeKeys = Object.keys(this.userVariableTypeOf).filter(Number).map(Number);
     this.addForm = this.createFormGroup();
     this.addForm.patchValue(this.userDetails);
     if(this.addForm.value.status==true){
@@ -80,7 +85,7 @@ export class UserVariableEditComponent implements OnInit {
         Validators.maxLength(64),
         Validators.required,
       ]],
-      type: ['', [
+      type: [0, [
         Validators.maxLength(64),
         Validators.required,
       ]],

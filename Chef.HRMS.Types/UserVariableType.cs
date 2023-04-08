@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Types
 {
-    public enum PayHeadBaseUnitType
+    public enum UserVariableType
     {
-        Hour = 1,
-        Day = 2,
-        Week = 3,
-        Month = 4,
-        Year = 5,
-        None = 6
+        Percentage = 1,
+        Number = 2,
+        Days = 3,
+        Hours = 4,
+        Leaves = 5
     }
 }

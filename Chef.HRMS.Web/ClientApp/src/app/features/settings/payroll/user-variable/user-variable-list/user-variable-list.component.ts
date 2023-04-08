@@ -9,7 +9,7 @@ import { UserVariableEditComponent } from '../user-variable-edit/user-variable-e
 import { UserVariableViewComponent } from '../user-variable-view/user-variable-view.component';
 import { SystemVariableService } from '@settings/payroll/system-variable-container/system-variable/system-service';
 import { SystemVariableComponent } from '@settings/payroll/system-variable-container/system-variable/system-variable.component';
-
+import {UserVariableType} from '../user-variable.model'
 @Component({
   selector: 'hrms-user-variable-list',
   templateUrl: './user-variable-list.component.html',
@@ -21,6 +21,7 @@ export class UserVariableListComponent implements OnInit {
   Codes: string[];
   Names: string[];
   systemVariableDetails: UserVariableGroup[];
+  userVariableTypeOf = UserVariableType;
 
   constructor(
     public modalService: NgbModal,

@@ -13,6 +13,13 @@ namespace Chef.HRMS.Repositories
         {
         }
 
+        public async Task<IEnumerable<JobTitle>> GetAllAsync()
+        {
+            var sql = @"SELECT * FROM hrms.jobtitle WHERE isarchived = false ORDER BY name ASC";
+
+            return await Connection.QueryAsync<JobTitle>(sql);
+        }
+
         public async Task<IEnumerable<JobTitleView>> GetAllJobTitleList()
         {
 

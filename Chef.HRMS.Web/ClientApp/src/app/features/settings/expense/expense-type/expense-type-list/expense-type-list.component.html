@@ -9,8 +9,8 @@
             <thead class="thead-themed">
                 <tr>
                     <th>Sl No.</th>
-                    <th>Expense Type</th>
                     <th>Expense A/C Code</th>
+                    <th>Expense Type</th>
                     <th>Expense Category</th>
                     <th>Description</th>
                     <th>Actions</th>
@@ -19,8 +19,8 @@
             <tbody>
                 <tr *ngFor="let expenseType of expenseTypes; let i= index;">
                     <td>{{i+1}}</td>
-                    <td class="text-capitalize">{{expenseType.name}}</td>
                     <td class="text-uppercase">{{expenseType.code}}</td>
+                    <td class="text-capitalize">{{expenseType.name}}</td>
                     <td>{{expenseCategoryType[expenseType.category]}}</td>
                     <td class="text-ellipsis" title="{{expenseType.description}}">{{expenseType.description}}</td>
                     <td>

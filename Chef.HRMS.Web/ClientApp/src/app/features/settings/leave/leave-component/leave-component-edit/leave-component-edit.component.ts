@@ -136,13 +136,13 @@ export class LeaveComponentEditComponent implements OnInit {
       id: [null],
       name: [null, [
         Validators.required,
-        Validators.maxLength(32),
+        Validators.maxLength(40),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.leaveComponentNames)
       ]],
       code: [null, [
         Validators.required,
-        Validators.maxLength(3),
+        Validators.maxLength(10),
         Validators.pattern('^([a-zA-Z0-9])+$'),
         duplicateNameValidator(this.leaveComponentCodes)
       ]],

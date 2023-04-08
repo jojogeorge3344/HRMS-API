@@ -21,6 +21,8 @@ namespace Chef.HRMS.Repositories
                                             pcmp.NAME      AS payrollComponentName, 
                                             pcmp.shortcode AS ShortCode, 
                                             pcalc.id As Id,
+                                            pcmp.payheadbaseunittype,
+                                            pcmp.payheadcontractvaluetype,
                                             CASE pcmp.isfixed 
                                               WHEN true THEN false 
                                               ELSE true 

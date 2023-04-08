@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserVariableService } from '../user-variable-list/user-variable.service';
+import {UserVariableType} from '../user-variable.model'
 
 @Component({
   selector: 'hrms-user-variable-create',
@@ -12,6 +13,9 @@ import { UserVariableService } from '../user-variable-list/user-variable.service
 export class UserVariableCreateComponent implements OnInit {
 
   addForm: FormGroup;
+  userVariableType: object;
+  userVariableTypeKeys: number[];
+  userVariableTypeOf = UserVariableType;
 
   constructor(
     private userVariableService:UserVariableService,
@@ -22,6 +26,7 @@ export class UserVariableCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
+    this.userVariableTypeKeys = Object.keys(this.userVariableTypeOf).filter(Number).map(Number);
   }
 
   onSubmit() {
@@ -65,7 +70,7 @@ export class UserVariableCreateComponent implements OnInit {
         Validators.maxLength(64),
         Validators.required,
       ]],
-      type: ['', [
+      type: [0, [
         Validators.maxLength(64),
         Validators.required,
       ]],

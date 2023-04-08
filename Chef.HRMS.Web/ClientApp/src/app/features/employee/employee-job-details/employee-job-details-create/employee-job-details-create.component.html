@@ -11,7 +11,7 @@
                     [(ngModel)]="employeeNumber" value="" formControlName="employeeNumber">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="numberSeriesId">Number Series</label>
+                <label class="col-form-label" for="numberSeriesId">Number Series<span class="required">*</span></label>
                 <select class="form-control" formControlName="numberSeriesId"
                     (change)="getNumberSeries($event.target.value)">
                     <option value="" disabled>Select Number Series</option>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="form-group form-input-inline input-group col">
-                <label class="col-12 col-form-label px-0" for="dateOfJoin">Date of Joining</label>
+                <label class="col-12 col-form-label px-0" for="dateOfJoin">Date of Joining<span class="required">*</span></label>
                 <input class="form-control w-75" name="newDate" formControlName="dateOfJoin" [minDate]="minDate"
                     [maxDate]="maxDate" ngbDatepicker #dob="ngbDatepicker">
                 <div class="input-group-append">
@@ -33,7 +33,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="jobTitleId">Designation</label>
+                <label class="col-form-label" for="jobTitleId">Designation<span class="required">*</span></label>
                 <select class="form-control" formControlName="jobTitleId">
                     <option value="" disabled>Select Designation</option>
                     <option *ngFor="let type of jobTitleId" [ngValue]='type.id'>
@@ -42,12 +42,12 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="secondaryJobTitle">Secondary Job Title</label>
+                <label class="col-form-label" for="secondaryJobTitle">Secondary Job Title<span class="required">*</span></label>
                 <input type="text" class="form-control" id="secondaryJobTitle" name="secondaryJobTitle"
                     formControlName="secondaryJobTitle">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="businessUnit">Business Unit</label>
+                <label class="col-form-label" for="businessUnit">Business Unit<span class="required">*</span></label>
                 <select class="form-control" formControlName="businessUnit">
                     <option value="" disabled>Select Business Unit</option>
                     <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>
@@ -57,7 +57,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="department">Department</label>
+                <label class="col-form-label" for="department">Department<span class="required">*</span></label>
                 <select class="form-control" formControlName="department">
                     <option value="" disabled>Select Department Type</option>
                     <option *ngFor="let key of departmentTypeKeys" [ngValue]='key'>
@@ -65,7 +65,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="location">Location</label>
+                <label class="col-form-label" for="location">Location<span class="required">*</span></label>
                 <select class="form-control" formControlName="location">
                     <option value="" disabled>Select Location</option>
                     <option *ngFor="let type of location" [ngValue]='type.id'>
@@ -74,7 +74,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="reportingManager">Reporting Manager</label>
+                <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>
                 <input type="text" class="form-control" id="reportingManager" name="reportingManager"
                     [ngbTypeahead]="search" placeholder="Search Reporting Manager" #reportingManager
                     formControlName="reportingManager" [inputFormatter]="formatter" [resultFormatter]="formatter"
@@ -85,7 +85,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="workerType">Worker Type</label>
+                <label class="col-form-label" for="workerType">Worker Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="workerType">
                     <option value="" disabled>Select Work Type</option>
                     <option *ngFor="let key of workerTypeKeys" [ngValue]='key'>
@@ -93,7 +93,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="timeType">Time Type</label>
+                <label class="col-form-label" for="timeType">Time Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="timeType">
                     <option value="" disabled>Select Time Type</option>
                     <option *ngFor="let key of timeTypeKeys" [ngValue]='key'>
@@ -101,7 +101,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="noticePeriod">Notice Period</label>
+                <label class="col-form-label" for="noticePeriod">Notice Period<span class="required">*</span></label>
                 <select class="form-control" formControlName="noticePeriod">
                     <option value="" disabled>Select Notice Period</option>
                     <option *ngFor="let key of noticePeriodTypeKeys" [ngValue]='key'>
@@ -111,7 +111,7 @@
         </div>
         <div class="row">
             <div class="col-2 form-group form-input-line">
-                <label class="col-form-label" for="probationPeriod">Probation Period</label>
+                <label class="col-form-label" for="probationPeriod">Probation Period<span class="required">*</span></label>
                 <input type="number" class="form-control" id="probationPeriod" name="probationPeriod"
                     formControlName="probationPeriod">
             </div>
@@ -125,7 +125,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="categoryId">Employee Category Group</label>
+                <label class="col-form-label" for="categoryId">Employee Category Group<span class="required">*</span></label>
                 <select class="form-control" formControlName="categoryId">
                     <option value="" disabled>Select Employee Category Group</option>
                     <option *ngFor="let key of groupCategory" [ngValue]='key.id'>                    
@@ -133,7 +133,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="visaDesignationId">Visa Designation</label>
+                <label class="col-form-label" for="visaDesignationId">Visa Designation<span class="required">*</span></label>
                 <select class="form-control" formControlName="visaDesignationId">
                     <option value="" disabled>Select Visa Designation</option>
                     <option *ngFor="let key of jobTitleId" [ngValue]='key.id'>           

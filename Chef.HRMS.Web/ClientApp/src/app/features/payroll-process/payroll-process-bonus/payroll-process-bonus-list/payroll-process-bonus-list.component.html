@@ -14,8 +14,8 @@
         <thead class="thead-themed">
             <tr>
                 <th>#</th>
-                <th width="18%">Employee</th>
                 <th width="18%">Employee code</th>
+                <th width="18%">Employee</th>
                 <th width="18%">Bonus type</th>
                 <th width="18%">Proposed Distribution Date</th>
                 <th width="18%">Amount</th>
@@ -25,8 +25,8 @@
         <tbody>
             <tr *ngFor="let bonus of bonuses; let i= index;">
                 <td>{{i+1}}</td>
-                <td>{{bonus.name}}</td>
                 <td>{{bonus.employeeCode}}</td>
+                <td>{{bonus.name}}</td>
                 <td>{{bonus.bonusType}}</td>
                 <td>{{bonus.disburseOn | date}}</td>
                 <td>{{bonus.amount| number : '1.0-2'}}</td>
@@ -63,8 +63,8 @@
         <thead class="thead-themed">
             <tr>
                 <th>#</th>
-                <th width="18%">Employee</th>
                 <th width="18%">Employee code</th>
+                <th width="18%">Employee</th>
                 <th width="18%">Loan No</th>
                 <th width="18%">Loan Type</th>
                 <th width="18%">Amount</th>
@@ -74,8 +74,8 @@
         <tbody>
             <tr *ngFor="let loan of loans; let i= index;">
                 <td>{{i+1}}</td>
-                <td>{{loan.name}}</td>
                 <td>{{loan.employeeCode}}</td>
+                <td>{{loan.name}}</td>
                 <td>{{loan.loanNumber}}</td>
                 <td>{{loanTypes[loan.loanType]}}</td>
                 <td>{{loan.amount| number : '1.0-2'}}</td>

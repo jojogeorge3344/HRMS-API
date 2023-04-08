@@ -41,6 +41,7 @@ export class OvertimePolicyListComponent implements OnInit {
   getOvertimePolicies() {
     this.overtimePolicyService.getAllAssignedOverTimePolicyCount().subscribe((result: OvertimePolicy[]) => {
       this.overtimePolicies = result;
+      this.overtimePolicies=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.overtimePolicyNames = this.overtimePolicies.map(a => a.name.toLowerCase());
     },
     error => {

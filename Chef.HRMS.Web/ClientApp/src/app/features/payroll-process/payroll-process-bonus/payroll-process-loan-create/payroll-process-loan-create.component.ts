@@ -149,10 +149,10 @@ export class PayrollProcessLoanCreateComponent implements OnInit {
     return this.formBuilder.group({
       employeeId: ['', [
         Validators.required,
-        // Validators.maxLength(64),
+         Validators.maxLength(64),
         // Validators.pattern('^([a-zA-Z0-9 ])+$')
       ]],
-      employeeCode: [{ value: '', disabled: true }],
+      employeeCode: [{ value: '', disabled: true },Validators.maxLength(64),],
       loanNo: this.loanNo,
       loanType: [null, [Validators.required]],
       loanAmount: [null, [Validators.required,
