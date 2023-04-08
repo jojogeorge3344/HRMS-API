@@ -60,6 +60,10 @@ namespace Chef.HRMS.Services
                 employee.UserId = user.Id;
                 employee.Id = await employeeRepository.InsertAsync(employee);
             }
+            else
+            {
+                employee.Id = await employeeRepository.InsertAsync(employee);
+            }
             return employee.Id;
         }
 
