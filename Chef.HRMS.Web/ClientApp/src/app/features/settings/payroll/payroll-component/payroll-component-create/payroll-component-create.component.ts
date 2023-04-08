@@ -35,6 +35,7 @@ export class PayrollComponentCreateComponent implements OnInit {
 
   @Input() payrollComponentNames: string[];
   @Input() payrollComponentCodes: string[];
+  payrollComponentTypeKeysSearch: any;
 
   constructor(
     private payrollComponentService: PayrollComponentService,
@@ -68,9 +69,52 @@ export class PayrollComponentCreateComponent implements OnInit {
         this.payrollComponentTypeKeys = result.sort((a, b) =>
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
+        this.payrollComponentTypeKeysSearch = result.sort((a, b) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      );
       });
   }
+  // searchPayroll(value){
+  //   debugger
+  //   this.payrollComponentTypeKeys=this.payrollComponentTypeKeysSearch.filter((res)=>{
+  //     return res.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+  //   })
+  
+  // // let a = event.toUpperCase();
+  
 
+  // // for (let i = 0; i <
+  // //   this.payrollComponentTypeKeys.length; i++) {
+  // //   let txtValue = a[i].textContent || a[i].innerText;
+  // //   if (txtValue.toUpperCase().indexOf(a) > -1) {
+  // //     a[i]= "";
+  // //   } else {
+  // //     a[i] = "none";
+  // //   }
+  // // }
+  // }
+  // filterDropdown(e) {
+  //   debugger
+  //   console.log("e in filterDropdown -------> ", e);
+  //   window.scrollTo(window.scrollX, window.scrollY + 1);
+  //   let searchString = e.toLowerCase();
+  //   if (!searchString) {
+  //     this.payrollComponentTypeKeys = this.payrollComponentTypeKeysSearch.slice();
+  //     return;
+  //   } else {
+  //     this.payrollComponentTypeKeys = this.payrollComponentTypeKeysSearch.filter(
+  //       user => user.name.toLowerCase().indexOf(searchString) > -1
+  //     );
+  //   }
+  //   window.scrollTo(window.scrollX, window.scrollY - 1);
+  //   console.log("this.filteredList indropdown -------> ", this.payrollComponentTypeKeys);
+  // }
+
+  // selectValue(name) {
+  //   this.selectedValue = name;
+  //   console.log(this.selectedValue)
+  
+  // }
   get name() {
     return this.addForm.get("name");
   }
@@ -111,7 +155,6 @@ export class PayrollComponentCreateComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.maxLength(24),
           Validators.pattern("^([a-zA-Z0-9 ])+$"),
           duplicateNameValidator(this.payrollComponentNames),
         ],
@@ -121,7 +164,7 @@ export class PayrollComponentCreateComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.maxLength(3),
+          Validators.maxLength(7),
           Validators.pattern("^([a-zA-Z0-9])+$"),
           duplicateNameValidator(this.payrollComponentCodes),
         ],
@@ -129,8 +172,8 @@ export class PayrollComponentCreateComponent implements OnInit {
       description: ["", [Validators.required, Validators.maxLength(128)]],
       payHeadType: [null, Validators.required],
       payHeadContractValueType: [null, Validators.required],
-      minimumLimit: [null, Validators.required],
-      maximumLimit: [null, Validators.required],
+      minimumLimit: [0],
+      maximumLimit: [0],
       payHeadBaseUnitType: [null, Validators.required],
       includeInPaySlipType: [null, Validators.required],
       roundingType: [null, Validators.required],
