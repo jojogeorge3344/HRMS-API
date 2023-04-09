@@ -14,6 +14,8 @@ import { LeaveType } from '@settings/leave/leavetype.enum';
 import { Loptype } from '@settings/leave/lopdays.enum';
 import { LeaveEligiblityService } from '../leave-eligiblity.service';
 import { debounce } from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
 
 
 
@@ -62,7 +64,8 @@ export class LeaveComponentCreateComponent implements OnInit {
     private leaveeligiblityservice:LeaveEligiblityService,
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
-    private toastr: ToasterDisplayService) {
+    private toastr: ToasterDisplayService,
+    public modalService: NgbModal,) {
   }
 
   ngOnInit(): void {
@@ -194,6 +197,19 @@ getAccrualBenefitType(){
       this.isEncashLimit=true
       // this.addForm.controls['cfLimitDays'].reset();
     }
+  }
+  openFormulaEditor(type: string) {
+    const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.formulaType = type;
+    modalRef.componentInstance.formula = '';
+
+    modalRef.result.then((result) => { console.log(result);
+                                       if (result !== 'Close click') {
+        this.addForm2.get(type).patchValue(result);
+      }
+    });
   }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { LeaveComponentService } from '../leave-component.service';
 import { LeaveComponent } from '../leave-component.model';
@@ -15,6 +15,7 @@ import { LeaveCutoffType } from '@settings/leave/leavecuttoff.enum';
 import { LeaveType } from '@settings/leave/leavetype.enum';
 import { Loptype } from '@settings/leave/lopdays.enum';
 import { LeaveEligiblityService } from '../leave-eligiblity.service';
+import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
 
 @Component({
   selector: 'hrms-leave-component-edit',
@@ -61,7 +62,8 @@ export class LeaveComponentEditComponent implements OnInit {
     private leaveeligiblityservice:LeaveEligiblityService,
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
-    private toastr: ToasterDisplayService) {
+    private toastr: ToasterDisplayService,
+    public modalService: NgbModal,) {
   }
 
   ngOnInit(): void {
@@ -199,7 +201,19 @@ export class LeaveComponentEditComponent implements OnInit {
         // this.addForm.controls['cfLimitDays'].reset();
       }
     }
-
+    openFormulaEditor(type: string) {
+      const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
+        { size: 'lg', centered: true, backdrop: 'static' });
+  
+      modalRef.componentInstance.formulaType = type;
+      modalRef.componentInstance.formula = '';
+  
+      modalRef.result.then((result) => { console.log(result);
+                                         if (result !== 'Close click') {
+          this.editForm2.get(type).patchValue(result);
+        }
+      });
+    }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [null],
