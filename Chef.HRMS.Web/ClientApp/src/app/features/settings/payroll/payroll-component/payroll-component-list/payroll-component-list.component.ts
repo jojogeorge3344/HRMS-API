@@ -43,6 +43,7 @@ export class PayrollComponentListComponent implements OnInit {
     this.payrollComponentService.getAll().subscribe(
       (result) => {
         this.payrollComponents = result;
+        this.payrollComponents = result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
         console.log("comp", this.payrollComponents);
 
         this.payrollComponentNames = this.payrollComponents.map((a) =>
