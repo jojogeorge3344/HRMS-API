@@ -191,8 +191,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="includeLOPDays">Include LOP Days</label>
-                                <select class="form-control" formControlName="includeLOPDays">
+                                <label class="col-form-label" for="isIncludeLOPDays">Include LOP Days</label>
+                                <select class="form-control" formControlName="isIncludeLOPDays">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of lopday" [ngValue]='key'>
                                         {{lopdays[key]}}
@@ -269,8 +269,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="accrueLeaveAmt">Accrue Leave Amount</label>
-                                <select class="form-control" formControlName="accrueLeaveAmt">
+                                <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount</label>
+                                <select class="form-control" formControlName="isAccruedLeaveAmount">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option [ngValue]=true>
                                      Yes
@@ -283,13 +283,13 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="encash">Encash</label>
-                                <select class="form-control" formControlName="encash" (change)="getcash($event.target.value)">
+                                <label class="col-form-label" for="isEncash">Encash</label>
+                                <select class="form-control" formControlName="isEncash" (change)="getcash($event.target.value)">
                                     <option [ngValue]="null" disabled>Select</option>
-                                    <option value={{true}}>
+                                    <option value="true">
                                         Yes
                                        </option>
-                                       <option value={{false}}>
+                                       <option value="false">
                                            No
                                           </option>
                                 </select>
@@ -317,13 +317,13 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="carryForward">Carry Forward</label>
-                                <select class="form-control" formControlName="carryForward" (change)="getCarry($event.target.value)">
+                                <label class="col-form-label" for="isCarryForward">Carry Forward</label>
+                                <select class="form-control" formControlName="isCarryForward" (change)="getCarry($event.target.value)">
                                     <option [ngValue]="null" disabled>Select</option>
-                                    <option value={{true}}>
+                                    <option value="true">
                                         Yes
                                        </option>
-                                       <option value={{false}}>
+                                       <option value="false">
                                            No
                                           </option>
                                 </select>

@@ -153,7 +153,8 @@ getAccrualBenefitType(){
   })
 }
   getCarry(event){
-    if(event == 'true'){
+    debugger
+    if(event == "true"){
       this.addForm2.get('cfLimitDays').enable();
       this.isCfLimit=false
     }else{
@@ -163,7 +164,8 @@ getAccrualBenefitType(){
     }
   }
   getLeave(event){
-    if(event == '1'){
+    debugger
+    if(event == "1"){
       this.addForm2.get('leaveEncashment').enable();
       this.addForm2.get('annualLeave').enable();
       this.isEncash=false
@@ -178,7 +180,8 @@ getAccrualBenefitType(){
     }
   }
   getcash(event){
-    if(event == 'true'){
+    debugger
+    if(event == "true"){
       this.addForm2.get('encashBFCode').enable();
       this.addForm2.get('encashLimitDays').enable();
       this.isEncashBf=false
@@ -233,12 +236,12 @@ getAccrualBenefitType(){
       encashLimitDays:[{ value: null, disabled: this.isEncashLimit }],
       cfLimitDays:[{ value: null, disabled: this.isCfLimit }],
       baseType:[null],
-      includeLOPDays:[null],
+      isIncludeLOPDays:[null],
       leaveType:[null],
       leaveCutOffType:[null],
-      accrueLeaveAmt:[false],
-      encash:[false],
-      carryForward:[false],
+      isAccruedLeaveAmount:[false],
+      isEncash:[false],
+      isCarryForward:[false],
       leaveComponentId:[null],
       leaveDeduction:[null],
       leaveEncashment:[{ value: null, disabled: this.isEncash }],

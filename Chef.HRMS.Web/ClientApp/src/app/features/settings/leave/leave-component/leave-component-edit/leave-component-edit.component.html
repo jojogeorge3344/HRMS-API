@@ -21,7 +21,7 @@
                             <input type="text" class="form-control" formControlName="name">
                         </div>
                     </div>
-                    <div class="d-flex flex-wrap align-items-baseline">
+                    <!-- <div class="d-flex flex-wrap align-items-baseline">
                         <div class="form-group form-input-line col-6">
                             <label class="col-form-label" for="benefitCategoryId">Deduction Type<span
                                     class="required">*</span></label>
@@ -43,7 +43,7 @@
                                 </option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group form-textarea-line col-12">
                         <label class="col-form-label" for="description">Description<span
                                 class="required">*</span></label>
@@ -140,7 +140,7 @@
                     <div class="row">
                         <div class="col-12 d-flex justify-content-end" style="margin-top: 10px;">
                            
-                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save</button>
+                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
                          
                             &nbsp;&nbsp;
                                 <button type="button" class="btn btn-warning p-2" (click)="activeModal.close('Close click')"><i
@@ -156,7 +156,7 @@
         
         <ngb-tab title="Configure">
             <ng-template ngbTabContent>
-                <form [formGroup]="editForm2" (validSubmit)="onSubmit2()">
+                <!-- <form [formGroup]="editForm2" (validSubmit)="onSubmit2()">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group form-input-line">
@@ -312,6 +312,210 @@
                                     class="mr-1 fal fa-window-close"></i> Cancel</button>  
                             </div>
 
+                        </div>
+                    </div>
+                </form> -->
+    
+                <form [formGroup]="editForm2" (validSubmit)="onSubmit2()">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="eligibleDays">Eligible Days</label>
+                                <input type="number" class="form-control" formControlName="eligibleDays">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="eligibilityBase">Eligibility Base</label>
+                                <!-- <select class="form-control" formControlName="eligibilityBase">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of eligiblitybases" [ngValue]='key'>
+                                        {{eligiblitybase[key]}}
+                                    </option>
+                                </select> -->
+                                <input type="number" class="form-control" formControlName="eligibilityBase">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="baseType">Base Type</label>
+                                <select class="form-control" formControlName="baseType">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of basetypes" [ngValue]='key'>
+                                        {{basetype[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="isIncludeLOPDays">Include LOP Days</label>
+                                <select class="form-control" formControlName="isIncludeLOPDays">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of lopday"   value='{{key}}'>
+                                        {{lopdays[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                     
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="leaveType">Leave Type</label>
+                                <select class="form-control" formControlName="leaveType" (change)="getLeave($event.target.value)">
+                                    <!-- <option [ngValue]="null" disabled>Select</option> -->
+                                    <option *ngFor="let key of leavetypearray"  value='{{key}}'>
+                                        {{leavetypes[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="leaveDeduction">Deduction Type</label>
+                                <select class="form-control" formControlName="leaveDeduction">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of detectionTypeList" [ngValue]='key.id'>
+                                        {{key.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="leaveEncashment">Encashment Leave</label>
+                                <select class="form-control" formControlName="leaveEncashment">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of accuralBenefitList" [ngValue]='key.id'>
+                                        {{key.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="annualLeave">Annual Leave</label>
+                                <select class="form-control" formControlName="annualLeave" >
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of accuralList" [ngValue]='key.id'>
+                                        {{key.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="leaveCutOffType">Leave CutOff</label>
+                                <select class="form-control" formControlName="leaveCutOffType">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of leavecutoff" [ngValue]='key'>
+                                        {{leavecutofftype[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="maxLeaveAtATime">Maximum Leave At A Time</label>
+                                <input type="number" class="form-control" formControlName="maxLeaveAtATime">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount</label>
+                                <select class="form-control" formControlName="isAccruedLeaveAmount">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option [ngValue]=true>
+                                     Yes
+                                    </option>
+                                    <option [ngValue]=false>
+                                        No
+                                       </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="isEncash">Encash</label>
+                                <select class="form-control" formControlName="isEncash" (change)="getcash($event.target.value)">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option value="true">
+                                        Yes
+                                       </option>
+                                       <option value="false">
+                                           No
+                                          </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                     
+                        <div class="col-md-3">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="encashBFCode">Encash BF Code</label>
+                                <select class="form-control" formControlName="encashBFCode">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of eligiblitybases" [ngValue]='key'>
+                                        {{eligiblitybase[key]}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="encashLimitDays">Encash Limit Days</label>
+                                <input type="number" class="form-control" formControlName="encashLimitDays">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="isCarryForward">Carry Forward</label>
+                                <select class="form-control" formControlName="isCarryForward" (change)="getCarry($event.target.value)">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option value="true">
+                                        Yes
+                                       </option>
+                                       <option value="false">
+                                           No
+                                          </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="cfLimitDays">C/F Limit Days</label>
+                                <input type="number" class="form-control"   formControlName="cfLimitDays">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                     
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="vacationSalaryFormula">Vacation Salary Formula</label>
+                                <input type="text" class="form-control" formControlName="vacationSalaryFormula">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12  d-flex justify-content-end" style="margin-top: 10px;">
+                           
+                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save</button>
+                         &nbsp;&nbsp;
+                            
+                                <button type="button" class="btn btn-warning p-2" (click)="activeModal.close('Close click')"><i
+                                    class="mr-1 fal fa-window-close"></i> Cancel</button>  
+                        
+                           
+                    
                         </div>
                     </div>
                 </form>
