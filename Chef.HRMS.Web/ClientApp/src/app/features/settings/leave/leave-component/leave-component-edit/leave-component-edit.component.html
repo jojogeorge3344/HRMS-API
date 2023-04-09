@@ -364,9 +364,9 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="leaveType">Leave Type</label>
-                                <select class="form-control" formControlName="leaveType" (change)="getLeave($event.target.value)">
-                                    <!-- <option [ngValue]="null" disabled>Select</option> -->
-                                    <option *ngFor="let key of leavetypearray"  value='{{key}}'>
+                                <select class="form-control" formControlName="leaveType"  (ngModelChange)="getLeave($event)">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option *ngFor="let key of leavetypearray"  [ngValue]='key'>
                                         {{leavetypes[key]}}
                                     </option>
                                 </select>

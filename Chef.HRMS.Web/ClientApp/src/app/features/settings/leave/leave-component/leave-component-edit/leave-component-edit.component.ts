@@ -169,7 +169,7 @@ export class LeaveComponentEditComponent implements OnInit {
     }
     getLeave(event){
       debugger
-      if(event == "1"){
+      if(event == 1){
         this.editForm2.get('leaveEncashment').enable();
         this.editForm2.get('annualLeave').enable();
         this.isEncash=false

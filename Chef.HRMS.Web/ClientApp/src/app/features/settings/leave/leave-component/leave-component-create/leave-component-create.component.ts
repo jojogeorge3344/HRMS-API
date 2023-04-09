@@ -165,7 +165,7 @@ getAccrualBenefitType(){
   }
   getLeave(event){
     debugger
-    if(event == "1"){
+    if(this.addForm2.value.leaveType==1){
       this.addForm2.get('leaveEncashment').enable();
       this.addForm2.get('annualLeave').enable();
       this.isEncash=false

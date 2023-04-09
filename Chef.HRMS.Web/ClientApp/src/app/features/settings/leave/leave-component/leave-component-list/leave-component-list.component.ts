@@ -32,6 +32,7 @@ export class LeaveComponentListComponent implements OnInit {
   getAllLeaveComponents() {
     this.leaveComponentService.getAll().subscribe(res => {
       this.leaveComponents = res;
+      this.leaveComponents=res.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.leaveComponentNames = this.leaveComponents.map(a => a.name.toLowerCase());
       this.leaveComponentCodes = this.leaveComponents.map(a => a.code.toLowerCase());
     }, error => {
