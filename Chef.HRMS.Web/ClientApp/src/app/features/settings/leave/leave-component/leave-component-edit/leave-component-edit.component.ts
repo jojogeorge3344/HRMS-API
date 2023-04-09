@@ -56,6 +56,7 @@ export class LeaveComponentEditComponent implements OnInit {
 
   genderTypeKeys: number[];
   maritalStatusTypeKeys: number[];
+  configId: any;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -105,7 +106,27 @@ export class LeaveComponentEditComponent implements OnInit {
 
       
       let result =res[0]
+      this.configId=res[0].id
       this.editForm2.patchValue(result);
+      if(res[0].leaveType==1){
+        this.editForm2.get('leaveEncashment').enable();
+        this.editForm2.get('annualLeave').enable();
+      }else{
+        this.editForm2.get('leaveEncashment').disable();
+        this.editForm2.get('annualLeave').disable();
+      }
+      if(res[0].isEncash==true){
+        this.editForm2.get('encashBFCode').enable();
+        this.editForm2.get('encashLimitDays').enable();
+      }else{
+        this.editForm2.get('encashBFCode').disable();
+        this.editForm2.get('encashLimitDays').disable();
+      }
+      if(res[0].isCarryForward==true){
+        this.editForm2.get('cfLimitDays').enable();
+      }else{
+        this.editForm2.get('cfLimitDays').disable();
+      }
      
     })
   }
@@ -247,23 +268,23 @@ export class LeaveComponentEditComponent implements OnInit {
   createFormGroup2(): FormGroup {
     return this.formBuilder.group({
       eligibleDays:[null],
-      eligibilityBase:[null],
+      eligibilityBase:[0,[Validators.required]],
       maxLeaveAtATime:[null],
       vacationSalaryFormula:[null],
-      encashBFCode:[{ value: null, disabled: this.isEncashBf }],
-      encashLimitDays:[{ value: null, disabled: this.isEncashLimit }],
-      cfLimitDays:[{ value: null, disabled: this.isCfLimit }],
-      baseType:[null],
-      isIncludeLOPDays:[null],
-      leaveType:[null],
-      leaveCutOffType:[null],
-      isAccruedLeaveAmount:[false],
-      isEncash:[false],
-      carryForward:[false],
+      encashBFCode:[{ value: 0, disabled: this.isEncashBf }],
+      encashLimitDays:[{ value: 0, disabled: this.isEncashLimit }],
+      cfLimitDays:[{ value: 0, disabled: this.isCfLimit }],
+      baseType:[null,[Validators.required]],
+      isIncludeLOPDays:[null,[Validators.required]],
+      leaveType:[null,[Validators.required]],
+      leaveCutOffType:[null,[Validators.required]],
+      isAccruedLeaveAmount:[false,[Validators.required]],
+      isEncash:[false,[Validators.required]],
+      isCarryForward:[false,[Validators.required]],
       leaveComponentId:[null],
-      leaveDeduction:[null],
-      leaveEncashment:[{ value: null, disabled: this.isEncash }],
-      annualLeave:[{ value: null, disabled: this.isAnnual }],
+      leaveDeduction:[0],
+      leaveEncashment:[{ value: 0, disabled: this.isEncash }],
+      annualLeave:[{ value: 0, disabled: this.isAnnual }],
     })
   }
   getLeavetype(){
@@ -277,8 +298,10 @@ export class LeaveComponentEditComponent implements OnInit {
   })
   }
   onSubmit2(){
+    debugger
     this.editForm2.patchValue({
-      leaveComponentId:this.leaveComponent.id
+      leaveComponentId:this.leaveComponent.id,
+      id:this.configId
     })
     this.leaveeligiblityservice.update(this.editForm2.getRawValue()).subscribe((result: any) => {
       

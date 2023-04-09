@@ -168,7 +168,7 @@
                         </div>
                         <div class="col-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="eligibilityBase">Eligibility Base</label>
+                                <label class="col-form-label" for="eligibilityBase">Eligibility Base<span class="required">*</span></label>
                                 <!-- <select class="form-control" formControlName="eligibilityBase">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of eligiblitybases" [ngValue]='key'>
@@ -180,7 +180,7 @@
                         </div>
                         <div class="col-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="baseType">Base Type</label>
+                                <label class="col-form-label" for="baseType">Base Type<span class="required">*</span></label>
                                 <select class="form-control" formControlName="baseType">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of basetypes" [ngValue]='key'>
@@ -191,12 +191,15 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="isIncludeLOPDays">Include LOP Days</label>
+                                <label class="col-form-label" for="isIncludeLOPDays">Include LOP Days<span class="required">*</span></label>
                                 <select class="form-control" formControlName="isIncludeLOPDays">
                                     <option [ngValue]="null" disabled>Select</option>
-                                    <option *ngFor="let key of lopday" [ngValue]='key'>
-                                        {{lopdays[key]}}
+                                    <option [ngValue]=true>
+                                     Yes
                                     </option>
+                                    <option [ngValue]=false>
+                                        No
+                                       </option>
                                 </select>
                             </div>
                         </div>
@@ -205,7 +208,7 @@
                      
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="leaveType">Leave Type</label>
+                                <label class="col-form-label" for="leaveType">Leave Type<span class="required">*</span></label>
                                 <select class="form-control" formControlName="leaveType" (change)="getLeave($event)">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of leavetypearray"  [ngValue]='key'>
@@ -252,7 +255,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="leaveCutOffType">Leave CutOff</label>
+                                <label class="col-form-label" for="leaveCutOffType">Leave CutOff<span class="required">*</span></label>
                                 <select class="form-control" formControlName="leaveCutOffType">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of leavecutoff" [ngValue]='key'>
@@ -269,7 +272,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount</label>
+                                <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
                                 <select class="form-control" formControlName="isAccruedLeaveAmount">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option [ngValue]=true>
@@ -283,7 +286,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="isEncash">Encash</label>
+                                <label class="col-form-label" for="isEncash">Encash<span class="required">*</span></label>
                                 <select class="form-control" formControlName="isEncash" (change)="getcash($event.target.value)">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option value="true">
@@ -317,7 +320,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="isCarryForward">Carry Forward</label>
+                                <label class="col-form-label" for="isCarryForward">Carry Forward<span class="required">*</span></label>
                                 <select class="form-control" formControlName="isCarryForward" (change)="getCarry($event.target.value)">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option value="true">
