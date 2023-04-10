@@ -183,18 +183,19 @@ export class LeaveComponentEditComponent implements OnInit {
     })
   }
     getCarry(event){
-      debugger
       if(event == "true"){
         this.editForm2.get('cfLimitDays').enable();
         this.isCfLimit=false
       }else{
         this.editForm2.get('cfLimitDays').disable();
         this.isCfLimit=true
-        // this.addForm.controls['cfLimitDays'].reset();
+        //this.editForm2.controls['cfLimitDays'].reset();
+        this.editForm2.patchValue({
+          cfLimitDays:0
+        })
       }
     }
     getLeave(event){
-      debugger
       if(event == 1){
         this.editForm2.get('leaveEncashment').enable();
         this.editForm2.get('annualLeave').enable();
@@ -204,13 +205,16 @@ export class LeaveComponentEditComponent implements OnInit {
       }else{
         this.editForm2.get('leaveEncashment').disable();
         this.editForm2.get('annualLeave').disable();
+        this.editForm2.patchValue({
+          leaveEncashment:0,
+          annualLeave:0
+        })
         this.isEncash=true
         this.isAnnual=true
         // this.addForm.controls['cfLimitDays'].reset();
       }
     }
     getcash(event){
-      debugger
       if(event == "true"){
         this.editForm2.get('encashBFCode').enable();
         this.editForm2.get('encashLimitDays').enable();
@@ -222,6 +226,10 @@ export class LeaveComponentEditComponent implements OnInit {
         this.editForm2.get('encashLimitDays').disable();
         this.isEncashBf=true
         this.isEncashLimit=true
+        this.editForm2.patchValue({
+          encashBFCode:0,
+          encashLimitDays:0
+        })
         // this.addForm.controls['cfLimitDays'].reset();
       }
     }
@@ -302,7 +310,6 @@ export class LeaveComponentEditComponent implements OnInit {
   })
   }
   onSubmit2(){
-    debugger
     this.editForm2.patchValue({
       leaveComponentId:this.leaveComponent.id,
       id:this.configId
