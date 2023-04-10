@@ -16,7 +16,7 @@ namespace Chef.HRMS.Models
         public int EligibilityBase { get; set; }
         public int MaxLeaveAtATime { get; set; }
         public string VacationSalaryFormula { get; set; }
-        public string EncashBFCode { get; set; }
+        public int EncashBFCode { get; set; }
         public int EncashLimitDays { get; set; }
         public int CFLimitDays { get; set; }
         public BaseType BaseType { get; set; }

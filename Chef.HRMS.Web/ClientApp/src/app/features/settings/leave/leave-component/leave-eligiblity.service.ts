@@ -23,4 +23,7 @@ export class LeaveEligiblityService {
       update(leaveComponent) {
         return this.http.post<LeaveComponent>(this.baseUrl + 'update/', leaveComponent).pipe(map(response => { return response; }));
       }
+      getBenefitType() {
+        return this.http.get<LeaveComponent>(this.baseUrl + 'getBenefitType').pipe(map(response => { return response; }));
+      }
 }

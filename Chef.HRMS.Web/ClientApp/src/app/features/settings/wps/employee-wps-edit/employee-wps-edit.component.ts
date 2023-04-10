@@ -69,7 +69,7 @@ export class EmployeeWpsEditComponent implements OnInit {
       ]],
       establishmentId: ['', [
         Validators.pattern(/^\d{1,3}$/),
-        Validators.maxLength(3),
+        Validators.maxLength(10),
         Validators.required
         //duplicateNameValidator(this.establishmentId)
       ]],
