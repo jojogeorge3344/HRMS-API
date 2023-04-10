@@ -12,7 +12,7 @@ namespace Chef.HRMS.Models
         /// Holds code
         /// </summary>
         [Required]
-        [StringLength(3)]
+        [StringLength(12)]
         public string Code { get; set; }
 
         /// <summary>
