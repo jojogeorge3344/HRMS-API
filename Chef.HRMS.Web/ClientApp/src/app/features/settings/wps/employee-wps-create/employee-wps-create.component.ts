@@ -66,7 +66,7 @@ export class EmployeeWpsCreateComponent implements OnInit {
         // [Validators.required,Validators.max(999),duplicateNameValidator(this.establishmentId)]
       [ Validators.pattern(/^\d{1,3}$/),
         Validators.required,
-        Validators.maxLength(3),
+        Validators.maxLength(10),
         duplicateNameValidator(this.establishmentId)]
       ],
       remarks: ['', [Validators.maxLength(128), Validators.required]],

@@ -422,26 +422,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group form-input-line">
-                                <label class="col-form-label" for="maxLeaveAtATime">Maximum Leave At A Time</label>
-                                <input type="number" class="form-control" formControlName="maxLeaveAtATime">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
-                                <select class="form-control" formControlName="isAccruedLeaveAmount">
-                                    <option [ngValue]="null" disabled>Select</option>
-                                    <option [ngValue]=true>
-                                     Yes
-                                    </option>
-                                    <option [ngValue]=false>
-                                        No
-                                       </option>
-                                </select>
-                            </div>
-                        </div>
+                      
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="isEncash">Encash<span class="required">*</span></label>
@@ -456,9 +437,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                     
                         <div class="col-md-3">
                             <div class="form-group form-input-line">
                                 <label class="col-form-label" for="encashBFCode">Encash BF Code</label>
@@ -474,6 +452,28 @@
                             <div class="form-group form-input-line">
                                 <label class="col-form-label" for="encashLimitDays">Encash Limit Days</label>
                                 <input type="number" class="form-control" formControlName="encashLimitDays">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
+                                <select class="form-control" formControlName="isAccruedLeaveAmount">
+                                    <option [ngValue]="null" disabled>Select</option>
+                                    <option [ngValue]=true>
+                                     Yes
+                                    </option>
+                                    <option [ngValue]=false>
+                                        No
+                                       </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group form-input-line">
+                                <label class="col-form-label" for="maxLeaveAtATime">Maximum Leave At A Time</label>
+                                <input type="number" class="form-control" formControlName="maxLeaveAtATime">
                             </div>
                         </div>
                         <div class="col-md-3">
