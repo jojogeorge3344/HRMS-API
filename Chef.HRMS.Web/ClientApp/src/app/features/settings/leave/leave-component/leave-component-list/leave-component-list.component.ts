@@ -7,6 +7,7 @@ import { LeaveComponentEditComponent } from '../leave-component-edit/leave-compo
 import { LeaveComponentService } from '../leave-component.service';
 import { LeaveComponent } from '../leave-component.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { BaseType } from '@settings/leave/basetype.enum';
 
 @Component({
   selector: 'hrms-leave-component-list',
@@ -18,6 +19,8 @@ export class LeaveComponentListComponent implements OnInit {
   assignedLeaveComponents: number[] = [];
   leaveComponentNames: string[];
   leaveComponentCodes: string[];
+  basetype =BaseType;
+  basetypes:number[]
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -27,6 +30,7 @@ export class LeaveComponentListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllLeaveComponents();
     this.getAssignedLeaveComponents();
+    this.basetypes = Object.keys(this.basetype).filter(Number).map(Number);
   }
 
   getAllLeaveComponents() {

@@ -107,6 +107,9 @@ export class LeaveComponentEditComponent implements OnInit {
       
       let result =res[0]
       this.configId=res[0].id
+      this.editForm2.patchValue({
+        id:this.configId
+      })
       this.editForm2.patchValue(result);
       if(res[0].leaveType==1){
         this.editForm2.get('leaveEncashment').enable();
@@ -285,6 +288,7 @@ export class LeaveComponentEditComponent implements OnInit {
       leaveDeduction:[0],
       leaveEncashment:[{ value: 0, disabled: this.isEncash }],
       annualLeave:[{ value: 0, disabled: this.isAnnual }],
+      id:[0]
     })
   }
   getLeavetype(){
