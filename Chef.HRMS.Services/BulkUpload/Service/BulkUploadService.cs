@@ -59,20 +59,28 @@ namespace Chef.HRMS.Services
             worksheet.Protection.IsProtected = true;
             worksheet.Protection.AllowAutoFilter = true;
             // define the column headers
-            worksheet.Cells[1, 1].Value = "Name";
-            worksheet.Cells[1, 2].Value = "Date";
-            worksheet.Cells[1, 3].Value = "Attendance";
+            worksheet.Cells[1, 1].Value = "Date";
+            worksheet.Cells[1, 2].Value = "In Time";
+            worksheet.Cells[1, 3].Value = "Out Time";
+            worksheet.Cells[1, 4].Value = "Working Hours";
+            worksheet.Cells[1, 5].Value = "Gross Hours";
+            worksheet.Cells[1, 6].Value = "Attendance Type";
+            worksheet.Cells[1, 7].Value = "Log";
 
             // format the column headers
-            worksheet.Cells[1, 1, 1, 3].Style.Font.Bold = true;
-            worksheet.Cells[1, 1, 1, 3].AutoFilter = true;
-            worksheet.Cells[1, 1, 1, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            worksheet.Cells[1, 1, 1, 3].AutoFitColumns();
+            worksheet.Cells[1, 1, 1, 7].Style.Font.Bold = true;
+            worksheet.Cells[1, 1, 1, 7].AutoFilter = true;
+            worksheet.Cells[1, 1, 1, 7].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            worksheet.Cells[1, 1, 1, 7].AutoFitColumns();
 
             //Set column width
             worksheet.Column(1).Width = 25;
             worksheet.Column(2).Width = 25;
             worksheet.Column(3).Width = 15;
+            worksheet.Column(4).Width = 25;
+            worksheet.Column(5).Width = 25;
+            worksheet.Column(6).Width = 25;
+            worksheet.Column(7).Width = 25;
 
             // save the Excel package to a file stream
             using var stream = new MemoryStream();
