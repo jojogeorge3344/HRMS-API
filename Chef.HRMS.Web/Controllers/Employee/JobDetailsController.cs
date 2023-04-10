@@ -94,6 +94,12 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(categoryList);
         }
+        [HttpGet("GetProbationDetails")]
+        public async Task<ActionResult<IEnumerable<EmployeeDefaults>>> GetProbationDetails()
+        {
+            var type = await jobDetailsService.GetProbationDetails();
 
+            return Ok(type);
+        }
     }
 }
