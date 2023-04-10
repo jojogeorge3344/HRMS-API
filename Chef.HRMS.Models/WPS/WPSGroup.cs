@@ -35,30 +35,30 @@ namespace Chef.HRMS.Models
         [StringLength(120)]
         public string Remarks { get; set; }
 
-        //[Required]
-        [Description("molid")]
-        [StringLength(100)]
-        public string MolId { get; set; }
+        ////[Required]
+        //[Description("molid")]
+        //[StringLength(100)]
+        //public string MolId { get; set; }
 
-        //[Required]
-        [Description("routingid")]
-        [StringLength(100)]
-        public string RoutingId { get; set; }
+        ////[Required]
+        //[Description("routingid")]
+        //[StringLength(100)]
+        //public string RoutingId { get; set; }
 
-        //[Required]
-        [Description("salarycardno")]
-        [StringLength(100)]
-        public string SalaryCardNo { get; set; }
+        ////[Required]
+        //[Description("salarycardno")]
+        //[StringLength(100)]
+        //public string SalaryCardNo { get; set; }
 
-        //[Required]
-        [Description("bankname")]
-        [StringLength(200)]
-        public string BankName { get; set; }
+        ////[Required]
+        //[Description("bankname")]
+        //[StringLength(200)]
+        //public string BankName { get; set; }
 
-        //[Required]
-        [Description("accountno")]
-        [StringLength(100)]
-        public string AccountNo { get; set; }
+        ////[Required]
+        //[Description("accountno")]
+        //[StringLength(100)]
+        //public string AccountNo { get; set; }
 
 
     }
