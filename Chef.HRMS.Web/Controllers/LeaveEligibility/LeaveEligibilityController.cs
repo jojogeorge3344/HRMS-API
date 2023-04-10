@@ -81,5 +81,12 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(leaveConfig);
         }
+        [HttpGet("GetBenefitType")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType()
+        {
+            var benefitlist = await leaveEligibilityService.GetBenefitType();
+
+            return Ok(benefitlist);
+        }
     }
 }

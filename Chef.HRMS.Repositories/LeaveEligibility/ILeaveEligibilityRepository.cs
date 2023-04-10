@@ -10,5 +10,6 @@ namespace Chef.HRMS.Repositories
     {
         Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id);
         Task<int> DeleteAsync(int id);
+        Task<IEnumerable<BenefitTypes>> GetBenefitType();
     }
 }

@@ -135,8 +135,8 @@ namespace Chef.HRMS.Models
         /// Holds a benefit code of three characters
         /// </summary>
         [Required]
-        [StringLength(3)]
-        [Description("Short code of the BenefitCode in 3 Characters")]
+        [StringLength(14)]
+        [Description("Short code of the BenefitCode in 14 Characters")]
         public string ShortCode { get; set; }
 
         /// <summary>
