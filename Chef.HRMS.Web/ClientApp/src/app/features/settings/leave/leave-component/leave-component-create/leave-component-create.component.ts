@@ -13,6 +13,9 @@ import { LeaveCutoffType } from '@settings/leave/leavecuttoff.enum';
 import { LeaveType } from '@settings/leave/leavetype.enum';
 import { Loptype } from '@settings/leave/lopdays.enum';
 import { LeaveEligiblityService } from '../leave-eligiblity.service';
+import { debounce } from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
 
 
 
@@ -44,16 +47,26 @@ export class LeaveComponentCreateComponent implements OnInit {
   maritalStatusTypeKeys: number[];
   leavecomponentid:number;
   isdisabled:boolean = true;
+  isCfLimit: boolean=true
   @Input() leaveComponentNames: string[];
   @Input() leaveComponentCodes: string[];
   @ViewChild('myTabSet') tabSet: NgbTabset;
+  isEncash: boolean=true;
+  isAnnual: boolean=true;
+  isEncashBf: boolean=true;
+  isEncashLimit: boolean=true;
+  detectionTypeList: any;
+  accuralList: any;
+  accuralBenefitList: any;
+  encashBfList: any;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
     private leaveeligiblityservice:LeaveEligiblityService,
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
-    private toastr: ToasterDisplayService) {
+    private toastr: ToasterDisplayService,
+    public modalService: NgbModal,) {
   }
 
   ngOnInit(): void {
@@ -69,7 +82,10 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.addForm2 = this.createFormGroup2();
     this.getdeductiontype();
-   
+    this.getAccrualBenefitType();
+    this.getAccrualType();
+    this.getDetectionListType()
+    this.getEncashBF()
   }
 getdeductiontype(){
   this.leaveComponentService.getbenefitcategory().subscribe((result: any) => {
@@ -126,7 +142,77 @@ getLeavetype(){
         this.toastr.showErrorMessage('Unable to add the Basic Leave Component');
       });
   }
+getDetectionListType(){
+  this.leaveComponentService.getDetectiontype().subscribe((res)=>{
+    this.detectionTypeList=res
+  })
+}
+getAccrualType(){
+  this.leaveComponentService.getAccrualtype().subscribe((res)=>{
+    this.accuralList=res
+  })
+}
+getAccrualBenefitType(){
+  this.leaveComponentService.getAccrualBenefittype().subscribe((res)=>{
+    this.accuralBenefitList=res
+  })
+}
+  getCarry(event){
+    debugger
+    if(event == "true"){
+      this.addForm2.get('cfLimitDays').enable();
+      this.isCfLimit=false
+    }else{
+      this.addForm2.get('cfLimitDays').disable();
+      this.isCfLimit=true
+      // this.addForm.controls['cfLimitDays'].reset();
+    }
+  }
+  getLeave(event){
+    debugger
+    if(this.addForm2.value.leaveType==1){
+      this.addForm2.get('leaveEncashment').enable();
+      this.addForm2.get('annualLeave').enable();
+      this.isEncash=false
+      this.isAnnual=false
+      
+    }else{
+      this.addForm2.get('leaveEncashment').disable();
+      this.addForm2.get('annualLeave').disable();
+      this.isEncash=true
+      this.isAnnual=true
+      // this.addForm.controls['cfLimitDays'].reset();
+    }
+  }
+  getcash(event){
+    debugger
+    if(event == "true"){
+      this.addForm2.get('encashBFCode').enable();
+      this.addForm2.get('encashLimitDays').enable();
+      this.isEncashBf=false
+      this.isEncashLimit=false
+      
+    }else{
+      this.addForm2.get('encashBFCode').disable();
+      this.addForm2.get('encashLimitDays').disable();
+      this.isEncashBf=true
+      this.isEncashLimit=true
+      // this.addForm.controls['cfLimitDays'].reset();
+    }
+  }
+  openFormulaEditor(type: string) {
+    const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
 
+    modalRef.componentInstance.formulaType = type;
+    modalRef.componentInstance.formula = '';
+
+    modalRef.result.then((result) => { console.log(result);
+                                       if (result !== 'Close click') {
+        this.addForm2.get(type).patchValue(result);
+      }
+    });
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       name: [null, [
@@ -151,9 +237,9 @@ getLeavetype(){
       isStatutoryLeave: [false],
       isRestrictedToGender: [false],
       isRestrictedToMaritalStatus: [false],
-      benefitCategoryId:[null, [
+      benefitCategoryId:[0, [
         Validators.required,]],
-      benefitTypeId:[null,[
+      benefitTypeId:[0,[
         Validators.required,]],
      
     });
@@ -161,20 +247,23 @@ getLeavetype(){
   createFormGroup2(): FormGroup {
     return this.formBuilder.group({
       eligibleDays:[null],
-      eligibilityBase:[null],
+      eligibilityBase:[0,[Validators.required]],
       maxLeaveAtATime:[null],
       vacationSalaryFormula:[null],
-      encashBFCode:[null],
-      encashLimitDays:[null],
-      cfLimitDays:[null],
-      baseType:[null],
-      includeLOPDays:[null],
-      leaveType:[null],
-      leaveCutOffType:[null],
-      accrueLeaveAmt:[false],
-      encash:[false],
-      carryForward:[false],
-      leaveComponentId:[null]
+      encashBFCode:[{ value: 0, disabled: this.isEncashBf }],
+      encashLimitDays:[{ value: 0, disabled: this.isEncashLimit }],
+      cfLimitDays:[{ value: 0, disabled: this.isCfLimit }],
+      baseType:[null,[Validators.required]],
+      isIncludeLOPDays:[null,[Validators.required] ],
+      leaveType:[null,[Validators.required]],
+      leaveCutOffType:[null,[Validators.required]],
+      isAccruedLeaveAmount:[false,[Validators.required]],
+      isEncash:[false,[Validators.required]],
+      isCarryForward:[false,[Validators.required]],
+      leaveComponentId:[null],
+      leaveDeduction:[0],
+      leaveEncashment:[{ value: 0, disabled: this.isEncash }],
+      annualLeave:[{ value: 0, disabled: this.isAnnual }],
     })
   }
   onSubmit2() {
@@ -195,5 +284,11 @@ getLeavetype(){
         console.error(error);
         this.toastr.showErrorMessage('Unable to add the Leave Component');
       });
+  }
+  getEncashBF(){
+    this.leaveeligiblityservice.getBenefitType().subscribe((res)=>{
+      this.encashBfList=res
+    })
+   
   }
 }

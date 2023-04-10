@@ -28,5 +28,13 @@ namespace Chef.HRMS.Repositories
             .Where("leavecomponentid", id)
             .DeleteAsync();
         }
+
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType()
+        {
+            return await QueryFactory
+            .Query<BenefitTypes>()
+            .WhereNotArchived()
+            .GetAsync<BenefitTypes>();
+        }
     }
 }

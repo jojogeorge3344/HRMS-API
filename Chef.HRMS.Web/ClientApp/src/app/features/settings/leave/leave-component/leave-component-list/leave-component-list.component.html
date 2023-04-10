@@ -12,7 +12,8 @@
                 <th>Sl No.</th>
                 <th>Leave Component Code</th>
                 <th>Leave Component Name</th>
-                <th>Description</th>
+                <!-- <th>Eligibility Base</th> -->
+                <!-- <th>Base Type</th> -->
                 <th>Actions</th>
             </tr>
         </thead>
@@ -21,7 +22,8 @@
                 <td>{{i+1}}</td>
                 <td class="text-uppercase">{{leaveComponent.code}}</td>
                 <td class="text-capitalize">{{leaveComponent.name}}</td>
-                <td class="text-ellipsis" title="{{ leaveComponent.description }}">{{ leaveComponent.description }}</td>
+                <!-- <td class="text-ellipsis" title="{{ leaveComponent.description }}">{{ leaveComponent.eligibilityBase }}</td> -->
+                <!-- <td class="text-ellipsis" title="{{ leaveComponent.description }}">{{basetypes[leaveComponent.baseType] }}</td> -->
                 <td>
                     <div class="btn-group" dropdown container="main">
                         <button id="button-basic" dropdownToggle type="button"

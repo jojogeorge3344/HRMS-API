@@ -15,6 +15,7 @@ export class OvertimePolicyCalculationComponent implements OnInit {
 
   @Input() formula: string;
   @Input() formulaType: string;
+  changeVacation: boolean=false;
   
   constructor(private payrollComponentService: PayrollComponentService,
     public activeModal: NgbActiveModal) {}
@@ -23,6 +24,9 @@ export class OvertimePolicyCalculationComponent implements OnInit {
     this.getPayrollComponents();
     this.editedFormula = this.formula;
     console.log("this.formula",this.editedFormula)
+    if(this.formulaType=="vacationSalaryFormula"){
+      this.changeVacation=true
+    }
 
   }
 

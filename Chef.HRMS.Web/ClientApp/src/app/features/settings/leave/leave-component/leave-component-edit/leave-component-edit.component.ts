@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { LeaveComponentService } from '../leave-component.service';
 import { LeaveComponent } from '../leave-component.model';
@@ -15,6 +15,7 @@ import { LeaveCutoffType } from '@settings/leave/leavecuttoff.enum';
 import { LeaveType } from '@settings/leave/leavetype.enum';
 import { Loptype } from '@settings/leave/lopdays.enum';
 import { LeaveEligiblityService } from '../leave-eligiblity.service';
+import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
 
 @Component({
   selector: 'hrms-leave-component-edit',
@@ -39,6 +40,14 @@ export class LeaveComponentEditComponent implements OnInit {
   eligiblitybases:number[];
   dedecutionarray:[];
   leaves:[];
+  isCfLimit: boolean=true
+  isEncash: boolean=true;
+  isAnnual: boolean=true;
+  isEncashBf: boolean=true;
+  isEncashLimit: boolean=true;
+  detectionTypeList: any;
+  accuralList: any;
+  accuralBenefitList: any;
   @Input() leaveComponent: LeaveComponent;
   @Input() isDisabled: boolean;
   @Input() leaveComponentNames: string[];
@@ -47,13 +56,16 @@ export class LeaveComponentEditComponent implements OnInit {
 
   genderTypeKeys: number[];
   maritalStatusTypeKeys: number[];
+  configId: any;
+  encashBfList: any;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
     private leaveeligiblityservice:LeaveEligiblityService,
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
-    private toastr: ToasterDisplayService) {
+    private toastr: ToasterDisplayService,
+    public modalService: NgbModal,) {
   }
 
   ngOnInit(): void {
@@ -71,6 +83,10 @@ export class LeaveComponentEditComponent implements OnInit {
     this.toggleMaritalStatus(this.leaveComponent.isRestrictedToMaritalStatus);
     this.getdeductiontype();
     this.getconfiguredata();
+    this.getAccrualBenefitType();
+    this.getAccrualType();
+    this.getDetectionListType()
+    this.getEncashBF()
     this.editForm.patchValue(this.leaveComponent);
     
     console.log("this.leaveComponent",this.leaveComponent)
@@ -87,12 +103,35 @@ export class LeaveComponentEditComponent implements OnInit {
   
   }
   getconfiguredata(){
-    
+    debugger
     this.leaveeligiblityservice.get(this.leaveComponent.id).subscribe(res => {
 
       
       let result =res[0]
+      this.configId=res[0].id
+      this.editForm2.patchValue({
+        id:this.configId
+      })
       this.editForm2.patchValue(result);
+      if(res[0].leaveType==1){
+        this.editForm2.get('leaveEncashment').enable();
+        this.editForm2.get('annualLeave').enable();
+      }else{
+        this.editForm2.get('leaveEncashment').disable();
+        this.editForm2.get('annualLeave').disable();
+      }
+      if(res[0].isEncash==true){
+        this.editForm2.get('encashBFCode').enable();
+        this.editForm2.get('encashLimitDays').enable();
+      }else{
+        this.editForm2.get('encashBFCode').disable();
+        this.editForm2.get('encashLimitDays').disable();
+      }
+      if(res[0].isCarryForward==true){
+        this.editForm2.get('cfLimitDays').enable();
+      }else{
+        this.editForm2.get('cfLimitDays').disable();
+      }
      
     })
   }
@@ -130,7 +169,85 @@ export class LeaveComponentEditComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to update the leave component');
       });
   }
-
+  getDetectionListType(){
+    this.leaveComponentService.getDetectiontype().subscribe((res)=>{
+      this.detectionTypeList=res
+    })
+  }
+  getAccrualType(){
+    this.leaveComponentService.getAccrualtype().subscribe((res)=>{
+      this.accuralList=res
+    })
+  }
+  getAccrualBenefitType(){
+    this.leaveComponentService.getAccrualBenefittype().subscribe((res)=>{
+      this.accuralBenefitList=res
+    })
+  }
+    getCarry(event){
+      if(event == "true"){
+        this.editForm2.get('cfLimitDays').enable();
+        this.isCfLimit=false
+      }else{
+        this.editForm2.get('cfLimitDays').disable();
+        this.isCfLimit=true
+        //this.editForm2.controls['cfLimitDays'].reset();
+        this.editForm2.patchValue({
+          cfLimitDays:0
+        })
+      }
+    }
+    getLeave(event){
+      if(event == 1){
+        this.editForm2.get('leaveEncashment').enable();
+        this.editForm2.get('annualLeave').enable();
+        this.isEncash=false
+        this.isAnnual=false
+        
+      }else{
+        this.editForm2.get('leaveEncashment').disable();
+        this.editForm2.get('annualLeave').disable();
+        this.editForm2.patchValue({
+          leaveEncashment:0,
+          annualLeave:0
+        })
+        this.isEncash=true
+        this.isAnnual=true
+        // this.addForm.controls['cfLimitDays'].reset();
+      }
+    }
+    getcash(event){
+      if(event == "true"){
+        this.editForm2.get('encashBFCode').enable();
+        this.editForm2.get('encashLimitDays').enable();
+        this.isEncashBf=false
+        this.isEncashLimit=false
+        
+      }else{
+        this.editForm2.get('encashBFCode').disable();
+        this.editForm2.get('encashLimitDays').disable();
+        this.isEncashBf=true
+        this.isEncashLimit=true
+        this.editForm2.patchValue({
+          encashBFCode:0,
+          encashLimitDays:0
+        })
+        // this.addForm.controls['cfLimitDays'].reset();
+      }
+    }
+    openFormulaEditor(type: string) {
+      const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
+        { size: 'lg', centered: true, backdrop: 'static' });
+  
+      modalRef.componentInstance.formulaType = type;
+      modalRef.componentInstance.formula = '';
+  
+      modalRef.result.then((result) => { console.log(result);
+                                         if (result !== 'Close click') {
+          this.editForm2.get(type).patchValue(result);
+        }
+      });
+    }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [null],
@@ -157,27 +274,31 @@ export class LeaveComponentEditComponent implements OnInit {
       isRestrictedToGender: [{value: false, disabled: this.isDisabled}],
       isRestrictedToMaritalStatus: [{value: false, disabled: this.isDisabled}],
       createdDate: [],
-      benefitCategoryId:[null,Validators.required],
-      benefitTypeId:[null,Validators.required],
+      benefitCategoryId:[0,Validators.required],
+      benefitTypeId:[0,Validators.required],
     });
   }
   createFormGroup2(): FormGroup {
     return this.formBuilder.group({
       eligibleDays:[null],
-      eligibilityBase:[null],
+      eligibilityBase:[0,[Validators.required]],
       maxLeaveAtATime:[null],
       vacationSalaryFormula:[null],
-      encashBFCode:[null],
-      encashLimitDays:[null],
-      cfLimitDays:[null],
-      baseType:[null],
-      includeLOPDays:[null],
-      leaveType:[null],
-      leaveCutOffType:[null],
-      accrueLeaveAmt:[false],
-      encash:[false],
-      carryForward:[false],
-      leaveComponentId:[null]
+      encashBFCode:[{ value: 0, disabled: this.isEncashBf }],
+      encashLimitDays:[{ value: 0, disabled: this.isEncashLimit }],
+      cfLimitDays:[{ value: 0, disabled: this.isCfLimit }],
+      baseType:[null,[Validators.required]],
+      isIncludeLOPDays:[null,[Validators.required]],
+      leaveType:[null,[Validators.required]],
+      leaveCutOffType:[null,[Validators.required]],
+      isAccruedLeaveAmount:[false,[Validators.required]],
+      isEncash:[false,[Validators.required]],
+      isCarryForward:[false,[Validators.required]],
+      leaveComponentId:[null],
+      leaveDeduction:[0],
+      leaveEncashment:[{ value: 0, disabled: this.isEncash }],
+      annualLeave:[{ value: 0, disabled: this.isAnnual }],
+      id:[0]
     })
   }
   getLeavetype(){
@@ -192,7 +313,8 @@ export class LeaveComponentEditComponent implements OnInit {
   }
   onSubmit2(){
     this.editForm2.patchValue({
-      leaveComponentId:this.leaveComponent.id
+      leaveComponentId:this.leaveComponent.id,
+      id:this.configId
     })
     this.leaveeligiblityservice.update(this.editForm2.getRawValue()).subscribe((result: any) => {
       
@@ -204,6 +326,12 @@ export class LeaveComponentEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to update the leave component');
       });
+  }
+  getEncashBF(){
+    this.leaveeligiblityservice.getBenefitType().subscribe((res)=>{
+      this.encashBfList=res
+    })
+   
   }
 }
 

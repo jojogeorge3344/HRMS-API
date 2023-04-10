@@ -41,7 +41,7 @@ namespace Chef.HRMS.Repositories
                                       pcmp.id, 
                                       pcalc.formula,
                                       pcalc.id
-                            ORDER  BY isfixed ASC";
+                            ORDER  BY ps.NAME ASC";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
         }

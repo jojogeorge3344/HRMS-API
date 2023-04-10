@@ -24,7 +24,8 @@ namespace Chef.HRMS.Repositories
                         SELECT name,code FROM hrms.uservariable WHERE isarchived = false AND status = true
                         )
                         SELECT name,code FROM my_cte
-                        GROUP BY name,code";
+                        GROUP BY name,code
+                        ORDER BY name ASC";
 
             return await Connection.QueryAsync<SystemVariable>(sql, new { payrollstructureid });
         }

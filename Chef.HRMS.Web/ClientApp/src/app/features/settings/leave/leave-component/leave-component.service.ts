@@ -50,4 +50,13 @@ export class LeaveComponentService {
   getbenefittype(id) {
     return this.http.get<LeaveComponent>(this.baseUrl + 'GetBenefitType/' + id).pipe(map(response => { return response; }));
   }
+  getAccrualtype() {
+    return this.http.get<LeaveComponent>(this.baseUrl + 'GetAccrualType').pipe(map(response => { return response; }));
+  }
+  getAccrualBenefittype() {
+    return this.http.get<LeaveComponent>(this.baseUrl + 'GetAccrualBenefitType').pipe(map(response => { return response; }));
+  }
+  getDetectiontype() {
+    return this.http.get<LeaveComponent>(this.baseUrl + 'GetDeductionType').pipe(map(response => { return response; }));
+  }
 }
