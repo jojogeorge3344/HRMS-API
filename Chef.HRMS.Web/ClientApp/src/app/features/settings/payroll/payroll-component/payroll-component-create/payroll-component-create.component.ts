@@ -37,6 +37,8 @@ export class PayrollComponentCreateComponent implements OnInit {
   @Input() payrollComponentCodes: string[];
   payrollComponentTypeKeysSearch: any;
 
+  config;
+
   constructor(
     private payrollComponentService: PayrollComponentService,
     public activeModal: NgbActiveModal,
@@ -70,18 +72,28 @@ export class PayrollComponentCreateComponent implements OnInit {
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
         this.payrollComponentTypeKeysSearch = result.sort((a, b) =>
-        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-      );
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+        );
       });
+
+    this.config = {
+      displayKey: "name",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select a Payroll Component Type",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "name",
+      clearOnSelection: false,
+    };
   }
   // searchPayroll(value){
   //   debugger
   //   this.payrollComponentTypeKeys=this.payrollComponentTypeKeysSearch.filter((res)=>{
   //     return res.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
   //   })
-  
+
   // // let a = event.toUpperCase();
-  
 
   // // for (let i = 0; i <
   // //   this.payrollComponentTypeKeys.length; i++) {
@@ -113,8 +125,13 @@ export class PayrollComponentCreateComponent implements OnInit {
   // selectValue(name) {
   //   this.selectedValue = name;
   //   console.log(this.selectedValue)
-  
+
   // }
+
+  selectionChanged(args) {
+    this.addForm.get("payrollComponentType").patchValue(args.value.id);
+  }
+
   get name() {
     return this.addForm.get("name");
   }
@@ -124,7 +141,6 @@ export class PayrollComponentCreateComponent implements OnInit {
   }
 
   onSubmit() {
-  
     const payrollComponentForm = this.addForm.value;
     payrollComponentForm.payrollComponentType = parseInt(
       payrollComponentForm.payrollComponentType,
