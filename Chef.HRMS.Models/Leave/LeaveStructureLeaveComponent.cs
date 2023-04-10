@@ -24,5 +24,19 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Description("Leave setting is configured")]
         public bool IsConfigured { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int EligibleDays { get; set; }
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int MaxLeaveAtaTime { get; set; }
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int EligibilityBase { get; set; }
+        
     }
 }
