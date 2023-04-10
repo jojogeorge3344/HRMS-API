@@ -442,8 +442,8 @@
                                 <label class="col-form-label" for="encashBFCode">Encash BF Code</label>
                                 <select class="form-control" formControlName="encashBFCode">
                                     <option [ngValue]="null" disabled>Select</option>
-                                    <option *ngFor="let key of eligiblitybases" [ngValue]='key'>
-                                        {{eligiblitybase[key]}}
+                                    <option *ngFor="let key of encashBfList" [ngValue]='key.id'>
+                                        {{key.name}}
                                     </option>
                                 </select>
                             </div>

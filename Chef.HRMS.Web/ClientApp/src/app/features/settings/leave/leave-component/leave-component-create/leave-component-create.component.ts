@@ -58,6 +58,7 @@ export class LeaveComponentCreateComponent implements OnInit {
   detectionTypeList: any;
   accuralList: any;
   accuralBenefitList: any;
+  encashBfList: any;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -84,6 +85,7 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.getAccrualBenefitType();
     this.getAccrualType();
     this.getDetectionListType()
+    this.getEncashBF()
   }
 getdeductiontype(){
   this.leaveComponentService.getbenefitcategory().subscribe((result: any) => {
@@ -282,5 +284,11 @@ getAccrualBenefitType(){
         console.error(error);
         this.toastr.showErrorMessage('Unable to add the Leave Component');
       });
+  }
+  getEncashBF(){
+    this.leaveeligiblityservice.getBenefitType().subscribe((res)=>{
+      this.encashBfList=res
+    })
+   
   }
 }

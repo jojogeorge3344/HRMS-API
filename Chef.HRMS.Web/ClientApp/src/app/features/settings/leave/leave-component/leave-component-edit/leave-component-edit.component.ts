@@ -57,6 +57,7 @@ export class LeaveComponentEditComponent implements OnInit {
   genderTypeKeys: number[];
   maritalStatusTypeKeys: number[];
   configId: any;
+  encashBfList: any;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -85,6 +86,7 @@ export class LeaveComponentEditComponent implements OnInit {
     this.getAccrualBenefitType();
     this.getAccrualType();
     this.getDetectionListType()
+    this.getEncashBF()
     this.editForm.patchValue(this.leaveComponent);
     
     console.log("this.leaveComponent",this.leaveComponent)
@@ -324,6 +326,12 @@ export class LeaveComponentEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to update the leave component');
       });
+  }
+  getEncashBF(){
+    this.leaveeligiblityservice.getBenefitType().subscribe((res)=>{
+      this.encashBfList=res
+    })
+   
   }
 }
 
