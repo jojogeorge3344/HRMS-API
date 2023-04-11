@@ -93,10 +93,18 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(employeeDetails);
         }
+
         [HttpGet("IsDocumentCodeExist/{documentnumber}")]
         public async Task<bool> IsDocumentCodeExist(string documentnumber)
         {
             return await employeeDocumentService.IsDocumentCodeExist(documentnumber);
+        }
+
+        [HttpGet("GetPDFViewer/{filePath}")]
+        public async Task<ActionResult<byte[]>> GetPDFViewer(string filePath)
+        {
+            return await employeeDocumentService.GetPDFViewer(filePath);
+
         }
     }
 }

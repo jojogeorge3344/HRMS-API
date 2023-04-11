@@ -1,10 +1,6 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Chef.HRMS.Services
 {
@@ -30,5 +26,35 @@ namespace Chef.HRMS.Services
         {
             return await employeeDocumentRepository.IsDocumentCodeExist(documentnumber);
         }
+
+        public async Task<byte[]> GetPDFViewer(string filePath)
+        {
+            return File.ReadAllBytes(filePath);
+        }
+
+        //public Task<string> ConvertPdfToHtml(byte[] pdfBytes)
+        //{
+        //    //PdfDocument pdfDoc = PdfReader.Open(new MemoryStream(pdfBytes));
+        //    //using (var ms = new MemoryStream())
+        //    //{
+        //    //    HtmlConverter.ConvertToHtml(pdfDoc, ms);
+        //    //    ms.Position = 0;
+        //    //    StreamReader sr = new StreamReader(ms);
+        //    //    return sr.ReadToEnd();
+        //    //}
+        //    using (var pdfReader = new iText.Kernel.Pdf.PdfReader(new MemoryStream(pdfBytes)))
+        //    {
+        //        using (var ms = new MemoryStream())
+        //        {
+        //            var writerProperties = new WriterProperties();
+        //            HtmlConverter.ConvertToPdf(pdfReader, ms, writerProperties);
+        //            ms.Position = 0;
+        //            using (var sr = new StreamReader(ms))
+        //            {
+        //                return sr.ReadToEnd();
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
