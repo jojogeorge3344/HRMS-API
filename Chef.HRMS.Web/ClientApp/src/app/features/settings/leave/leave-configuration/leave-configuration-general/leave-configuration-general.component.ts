@@ -31,7 +31,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     private router: Router) {
   }
   ngOnInit(){
-    debugger
+    
     let href = this.router.url.split('/');   
     if(href.includes('view')){
       this.viewValue = true;
