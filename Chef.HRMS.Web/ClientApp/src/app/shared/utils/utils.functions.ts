@@ -1,6 +1,6 @@
-import { FormGroup, AbstractControl, ValidatorFn } from '@angular/forms';
-import { ErrorMessage } from 'ng-bootstrap-form-validation';
-import * as _ from 'lodash';
+import { FormGroup, AbstractControl, ValidatorFn } from "@angular/forms";
+import { ErrorMessage } from "ng-bootstrap-form-validation";
+import * as _ from "lodash";
 
 export function scrollToTop(scrollDuration: number) {
   const cosParameter = window.scrollY / 2;
@@ -8,46 +8,54 @@ export function scrollToTop(scrollDuration: number) {
   let oldTimestamp = performance.now();
   function step(newTimestamp) {
     scrollCount += Math.PI / (scrollDuration / (newTimestamp - oldTimestamp));
-    if (scrollCount >= Math.PI) { window.scrollTo(0, 0); }
-    if (window.scrollY === 0) { return; }
-    window.scrollTo(0, Math.round(cosParameter + cosParameter * Math.cos(scrollCount)));
+    if (scrollCount >= Math.PI) {
+      window.scrollTo(0, 0);
+    }
+    if (window.scrollY === 0) {
+      return;
+    }
+    window.scrollTo(
+      0,
+      Math.round(cosParameter + cosParameter * Math.cos(scrollCount))
+    );
     oldTimestamp = newTimestamp;
     window.requestAnimationFrame(step);
   }
   window.requestAnimationFrame(step);
 }
 
-
 /* tslint:disable */
 export function toggleFullscreen() {
-  if (!document.fullscreenElement             /* Standard browsers */
-    && !document['msFullscreenElement']       /* Internet Explorer */
-    && !document['mozFullScreenElement']      /* Firefox */
-    && !document['webkitFullscreenElement']   /* Chrome */
+  if (
+    !document.fullscreenElement /* Standard browsers */ &&
+    !document["msFullscreenElement"] /* Internet Explorer */ &&
+    !document["mozFullScreenElement"] /* Firefox */ &&
+    !document["webkitFullscreenElement"] /* Chrome */
   ) {
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen();
-    } else if (document.documentElement['msRequestFullscreen']) {
-      document.documentElement['msRequestFullscreen']();
-    } else if (document.documentElement['mozRequestFullScreen']) {
-      document.documentElement['mozRequestFullScreen']();
-    } else if (document.documentElement['webkitRequestFullscreen']) {
-      document.documentElement['webkitRequestFullscreen'](Element['ALLOW_KEYBOARD_INPUT']);
+    } else if (document.documentElement["msRequestFullscreen"]) {
+      document.documentElement["msRequestFullscreen"]();
+    } else if (document.documentElement["mozRequestFullScreen"]) {
+      document.documentElement["mozRequestFullScreen"]();
+    } else if (document.documentElement["webkitRequestFullscreen"]) {
+      document.documentElement["webkitRequestFullscreen"](
+        Element["ALLOW_KEYBOARD_INPUT"]
+      );
     }
   } else {
     if (document.exitFullscreen) {
       document.exitFullscreen();
-    } else if (document['msExitFullscreen']) {
-      document['msExitFullscreen']();
-    } else if (document['mozCancelFullScreen']) {
-      document['mozCancelFullScreen']();
-    } else if (document['webkitExitFullscreen']) {
-      document['webkitExitFullscreen']();
+    } else if (document["msExitFullscreen"]) {
+      document["msExitFullscreen"]();
+    } else if (document["mozCancelFullScreen"]) {
+      document["mozCancelFullScreen"]();
+    } else if (document["webkitExitFullscreen"]) {
+      document["webkitExitFullscreen"]();
     }
   }
 }
 /* tslint:enable */
-
 
 // conditionaly apply css class to target
 export function handleClassCondition(
@@ -64,22 +72,18 @@ export function handleClassCondition(
 }
 
 export function getCurrentUser() {
-  if (localStorage.getItem('currentUser')) {
-    return JSON.parse(localStorage.getItem('currentUser'));
+  if (localStorage.getItem("currentUser")) {
+    return JSON.parse(localStorage.getItem("currentUser"));
   }
   return null;
 }
-export function getCurrentUserId() {
 
-  if (localStorage.getItem('currentUser')) {
-  
-    let a  =JSON.parse(localStorage.getItem('currentUser'))
-    let empid =a[0].employeeId
-   
-    return empid
-    // return JSON.parse(localStorage.getItem('currentUser')).employeeId;
-    // return 1
-   
+export function getCurrentUserId() {
+  if (localStorage.getItem("currentUser")) {
+    let a = JSON.parse(localStorage.getItem("currentUser"));
+    let empid = a[0].employeeId;
+
+    return empid;
   }
   return 0;
 }
@@ -88,17 +92,23 @@ export function getDateObject(str: string) {
   return {
     day: d.getDate(),
     month: d.getMonth() + 1,
-    year: d.getFullYear()
+    year: d.getFullYear(),
   };
 }
 export function getDateString(obj: any) {
-  return obj.year + '-' + obj.month.toString().replace(/^(\d)$/, '0$1') + '-' + obj.day;
+  return (
+    obj.year +
+    "-" +
+    obj.month.toString().replace(/^(\d)$/, "0$1") +
+    "-" +
+    obj.day
+  );
 }
 
 export function padAtStrt(n, width, z) {
-  z = z || '0';
-  n = n + '';
-  return String(n.replace(/^0+/, '')).padStart(width, '0');
+  z = z || "0";
+  n = n + "";
+  return String(n.replace(/^0+/, "")).padStart(width, "0");
 }
 
 export function MustMatch(controlName: string, matchingControlName: string) {
@@ -120,30 +130,45 @@ export function MustMatch(controlName: string, matchingControlName: string) {
   };
 }
 
-
 export function PhoneNumberValidator(control: AbstractControl) {
-  if (!(control.value && control.value.match('^\\+([0-9]){0,3}-[0-9]{5,12}$'))) {
+  if (
+    !(control.value && control.value.match("^\\+([0-9]){0,3}-[0-9]{5,12}$"))
+  ) {
     return { phone: true };
   }
   return null;
 }
 export function FileSizeValidator(control: AbstractControl) {
   if (control.value >= 2097152) {
-    return { 'filesize': true };
+    return { filesize: true };
   }
   return null;
 }
 export function FileTypeValidator(control: AbstractControl) {
-  if (control.value !== 'pdf' && control.value !== 'png' && control.value !== 'jpeg' && control.value !== 'doc'
-    && control.value !== 'docx') {
-    return { 'filetype': true };
+  if (
+    control.value !== "pdf" &&
+    control.value !== "png" &&
+    control.value !== "jpeg" &&
+    control.value !== "doc" &&
+    control.value !== "docx"
+  ) {
+    return { filetype: true };
   }
   return null;
 }
-export function LeaveBalanceValidator(leaveBalance: Object[], noOfDays): ValidatorFn {
+export function LeaveBalanceValidator(
+  leaveBalance: Object[],
+  noOfDays
+): ValidatorFn {
   return (control: AbstractControl) => {
-    if (_.filter(leaveBalance, (o: any) => o.leaveBalance > noOfDays && o.leaveComponentName != 'Loss Of Pay').length == 0) {
-      return { 'leaveBalance': true };
+    if (
+      _.filter(
+        leaveBalance,
+        (o: any) =>
+          o.leaveBalance > noOfDays && o.leaveComponentName != "Loss Of Pay"
+      ).length == 0
+    ) {
+      return { leaveBalance: true };
     }
     return null;
   };
@@ -151,28 +176,28 @@ export function LeaveBalanceValidator(leaveBalance: Object[], noOfDays): Validat
 
 export const customErrorMessages: ErrorMessage[] = [
   {
-    error: 'phone',
-    format: () => `Phone number should be in format '+countrycode-phone no.'`
+    error: "phone",
+    format: () => `Phone number should be in format '+countrycode-phone no.'`,
   },
   {
-    error: 'filesize',
-    format: () => `File size should be less than 2Mb`
+    error: "filesize",
+    format: () => `File size should be less than 2Mb`,
   },
   {
-    error: 'filetype',
-    format: () => `Please upload file having extensions .jpeg/.jpg/.png/.pdf/.doc/.docx only.`
+    error: "filetype",
+    format: () =>
+      `Please upload file having extensions .jpeg/.jpg/.png/.pdf/.doc/.docx only.`,
   },
   {
-    error: 'leaveBalance',
-    format: () => `You do not have enough leave balance.`
+    error: "leaveBalance",
+    format: () => `You do not have enough leave balance.`,
   },
   {
-    error: 'duplicate',
-    format: duplicateFormat
+    error: "duplicate",
+    format: duplicateFormat,
   },
 ];
 export function calculateDaysInBetween(fromDate, toDate) {
-
   let fromdateSec: any = fromDate;
   let todateSec: any = toDate;
 
@@ -188,7 +213,7 @@ export function calculateDaysInBetween(fromDate, toDate) {
 
   // Subtract two weekend days for every week in between
   const weeks = Math.floor(days / 7);
-  days = days - (weeks * 2);
+  days = days - weeks * 2;
 
   // Handle special cases
   fromdateSec = fromdateSec.getDay();
@@ -213,7 +238,11 @@ export function calculateDaysInBetween(fromDate, toDate) {
 export function duplicateFormat(label: string, error: any): string {
   return `${label} already exists.`;
 }
-export function getNoOfWeekoffsInMonth(month: number, year: number, weekoffs: [number, number]) {
+export function getNoOfWeekoffsInMonth(
+  month: number,
+  year: number,
+  weekoffs: [number, number]
+) {
   const noofDays = new Date(year, month, 0).getDate();
   const startingDay = new Date(year, month - 1, 1).getDay();
   if (noofDays === 28) {
@@ -227,7 +256,7 @@ export function getNoOfWeekoffsInMonth(month: number, year: number, weekoffs: [n
   } else if (noofDays === 30) {
     let noOfweekofs = 8;
     for (let i = 0; i < 2; i++) {
-      if (weekoffs.find(x => x === ((startingDay + i) % 7)) !== undefined) {
+      if (weekoffs.find((x) => x === (startingDay + i) % 7) !== undefined) {
         noOfweekofs++;
       }
     }
@@ -235,11 +264,10 @@ export function getNoOfWeekoffsInMonth(month: number, year: number, weekoffs: [n
   } else {
     let noOfweekofs = 8;
     for (let i = 0; i < 3; i++) {
-      if (weekoffs.find(x => x === ((startingDay + i) % 7)) !== undefined) {
+      if (weekoffs.find((x) => x === (startingDay + i) % 7) !== undefined) {
         noOfweekofs++;
       }
     }
     return noOfweekofs;
   }
 }
-

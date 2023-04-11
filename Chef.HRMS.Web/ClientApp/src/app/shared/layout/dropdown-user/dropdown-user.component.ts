@@ -2,7 +2,6 @@ import { Component, ViewContainerRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { MainComponent } from "../main/main.component";
 import { AuthService } from "src/app/services/auth/auth.service";
-import { getCurrentUser } from "@shared/utils/utils.functions";
 
 @Component({
   selector: "smart-dropdown-user",
@@ -23,11 +22,13 @@ export class DropdownUserComponent {
       }
     });
   }
+
   getParentComponent(): MainComponent {
     return this.viewContainerRef["_data"].componentView.component
       .viewContainerRef["_view"].component.viewContainerRef["_data"]
       .componentView.component.viewContainerRef["_view"].component;
   }
+
   logout() {
     this.authService.logout();
     this.router.navigateByUrl("auth/login");
