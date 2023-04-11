@@ -12,14 +12,14 @@ namespace Chef.HRMS.Models
         /// Holds code
         /// </summary>
         [Required]
-        [StringLength(12)]
+        [StringLength(20)]
         public string Code { get; set; }
 
         /// <summary>
         /// Holds name of the leave type
         /// </summary>
         [Required]
-        [StringLength(32)]
+        [StringLength(100)]
         public string Name { get; set; }
 
         /// <summary>

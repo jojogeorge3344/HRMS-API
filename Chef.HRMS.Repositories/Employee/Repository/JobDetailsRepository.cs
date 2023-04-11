@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Microsoft.AspNetCore.Http;
 
@@ -15,6 +16,14 @@ namespace Chef.HRMS.Repositories
             var sql = @"SELECT*FROM hrms.category WHERE isarchived=false";   
 
             return await Connection.QueryAsync<GroupCategory>(sql);
+        }
+
+        public async Task<IEnumerable<EmployeeDefaults>> GetProbationDetails()
+        {
+            return await QueryFactory
+            .Query<EmployeeDefaults>()
+            .WhereNotArchived()
+            .GetAsync<EmployeeDefaults>();
         }
     }
 }

@@ -36,6 +36,11 @@ namespace Chef.HRMS.Services
             return await jobDetailsRepository.GetGroupCategory();
         }
 
+        public async Task<IEnumerable<EmployeeDefaults>> GetProbationDetails()
+        {
+            return await jobDetailsRepository.GetProbationDetails();
+        }
+
         public async Task<int> InsertAsync(JobDetails jobDetails)
         {
             return await jobDetailsRepository.InsertAsync(jobDetails);

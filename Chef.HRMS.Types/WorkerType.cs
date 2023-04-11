@@ -6,9 +6,9 @@
     public enum WorkerType
     {
         Permanent = 1,
-        Contract,
-        Intern,
-        Resigned,
-        OnProbation
+        Contract = 2,
+        Intern = 3,
+        Resigned = 4,
+        OnProbation = 5
     }
 }
