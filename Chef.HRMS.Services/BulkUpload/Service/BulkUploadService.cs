@@ -56,15 +56,15 @@ namespace Chef.HRMS.Services
 
             // add a new worksheet to the workbook
             var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
-            worksheet.Protection.IsProtected = true;
+            worksheet.Protection.IsProtected = false;
             worksheet.Protection.AllowAutoFilter = true;
             // define the column headers
             worksheet.Cells[1, 1].Value = "Date";
-            worksheet.Cells[1, 2].Value = "In Time";
-            worksheet.Cells[1, 3].Value = "Out Time";
-            worksheet.Cells[1, 4].Value = "Working Hours";
-            worksheet.Cells[1, 5].Value = "Gross Hours";
-            worksheet.Cells[1, 6].Value = "Attendance Type";
+            worksheet.Cells[1, 2].Value = "clockIn";
+            worksheet.Cells[1, 3].Value = "clockOut";
+            worksheet.Cells[1, 4].Value = "effectiveHours";
+            worksheet.Cells[1, 5].Value = "grossHours";
+            worksheet.Cells[1, 6].Value = "attendanceType";
             worksheet.Cells[1, 7].Value = "Log";
 
             // format the column headers

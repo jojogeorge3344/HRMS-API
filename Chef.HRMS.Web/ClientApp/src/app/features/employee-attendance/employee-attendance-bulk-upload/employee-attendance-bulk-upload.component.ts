@@ -3,6 +3,9 @@ import * as XLSX from 'xlsx';
 import { NgbModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import {EmployeeAttendanceBulkUploadService} from '../employee-attendance-bulk-upload.service'
+import download from 'downloadjs';
+
 
 @Component({
   selector: 'hrms-employee-attendance-bulk-upload',
@@ -32,6 +35,7 @@ export class EmployeeAttendanceBulkUploadComponent implements OnInit {
   }
   constructor(
     private toastr: ToasterDisplayService,
+    private employeeAttendanceBulkUploadService:EmployeeAttendanceBulkUploadService
   ) {
   }
 
@@ -77,9 +81,9 @@ export class EmployeeAttendanceBulkUploadComponent implements OnInit {
   // } 
 } 
 excelExport(){
-  // this.customerAllocationService.exportExcelFormat(this.receipt.businessPartnerId, this.receipt.isCorporateGroup).subscribe((res)=>{
-  // download(atob(res), 'data.xlsx', { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
-  // })
+  this.employeeAttendanceBulkUploadService.getExcelFormat().subscribe((res:any)=>{
+  download(atob(res), 'data.xlsx', { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
+  })
 }
 getDate(date) {
   const d = new Date(date);
