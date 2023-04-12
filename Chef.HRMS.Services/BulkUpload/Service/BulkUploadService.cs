@@ -56,7 +56,7 @@ namespace Chef.HRMS.Services
 
             // add a new worksheet to the workbook
             var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
-            worksheet.Protection.IsProtected = true;
+            worksheet.Protection.IsProtected = false;
             worksheet.Protection.AllowAutoFilter = true;
             // define the column headers
             worksheet.Cells[1, 1].Value = "Date";
