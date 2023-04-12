@@ -68,7 +68,7 @@ namespace Chef.HRMS.Models
         public BloodGroupType BloodGroup { get; set; }
 
         public string UserId { get; set; }
-        public int FileNumber { get; set; }
+        public string FileNumber { get; set; }
 
         public int UIDNumber { get; set; }
 

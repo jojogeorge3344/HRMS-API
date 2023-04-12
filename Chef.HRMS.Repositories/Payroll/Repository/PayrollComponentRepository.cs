@@ -48,6 +48,7 @@ namespace Chef.HRMS.Repositories
             return await QueryFactory
           .Query<BenefitTypes>()
           .WhereNotArchived()
+          .OrderBy("id")
           .GetAsync<BenefitTypes>();
         }
         public async Task<bool> IsPayrollComponentCodeExist(string code)

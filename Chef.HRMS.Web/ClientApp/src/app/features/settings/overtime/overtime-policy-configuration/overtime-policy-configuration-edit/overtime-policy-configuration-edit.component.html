@@ -219,7 +219,7 @@
               </label>
             </div>
             <div class="form-group form-input-line col-md-3 d-inline-block">
-              <select class="form-control" formControlName="normalOverTime">
+              <select class="form-control" formControlName="normalOverTime" [required]="required">
                 <option value="" disabled>Select</option>
                 <option *ngFor="let item of normalOverTime" [ngValue]="item.id">
                   {{ item.name }}
@@ -252,7 +252,7 @@
               </label>
             </div>
             <div class="form-group form-input-line col-md-3 d-inline-block">
-              <select class="form-control" formControlName="holidayOverTime">
+              <select class="form-control" formControlName="holidayOverTime" [required]="required">
                 <option value="" disabled>Select</option>
                 <option
                   *ngFor="let item of holidayOverTime"
@@ -287,7 +287,7 @@
               </label>
             </div>
             <div class="form-group form-input-line col-md-3 d-inline-block">
-              <select class="form-control" formControlName="specialOverTime">
+              <select class="form-control" formControlName="specialOverTime" [required]="required">
                 <option value="" disabled>Select</option>
                 <option
                   *ngFor="let item of specialOverTime"

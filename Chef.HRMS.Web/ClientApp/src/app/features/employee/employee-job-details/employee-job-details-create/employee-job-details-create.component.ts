@@ -103,7 +103,14 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
        this.visaDesignation=result;
     })
-   
+    this.employeeJobDetailsService.getProbation().subscribe((result)=>{
+    this.addForm.patchValue({
+      probationPeriod:result[0].probationDuration,
+      periodType:result[0].periodType,
+      workerType:result[0].workerType,
+      timeType:result[0].timeType
+    })
+    })
     this.businessUnitTypeKeys = Object.keys(this.businessUnitType).filter(Number).map(Number);
     this.departmentTypeKeys = Object.keys(this.departmentType).filter(Number).map(Number);
     this.workerTypeKeys = Object.keys(this.workerType).filter(Number).map(Number);
@@ -226,7 +233,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
         Validators.required
       ]],
       secondaryJobTitle: ['',[
-        Validators.required,
+        //Validators.required,
         Validators.maxLength(26),
       ]],
       businessUnit: ['', [

@@ -5,6 +5,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { LeaveConfiguration } from '../leave-configuration.model';
 
 @Component({
   selector: 'hrms-leave-configuration-general',
@@ -18,6 +19,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
 
   @Input() leaveStructureId: number;
   @Input() leaveComponentId: number;
+  @Input() assignedLeaveConfigurations;
 
   @Input() isView: boolean;
   @Output() saveConfiguration = new EventEmitter<boolean>();
@@ -29,6 +31,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     private router: Router) {
   }
   ngOnInit(){
+    
     let href = this.router.url.split('/');   
     if(href.includes('view')){
       this.viewValue = true;
@@ -39,6 +42,14 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     if(this.viewValue == true){
       this.editForm.disable();
     }
+    if(this.assignedLeaveConfigurations){
+  this.editForm.patchValue({
+  annualLeaveQuota:this.assignedLeaveConfigurations[0].eligibleDays,
+  maxConsecutiveDays:this.assignedLeaveConfigurations[0].eligibilityBase,
+  maxNumberOfDaysPerMonth:this.assignedLeaveConfigurations[0].maxLeaveAtaTime
+})
+    }
+    
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -51,8 +62,9 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   }
 
   getLeaveGeneralSettings() {
+    debugger
     this.leaveConfigurationGeneralService.get(this.leaveStructureId, this.leaveComponentId).subscribe((result: any) => {
-      if (result) {
+      if (result && !this.assignedLeaveConfigurations) {
         this.editForm.patchValue(result);
       }
     },

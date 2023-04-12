@@ -97,7 +97,7 @@ export class OvertimePolicyListComponent implements OnInit {
 
   openView(overtimePolicy: OvertimePolicy) {
     const modalRef = this.modalService.open(OvertimePolicyViewComponent,
-      { centered: true, backdrop: 'static' });
+      { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.overtimePolicy = overtimePolicy;
     modalRef.componentInstance.attendanceHoursTypes = this.attendanceHoursTypes;

@@ -67,13 +67,10 @@ export class PayrollComponentCreateComponent implements OnInit {
       .map(Number);
     this.payrollComponentService
       .getAllPayrollComponentByType()
-      .subscribe((result) => {
-        this.payrollComponentTypeKeys = result.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        );
-        this.payrollComponentTypeKeysSearch = result.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        );
+      
+      .subscribe((result) => {        
+        this.payrollComponentTypeKeys = result.sort((a, b) => a.categoryId - b.categoryId);
+        this.payrollComponentTypeKeysSearch = result.sort((a, b) => a.categoryId - b.categoryId);
       });
 
     this.config = {
