@@ -36,7 +36,10 @@ export class EmployeeLeaveRequestViewComponent implements OnInit {
   getLeaveRequestByID() {
     this.employeeLeaveService.get(this.requestId).subscribe(result => {
       this.leaveRequest = result;
-      if(result.approvedDate){
+      this.dateChange = formatDate(result.approvedDate, "dd-MM-yyyy", "en");
+      if(this.dateChange=="01-01-0001"){
+       this.dateChange='-'
+      }else{
         this.dateChange = formatDate(result.approvedDate, "MMM d, yyyy", "en");
       }
       console.log(this.leaveRequest);

@@ -58,6 +58,7 @@ export class LeaveComponentEditComponent implements OnInit {
   maritalStatusTypeKeys: number[];
   configId: any;
   encashBfList: any;
+  isSaveDisable: boolean=false;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -162,6 +163,7 @@ export class LeaveComponentEditComponent implements OnInit {
       } else {
         // this.activeModal.close('submit');
         this.toastr.showSuccessMessage('Leave component is updated successfully!');
+        this.isSaveDisable=true
       }
     },
       error => {
@@ -240,7 +242,7 @@ export class LeaveComponentEditComponent implements OnInit {
         { size: 'lg', centered: true, backdrop: 'static' });
   
       modalRef.componentInstance.formulaType = type;
-      modalRef.componentInstance.formula = '';
+      modalRef.componentInstance.formula = this.editForm2.value.vacationSalaryFormula;
   
       modalRef.result.then((result) => { console.log(result);
                                          if (result !== 'Close click') {
@@ -253,14 +255,14 @@ export class LeaveComponentEditComponent implements OnInit {
       id: [null],
       name: [null, [
         Validators.required,
-        Validators.maxLength(40),
+        Validators.maxLength(100),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.leaveComponentNames)
       ]],
       code: [null, [
         Validators.required,
-        Validators.maxLength(10),
-        Validators.pattern('^([a-zA-Z0-9])+$'),
+        Validators.maxLength(20),
+        //Validators.pattern('^([a-zA-Z0-9])+$'),
         duplicateNameValidator(this.leaveComponentCodes)
       ]],
       description: [null, [
@@ -318,9 +320,9 @@ export class LeaveComponentEditComponent implements OnInit {
     })
     this.leaveeligiblityservice.update(this.editForm2.getRawValue()).subscribe((result: any) => {
       
-        // this.activeModal.close('submit');
+        this.activeModal.close('submit');
         this.toastr.showSuccessMessage('Leave component is updated successfully!');
-      
+        
     },
       error => {
         console.error(error);
