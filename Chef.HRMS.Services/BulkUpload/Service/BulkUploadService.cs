@@ -1,16 +1,9 @@
-﻿using Chef.Common.Core.Services;
-using Chef.Common.Services;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Chef.HRMS.Services
 {
@@ -58,6 +51,7 @@ namespace Chef.HRMS.Services
             var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
             worksheet.Protection.IsProtected = false;
             worksheet.Protection.AllowAutoFilter = true;
+
             // define the column headers
             worksheet.Cells[1, 1].Value = "Date";
             worksheet.Cells[1, 2].Value = "In Time";
