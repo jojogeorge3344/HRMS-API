@@ -145,7 +145,6 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
         Validators.required
       ]],
       expensePolicyId:['', [
-        Validators.required
       ]],
       attendanceCaptureScheme: [null, [
         Validators.required

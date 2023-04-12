@@ -119,6 +119,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       });
   }
   getJobDetailsId() {
+    debugger
     this.employeeJobDetailsService.get(this.jobDetailsId).subscribe(result => {
       this.getEmployeeList();
       result.dateOfJoin = new Date(result.dateOfJoin);
@@ -153,12 +154,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
 
   formatter = (employee) => employee.firstName;
 
-  search = (text$: Observable<string>) => text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    filter(term => term.length >= 2),
-    map(term => this.employeeList.filter(employee => new RegExp(term, 'mi').test(employee.firstName)).slice(0, 10))
-  )
+  // search = (text$: Observable<string>) => text$.pipe(
+  //   debounceTime(200),
+  //   distinctUntilChanged(),
+  //   filter(term => term.length >= 2),
+  //   map(term => this.employeeList.filter(employee => new RegExp(term, 'mi').test(employee.firstName)).slice(0, 10))
+  // )
 
   selected($event) {
     this.editForm.patchValue({ reportingManager: $event.item.firstName });

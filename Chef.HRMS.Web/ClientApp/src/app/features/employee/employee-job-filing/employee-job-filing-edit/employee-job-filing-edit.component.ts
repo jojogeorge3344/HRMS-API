@@ -230,7 +230,6 @@ export class EmployeeJobFilingEditComponent implements OnInit {
         Validators.required
       ]],
       expensePolicyId: ['', [
-        Validators.required
       ]],
       attendanceCaptureScheme: ['', [
         Validators.required

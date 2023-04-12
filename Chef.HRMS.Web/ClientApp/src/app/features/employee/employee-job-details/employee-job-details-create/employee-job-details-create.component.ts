@@ -164,6 +164,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   }
 
   formatter = (employee) => employee.firstName;
+  
 
   // search = (text$: Observable<string>) => text$.pipe(
   //   debounceTime(200),
@@ -172,6 +173,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   //   map(term => this.employeeList.filter(employee => new RegExp(term, 'mi').test(employee.firstName)).slice(0, 10))
   // )
   search = (text: Observable<string>) => {
+    debugger
     return text.pipe(
       debounceTime(200),
       distinctUntilChanged(),
