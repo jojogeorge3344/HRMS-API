@@ -138,33 +138,37 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     this.editForm.get('holidayFormula').valueChanges.subscribe(value => {
       if (value) {
         this.editForm.get('holidayOverTime').enable(); 
-        this.required=true;
+        this.editForm.controls['holidayOverTime'].setValidators([Validators.required]);
       } else{
         this.editForm.get('holidayOverTime').disable(); 
         this.editForm.get('holidayOverTime').reset();
       }
+      this.editForm.controls['holidayOverTime'].updateValueAndValidity();
     }); 
     this.editForm.get('specialFormula').valueChanges.subscribe(value => {
       if (value) {
         this.editForm.get('specialOverTime').enable();
-        this.required=true;
+        this.editForm.controls['specialOverTime'].setValidators([Validators.required]);
       }else{
         this.editForm.get('specialOverTime').disable();
         this.editForm.get('specialOverTime').reset();
       }
+      this.editForm.controls['specialOverTime'].updateValueAndValidity();
     }); 
     this.editForm.get('normalFormula').valueChanges.subscribe(value => {
       if (value) {
         this.editForm.get('normalOverTime').enable();
-        this.required=true;
+        this.editForm.controls['normalOverTime'].setValidators([Validators.required]);
       }else{
         this.editForm.get('normalOverTime').disable();
         this.editForm.get('normalOverTime').reset();
       }
+      this.editForm.controls['normalOverTime'].updateValueAndValidity();
     }); 
   }
 
   openFormulaEditor(type: string) {
+    debugger
     const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
 
