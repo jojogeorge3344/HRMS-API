@@ -226,7 +226,12 @@ export class LeaveStructureListComponent implements OnInit {
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
         forkJoin([
-          this.leaveConfigurationService.delete({ leaveStructureId: leaveStructure.id, leaveComponentId: leaveComponent.id }),
+          this.leaveConfigurationService.delete({
+            leaveStructureId: leaveStructure.id, leaveComponentId: leaveComponent.id,
+            eligibleDays: 0,
+            eligibilityBase: 0,
+            maxLeaveAtaTime: 0
+          }),
           this.leaveConfigurationGeneralService.delete(leaveStructure.id, leaveComponent.id),
           this.leaveConfigurationGeneralService.delete(leaveStructure.id, leaveComponent.id)
         ])

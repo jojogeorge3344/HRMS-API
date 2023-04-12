@@ -21,9 +21,10 @@
       "dom"
     ],
     "paths": {
-      "@shared/*": ["src/app/shared/*"],
-      "@settings/*": ["src/app/features/settings/*"],
-      "@features/*": ["src/app/features/*"],
-    }
+      "@shared/*": [ "src/app/shared/*" ],
+      "@settings/*": [ "src/app/features/settings/*" ],
+      "@features/*": [ "src/app/features/*" ]
+    },
+    "skipLibCheck": true
   }
 }
