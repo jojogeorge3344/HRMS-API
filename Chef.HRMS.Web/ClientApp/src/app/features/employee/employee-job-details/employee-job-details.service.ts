@@ -44,7 +44,9 @@ export class EmployeeJobDetailsService {
   getVisaDesignation() {
     return this.http.get<EmployeeJobDetails>(this.apiUrl + 'getAll' ).pipe(map(response => { return response; }));
   }
-
+  getProbation() {
+    return this.http.get<EmployeeJobDetails>(this.baseUrl + 'GetProbationDetails' ).pipe(map(response => { return response; }));
+  }
 }
 
 

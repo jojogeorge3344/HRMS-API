@@ -59,6 +59,7 @@ export class LeaveComponentCreateComponent implements OnInit {
   accuralList: any;
   accuralBenefitList: any;
   encashBfList: any;
+  isSaveDisable:boolean=false;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -135,6 +136,7 @@ getLeavetype(){
         this.isdisabled = false;
         
         this.toastr.showSuccessMessage('Basic Leave Component is created successfully!');
+        this.isSaveDisable=true
       }
     },
       error => {
@@ -217,14 +219,14 @@ getAccrualBenefitType(){
     return this.formBuilder.group({
       name: [null, [
         Validators.required,
-        Validators.maxLength(50),
+        Validators.maxLength(100),
         Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.leaveComponentNames)
       ]],
       code: [null, [
         Validators.required,
-        Validators.maxLength(10),
-        Validators.pattern('^([a-zA-Z0-9])+$'),
+        Validators.maxLength(20),
+        //Validators.pattern('^([a-zA-Z0-9])+$'),
         duplicateNameValidator(this.leaveComponentCodes)
       ]],
       description: [null, [
@@ -278,6 +280,7 @@ getAccrualBenefitType(){
         this.activeModal.close(result);
         
         this.toastr.showSuccessMessage('Configure Leave Component is created successfully!');
+        
       }
     },
       error => {

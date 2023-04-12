@@ -122,7 +122,7 @@ export class EosEditComponent implements OnInit {
       { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.formulaType = type;
-    modalRef.componentInstance.formula = '';
+    modalRef.componentInstance.formula = this.addForm.value.includedBenefits;
 
     modalRef.result.then((result) => { console.log(result);
                                        if (result !== 'Close click') {
