@@ -140,7 +140,7 @@
                     <div class="row">
                         <div class="col-12 d-flex justify-content-end" style="margin-top: 10px;">
                            
-                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
+                                <button type="submit" [disabled]="isSaveDisable" class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
                          
                             &nbsp;&nbsp;
                                 <button type="button" class="btn btn-warning p-2" (click)="activeModal.close('Close click')"><i
@@ -387,7 +387,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <!-- <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="leaveEncashment">Encashment Leave</label>
                                 <select class="form-control" formControlName="leaveEncashment">
@@ -397,7 +397,7 @@
                                     </option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="annualLeave">Annual Leave</label>
@@ -409,8 +409,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="leaveCutOffType">Leave CutOff<span class="required">*</span></label>
@@ -422,7 +420,8 @@
                                 </select>
                             </div>
                         </div>
-                      
+                    </div>
+                    <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="isEncash">Encash<span class="required">*</span></label>
@@ -442,7 +441,7 @@
                                 <label class="col-form-label" for="encashBFCode">Encash BF Code</label>
                                 <select class="form-control" formControlName="encashBFCode">
                                     <option [ngValue]="null" disabled>Select</option>
-                                    <option *ngFor="let key of encashBfList" [ngValue]='key.id'>
+                                    <option *ngFor="let key of accuralBenefitList" [ngValue]='key.id'>
                                         {{key.name}}
                                     </option>
                                 </select>
@@ -454,8 +453,6 @@
                                 <input type="number" class="form-control" formControlName="encashLimitDays">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
@@ -470,7 +467,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
                             <div class="form-group form-input-line">
                                 <label class="col-form-label" for="maxLeaveAtATime">Maximum Leave At A Time</label>
                                 <input type="number" class="form-control" formControlName="maxLeaveAtATime">
@@ -503,7 +502,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group form-input-line">
-                                <label class="col-form-label" for="vacationSalaryFormula">Vacation Salary Formula</label>
+                                <label class="col-form-label" for="vacationSalaryFormula">General Expression Formula</label>
                                 <input type="text" class="form-control" formControlName="vacationSalaryFormula">
                             </div>
                         </div>

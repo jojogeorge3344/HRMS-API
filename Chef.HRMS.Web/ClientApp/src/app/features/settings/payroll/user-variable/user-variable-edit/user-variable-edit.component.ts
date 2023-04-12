@@ -78,7 +78,7 @@ export class UserVariableEditComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       code: ['', [
-        Validators.maxLength(14),
+        Validators.maxLength(20),
         Validators.required,
       ]],
       name: ['', [

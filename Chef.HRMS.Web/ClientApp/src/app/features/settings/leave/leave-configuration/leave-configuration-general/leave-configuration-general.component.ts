@@ -64,7 +64,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   getLeaveGeneralSettings() {
     debugger
     this.leaveConfigurationGeneralService.get(this.leaveStructureId, this.leaveComponentId).subscribe((result: any) => {
-      if (result) {
+      if (result && !this.assignedLeaveConfigurations) {
         this.editForm.patchValue(result);
       }
     },

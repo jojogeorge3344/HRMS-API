@@ -71,6 +71,7 @@ export class HolidayCategoryListComponent implements OnInit {
   getHolidays(categoryId) {
     this.holidayService.getAllByCategory(categoryId).subscribe(result => {
       this.holidays = result;
+      this.holidays=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       console.log(this.holidays);
       
 
