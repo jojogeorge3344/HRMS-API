@@ -52,7 +52,7 @@
     "ng2-dnd": "^5.0.2",
     "ngrx-store-localstorage": "^9.0.0",
     "ngx-bootstrap": "^5.6.1",
-    "ngx-select-dropdown": "^3.3.0",
+    "ngx-select-dropdown": "~2.0.0",
     "ngx-toastr": "^12.1.0",
     "oidc-client": "^1.9.1",
     "pace-js": "^1.0.2",
