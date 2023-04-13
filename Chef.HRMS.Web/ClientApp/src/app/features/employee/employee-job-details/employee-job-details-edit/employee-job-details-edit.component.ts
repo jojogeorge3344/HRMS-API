@@ -142,10 +142,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   getEmployeeList() {
+    debugger
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.id);
-      const name = this.employeeList.find(emp => emp.id === this.reportingManager);
-      this.editForm.patchValue({ reportingManager: name });
+      const details = this.employeeList.find(emp => emp.id === this.reportingManager);
+      const id=details.id
+      this.editForm.patchValue({ reportingManager: id });
     },
       error => {
         console.error(error);
@@ -193,12 +195,13 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     const editJobDetails = this.editForm.value;
     editJobDetails.branchId = editJobDetails.location;
     editJobDetails.companyId = this.branches.find(c => c.id == editJobDetails.branchId).companyId;
     editJobDetails.employeeId = parseInt(this.id, 10);
     editJobDetails.id = parseInt(this.jobDetailsId, 10);
-    editJobDetails.reportingManager = editJobDetails.reportingManager.id;
+    // editJobDetails.reportingManager = editJobDetails.reportingManager.id;
     this.employeeJobDetailsService.update(editJobDetails).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Job Details updated successfully!');
     },

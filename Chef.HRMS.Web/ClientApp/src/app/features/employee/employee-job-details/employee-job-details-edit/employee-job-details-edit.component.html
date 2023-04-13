@@ -73,7 +73,7 @@
                 <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>
                 <select class="form-control" formControlName="reportingManager">
                     <option value="" disabled>Select Reporting Manager</option>
-                    <option *ngFor="let item of employeeList" [ngValue]='item.firstName'>                    
+                    <option *ngFor="let item of employeeList" [ngValue]='item.id'>                    
                         {{item.firstName}}</option>
                 </select>
                 <!-- <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>

@@ -229,7 +229,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       attendanceTracking: ['', [
         Validators.required
       ]],
-      expensePolicyId: ['', [
+      expensePolicyId: [0, [
       ]],
       attendanceCaptureScheme: ['', [
         Validators.required
