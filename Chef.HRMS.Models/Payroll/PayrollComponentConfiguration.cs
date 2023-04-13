@@ -144,5 +144,9 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Description("Payroll component is configured")]
         public bool IsConfigured { get; set; }
+        [Write(false)]
+        [Skip(false)]
+        [SqlKata.Ignore]
+        public int CategoryId { get; set; }
     }
 }
