@@ -24,4 +24,5 @@ export interface PayrollConfiguration extends Model {
   isComputed: boolean;
   formula: string;
   isConfigured: boolean;
+  categoryId:number
 }
