@@ -16,11 +16,11 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async Task<bool> IsOverTimePolicyNameExist(string name)
+        public async Task<bool> IsOverTimePolicyCodeExist(string code)
         {
             if (await QueryFactory
            .Query<OverTimeSlab>()
-           .Where("overtimepolicyname", name)
+           .Where("overtimepolicyname", code)
            .WhereNotArchived()
            .CountAsync<int>() > 0) return true;
             else return false;

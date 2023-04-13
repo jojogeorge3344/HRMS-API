@@ -9,6 +9,6 @@ namespace Chef.HRMS.Services
 {
     public interface IOverTimePolicySlabService : IAsyncService<OverTimeSlab>
     {
-        Task<bool> IsOverTimePolicyNameExist(string name);
+        Task<bool> IsOverTimePolicyCodeExist(string code);
     }
 }

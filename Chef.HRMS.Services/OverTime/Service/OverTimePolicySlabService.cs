@@ -17,9 +17,9 @@ namespace Chef.HRMS.Services
             this.overTimePolicySlabRepository = overTimePolicySlabRepository;
         }
 
-        public async Task<bool> IsOverTimePolicyNameExist(string name)
+        public async Task<bool> IsOverTimePolicyCodeExist(string code)
         {
-            return await overTimePolicySlabRepository.IsOverTimePolicyNameExist(name);
+            return await overTimePolicySlabRepository.IsOverTimePolicyCodeExist(code);
         }
     }
 }

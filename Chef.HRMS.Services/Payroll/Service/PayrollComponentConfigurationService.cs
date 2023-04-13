@@ -26,6 +26,11 @@ namespace Chef.HRMS.Services
             return await payrollComponentConfigurationRepository.GetAllAsync();
         }
 
+        public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollComponentId(int payrollComponentId)
+        {
+            return await payrollComponentConfigurationRepository.GetAllByPayrollComponentId(payrollComponentId);
+        }
+
         public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollStuctureId(int payrollStructureId)
         {
             return await payrollComponentConfigurationRepository.GetAllByPayrollStuctureId(payrollStructureId);
