@@ -53,7 +53,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds suffix
         /// </summary>
-        [Required]
+        //[Required]
         [StringLength(8)]
         public string Suffix { get; set; }
     }
