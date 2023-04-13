@@ -108,5 +108,15 @@ namespace Chef.HRMS.Repositories
                 sql += " ON CONFLICT ON CONSTRAINT payrollcalculation_componentid_structureid_ukey DO NOTHING";
                 return await Connection.ExecuteAsync(sql, payrollCalculation);
         }
+        public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollComponentId(int payrollComponentId)
+        {
+            var sql = @"SELECT pcc.*,bt.categoryid FROM hrms.payrollcomponentconfiguration pcc 
+                        INNER JOIN hrms.benefittypes bt
+                        ON pcc.payrollcomponenttype = bt.id
+                        WHERE pcc.payrollcomponentid = @payrollComponentId
+                        AND pcc.isarchived = false ORDER BY pcc.name ASC";
+
+            return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollComponentId });
+        }
     }
 }
