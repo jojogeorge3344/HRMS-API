@@ -49,7 +49,7 @@ export class PayrollConfigurationReimbursableComponent implements OnChanges {
         this.onUpdate(true);
       }
 
-      this.editForm.patchValue(this.payrollConfiguration);
+      this.editForm.patchValue(this.payrollConfiguration[0]);
     }
 
     if (this.isView) {

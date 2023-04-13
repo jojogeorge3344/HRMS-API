@@ -29,7 +29,7 @@ export class PayrollConfigurationStandardEarningComponent implements OnChanges {
 
     if (changes.payrollConfiguration) {
       this.editForm = this.createFormGroup();
-      this.editForm.patchValue(this.payrollConfiguration);
+      this.editForm.patchValue(this.payrollConfiguration[0]);
     }
 
     if (this.isView) {

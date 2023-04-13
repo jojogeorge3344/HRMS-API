@@ -27,9 +27,9 @@ export class PayrollConfigurationEditComponent implements OnInit {
   ngOnInit(): void {
     this.isView = (this.route.snapshot.url[1].path === 'view');
     this.route.params.subscribe(params => {
-      this.payrollConfigurationService.get(params.id).subscribe((result) => {
+      this.payrollConfigurationService.getAllPayRoll(params.id).subscribe((result) => {
         this.payrollConfiguration = result;
-        this.payrollComponentType = result.payrollComponentType;
+        this.payrollComponentType = result[0].categoryId;
         this.payrollComponent = result.name;
       },
       error => {
