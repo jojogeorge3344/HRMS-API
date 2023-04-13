@@ -69,10 +69,10 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
-        [HttpGet("IsOverTimePolicyNameExist/{name}")]
-        public async Task<bool> IsOverTimePolicyNameExist(string name)
+        [HttpGet("IsOverTimePolicyCodeExist/{code}")]
+        public async Task<bool> IsOverTimePolicyCodeExist(string code)
         {
-            return await overTimePolicySlabService.IsOverTimePolicyNameExist(name);
+            return await overTimePolicySlabService.IsOverTimePolicyCodeExist(code);
         }
     }
 }

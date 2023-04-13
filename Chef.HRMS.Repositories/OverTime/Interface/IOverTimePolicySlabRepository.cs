@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public interface IOverTimePolicySlabRepository : IGenericRepository<OverTimeSlab>
     {
-        Task<bool> IsOverTimePolicyNameExist(string name);
+        Task<bool> IsOverTimePolicyCodeExist(string code);
 
     }
 }
