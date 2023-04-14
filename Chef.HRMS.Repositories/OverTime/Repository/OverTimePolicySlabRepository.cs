@@ -27,7 +27,7 @@ namespace Chef.HRMS.Repositories
         {
             if (await QueryFactory
            .Query<OverTimeSlab>()
-           .Where("overtimepolicyname", code)
+           .Where("overtimepolicycode", code)
            .WhereNotArchived()
            .CountAsync<int>() > 0) return true;
             else return false;
