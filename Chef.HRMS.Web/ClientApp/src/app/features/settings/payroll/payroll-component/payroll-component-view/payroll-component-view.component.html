@@ -1,0 +1,119 @@
+<form [formGroup]="viewForm">
+    <div class="modal-header">
+      <h4 class="modal-title">View Payroll Component</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="d-flex flex-wrap align-items-baseline">
+        <div class="form-group col-6">
+          <label for="name">Name<span class="required">*</span></label>
+          <input type="text" class="form-control" formControlName="name" readonly/>
+        </div>
+  
+        <div class="form-group col-6">
+          <label for="shortCode">Short Code<span class="required">*</span></label>
+          <input type="text" class="form-control" formControlName="shortCode" readonly/>
+        </div>
+  
+        <div class="form-group col-6">
+          <label for="payrollComponentType"> Payroll Component Type<span class="required">*</span> </label>
+          <select class="form-control" formControlName="payrollComponentType" disabled>
+            <option [ngValue]="null" disabled>
+              Select a Payroll Component Type
+            </option>
+            <option
+              *ngFor="let key of payrollComponentTypeKeys"
+              [ngValue]="key.id"
+            >
+              {{ key.name }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group col-6">
+          <label for="payHeadType">Pay Head Type<span class="required">*</span></label>
+          <select class="form-control" formControlName="payHeadType" disabled>
+            <option [ngValue]="null" disabled>Select a Pay Head Type</option>
+            <option *ngFor="let key of payHeadTypeKeys" [ngValue]="key">
+              {{ payHeadTypes[key] }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-6">
+          <label for="payHeadContractValueType"> Pay Head Contract Value<span class="required">*</span> </label>
+          <select class="form-control" formControlName="payHeadContractValueType" disabled>
+            <option [ngValue]="null" disabled>
+              Select Pay Head Contract Value
+            </option>
+            <option *ngFor="let key of payContractTypeKeys" [ngValue]="key">
+              {{ payContractTypes[key] }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-6">
+          <label for="payHeadBaseUnitType">Pay Head Base Unit<span class="required">*</span></label>
+          <select class="form-control" formControlName="payHeadBaseUnitType" disabled>
+            <option [ngValue]="null" disabled>Select Pay Head Base Unit</option>
+            <option *ngFor="let key of payBaseUnitTypeKeys" [ngValue]="key">
+              {{ payBaseUnitTypes[key] }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-6">
+          <label for="minimumLimit">Minimum Limit</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="minimumLimit"
+            readonly
+          />
+        </div>
+        <div class="form-group col-6">
+          <label for="maximumLimit">Maximum Limit</label>
+          <input readonly
+            type="number"
+            class="form-control"
+            formControlName="maximumLimit"
+          />
+        </div>
+        <div class="form-group col-6">
+          <label for="includeInPaySlipType">Include In Pay Slip<span class="required">*</span></label>
+          <select class="form-control" formControlName="includeInPaySlipType" disabled>
+            <option [ngValue]="null" disabled>Select</option>
+            <option *ngFor="let key of includePaySlipTypeKeys" [ngValue]="key">
+              {{ includePaySlipTypes[key] }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-6">
+          <label for="roundingType">Rounding<span class="required">*</span></label>
+          <select class="form-control" formControlName="roundingType" disabled>
+            <option [ngValue]="null" disabled>Select</option>
+            <option *ngFor="let key of roundingTypeKeys" [ngValue]="key">
+              {{ roundingTypes[key] }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group col-12">
+          <label for="description">Description<span class="required">*</span></label>
+          <textarea readonly
+            type="text"
+            rows="3"
+            class="form-control"
+            id="description"
+            formControlName="description"
+          >
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </form>
+  

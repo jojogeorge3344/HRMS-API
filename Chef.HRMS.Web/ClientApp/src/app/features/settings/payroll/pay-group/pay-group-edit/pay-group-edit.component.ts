@@ -31,6 +31,7 @@ export class PayGroupEditComponent implements OnInit {
   months = Months;
   monthKeys: number[];
   isStartingMonth = false;
+  currency:any[];
   constructor(
     private payGroupService: PayGroupService,
     public activeModal: NgbActiveModal,
@@ -51,6 +52,11 @@ export class PayGroupEditComponent implements OnInit {
     } else {
       this.isStartingMonth = true;
     }
+    this.payGroupService.getCurrencies()
+    .subscribe((result)=>{
+      this.currency=result;
+    })
+
     this.editForm.patchValue(this.payGroup);
     this.onChanges();
   }
@@ -92,6 +98,9 @@ export class PayGroupEditComponent implements OnInit {
       ]],
       startingMonth: [{ value: 0, disabled: this.isDisabled }, []],
       startingWeek: [{ value: 0, disabled: this.isDisabled }, []],
+      currencyId: [null, []],
+      timeSheetCutOff: [null, [Validators.max(31),Validators.min(1)]],
+      leaveCutOff: [null, [Validators.max(31),Validators.min(1)]],
       createdDate: [],
     });
   }

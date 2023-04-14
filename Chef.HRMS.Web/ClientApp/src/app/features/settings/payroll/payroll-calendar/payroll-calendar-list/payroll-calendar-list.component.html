@@ -38,6 +38,9 @@
                             <li role="menuitem" (click)="openEdit(payrollCalendar)">
                                 <a class="dropdown-item">Edit</a>
                             </li>
+                            <li role="menuitem" (click)="openView(payrollCalendar)">
+                                <a class="dropdown-item">View</a>
+                            </li>
                             <li role="menuitem" (click)="!isDisabled(payrollCalendar) && delete(payrollCalendar)">
                                 <a [ngClass]="{'disabled': isDisabled(payrollCalendar)}"
                                     class="dropdown-item">Delete</a>
