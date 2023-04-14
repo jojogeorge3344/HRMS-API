@@ -10,7 +10,7 @@ namespace Chef.HRMS.Types
     public enum ValueType
     {
         [Description("NUMBER/%")]
-        NUMBER = 1,
+        NUMBERPERCENT = 1,
 
         [Description("NUMBER")]
         NUMBERS = 2

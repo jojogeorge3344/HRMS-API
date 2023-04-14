@@ -51,10 +51,10 @@ namespace Chef.HRMS.Web.Controllers
 
                         if (type == 1)
                         {
-                            List<Leave> leave = new List<Leave>();
+                            List<Chef.HRMS.Models.Leave> leave = new List<Chef.HRMS.Models.Leave>();
                             while (reader.Read()) //Each row of the file
                             {
-                                leave.Add(new Leave
+                                leave.Add(new Chef.HRMS.Models.Leave
                                 {
 
 
