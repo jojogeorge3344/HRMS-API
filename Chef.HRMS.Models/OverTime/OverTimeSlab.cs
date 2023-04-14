@@ -14,6 +14,6 @@ namespace Chef.HRMS.Models
         public int ValueVariable { get; set; }
         public Chef.HRMS.Types.ValueType ValueType { get; set; }
         public int OverTimePolicyId { get; set; }
-        public string OverTimePolicyName { get;set; }
+        public string OverTimePolicyCode { get;set; }
     }
 }
