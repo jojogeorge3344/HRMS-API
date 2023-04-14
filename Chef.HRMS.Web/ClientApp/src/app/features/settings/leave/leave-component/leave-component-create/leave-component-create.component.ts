@@ -28,6 +28,7 @@ export class LeaveComponentCreateComponent implements OnInit {
 
   addForm: FormGroup;
   addForm2:FormGroup;
+  addForm3:FormGroup;
   currentUserId: number;
   genderTypes = GenderType;
   maritalStatusTypes = MaritalStatusType;
@@ -47,6 +48,7 @@ export class LeaveComponentCreateComponent implements OnInit {
   maritalStatusTypeKeys: number[];
   leavecomponentid:number;
   isdisabled:boolean = true;
+  isSlabdisabled:boolean = true;
   isCfLimit: boolean=true
   @Input() leaveComponentNames: string[];
   @Input() leaveComponentCodes: string[];
@@ -82,6 +84,7 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     this.addForm2 = this.createFormGroup2();
+    this.addForm3 = this.createFormGroup3();
     this.getdeductiontype();
     this.getAccrualBenefitType();
     this.getAccrualType();
@@ -268,6 +271,29 @@ getAccrualBenefitType(){
       annualLeave:[{ value: 0, disabled: this.isAnnual }],
     })
   }
+  createFormGroup3(): FormGroup {
+    return this.formBuilder.group({
+      leaveCode: ['', [
+        Validators.required
+      ]],
+      leaveName: ['', [
+        Validators.required
+      ]],
+      lowerLimit: ['', [
+        Validators.required
+      ]],
+      upperLimit: ['', [
+        Validators.required
+      ]],
+      valueVariable: ['', [
+        Validators.required
+      ]],
+      valuetype: ['', [
+        Validators.required
+      ]],
+      eosId: ['', ],
+    })
+  }
   onSubmit2() {
 
     this.addForm2.patchValue({
@@ -277,8 +303,8 @@ getAccrualBenefitType(){
       if (result.id === -1) {
         this.toastr.showErrorMessage('Configure Leave component already exists!');
       } else {
-        this.activeModal.close(result);
-        
+        //this.activeModal.close(result);
+        this.isSlabdisabled=false
         this.toastr.showSuccessMessage('Configure Leave Component is created successfully!');
         
       }
@@ -286,6 +312,27 @@ getAccrualBenefitType(){
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to add the Leave Component');
+      });
+  }
+
+  onSubmit3() {
+
+    // this.addForm3.patchValue({
+    //   leaveComponentId:this.leavecomponentid
+    // })
+    this.leaveeligiblityservice.add(this.addForm3.value).subscribe((result: any) => {
+      if (result.id === -1) {
+        this.toastr.showErrorMessage('Configure Slab component already exists!');
+      } else {
+        this.activeModal.close(result);
+        
+        this.toastr.showSuccessMessage('Configure Slab Component is created successfully!');
+        
+      }
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to add the Slab Component');
       });
   }
   getEncashBF(){
