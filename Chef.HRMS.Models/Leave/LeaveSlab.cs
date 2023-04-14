@@ -15,5 +15,7 @@ namespace Chef.HRMS.Models
         public Chef.HRMS.Types.ValueType ValueType { get; set; }
         public int LeaveComponentId { get; set; }
         public string LeaveComponentName { get; set; }
+        public string LeaveComponentCode { get; set; }
+
     }
 }
