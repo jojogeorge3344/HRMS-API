@@ -16,6 +16,8 @@ import { LeaveEligiblityService } from '../leave-eligiblity.service';
 import { debounce } from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
+import { LeaveSlabService } from '../leave-slab-service';
+import { valueTypeOff } from 'src/app/models/common/types/leaveSlabOff';
 
 
 
@@ -62,6 +64,10 @@ export class LeaveComponentCreateComponent implements OnInit {
   accuralBenefitList: any;
   encashBfList: any;
   isSaveDisable:boolean=false;
+  leaveDetails: any;
+  valuetype: object;
+  valueSlabOffTypeKeys: number[];
+  valueSlabOffType = valueTypeOff;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -69,7 +75,8 @@ export class LeaveComponentCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private toastr: ToasterDisplayService,
-    public modalService: NgbModal,) {
+    public modalService: NgbModal,
+    public leaveSlabService: LeaveSlabService,) {
   }
 
   ngOnInit(): void {
@@ -81,6 +88,7 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.leavecutoff = Object.keys(this.leavecutofftype).filter(Number).map(Number);
     this.leavetypearray = Object.keys(this.leavetypes).filter(Number).map(Number);
     this.lopday = Object.keys(this.lopdays).filter(Number).map(Number);
+    this.valueSlabOffTypeKeys = Object.keys(this.valueSlabOffType).filter(Number).map(Number);
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     this.addForm2 = this.createFormGroup2();
@@ -90,6 +98,7 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.getAccrualType();
     this.getDetectionListType()
     this.getEncashBF()
+    this.getLeaveDetails()
   }
 getdeductiontype(){
   this.leaveComponentService.getbenefitcategory().subscribe((result: any) => {
@@ -273,10 +282,10 @@ getAccrualBenefitType(){
   }
   createFormGroup3(): FormGroup {
     return this.formBuilder.group({
-      leaveCode: ['', [
+      leaveComponentCode: ['', [
         Validators.required
       ]],
-      leaveName: ['', [
+      leaveComponentName: ['', [
         Validators.required
       ]],
       lowerLimit: ['', [
@@ -288,10 +297,10 @@ getAccrualBenefitType(){
       valueVariable: ['', [
         Validators.required
       ]],
-      valuetype: ['', [
+      valueType: ['', [
         Validators.required
       ]],
-      eosId: ['', ],
+      leaveComponentId: ['', ],
     })
   }
   onSubmit2() {
@@ -317,10 +326,10 @@ getAccrualBenefitType(){
 
   onSubmit3() {
 
-    // this.addForm3.patchValue({
-    //   leaveComponentId:this.leavecomponentid
-    // })
-    this.leaveeligiblityservice.add(this.addForm3.value).subscribe((result: any) => {
+    this.addForm3.patchValue({
+      leaveComponentId:this.leavecomponentid
+    })
+    this.leaveSlabService.add(this.addForm3.value).subscribe((result: any) => {
       if (result.id === -1) {
         this.toastr.showErrorMessage('Configure Slab component already exists!');
       } else {
@@ -340,5 +349,22 @@ getAccrualBenefitType(){
       this.encashBfList=res
     })
    
+  }
+  getLeaveDetails() {
+    this.leaveSlabService.getAll().subscribe((result) => {
+      for(let i=0;i<result.length;i++){
+        this.leaveDetails = result
+      }
+    })
+  }
+  getLeaveName(event){
+    if(event){
+     let a=this.leaveDetails.filter((value)=>value.bfCode==event)
+     this.addForm3.patchValue({
+      leaveComponentName:a[0].leaveComponentName,
+      leaveComponentId:a[0].id
+     })
+    }
+
   }
 }

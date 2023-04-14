@@ -16,6 +16,9 @@ import { LeaveType } from '@settings/leave/leavetype.enum';
 import { Loptype } from '@settings/leave/lopdays.enum';
 import { LeaveEligiblityService } from '../leave-eligiblity.service';
 import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
+import { LeaveSlabService } from '../leave-slab-service';
+import { valueTypeOff } from 'src/app/models/common/types/leaveSlabOff';
+
 
 @Component({
   selector: 'hrms-leave-component-edit',
@@ -25,6 +28,7 @@ export class LeaveComponentEditComponent implements OnInit {
 
   editForm: FormGroup;
   editForm2:FormGroup;
+  editForm3:FormGroup;
   currentUserId: number;
   genderTypes = GenderType;
   maritalStatusTypes = MaritalStatusType;
@@ -59,6 +63,10 @@ export class LeaveComponentEditComponent implements OnInit {
   configId: any;
   encashBfList: any;
   isSaveDisable: boolean=false;
+  leaveDetails: any;
+  valuetype: object;
+  valueSlabOffTypeKeys: number[];
+  valueSlabOffType = valueTypeOff;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -66,7 +74,8 @@ export class LeaveComponentEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private toastr: ToasterDisplayService,
-    public modalService: NgbModal,) {
+    public modalService: NgbModal,
+    public leaveSlabService: LeaveSlabService,) {
   }
 
   ngOnInit(): void {
@@ -77,9 +86,11 @@ export class LeaveComponentEditComponent implements OnInit {
     this.leavetypearray = Object.keys(this.leavetypes).filter(Number).map(Number);
     this.lopday = Object.keys(this.lopdays).filter(Number).map(Number);
     this.basetypes = Object.keys(this.basetype).filter(Number).map(Number);
+    this.valueSlabOffTypeKeys = Object.keys(this.valueSlabOffType).filter(Number).map(Number);
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.editForm2 = this.createFormGroup2();
+    this.editForm3 = this.createFormGroup3();
     this.toggleGender(this.leaveComponent.isRestrictedToGender);
     this.toggleMaritalStatus(this.leaveComponent.isRestrictedToMaritalStatus);
     this.getdeductiontype();
@@ -88,6 +99,7 @@ export class LeaveComponentEditComponent implements OnInit {
     this.getAccrualType();
     this.getDetectionListType()
     this.getEncashBF()
+    this.getLeaveDetails()
     this.editForm.patchValue(this.leaveComponent);
     
     console.log("this.leaveComponent",this.leaveComponent)
@@ -303,6 +315,29 @@ export class LeaveComponentEditComponent implements OnInit {
       id:[0]
     })
   }
+  createFormGroup3(): FormGroup {
+    return this.formBuilder.group({
+      leaveComponentCode: ['', [
+        Validators.required
+      ]],
+      leaveComponentName: ['', [
+        Validators.required
+      ]],
+      lowerLimit: ['', [
+        Validators.required
+      ]],
+      upperLimit: ['', [
+        Validators.required
+      ]],
+      valueVariable: ['', [
+        Validators.required
+      ]],
+      valueType: ['', [
+        Validators.required
+      ]],
+      leaveComponentId: ['', ],
+    })
+  }
   getLeavetype(){
     
   
@@ -320,7 +355,7 @@ export class LeaveComponentEditComponent implements OnInit {
     })
     this.leaveeligiblityservice.update(this.editForm2.getRawValue()).subscribe((result: any) => {
       
-        this.activeModal.close('submit');
+        //this.activeModal.close('submit');
         this.toastr.showSuccessMessage('Leave component is updated successfully!');
         
     },
@@ -334,6 +369,39 @@ export class LeaveComponentEditComponent implements OnInit {
       this.encashBfList=res
     })
    
+  }
+  onSubmit3(){
+    this.editForm3.patchValue({
+      leaveComponentId:this.leaveComponent.id,
+      id:this.configId
+    })
+    this.leaveSlabService.update(this.editForm3.getRawValue()).subscribe((result: any) => {
+      
+        this.activeModal.close('submit');
+        this.toastr.showSuccessMessage('Leave component is updated successfully!');
+        
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to update the leave component');
+      });
+  }
+  getLeaveDetails() {
+    this.leaveSlabService.getAll().subscribe((result) => {
+      for(let i=0;i<result.length;i++){
+        this.leaveDetails = result
+      }
+    })
+  }
+  getLeaveName(event){
+    if(event){
+     let a=this.leaveDetails.filter((value)=>value.bfCode==event)
+     this.editForm3.patchValue({
+      leaveComponentName:a[0].leaveComponentName,
+      leaveComponentId:a[0].id
+     })
+    }
+
   }
 }
 
