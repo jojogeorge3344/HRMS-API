@@ -30,7 +30,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveStructureLeaveComponent>> GetAllAsync(int leaveStructureId)
         {
-                var sql = @"SELECT lslc.*,le.eligibledays,le.maxleaveatatime,le.eligibilitybase
+                var sql = @"SELECT lslc.*,le.eligibledays,le.maxleaveatatime,le.eligibilitybase,le.iscarryforward,le.maxleaveatatime
                             FROM   hrms.leavestructureleavecomponent lslc
 							INNER JOIN hrms.leaveeligibility le
 							ON le.leavecomponentid=lslc.leavecomponentid

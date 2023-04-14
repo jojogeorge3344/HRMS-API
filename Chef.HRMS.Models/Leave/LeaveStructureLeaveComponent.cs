@@ -29,14 +29,25 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public int EligibleDays { get; set; }
+
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
         public int MaxLeaveAtaTime { get; set; }
+
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
         public int EligibilityBase { get; set; }
-        
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public bool IsCarryForward { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int MaxLeaveAtATime { get; set; }
     }
 }
