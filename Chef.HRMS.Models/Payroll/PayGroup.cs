@@ -43,8 +43,8 @@ namespace Chef.HRMS.Models
         /// </summary>
         public int StartingWeek { get; set; }
 
-        public int OTCutoff { get; set; }
-        public int LeaveCutoff { get; set; }
+        public int TimeSheetCutOff { get; set; }
+        public int LeaveCutOff { get; set; }
 
 
     }
