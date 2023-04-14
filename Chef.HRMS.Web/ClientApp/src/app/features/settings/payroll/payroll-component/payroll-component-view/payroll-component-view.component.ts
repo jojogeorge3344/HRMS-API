@@ -37,7 +37,6 @@ export class PayrollComponentViewComponent implements OnInit {
 
   @Input() payrollComponentTypes: PayrollComponentType;
   @Input() payrollComponent: PayrollComponent;
-  @Input() isDisabled: boolean;
   @Input() payrollComponentNames: string[];
   @Input() payrollComponentCodes: string[];
 
@@ -45,7 +44,6 @@ export class PayrollComponentViewComponent implements OnInit {
     private payrollComponentService: PayrollComponentService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +94,7 @@ export class PayrollComponentViewComponent implements OnInit {
       payrollComponentType: [
       ],
       shortCode: [
-        "", ],
+        null, ],
       description: [""],
       payHeadType: [null],
       payHeadContractValueType: [null],
