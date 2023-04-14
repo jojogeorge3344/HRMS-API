@@ -44,6 +44,7 @@ import { EmployeeSalaryViewComponent } from "./employee-salary/employee-salary-v
 import { EmployeeSalaryFormComponent } from "./employee-salary/employee-salary-form/employee-salary-form.component";
 import { EmployeeSalaryConfirmComponent } from "./employee-salary/employee-salary-confirm/employee-salary-confirm.component";
 import { SharedModule } from "@shared/shared.module";
+import { SelectDropDownModule } from "ngx-select-dropdown";
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { SharedModule } from "@shared/shared.module";
     BsDropdownModule.forRoot(),
     DirectivesModule,
     SharedModule,
+    SelectDropDownModule
   ],
   providers: [
     {

@@ -55,6 +55,9 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   reportingManager: number;
   groupCategory: any;
   visaDesignation:any;
+  config;
+  selectedDatasource:any;
+
   constructor(
     private employeeService: EmployeeService,
     private employeeJobDetailsService: EmployeeJobDetailsService,
@@ -101,6 +104,16 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
        this.visaDesignation=result;
     })
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Reporting Manager",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: true,
+    };
   }
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
@@ -146,8 +159,8 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.id);
       const details = this.employeeList.find(emp => emp.id === this.reportingManager);
-      const id=details.id
-      this.editForm.patchValue({ reportingManager: id });
+      this.selectedDatasource=details.firstName
+      this.editForm.patchValue({ reportingManager: this.selectedDatasource });
     },
       error => {
         console.error(error);
@@ -163,8 +176,11 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   //   map(term => this.employeeList.filter(employee => new RegExp(term, 'mi').test(employee.firstName)).slice(0, 10))
   // )
 
-  selected($event) {
-    this.editForm.patchValue({ reportingManager: $event.item.firstName });
+  // selected($event) {
+  //   this.editForm.patchValue({ reportingManager: $event.item.firstName });
+  // }
+  selectionChanged(args) {
+    this.editForm.get("reportingManager").patchValue(args.value.id);
   }
 
   getEmployeeNumber() {
