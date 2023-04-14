@@ -4,7 +4,7 @@
     type="button"
     class="close"
     aria-label="Close"
-    (click)="activeModal.dismiss('Cross click')"
+    (click)="activeModal.close(isSaveDisable)"
   >
     <span aria-hidden="true">&times;</span>
   </button>
@@ -221,7 +221,7 @@
               <button
                 type="button"
                 class="btn btn-warning p-2"
-                (click)="activeModal.close('Close click')"
+                (click)="activeModal.close(isSaveDisable)"
               >
                 <i class="mr-1 fal fa-window-close"></i> Cancel
               </button>
@@ -509,7 +509,7 @@
               <button
                 type="button"
                 class="btn btn-warning p-2"
-                (click)="activeModal.close('Close click')"
+                (click)="activeModal.close(isSaveDisable)"
               >
                 <i class="mr-1 fal fa-window-close"></i> Cancel
               </button>

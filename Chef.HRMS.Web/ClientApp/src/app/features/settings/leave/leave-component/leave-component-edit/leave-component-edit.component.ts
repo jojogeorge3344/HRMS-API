@@ -370,7 +370,7 @@ export class LeaveComponentEditComponent implements OnInit {
     });
     this.leaveEligiblityService.update(this.editForm2.getRawValue()).subscribe(
       (result: any) => {
-        this.activeModal.close("submit");
+        this.activeModal.close(true);
         this.toastr.showSuccessMessage(
           "Leave component is updated successfully!"
         );

@@ -323,7 +323,7 @@ export class LeaveComponentCreateComponent implements OnInit {
             "Configure Leave component already exists!"
           );
         } else {
-          this.activeModal.close(result);
+          this.activeModal.close(true);
 
           this.toastr.showSuccessMessage(
             "Configure Leave Component is created successfully!"
