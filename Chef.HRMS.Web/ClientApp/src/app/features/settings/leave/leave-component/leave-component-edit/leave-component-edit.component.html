@@ -378,7 +378,7 @@
                     
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="leaveDeduction">Deduction Type</label>
+                                <label class="col-form-label" for="leaveDeduction">LOP BF Code</label>
                                 <select class="form-control" formControlName="leaveDeduction">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of detectionTypeList" [ngValue]='key.id'>
@@ -400,7 +400,7 @@
                         </div> -->
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="annualLeave">Annual Leave</label>
+                                <label class="col-form-label" for="annualLeave">Annual Accrual BF Code</label>
                                 <select class="form-control" formControlName="annualLeave" >
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of accuralList" [ngValue]='key.id'>
@@ -499,7 +499,7 @@
                     <!-- <div class="row">
                      
                     </div> -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6">
                             <div class="form-group form-input-line">
                                 <label class="col-form-label" for="vacationSalaryFormula">General Expression Formula</label>
@@ -512,11 +512,11 @@
                             <i class="fal fa-edit"></i>
                             </button>
                         </div>  
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-12  d-flex justify-content-end" style="margin-top: 10px;">
                            
-                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save</button>
+                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
                          &nbsp;&nbsp;
                             
                                 <button type="button" class="btn btn-warning p-2" (click)="activeModal.close('Close click')"><i
@@ -581,7 +581,7 @@
                     <div class="row">
                         <div class="col-12 d-flex justify-content-end" style="margin-top: 10px;">
                            
-                                <button type="submit" [disabled]="isSaveDisable" class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
+                                <button type="submit" [disabled]="isSaveDisable" class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i>Save</button>
                          
                             &nbsp;&nbsp;
                                 <button type="button" class="btn btn-warning p-2" (click)="activeModal.close('Close click')"><i

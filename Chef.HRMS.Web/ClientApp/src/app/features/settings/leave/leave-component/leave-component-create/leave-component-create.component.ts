@@ -233,12 +233,12 @@ getAccrualBenefitType(){
       name: [null, [
         Validators.required,
         Validators.maxLength(100),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.leaveComponentNames)
       ]],
       code: [null, [
         Validators.required,
-        Validators.maxLength(20),
+        Validators.maxLength(30),
         //Validators.pattern('^([a-zA-Z0-9])+$'),
         duplicateNameValidator(this.leaveComponentCodes)
       ]],
