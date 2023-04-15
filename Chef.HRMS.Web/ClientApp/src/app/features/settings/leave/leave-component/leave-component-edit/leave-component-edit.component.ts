@@ -418,7 +418,7 @@ export class LeaveComponentEditComponent implements OnInit {
     if(event){
      let a=this.leaveComponentsList.filter((value)=>value.code==event)
      this.editForm3.patchValue({
-      leaveComponentName:a[0].leaveComponentName,
+      leaveComponentName:a[0].name,
       leaveComponentId:this.leaveComponent.id,
       id:a[0].id
       
