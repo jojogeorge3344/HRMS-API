@@ -67,6 +67,7 @@ export class LeaveComponentEditComponent implements OnInit {
   valuetype: object;
   valueSlabOffTypeKeys: number[];
   valueSlabOffType = valueTypeOff;
+  leaveComponentsList: any
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -99,6 +100,7 @@ export class LeaveComponentEditComponent implements OnInit {
     this.getAccrualType();
     this.getDetectionListType()
     this.getEncashBF()
+    this.getWholeDetails()
     this.getLeaveDetails()
     this.editForm.patchValue(this.leaveComponent);
     
@@ -336,6 +338,7 @@ export class LeaveComponentEditComponent implements OnInit {
         Validators.required
       ]],
       leaveComponentId: ['', ],
+      id:['']
     })
   }
   getLeavetype(){
@@ -386,19 +389,39 @@ export class LeaveComponentEditComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to update the leave component');
       });
   }
+  getWholeDetails(){
+    debugger
+  this.leaveComponentService.getAll().subscribe(res => {
+    this.leaveComponentsList = res
+  })}
   getLeaveDetails() {
+    debugger
     this.leaveSlabService.getAll().subscribe((result) => {
-      for(let i=0;i<result.length;i++){
-        this.leaveDetails = result
-      }
+      this.leaveDetails = result
+      let a=this.leaveDetails.filter((value)=>value.leaveComponentId==this.leaveComponent.id)
+        
+        this.editForm3.patchValue({
+          // leaveComponentId: a[0].leaveComponentId,
+          leaveComponentName: a[0].leaveComponentName,
+          leaveComponentCode:a[0].leaveComponentCode,
+          lowerLimit:a[0].lowerLimit,
+          upperLimit:a[0].upperLimit,
+          valueVariable:a[0].valueVariable,
+          valueType:a[0].valueType
+        })
+      
+        console.log(this.editForm3)
     })
   }
   getLeaveName(event){
+    debugger
     if(event){
-     let a=this.leaveDetails.filter((value)=>value.bfCode==event)
+     let a=this.leaveComponentsList.filter((value)=>value.code==event)
      this.editForm3.patchValue({
       leaveComponentName:a[0].leaveComponentName,
-      leaveComponentId:a[0].id
+      leaveComponentId:this.leaveComponent.id,
+      id:a[0].id
+      
      })
     }
 

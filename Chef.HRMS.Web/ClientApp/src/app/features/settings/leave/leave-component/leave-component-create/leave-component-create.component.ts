@@ -64,10 +64,11 @@ export class LeaveComponentCreateComponent implements OnInit {
   accuralBenefitList: any;
   encashBfList: any;
   isSaveDisable:boolean=false;
-  leaveDetails: any;
+  //leaveDetails: any;
   valuetype: object;
   valueSlabOffTypeKeys: number[];
   valueSlabOffType = valueTypeOff;
+  leaveComponentsList: any;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -98,7 +99,7 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.getAccrualType();
     this.getDetectionListType()
     this.getEncashBF()
-    this.getLeaveDetails()
+    //this.getLeaveDetails()
   }
 getdeductiontype(){
   this.leaveComponentService.getbenefitcategory().subscribe((result: any) => {
@@ -315,6 +316,7 @@ getAccrualBenefitType(){
         //this.activeModal.close(result);
         this.isSlabdisabled=false
         this.toastr.showSuccessMessage('Configure Leave Component is created successfully!');
+        this.getWholeDetails()
         
       }
     },
@@ -350,19 +352,27 @@ getAccrualBenefitType(){
     })
    
   }
-  getLeaveDetails() {
-    this.leaveSlabService.getAll().subscribe((result) => {
-      for(let i=0;i<result.length;i++){
-        this.leaveDetails = result
-      }
-    })
-  }
+  getWholeDetails(){
+    debugger
+  this.leaveComponentService.getAll().subscribe(res => {
+    this.leaveComponentsList = res
+  })}
+
+  // getLeaveDetails() {
+  //   debugger
+  //   this.leaveSlabService.getAll().subscribe((result) => {
+  //     for(let i=0;i<result.length;i++){
+  //       this.leaveDetails = result
+  //     }
+  //   })
+  // }
   getLeaveName(event){
+    debugger
     if(event){
-     let a=this.leaveDetails.filter((value)=>value.bfCode==event)
+     let a=this.leaveComponentsList.filter((value)=>value.code==event)
      this.addForm3.patchValue({
-      leaveComponentName:a[0].leaveComponentName,
-      leaveComponentId:a[0].id
+      leaveComponentName:a[0].name,
+      // leaveComponentId:a[0].id
      })
     }
 

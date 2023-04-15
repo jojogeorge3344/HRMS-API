@@ -385,7 +385,7 @@
                             <label class="col-form-label" for="leaveComponentCode">Leave Code<span class="required">*</span></label>
                             <select class="form-control" formControlName="leaveComponentCode" (change)="getLeaveName($event.target.value)">
                                 <option [ngValue]="null" disabled>Select Leave Code</option>
-                                <option *ngFor="let key of leaveDetails" value='{{key.leaveComponentCode}}'>{{key.leaveComponentCode}}</option>
+                                <option *ngFor="let key of leaveComponentsList" value='{{key.code}}'>{{key.code}}</option>
                             </select>
                         </div>
                         <div class="form-group form-input-line col-6">
