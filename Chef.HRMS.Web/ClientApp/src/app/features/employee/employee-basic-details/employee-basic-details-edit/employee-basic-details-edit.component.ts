@@ -99,7 +99,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     return this.formBuilder.group({
       id: [''],
       firstName: ['', [
-        Validators.maxLength(18),
+        Validators.maxLength(60),
         Validators.required
       ]],
       middleName: ['', [Validators.maxLength(18)]],

@@ -114,7 +114,7 @@ export class PayrollComponentEditComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.pattern("^([a-zA-Z0-9 ])+$"),
+          //Validators.pattern("^([a-zA-Z0-9 ])+$"),
           duplicateNameValidator(this.payrollComponentNames),
         ],
       ],
@@ -126,8 +126,8 @@ export class PayrollComponentEditComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.maxLength(7),
-          Validators.pattern("^([a-zA-Z0-9])+$"),
+          Validators.maxLength(30),
+          //Validators.pattern("^([a-zA-Z0-9])+$"),
           duplicateNameValidator(this.payrollComponentCodes),
         ],
       ],

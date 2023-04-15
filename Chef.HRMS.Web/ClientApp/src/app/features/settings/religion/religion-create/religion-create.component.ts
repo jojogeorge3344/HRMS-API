@@ -69,7 +69,7 @@ export class ReligionCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       code: ['', [
-        Validators.maxLength(14),
+        Validators.maxLength(30),
         Validators.required,
       ]],
       name: ['', [

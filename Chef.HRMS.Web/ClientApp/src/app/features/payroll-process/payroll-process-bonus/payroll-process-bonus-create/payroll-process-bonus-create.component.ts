@@ -99,9 +99,9 @@ export class PayrollProcessBonusCreateComponent implements OnInit {
     return this.formBuilder.group({
       employeeId: ['', [
         Validators.required,
-        Validators.max(40)
+        Validators.max(60)
       ]],
-      employeeCode: ['',Validators.max(10)],
+      employeeCode: ['',Validators.max(30)],
       bonusTypeId: [null, [
         Validators.required,
       ]],

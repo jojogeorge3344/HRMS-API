@@ -107,7 +107,7 @@ export class EosCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
 
-      bfCode: ['', [Validators.required, Validators.maxLength(14),
+      bfCode: ['', [Validators.required, Validators.maxLength(30),
       ]],
       bfName: ['', [
         Validators.required, Validators.maxLength(50),

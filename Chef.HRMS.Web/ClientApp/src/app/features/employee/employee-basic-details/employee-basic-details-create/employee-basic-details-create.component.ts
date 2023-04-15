@@ -94,7 +94,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       firstName: ['', [
-        Validators.maxLength(18),
+        Validators.maxLength(60),
         Validators.required
       ]],
       middleName: ['', [Validators.maxLength(18)]],
