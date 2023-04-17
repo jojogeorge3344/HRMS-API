@@ -63,5 +63,7 @@ namespace Chef.HRMS.Models
         /// Holds the enable status
         /// </summary>n
         public bool isEnabled { get; set; }
+
+        public int DeductionBFCode { get; set; }
     }
 }
