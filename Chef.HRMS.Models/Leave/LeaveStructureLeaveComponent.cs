@@ -49,5 +49,10 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public int MaxLeaveAtATime { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int CFLimitDays { get; set; }
     }
 }
