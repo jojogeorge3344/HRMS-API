@@ -10,6 +10,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 import { EosSlabListComponent } from './eos-slab-list/eos-slab-list.component';
 import { EosSlabCreateComponent } from './eos-slab-create/eos-slab-create.component';
 import { EosSlabEditComponent } from './eos-slab-edit/eos-slab-edit.component';
+import { EosSlabViewComponent } from './eos-slab-view/eos-slab-view.component';
 
 
 
@@ -18,6 +19,7 @@ import { EosSlabEditComponent } from './eos-slab-edit/eos-slab-edit.component';
     EosSlabListComponent,
     EosSlabCreateComponent,
     EosSlabEditComponent,
+    EosSlabViewComponent,
   ],
   imports: [
     CommonModule,

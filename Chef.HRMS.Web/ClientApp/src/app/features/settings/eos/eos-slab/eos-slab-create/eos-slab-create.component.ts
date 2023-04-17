@@ -35,6 +35,7 @@ export class EosSlabCreateComponent implements OnInit {
 
 
   onSubmit() {
+    this.addForm.value.valuetype = parseInt(this.addForm.value.valuetype)
     const eosForm = this.addForm.value;
     this.eosSlabService.add(eosForm).subscribe(result => {
           this.toastr.showSuccessMessage('The EosSlab added successfully!');
