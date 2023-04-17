@@ -59,6 +59,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
    })
   }
 
+  
   getBasicDetailsId() {
     debugger
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
