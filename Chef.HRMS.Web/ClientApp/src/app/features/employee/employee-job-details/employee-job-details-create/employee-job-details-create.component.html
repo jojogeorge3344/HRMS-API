@@ -73,7 +73,7 @@
                     </option>
                 </select>
             </div>
-            <div class="form-group form-input-line col-sm">
+            <!-- <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>
                 <input type="text" class="form-control" id="reportingManager" name="reportingManager"
                     [ngbTypeahead]="search" placeholder="Search Reporting Manager" #reportingManager
@@ -81,7 +81,23 @@
                     [editable]='false'>
                 <div class="form-control-feedback" style="color:red;" *ngIf="searchFailed"><small>Reporting manager does
                         not exist.</small> </div>
-            </div>
+            </div> -->
+            <div class="form-group form-input-line col-sm">
+                <label for="reportingManager">
+                    Reporting Manager<span class="required">*</span>
+                </label>
+        
+                <ng-template #optionTemplate let-item="item" let-config="config">
+                  <i class="fa fa-plus"></i>
+                  {{ item.name }}
+                  <span class="new badge"></span>
+                </ng-template>
+                <ngx-select-dropdown
+                  (change)="selectionChanged($event)"
+                  [config]="config"
+                  [options]="employeeList"
+                ></ngx-select-dropdown>
+              </div>
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
