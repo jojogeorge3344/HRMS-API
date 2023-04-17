@@ -18,7 +18,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
 import { LeaveSlabService } from '../leave-slab-service';
 import { valueTypeOff } from 'src/app/models/common/types/leaveSlabOff';
-
+import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
+import { LeaveSlabGroup } from '../leave-slab.model';
+import { LeaveSlabViewComponent } from '../leave-slab-view/leave-slab-view.component';
+import { LeaveSlabEditComponent } from '../leave-slab-edit/leave-slab-edit.component';
+import { LeaveSlabCreateComponent } from '../leave-slab-create/leave-slab-create.component';
 
 
 @Component({
@@ -30,7 +34,7 @@ export class LeaveComponentCreateComponent implements OnInit {
 
   addForm: FormGroup;
   addForm2:FormGroup;
-  addForm3:FormGroup;
+  //addForm3:FormGroup;
   currentUserId: number;
   genderTypes = GenderType;
   maritalStatusTypes = MaritalStatusType;
@@ -69,6 +73,8 @@ export class LeaveComponentCreateComponent implements OnInit {
   valueSlabOffTypeKeys: number[];
   valueSlabOffType = valueTypeOff;
   leaveComponentsList: any;
+  leaveSlabDetails: LeaveSlabGroup[] = [];
+ 
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -77,7 +83,8 @@ export class LeaveComponentCreateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
-    public leaveSlabService: LeaveSlabService,) {
+    public leaveSlabService: LeaveSlabService,
+    ) {
   }
 
   ngOnInit(): void {
@@ -89,16 +96,17 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.leavecutoff = Object.keys(this.leavecutofftype).filter(Number).map(Number);
     this.leavetypearray = Object.keys(this.leavetypes).filter(Number).map(Number);
     this.lopday = Object.keys(this.lopdays).filter(Number).map(Number);
-    this.valueSlabOffTypeKeys = Object.keys(this.valueSlabOffType).filter(Number).map(Number);
+    // this.valueSlabOffTypeKeys = Object.keys(this.valueSlabOffType).filter(Number).map(Number);
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     this.addForm2 = this.createFormGroup2();
-    this.addForm3 = this.createFormGroup3();
+    //this.addForm3 = this.createFormGroup3();
     this.getdeductiontype();
     this.getAccrualBenefitType();
     this.getAccrualType();
     this.getDetectionListType()
     this.getEncashBF()
+    this.getLeaveSlablist()
     //this.getLeaveDetails()
   }
 getdeductiontype(){
@@ -281,29 +289,7 @@ getAccrualBenefitType(){
       annualLeave:[{ value: 0, disabled: this.isAnnual }],
     })
   }
-  createFormGroup3(): FormGroup {
-    return this.formBuilder.group({
-      leaveComponentCode: ['', [
-        Validators.required
-      ]],
-      leaveComponentName: ['', [
-        Validators.required
-      ]],
-      lowerLimit: ['', [
-        Validators.required
-      ]],
-      upperLimit: ['', [
-        Validators.required
-      ]],
-      valueVariable: ['', [
-        Validators.required
-      ]],
-      valueType: ['', [
-        Validators.required
-      ]],
-      leaveComponentId: ['', ],
-    })
-  }
+
   onSubmit2() {
 
     this.addForm2.patchValue({
@@ -316,7 +302,7 @@ getAccrualBenefitType(){
         //this.activeModal.close(result);
         this.isSlabdisabled=false
         this.toastr.showSuccessMessage('Configure Leave Component is created successfully!');
-        this.getWholeDetails()
+        //this.getWholeDetails()
         
       }
     },
@@ -326,43 +312,136 @@ getAccrualBenefitType(){
       });
   }
 
-  onSubmit3() {
-
-    this.addForm3.patchValue({
-      leaveComponentId:this.leavecomponentid
-    })
-    this.leaveSlabService.add(this.addForm3.value).subscribe((result: any) => {
-      if (result.id === -1) {
-        this.toastr.showErrorMessage('Configure Slab component already exists!');
-      } else {
-        this.activeModal.close(result);
-        
-        this.toastr.showSuccessMessage('Configure Slab Component is created successfully!');
-        
-      }
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the Slab Component');
-      });
-  }
   getEncashBF(){
     this.leaveeligiblityservice.getBenefitType().subscribe((res)=>{
       this.encashBfList=res
     })
    
   }
-  getWholeDetails(){
-    debugger
-  this.leaveComponentService.getAll().subscribe(res => {
-    this.leaveComponentsList = res
-    let a=this.leaveComponentsList.filter((value)=>value.code==this.addForm.value.code)
-    this.addForm3.patchValue({
-      leaveComponentCode:a[0].code,
-      leaveComponentName:a[0].name,
-    })
-  })
+ 
+
+  getLeaveSlablist() {
+    this.leaveSlabService.getAll().subscribe(result => {
+      this.leaveSlabDetails = result;
+      this.leaveSlabDetails=this.leaveSlabDetails.sort((a, b) => a.leaveComponentName.toLowerCase().localeCompare(b.leaveComponentName.toLowerCase()));
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the LeaveSlab List Details');
+    });
   }
+  openCreate() {
+    debugger
+    const modalRef = this.modalService.open(LeaveSlabCreateComponent,
+      {size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.code = this.addForm.value.code;
+    modalRef.componentInstance.name= this.addForm.value.name;
+    modalRef.componentInstance.id= this.leavecomponentid;
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getLeaveSlablist()
+        }
+    });  
+  }
+  openEdit(relDetails: LeaveSlabGroup) {
+    const modalRef = this.modalService.open(LeaveSlabEditComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.relDetails= relDetails;
+    modalRef.componentInstance.code = this.addForm.value.code;;
+    modalRef.componentInstance.name = this.addForm.value.name;
+    modalRef.componentInstance.id= this.leavecomponentid;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getLeaveSlablist()
+      }
+    });
+  }
+  openView(relDetails: LeaveSlabGroup) {
+    const modalRef = this.modalService.open(LeaveSlabViewComponent,
+      { size: 'lg',centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.relDetails = relDetails;
+    // modalRef.componentInstance.code = this.Codes;
+    // modalRef.componentInstance.name = this.Names;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getLeaveSlablist();
+      }
+    });
+  }
+
+delete(relDetails: LeaveSlabGroup) {
+  const modalRef = this.modalService.open(ConfirmModalComponent,
+    { centered: true, backdrop: 'static' });
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the LeaveSlab ${relDetails.leaveComponentName}`;
+  modalRef.result.then((userResponse) => {
+    if (userResponse == true) {
+      this.leaveSlabService.delete(relDetails.id).subscribe(() => {
+        this.toastr.showSuccessMessage('LeaveSlab deleted successfully!');
+        this.getLeaveSlablist()
+      });
+    }
+  });
+}
+
+  // createFormGroup3(): FormGroup {
+  //   return this.formBuilder.group({
+  //     leaveComponentCode: ['', [
+  //       Validators.required
+  //     ]],
+  //     leaveComponentName: ['', [
+  //       Validators.required
+  //     ]],
+  //     lowerLimit: ['', [
+  //       Validators.required
+  //     ]],
+  //     upperLimit: ['', [
+  //       Validators.required
+  //     ]],
+  //     valueVariable: ['', [
+  //       Validators.required
+  //     ]],
+  //     valueType: ['', [
+  //       Validators.required
+  //     ]],
+  //     leaveComponentId: ['', ],
+  //   })
+  // }
+  
+  // onSubmit3() {
+
+  //   this.addForm3.patchValue({
+  //     leaveComponentId:this.leavecomponentid
+  //   })
+  //   this.leaveSlabService.add(this.addForm3.value).subscribe((result: any) => {
+  //     if (result.id === -1) {
+  //       this.toastr.showErrorMessage('Configure Slab component already exists!');
+  //     } else {
+  //       this.activeModal.close(result);
+        
+  //       this.toastr.showSuccessMessage('Configure Slab Component is created successfully!');
+        
+  //     }
+  //   },
+  //     error => {
+  //       console.error(error);
+  //       this.toastr.showErrorMessage('Unable to add the Slab Component');
+  //     });
+  // }
+
+ // getWholeDetails(){
+  //   debugger
+  // this.leaveComponentService.getAll().subscribe(res => {
+  //   this.leaveComponentsList = res
+  //   let a=this.leaveComponentsList.filter((value)=>value.code==this.addForm.value.code)
+  //   this.addForm3.patchValue({
+  //     leaveComponentCode:a[0].code,
+  //     leaveComponentName:a[0].name,
+  //   })
+  // })
+  // }
 
   // getLeaveDetails() {
   //   debugger
@@ -383,4 +462,5 @@ getAccrualBenefitType(){
   //   }
 
   // }
+
 }

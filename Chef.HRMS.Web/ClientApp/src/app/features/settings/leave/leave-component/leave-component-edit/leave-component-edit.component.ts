@@ -18,7 +18,11 @@ import { LeaveEligiblityService } from '../leave-eligiblity.service';
 import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
 import { LeaveSlabService } from '../leave-slab-service';
 import { valueTypeOff } from 'src/app/models/common/types/leaveSlabOff';
-
+import { LeaveSlabGroup } from '../leave-slab.model';
+import { LeaveSlabCreateComponent } from '../leave-slab-create/leave-slab-create.component';
+import { LeaveSlabEditComponent } from '../leave-slab-edit/leave-slab-edit.component';
+import { LeaveSlabViewComponent } from '../leave-slab-view/leave-slab-view.component';
+import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'hrms-leave-component-edit',
@@ -56,6 +60,7 @@ export class LeaveComponentEditComponent implements OnInit {
   @Input() isDisabled: boolean;
   @Input() leaveComponentNames: string[];
   @Input() leaveComponentCodes: string[];
+  leaveSlabDetails: LeaveSlabGroup[] = [];
 
 
   genderTypeKeys: number[];
@@ -91,7 +96,7 @@ export class LeaveComponentEditComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.editForm2 = this.createFormGroup2();
-    this.editForm3 = this.createFormGroup3();
+    //this.editForm3 = this.createFormGroup3();
     this.toggleGender(this.leaveComponent.isRestrictedToGender);
     this.toggleMaritalStatus(this.leaveComponent.isRestrictedToMaritalStatus);
     this.getdeductiontype();
@@ -100,8 +105,9 @@ export class LeaveComponentEditComponent implements OnInit {
     this.getAccrualType();
     this.getDetectionListType()
     this.getEncashBF()
-    this.getWholeDetails()
-    this.getLeaveDetails()
+    this.getLeaveSlablist()
+    // this.getWholeDetails()
+    // this.getLeaveDetails()
     this.editForm.patchValue(this.leaveComponent);
     
     console.log("this.leaveComponent",this.leaveComponent)
@@ -317,30 +323,7 @@ export class LeaveComponentEditComponent implements OnInit {
       id:[0]
     })
   }
-  createFormGroup3(): FormGroup {
-    return this.formBuilder.group({
-      leaveComponentCode: ['', [
-        Validators.required
-      ]],
-      leaveComponentName: ['', [
-        Validators.required
-      ]],
-      lowerLimit: ['', [
-        Validators.required
-      ]],
-      upperLimit: ['', [
-        Validators.required
-      ]],
-      valueVariable: ['', [
-        Validators.required
-      ]],
-      valueType: ['', [
-        Validators.required
-      ]],
-      leaveComponentId: ['', ],
-      id:[0]
-    })
-  }
+  
   getLeavetype(){
     
   
@@ -373,59 +356,154 @@ export class LeaveComponentEditComponent implements OnInit {
     })
    
   }
-  onSubmit3(){
-    this.editForm3.patchValue({
-      leaveComponentId:this.leaveComponent.id,
-      //id:this.configId
-    })
-    this.leaveSlabService.update(this.editForm3.getRawValue()).subscribe((result: any) => {
-      
-        this.activeModal.close('submit');
-        this.toastr.showSuccessMessage('Leave component is updated successfully!');
-        
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to update the leave component');
-      });
-  }
-  getWholeDetails(){
-    debugger
-  this.leaveComponentService.getAll().subscribe(res => {
-    this.leaveComponentsList = res
-  })}
-  getLeaveDetails() {
-    debugger
-    this.leaveSlabService.getAll().subscribe((result) => {
-      this.leaveDetails = result
-      let a=this.leaveDetails.filter((value)=>value.leaveComponentId==this.leaveComponent.id)
-        
-        this.editForm3.patchValue({
-          // leaveComponentId: a[0].leaveComponentId,
-          leaveComponentName: a[0].leaveComponentName,
-          leaveComponentCode:a[0].leaveComponentCode,
-          lowerLimit:a[0].lowerLimit,
-          upperLimit:a[0].upperLimit,
-          valueVariable:a[0].valueVariable,
-          valueType:a[0].valueType,
-          id:a[0].id
-        })
-      
-        console.log(this.editForm3)
-    })
-  }
-  getLeaveName(event){
-    debugger
-    if(event){
-     let a=this.leaveComponentsList.filter((value)=>value.code==event)
-     this.editForm3.patchValue({
-      leaveComponentName:a[0].name,
-      leaveComponentId:this.leaveComponent.id,
-      
-      
-     })
-    }
 
+  
+  getLeaveSlablist() {
+    this.leaveSlabService.getAll().subscribe(result => {
+      this.leaveSlabDetails = result;
+      this.leaveSlabDetails=this.leaveSlabDetails.sort((a, b) => a.leaveComponentName.toLowerCase().localeCompare(b.leaveComponentName.toLowerCase()));
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the LeaveSlab List Details');
+    });
   }
+  openCreate() {
+    debugger
+    const modalRef = this.modalService.open(LeaveSlabCreateComponent,
+      {size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.code = this.editForm.value.code;
+    modalRef.componentInstance.name= this.editForm.value.name;
+    modalRef.componentInstance.id= this.leaveComponent.id;
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getLeaveSlablist()
+        }
+    });  
+  }
+  openEdit(relDetails: LeaveSlabGroup) {
+    const modalRef = this.modalService.open(LeaveSlabEditComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.relDetails= relDetails;
+    modalRef.componentInstance.code = this.editForm.value.code;;
+    modalRef.componentInstance.name = this.editForm.value.name;
+    modalRef.componentInstance.id= this.leaveComponent.id;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getLeaveSlablist()
+      }
+    });
+  }
+  openView(relDetails: LeaveSlabGroup) {
+    const modalRef = this.modalService.open(LeaveSlabViewComponent,
+      { size: 'lg',centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.relDetails = relDetails;
+    // modalRef.componentInstance.code = this.Codes;
+    // modalRef.componentInstance.name = this.Names;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getLeaveSlablist();
+      }
+    });
+  }
+
+delete(relDetails: LeaveSlabGroup) {
+  const modalRef = this.modalService.open(ConfirmModalComponent,
+    { centered: true, backdrop: 'static' });
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the LeaveSlab ${relDetails.leaveComponentName}`;
+  modalRef.result.then((userResponse) => {
+    if (userResponse == true) {
+      this.leaveSlabService.delete(relDetails.id).subscribe(() => {
+        this.toastr.showSuccessMessage('LeaveSlab deleted successfully!');
+        this.getLeaveSlablist()
+      });
+    }
+  });
+}
+
+
+// createFormGroup3(): FormGroup {
+  //   return this.formBuilder.group({
+  //     leaveComponentCode: ['', [
+  //       Validators.required
+  //     ]],
+  //     leaveComponentName: ['', [
+  //       Validators.required
+  //     ]],
+  //     lowerLimit: ['', [
+  //       Validators.required
+  //     ]],
+  //     upperLimit: ['', [
+  //       Validators.required
+  //     ]],
+  //     valueVariable: ['', [
+  //       Validators.required
+  //     ]],
+  //     valueType: ['', [
+  //       Validators.required
+  //     ]],
+  //     leaveComponentId: ['', ],
+  //     id:[0]
+  //   })
+  // }
+
+
+  // onSubmit3(){
+  //   this.editForm3.patchValue({
+  //     leaveComponentId:this.leaveComponent.id,
+  //     //id:this.configId
+  //   })
+  //   this.leaveSlabService.update(this.editForm3.getRawValue()).subscribe((result: any) => {
+      
+  //       this.activeModal.close('submit');
+  //       this.toastr.showSuccessMessage('Leave component is updated successfully!');
+        
+  //   },
+  //     error => {
+  //       console.error(error);
+  //       this.toastr.showErrorMessage('Unable to update the leave component');
+  //     });
+  // }
+  // getWholeDetails(){
+  //   debugger
+  // this.leaveComponentService.getAll().subscribe(res => {
+  //   this.leaveComponentsList = res
+  // })}
+  // getLeaveDetails() {
+  //   debugger
+  //   this.leaveSlabService.getAll().subscribe((result) => {
+  //     this.leaveDetails = result
+  //     let a=this.leaveDetails.filter((value)=>value.leaveComponentId==this.leaveComponent.id)
+        
+  //       this.editForm3.patchValue({
+  //         // leaveComponentId: a[0].leaveComponentId,
+  //         leaveComponentName: a[0].leaveComponentName,
+  //         leaveComponentCode:a[0].leaveComponentCode,
+  //         lowerLimit:a[0].lowerLimit,
+  //         upperLimit:a[0].upperLimit,
+  //         valueVariable:a[0].valueVariable,
+  //         valueType:a[0].valueType,
+  //         id:a[0].id
+  //       })
+      
+  //       console.log(this.editForm3)
+  //   })
+  // }
+  // getLeaveName(event){
+  //   debugger
+  //   if(event){
+  //    let a=this.leaveComponentsList.filter((value)=>value.code==event)
+  //    this.editForm3.patchValue({
+  //     leaveComponentName:a[0].name,
+  //     leaveComponentId:this.leaveComponent.id,
+      
+      
+  //    })
+  //   }
+
+  // }
 }
 

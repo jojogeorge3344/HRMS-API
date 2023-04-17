@@ -533,8 +533,8 @@
         <ngb-tab title="Slab">
 
             <ng-template ngbTabContent>
-                <form [formGroup]="editForm3" (validSubmit)="onSubmit3()">
-                    <!-- <input type="hidden" formControlName="id" /> -->
+                <!-- <form [formGroup]="editForm3" (validSubmit)="onSubmit3()">
+                    <input type="hidden" formControlName="id" />
                
                     <div class="d-flex flex-wrap align-items-baseline">
                         <div class="form-group form-input-line col-6">
@@ -591,7 +591,67 @@
                     
                         </div>
                     </div>
-                </form>
+                </form> -->
+
+                <div id="wps" class="panel">
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                            <div class="row">
+                                <div class="col-md">
+                                    <button (click)="openCreate()" class="btn btn-success btn-add mb-2 float-right">
+                                        <i class="fa fal fa-plus fa-plus mr-1"></i>Add Leave SLAB
+                                    </button>
+                                </div>
+                            </div> 
+                        <div class="frame-wrap">
+                         <table class="table m-0">
+                            <thead class="thead-themed">
+                                <tr>
+                                    <th>Sl No.</th>
+                                    <th>Leave Code</th>
+                                    <th>Leave Name</th>
+                                    <th>Lower Limit</th>
+                                    <th>Upper Limit</th>
+                                    <th>Value Variable</th>
+                                    <th>Value Type</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let rel of leaveSlabDetails; let i= index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{ rel.leaveComponentCode }}</td>
+                                    <td>{{ rel.leaveComponentName }}</td>
+                                    <td>{{ rel.lowerLimit }}</td>
+                                    <td>{{ rel.upperLimit}}</td>
+                                    <td>{{ rel.valueVariable }}</td>
+                                    <td>{{valueSlabOffType [rel.valueType]}}</td>
+                                    <td>
+                                        <div class="btn-group" dropdown container="main">
+                                            <button id="button-basic" dropdownToggle type="button"
+                                                class="border-0 mr-2 pr-2 dropdown-toggle btn-more" aria-controls="dropdown-basic">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul id="dropdown-basic"  role="menu"
+                                                aria-labelledby="button-basic">
+                                                <!-- <li role="menuitem" (click)="openView(employee)"><a class="dropdown-item">View</a></li> -->
+                                                <!-- <li role="menuitem" (click)="openView(rel)"><a class="dropdown-item">View</a></li> -->
+                                                <li role="menuitem" (click)="openEdit(rel)"><a class="dropdown-item">Edit</a></li>
+                                                <li role="menuitem" (click)="delete(rel)"><a class="dropdown-item">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr> 
+                            
+                            </tbody>
+                         </table>
+                        </div>
+                    </div>    
+                </div>
+                </div>
+                
+                
+                
             </ng-template>
         </ngb-tab>
     </ngb-tabset>
