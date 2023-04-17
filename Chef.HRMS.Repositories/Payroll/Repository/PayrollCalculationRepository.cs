@@ -89,5 +89,16 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<PayrollCalculation>(sql, new { id });
         }
 
+        public async Task<bool> IsSystemVariableExist(string code)
+        {
+            var sql = @"SELECT * FROM hrms.payrollcalculation WHERE formula LIKE '%"+code+"%' AND isarchived = false";
+
+            if ((await Connection.QueryFirstOrDefaultAsync<int>(sql, new {})) >= 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
