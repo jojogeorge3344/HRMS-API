@@ -62,7 +62,7 @@
                 <select class="form-control" formControlName="currencyId">
                     <option [ngValue]="null">Select Currency</option>
                     <option *ngFor="let key of currency" [ngValue]="key.id">
-                        {{key.name}}
+                        {{key.code}}
                     </option>
                 </select>
             </div>

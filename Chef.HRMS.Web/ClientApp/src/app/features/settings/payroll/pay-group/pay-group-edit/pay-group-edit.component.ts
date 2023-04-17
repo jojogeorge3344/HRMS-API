@@ -58,6 +58,7 @@ export class PayGroupEditComponent implements OnInit {
     })
 
     this.editForm.patchValue(this.payGroup);
+   
     this.onChanges();
   }
 
@@ -105,6 +106,7 @@ export class PayGroupEditComponent implements OnInit {
     });
   }
   onSubmit() {
+
     const payGroup = this.editForm.value;
     payGroup.id = this.payGroup.id;
     if (this.isStartingMonth) {
