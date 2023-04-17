@@ -356,7 +356,13 @@ getAccrualBenefitType(){
     debugger
   this.leaveComponentService.getAll().subscribe(res => {
     this.leaveComponentsList = res
-  })}
+    let a=this.leaveComponentsList.filter((value)=>value.code==this.addForm.value.code)
+    this.addForm3.patchValue({
+      leaveComponentCode:a[0].code,
+      leaveComponentName:a[0].name,
+    })
+  })
+  }
 
   // getLeaveDetails() {
   //   debugger
@@ -366,15 +372,15 @@ getAccrualBenefitType(){
   //     }
   //   })
   // }
-  getLeaveName(event){
-    debugger
-    if(event){
-     let a=this.leaveComponentsList.filter((value)=>value.code==event)
-     this.addForm3.patchValue({
-      leaveComponentName:a[0].name,
-      // leaveComponentId:a[0].id
-     })
-    }
+  // getLeaveName(event){
+  //   debugger
+  //   if(event){
+  //    let a=this.leaveComponentsList.filter((value)=>value.code==event)
+  //    this.addForm3.patchValue({
+  //     leaveComponentName:a[0].name,
+  //     // leaveComponentId:a[0].id
+  //    })
+  //   }
 
-  }
+  // }
 }

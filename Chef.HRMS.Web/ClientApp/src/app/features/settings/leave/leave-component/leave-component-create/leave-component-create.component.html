@@ -383,7 +383,7 @@
                     <div class="d-flex flex-wrap align-items-baseline">
                         <div class="form-group form-input-line col-6">
                             <label class="col-form-label" for="leaveComponentCode">Leave Code<span class="required">*</span></label>
-                            <select class="form-control" formControlName="leaveComponentCode" (change)="getLeaveName($event.target.value)">
+                            <select disabled readonly class="form-control" formControlName="leaveComponentCode" >
                                 <option [ngValue]="null" disabled>Select Leave Code</option>
                                 <option *ngFor="let key of leaveComponentsList" value='{{key.code}}'>{{key.code}}</option>
                             </select>
