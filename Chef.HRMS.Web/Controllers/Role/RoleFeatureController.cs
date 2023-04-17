@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            roleFeature = await roleFeatureService.InsertAsync(roleFeature);
+            var id  = await roleFeatureService.InsertAsync(roleFeature);
 
-            return CreatedAtAction(nameof(Insert), roleFeature);
+            return Ok(id);
         }
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]

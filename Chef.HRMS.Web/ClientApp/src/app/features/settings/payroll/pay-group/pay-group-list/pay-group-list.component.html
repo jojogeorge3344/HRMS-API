@@ -9,8 +9,8 @@
         <thead class="thead-themed">
             <tr>
                 <th>Sl No.</th>
-                <th>Pay Group Name</th>
                 <th>Pay Group Code</th>
+                <th>Pay Group Name</th>
                 <th>Payroll Calendar</th>
                 <th>Starting Year</th>
                 <th>Starting From</th>
@@ -20,8 +20,8 @@
         <tbody>
             <tr *ngFor="let payGroup of payGroups; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize">{{payGroup.name}}</td>
                 <td class="text-uppercase">{{payGroup.code}}</td>
+                <td class="text-capitalize">{{payGroup.name}}</td>
                 <td class="text-capitalize">{{getCalendar(payGroup.payrollCalendarId)}}</td>
                 <td>{{payGroup.startingYear}}</td>
                 <td>{{ payGroup.startingMonth===0? "Week " + payGroup.startingWeek : months[payGroup.startingMonth]}}</td>
@@ -35,6 +35,9 @@
                             aria-labelledby="button-basic">
                             <li role="menuitem" (click)="openEditPayGroup(payGroup)">
                                 <a class="dropdown-item">Edit</a>
+                            </li>
+                            <li role="menuitem" (click)="openViewPayGroup(payGroup)">
+                                <a class="dropdown-item">View</a>
                             </li>
                             <li role="menuitem" (click)="!isDisabled(payGroup) && deletePayGroup(payGroup)">
                                 <a [ngClass]="{'disabled': isDisabled(payGroup)}" class="dropdown-item">Delete</a>

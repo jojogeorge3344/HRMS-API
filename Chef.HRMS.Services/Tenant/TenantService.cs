@@ -1,11 +1,12 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Models;
+using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class TenantService : ITenantService
+    public class TenantService : AsyncService<HRMSTenant>, ITenantService
     {
         private readonly ITenantRepository tenantRepository;
 

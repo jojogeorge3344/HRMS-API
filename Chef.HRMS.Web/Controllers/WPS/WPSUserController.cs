@@ -74,9 +74,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            wpsUser = await wpsUserService.InsertAsync(wpsUser);
+            var id  = await wpsUserService.InsertAsync(wpsUser);
 
-            return CreatedAtAction(nameof(Insert), wpsUser);
+            return Ok(id);
         }
 
         [HttpPut("Update")]
@@ -93,6 +93,13 @@ namespace Chef.HRMS.Web.Controllers
             var result = await wpsUserService.UpdateAsync(wpsUser);
 
             return Ok(result);
+        }
+        [HttpGet("GetBank")]
+        public async Task<ActionResult<IEnumerable<HRMSBank>>> GetBank()
+        {
+            var bank = await wpsUserService.GetBank();
+
+            return Ok(bank);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Chef.HRMS.Services
             return await featureRepository.GetAsync(id);
         }
 
-        public async Task<Feature> InsertAsync(Feature feature)
+        public async Task<int> InsertAsync(Feature feature)
         {
             return await featureRepository.InsertAsync(feature);
         }

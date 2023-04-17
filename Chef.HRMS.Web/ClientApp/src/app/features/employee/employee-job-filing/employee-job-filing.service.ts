@@ -10,16 +10,22 @@ export class EmployeeJobFilingService {
 
   public baseUrl: string;
   public http: HttpClient;
+  eosUrl:string;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + "api/jobfiling/";
+    this.eosUrl=baseUrl+ "api/EndOfService/"
+
   }
 
   add(jobFilings: EmployeeJobFilings) {
     return this.http.post<EmployeeJobFilings>(this.baseUrl + 'insert', jobFilings).pipe(map(response => { return response; }));
   }
-
+  getEosType() {
+    return this.http.get<any>(this.eosUrl + 'getAll').pipe(map(response => { return response; }));
+  }
+  
   getAll() {
     return this.http.get<EmployeeJobFilings>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
@@ -49,5 +55,6 @@ export class EmployeeJobFilingService {
   getWeekendPolicyById(id) {
     return this.http.get<number>(this.baseUrl + 'getWeekendPolicyById/' + id).pipe(map(response => { return response; }));
   }
+  
 
 }

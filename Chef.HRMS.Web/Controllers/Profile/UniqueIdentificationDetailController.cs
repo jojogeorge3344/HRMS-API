@@ -79,9 +79,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            uniqueIdentificationDetail = await uniqueIdentificationDetailService.InsertAsync(uniqueIdentificationDetail);
+            var id = await uniqueIdentificationDetailService.InsertAsync(uniqueIdentificationDetail);
 
-            return CreatedAtAction(nameof(Insert), uniqueIdentificationDetail);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

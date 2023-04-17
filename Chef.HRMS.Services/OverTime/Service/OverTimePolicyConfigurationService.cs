@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class OverTimePolicyConfigurationService : AsyncService, IOverTimePolicyConfigurationService
+    public class OverTimePolicyConfigurationService : AsyncService<OverTimePolicyConfiguration>, IOverTimePolicyConfigurationService
     {
         private readonly IOverTimePolicyConfigurationRepository overTimePolicyConfigurationRepository;
 
@@ -40,12 +41,27 @@ namespace Chef.HRMS.Services
             return await overTimePolicyConfigurationRepository.GetByOverTimePolicyId(overTimePolicyId);
         }
 
+        public async Task<IEnumerable<BenefitTypes>> GetHolidayOverTime()
+        {
+            return await overTimePolicyConfigurationRepository.GetHolidayOverTime();
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetNormalOverTime()
+        {
+            return await overTimePolicyConfigurationRepository.GetNormalOverTime();
+        }
+
         public async Task<OverTimePolicyConfiguration> GetOvertimeConfigurationById(int employeeId)
         {
             return await overTimePolicyConfigurationRepository.GetOvertimeConfigurationById(employeeId);
         }
 
-        public async Task<OverTimePolicyConfiguration> InsertAsync(OverTimePolicyConfiguration OverTimePolicyConfiguration)
+        public async Task<IEnumerable<BenefitTypes>> GetSpecialOvertime()
+        {
+            return await overTimePolicyConfigurationRepository.GetSpecialOvertime();
+        }
+
+        public async Task<int> InsertAsync(OverTimePolicyConfiguration OverTimePolicyConfiguration)
         {
             return await overTimePolicyConfigurationRepository.InsertAsync(OverTimePolicyConfiguration);
         }

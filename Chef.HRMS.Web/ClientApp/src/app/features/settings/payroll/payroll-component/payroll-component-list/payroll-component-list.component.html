@@ -10,8 +10,8 @@
         <thead class="thead-themed">
             <tr>
                 <th>Sl No.</th>
-                <th>Payroll Component Name</th>
                 <th>Payroll Component Code</th>
+                <th>Payroll Component Name</th>
                 <th>Payroll Component Type</th>
                 <th>Description</th>
                 <th>Actions</th>
@@ -20,9 +20,9 @@
         <tbody>
             <tr *ngFor="let payrollComponent of payrollComponents; let i= index;">
                 <td>{{i+1}}</td>
-                <td class="text-capitalize">{{payrollComponent.name}}</td>
                 <td class="text-uppercase">{{payrollComponent.shortCode}}</td>
-                <td>{{payrollComponentTypes[payrollComponent.payrollComponentType]}}</td>
+                <td class="text-capitalize">{{payrollComponent.name}}</td>
+                <td>{{payrollComponent.name}}</td>
                 <td class="text-ellipsis" title="{{payrollComponent.description}}">{{payrollComponent.description}}
                 </td>
                 <td>
@@ -40,6 +40,10 @@
                                 (click)="!isFixed(payrollComponent) && openEditPayrollComponent(payrollComponent)">
                                 <a [ngClass]="{'disabled': isFixed(payrollComponent)}" class="dropdown-item">Edit</a>
                             </li>
+                            <li role="menuitem"
+                            (click)="openViewPayrollComponent(payrollComponent)">
+                            <a class="dropdown-item">View</a>
+                        </li>
                             <li role="menuitem"
                                 (click)="!isDisabled(payrollComponent) && deletePayrollComponent(payrollComponent)">
                                 <a [ngClass]="{'disabled': isDisabled(payrollComponent)}"

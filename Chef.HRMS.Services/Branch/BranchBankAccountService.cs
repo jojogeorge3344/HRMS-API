@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class BranchBankAccountService : AsyncService, IBranchBankAccountService
+    public class BranchBankAccountService : AsyncService<HRMSBranchBankAccount>, IBranchBankAccountService
     {
         private readonly IBranchBankAccountRepository branchBankAccountRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return await branchBankAccountRepository.GetAsync(id);
         }
 
-        public async Task<HRMSBranchBankAccount> InsertAsync(HRMSBranchBankAccount BranchBankAccount)
+        public async Task<int> InsertAsync(HRMSBranchBankAccount BranchBankAccount)
         {
             return await branchBankAccountRepository.InsertAsync(BranchBankAccount);
         }

@@ -11,7 +11,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance>, ILeaveAndAttendanceRepository
     {
-        public LeaveAndAttendanceRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LeaveAndAttendanceRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -29,7 +29,7 @@ namespace Chef.HRMS.Repositories
                                            jd.employeenumber                                  employeecode, 
                                            jf.weekoff, 
                                            Count(h.date) numberOfholidays 
-                                    FROM   hrms.employee e 
+                                    FROM   hrms.HRMSEmployee e 
                                            INNER JOIN hrms.jobfiling jf 
                                                    ON e.id = jf.employeeid 
                                                       AND jf.paygroupid = @paygroupId 
@@ -144,7 +144,7 @@ namespace Chef.HRMS.Repositories
                             FROM            hrms.leave l 
                             INNER JOIN      hrms.leavecomponent lc 
                             ON              lc.id = l.leavecomponentid 
-                            INNER JOIN      hrms.employee e 
+                            INNER JOIN      hrms.HRMSEmployee e 
                             ON              l.approvedby = e.id 
                             WHERE           l.fromdate :: date >= @fromdate 
                             AND             l.todate ::   date <= @todate 
@@ -176,7 +176,7 @@ namespace Chef.HRMS.Repositories
                             FROM   hrms.LEAVE l 
                                    INNER JOIN hrms.leavecomponent lc 
                                            ON lc.id = l.leavecomponentid 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON l.approvedby = e.id 
                             WHERE  l.fromdate :: date >= @fromdate 
                                    AND l.todate :: date <= @todate 
@@ -195,7 +195,7 @@ namespace Chef.HRMS.Repositories
                                FROM   generate_series(@fromDate, @toDate, interval '1 day' day) actualdates 
                                WHERE  extract('ISODOW' FROM actualdates) BETWEEN 1 AND    5) 
                         SELECT actualdates 
-                        FROM   hrms.calendardays 
+                        FROM   calendardays 
                         WHERE  actualdates NOT IN (WITH markeddays AS 
                                                    ( 
                                                                    SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
@@ -219,9 +219,9 @@ namespace Chef.HRMS.Repositories
                                                                    FROM       hrms.holiday 
                                                                    INNER JOIN hrms.jobfiling jf 
                                                                    ON         jf.holidaycategoryid = holiday.holidaycategoryid
-                                                                   AND        jf.hrms. = @employeeId 
+                                                                   AND        jf.employeeid = @employeeId 
                                                                    WHERE      date BETWEEN @fromDate AND        @toDate)SELECT markeddates 
-                                        FROM   hrms.markeddays 
+                                        FROM   markeddays 
                                         WHERE  markeddates >= @fromDate 
                                         AND    markeddates <= @toDate )";
 
@@ -281,7 +281,8 @@ namespace Chef.HRMS.Repositories
                          });
                         var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
                         sql = sql.Replace("RETURNING id", "");
-                        sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
+                        //sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
+                        sql += " ON CONFLICT DO ";
                         sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
 
                         await Connection.ExecuteAsync(sql, leaveAndAttendances);
@@ -347,7 +348,7 @@ namespace Chef.HRMS.Repositories
                                                                               WHERE           employeeid = @employeeId 
                                                                               AND             isapproved=true 
                                                               )SELECT Count(*) AS attendance 
-                                              FROM   hrms.onduty 
+                                              FROM   onduty 
                                               WHERE  days BETWEEN @fromDate AND    @toDate) 
                                              UNION ALL 
                                                        ( 
@@ -362,7 +363,7 @@ namespace Chef.HRMS.Repositories
                                                                                  WHERE           employeeid = @employeeId 
                                                                                  AND             isapproved=true 
                                                                  )SELECT Count(*) AS attendance 
-                                                 FROM   hrms.workfromhome 
+                                                 FROM  workfromhome 
                                                  WHERE  days BETWEEN @fromDate AND    @toDate))q1 
                             UNION ALL 
                                       ( 
@@ -395,7 +396,7 @@ namespace Chef.HRMS.Repositories
                                                                    WHERE           employeeid = @employeeId 
                                                    )SELECT 'appliedleave' AS type, 
                                           Count(*) 
-                                   FROM   hrms.appliedleave 
+                                   FROM   appliedleave 
                                    WHERE  days BETWEEN @fromDate AND    @toDate) 
                                   UNION ALL 
                                             ( 
@@ -412,7 +413,7 @@ namespace Chef.HRMS.Repositories
                                                                       WHERE           employeeid = @employeeId 
                                                       )SELECT 'approvedleave' AS type, 
                                              Count(*) 
-                                      FROM   hrms.approvedleave 
+                                      FROM   approvedleave 
                                       WHERE  days BETWEEN @fromDate AND    @toDate 
                                       AND    leavestatus=3) 
                                      UNION ALL 
@@ -430,7 +431,7 @@ namespace Chef.HRMS.Repositories
                                                                          WHERE           employeeid = @employeeId 
                                                          )SELECT 'UnApprovedleave' AS type, 
                                                 Count(*) 
-                                         FROM   hrms.unapprovedleave 
+                                         FROM   unapprovedleave 
                                          WHERE  days BETWEEN @fromDate AND    @toDate 
                                          AND    ( 
                                                        leavestatus=1 

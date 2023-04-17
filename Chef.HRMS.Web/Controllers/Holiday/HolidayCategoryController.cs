@@ -69,9 +69,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            holidayCategory = await holidayCategoryService.InsertAsync(holidayCategory);
+            var id = await holidayCategoryService.InsertAsync(holidayCategory);
 
-            return CreatedAtAction(nameof(Insert), holidayCategory);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

@@ -61,7 +61,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.employeeassetchangeForm);
-    debugger;
+
     let allValues= {...this.employeeassetchangeForm.getRawValue(),
         // status:1,
         assetMetadataValueId:this.newMdataTypeKeys.map(key => {

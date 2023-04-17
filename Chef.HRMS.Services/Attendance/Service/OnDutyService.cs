@@ -39,7 +39,7 @@ namespace Chef.HRMS.Services
             return await onDutyRepository.GetTotalRequestedDaysById(employeeId);
         }
 
-        public async Task<OnDuty> InsertAsync(OnDuty onDuty)
+        public async Task<int> InsertAsync(OnDuty onDuty)
         {
             return await onDutyRepository.InsertAsync(onDuty);
         }

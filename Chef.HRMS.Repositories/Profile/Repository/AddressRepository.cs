@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class AddressRepository : GenericRepository<Address>, IAddressRepository
     {
-        public AddressRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AddressRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

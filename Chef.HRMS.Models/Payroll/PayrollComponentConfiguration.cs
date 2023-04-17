@@ -113,7 +113,7 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Required]
         [Description("Payroll Component Type")]
-        public PayrollComponentType PayrollComponentType { get; set; }
+        public Chef.HRMS.Types.PayrollComponentType PayrollComponentType { get; set; }
 
         /// <summary>
         /// Holds the payroll component id
@@ -135,8 +135,8 @@ namespace Chef.HRMS.Models
         /// Holds a benefit code of three characters
         /// </summary>
         [Required]
-        [StringLength(3)]
-        [Description("Short code of the BenefitCode in 3 Characters")]
+        [StringLength(14)]
+        [Description("Short code of the BenefitCode in 14 Characters")]
         public string ShortCode { get; set; }
 
         /// <summary>
@@ -144,5 +144,9 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Description("Payroll component is configured")]
         public bool IsConfigured { get; set; }
+        [Write(false)]
+        [Skip(false)]
+        [SqlKata.Ignore]
+        public int CategoryId { get; set; }
     }
 }

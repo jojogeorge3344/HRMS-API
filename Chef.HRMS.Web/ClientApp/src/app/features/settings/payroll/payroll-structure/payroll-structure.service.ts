@@ -48,4 +48,7 @@ export class PayrollStructureService {
   delete(id: number) {
     return this.http.delete<PayrollStructure>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
+  getAllActived(id) {
+    return this.http.get<PayrollStructure>(this.baseUrl + 'GetAllActived/' + id).pipe(map(response => { return response; }));
+  }
 }

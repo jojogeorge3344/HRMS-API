@@ -29,5 +29,8 @@ namespace Chef.HRMS.Models
         [StringLength(256)]
         [Description("File path")]
         public string Path { get; set; }
+
+        [Required]
+        public int EmployeeId { get; set; }
     }
 }

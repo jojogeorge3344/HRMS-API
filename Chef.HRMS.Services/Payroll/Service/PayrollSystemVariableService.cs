@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PayrollSystemVariableService : AsyncService, IPayrollSystemVariableService
+    public class PayrollSystemVariableService : AsyncService<PayrollSystemVariable>, IPayrollSystemVariableService
     {
         private readonly IPayrollSystemVariableRepository payrollSystemVariableRepository;
 
@@ -30,7 +31,7 @@ namespace Chef.HRMS.Services
             return await payrollSystemVariableRepository.GetAsync(id);
         }
 
-        public async Task<PayrollSystemVariable> InsertAsync(PayrollSystemVariable payrollSystemVariable)
+        public async Task<int> InsertAsync(PayrollSystemVariable payrollSystemVariable)
         {
             return await payrollSystemVariableRepository.InsertAsync(payrollSystemVariable);
         }

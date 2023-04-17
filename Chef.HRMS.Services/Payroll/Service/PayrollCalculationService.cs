@@ -1,4 +1,6 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Exceptions;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PayrollCalculationService : AsyncService, IPayrollCalculationService
+    public class PayrollCalculationService : AsyncService<PayrollCalculation>, IPayrollCalculationService
     {
         private readonly IPayrollCalculationRepository payrollCalculationRepository;
 
@@ -45,7 +47,7 @@ namespace Chef.HRMS.Services
             return await payrollCalculationRepository.GetAsync(id);
         }
 
-        public async Task<PayrollCalculation> InsertAsync(PayrollCalculation payrollCalculation)
+        public async Task<int> InsertAsync(PayrollCalculation payrollCalculation)
         {
             return await payrollCalculationRepository.InsertAsync(payrollCalculation);
         }
@@ -55,5 +57,14 @@ namespace Chef.HRMS.Services
             return await payrollCalculationRepository.UpdateAsync(payrollCalculation);
         }
 
+        public async Task<bool> IsSystemVariableExist(string code)
+        {
+            //return await payrollCalculationRepository.IsSystemVariableExist(code);
+            if (await payrollCalculationRepository.IsSystemVariableExist(code))
+            {
+                throw new ResourceAlreadyExistsException("System Variable code already exists in Payroll Calculation");
+            }
+            return false;
+        }
     }
 }

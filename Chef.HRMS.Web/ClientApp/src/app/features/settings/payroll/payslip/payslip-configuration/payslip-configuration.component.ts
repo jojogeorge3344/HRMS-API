@@ -46,6 +46,9 @@ export class PayslipConfigurationComponent implements OnInit {
         this.target = this.target.sort((a, b) => {
           return a.orders > b.orders ? 1 : a.orders < b.orders ? -1 : 0;
         });
+        this.source = this.source.sort((a, b) => {
+          return a.orders > b.orders ? 1 : a.orders < b.orders ? -1 : 0;
+        });
 
       });
   }
@@ -109,11 +112,14 @@ export class PayslipConfigurationComponent implements OnInit {
   }
   onSubmit() {
     let configurationUpdate;
-    this.target.map((field, index) => {
+   this.target.map((field, index) => {
       field.orders = index + 1;
+      field.status = false;
     });
-    this.source.map(field => {
-      field.orders = 0;
+    this.source.map((field,index) => {
+      field.orders = index + 1;
+      field.status = true;
+
     });
     const payslip = this.paySlipForm.value;
     if (this.paySlipConfiguration.id) {

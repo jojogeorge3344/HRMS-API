@@ -34,7 +34,8 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 
   onSubmit() {
     this.employeeJobTitleService.add(this.addForm.value).subscribe((result: any) => {
-      if (result.id === -1) {
+    
+      if (result === -1) {
         this.toastr.showErrorMessage('Job Title already exists!');
       } else {
         this.toastr.showSuccessMessage('Job Title added successfully!');

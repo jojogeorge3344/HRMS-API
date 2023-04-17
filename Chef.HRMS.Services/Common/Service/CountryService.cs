@@ -1,4 +1,5 @@
-﻿using Chef.Common.Models;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Models;
 using Chef.Common.Services;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services.Common
 {
-    public class CountryService : AsyncService, ICountryService
+    public class CountryService : AsyncService<Country>, ICountryService
     {
         private readonly ICountryRepository countryRepository;
 
@@ -30,7 +31,7 @@ namespace Chef.HRMS.Services.Common
             return await countryRepository.GetAsync(id);
         }
 
-        public async Task<Country> InsertAsync(Country obj)
+        public async Task<int> InsertAsync(Country obj)
         {
             return await countryRepository.InsertAsync(obj);
         }

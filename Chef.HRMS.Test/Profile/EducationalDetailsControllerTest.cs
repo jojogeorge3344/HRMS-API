@@ -31,7 +31,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 1;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockEducationalDetails()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockEducationalDetails()));
 
             // Act
             var okResult = await educationalDetailsController.Get(id);
@@ -57,7 +57,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockEducationalDetailsList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockEducationalDetailsList()));
 
             // Act
             var okResult = await educationalDetailsController.GetAll();
@@ -74,7 +74,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             Education educationalDetails = GetMockEducationalDetails();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<Education>())).Returns(Task.FromResult(GetMockEducationalDetails()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<Education>())).Returns( await Task.FromResult(GetMockEducationalDetails()));
 
             // Act
             var createdResponse = await educationalDetailsController.Insert(educationalDetails) as CreatedAtActionResult;
@@ -120,8 +120,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockEducationalDetails()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockEducationalDetails()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await educationalDetailsController.Delete(existingId);

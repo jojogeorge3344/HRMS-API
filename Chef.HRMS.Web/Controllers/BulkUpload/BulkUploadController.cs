@@ -51,10 +51,10 @@ namespace Chef.HRMS.Web.Controllers
 
                         if (type == 1)
                         {
-                            List<Leave> leave = new List<Leave>();
+                            List<Chef.HRMS.Models.Leave> leave = new List<Chef.HRMS.Models.Leave>();
                             while (reader.Read()) //Each row of the file
                             {
-                                leave.Add(new Leave
+                                leave.Add(new Chef.HRMS.Models.Leave
                                 {
 
 
@@ -192,6 +192,11 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(uploadDetails);
         }
 
+        [HttpGet("ExportExcelFormat")]
+        public async Task<ActionResult<byte[]>> ExportExcelFormat()
+        {
+            return await bulkUploadService.ExportExcelFormat();
 
+        }
     }
 }

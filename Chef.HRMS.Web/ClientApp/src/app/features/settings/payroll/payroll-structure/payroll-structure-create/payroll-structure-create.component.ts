@@ -38,7 +38,7 @@ export class PayrollStructureCreateComponent implements OnInit {
         this.toastr.showErrorMessage('Payroll structure already exists!');
       } else {
         this.toastr.showSuccessMessage('Payroll component added successfully!');
-        this.activeModal.close(result.id);
+        this.activeModal.close(result);
       }
     },
       error => {

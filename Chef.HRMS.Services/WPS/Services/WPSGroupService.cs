@@ -28,7 +28,7 @@ namespace Chef.HRMS.Services
             return await wpsGroupRepository.GetAsync(id);
         }
 
-        public async Task<WPSGroup> InsertAsync(WPSGroup wpsGroup)
+        public async Task<int> InsertAsync(WPSGroup wpsGroup)
         {
             return await wpsGroupRepository.InsertAsync(wpsGroup);
         }

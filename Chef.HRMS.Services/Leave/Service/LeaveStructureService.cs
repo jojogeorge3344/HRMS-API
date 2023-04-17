@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class LeaveStructureService : AsyncService, ILeaveStructureService
+    public class LeaveStructureService : AsyncService<LeaveStructure>, ILeaveStructureService
     {
         private readonly ILeaveStructureRepository leaveStructureRepository;
 
@@ -40,7 +41,7 @@ namespace Chef.HRMS.Services
             return await leaveStructureRepository.GetAsync(id);
         }
 
-        public async Task<LeaveStructure> InsertAsync(LeaveStructure leaveStructure)
+        public async Task<int> InsertAsync(LeaveStructure leaveStructure)
         {
             return await leaveStructureRepository.InsertAsync(leaveStructure);
         }

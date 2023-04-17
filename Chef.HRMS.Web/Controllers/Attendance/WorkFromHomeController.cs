@@ -87,9 +87,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            workFromHome = await workFromHomeService.InsertAsync(workFromHome);
+            var id = await workFromHomeService.InsertAsync(workFromHome);
 
-            return CreatedAtAction(nameof(Insert), workFromHome);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

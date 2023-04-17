@@ -14,6 +14,7 @@ import { Shift } from '@settings/attendance/shift/shift.model';
 import { LeaveStructure } from '@settings/leave/leave-structure/leave-structure.model';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EosService } from '@settings/eos/eos.service';
 
 @Component({
   selector: 'hrms-employee-job-filing-create',
@@ -39,7 +40,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
   attendanceTrackingType = AttendanceTrackingType;
   attendanceCaptureSchemeTypeKeys: number[];
   attendanceCaptureSchemeType = AttendanceCaptureSchemeType;
-
+  eosTypes;
   @Output() jobFilingsForm = new EventEmitter<boolean>();
   @Input() jobFilings: any;
 
@@ -50,6 +51,8 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
     private expensePolicyService: ExpensePolicyService,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
+    private eosService: EosService,
+
   ) { }
 
   ngOnInit(): void {
@@ -65,8 +68,19 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
     this.getHolidayList();
     this.getShiftList();
     this.getExpensePolicyList();
+    this.eosService.getAll()
+      .subscribe((result) => {
+        this.eosTypes = result
+      })
   }
-
+  onOptionsSelected(){
+    debugger
+   let item:any= this.eosTypes.filter(el=> this.addForm.get('eosId').value==el.id)
+   this.addForm.patchValue({
+    bfCode:item[0].bfCode,
+    bfName:item[0].bfName
+   })   
+  }
   getLeaveStructure() {
     this.leaveStructureService.getConfiguredLeaveStructures().subscribe(result => {
       this.leaveStructureId = result;
@@ -130,13 +144,15 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       attendanceTracking: [null, [
         Validators.required
       ]],
-      expensePolicyId:['', [
-        Validators.required
+      expensePolicyId:[0, [
       ]],
       attendanceCaptureScheme: [null, [
         Validators.required
       ]],
       createdDate: [new Date()],
+      eosId: [''],
+      bfCode: [''],
+      bfName: [''],
     });
   }
 

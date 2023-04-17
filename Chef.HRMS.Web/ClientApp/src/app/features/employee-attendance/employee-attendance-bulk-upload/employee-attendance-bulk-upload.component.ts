@@ -36,7 +36,8 @@ export class EmployeeAttendanceBulkUploadComponent implements OnInit {
   }
 
   addfile(event)     
-  {   
+  { 
+    debugger  
     console.log("filter",this.attendanceFilter, this.fromDateFilter, this.toDateFilter)
   // if(this.attendanceFilter != null && this.fromDateFilter != null  && this.toDateFilter != null ){
     this.file= event.target.files[0]; 
@@ -75,7 +76,11 @@ export class EmployeeAttendanceBulkUploadComponent implements OnInit {
   //   return;
   // } 
 } 
-
+excelExport(){
+  // this.customerAllocationService.exportExcelFormat(this.receipt.businessPartnerId, this.receipt.isCorporateGroup).subscribe((res)=>{
+  // download(atob(res), 'data.xlsx', { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
+  // })
+}
 getDate(date) {
   const d = new Date(date);
   return {

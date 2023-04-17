@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class EmployeeBasicComponentBreakupService : AsyncService, IEmployeeBasicComponentBreakupService
+    public class EmployeeBasicComponentBreakupService : AsyncService<EmployeeBasicComponentBreakupView>, IEmployeeBasicComponentBreakupService
     {
         private readonly IEmployeeBasicComponentBreakupRepository employeeBasicComponentBreakupRepository;
 

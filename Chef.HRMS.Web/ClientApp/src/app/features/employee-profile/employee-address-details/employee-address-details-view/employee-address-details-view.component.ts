@@ -77,8 +77,8 @@ export class EmployeeAddressDetailsViewComponent implements OnInit {
       { size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.employeeId = this.userId;
     modalRef.componentInstance.id = this.address ? this.address.id : 0;
-    modalRef.componentInstance.countries = this.countries;
-    modalRef.componentInstance.states = this.states;
+    modalRef.componentInstance.countries = this.countries.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) ;
+    modalRef.componentInstance.states = this.states.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
     modalRef.componentInstance.address = this.address;
     modalRef.result.then((result) => {
       if (result == 'submit') {

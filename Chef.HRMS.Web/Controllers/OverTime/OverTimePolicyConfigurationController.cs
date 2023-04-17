@@ -99,9 +99,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            overTimePolicyConfiguration = await overTimePolicyConfigurationService.InsertAsync(overTimePolicyConfiguration);
+            var id = await overTimePolicyConfigurationService.InsertAsync(overTimePolicyConfiguration);
 
-            return CreatedAtAction(nameof(Insert), overTimePolicyConfiguration);
+
+            return Ok(id);
         }
 
         [HttpPut("Update")]
@@ -118,6 +119,27 @@ namespace Chef.HRMS.Web.Controllers
             var result = await overTimePolicyConfigurationService.UpdateAsync(overTimePolicyConfiguration);
 
             return Ok(result);
+        }
+        [HttpGet("GetNormalOverTime")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetNormalOverTime()
+        {
+            var componenttype = await overTimePolicyConfigurationService.GetNormalOverTime();
+
+            return Ok(componenttype);
+        }
+        [HttpGet("GetHolidayOverTime")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetHolidayOverTime()
+        {
+            var componentpaymenttype = await overTimePolicyConfigurationService.GetHolidayOverTime();
+
+            return Ok(componentpaymenttype);
+        }
+        [HttpGet("GetSpecialOvertime")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetSpecialOvertime()
+        {
+            var componentpaymenttype = await overTimePolicyConfigurationService.GetSpecialOvertime();
+
+            return Ok(componentpaymenttype);
         }
     }
 }

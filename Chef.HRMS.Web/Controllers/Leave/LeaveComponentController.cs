@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -87,9 +88,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            leaveComponent = await leaveComponentService.InsertAsync(leaveComponent);
+            var id = await leaveComponentService.InsertAsync(leaveComponent);
 
-            return CreatedAtAction(nameof(Insert), leaveComponent);
+            return Ok(id);
         }
 
         [HttpPost("Update")]
@@ -106,6 +107,45 @@ namespace Chef.HRMS.Web.Controllers
             var result = await leaveComponentService.UpdateAsync(leaveComponent);
 
             return Ok(result);
+        }
+
+        [HttpGet("GetBenefitCategory")]
+        public async Task<ActionResult<IEnumerable<BenefitCategory>>> GetBenefitCategory()
+        {
+            var benefitlist = await leaveComponentService.GetBenefitCategory();
+
+            return Ok(benefitlist);
+        }
+
+        [HttpGet("GetAccrualBenefitType")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAccrualBenefitType()
+        {
+            var benefitlist = await leaveComponentService.GetAccrualBenefitType();
+
+            return Ok(benefitlist);
+        }
+
+        [HttpGet("GetAccrualType")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAccrualType()
+        {
+            var benefitlist = await leaveComponentService.GetAccrualType();
+
+            return Ok(benefitlist); 
+        }
+
+        [HttpGet("GetDeductionType")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetDeductionType()
+        {
+            var benefitlist = await leaveComponentService.GetDeductionType();
+
+            return Ok(benefitlist);
+        }
+        [HttpGet("GetBenefitType/{categoryid}")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType(int categoryid)
+        {
+            var benefitlist = await leaveComponentService.GetBenefitType(categoryid);
+
+            return Ok(benefitlist);
         }
     }
 }

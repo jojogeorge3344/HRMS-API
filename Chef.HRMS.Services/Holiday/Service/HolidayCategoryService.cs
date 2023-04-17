@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class HolidayCategoryServices : AsyncService, IHolidayCategoryService
+    public class HolidayCategoryServices : AsyncService<HolidayCategory>, IHolidayCategoryService
     {
         private readonly IHolidayCategoryRepository holidayCategoryRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return await holidayCategoryRepository.GetAsync(id);
         }
 
-        public async Task<HolidayCategory> InsertAsync(HolidayCategory holidayCategory)
+        public async Task<int> InsertAsync(HolidayCategory holidayCategory)
         {
             return await holidayCategoryRepository.InsertAsync(holidayCategory);
         }

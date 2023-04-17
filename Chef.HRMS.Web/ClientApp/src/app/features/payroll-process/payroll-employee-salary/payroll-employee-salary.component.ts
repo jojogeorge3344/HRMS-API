@@ -40,8 +40,9 @@ export class PayrollEmployeeSalaryComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    debugger
     this.editForm = this.createFormGroup();
-    this.payrollProcessService.get(this.id).subscribe(payrollProcess => {
+    this.payrollProcessService.getEmployeeDetails(this.employeeId,this.id).subscribe(payrollProcess => {
       let apiToCall;
       if (payrollProcess.processedStep >= 2) {
         apiToCall = this.payrollProcessSalaryService.getEmployeeSalaryByProcessId(this.id);

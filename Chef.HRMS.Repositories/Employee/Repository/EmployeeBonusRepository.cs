@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EmployeeBonusRepository : GenericRepository<EmployeeBonus>, IEmployeeBonusRepository
     {
-        public EmployeeBonusRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public EmployeeBonusRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -33,7 +33,7 @@ namespace Chef.HRMS.Repositories
                                    amount, 
                                    disburseon, 
                                    remarks 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                                    INNER JOIN hrms.employeebonus eb 
@@ -41,8 +41,8 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.bonustype bt 
                                            ON eb.bonustypeid = bt.id 
                                               AND eb.employeeid = @employeeId 
-                                   INNER JOIN hrms.payrollprocessingmethod pm 
-                                           ON 1 = 1 
+                                   left JOIN hrms.payrollprocessingmethod pm 
+                                           on e.id=pm.employeeid
                                               AND pm.id = @payrollProcessingMethodId 
                             WHERE  ( eb.payrollprocessingmethodid = @payrollProcessingMethodId 
                                       OR (eb.payrollprocessingmethodid =0 
@@ -65,7 +65,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<EmployeeBonusView>> GetAllBonusByPayGroupId(int payrollProcessingMethodId)
         {
 
-                var sql = @"SELECT pm.paygroupid                         AS paygroupid, 
+                var sql = @"SELECT Distinct pm.paygroupid                         AS paygroupid, 
                                    e.id                                  AS employeeid, 
                                    Concat (e.firstname, ' ', e.lastname) AS NAME, 
                                    jd.employeenumber                     AS employeecode, 
@@ -75,16 +75,16 @@ namespace Chef.HRMS.Repositories
                                    eb.amount                             AS amount, 
                                    eb.disburseon                         AS disburseOn, 
                                    eb.remarks                            AS remarks 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                                    INNER JOIN hrms.employeebonus eb 
                                            ON e.id = eb.employeeid 
                                    INNER JOIN hrms.bonustype bt 
                                            ON bt.id = eb.bonustypeid 
-                                   INNER JOIN hrms.payrollprocessingmethod pm 
-                                           ON 1 = 1 
-                                              AND pm.id =  @payrollProcessingMethodId
+                                   Left JOIN hrms.payrollprocessingmethod pm 
+                                       on e.id=pm.employeeid
+                                              AND pm.employeeid =  @payrollProcessingMethodId
                                               
                             WHERE  (( eb.payrollprocessingmethodid = @payrollProcessingMethodId 
                                       AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm 

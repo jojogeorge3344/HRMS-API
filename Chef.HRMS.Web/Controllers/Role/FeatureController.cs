@@ -2,6 +2,7 @@
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -67,9 +68,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            feature = await featureService.InsertAsync(feature);
+           var id = await featureService.InsertAsync(feature);
 
-            return CreatedAtAction(nameof(Insert), feature);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

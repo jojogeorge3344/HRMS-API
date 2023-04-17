@@ -359,23 +359,20 @@ export class ExpenseRequestCreateComponent implements OnInit {
     // }
 
     let payload = this.addForm.getRawValue();
-    payload.amount = payload.amount.toFixed(2); 
-
-    
-    
+    payload.amount = payload.amount.toFixed(2);     
     this.expenseRequestService.add(payload).subscribe((expense: ExpenseRequest) => {
       if (expense.id === -1) {
         this.toastr.showErrorMessage('Expense request title already exists!');
       } else if (this.fileName) {
         forkJoin([
+          this.expenseRequestService.add(this.addForm.value),
           this.documentService.add(this.addForm.value.document),
           this.documentUploadService.upload(this.documentSave)
         ]).subscribe(([document]) => {
           this.expenseRequestDocument = {
-            expenseId: expense.id,
-            documentId: document.id
-          };
-
+            expenseId: expense,
+            documentId: document
+          };          
           this.expenseDocumentService.add(this.expenseRequestDocument).subscribe((result: any) => {
             this.toastr.showSuccessMessage('Expense Request added successfully!');
             this.activeModal.close('submit');

@@ -11,7 +11,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpensePolicyConfigurationRepository : GenericRepository<ExpensePolicyConfiguration>, IExpensePolicyConfigurationRepository
     {
-        public ExpensePolicyConfigurationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public ExpensePolicyConfigurationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -20,7 +20,7 @@ namespace Chef.HRMS.Repositories
 
                 var sql = @"SELECT * 
                             FROM   hrms.expensepolicyconfiguration 
-                            WHERE  expensepolicyid = @expensePolicyId ORDER BY id desc";
+                            WHERE  expensepolicyid = @expensePolicyId AND isarchived = false ORDER BY id desc";
 
                 return await Connection.QueryAsync<ExpensePolicyConfiguration>(sql, new { expensePolicyId });
 

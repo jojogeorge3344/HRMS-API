@@ -16,4 +16,7 @@ export interface EmployeeJobFilings extends Model {
     canUserManageProfile: boolean;
     payGroupId:number;
     paymentMode:number;
+    eosId: 0,
+    bfCode: string,
+    bfName: string
 }

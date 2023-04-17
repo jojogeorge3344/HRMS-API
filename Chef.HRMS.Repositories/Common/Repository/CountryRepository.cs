@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace Chef.HRMS.Repositories
 {
-    public class CountryRepository : GenericRepository<Country>, ICountryRepository
+    public class CountryRepository : ConsoleRepository<Country>, ICountryRepository
     {
-        public CountryRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public CountryRepository(IHttpContextAccessor httpContextAccessor, IConsoleConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
     }

@@ -8,6 +8,7 @@ import { PayrollCalendarEditComponent } from '../payroll-calendar-edit/payroll-c
 import { PayrollPeriodType } from '../../../../../models/common/types/payrollperiodtype';
 import { PayrollCalendar } from '../payroll-calendar.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { PayrollCalenderViewComponent } from '../payroll-calender-view/payroll-calender-view.component';
 
 @Component({
   templateUrl: './payroll-calendar-list.component.html'
@@ -45,6 +46,7 @@ export class PayrollCalendarListComponent implements OnInit {
   getPayrollCalendars() {
     this.payrollCalendarService.getAll().subscribe((result: PayrollCalendar[]) => {
       this.payrollCalendars = result;
+      this.payrollCalendars=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.payrollCalendarNames = this.payrollCalendars.map(a => a.name.toLowerCase());
       console.log(result);
     },
@@ -98,6 +100,23 @@ export class PayrollCalendarListComponent implements OnInit {
       }
     });
   }
+
+  openView(payrollCalendar: PayrollCalendar) {
+    const modalRef = this.modalService.open(PayrollCalenderViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.payrollCalendar = payrollCalendar;
+    modalRef.componentInstance.payrollPeriodTypes = this.payrollPeriodTypes;
+    modalRef.componentInstance.payrollPeriodTypeKeys = this.payrollPeriodTypeKeys;
+    modalRef.componentInstance.isDisabled = this.isDisabled(payrollCalendar);
+    modalRef.componentInstance.payrollCalendarNames = this.payrollCalendarNames.filter(v => v !== payrollCalendar.name.toLowerCase());
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getPayrollCalendars();
+      }
+    });
+  }
+
 
   delete(payrollCalendar: PayrollCalendar) {
     const modalRef = this.modalService.open(ConfirmModalComponent,

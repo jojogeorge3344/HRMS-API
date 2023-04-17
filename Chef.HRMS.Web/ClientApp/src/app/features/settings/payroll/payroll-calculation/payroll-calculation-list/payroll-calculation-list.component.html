@@ -17,6 +17,8 @@
                         <tr>
                             <th>Order No</th>
                             <th>Salary Component</th>
+                            <th>Pay Head Contract Value</th>
+                            <th>Pay Head Base Unit</th>
                             <th>Computed</th>
                             <th>Formula</th>
                             <th>Actions</th>
@@ -28,11 +30,13 @@
                             <td>
                                 <span class="text-capitalize">{{component.payrollComponentName}}</span>
                                 <span class="text-uppercase">({{component.shortCode}})</span> </td>
+                                <td>{{component.payHeadContractValueType==0 ? 'Computed':'Fixed'}}</td>
+                                <td>{{payHeadBaseUnitType[component.payHeadBaseUnitType]}}</td>
                             <td>{{component.isComputed? 'Yes' : 'No'}}</td>
                             <td>{{component.formula? component.formula : '--'}}</td>
                             <td [ngClass]="{ 'disabled': isDisabled(component, payroll.structureId)}">
                                 <button [disabled]="isDisabled(component, payroll.structureId)"
-                                    (click)="openAddCalculationOvertime(payroll.components, component.payrollComponentId,component.payrollComponentName, component.shortCode)"
+                                    (click)="openAddCalculationOvertime(payroll.components, component.payrollComponentId,component.payrollComponentName, component.shortCode,payroll.structureId)"
                                     class="card-link btn btn-outline-primary btn-sm"><i
                                         class="fal fa-edit"></i></button>
                             </td>

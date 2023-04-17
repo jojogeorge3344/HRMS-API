@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayGroup()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayGroup()));
 
             // Act
             var okResult = await payGroupController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockPayGroupList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockPayGroupList()));
 
             // Act
             var okResult = await payGroupController.GetAll();
@@ -67,7 +67,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             PayGroup payGroup = GetMockPayGroup();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<PayGroup>())).Returns(Task.FromResult(GetMockPayGroup()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<PayGroup>())).Returns( await Task.FromResult(GetMockPayGroup()));
 
             // Act
             var createdResponse = await payGroupController.Insert(payGroup) as CreatedAtActionResult;
@@ -83,8 +83,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayGroup()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayGroup()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await payGroupController.Delete(existingId);

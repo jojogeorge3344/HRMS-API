@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Chef.HRMS.Repositories
 {
     public class BasicComponentRepository : GenericRepository<PayrollBasicComponent>, IPayrollBasicComponentRepository
     {
-        public BasicComponentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public BasicComponentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -48,7 +49,7 @@ namespace Chef.HRMS.Repositories
                                            ON pc.id = pcalc.payrollcomponentid 
                                    INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON e.id = es.employeeid 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON jf.employeeid = e.id 
@@ -119,7 +120,7 @@ namespace Chef.HRMS.Repositories
                                            ON pc.id = pcalc.payrollcomponentid 
                                    INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON e.id = es.employeeid 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON jf.employeeid = e.id 
@@ -155,7 +156,6 @@ namespace Chef.HRMS.Repositories
                             sql = sql.Replace("RETURNING Id", " ");
                             sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
                             sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
-
                             return await Connection.ExecuteAsync(sql, payrollBasicComponents);
                         }
                         else

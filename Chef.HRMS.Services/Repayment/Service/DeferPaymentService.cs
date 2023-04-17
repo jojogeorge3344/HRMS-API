@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class DeferPaymentService : AsyncService, IDeferPaymentService
+    public class DeferPaymentService : AsyncService<DeferPayment>, IDeferPaymentService
     {
         private readonly IDeferPaymentRepository deferPaymentRepository;
 
@@ -31,7 +32,7 @@ namespace Chef.HRMS.Services
         }
 
 
-        public async Task<DeferPayment> InsertAsync(DeferPayment deferPayment)
+        public async Task<int> InsertAsync(DeferPayment deferPayment)
         {
             return await deferPaymentRepository.InsertAsync(deferPayment);
         }

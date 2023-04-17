@@ -13,23 +13,24 @@
 
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group col-6 form-input-line">
-                <label class="col-form-label" for="employeeId">Employee Name</label>
+                <label class="col-form-label" for="employeeCode">Employee Code</label>
+                <input type="text" class="form-control" value="{{selectedEmployeeCode}}" formControlName="employeeCode"
+                    id="employeeCode" name="employeeCode" [ngbTypeahead]="search" (selectItem)="selected($event)"
+                    #employeeCode [inputFormatter]="codeFormatter" [resultFormatter]="codeFormatter" [editable]='false'>
+            </div>
+            <div class="form-group col-6 form-input-line">
+                <label class="col-form-label" for="employeeId">Employee Name<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="employeeId" value="{{selectedEmployee}}"
                     id="employeeName" name="employeeName" [ngbTypeahead]="search" (selectItem)="selected($event)"
                     #employeeName [inputFormatter]="nameFormatter" [resultFormatter]="nameFormatter" [editable]='false'>
                 <div class="form-control-feedback" style="color:red;" *ngIf="searchFailed"><small>Employee name does
                     not exist.</small> </div>
             </div>
-            <div class="form-group col-6 form-input-line">
-                <label class="col-form-label" for="employeeCode">Employee Code</label>
-                <input type="text" class="form-control" value="{{selectedEmployeeCode}}" formControlName="employeeCode"
-                    id="employeeCode" name="employeeCode" [ngbTypeahead]="search" (selectItem)="selected($event)"
-                    #employeeCode [inputFormatter]="codeFormatter" [resultFormatter]="codeFormatter" [editable]='false'>
-            </div>
+
 
 
             <div class="form-group col-6 form-input-line">
-                <label class="col-form-label" for="loanType">Loan Type</label>
+                <label class="col-form-label" for="loanType">Loan Type<span class="required">*</span></label>
                 <select class="form-control" formControlName="loanType">
                     <option [ngValue]="null" disabled>Select Loan Type</option>
                     <option *ngFor="let key of loanTypeKeys" [ngValue]='key'>{{loanTypes[key]}}</option>
@@ -54,14 +55,14 @@
             </div> 
 -->
             <div class="form-group col-6 form-input-line">
-                <label class="col-form-label" for="repaymentTerm">Repayment Terms (Months)</label>
+                <label class="col-form-label" for="repaymentTerm">Repayment Terms (Months)<span class="required">*</span></label>
                 <input type="number" class="form-control repaymentTerm" id="repaymentTerm" name="repaymentTerm"
                     placeholder="loan repayment terms in months" formControlName="repaymentTerm">
             </div>
 
 
             <div class="form-group col-6 form-input-line">
-                <label class="col-form-label" for="loanAmount">Loan Amount</label>
+                <label class="col-form-label" for="loanAmount">Loan Amount<span class="required">*</span></label>
                 <input type="number" class="form-control" id="loanAmount" name="loanAmount"
                     formControlName="loanAmount">
             </div>
@@ -80,7 +81,7 @@
             <!-- </div> -->
             <!-- <div class=""> -->
             <div class="align-items-baseline col-6 d-flex flex-wrap form-group justify-content-between">
-                <label class="col-12 col-form-label px-0" for="emiStartsFromMonth">EMI Starts from</label>
+                <label class="col-12 col-form-label px-0" for="emiStartsFromMonth">EMI Starts from<span class="required">*</span></label>
                 <select class="col-6 form-control" formControlName="emiStartsFromMonth">
                     <option [ngValue]="null" disabled>Select Month</option>
                     <option *ngFor="let month of months; let i = index" value="{{i+1}}">{{month}}</option>
@@ -100,7 +101,7 @@
 
             <!-- </div> -->
             <div class="form-group col-6 form-input-line">
-                <label class="col-form-label" for="comments">Comments</label>
+                <label class="col-form-label" for="comments">Comments<span class="required">*</span></label>
                 <textarea type="text" rows="3" class="form-control" id="comments" name="comments"
                     placeholder="Please provide the comment for applying loan" formControlName="comments"></textarea>
             </div>

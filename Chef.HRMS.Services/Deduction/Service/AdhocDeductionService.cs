@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class AdhocDeductionService : AsyncService, IAdhocDeductionService
+    public class AdhocDeductionService : AsyncService<AdhocDeduction>, IAdhocDeductionService
     {
         private readonly IAdhocDeductionRepository adhocDeductionRepository;
 
@@ -40,7 +41,7 @@ namespace Chef.HRMS.Services
             return await adhocDeductionRepository.GetEmployeeAdhocDeductionByPayrollProcessingMethodId(payrollProcessingMethodId);
         }
 
-        public async Task<AdhocDeduction> InsertAsync(AdhocDeduction adhocDeduction)
+        public async Task<int> InsertAsync(AdhocDeduction adhocDeduction)
         {
             return await adhocDeductionRepository.InsertAsync(adhocDeduction);
         }

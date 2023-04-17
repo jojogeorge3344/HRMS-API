@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class HolidayCategoryRepository : GenericRepository<HolidayCategory>, IHolidayCategoryRepository
     {
-        public HolidayCategoryRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public HolidayCategoryRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

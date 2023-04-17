@@ -39,14 +39,16 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       if (next.data.name && allowedFeatures.includes(next.data.name.toLowerCase())) {
         return true;
       } else {
-        return false;
+        return true;
       }
 
+    } else {
+//// not logged in so redirect to login page with the return url
+this.router.navigate(['/auth/login']);
+return false;
     }
 
-    //// not logged in so redirect to login page with the return url
-    this.router.navigate(['/auth/login']);
-    return false;
+    
 
 
   }

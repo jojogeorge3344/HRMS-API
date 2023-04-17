@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollCalculationRepository : GenericRepository<PayrollCalculation>, IPayrollCalculationRepository
     {
-        public PayrollCalculationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PayrollCalculationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -21,6 +21,8 @@ namespace Chef.HRMS.Repositories
                                             pcmp.NAME      AS payrollComponentName, 
                                             pcmp.shortcode AS ShortCode, 
                                             pcalc.id As Id,
+                                            pcmp.payheadbaseunittype,
+                                            pcmp.payheadcontractvaluetype,
                                             CASE pcmp.isfixed 
                                               WHEN true THEN false 
                                               ELSE true 
@@ -39,7 +41,7 @@ namespace Chef.HRMS.Repositories
                                       pcmp.id, 
                                       pcalc.formula,
                                       pcalc.id
-                            ORDER  BY isfixed ASC";
+                            ORDER  BY ps.NAME ASC";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
         }
@@ -82,10 +84,21 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollCalculation>> GetAllCalculationDetailsById(int id)
         {
-                var sql = "SELECT * from hrms.payrollcalculation where payrollstructureid=@id";
+                var sql = "SELECT * From hrms.payrollcalculation WHERE payrollstructureid=@id";
 
                 return await Connection.QueryAsync<PayrollCalculation>(sql, new { id });
         }
 
+        public async Task<bool> IsSystemVariableExist(string code)
+        {
+            var sql = @"SELECT * FROM hrms.payrollcalculation WHERE formula LIKE '%"+code+"%' AND isarchived = false";
+
+            if ((await Connection.QueryFirstOrDefaultAsync<int>(sql, new {})) >= 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -97,9 +97,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            overTime = await overTimeService.InsertAsync(overTime);
+            var id = await overTimeService.InsertAsync(overTime);
 
-            return CreatedAtAction(nameof(Insert), overTime);
+            return Ok(id);
+
         }
 
         [HttpPut("Update")]

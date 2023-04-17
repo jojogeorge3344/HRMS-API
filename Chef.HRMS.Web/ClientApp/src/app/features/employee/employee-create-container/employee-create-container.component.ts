@@ -39,7 +39,7 @@ export class EmployeeCreateContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBranches();
-    this.getEmployeeNumber();
+    this.getEmployeeNumber();    
   }
 
   getBranches() {
@@ -64,25 +64,40 @@ export class EmployeeCreateContainerComponent implements OnInit {
   }
 
   onSubmitBasicDetails(basicDetailsForm) {
+    debugger
     this.basicDetailsForm = basicDetailsForm;
     this.activeId = this.disableTabFrom = 2;
+    console.log('jobdtslsform1',this.basicDetailsForm);
+
   }
 
   onSubmitJobDetails(jobDetailsForm) {
     this.jobDetailsForm = jobDetailsForm;
     this.activeId = this.disableTabFrom = 3;
+    console.log('jobdtslsform',this.jobDetailsForm);
+
   }
 
   onSubmitJobFilings(jobFilingsForm) {
-
+debugger
     this.jobFilingsForm = jobFilingsForm;
 
     this.employeeBasicDetailsService.add(this.basicDetailsForm).subscribe((result) => {
 
-      this.jobDetailsForm.employeeId = result.id;
+
+     
+      this.jobDetailsForm.employeeId = result;
+      if (this.jobDetailsForm.employeeId == 0){
+        this.toastr.showErrorMessage('Employee added Failed!');
+        return
+      }else{
+
+    
       this.jobDetailsForm.branchId = this.jobDetailsForm.location;
       this.jobDetailsForm.companyId = this.branches.find(c => c.id == this.jobDetailsForm.branchId).companyId;
-      this.jobFilingsForm.employeeId = result.id;
+ 
+      this.jobFilingsForm.employeeId = result;
+      console.log(this.jobFilingsForm.employeeId)
       this.jobDetailsForm.numberSeriesId = parseInt(this.jobDetailsForm.numberSeriesId, 10);
       const numberSeriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == this.jobDetailsForm.numberSeriesId);
       numberSeriesValue.nextNumber = numberSeriesValue.nextNumber + 1;
@@ -91,17 +106,18 @@ export class EmployeeCreateContainerComponent implements OnInit {
         .subscribe(([details, filing]) => {
           this.employeeNumbersService.update(numberSeriesValue).subscribe(() => {
           });
-          const newUserCredentails = {
-            email: this.basicDetailsForm.email,
-            password: 'test',
-            token: 'testtoken',
-            employeeId: this.jobDetailsForm.employeeId
-          };
-          this.authService.insertNewUser(newUserCredentails).subscribe(() => {
-          });
+          // const newUserCredentails = {
+          //   email: this.basicDetailsForm.email,
+          //   password: 'test',
+          //   token: 'testtoken',
+          //   employeeId: this.jobDetailsForm.employeeId
+          // };
+          // this.authService.insertNewUser(newUserCredentails).subscribe(() => {
+          // });
           this.toastr.showSuccessMessage('Employee added successfully!');
           this.router.navigateByUrl('/employee');
         });
+      }
     },
       error => {
         console.error(error);

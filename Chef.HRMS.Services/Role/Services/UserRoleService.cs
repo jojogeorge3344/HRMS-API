@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class UserRoleService : AsyncService, IUserRoleService
+    public class UserRoleService : AsyncService<UserRole>, IUserRoleService
     {
         private readonly IUserRoleRepository userRoleRepository;
 
@@ -35,12 +36,12 @@ namespace Chef.HRMS.Services
             return await userRoleRepository.GetAsync(id);
         }
 
-        public async Task<IEnumerable<UserRoleView>> GetUserRole(int employeeId)
+        public async Task<IEnumerable<UserRoleView>> GetUserRole(string userId)
         {
-            return await userRoleRepository.GetUserRole(employeeId);
+            return await userRoleRepository.GetUserRole(userId);
         }
 
-        public async Task<UserRole> InsertAsync(UserRole userRole)
+        public async Task<int> InsertAsync(UserRole userRole)
         {
             return await userRoleRepository.InsertAsync(userRole);
         }

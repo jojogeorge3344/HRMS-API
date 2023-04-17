@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            role = await roleService.InsertAsync(role);
+            var id  = await roleService.InsertAsync(role);
 
-            return CreatedAtAction(nameof(Insert), role);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

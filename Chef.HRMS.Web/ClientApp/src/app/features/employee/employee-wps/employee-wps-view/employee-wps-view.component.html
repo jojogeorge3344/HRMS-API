@@ -16,6 +16,37 @@
                 <input readonly type="string" class="form-control" id="wpsId" name="wpsId" formControlName="wpsId">
             </div>
         </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="molId">MOL ID</label>
+                <input readonly type="string" class="form-control" id="molId" name="molId" formControlName="molId">
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="routingId">Routing ID</label>
+                <input readonly type="string" class="form-control" id="routingId" name="routingId" formControlName="routingId">
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="salaryCardNo">Salary Card No</label>
+                <input readonly type="string" class="form-control" id="salaryCardNo" name="salaryCardNo" formControlName="salaryCardNo">
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="bankName">Bank Name</label>
+                <select readonly class="form-control" formControlName="bankName" disabled>
+                    <option value="" disabled>Select Bank Name</option>
+                    <option *ngFor="let type of groupId" [ngValue]='type.id'>
+                        {{type.groupName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm-6">
+                <label class="col-form-label"  for="accountNo">Account No</label>
+                <input readonly type="string" class="form-control" id="accountNo" name="accountNo" formControlName="accountNo">
+            </div>
+        </div>
     </div>
 </form>
 <!-- <label class="col-form-label" for="jobTitleId">Job Title</label>

@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PANService : AsyncService, IPANService
+    public class PANService : AsyncService<PAN>, IPANService
     {
         private readonly IPANRepository panRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return panRepository.GetByEmployeeId(employeeId);
         }
 
-        public Task<PAN> InsertAsync(PAN pan)
+        public Task<int> InsertAsync(PAN pan)
         {
             return panRepository.InsertAsync(pan);
         }

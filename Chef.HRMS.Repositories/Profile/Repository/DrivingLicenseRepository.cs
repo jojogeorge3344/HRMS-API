@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class DrivingLicenseRepository : GenericRepository<DrivingLicense>, IDrivingLicenseRepository
     {
-        public DrivingLicenseRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public DrivingLicenseRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -34,9 +34,9 @@ namespace Chef.HRMS.Repositories
                                            ON a.id = b.drivinglicenseid 
                                               AND a.employeeid = @employeeId 
                                    INNER JOIN hrms.document C 
-                                           ON b.documentid = c.id";
+                                           ON b.documentid = c.id  where C.isarchived=false";  // Added for  where C.isarchived=false by Nir
 
-                return await Connection.QueryAsync<DrivingLicenseView>(sql, new { employeeId });
+            return await Connection.QueryAsync<DrivingLicenseView>(sql, new { employeeId });
         }
     }
 }

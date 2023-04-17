@@ -1,0 +1,93 @@
+<form [formGroup]="editForm" id="updateAddressForm" (validSubmit)="onSubmit()">
+    <div class="d-inline-flex flex-wrap" style="margin-top: 20px">
+        <div class="col-6 h6"> Current address</div>
+        <div class="col-6 h6"> Permanant address</div>
+        <div class="col-12">
+            <div class="form-group col-6 float-right ">
+                <div class="custom-control custom-checkbox float-left">
+                    <input type="checkbox" (change)="currentAspermanent()" class="custom-control-input"
+                        id="ispermanentSameAsCurrent" formControlName="ispermanentSameAsCurrent">
+                    <label for="ispermanentSameAsCurrent" class=" custom-control-label">Same as current address
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Adress line 1<span class="required">*</span></label>
+            <input (keyup)="setpermanentAsCurrent($event.target.value,'permanentAddressLine1')" type="text"
+                class="form-control" id="currentAddressLine1" formControlName="currentAddressLine1">
+
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Address line 1<span class="required">*</span></label>
+            <input type="text" class="form-control" id="permanentAddressLine1" formControlName="permanentAddressLine1">
+
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Adress line 2</label>
+            <input (keyup)="setpermanentAsCurrent($event.target.value,'permanentAddressLine2')" type="text"
+                class="form-control" id="currentAddressLine2" formControlName="currentAddressLine2">
+
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Address line 2</label>
+            <input type="text" class="form-control" id="permanentAddressLine2" formControlName="permanentAddressLine2">
+
+        </div>
+        <div class="form-group  form-input-line col-6 ">
+            <label class="col-form-label">Country<span class="required">*</span></label>
+            <select class="form-control" formControlName="currentCountry"
+                (change)="getStatesByCountry($event.target.value, 'current')">
+                <option value="" disabled>Select a country</option>
+                <option *ngFor="let country of countries" value={{country.id}}>
+                    {{country.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group  form-input-line col-6 ">
+            <label class="col-form-label">Country<span class="required">*</span></label>
+            <select class="form-control" formControlName="permanentCountry"
+                (change)="getStatesByCountry($event.target.value, 'permanent')">
+                <option value="" disabled>Select a country</option>
+                <option *ngFor="let country of countries" value={{country.id}}>
+                    {{country.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">State/Province<span class="required">*</span></label>
+            <select (change)="setpermanentAsCurrent($event.target.value, 'permanentState')" class="form-control"
+                formControlName="currentState">
+                <option value="0">Select a state</option>
+                <option *ngFor="let state of currentstatesByCountry" value={{state.id}}>
+                    {{state.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">State/Province<span class="required">*</span></label>
+            <select class="form-control" formControlName="permanentState">
+                <option value="0">Select a state</option>
+                <option *ngFor="let state of permanentstatesByCountry" value={{state.id}}>
+                    {{state.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Pincode<span class="required">*</span></label>
+            <input (keyup)="setpermanentAsCurrent($event.target.value, 'permanentPinCode' )" type="text"
+                class="form-control" id="currentPinCode" formControlName="currentPinCode">
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Pincode<span class="required">*</span></label>
+            <input type="text" class="form-control" id="permanentPinCode" formControlName="permanentPinCode">
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <a routerLink="/employee">
+        <button type="button" class="btn btn-warning"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button></a>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+    </div>
+</form>

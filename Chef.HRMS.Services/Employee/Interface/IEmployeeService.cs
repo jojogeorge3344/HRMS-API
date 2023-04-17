@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public interface IEmployeeService : IAsyncService<Employee>
+    public interface IEmployeeService : IAsyncService<HRMSEmployee>
     {
         Task<IEnumerable<EmployeeView>> GetAllEmployeeDetails();
         Task<EmployeeView> GetEmployeeDetailsById(int employeeId);
         Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId);
         Task<IEnumerable<Notification>> GetAllNotificationById(int employeeId);
+        Task<bool> IsNameExist(string name);
+
     }
 }

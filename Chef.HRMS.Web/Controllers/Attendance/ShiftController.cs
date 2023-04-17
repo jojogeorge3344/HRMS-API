@@ -69,9 +69,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            shift = await shiftService.InsertAsync(shift);
+            var id = await shiftService.InsertAsync(shift);
 
-            return CreatedAtAction(nameof(Insert), shift);
+            return Ok(id);
+
         }
 
         [HttpPut("Update")]

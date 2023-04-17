@@ -10,14 +10,14 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpenseRepository : GenericRepository<Expense>, IExpenseRepository
     {
-        public ExpenseRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public ExpenseRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<Expense>> GetAllExpenseDetailsById(int employeeId)
         {
 
-                var sql = "SELECT * FROM  hrms.expense WHERE employeeid = @employeeId  ORDER BY id desc";
+                var sql = "SELECT * FROM  hrms.expense WHERE employeeid = @employeeId and isarchived=false ORDER BY id desc";
 
                 return await Connection.QueryAsync<Expense>(sql, new { employeeId });
         }

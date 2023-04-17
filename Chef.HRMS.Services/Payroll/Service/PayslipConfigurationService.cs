@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PayslipConfigurationService : AsyncService, IPayslipConfigurationService
+    public class PayslipConfigurationService : AsyncService<PayslipConfiguration>, IPayslipConfigurationService
     {
         private readonly IPayslipConfigurationRepository payslipConfigurationRepository;
 
@@ -20,7 +21,7 @@ namespace Chef.HRMS.Services
             return await payslipConfigurationRepository.GetAsync(id);
         }
 
-        public async Task<PayslipConfiguration> InsertAsync(PayslipConfiguration payslipConfiguration)
+        public async Task<int> InsertAsync(PayslipConfiguration payslipConfiguration)
         {
             return await payslipConfigurationRepository.InsertAsync(payslipConfiguration);
         }

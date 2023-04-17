@@ -21,6 +21,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeJobDetailsService } from '../employee-job-details.service';
 
 @Component({
   selector: 'hrms-employee-job-details-create',
@@ -36,6 +37,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   noticePeriod: object;
   employeeNumber = '';
   businessUnitTypeKeys: number[];
+  groupCategory:any;
+  visaDesignation:any;
   businessUnitType = BusinessUnitType;
   departmentTypeKeys: number[];
   departmentType = DepartmentType;
@@ -52,6 +55,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   minDate;
   searchFailed: boolean;
   employeeList: Employee[];
+  config;
 
   @Input() id: any;
   location: Branch[];
@@ -62,10 +66,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     private employeeService: EmployeeService,
     private employeeJobTitleService: EmployeeJobTitleService,
     private employeeNumbersService: EmployeeNumbersService,
+    private employeeJobDetailsService:EmployeeJobDetailsService,
     private branchService: BranchService,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
     private route: ActivatedRoute,
+
 
   ) {
     const current = new Date();
@@ -74,6 +80,10 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       month: current.getMonth() + 1,
       day: current.getDate()
     };
+
+    this.route.params.subscribe((params: any) => {
+      this.id = params.id;
+    });
   }
 
   ngOnInit(): void {
@@ -83,16 +93,32 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       this.addForm.patchValue(this.jobDetails);
       this.employeeNumber = this.jobDetails.employeeNumber;
     }
-    this.route.params.subscribe((params: any) => {
-      this.id = params.id;
-    });
+    // this.route.params.subscribe((params: any) => {
+    //   this.id = params.id;
+    // });
+    
+    this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
+      this.groupCategory=result;  
+    })
 
+    this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
+       this.visaDesignation=result;
+    })
+    this.employeeJobDetailsService.getProbation().subscribe((result)=>{
+    this.addForm.patchValue({
+      probationPeriod:result[0].probationDuration,
+      periodType:result[0].periodType,
+      workerType:result[0].workerType,
+      timeType:result[0].timeType
+    })
+    })
     this.businessUnitTypeKeys = Object.keys(this.businessUnitType).filter(Number).map(Number);
     this.departmentTypeKeys = Object.keys(this.departmentType).filter(Number).map(Number);
     this.workerTypeKeys = Object.keys(this.workerType).filter(Number).map(Number);
     this.timeTypeKeys = Object.keys(this.timeType).filter(Number).map(Number);
     this.periodTypeKeys = Object.keys(this.periodType).filter(Number).map(Number);
     this.noticePeriodTypeKeys = Object.keys(this.noticePeriodType).filter(Number).map(Number);
+
 
     this.getJobList();
     this.getEmployeeNumber();
@@ -106,8 +132,21 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
         day: dob.getDate()
       };
     }
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Reporting Manager",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: false,
+    };
   }
 
+  selectionChanged(args) {
+    this.addForm.get("reportingManager").patchValue(args.value.id);
+  }
   getJobList() {
     this.employeeJobTitleService.getAll().subscribe(result => {
       this.jobTitleId = result;
@@ -189,9 +228,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
 
   onSubmit() {
     const addJobDetails = this.addForm.getRawValue();
-    addJobDetails.reportingManager = addJobDetails.reportingManager.id;
+    // addJobDetails.reportingManager = addJobDetails.reportingManager.id;
     this.jobDetailsForm.emit(addJobDetails);
-
   }
 
   createFormGroup(): FormGroup {
@@ -208,7 +246,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
         Validators.required
       ]],
       secondaryJobTitle: ['',[
-        Validators.required,
+        //Validators.required,
         Validators.maxLength(26),
       ]],
       businessUnit: ['', [
@@ -234,6 +272,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       ]],
       periodType: [3],
       noticePeriod: ['', [
+        Validators.required
+      ]],
+      categoryId: ['', [
+        Validators.required
+      ]],
+      visaDesignationId: ['', [
         Validators.required
       ]],
       branchId: [''],

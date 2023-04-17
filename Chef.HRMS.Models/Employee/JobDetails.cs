@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Core;
 using Chef.Common.Models;
+using Chef.Common.Types;
 using Chef.HRMS.Types;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -106,5 +107,7 @@ namespace Chef.HRMS.Models
         /// Holds worker type
         /// </summary>
         public WorkerType WorkerType { get; set; }
+        public int CategoryId { get; set; }
+        public int VisaDesignationId { get; set; }
     }
 }

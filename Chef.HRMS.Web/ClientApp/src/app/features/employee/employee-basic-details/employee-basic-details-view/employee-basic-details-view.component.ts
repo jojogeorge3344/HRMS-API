@@ -22,6 +22,7 @@ export class EmployeeBasicDetailsViewComponent implements OnInit {
   id: any;
   genderTypeKeys: number[];
   genderType = GenderType;
+  religion:any;
   maxDate;
 
   constructor(
@@ -46,10 +47,15 @@ export class EmployeeBasicDetailsViewComponent implements OnInit {
       this.id = params.id;
     });
     this.getBasicDetailsId();
+
+   this.employeeBasicDetailsService.getReligion()
+   .subscribe((result)=>{    
+   this.religion=result; 
+   })
   }
 
   getBasicDetailsId() {
-    this.employeeBasicDetailsService.get(this.id).subscribe(result => {
+    this.employeeBasicDetailsService.get(this.id).subscribe(result => {      
       result.dateOfBirth = new Date(result.dateOfBirth);
       this.editForm.patchValue(result);
     },
@@ -85,7 +91,21 @@ export class EmployeeBasicDetailsViewComponent implements OnInit {
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'),
         Validators.required
       ]],
+      fileNumber: ['', [
+        Validators.required,
+        Validators.pattern(/^-?(0|[1-9]\d*)?$/),
+      ]],
+      religionId: ['', [
+        Validators.required,
+      ]],
+      uidNumber: ['', [
+        Validators.required,
+        // Validators.pattern(/^-?(0|[1-9]\d*)?$/),
+      ]],
       createdDate: [],
+      languageKnown:[''],
+      refNum:[''],
+      remarks:['']
      });
   }
 

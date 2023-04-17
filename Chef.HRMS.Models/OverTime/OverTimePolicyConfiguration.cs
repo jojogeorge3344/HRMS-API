@@ -125,5 +125,9 @@ namespace Chef.HRMS.Models
 
         [Description("Hours beyond shift hours")]
         public float TimeBeyondShiftHour { get; set; }
+        public int NormalOverTime { get; set; }
+        public int HolidayOverTime { get; set; }
+        public int SpecialOverTime { get; set; }
+        public bool Status { get; set; }
     }
 }

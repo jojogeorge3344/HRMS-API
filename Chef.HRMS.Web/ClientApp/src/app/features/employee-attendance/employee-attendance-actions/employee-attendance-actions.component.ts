@@ -116,6 +116,7 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
   }
 
   openWebClockIn() {
+    debugger
     const modalRef = this.modalService.open(EmployeeWebLoginCreateComponent,
       {centered: true, backdrop: 'static' });
     modalRef.result.then((result) => {
@@ -125,9 +126,10 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
     });
   }
 
-  openWebClockOut() {
+  openWebClockOut() {  
     const clockOut = JSON.parse(localStorage.getItem('clockIn'));
     clockOut.checkOutTime = new Date(Date.now());
+    clockOut.id = localStorage.getItem('id')
     this.employeeRegularLoginService.update(clockOut).subscribe(result => {
       localStorage.removeItem('clockIn');
       this.setClockInOut();
@@ -152,6 +154,7 @@ export class EmployeeAttendanceActionsComponent implements OnInit {
   openRemoteClockOut() {
     const clockOut = JSON.parse(localStorage.getItem('RemoteClockIn'));
     clockOut.checkOutTime = new Date(Date.now());
+    clockOut.id = localStorage.getItem('id');
     this.employeeRegularLoginService.update(clockOut).subscribe(result => {
       localStorage.removeItem('RemoteClockIn');
       this.setRemoteClockInOut();

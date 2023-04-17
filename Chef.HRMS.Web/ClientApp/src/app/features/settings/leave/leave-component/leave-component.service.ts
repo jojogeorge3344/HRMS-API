@@ -43,4 +43,20 @@ export class LeaveComponentService {
   delete(id) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
+  getbenefitcategory() {
+    return this.http.get<number[]>(this.baseUrl + 'GetBenefitCategory').pipe(map(response => { return response; }));
+
+  }
+  getbenefittype(id) {
+    return this.http.get<LeaveComponent>(this.baseUrl + 'GetBenefitType/' + id).pipe(map(response => { return response; }));
+  }
+  getAccrualtype() {
+    return this.http.get<LeaveComponent>(this.baseUrl + 'GetAccrualType').pipe(map(response => { return response; }));
+  }
+  getAccrualBenefittype() {
+    return this.http.get<LeaveComponent>(this.baseUrl + 'GetAccrualBenefitType').pipe(map(response => { return response; }));
+  }
+  getDetectiontype() {
+    return this.http.get<LeaveComponent>(this.baseUrl + 'GetDeductionType').pipe(map(response => { return response; }));
+  }
 }

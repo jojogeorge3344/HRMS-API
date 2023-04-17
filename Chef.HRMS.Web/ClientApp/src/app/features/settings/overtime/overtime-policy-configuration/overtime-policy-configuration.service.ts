@@ -43,4 +43,13 @@ export class OvertimePolicyConfigurationService {
   getOvertimeConfiguration(employeeId) {
     return this.http.get<OvertimePolicyConfiguration>(this.baseUrl + 'GetOvertimeConfigurationById/' + employeeId).pipe(map(response => { return response; }));
   }
+  getNormalOverTime() {
+    return this.http.get<OvertimePolicyConfiguration>(this.baseUrl + 'getNormalOverTime' ).pipe(map(response => { return response; }));
+  }
+  getHolidayOverTime() {
+    return this.http.get<OvertimePolicyConfiguration>(this.baseUrl + 'getHolidayOverTime' ).pipe(map(response => { return response; }));
+  }
+  getSpecialOverTime() {
+    return this.http.get<OvertimePolicyConfiguration>(this.baseUrl + 'getSpecialOverTime' ).pipe(map(response => { return response; }));
+  }
 }

@@ -9,6 +9,8 @@ namespace Chef.HRMS.Repositories
     {
         Task<IEnumerable<WPSUser>> GetAllByemployeeId(int employeeId);
 
-        Task<int> Update(WPSUser wpsUser);
+        //Task<int> Update(WPSUser wpsUser);
+        Task<IEnumerable<HRMSBank>> GetBank();
+
     }
 }

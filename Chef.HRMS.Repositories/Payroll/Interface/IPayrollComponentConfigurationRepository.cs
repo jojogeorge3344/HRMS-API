@@ -11,5 +11,6 @@ namespace Chef.HRMS.Repositories
         Task<int> InsertAsync(IEnumerable<PayrollComponentConfiguration> payrollComponentConfiguration, IEnumerable<int> PayrollComponentConfigurationIds);
         Task<int> InsertPayrollFixedCalculation(PayrollCalculation payrollCalculation);
         Task<int> SetPayrollStructureIsConfigured(int expensePolicyId);
+        Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollComponentId(int payrollComponentId);
     }
 }

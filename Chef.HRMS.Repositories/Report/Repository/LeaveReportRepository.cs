@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveReportRepository : GenericRepository<LeaveReportView>, ILeaveReportRepository
     {
-        public LeaveReportRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LeaveReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -31,9 +31,9 @@ namespace Chef.HRMS.Repositories
                                            ON l.employeeid = jd.employeeid 
                                    inner join hrms.leavecomponent lc 
                                            ON l.leavecomponentid = lc.id 
-                                   inner join hrms.employee e 
+                                   inner join hrms.HRMSEmployee e 
                                            ON l.employeeid = e.id 
-                                   inner join hrms.employee em 
+                                   inner join hrms.HRMSEmployee em 
                                            ON l.approvedby = em.id 
                             ORDER BY   l.employeeid offset {offSet} limit 10";
 

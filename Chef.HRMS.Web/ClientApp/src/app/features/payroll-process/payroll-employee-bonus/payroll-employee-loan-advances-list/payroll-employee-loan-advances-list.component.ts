@@ -11,6 +11,8 @@ import { LoanRequestService } from '@features/employee-loan/loan-request.service
 import { PaymentType } from 'src/app/models/common/types/paymenttype';
 import { LoanType } from 'src/app/models/common/types/loantype';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { PayrollProcessService } from '@features/payroll-process/payroll-process.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -26,12 +28,15 @@ export class PayrollEmployeeLoanAdvancesListComponent implements OnInit {
   loanTypes = LoanType;
   paymentTypes = PaymentType;
   nextLoanNumber: number;
+  employeeSub: Subscription;
+  methodId: number;
 
   constructor(
     private loanRequestService: LoanRequestService,
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
     private route: ActivatedRoute,
+    public payrollprocessSrv: PayrollProcessService
   ) { }
 
   ngOnInit(): void {
@@ -40,7 +45,11 @@ export class PayrollEmployeeLoanAdvancesListComponent implements OnInit {
       this.id = parseInt(params.id, 10);
     });
     this.getLoanNumberbyId();
-    this.getAllLoanAdvanceByEmployeeId();
+    this.employeeSub = this.payrollprocessSrv.getEmployeeDetailsSubject().subscribe(resp => {
+  
+      this.methodId = +resp[0].id
+      this.getAllLoanAdvanceByEmployeeId();
+    })
   }
 
   getLoanNumberbyId() {
@@ -50,7 +59,7 @@ export class PayrollEmployeeLoanAdvancesListComponent implements OnInit {
   }
 
   getAllLoanAdvanceByEmployeeId() {
-    this.loanRequestService.getAllLoansByEmployee(this.employeeId, this.id).subscribe(result => {
+    this.loanRequestService.getAllLoansByEmployee(this.employeeId, this.methodId).subscribe(result => {
       this.payrollEmployeeLoans = result;
       console.log(result);
       
@@ -119,5 +128,7 @@ export class PayrollEmployeeLoanAdvancesListComponent implements OnInit {
           }
       });
     }
-
+ngOnDestroy() {
+  if (this.employeeSub) this.employeeSub.unsubscribe()
+}
 }

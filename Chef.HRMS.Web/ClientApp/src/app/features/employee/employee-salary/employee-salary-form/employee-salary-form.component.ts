@@ -38,13 +38,13 @@ export class EmployeeSalaryFormComponent implements OnInit {
           {
             monthly: [{ value: x.monthlyAmount, disabled: x.isComputed },
             {
-              validators: [Validators.required, Validators.min(1), Validators.max(x.maximumLimit)],
+              // validators: [Validators.required, Validators.min(1), Validators.max(x.maximumLimit)],
               updateOn: 'blur',
 
             }],
             yearly: [{ value: x.yearlyAmount, disabled: x.isComputed },
             {
-              validators: [Validators.required, Validators.min(1), Validators.max(x.maximumLimit * 12)],
+              // validators: [Validators.required, Validators.min(1), Validators.max(x.maximumLimit * 12)],
               updateOn: 'blur',
             }]
           }));      

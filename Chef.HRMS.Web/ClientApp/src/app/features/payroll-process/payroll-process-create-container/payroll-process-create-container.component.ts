@@ -51,7 +51,7 @@ export class PayrollProcessCreateContainerComponent implements OnInit {
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the Payroll Process Details by id');
+        // this.toastr.showErrorMessage('Unable to fetch the Payroll Process Details by id');
       });
   }
 

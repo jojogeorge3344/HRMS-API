@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 1;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockAddressDetails()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockAddressDetails()));
 
             // Act
             var okResult = await addressController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockAddressList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockAddressList()));
 
             // Act
             var okResult = await addressController.GetAll();
@@ -67,7 +67,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             Address address = GetMockAddressDetails();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<Address>())).Returns(Task.FromResult(GetMockAddressDetails()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<Address>())).Returns( await Task.FromResult(GetMockAddressDetails()));
 
             // Act
             var createdResponse = await addressController.Insert(address) as CreatedAtActionResult;
@@ -83,8 +83,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 1;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockAddressDetails()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockAddressDetails()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await addressController.Delete(existingId);

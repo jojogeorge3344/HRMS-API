@@ -5,7 +5,7 @@
     <div class="p-3">  
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="leaveStructureId">Leave Structure</label>
+                <label class="col-form-label" for="leaveStructureId">Leave Structure<span class="required">*</span></label>
                 <select class="form-control" formControlName="leaveStructureId">
                     <option value="" disabled>Select Leave Structure</option>
                     <option *ngFor="let type of leaveStructureId" [ngValue]='type.id'>
@@ -14,7 +14,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="shiftId">Shift</label>
+                <label class="col-form-label" for="shiftId">Shift<span class="required">*</span></label>
                 <select class="form-control" formControlName="shiftId">
                     <option value="" disabled>Select Shift</option>
                     <option *ngFor="let type of shiftId" [ngValue]='type.id'>
@@ -23,7 +23,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="weekOff">Week Off</label>
+                <label class="col-form-label" for="weekOff">Week Off<span class="required">*</span></label>
                 <select class="form-control" formControlName="weekOff">
                     <option [ngValue]="null" disabled>Select Week Off</option>
                     <option *ngFor="let key of weekOffTypeKeys" [ngValue]='key'>{{weekOffType[key]}}</option>
@@ -32,7 +32,7 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="holidayCategoryId">Holiday List</label>
+                <label class="col-form-label" for="holidayCategoryId">Holiday List<span class="required">*</span></label>
                 <select class="form-control" formControlName="holidayCategoryId">
                     <option value="" disabled>Select Holidays</option>
                     <option *ngFor="let type of holidayCategoryId" [ngValue]='type.id'>
@@ -41,7 +41,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="attendanceTracking">Attendance Tracking</label>
+                <label class="col-form-label" for="attendanceTracking">Attendance Tracking<span class="required">*</span></label>
                 <select class="form-control" formControlName="attendanceTracking">
                     <option [ngValue]="null" disabled>Select Attendance Tracking</option>
                     <option *ngFor="let key of attendanceTrackingTypeKeys" [ngValue]='key'>{{attendanceTrackingType[key]}}</option>
@@ -57,17 +57,27 @@
                 </select>
             </div>
         </div>
-        <div class="row align-items-baseline">
-            <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="attendanceCaptureScheme">Attendance Capture Scheme</label>
+        <div class="row">
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="attendanceCaptureScheme">Attendance Capture Scheme<span class="required">*</span></label>
                 <select class="form-control" formControlName="attendanceCaptureScheme">
                     <option [ngValue]="null" disabled>Select Attendance Capture Scheme</option>
                     <option *ngFor="let key of attendanceCaptureSchemeTypeKeys" [ngValue]='key'>{{attendanceCaptureSchemeType[key]}}</option>
                 </select>
-            </div>
         </div>
+        <div class="form-group form-input-line col-4">
+            <label class="col-form-label" for="">EOS Type</label>
+            <select class="form-control" formControlName="eosId"  (change)='onOptionsSelected()'>
+                <option value="" disabled>Select EOS Type</option>
+                <option *ngFor="let items of eosTypes" [ngValue]='items.id'>
+                 {{items.bfName}}
+                </option>
+            </select>
+        </div>
+        <div class="col-4"></div>
     </div>
-    <div class="modal-footer">
+    </div>
+    <div class="modal-footer" style="margin-top: -50px;">
         <a routerLink="/employee">
             <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
         </a>

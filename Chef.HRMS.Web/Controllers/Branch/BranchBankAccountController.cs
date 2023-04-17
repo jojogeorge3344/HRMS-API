@@ -75,9 +75,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            branchBankAccount = await branchBankAccountService.InsertAsync(branchBankAccount);
+            var id = await branchBankAccountService.InsertAsync(branchBankAccount);
 
-            return CreatedAtAction(nameof(Insert), branchBankAccount);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

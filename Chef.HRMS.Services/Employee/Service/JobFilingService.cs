@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class JobFilingService : AsyncService, IJobFilingService
+    public class JobFilingService : AsyncService<JobFiling>, IJobFilingService
     {
         private readonly IJobFilingRepository jobFilingRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return await jobFilingRepository.GetWeekendPolicyById(employeeId);
         }
 
-        public async Task<JobFiling> InsertAsync(JobFiling jobFiling)
+        public async Task<int> InsertAsync(JobFiling jobFiling)
         {
             return await jobFilingRepository.InsertAsync(jobFiling);
         }

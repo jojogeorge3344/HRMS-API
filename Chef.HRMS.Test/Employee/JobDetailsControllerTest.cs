@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 1;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockJobDetails()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockJobDetails()));
 
             // Act
             var okResult = await jobDetailsController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockJobDetailsList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockJobDetailsList()));
 
             // Act
             var okResult = await jobDetailsController.GetAll();
@@ -68,7 +68,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             JobDetails jobDetails = GetMockJobDetails();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<JobDetails>())).Returns(Task.FromResult(GetMockJobDetails()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<JobDetails>())).Returns( await Task.FromResult(GetMockJobDetails()));
 
             // Act
             var createdResponse = await jobDetailsController.Insert(jobDetails) as CreatedAtActionResult;
@@ -86,7 +86,7 @@ namespace Chef.HRMS.Test
             JobDetails nameMissingJobDetails = GetMockJobDetails();
             nameMissingJobDetails.EmployeeNumber = null;
             jobDetailsController.ModelState.AddModelError("ShortName", "Required");
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockJobDetails()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockJobDetails()));
 
             // Act
             var badResponse = await jobDetailsController.Insert(nameMissingJobDetails);
@@ -114,8 +114,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockJobDetails()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockJobDetails()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await jobDetailsController.Delete(existingId);

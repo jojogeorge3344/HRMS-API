@@ -1,23 +1,28 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class LeaveComponentService : AsyncService, ILeaveComponentService
+    public class LeaveComponentService : AsyncService<LeaveComponent>, ILeaveComponentService
     {
         private readonly ILeaveComponentRepository leaveComponentRepository;
+        private readonly ILeaveEligibilityRepository leaveEligibilityRepository;
 
-        public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository)
+        public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository,ILeaveEligibilityRepository leaveEligibilityRepository)
         {
             this.leaveComponentRepository = leaveComponentRepository;
+            this.leaveEligibilityRepository = leaveEligibilityRepository;
         }
 
         public async Task<int> DeleteAsync(int id)
         {
-            return await leaveComponentRepository.DeleteAsync(id);
+           await leaveComponentRepository.DeleteAsync(id);
+           return await leaveEligibilityRepository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<LeaveComponent>> GetAllAsync()
@@ -35,7 +40,7 @@ namespace Chef.HRMS.Services
             return await leaveComponentRepository.GetAsync(id);
         }
 
-        public async Task<LeaveComponent> InsertAsync(LeaveComponent leaveComponent)
+        public async Task<int> InsertAsync(LeaveComponent leaveComponent)
         {
             return await leaveComponentRepository.InsertAsync(leaveComponent);
         }
@@ -47,6 +52,31 @@ namespace Chef.HRMS.Services
         public async Task<int> UpdateAsync(LeaveComponent leaveComponent)
         {
             return await leaveComponentRepository.UpdateAsync(leaveComponent);
+        }
+
+        public async Task<IEnumerable<BenefitCategory>> GetBenefitCategory()
+        {
+            return await leaveComponentRepository.GetBenefitCategory();
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetAccrualBenefitType()
+        {
+            return await leaveComponentRepository.GetAccrualBenefitType();
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetAccrualType()
+        {
+            return await leaveComponentRepository.GetAccrualType();
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetDeductionType()
+        {
+            return await leaveComponentRepository.GetDeductionType();
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid)
+        {
+            return await leaveComponentRepository.GetBenefitType(categoryid);
         }
     }
 }

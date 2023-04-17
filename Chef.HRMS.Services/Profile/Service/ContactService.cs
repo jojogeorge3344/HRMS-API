@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class ContactService : AsyncService, IContactService
+    public class ContactService : AsyncService<Contact>, IContactService
     {
         private readonly IContactRepository contactRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return contactRepository.GetAsync(id);
         }
 
-        public Task<Contact> InsertAsync(Contact contact)
+        public Task<int> InsertAsync(Contact contact)
         {
             return contactRepository.InsertAsync(contact);
         }

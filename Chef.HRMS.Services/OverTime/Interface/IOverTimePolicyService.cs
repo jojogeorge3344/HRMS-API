@@ -2,6 +2,8 @@
 using Chef.HRMS.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Chef.Common.Core.Services;
+using Chef.HRMS.Models.BenefitCategory;
 
 namespace Chef.HRMS.Services
 {
@@ -11,6 +13,6 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<OverTimePolicy>> GetAllAssignedOverTimePolicyCount();
         Task<IEnumerable<OverTimePolicy>> GetAllConfiguredOvertimePolicies();
         Task<int> UpdateOverTimePolicy(int id);
-
+        Task<IEnumerable<BenefitTypes>> GetBenefitType();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -89,9 +90,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            overTimePolicy = await overTimePolicyService.InsertAsync(overTimePolicy);
+            var id = await overTimePolicyService.InsertAsync(overTimePolicy);
 
-            return CreatedAtAction(nameof(Insert), overTimePolicy);
+            return Ok(id);
+
         }
 
         [HttpPut("Update")]
@@ -124,6 +126,13 @@ namespace Chef.HRMS.Web.Controllers
             var result = await overTimePolicyService.UpdateOverTimePolicy(id);
 
             return Ok(result);
+        }
+        [HttpGet("GetBenefitType")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType()
+        {
+            var benefitlist = await overTimePolicyService.GetBenefitType();
+
+            return Ok(benefitlist);
         }
     }
 }

@@ -9,13 +9,13 @@ namespace Chef.HRMS.Repositories
 {
     public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeRepository
     {
-        public OverTimeRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public OverTimeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
         public async Task<IEnumerable<OverTime>> GetAllOvertimeDetailsById(int employeeId)
         {
-                var sql = "SELECT * FROM hrms.overtime WHERE employeeid=@Id order by id desc";
+                var sql = "SELECT * FROM hrms.overtime WHERE employeeid=@Id and isarchived = false order by id desc";
                 return await Connection.QueryAsync<OverTime>(sql, new { Id = employeeId });
         }
         public async Task<int> GetAssignedOverTimePolicy(int employeeId)
@@ -36,7 +36,7 @@ namespace Chef.HRMS.Repositories
 		                        ee.firstname
                         FROM hrms.overtimenotifypersonnel as op
                         INNER JOIN hrms.overtime as ot ON op.overtimeid = ot.id
-                        INNER JOIN hrms.employee as ee on op.notifypersonnel=ee.id
+                        INNER JOIN hrms.HRMSEmployee as ee on op.notifypersonnel=ee.id
                         WHERE       overtimeId = @overtimeId";
 
             return await Connection.QueryAsync<OvertimeViewModel>(sql, new { overtimeId });

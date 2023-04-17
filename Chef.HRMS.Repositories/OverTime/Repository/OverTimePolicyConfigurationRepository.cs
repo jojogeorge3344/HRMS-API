@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class OverTimePolicyConfigurationRepository : GenericRepository<OverTimePolicyConfiguration>, IOverTimePolicyConfigurationRepository
     {
-        public OverTimePolicyConfigurationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public OverTimePolicyConfigurationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -40,6 +40,27 @@ namespace Chef.HRMS.Repositories
                             WHERE  B.employeeid = @employeeId";
 
                 return await Connection.QueryFirstOrDefaultAsync<OverTimePolicyConfiguration>(sql, new { employeeId });
+        }
+        public async Task<IEnumerable<BenefitTypes>> GetNormalOverTime()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id =8";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+        public async Task<IEnumerable<BenefitTypes>> GetHolidayOverTime()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id =9";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+        public async Task<IEnumerable<BenefitTypes>> GetSpecialOvertime()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id =10";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
         }
     }
 }

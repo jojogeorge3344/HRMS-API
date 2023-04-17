@@ -67,9 +67,10 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            document = await documentService.InsertAsync(document);
+            var id = await documentService.InsertAsync(document);
 
-            return CreatedAtAction(nameof(Insert), document);
+            return Ok(id);
+
         }
 
         [HttpPost("Update")]

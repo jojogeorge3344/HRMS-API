@@ -1,0 +1,87 @@
+<form [formGroup]="editForm" id="updateAddressForm">
+    <div class="d-inline-flex flex-wrap" style="margin-top: 20px;max-height: calc(90vh - 145px);">
+        <div class="col-6 h6"> Current address</div>
+        <div class="col-6 h6"> Permanant address</div>
+        <div class="col-12">
+            <div class="form-group col-6 float-right ">
+                <div class="custom-control custom-checkbox float-left">
+                    <input type="checkbox" class="custom-control-input"
+                    readonly id="ispermanentSameAsCurrent" formControlName="ispermanentSameAsCurrent" disabled>
+                    <label for="ispermanentSameAsCurrent" class=" custom-control-label">Same as current address
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Adress line 1</label>
+            <input  type="text"readonly disabled
+                class="form-control" id="currentAddressLine1" formControlName="currentAddressLine1">
+
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Address line 1</label>
+            <input type="text" readonly disabled class="form-control" id="permanentAddressLine1" formControlName="permanentAddressLine1">
+
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Adress line 2</label>
+            <input type="text" readonly disabled
+                class="form-control" id="currentAddressLine2" formControlName="currentAddressLine2">
+
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Address line 2</label>
+            <input type="text" readonly disabled class="form-control" id="permanentAddressLine2" formControlName="permanentAddressLine2">
+
+        </div>
+        <div class="form-group  form-input-line col-6 ">
+            <label class="col-form-label">Country</label>
+            <select disabled class="form-control" formControlName="currentCountry" readonly>
+                <option value="" disabled>Select a country</option>
+                <option *ngFor="let country of countries" value={{country.id}}>
+                    {{country.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group  form-input-line col-6 ">
+            <label class="col-form-label">Country</label>
+            <select disabled class="form-control" formControlName="permanentCountry" readonly>
+                <option value="" disabled>Select a country</option>
+                <option *ngFor="let country of countries" value={{country.id}}>
+                    {{country.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">State/Province</label>
+            <select disabled class="form-control"
+                formControlName="currentState" readonly>
+                <option value="0">Select a state</option>
+                <option *ngFor="let state of currentstatesByCountry" value={{state.id}}>
+                    {{state.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">State/Province</label>
+            <select disabled class="form-control" formControlName="permanentState" readonly>
+                <option value="0">Select a state</option>
+                <option *ngFor="let state of permanentstatesByCountry" value={{state.id}}>
+                    {{state.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Pincode</label>
+            <input  type="text" readonly disabled
+                class="form-control" id="currentPinCode" formControlName="currentPinCode">
+        </div>
+        <div class="form-group form-input-line col-6">
+            <label class="col-form-label">Pincode</label>
+            <input type="text" disabled class="form-control" id="permanentPinCode" formControlName="permanentPinCode" readonly>
+        </div>
+
+    </div>
+ 
+</form>
+

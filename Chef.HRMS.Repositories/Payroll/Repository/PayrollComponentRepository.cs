@@ -1,7 +1,12 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Chef.HRMS.Types;
 using Dapper;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +14,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollComponentRepository : GenericRepository<PayrollComponent>, IPayrollComponentRepository
     {
-        public PayrollComponentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PayrollComponentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
         public async Task<IEnumerable<int>> GetAllAssignedPayrollComponents()
@@ -30,9 +35,30 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollComponent>> GetAllOrderByPayrollComponent()
         {
-                var sql = "SELECT * FROM  hrms.payrollcomponent order by payrollcomponenttype";
+                var sql = @"SELECT pc.*,bt.name AS typename FROM  hrms.payrollcomponent pc
+                            INNER JOIN hrms.benefittypes bt
+                            ON pc.payrollcomponenttype = bt.id
+                            WHERE pc.isarchived = false ORDER BY name ASC";
 
                 return await Connection.QueryAsync<PayrollComponent>(sql);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetComponentType()
+        {
+            return await QueryFactory
+          .Query<BenefitTypes>()
+          .WhereNotArchived()
+          .OrderBy("id")
+          .GetAsync<BenefitTypes>();
+        }
+        public async Task<bool> IsPayrollComponentCodeExist(string code)
+        {
+            if (await QueryFactory
+           .Query<PayrollComponent>()
+           .Where("shortcode", code)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
         }
     }
 }

@@ -1,17 +1,20 @@
+using Chef.Common.Authentication;
+using Chef.Common.Authentication.Controllers;
+using Chef.Common.Authentication.Extensions;
+using Chef.Common.Authentication.Models;
 using Chef.Common.Core;
+using Chef.Common.Data.Controller;
+using Chef.Common.Exceptions;
 using Chef.Common.Repositories;
-using Chef.Common.Services;
-using Chef.HRMS.Repositories;
-using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.IO;
+using Microsoft.OpenApi.Models;
+using Serilog;
+using System.Linq;
 
 namespace Chef.HRMS.Web
 {
@@ -20,6 +23,12 @@ namespace Chef.HRMS.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+
+            //replace default logger with serilog.
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -27,6 +36,35 @@ namespace Chef.HRMS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddHttpContextAccessor();
+            services.Configure<JwtConfigOptions>(Configuration.GetSection(JwtConfigOptions.JwtConfig));
+
+            services
+                .AddControllersWithViews()
+                .AddApplicationPart(typeof(AuthController).Assembly)
+                .AddApplicationPart(typeof(CommonDataController).Assembly)
+                .AddControllersAsServices()
+                .AddNewtonsoftJson();
+
+            services.AddRazorPages();
+            services.AddSingleton(Configuration);
+
+            services.AddTenantIdentity(Configuration); 
+
+            services.AddCors();
+            //services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
+
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+            });
+
             services.AddControllersWithViews();
 
             // In production, the Angular files will be served from this directory
@@ -34,63 +72,40 @@ namespace Chef.HRMS.Web
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
-            services.Scan(scan => scan
-                  .FromAssemblyOf<IEmployeeService>()
-                    .AddClasses(classes => classes.AssignableTo<IBaseService>())
-                        .AsImplementedInterfaces()
-                        .WithScopedLifetime());
-
-            services.Scan(scan => scan
-                  .FromAssemblyOf<IEmployeeRepository>()
-                    .AddClasses(classes => classes.AssignableTo<IRepository>())
-                        .AsImplementedInterfaces()
-                        .WithScopedLifetime());
-
-            services.AddScoped<IConnectionFactory, ConnectionFactory>();
-            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
-            services.AddMvc();
-            services.AddSingleton(Configuration);
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                builder => builder.WithOrigins("http://localhost:19631")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-                );
-            });
-            services.AddSignalR();
-            services.AddScoped<DbSession>();
-            services.AddSwaggerGen(config =>
-            {
-                //some swagger configuration code.//use fully qualified object names
-                config.CustomSchemaIds(x => x.FullName);
-            });
-            services.AddTransient<ISimpleUnitOfWork, SimpleUnitOfWork>();
-            services.AddCors();
+  
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddSingleton<IEmailSendFactory, EmailSendFactory>();
         }
+         
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        [Obsolete]
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            //TODO move this licese to config.
+            //Bold.Licensing.BoldLicenseProvider.RegisterLicense("OYq82nhpuBGYXWI9IKoTj3VYPtqt7HqK69ewJyAWLOE=");
 
+            HttpHelper.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
+
+            
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseMiddleware(typeof(ErrorHandler));
+            app.UseMiddleware(typeof(JwtMiddleware));
+
+            // Write streamlined request completion events, instead of the more verbose ones from the framework.
+            // To use the default framework request logging instead, remove this line and set the "Microsoft"
+            // level in appsettings.json to "Information".
+            app.UseSerilogRequestLogging();
+
+            if (env.IsDevelopment())
+            {
+                // Register the Swagger generator and the Swagger UI middlewares
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -98,19 +113,9 @@ namespace Chef.HRMS.Web
 
             app.UseRouting();
             app.UseAuthorization();
-            app.UseCors("CorsPolicy");
             app.UseCors(options =>
-            options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseSwagger();
+                options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
-            app.UseSwaggerUI();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHub<NotificationHub>("/NotificationHub");
-            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -118,22 +123,7 @@ namespace Chef.HRMS.Web
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.MapWhen(x => !x.Request.Path.Value.StartsWith("/swagger"), builder =>
-            {
-                builder.UseSpa(spa =>
-                {
-                    // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                    // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                    spa.Options.SourcePath = "ClientApp";
-
-                    if (env.IsDevelopment())
-                    {
-                        spa.UseAngularCliServer(npmScript: "start");
-                        spa.Options.StartupTimeout = TimeSpan.FromSeconds(200);
-                    }
-                });
-            });
+            app.UseResponseCompression();
         }
     }
 }

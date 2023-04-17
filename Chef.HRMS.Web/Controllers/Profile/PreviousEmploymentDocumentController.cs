@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            previousEmploymentDocument = await previousEmploymentDocumentService.InsertAsync(previousEmploymentDocument);
+            var id = await previousEmploymentDocumentService.InsertAsync(previousEmploymentDocument);
 
-            return CreatedAtAction(nameof(Insert), previousEmploymentDocument);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

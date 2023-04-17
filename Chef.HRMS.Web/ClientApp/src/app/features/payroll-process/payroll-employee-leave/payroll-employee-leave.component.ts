@@ -13,6 +13,7 @@ import { Employee } from '@features/employee/employee.model';
 import { SendEmailService } from '../send-email.service';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { log } from 'console';
 
 @Component({
   selector: 'hrms-payroll-employee-leave',
@@ -39,25 +40,30 @@ export class PayrollEmployeeLeaveComponent implements OnInit {
     private router: Router,
     public modalService: NgbModal,
     private payrollProcessLeaveService: PayrollProcessLeaveService) {
+
+  }
+
+  ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
+      debugger
+      console.log("params", params)
       this.selectedYear = params.date.split('-')[1];
       this.selectedMonth = this.months[params.date.split('-')[0]];
       this.noOfCalendarDays = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
       this.employeeId = parseInt(params.employee, 10);
       this.id = parseInt(params.id, 10);
+        this.getPayrollProcess();
 
     });
   }
-
-  ngOnInit(): void {
-    this.getPayrollProcess();
-  }
   getPayrollProcess() {
-    this.payrollProcessService.get(this.id).subscribe(payrollProcess => {
-      if (payrollProcess.processedStep >= 1) {
+    this.payrollProcessService.getEmployeeDetails(this.employeeId, this.id).subscribe(payrollProcess => {
+      if (payrollProcess[0].processedStep >= 1) {
         this.payrollProcessLeaveService.getByEmployee(this.employeeId, this.id)
-          .subscribe(res => {
+          .subscribe(res => {       
             this.payrollProcess = res;
+            this.payrollProcessService.setEmployeeDetails(this.payrollProcess)
+  
           });
       } else {
         this.payrollProcessLeaveService.getByEmployeeLeaves(this.employeeId, `${this.selectedYear}-${this.selectedMonth}-01`, `${this.selectedYear}-${this.selectedMonth}-${this.noOfCalendarDays}`)
@@ -81,6 +87,9 @@ export class PayrollEmployeeLeaveComponent implements OnInit {
       }
     });
   }
+
+
+ 
   openApprovedLeave() {
     this.fromDate = `${this.selectedYear}-${this.selectedMonth}-01`;
     this.toDate = `${this.selectedYear}-${this.selectedMonth}-${this.noOfCalendarDays}`;
@@ -160,6 +169,7 @@ export class PayrollEmployeeLeaveComponent implements OnInit {
   }
 
   onSubmit(routeTo) {
+    debugger
     const payrollLeave = [{
       payrollProcessingMethodId: this.id,
       employeeId: this.employee.id,
@@ -186,10 +196,11 @@ export class PayrollEmployeeLeaveComponent implements OnInit {
 
   }
   gotoNextStep(routeTo) {
+    debugger
     this.payrollProcessService.updateProcessedStep(this.id, 1, { id: this.id, stepNumber: 1 })
       .subscribe(res => {
         this.toastr.showSuccessMessage('Payroll Leave Processing Completed');
-        if (routeTo === 'continue') {
+        if (routeTo == 'continue') {
           this.selectTab.emit(2);
         } else {
           this.router.navigate(['../'], { relativeTo: this.route });

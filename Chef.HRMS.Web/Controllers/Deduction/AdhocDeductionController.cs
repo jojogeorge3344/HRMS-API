@@ -93,9 +93,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            adhocDeduction = await adhocDeductionService.InsertAsync(adhocDeduction);
+            var id = await adhocDeductionService.InsertAsync(adhocDeduction);
 
-            return CreatedAtAction(nameof(Insert), adhocDeduction);
+            return Ok(id);
         }
 
         [HttpPut("Update")]

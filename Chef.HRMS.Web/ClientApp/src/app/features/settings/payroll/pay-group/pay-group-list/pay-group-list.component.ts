@@ -11,6 +11,7 @@ import { PayGroup } from '../pay-group.model';
 import { PayrollCalendar } from '../../payroll-calendar/payroll-calendar.model';
 import { Months } from './../../../../../models/common/types/months';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { PayGroupViewComponent } from '../pay-group-view/pay-group-view.component';
 
 @Component({
   selector: 'hrms-pay-group-list',
@@ -62,6 +63,7 @@ export class PayGroupListComponent implements OnInit {
     this.payGroupService.getAll()
       .subscribe(res => {
         this.payGroups = res;
+        this.payGroups= res.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
         this.payGroupNames = this.payGroups.map(a => a.name.toLowerCase());
         this.payGroupCodes = this.payGroups.map(a => a.code.toLowerCase());
       });
@@ -108,6 +110,27 @@ export class PayGroupListComponent implements OnInit {
       console.log(error);
     });
   }
+  openViewPayGroup(payGroup: PayGroup) {
+    debugger
+
+    const modalRef = this.modalService.open(PayGroupViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.calenders = this.calenders;
+    modalRef.componentInstance.payGroup = payGroup;
+    modalRef.componentInstance.isDisabled = this.isDisabled(payGroup);
+    modalRef.componentInstance.payGroupNames = this.payGroupNames.filter(v => v !== payGroup.name.toLowerCase());
+    modalRef.componentInstance.payGroupCodes = this.payGroupCodes.filter(v => v !== payGroup.code.toLowerCase());
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getPayGroups();
+      }
+    }, error => {
+      console.log(error);
+    });
+  }
+
 
   deletePayGroup(payGroup: PayGroup) {
     const modalRef = this.modalService.open(ConfirmModalComponent,

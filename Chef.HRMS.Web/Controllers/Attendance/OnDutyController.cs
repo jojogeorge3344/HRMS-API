@@ -83,9 +83,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            onDuty = await onDutyService.InsertAsync(onDuty);
+            var id = await onDutyService.InsertAsync(onDuty);
 
-            return CreatedAtAction(nameof(Insert), onDuty);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

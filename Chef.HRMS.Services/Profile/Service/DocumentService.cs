@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class DocumentService : AsyncService, IDocumentService
+    public class DocumentService : AsyncService<Document>, IDocumentService
     {
         private readonly IDocumentRepository documentRepository;
 
@@ -30,7 +31,7 @@ namespace Chef.HRMS.Services
             return documentRepository.GetAsync(id);
         }
 
-        public Task<Document> InsertAsync(Document document)
+        public Task<int> InsertAsync(Document document)
         {
             return documentRepository.InsertAsync(document);
         }

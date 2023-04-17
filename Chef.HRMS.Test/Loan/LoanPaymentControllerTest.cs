@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockLoanPayment()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockLoanPayment()));
 
             // Act
             var okResult = await loanPaymentController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockLoanPaymentList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockLoanPaymentList()));
 
             // Act
             var okResult = await loanPaymentController.GetAll();
@@ -67,7 +67,7 @@ namespace Chef.HRMS.Test
         //public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         //{
         //    LoanPayment loanPayment = GetMockLoanPayment();
-        //    mockService.Setup(service => service.InsertAsync(It.IsAny<LoanPayment>())).Returns(Task.FromResult(GetMockLoanPayment()));
+        //    mockService.Setup(service => service.InsertAsync(It.IsAny<LoanPayment>())).Returns( await Task.FromResult(GetMockLoanPayment()));
 
         //    // Act
         //    var createdResponse = await loanPaymentController.Insert(loanPayment) as CreatedAtActionResult;
@@ -97,8 +97,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockLoanPayment()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockLoanPayment()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await loanPaymentController.Delete(existingId);

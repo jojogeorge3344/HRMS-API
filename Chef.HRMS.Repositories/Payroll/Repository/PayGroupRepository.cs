@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public class PayGroupRepository : GenericRepository<PayGroup>, IPayGroupRepository
     {
-        public PayGroupRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PayGroupRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Chef.HRMS.Repositories
                         var sql = @"SELECT e.id              AS id, 
                                    jd.employeenumber AS employeenumber, 
                                    Concat (e.firstname, ' ', e.lastname)     AS FirstName 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                                    INNER JOIN hrms.jobfiling jf 

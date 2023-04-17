@@ -53,6 +53,10 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   minDate;
   employeeList: Employee[];
   reportingManager: number;
+  groupCategory: any;
+  visaDesignation:any;
+  config;
+  selectedDatasource:any;
 
   constructor(
     private employeeService: EmployeeService,
@@ -92,6 +96,24 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.getJobList();
     this.getEmployeeNumber();
     this.getBranches();
+
+    this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
+      this.groupCategory=result;
+    })
+    
+    this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
+       this.visaDesignation=result;
+    })
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Reporting Manager",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: true,
+    };
   }
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
@@ -110,6 +132,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       });
   }
   getJobDetailsId() {
+    debugger
     this.employeeJobDetailsService.get(this.jobDetailsId).subscribe(result => {
       this.getEmployeeList();
       result.dateOfJoin = new Date(result.dateOfJoin);
@@ -132,10 +155,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   getEmployeeList() {
+    debugger
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.id);
-      const name = this.employeeList.find(emp => emp.id === this.reportingManager);
-      this.editForm.patchValue({ reportingManager: name });
+      const details = this.employeeList.find(emp => emp.id === this.reportingManager);
+      this.selectedDatasource=details.firstName
+      this.editForm.patchValue({ reportingManager: this.selectedDatasource });
     },
       error => {
         console.error(error);
@@ -144,15 +169,18 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
 
   formatter = (employee) => employee.firstName;
 
-  search = (text$: Observable<string>) => text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    filter(term => term.length >= 2),
-    map(term => this.employeeList.filter(employee => new RegExp(term, 'mi').test(employee.firstName)).slice(0, 10))
-  )
+  // search = (text$: Observable<string>) => text$.pipe(
+  //   debounceTime(200),
+  //   distinctUntilChanged(),
+  //   filter(term => term.length >= 2),
+  //   map(term => this.employeeList.filter(employee => new RegExp(term, 'mi').test(employee.firstName)).slice(0, 10))
+  // )
 
-  selected($event) {
-    this.editForm.patchValue({ reportingManager: $event.item.firstName });
+  // selected($event) {
+  //   this.editForm.patchValue({ reportingManager: $event.item.firstName });
+  // }
+  selectionChanged(args) {
+    this.editForm.get("reportingManager").patchValue(args.value.id);
   }
 
   getEmployeeNumber() {
@@ -183,12 +211,13 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     const editJobDetails = this.editForm.value;
     editJobDetails.branchId = editJobDetails.location;
     editJobDetails.companyId = this.branches.find(c => c.id == editJobDetails.branchId).companyId;
     editJobDetails.employeeId = parseInt(this.id, 10);
     editJobDetails.id = parseInt(this.jobDetailsId, 10);
-    editJobDetails.reportingManager = editJobDetails.reportingManager.id;
+    // editJobDetails.reportingManager = editJobDetails.reportingManager.id;
     this.employeeJobDetailsService.update(editJobDetails).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Job Details updated successfully!');
     },
@@ -237,6 +266,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       ]],
       periodType: [''],
       noticePeriod: ['', [
+        Validators.required
+      ]],
+      categoryId: ['', [
+        Validators.required
+      ]],
+      visaDesignationId: ['', [
         Validators.required
       ]],
       createdDate: [],

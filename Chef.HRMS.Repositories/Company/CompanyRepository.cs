@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class CompanyRepository : GenericRepository<HRMSCompany>, ICompanyRepository
     {
-        public CompanyRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public CompanyRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

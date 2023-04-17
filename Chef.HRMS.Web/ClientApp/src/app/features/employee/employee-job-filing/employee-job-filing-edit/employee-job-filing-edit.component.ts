@@ -22,6 +22,7 @@ import { LeaveStructure } from '@settings/leave/leave-structure/leave-structure.
 import { Shift } from '@settings/attendance/shift/shift.model';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EosService } from '@settings/eos/eos.service';
 
 @Component({
   selector: 'hrms-employee-job-filing-edit',
@@ -53,9 +54,12 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   attendanceCaptureSchemeType = AttendanceCaptureSchemeType;
   paymentMode = PaymentMode;
   paymentModeKeys: number[];
+  eosTypes:any[]=[];
+
   constructor(
     private employeeJobFilingService: EmployeeJobFilingService,
     private leaveStructureService: LeaveStructureService,
+    private eosService: EosService,
     private holidayCategoryService: HolidayCategoryService,
     private expensePolicyService: ExpensePolicyService,
     private shiftService: ShiftService,
@@ -68,11 +72,14 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   ) {
     this.paymentModeKeys = Object.keys(this.paymentMode).filter(Number).map(Number);
     this.editForm = this.createFormGroup();
+    console.log('cons',this.editForm.value)
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUserId = getCurrentUserId();
-    this.editForm = this.createFormGroup();
+    // this.editForm = this.createFormGroup();
+    console.log('INIT',this.editForm.value)
     this.weekOffTypeKeys = Object.keys(this.weekOffType).filter(Number).map(Number);
     this.attendanceTrackingTypeKeys = Object.keys(this.attendanceTrackingType).filter(Number).map(Number);
     this.attendanceCaptureSchemeTypeKeys = Object.keys(this.attendanceCaptureSchemeType).filter(Number).map(Number);
@@ -88,7 +95,21 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     this.getPayGroupList();
     this.getPayrollStructureList();
     this.getOverTimePolicyList();
-    
+     debugger
+    this.eosService.getAll()
+      .subscribe((result) => {
+        this.eosTypes = result
+        console.log('eos type', this.eosTypes);
+
+      })
+  }
+  onOptionsSelected(){
+    debugger
+   let item:any= this.eosTypes.filter(el=> this.editForm.get('eosId').value==el.id)
+   this.editForm.patchValue({
+    bfCode:item[0].bfCode,
+    bfName:item[0].bfName
+   })   
   }
 
   getJobFilingID() {
@@ -166,8 +187,8 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   getOverTimePolicyList() {
     this.overtimePolicyService.getConfiguredOvertimePolicies().subscribe(result => {
       this.overTimePolicyId = result;
-      console.log("policyott",this.overTimePolicyId);
-      
+      console.log("policyott", this.overTimePolicyId);
+
     },
       error => {
         console.error(error);
@@ -208,8 +229,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       attendanceTracking: ['', [
         Validators.required
       ]],
-      expensePolicyId: ['', [
-        Validators.required
+      expensePolicyId: [0, [
       ]],
       attendanceCaptureScheme: ['', [
         Validators.required
@@ -226,6 +246,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       paymentMode: ['', [
         Validators.required
       ]],
+      eosId: [''],
+      bfCode: [null],
+      bfName:[null],
       createdDate: []
     });
   }

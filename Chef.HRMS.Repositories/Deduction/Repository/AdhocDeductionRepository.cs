@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class AdhocDeductionRepository : GenericRepository<AdhocDeduction>, IAdhocDeductionRepository
     {
-        public AdhocDeductionRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AdhocDeductionRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -32,7 +32,7 @@ namespace Chef.HRMS.Repositories
                                             ad.createdby                             AS createdby, 
                                             ad.modifiedby                            AS modifiedby 
                             FROM   hrms.adhocdeduction ad 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON ad.employeeid = e.id 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ad.employeeid = jf.employeeid 
@@ -62,7 +62,7 @@ namespace Chef.HRMS.Repositories
                                             ad.createdby                             AS createdby, 
                                             ad.modifiedby                            AS modifiedby 
                             FROM   hrms.adhocdeduction ad 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON ad.employeeid = e.id 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ad.employeeid = jf.employeeid 

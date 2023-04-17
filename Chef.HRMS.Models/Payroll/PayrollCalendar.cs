@@ -35,5 +35,7 @@ namespace Chef.HRMS.Models
         [Required]
         [Description("Payroll calendar period cycle/week start day")]
         public int ProcessingDay { get; set; }
+        public int WeekOff { get; set; }
+        public int HolidayCategoryId { get; set; }
     }
 }

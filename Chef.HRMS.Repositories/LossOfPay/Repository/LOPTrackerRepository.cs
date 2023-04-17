@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LOPTrackerRepository : GenericRepository<LOPTracker>, ILOPTrackerRepository
     {
-        public LOPTrackerRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LOPTrackerRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class EducationRepository : GenericRepository<Education>, IEducationRepository
     {
-        public EducationRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public EducationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -33,9 +33,9 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.educationdocument ed 
                                            ON e.id = ed.educationid AND e.employeeid = @employeeId
                                    INNER JOIN hrms.document d 
-                                           ON ed.documentid = d.id order by e.id desc";
+                                           ON ed.documentid = d.id where e.isarchived=false order by e.id desc";   // Added "where e.isarchived=false" for By Nir
 
-                return await Connection.QueryAsync<EducationView>(sql, new { employeeId });
+            return await Connection.QueryAsync<EducationView>(sql, new { employeeId });
         }
     }
 }

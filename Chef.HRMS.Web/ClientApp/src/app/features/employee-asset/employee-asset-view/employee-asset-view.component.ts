@@ -101,7 +101,7 @@ export class EmployeeAssetViewComponent implements OnInit{
    openRecall(allocatedAsset) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
-      debugger;
+ 
      modalRef.componentInstance.confirmationMessage = `Are you sure you want to recall the asset ${allocatedAsset.assetName}?`;
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {

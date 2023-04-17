@@ -1,5 +1,6 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Services;
+using Chef.HRMS.Types;
 using Chef.HRMS.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -25,7 +26,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayrollProcessingMethod()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayrollProcessingMethod()));
 
             // Act
             var okResult = await payrollProcessingMethodController.Get(id);
@@ -51,7 +52,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockPayrollProcessingMethodList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockPayrollProcessingMethodList()));
 
             // Act
             var okResult = await payrollProcessingMethodController.GetAll();
@@ -67,7 +68,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             PayrollProcessingMethod payrollProcessingMethod = GetMockPayrollProcessingMethod();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<PayrollProcessingMethod>())).Returns(Task.FromResult(GetMockPayrollProcessingMethod()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<PayrollProcessingMethod>())).Returns( await Task.FromResult(GetMockPayrollProcessingMethod()));
 
             // Act
             var createdResponse = await payrollProcessingMethodController.Insert(payrollProcessingMethod) as CreatedAtActionResult;
@@ -83,8 +84,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayrollProcessingMethod()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayrollProcessingMethod()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await payrollProcessingMethodController.Delete(existingId);
@@ -100,7 +101,7 @@ namespace Chef.HRMS.Test
                 Id = 1,
                 ModeOfProcessing = ModeOfProcessing.PayGroup,
                 PayGroupId = 2,
-                EmployeeId = 0
+                EmployeeId = 49
 
             };
         }
@@ -111,9 +112,9 @@ namespace Chef.HRMS.Test
             PayrollProcessingMethod payrollProcessingMethod = new PayrollProcessingMethod
             {
                 Id = 1,
-                ModeOfProcessing = ModeOfProcessing.PayGroup,
+                ModeOfProcessing = ModeOfProcessing.Employee,
                 PayGroupId = 2,
-                EmployeeId = 0
+                EmployeeId = 49
 
             };
             payrollProcessingMethodList.Add(payrollProcessingMethod);

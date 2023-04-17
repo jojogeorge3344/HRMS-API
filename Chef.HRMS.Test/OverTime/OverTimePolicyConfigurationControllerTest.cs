@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockOverTimePolicyConfiguration()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockOverTimePolicyConfiguration()));
 
             // Act
             var okResult = await OverTimePolicyConfigurationController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockOverTimePolicyConfigurationList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockOverTimePolicyConfigurationList()));
 
             // Act
             var okResult = await OverTimePolicyConfigurationController.GetAll();
@@ -67,7 +67,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             OverTimePolicyConfiguration overTimePolicyConfiguration = GetMockOverTimePolicyConfiguration();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<OverTimePolicyConfiguration>())).Returns(Task.FromResult(GetMockOverTimePolicyConfiguration()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<OverTimePolicyConfiguration>())).Returns( await Task.FromResult(GetMockOverTimePolicyConfiguration()));
 
             // Act
             var createdResponse = await OverTimePolicyConfigurationController.Insert(overTimePolicyConfiguration) as CreatedAtActionResult;
@@ -97,8 +97,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockOverTimePolicyConfiguration()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockOverTimePolicyConfiguration()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await OverTimePolicyConfigurationController.Delete(existingId);

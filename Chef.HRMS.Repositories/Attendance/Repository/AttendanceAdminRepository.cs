@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-    public class AttendanceAdminRepository : GenericRepository<AttendanceAdminStatsView>, IAttendanceAdminRepository
+    public class AttendanceAdminRepository : TenantRepository<AttendanceAdminStatsView>, IAttendanceAdminRepository
     {
-        public AttendanceAdminRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AttendanceAdminRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -54,7 +54,7 @@ namespace Chef.HRMS.Repositories
                                              wfh.fromdate                             AS clockin, 
                                              wfh.todate                               AS clockout, 
                                              'WFH'                                    AS attendancetype 
-                             FROM   hrms.employee e 
+                             FROM   hrms.HRMSEmployee e 
                                     INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
                                     INNER JOIN hrms.workfromhome wfh 
@@ -68,7 +68,7 @@ namespace Chef.HRMS.Repositories
                                              cio.checkintime                          AS clockin, 
                                              cio.checkouttime                         AS clockout, 
                                              'Regular'                                AS attendancetype 
-                             FROM   hrms.employee e 
+                             FROM   hrms.HRMSEmployee e 
                                     INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
                                     INNER JOIN hrms.regularlogin cio 
@@ -83,7 +83,7 @@ namespace Chef.HRMS.Repositories
                                              cio.checkintime                          AS clockin, 
                                              cio.checkouttime                         AS clockout, 
                                              'Remote'                                 AS attendancetype 
-                             FROM   hrms.employee e 
+                             FROM   hrms.HRMSEmployee e 
                                     INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
                                     INNER JOIN hrms.regularlogin cio 
@@ -98,7 +98,7 @@ namespace Chef.HRMS.Repositories
                                              od.fromdate                              AS clockin, 
                                              od.todate                                AS clockout, 
                                              'On Duty'                                AS attendancetype 
-                             FROM   hrms.employee e 
+                             FROM   hrms.HRMSEmployee e 
                                     INNER JOIN hrms.jobdetails jb 
                                             ON e.id = jb.employeeid 
                                     INNER JOIN hrms.onduty od 
@@ -124,7 +124,7 @@ namespace Chef.HRMS.Repositories
                                    (SELECT COALESCE(Count(1), 0) AS onleavetoday 
                                     FROM   hrms.leave l 
                                     WHERE  CURRENT_DATE BETWEEN fromdate AND todate) AS onleavetoday 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jb 
                                            ON e.id = jb.employeeid 
                                    INNER JOIN hrms.leave l 

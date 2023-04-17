@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PreviousEmploymentService : AsyncService, IPreviousEmploymentService
+    public class PreviousEmploymentService : AsyncService<PreviousEmployment>, IPreviousEmploymentService
     {
         private readonly IPreviousEmploymentRepository previousEmploymentRepository;
 
@@ -35,7 +36,7 @@ namespace Chef.HRMS.Services
             return previousEmploymentRepository.GetByEmployeeId(employeeId);
         }
 
-        public Task<PreviousEmployment> InsertAsync(PreviousEmployment previousEmployment)
+        public Task<int> InsertAsync(PreviousEmployment previousEmployment)
         {
             return previousEmploymentRepository.InsertAsync(previousEmployment);
         }

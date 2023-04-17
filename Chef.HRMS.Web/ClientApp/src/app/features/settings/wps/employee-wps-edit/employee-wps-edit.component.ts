@@ -39,8 +39,8 @@ export class EmployeeWpsEditComponent implements OnInit {
       this.activeModal.close('submit');
     },
       error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to update the WPS');
+        
+        this.toastr.showWarningMessage('wpsgroup does not exist');
       });
   }
 
@@ -69,7 +69,7 @@ export class EmployeeWpsEditComponent implements OnInit {
       ]],
       establishmentId: ['', [
         Validators.pattern(/^\d{1,3}$/),
-        Validators.maxLength(3),
+        Validators.maxLength(10),
         Validators.required
         //duplicateNameValidator(this.establishmentId)
       ]],

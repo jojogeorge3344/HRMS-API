@@ -1,4 +1,6 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +11,7 @@ namespace Chef.HRMS.Repositories
 {
     public class WPSUserRepository : GenericRepository<WPSUser>, IWPSUserRepository
     {
-        public WPSUserRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public WPSUserRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -20,12 +22,20 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<WPSUser>(sql, new { employeeId });
         }
 
-        public async Task<int> Update(WPSUser wpsUser)
+        public async Task<IEnumerable<HRMSBank>> GetBank()
         {
-            var sql = @"update hrms.WPSUser 
-                        set wpsid=@wpsid,groupid=@groupid 
-                        where employeeid=@employeeid";
-            return await Connection.ExecuteAsync(sql, wpsUser);
+            return await QueryFactory
+            .Query<HRMSBank>()
+            .WhereNotArchived()
+            .GetAsync<HRMSBank>();
         }
+
+        //public async Task<int> Update(WPSUser wpsUser)
+        //{
+        //    var sql = @"update hrms.WPSUser 
+        //                set wpsid=@wpsid,groupid=@groupid 
+        //                where employeeid=@employeeid";
+        //    return await Connection.ExecuteAsync(sql, wpsUser);
+        //}
     }
 }

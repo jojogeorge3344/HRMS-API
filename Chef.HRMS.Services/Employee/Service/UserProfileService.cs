@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class UserProfileService : AsyncService, IUserProfileService
+    public class UserProfileService : AsyncService<UserProfile>, IUserProfileService
     {
         private readonly IUserProfileRepository userProfileRepository;
 
@@ -30,7 +31,7 @@ namespace Chef.HRMS.Services
             return await userProfileRepository.GetAsync(id);
         }
 
-        public async Task<UserProfile> InsertAsync(UserProfile userProfile)
+        public async Task<int> InsertAsync(UserProfile userProfile)
         {
             return await userProfileRepository.InsertAsync(userProfile);
         }

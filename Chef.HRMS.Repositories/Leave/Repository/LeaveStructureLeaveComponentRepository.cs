@@ -11,7 +11,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveStructureLeaveComponentRepository : GenericRepository<LeaveStructureLeaveComponent>, ILeaveStructureLeaveComponentRepository
     {
-        public LeaveStructureLeaveComponentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LeaveStructureLeaveComponentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -30,8 +30,10 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveStructureLeaveComponent>> GetAllAsync(int leaveStructureId)
         {
-                var sql = @"SELECT * 
-                            FROM   hrms.leavestructureleavecomponent 
+                var sql = @"SELECT lslc.*,le.eligibledays,le.maxleaveatatime,le.eligibilitybase,le.iscarryforward,le.maxleaveatatime,le.cflimitdays
+                            FROM   hrms.leavestructureleavecomponent lslc
+							INNER JOIN hrms.leaveeligibility le
+							ON le.leavecomponentid=lslc.leavecomponentid
                             WHERE  leavestructureid = @leaveStructureId";
 
                 return await Connection.QueryAsync<LeaveStructureLeaveComponent>(sql, new { leaveStructureId });

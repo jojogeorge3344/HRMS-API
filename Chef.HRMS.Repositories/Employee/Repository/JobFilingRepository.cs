@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class JobFilingRepository : GenericRepository<JobFiling>, IJobFilingRepository
     {
-        public JobFilingRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public JobFilingRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

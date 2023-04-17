@@ -39,7 +39,7 @@ namespace Chef.HRMS.Services
             return await workFromHomeRepository.GetTotalRequestedDaysById(employeeId);
         }
 
-        public async Task<WorkFromHome> InsertAsync(WorkFromHome workFromHome)
+        public async Task<int> InsertAsync(WorkFromHome workFromHome)
         {
             return await workFromHomeRepository.InsertAsync(workFromHome);
         }

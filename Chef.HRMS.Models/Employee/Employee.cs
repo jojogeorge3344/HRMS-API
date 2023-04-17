@@ -1,14 +1,15 @@
 ﻿using Chef.Common.Core;
 using Chef.Common.Types;
 using Chef.HRMS.Types;
+using Org.BouncyCastle.Bcpg;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Chef.HRMS.Models
 {
-    [Table("employee")]
-    public class Employee : Model
+    [Table("hrmsemployee")]
+    public class HRMSEmployee : Model
     {
         /// <summary>
         /// Holds Date of Birth
@@ -65,5 +66,18 @@ namespace Chef.HRMS.Models
         /// Holds blood group
         /// </summary>
         public BloodGroupType BloodGroup { get; set; }
+
+        public string UserId { get; set; }
+        public string FileNumber { get; set; }
+
+        public int UIDNumber { get; set; }
+
+        public string LanguageKnown { get; set; }
+        public int ReligionId { get; set; }
+
+        public string Remarks { get; set; }
+
+        public string RefNum { get; set; }
+
     }
 }

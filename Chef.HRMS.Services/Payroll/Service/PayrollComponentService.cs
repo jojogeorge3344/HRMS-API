@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PayrollComponentService : AsyncService, IPayrollComponentService
+    public class PayrollComponentService : AsyncService<PayrollComponent>, IPayrollComponentService
     {
         private readonly IPayrollComponentRepository payrollComponentRepository;
 
@@ -44,7 +45,7 @@ namespace Chef.HRMS.Services
             return await payrollComponentRepository.GetAsync(id);
         }
 
-        public async Task<PayrollComponent> InsertAsync(PayrollComponent payrollComponent)
+        public async Task<int> InsertAsync(PayrollComponent payrollComponent)
         {
             return await payrollComponentRepository.InsertAsync(payrollComponent);
         }
@@ -52,6 +53,16 @@ namespace Chef.HRMS.Services
         public async Task<int> UpdateAsync(PayrollComponent payrollComponent)
         {
             return await payrollComponentRepository.UpdateAsync(payrollComponent);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetComponentType()
+        {
+            return await payrollComponentRepository.GetComponentType();
+        }
+
+        public async Task<bool> IsPayrollComponentCodeExist(string code)
+        {
+            return await payrollComponentRepository.IsPayrollComponentCodeExist(code);
         }
     }
 }

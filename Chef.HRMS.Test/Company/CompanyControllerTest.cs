@@ -24,7 +24,7 @@ namespace Chef.HRMS.Test
         public async void Get_WhenCalled_ReturnsOkResult()
         {
             //Arrange
-            _ = mockService.Setup(repo => repo.GetAsync()).Returns(Task.FromResult(GetMockCompany()));
+            _ = mockService.Setup(repo => repo.GetAsync()).Returns( await Task.FromResult(GetMockCompany()));
 
             // Act
             var okResult = await companyController.Get();

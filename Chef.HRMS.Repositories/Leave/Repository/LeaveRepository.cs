@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveRepository : GenericRepository<Leave>, ILeaveRepository
     {
-        public LeaveRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LeaveRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -37,10 +37,10 @@ namespace Chef.HRMS.Repositories
                                    lc.restrictedtogender, 
                                    lc.isrestrictedtomaritalstatus, 
                                    lc.restrictedtomaritalstatus, 
-                                   lc.showleavedescription, 
+                                   lc.isshowleavedescription, 
                                    e.gender, 
                                    e.maritalstatus 
-                            FROM   hrms.employee e 
+                            FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                                    INNER JOIN hrms.jobfiling jf 
@@ -70,7 +70,7 @@ namespace Chef.HRMS.Repositories
                                       lc.restrictedtogender, 
                                       lc.isrestrictedtomaritalstatus, 
                                       lc.restrictedtomaritalstatus, 
-                                      lc.showleavedescription, 
+                                      lc.isshowleavedescription, 
                                       e.gender, 
                                       e.maritalstatus 
                             ORDER  BY lc.NAME ";
@@ -80,7 +80,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<Leave>> GetAllLeaveDetailsById(int employeeId)
         {
-            var sql = "SELECT * FROM hrms.leave WHERE employeeid = @employeeId order by id desc";
+            var sql = "SELECT * FROM hrms.leave WHERE employeeid = @employeeId and isarchived=false order by id desc";
 
                 return await Connection.QueryAsync<Leave>(sql, new { employeeId });
         }

@@ -8,7 +8,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpenseDocumentRepository : GenericRepository<ExpenseDocument>, IExpenseDocumentRepository
     {
-        public ExpenseDocumentRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public ExpenseDocumentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -21,7 +21,7 @@ namespace Chef.HRMS.Repositories
                             FROM   hrms.expensedocument A 
                                    INNER JOIN hrms.document B 
                                            ON A.documentid = B.id 
-                            WHERE  A.expenseid = @expenseid";
+                            WHERE  A.documentid = @expenseid";
 
                 return await Connection.QueryFirstOrDefaultAsync<ExpenseDocumentDetails>(sql, new { expenseId });
         }

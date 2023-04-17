@@ -81,9 +81,9 @@ namespace Chef.HRMS.Web.Controllers.Loan
                 return BadRequest(ModelState);
             }
 
-            LoanSetting = await loanSettingServices.InsertAsync(LoanSetting);
+            var id = await loanSettingServices.InsertAsync(LoanSetting);
 
-            return CreatedAtAction(nameof(Insert), LoanSetting);
+            return Ok(id);
         }
 
         [HttpPost("Update")]
@@ -100,6 +100,14 @@ namespace Chef.HRMS.Web.Controllers.Loan
             var result = await loanSettingServices.UpdateAsync(LoanSetting);
 
             return Ok(result);
+        }
+
+        [HttpGet("GetDeductionBFCode")]
+        public async Task<ActionResult<BenefitTypes>> GetDeductionBFCode()
+        {
+            var bfcode = await loanSettingServices.GetDeductionBFCode();
+
+            return Ok(bfcode);
         }
     }
 }

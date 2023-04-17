@@ -63,7 +63,7 @@ export class ShiftEditComponent implements OnInit {
         this.endDate.setDate(this.endDate.getDate() + 1);
       }
 
-      this.editForm.patchValue({ startTime: this.startDate.toISOString(), endTime: this.endDate.toISOString() });
+      this.editForm.patchValue({ startTime: this.startDate.toISOString().split('.')[0], endTime: this.endDate.toISOString().split('.')[0] });
     } else {
       this.editForm.patchValue({ startTime: null, endTime: null });
     }

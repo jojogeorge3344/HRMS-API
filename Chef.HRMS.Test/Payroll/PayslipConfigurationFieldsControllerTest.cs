@@ -21,7 +21,7 @@ namespace Chef.HRMS.Test
         //public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         //{
         //    IEnumerable<PayslipConfigurationFields> payslipConfigurationFieldsList = GetMockPayslipConfigurationFields();
-        //    mockService.Setup(service => service.UpdatePayslipConfigurationFieldsAsync(It.IsAny<IEnumerable<PayslipConfigurationFields>>())).Returns(Task.FromResult(GetMockPayslipConfigurationFields()));
+        //    mockService.Setup(service => service.UpdatePayslipConfigurationFieldsAsync(It.IsAny<IEnumerable<PayslipConfigurationFields>>())).Returns( await Task.FromResult(GetMockPayslipConfigurationFields()));
 
         //    // Act
         //    var createdResponse = await payslipConfigurationFieldsController.UpdatePayslipConfigurationFieldsAsync(payslipConfigurationFieldsList) as <int>;

@@ -34,7 +34,7 @@ namespace Chef.HRMS.Services
             return await roleFeatureRepository.GetAsync(id);
         }
 
-        public async Task<RoleFeature> InsertAsync(RoleFeature roleFeature)
+        public async Task<int> InsertAsync(RoleFeature roleFeature)
         {
             return await roleFeatureRepository.InsertAsync(roleFeature);
         }

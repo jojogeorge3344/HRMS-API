@@ -20,7 +20,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("Get/{id}")]
-        public async Task<ActionResult<Leave>> Get(int id)
+        public async Task<ActionResult<Chef.HRMS.Models.Leave>> Get(int id)
         {
             var leave = await leaveService.GetAsync(id);
 
@@ -33,7 +33,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Leave>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Chef.HRMS.Models.Leave>>> GetAll()
         {
             var leaves = await leaveService.GetAllAsync();
 
@@ -50,7 +50,7 @@ namespace Chef.HRMS.Web.Controllers
 
 
         [HttpGet("GetAllLeaveInfoByEmployeeId/{employeeid}")]
-        public async Task<ActionResult<IEnumerable<Leave>>> GetAllLeaveInfoByEmployeeId(int employeeid)
+        public async Task<ActionResult<IEnumerable<Chef.HRMS.Models.Leave>>> GetAllLeaveInfoByEmployeeId(int employeeid)
         {
             var leaves = await leaveService.GetAllLeaveInfoByEmployeeId(employeeid);
 
@@ -65,7 +65,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(leaves);
         }
         [HttpGet("GetAllUnApprovedLeaveById/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<Leave>>> GetAllUnApprovedLeaveById(int employeeId)
+        public async Task<ActionResult<IEnumerable<Chef.HRMS.Models.Leave>>> GetAllUnApprovedLeaveById(int employeeId)
         {
             var leaves = await leaveService.GetAllUnApprovedLeaveById(employeeId);
 
@@ -80,7 +80,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAllLeaveDetailsById/{id}")]
-        public async Task<ActionResult<IEnumerable<Leave>>> GetAllLeaveDetailsById(int id)
+        public async Task<ActionResult<IEnumerable<Chef.HRMS.Models.Leave>>> GetAllLeaveDetailsById(int id)
         {
             var leaves = await leaveService.GetAllLeaveDetailsById(id);
 
@@ -104,23 +104,23 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(Leave leave)
+        public async Task<IActionResult> Insert(Chef.HRMS.Models.Leave leave)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            leave = await leaveService.InsertAsync(leave);
+            var id = await leaveService.InsertAsync(leave);
 
-            return CreatedAtAction(nameof(Insert), leave);
+            return Ok(id);
         }
 
         [HttpPost("Update")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(Leave leave)
+        public async Task<ActionResult> Update(Chef.HRMS.Models.Leave leave)
         {
             if (!ModelState.IsValid)
             {
@@ -167,7 +167,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> InsertUnmarkedAttendance(IEnumerable<Leave> leaves)
+        public async Task<IActionResult> InsertUnmarkedAttendance(IEnumerable<Chef.HRMS.Models.Leave> leaves)
         {
             if (!ModelState.IsValid)
             {

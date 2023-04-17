@@ -71,11 +71,14 @@ namespace Chef.HRMS.Models
         /// Holds week off type
         /// </summary>
         [Required]
-        public WeekOff WeekOff { get; set; }
+        public int WeekOff { get; set; }
 
         /// <summary>
         /// Holds payment mode
         /// </summary>
         public PaymentMode PaymentMode { get; set; }
+        public int EOSId { get; set; }
+        public string BFCode { get; set; }
+        public string BFName { get; set; }
     }
 }

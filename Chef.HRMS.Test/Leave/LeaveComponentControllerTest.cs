@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 31;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockAddLeaveComponent()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockAddLeaveComponent()));
 
             // Act
             var okResult = await addLeaveComponentController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockAddLeaveComponentList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockAddLeaveComponentList()));
 
             // Act
             var okResult = await addLeaveComponentController.GetAll();
@@ -68,7 +68,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             LeaveComponent AddLeaveComponent = GetMockAddLeaveComponent();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<LeaveComponent>())).Returns(Task.FromResult(GetMockAddLeaveComponent()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<LeaveComponent>())).Returns( await Task.FromResult(GetMockAddLeaveComponent()));
 
             // Act
             var createdResponse = await addLeaveComponentController.Insert(AddLeaveComponent) as CreatedAtActionResult;
@@ -98,8 +98,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 31;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockAddLeaveComponent()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockAddLeaveComponent()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await addLeaveComponentController.Delete(existingId);

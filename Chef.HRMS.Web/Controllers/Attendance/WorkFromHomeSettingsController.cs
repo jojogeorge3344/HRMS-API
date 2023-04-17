@@ -49,9 +49,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            workFromHomeAdminSettings = await workFromHomeAdminSettingsService.InsertAsync(workFromHomeAdminSettings);
+            var id = await workFromHomeAdminSettingsService.InsertAsync(workFromHomeAdminSettings);
 
-            return CreatedAtAction(nameof(Insert), workFromHomeAdminSettings);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

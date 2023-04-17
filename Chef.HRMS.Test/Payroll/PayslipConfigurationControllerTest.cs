@@ -24,7 +24,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayslipConfiguration()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayslipConfiguration()));
 
             // Act
             var okResult = await payslipConfigurationController.Get(id);
@@ -50,7 +50,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             PayslipConfiguration payslipConfiguration = GetMockPayslipConfiguration();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<PayslipConfiguration>())).Returns(Task.FromResult(GetMockPayslipConfiguration()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<PayslipConfiguration>())).Returns( await Task.FromResult(GetMockPayslipConfiguration()));
 
             // Act
             var createdResponse = await payslipConfigurationController.Insert(payslipConfiguration) as CreatedAtActionResult;

@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            DeferPayment = await DeferPaymentService.InsertAsync(DeferPayment);
+            var id = await DeferPaymentService.InsertAsync(DeferPayment);
 
-            return CreatedAtAction(nameof(Insert), DeferPayment);
+            return Ok(id);
         }
 
         [HttpPut("Update")]

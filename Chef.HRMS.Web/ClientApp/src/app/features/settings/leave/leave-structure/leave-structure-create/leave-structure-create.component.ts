@@ -46,7 +46,7 @@ export class LeaveStructureCreateComponent implements OnInit {
       if (result.id === -1) {
         this.toastr.showErrorMessage('Leave Structure already exists!');
       } else {
-        this.activeModal.close(result.id);
+        this.activeModal.close(result);
         this.toastr.showSuccessMessage('Leave Structure is created successfully!');
       }
     },

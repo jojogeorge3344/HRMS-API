@@ -1,4 +1,5 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PayrollStructureService : AsyncService, IPayrollStructureService
+    public class PayrollStructureService : AsyncService<PayrollStructure>, IPayrollStructureService
     {
         private readonly IPayrollStructureRepository payrollStructureRepository;
 
@@ -18,6 +19,11 @@ namespace Chef.HRMS.Services
         public async Task<int> DeleteAsync(int id)
         {
             return await payrollStructureRepository.DeleteAsync(id);
+        }
+
+        public async Task<IEnumerable<SystemVariable>> GetAllActived(int payrollstructureid)
+        {
+            return await payrollStructureRepository.GetAllActived(payrollstructureid);
         }
 
         public async Task<IEnumerable<int>> GetAllAssignedPayrollStructure()
@@ -41,7 +47,7 @@ namespace Chef.HRMS.Services
             return await payrollStructureRepository.GetAsync(id);
         }
 
-        public async Task<PayrollStructure> InsertAsync(PayrollStructure payrollStructure)
+        public async Task<int> InsertAsync(PayrollStructure payrollStructure)
         {
             return await payrollStructureRepository.InsertAsync(payrollStructure);
         }

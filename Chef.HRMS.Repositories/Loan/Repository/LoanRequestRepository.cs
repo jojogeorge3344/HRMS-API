@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
 {
     public class LoanRequestRepository : GenericRepository<LoanRequest>, ILoanRequestRepository
     {
-        public LoanRequestRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LoanRequestRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
                                                            lr.id                                         AS loanid,
                                                            lr.expectedon                                 AS disbursementdate       
                                                           
-                                                    FROM   hrms.employee e 
+                                                    FROM   hrms.HRMSEmployee e 
                                                            INNER JOIN hrms.jobdetails jd 
                                                                    ON e.id = jd.employeeid 
 														   INNER JOIN hrms.jobfiling jf
@@ -59,7 +59,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
-                var sql = @"SELECT lr.employeeid                         AS employeeid, 
+                var sql = @"SELECT Distinct lr.employeeid                         AS employeeid, 
                                    lr.loantype                           AS loantype, 
                                    lr.loanno                             AS loanNumber, 
                                    lr.loanamount                         AS amount, 
@@ -68,13 +68,13 @@ namespace Chef.HRMS.Repositories
                                    lr.id                                 AS loanid,
                                    lr.expectedon                         AS disbursementdate
                             FROM   hrms.loanrequest lr 
-                                   INNER JOIN hrms.employee e 
+                                   INNER JOIN hrms.HRMSEmployee e 
                                            ON lr.employeeid = e.id 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON lr.employeeid = jd.employeeid 
                                    INNER JOIN hrms.payrollprocessingmethod pm 
                                            ON 1 = 1 
-                                              AND pm.id = @payrollProcessingMethodId 
+                                             
                             WHERE  lr.employeeid = @employeeId 
                                    AND ( Extract(month FROM lr.expectedon) = pm.month 
                                          AND Extract(year FROM lr.expectedon) = pm.year )";

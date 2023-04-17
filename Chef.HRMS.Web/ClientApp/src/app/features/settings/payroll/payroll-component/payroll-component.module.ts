@@ -1,51 +1,64 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgBootstrapFormValidationModule, CUSTOM_ERROR_MESSAGES } from 'ng-bootstrap-form-validation';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { DirectivesModule } from 'src/app/directives/directives.module';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+  NgBootstrapFormValidationModule,
+  CUSTOM_ERROR_MESSAGES,
+} from "ng-bootstrap-form-validation";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { DirectivesModule } from "src/app/directives/directives.module";
 
-import { PayrollComponentListComponent } from './payroll-component-list/payroll-component-list.component';
-import { PayrollComponentCreateComponent } from './payroll-component-create/payroll-component-create.component';
-import { PayrollComponentEditComponent } from './payroll-component-edit/payroll-component-edit.component';
-import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
-
-
+import { PayrollComponentListComponent } from "./payroll-component-list/payroll-component-list.component";
+import { PayrollComponentCreateComponent } from "./payroll-component-create/payroll-component-create.component";
+import { PayrollComponentEditComponent } from "./payroll-component-edit/payroll-component-edit.component";
+import { CUSTOM_ERRORS } from "@shared/utils/validators.messages";
+import { SelectDropDownModule } from "ngx-select-dropdown";
+import { PayrollComponentViewComponent } from './payroll-component-view/payroll-component-view.component';
 
 @NgModule({
   declarations: [
     PayrollComponentListComponent,
     PayrollComponentCreateComponent,
-    PayrollComponentEditComponent
+    PayrollComponentEditComponent,
+    PayrollComponentViewComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
-        path: '',
+        path: "",
         component: PayrollComponentListComponent,
-        data: { breadcrumbs: ['Settings', 'Payroll', 'Payroll Component'], name: 'settings-overtime' }
+        data: {
+          breadcrumbs: ["Settings", "Payroll", "Payroll Component"],
+          name: "settings-overtime",
+        },
       },
       {
-        path: '',
+        path: "",
         component: PayrollComponentListComponent,
-        outlet: 'tab-content',
-        data: { breadcrumbs: ['Settings', 'Payroll', 'Payroll Component'], name: 'settings-overtime' }
-      }
+        outlet: "tab-content",
+        data: {
+          breadcrumbs: ["Settings", "Payroll", "Payroll Component"],
+          name: "settings-overtime",
+        },
+      },
     ]),
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    SelectDropDownModule,
   ],
-  providers: [{
-    provide: CUSTOM_ERROR_MESSAGES,
-    useValue: CUSTOM_ERRORS,
-    multi: true
-  }],
+  providers: [
+    {
+      provide: CUSTOM_ERROR_MESSAGES,
+      useValue: CUSTOM_ERRORS,
+      multi: true,
+    },
+  ],
 })
-export class PayrollComponentModule { }
+export class PayrollComponentModule {}

@@ -24,7 +24,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var categoryId = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockHoliday()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockHoliday()));
 
             // Act
             var okResult = await holidayController.GetAllByCategory(categoryId);
@@ -38,7 +38,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             Holiday holiday = GetMockHoliday();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<Holiday>())).Returns(Task.FromResult(GetMockHoliday()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<Holiday>())).Returns( await Task.FromResult(GetMockHoliday()));
 
             // Act
             var createdResponse = await holidayController.Insert(holiday) as CreatedAtActionResult;
@@ -68,8 +68,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockHoliday()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockHoliday()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await holidayController.Delete(existingId);

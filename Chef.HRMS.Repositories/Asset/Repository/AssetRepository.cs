@@ -12,7 +12,7 @@ namespace Chef.HRMS.Repositories
 {
     public class AssetRepository : GenericRepository<Asset>, IAssetRepository
     {
-        public AssetRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AssetRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
 
         }
@@ -97,7 +97,8 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.assettype
                                            ON jt.assettypeid = hrms.assettype.id
                                    INNER JOIN hrms.assettypemetadata
-                                           ON jt.assettypeid = hrms.assettypemetadata.assettypeid order by jt.id desc ";
+                                           ON jt.assettypeid = hrms.assettypemetadata.assettypeid
+                                           WHERE jt.isarchived=false order by jt.id desc ";   // Added "WHERE jt.isarchived=false"  by Nir
 
 
             return await Connection.QueryAsync<Asset>(sql);

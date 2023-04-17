@@ -60,7 +60,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(PayrollComponentConfigurationInsert payrollComponentConfigurationInsert)
+        public async Task<ActionResult> Insert(PayrollComponentConfigurationInsert payrollComponentConfigurationInsert)
         {
             if (!ModelState.IsValid)
             {
@@ -86,6 +86,18 @@ namespace Chef.HRMS.Web.Controllers
             var result = await payrollComponentConfigurationService.UpdateAsync(payrollComponentConfiguration);
 
             return Ok(result);
+        }
+        [HttpGet("GetAllByPayrollComponentId/{payrollComponentId}")]
+        public async Task<ActionResult<PayrollComponentConfiguration>> GetAllByPayrollComponentId(int payrollComponentId)
+        {
+            var payrollComponentConfiguration = await payrollComponentConfigurationService.GetAllByPayrollComponentId(payrollComponentId);
+
+            if (payrollComponentConfiguration == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(payrollComponentConfiguration);
         }
     }
 }

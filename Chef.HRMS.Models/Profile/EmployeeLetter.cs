@@ -18,6 +18,6 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds document type
         /// </summary>
-        public DocumentType Type { get; set; }
+        public Types.DocumentTypes Type { get; set; }
     }
 }

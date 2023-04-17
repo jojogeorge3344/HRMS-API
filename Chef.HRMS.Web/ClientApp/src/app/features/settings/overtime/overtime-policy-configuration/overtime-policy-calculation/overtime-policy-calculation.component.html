@@ -1,5 +1,7 @@
 <div class="modal-header">
-    <h4 class="modal-title">Overtime Calculation Formula - {{ getTitle() }} </h4>
+    <h4 *ngIf="!changeVacation && ! changeIncluded"class="modal-title">Overtime Calculation Formula - {{ getTitle() }} </h4>
+    <h4 *ngIf="changeVacation && !changeIncluded" class="modal-title"> General Expression Formula</h4>
+    <h4 *ngIf="changeIncluded && !changeVacation" class="modal-title"> Included Benefits</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -12,7 +14,7 @@
             </div>
             <ul class="list-group" style="height: 200px; overflow-y: auto;" >
                 <li *ngFor ="let component of components" class="list-group-item link list-link" (click)="addComponent(component)">
-                    {{component.name}}
+                    {{component.name}}({{component.shortCode}})
                 </li>
             </ul>
         </div>

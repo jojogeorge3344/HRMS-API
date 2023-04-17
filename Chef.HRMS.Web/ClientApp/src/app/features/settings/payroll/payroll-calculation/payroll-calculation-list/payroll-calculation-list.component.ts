@@ -7,6 +7,7 @@ import { PayrollCalculationEditComponent } from '../payroll-calculation-edit/pay
 import { PayrollCalculationService } from '../payroll-calculation.service';
 import { PayrollStructureService } from '../../payroll-structure/payroll-structure.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { PayHeadBaseUnitType } from 'src/app/models/common/types/paybaseunittype';
 
 @Component({
   templateUrl: './payroll-calculation-list.component.html'
@@ -17,6 +18,7 @@ export class PayrollCalculationListComponent implements OnInit {
   payrollCalculationKeys: string[];
   firstOpen: number;
   assignedPayrollStructures: number[] = [ ];
+  payHeadBaseUnitType = PayHeadBaseUnitType;
 
   constructor(
     private toastr: ToasterDisplayService,
@@ -59,7 +61,7 @@ export class PayrollCalculationListComponent implements OnInit {
     });
   }
 
-  openAddCalculationOvertime(seletedPayroll, selectedComponentId, selectedComponentName, selectedComponentCode) {
+  openAddCalculationOvertime(seletedPayroll, selectedComponentId, selectedComponentName, selectedComponentCode,structureId) {
     const selectedPayrollComponents = seletedPayroll.filter((item) => item.payrollComponentId !== selectedComponentId);
     const selectedPayrollComponent = seletedPayroll.filter((item) => item.payrollComponentId == selectedComponentId);
 
@@ -69,6 +71,7 @@ export class PayrollCalculationListComponent implements OnInit {
     modalRef.componentInstance.selectedPayrollComponent = selectedPayrollComponent;
     modalRef.componentInstance.selectedComponentName = selectedComponentName;
     modalRef.componentInstance.selectedComponentCode = selectedComponentCode;
+    modalRef.componentInstance.structureId = structureId;
     modalRef.result.then((result) => {
       if (result == 'submit') {
         this.getPayrollCalculationDetails();

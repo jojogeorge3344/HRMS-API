@@ -1,35 +1,35 @@
 <form [formGroup]="editForm" id="basicDetailsForm" (validSubmit)="onSubmit()">
     <div class="p-3">
-
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName">
+                <label class="col-form-label"  for="firstName">First Name<span class="required">*</span></label>
+                <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName"
+                (input)="checkCodeName($event.target.value)">
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label"  for="middleName">Middle Name</label>
                 <input type="text" class="form-control" id="middleName" name="middleName" formControlName="middleName">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="lastName">Last Name</label>
+                <label class="col-form-label"  for="lastName">Last Name<span class="required">*</span></label>
                 <input type="test" class="form-control" id="lastName" name="lastName" formControlName="lastName">
             </div>
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="displayName">Display Name</label>
+                <label class="col-form-label"  for="displayName">Display Name<span class="required">*</span></label>
                 <input type="text" class="form-control" id="displayName" name="displayName"
                     formControlName="displayName">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="gender">Select Gender</label>
+                <label class="col-form-label" for="gender">Select Gender<span class="required">*</span></label>
                 <select class="form-control" formControlName="gender">
                     <option [ngValue]="null" disabled>Select Gender</option>
                     <option *ngFor="let key of genderTypeKeys" [ngValue]='key'>{{genderType[key]}}</option>
                 </select>
             </div>
             <div class="form-group form-input-inline input-group col">
-                <label class="col-12 col-form-label px-0" for="dateOfBirth">Date of Birth</label>
+                <label class="col-12 col-form-label px-0" for="dateOfBirth">Date of Birth<span class="required">*</span></label>
                 <input class="form-control w-75" name="newDate" formControlName="dateOfBirth" [minDate]="{year: 1900, month: 1, day: 1}"
                      ngbDatepicker #dob="ngbDatepicker">
                 <div class="input-group-append">
@@ -40,15 +40,47 @@
         </div>
         <div class="row">
             <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label"  for="email">Email</label>
+                <label class="col-form-label"  for="email">Email<span class="required">*</span></label>
                 <input type="email" class="form-control" id="email" name="email" formControlName="email">
+            </div>
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label" for="fileNumber">File Number<span class="required">*</span></label>
+                <input type="text" class="form-control" id="fileNumber" name="fileNumber" formControlName="fileNumber">
+            </div>
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label" for="religionId">Select Religion<span class="required">*</span></label>
+                <select class="form-control" formControlName="religionId">
+                    <option [ngValue]="null" disabled>Select Religion</option>
+                    <option *ngFor="let key of religion" [ngValue]='key.id'>{{key.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label" for="uidNumber">UID<span class="required">*</span></label>
+                <input type="text" class="form-control" id="uidNumber" name="uidNumber" formControlName="uidNumber">
+            </div>  
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label"  for="languageKnown">Language Known<span class="required">*</span></label>
+                <input type="text" class="form-control"  formControlName="languageKnown" add oninput="this. value = this. value. toUpperCase()">
+            </div>
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label"  for="refNum">Ref Number<span class="required">*</span></label>
+                <input type="text" class="form-control"  formControlName="refNum">
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-sm-4">
+                <label class="col-form-label"  for="remarks">Remarks</label>
+                <textarea type="text" class="form-control" style="height:100px"  formControlName="remarks"></textarea>
+            </div>
+            <div class="form-group form-input-line col-sm-8" style="padding-left: 48%;position: relative;top:90px" >
+                <a routerLink="/employee">
+                    <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+                </a>
+                <button type="submit" class="btn btn-success" style="margin-left: 5px;"><i class="mr-1 fal fa-save"></i> Save</button>
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <a routerLink="/employee">
-            <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
-        </a>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
-    </div>
+ 
 </form>

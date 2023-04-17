@@ -28,7 +28,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayrollStructure()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayrollStructure()));
 
             // Act
             var okResult = await payrollStructureController.Get(id);
@@ -54,7 +54,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockPayrollStructureList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockPayrollStructureList()));
 
             // Act
             var okResult = await payrollStructureController.GetAll();
@@ -70,7 +70,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             PayrollStructure payrollStructure = GetMockPayrollStructure();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<PayrollStructure>())).Returns(Task.FromResult(GetMockPayrollStructure()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<PayrollStructure>())).Returns( await Task.FromResult(GetMockPayrollStructure()));
 
             // Act
             var createdResponse = await payrollStructureController.Insert(payrollStructure) as CreatedAtActionResult;
@@ -86,8 +86,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockPayrollStructure()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayrollStructure()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await payrollStructureController.Delete(existingId);

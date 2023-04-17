@@ -1,13 +1,13 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Chef.HRMS.Services
 {
-    public class BulkUploadService : AsyncService, IBulkUploadService
+    public class BulkUploadService : AsyncService<Leave>, IBulkUploadService
     {
         private readonly IBulkUploadRepository bulkUploadRepository;
 
@@ -39,6 +39,49 @@ namespace Chef.HRMS.Services
         public Task<int> DeleteAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<byte[]> ExportExcelFormat()
+        {
+
+            // create a new Excel package       
+            using var excelPackage = new ExcelPackage();
+
+            // add a new worksheet to the workbook
+            var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+            worksheet.Protection.IsProtected = false;
+            worksheet.Protection.AllowAutoFilter = true;
+
+            // define the column headers
+            worksheet.Cells[1, 1].Value = "Date";
+            worksheet.Cells[1, 2].Value = "In Time";
+            worksheet.Cells[1, 3].Value = "Out Time";
+            worksheet.Cells[1, 4].Value = "Working Hours";
+            worksheet.Cells[1, 5].Value = "Gross Hours";
+            worksheet.Cells[1, 6].Value = "Attendance Type";
+            worksheet.Cells[1, 7].Value = "Log";
+
+            // format the column headers
+            worksheet.Cells[1, 1, 1, 7].Style.Font.Bold = true;
+            worksheet.Cells[1, 1, 1, 7].AutoFilter = true;
+            worksheet.Cells[1, 1, 1, 7].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            worksheet.Cells[1, 1, 1, 7].AutoFitColumns();
+
+            //Set column width
+            worksheet.Column(1).Width = 25;
+            worksheet.Column(2).Width = 25;
+            worksheet.Column(3).Width = 15;
+            worksheet.Column(4).Width = 25;
+            worksheet.Column(5).Width = 25;
+            worksheet.Column(6).Width = 25;
+            worksheet.Column(7).Width = 25;
+
+            // save the Excel package to a file stream
+            using var stream = new MemoryStream();
+            excelPackage.SaveAs(stream);
+
+            return await Task.FromResult(stream.ToArray());
+
         }
 
         public Task<IEnumerable<Leave>> GetAllAsync()

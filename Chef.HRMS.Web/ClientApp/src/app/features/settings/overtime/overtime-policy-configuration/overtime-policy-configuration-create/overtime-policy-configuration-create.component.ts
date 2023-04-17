@@ -10,7 +10,10 @@ import { WorkFromHomePeriodType } from '../../../../../models/common/types/workf
 import { OvertimePolicyCalculationComponent } from '../overtime-policy-calculation/overtime-policy-calculation.component';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-
+import { HolidayOvertime9 } from 'src/app/models/common/types/holidayOvertime';
+import { NormalOverTime8 } from 'src/app/models/common/types/normalOvertime';
+import { SpecialOvertime10 } from 'src/app/models/common/types/specialOvertime';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-overtime-policy-configuration-create',
@@ -23,7 +26,10 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   overtimePolicy: OvertimePolicy;
   periodTypes = WorkFromHomePeriodType;
   periodTypeKeys: number[];
-
+  holidayOverTime;
+  normalOverTime;
+  specialOverTime;
+  disableholiday:boolean;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -36,8 +42,24 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
+    this.overtimePolicyConfigurationService.getNormalOverTime()
+    .subscribe((result)=>{
+      this.normalOverTime=result  
+    })
+    this.overtimePolicyConfigurationService.getHolidayOverTime()
+    .subscribe((result)=>{
+      this.holidayOverTime=result  
+    })
+    this.overtimePolicyConfigurationService.getSpecialOverTime()
+    .subscribe((result)=>{
+      this.specialOverTime=result  
+    })
+
     this.periodTypeKeys = Object.keys(this.periodTypes).filter(Number).map(Number);
 
+    // this.normalOverTimeKeys = Object.keys(this.normalOverTime).filter(Number).map(Number);
+    // this.holidayOvertimeKeys = Object.keys(this.holidayOvertime).filter(Number).map(Number);
+    // this.specialOvertimeKeys = Object.keys(this.specialOvertime).filter(Number).map(Number);
     this.route.params.subscribe(params => {
       this.getOvertimePolicy(params.overtimePolicyId);
     });
@@ -88,7 +110,38 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         this.addForm.patchValue( {isRoundOffLowest: true} );
       }
     });
-  }
+    // this.addForm.get('holidayFormula').valueChanges.subscribe(value => {
+    //   if (value) {
+    //     this.addForm.get('holidayOverTime').enable(); 
+    //     this.addForm.get('holidayOverTime').setValidators(Validators.required)
+
+    //   }else{
+    //     this.addForm.get('holidayOverTime').disable(); 
+    //     this.addForm.get('holidayOverTime').reset(); 
+    //   } 
+    // }); 
+    // this.addForm.get('specialFormula').valueChanges.subscribe(value => {
+    //   if (value) {
+    //     this.addForm.get('specialOverTime').enable();
+    //     this.addForm.get('specialOverTime').setValidators(Validators.required)
+
+    //   }else{
+    //     this.addForm.get('specialOverTime').disable();
+    //     this.addForm.get('specialOverTime').reset(); 
+
+    //   }
+    // }); 
+    // this.addForm.get('normalFormula').valueChanges.subscribe(value => {
+    //   if (value) {
+    //     this.addForm.get('normalOverTime').enable();
+    //     this.addForm.get('normalOverTime').setValidators(Validators.required)
+    //   }else{
+    //     this.addForm.get('normalOverTime').disable(); 
+    //     this.addForm.get('normalOverTime').reset(); 
+    //   }
+    // }); 
+
+   }
 
   getOvertimePolicy(overtimePolicyId) {
     this.overtimePolicyService.get(overtimePolicyId).subscribe((result) => {
@@ -103,21 +156,24 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
     });
   }
 
-  openFormulaEditor(type: string) {
-    const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+  // openFormulaEditor(type: string) {
+  //   const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
+  //     { size: 'lg', centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.formulaType = type;
-    modalRef.componentInstance.formula = '';
+  //   modalRef.componentInstance.formulaType = type;
+  //   modalRef.componentInstance.formula = '';
 
-    modalRef.result.then((result) => { console.log(result);
-                                       if (result !== 'Close click') {
-        this.addForm.get(type).patchValue(result);
-      }
-    });
-  }
+  //   modalRef.result.then((result) => { console.log(result);
+  //                                      if (result !== 'Close click') {
+  //       this.addForm.get(type).patchValue(result);
+  //       console.log('reslt',result);
+
+  //     }
+  //   });
+  // }
 
   onSubmit() {
+    debugger
     this.overtimePolicyConfigurationService.add(this.addForm.value).subscribe(() => {
       this.overtimePolicy.isConfigured = true;
       this.overtimePolicyService.update(this.overtimePolicy).subscribe(() => {
@@ -144,6 +200,10 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
+      normalOverTime:[0],
+      holidayOverTime:[0],
+      specialOverTime:[0],
+
       roundOffType: [{ value: 1, disabled: true }],
       noticeDays: [{ value: null, disabled: true }, [
         Validators.required,
@@ -178,18 +238,6 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         Validators.min(1),
         Validators.max(999999999)
       ]],
-      normalFormula: ['', [
-        Validators.required,
-        Validators.maxLength(256)
-      ]],
-      holidayFormula: ['', [
-        Validators.required,
-        Validators.maxLength(256)
-      ]],
-      specialFormula: ['', [
-        Validators.required,
-        Validators.maxLength(256)
-      ]]
     });
   }
 }

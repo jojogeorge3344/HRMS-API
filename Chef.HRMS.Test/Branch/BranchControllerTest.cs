@@ -25,7 +25,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 9;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBranch()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBranch()));
 
             // Act
             var okResult = await branchController.Get(id);
@@ -51,7 +51,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult(GetMockBranchList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockBranchList()));
 
             // Act
             var okResult = await branchController.GetAll();
@@ -69,7 +69,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             HRMSBranch branch = GetMockBranch();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<HRMSBranch>())).Returns(Task.FromResult(GetMockBranch()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<HRMSBranch>())).Returns( await Task.FromResult(GetMockBranch()));
 
             // Act
             var createdResponse = await branchController.Insert(branch) as CreatedAtActionResult;
@@ -87,7 +87,7 @@ namespace Chef.HRMS.Test
             HRMSBranch nameMissingBranch = GetMockBranch();
             nameMissingBranch.ShortName = null;
             branchController.ModelState.AddModelError("ShortName", "Required");
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBranch()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBranch()));
 
             // Act
             var badResponse = await branchController.Insert(nameMissingBranch);
@@ -115,8 +115,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 11;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockBranch()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockBranch()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResponse = await branchController.Delete(existingId);

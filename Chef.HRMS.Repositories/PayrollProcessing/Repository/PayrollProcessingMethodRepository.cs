@@ -1,16 +1,10 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Chef.HRMS.Repositories
 {
-    public class PayrollProcessingMethodRepository : GenericRepository<PayrollProcessingMethod>, IPayrollProcessingMethodRepository
+    public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcessingMethod>, IPayrollProcessingMethodRepository
     {
-        public PayrollProcessingMethodRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public PayrollProcessingMethodRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -224,7 +218,8 @@ namespace Chef.HRMS.Repositories
 							                            INNER JOIN hrms.jobfiling jf
 							                            ON jf.paygroupid=pm.paygroupid
 							                            AND(year=@year AND month=@month)	
-                                                        WHERE  jf.employeeid=@employeeId";
+                                                        WHERE  jf.employeeid=@employeeId
+                                                        AND pm.processedstep=5";
 
                         var data = await Connection.QueryFirstOrDefaultAsync<string>(getEmp, new { employeeId, year, month });
 
@@ -239,7 +234,8 @@ namespace Chef.HRMS.Repositories
 							                            INNER JOIN hrms.payrollprocessingmethod ppm
 							                            ON jf.employeeid=ppm.employeeid
 							                            AND(year=@year AND month=@month)	
-                                                        WHERE  jf.employeeid=@employeeId";
+                                                        WHERE  jf.employeeid=@employeeId
+                                                        AND ppm.processedstep=5";
 
                             var info = await Connection.QueryFirstOrDefaultAsync<string>(get, new { employeeId, year, month });
                             if (info != null)
@@ -296,16 +292,16 @@ namespace Chef.HRMS.Repositories
                 return await Connection.ExecuteAsync(sql, lopDeduction);
         }
 
-        public async Task<IEnumerable<Employee>> GetAllUnProcessedEmployees(int year, int month)
+        public async Task<IEnumerable<HRMSEmployee>> GetAllUnProcessedEmployees(int year, int month)
         {
-                var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.employee WHERE id NOT IN
+                var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.HRMSEmployee WHERE id NOT IN
 						                              (SELECT DISTINCT jf.employeeid from hrms.payrollprocessingmethod PM		
 						                              INNER JOIN hrms.jobfiling jf
 						                              ON (jf.paygroupid=pm.paygroupid OR
 							                            jf.employeeid=pm.employeeid)
 						                              AND(pm.year=@year AND pm.month=@month))";
 
-                return await Connection.QueryAsync<Employee>(sql, new { year, month });
+                return await Connection.QueryAsync<HRMSEmployee>(sql, new { year, month });
         }
 
         public async Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails()
@@ -336,6 +332,15 @@ namespace Chef.HRMS.Repositories
             {
                 return 1;
             }
+        }
+
+        public async Task<IEnumerable<PayrollProcessingMethod>> GetEmployeeDetails(int employeeid, int paygroupid)
+        {
+            var sql = @"SELECT*FROM hrms.payrollprocessingmethod
+                        WHERE employeeid=@employeeid
+                        AND paygroupid=@paygroupid";
+
+            return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
         }
     }
 }

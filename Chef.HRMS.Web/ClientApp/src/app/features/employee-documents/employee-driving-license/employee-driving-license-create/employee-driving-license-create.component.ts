@@ -137,8 +137,8 @@ export class EmployeeDrivingLicenseCreateComponent implements OnInit {
     ])
       .subscribe(([drivingLicense, document]) => {
         this.drivingLicenseDocument = {
-          drivingLicenseId: drivingLicense.id,
-          documentId: document.id
+          drivingLicenseId: drivingLicense,
+          documentId: document
         };
 
         this.drivingLicenseDocumentService.add(this.drivingLicenseDocument).subscribe((result: any) => {

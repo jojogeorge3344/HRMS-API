@@ -21,11 +21,11 @@ namespace Chef.HRMS.Web.Controllers.Profile
             try
             {
                 FileInfo fileInfo = new FileInfo(path);
-                fileInfo.Delete();
+                //fileInfo.Delete(); Commented by Nir
             }
             catch (IOException e)
             {
-                Console.WriteLine(e.Message);
+                throw;
             }
             return Ok(new { count = 1 });
         }

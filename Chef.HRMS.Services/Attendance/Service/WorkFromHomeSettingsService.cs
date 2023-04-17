@@ -34,7 +34,7 @@ namespace Chef.HRMS.Services
             return await workFromHomeAdminSettingsRepository.GetTopOneWorkFromHomeSettings();
         }
 
-        public async Task<WorkFromHomeSettings> InsertAsync(WorkFromHomeSettings workFromHomeAdminSettings)
+        public async Task<int> InsertAsync(WorkFromHomeSettings workFromHomeAdminSettings)
         {
             return await workFromHomeAdminSettingsRepository.InsertAsync(workFromHomeAdminSettings);
         }

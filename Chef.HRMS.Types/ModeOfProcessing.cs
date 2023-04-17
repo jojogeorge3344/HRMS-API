@@ -11,6 +11,6 @@ namespace Chef.HRMS.Types
         PayGroup = 1,
 
         [Description("Employee")]
-        Employee,
+        Employee = 2,
     }
 }

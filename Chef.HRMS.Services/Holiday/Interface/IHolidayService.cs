@@ -1,4 +1,4 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
 using Chef.HRMS.Models;
 using System;
 using System.Collections.Generic;

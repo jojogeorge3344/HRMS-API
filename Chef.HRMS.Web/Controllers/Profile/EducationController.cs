@@ -40,7 +40,7 @@ namespace Chef.HRMS.Web.Controllers
         {
             var educationalDetails = await educationService.GetAllByEmployeeId(id);
 
-            if (educationalDetails == null)
+            if (educationalDetails==null)
             {
                 return NotFound();
             }
@@ -81,9 +81,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            education = await educationService.InsertAsync(education);
+            var id = await educationService.InsertAsync(education);
 
-            return CreatedAtAction(nameof(Insert), education);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

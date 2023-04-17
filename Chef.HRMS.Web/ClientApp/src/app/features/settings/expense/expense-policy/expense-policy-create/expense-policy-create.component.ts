@@ -38,7 +38,7 @@ export class ExpensePolicyCreateComponent implements OnInit {
       if (result.id === -1) {
         this.toastr.showErrorMessage('Expense Policy already exists!');
       } else {
-        this.activeModal.close(result.id);
+        this.activeModal.close(result);
         this.toastr.showSuccessMessage('Expense Policy is created successfully!');
       }
     },

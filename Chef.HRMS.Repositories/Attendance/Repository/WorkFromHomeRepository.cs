@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class WorkFromHomeRepository : GenericRepository<WorkFromHome>, IWorkFromHomeRepository
     {
-        public WorkFromHomeRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public WorkFromHomeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 

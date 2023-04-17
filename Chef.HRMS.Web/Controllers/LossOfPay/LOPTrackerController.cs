@@ -66,9 +66,9 @@ namespace Chef.HRMS.Web.Controllers.LossOfPay
                 return BadRequest(ModelState);
             }
 
-            lopTracker = await lopTrackerServices.InsertAsync(lopTracker);
+            var id = await lopTrackerServices.InsertAsync(lopTracker);
 
-            return CreatedAtAction(nameof(Insert), lopTracker);
+            return Ok(id);
         }
 
         [HttpPut("Update")]

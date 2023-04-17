@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-    public class AssetTypeMetadataRepository : GenericRepository<AssetTypeMetadata>, IAssetTypeMetadataRepository
+    public class AssetTypeMetadataRepository : TenantRepository<AssetTypeMetadata>, IAssetTypeMetadataRepository
     {
-        public AssetTypeMetadataRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public AssetTypeMetadataRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -34,9 +34,11 @@ namespace Chef.HRMS.Repositories
         public async Task<int> InsertAsync(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
         {
             var sql = new QueryBuilder<AssetTypeMetadata>().GenerateInsertQuery();
-            sql = sql.Replace("RETURNING id", "");
 
-            return await Connection.ExecuteAsync(sql, assetTypeMetadata);
+            
+                return await Connection.ExecuteAsync(sql, assetTypeMetadata);
+            
+            return 1;
         }
 
         public async Task<int> DeleteAsset(int assetTypeId)

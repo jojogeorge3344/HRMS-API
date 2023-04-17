@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
@@ -8,8 +9,17 @@ namespace Chef.HRMS.Repositories.Loan
 {
     public class LoanSettingRepository : GenericRepository<LoanSetting>, ILoanSettingRepository
     {
-        public LoanSettingRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public LoanSettingRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
+        }
+
+        public async Task<BenefitTypes> GetDeductionBFCode()
+        {
+            return await QueryFactory
+            .Query<BenefitTypes>()
+            .Where("id", 23)
+            .WhereNotArchived()
+            .FirstOrDefaultAsync<BenefitTypes>();
         }
 
         public async Task<int> GetLoanSettingId()

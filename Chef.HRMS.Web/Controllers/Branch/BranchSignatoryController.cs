@@ -85,9 +85,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            branchSignatory = await branchSignatoryService.InsertAsync(branchSignatory);
+            var id = await branchSignatoryService.InsertAsync(branchSignatory);
 
-            return CreatedAtAction(nameof(Insert), branchSignatory);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

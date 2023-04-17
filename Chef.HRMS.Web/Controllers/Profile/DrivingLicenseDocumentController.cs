@@ -67,9 +67,9 @@ namespace Chef.HRMS.Web.Controllers.Profile
                 return BadRequest(ModelState);
             }
 
-            drivingLicenseDocument = await drivingLicenseDocumentService.InsertAsync(drivingLicenseDocument);
+            var id = await drivingLicenseDocumentService.InsertAsync(drivingLicenseDocument);
 
-            return CreatedAtAction(nameof(Insert), drivingLicenseDocument);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

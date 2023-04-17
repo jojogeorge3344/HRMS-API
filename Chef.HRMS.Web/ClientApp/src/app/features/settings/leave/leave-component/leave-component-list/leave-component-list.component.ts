@@ -7,6 +7,7 @@ import { LeaveComponentEditComponent } from '../leave-component-edit/leave-compo
 import { LeaveComponentService } from '../leave-component.service';
 import { LeaveComponent } from '../leave-component.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { BaseType } from '@settings/leave/basetype.enum';
 
 @Component({
   selector: 'hrms-leave-component-list',
@@ -18,6 +19,8 @@ export class LeaveComponentListComponent implements OnInit {
   assignedLeaveComponents: number[] = [];
   leaveComponentNames: string[];
   leaveComponentCodes: string[];
+  basetype =BaseType;
+  basetypes:number[]
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -27,11 +30,13 @@ export class LeaveComponentListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllLeaveComponents();
     this.getAssignedLeaveComponents();
+    this.basetypes = Object.keys(this.basetype).filter(Number).map(Number);
   }
 
   getAllLeaveComponents() {
     this.leaveComponentService.getAll().subscribe(res => {
       this.leaveComponents = res;
+      this.leaveComponents=res.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.leaveComponentNames = this.leaveComponents.map(a => a.name.toLowerCase());
       this.leaveComponentCodes = this.leaveComponents.map(a => a.code.toLowerCase());
     }, error => {
@@ -55,13 +60,13 @@ export class LeaveComponentListComponent implements OnInit {
 
   openCreateLeaveComponent() {
     const modalRef = this.modalService.open(LeaveComponentCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'xl', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.leaveComponentNames = this.leaveComponentNames;
     modalRef.componentInstance.leaveComponentCodes = this.leaveComponentCodes;
 
     modalRef.result.then((result) => {
-        if (result == 'submit') {
+        if (result) {
           this.getAllLeaveComponents();
         }
       });
@@ -70,7 +75,7 @@ export class LeaveComponentListComponent implements OnInit {
   openEditLeaveComponent(leaveComponent: LeaveComponent) {
     console.log(leaveComponent);
     const modalRef = this.modalService.open(LeaveComponentEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { size: 'xl', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.leaveComponent = leaveComponent;
     modalRef.componentInstance.isDisabled = this.isDisabled(leaveComponent);

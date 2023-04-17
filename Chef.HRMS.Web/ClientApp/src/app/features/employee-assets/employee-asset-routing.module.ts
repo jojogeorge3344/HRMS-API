@@ -8,7 +8,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'my-assets', pathMatch: 'full'
+        redirectTo: 'raise-request', pathMatch: 'full'
       },
       {
         path: 'raise-request',

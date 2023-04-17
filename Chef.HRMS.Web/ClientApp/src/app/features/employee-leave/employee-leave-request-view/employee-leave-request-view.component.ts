@@ -5,6 +5,7 @@ import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { EmployeeLeaveRequest } from '../employee-leave-request.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   templateUrl: './employee-leave-request-view.component.html',
@@ -16,6 +17,7 @@ export class EmployeeLeaveRequestViewComponent implements OnInit {
   @Input() currentUserId: number;
   leaveRequest: EmployeeLeaveRequest;
   leaveComponent: any;
+  dateChange: any;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -34,6 +36,12 @@ export class EmployeeLeaveRequestViewComponent implements OnInit {
   getLeaveRequestByID() {
     this.employeeLeaveService.get(this.requestId).subscribe(result => {
       this.leaveRequest = result;
+      this.dateChange = formatDate(result.approvedDate, "dd-MM-yyyy", "en");
+      if(this.dateChange=="01-01-0001"){
+       this.dateChange='-'
+      }else{
+        this.dateChange = formatDate(result.approvedDate, "MMM d, yyyy", "en");
+      }
       console.log(this.leaveRequest);
       
     },

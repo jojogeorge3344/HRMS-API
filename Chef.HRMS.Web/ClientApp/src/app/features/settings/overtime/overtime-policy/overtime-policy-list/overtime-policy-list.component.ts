@@ -41,6 +41,7 @@ export class OvertimePolicyListComponent implements OnInit {
   getOvertimePolicies() {
     this.overtimePolicyService.getAllAssignedOverTimePolicyCount().subscribe((result: OvertimePolicy[]) => {
       this.overtimePolicies = result;
+      this.overtimePolicies=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.overtimePolicyNames = this.overtimePolicies.map(a => a.name.toLowerCase());
     },
     error => {
@@ -96,7 +97,7 @@ export class OvertimePolicyListComponent implements OnInit {
 
   openView(overtimePolicy: OvertimePolicy) {
     const modalRef = this.modalService.open(OvertimePolicyViewComponent,
-      { centered: true, backdrop: 'static' });
+      { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.overtimePolicy = overtimePolicy;
     modalRef.componentInstance.attendanceHoursTypes = this.attendanceHoursTypes;

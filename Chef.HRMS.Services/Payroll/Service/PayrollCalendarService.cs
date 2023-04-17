@@ -1,12 +1,16 @@
-﻿using Chef.Common.Services;
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class PayrollCalendarService : AsyncService, IPayrollCalendarService
+    public class PayrollCalendarService : AsyncService<PayrollCalendar>, IPayrollCalendarService
     {
         private readonly IPayrollCalendarRepository payrollCalendarRepository;
 
@@ -30,7 +34,7 @@ namespace Chef.HRMS.Services
             return await payrollCalendarRepository.GetAsync(id);
         }
 
-        public async Task<PayrollCalendar> InsertAsync(PayrollCalendar payrollCalendar)
+        public async Task<int> InsertAsync(PayrollCalendar payrollCalendar)
         {
             return await payrollCalendarRepository.InsertAsync(payrollCalendar);
         }
@@ -47,6 +51,18 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<int>> GetAllAssignedPayCalendar()
         {
             return await payrollCalendarRepository.GetAllAssignedPayCalendar();
+        }
+
+        public async Task<IEnumerable<WeekofDateList>> GetStartDateAndEndDate(string weekstart, string weekend)
+        {
+            var dates = await payrollCalendarRepository.GetStartDateAndEndDate(weekstart, weekend);
+        
+            return dates;
+        }
+
+        public async Task<IEnumerable<WeekOff>> GetWeekOff()
+        {
+            return await payrollCalendarRepository.GetWeekOff();
         }
     }
 }

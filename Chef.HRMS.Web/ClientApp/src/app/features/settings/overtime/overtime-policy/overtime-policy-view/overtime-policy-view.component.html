@@ -31,5 +31,53 @@
                 </div>                   
             </div>
         </div>
-    </div>
+
+        <div class="h6 mt-4 mb-4">Overtime Calculation</div>
+
+          <div class="row" *ngIf="normalOvertimeDetails">
+            <div class="with-input form-group  col-sm-3 ">
+                <span class="text-nowrap">Normal Overtime BF Code</span>
+            </div>
+            <div class="form-group col-sm-4 ">
+              <select disabled="disabled"
+                class="form-control"
+              >
+                <option 
+                >
+                  {{normalOvertimeDetails[0].name  }}
+                </option>
+              </select>
+            </div>         
+          </div>
+          <div class="row" *ngIf="holidayOvertimeDetails">
+            <div class="with-input form-group col-sm-3">
+                <span class="text-nowrap">Holiday Overtime BF Code</span>
+            </div>
+            <div class="form-group col-sm-4 ">
+              <select disabled="disabled"
+                class="form-control"
+              >
+                <option value="" disabled>Select</option>
+                <option                
+                >
+                {{holidayOvertimeDetails[0].name  }}
+              </option>
+              </select>
+            </div>
+          </div>
+          <div class="row" *ngIf="specialOverTimeDetails">
+            <div class="with-input form-group col-sm-3">        
+                <span class="text-nowrap">Special Overtime BF Code</span>
+              </div>
+            <div class="form-group col-sm-4">
+              <select class="form-control"disabled="disabled">
+                <option
+                >
+                {{specialOverTimeDetails[0].name  }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+        </div>
 </form>

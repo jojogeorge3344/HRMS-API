@@ -49,11 +49,13 @@ export class TeamLeaveLogComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    debugger
     this.departmentKeys = Object.keys(this.departmentType).filter(Number).map(Number);
     this.getLeaveHistory()
   }
   getLeaveHistory() {
-    forkJoin(this.teamAttendanceService.getLeaveLog(this.fromDate,this.toDate), this.leaveComponentService.getAll())
+    debugger
+    forkJoin([this.teamAttendanceService.getLeaveLog(this.fromDate,this.toDate), this.leaveComponentService.getAll()])
       .subscribe(([leaves, leaveTypes]) => {
         this.leaveLogs = this.leaveLogsOnDisplay = leaves
         if(leaves.length)

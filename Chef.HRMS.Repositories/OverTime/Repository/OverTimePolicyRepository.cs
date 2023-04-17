@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class OverTimePolicyRepository : GenericRepository<OverTimePolicy>, IOverTimePolicyRepository
     {
-        public OverTimePolicyRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public OverTimePolicyRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
 
@@ -38,9 +38,9 @@ namespace Chef.HRMS.Repositories
                                     FROM   hrms.jobfiling jf 
                                     WHERE  jf.overtimepolicyid = otp.id 
                                     GROUP  BY overtimepolicyid) AS NumberOfEmployees 
-                            FROM   hrms.overtimepolicy otp";
+                            FROM   hrms.overtimepolicy otp where otp.isarchived =false";   // Added where otp.isarchived =false  by Nir 
 
-                return await Connection.QueryAsync<OverTimePolicy>(sql);
+            return await Connection.QueryAsync<OverTimePolicy>(sql);
         }
 
         public async Task<IEnumerable<OverTimePolicy>> GetAllConfiguredOvertimePolicies()
@@ -50,6 +50,13 @@ namespace Chef.HRMS.Repositories
                                     WHERE isconfigured=true";
 
                 return await Connection.QueryAsync<OverTimePolicy>(sql);
+        }
+
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitType()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id IN(8,9,10)";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 
         public async Task<int> UpdateOverTimePolicy(int id)

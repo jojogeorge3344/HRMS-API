@@ -45,7 +45,7 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             return Ok(jobDetailsDetails);
-        }
+        }      
 
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<JobDetails>>> GetAll()
@@ -86,6 +86,20 @@ namespace Chef.HRMS.Web.Controllers
             var result = await jobDetailsService.UpdateAsync(jobDetails);
 
             return Ok(result);
+        }
+        [HttpGet("GetGroupCategory")]
+        public async Task<ActionResult<IEnumerable<GroupCategory>>> GetGroupCategory()
+        {
+            var categoryList = await jobDetailsService.GetGroupCategory();
+
+            return Ok(categoryList);
+        }
+        [HttpGet("GetProbationDetails")]
+        public async Task<ActionResult<IEnumerable<EmployeeDefaults>>> GetProbationDetails()
+        {
+            var type = await jobDetailsService.GetProbationDetails();
+
+            return Ok(type);
         }
     }
 }

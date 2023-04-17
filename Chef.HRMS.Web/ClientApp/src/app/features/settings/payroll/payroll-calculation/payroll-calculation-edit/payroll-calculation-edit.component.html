@@ -16,10 +16,10 @@
                         </label>
                     </div> -->
                     <div class="form-group">
-                        <label for="calculationVariable">Component</label>                     
+                        <label for="calculationVariable">Component<span class="required">*</span></label>                     
                     </div>
                     <ul class="list-group" *ngFor ="let variable of calculationVariables">
-                        <li class="list-group-item link list-link" (click)="passVariable(variable)">{{variable.payrollComponentName}}</li>
+                        <li class="list-group-item link list-link" (click)="passVariable(variable)">{{variable.name}}</li>
                     </ul>
                     <!-- <div class="col-sm-4">
                         <div class="form-group">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-sm border-left" style="height: 350px;">
                     <div class="form-group">
-                        <label for="formula" id="name" name="formula">Enter the formula to calculate per hour pay of an employee</label>
+                        <label for="formula" id="name" name="formula">Enter the formula to calculate per hour pay of an employee<span class="required">*</span></label>
                         <textarea type="text" class="form-control" id="formula" name="formula" formControlName="formula" ></textarea>
                         <Span>Use standard javascript notification for the formula expressions</Span>
                     </div>

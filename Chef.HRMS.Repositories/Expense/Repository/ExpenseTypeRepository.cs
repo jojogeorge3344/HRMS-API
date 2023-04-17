@@ -9,7 +9,7 @@ namespace Chef.HRMS.Repositories
 {
     public class ExpenseTypeRepository : GenericRepository<ExpenseType>, IExpenseTypeRepository
     {
-        public ExpenseTypeRepository(IHttpContextAccessor httpContextAccessor, DbSession session) : base(httpContextAccessor, session)
+        public ExpenseTypeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
         public async Task<IEnumerable<int>> GetAllAssignedExpenseTypes()

@@ -98,9 +98,9 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            loanRequest = await loanRequestServices.InsertAsync(loanRequest);
+            var id = await loanRequestServices.InsertAsync(loanRequest);
 
-            return CreatedAtAction(nameof(Insert), loanRequest);
+            return Ok(id);
         }
 
         [HttpPost("Update")]

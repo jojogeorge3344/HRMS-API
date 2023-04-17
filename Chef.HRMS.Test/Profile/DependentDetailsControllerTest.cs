@@ -32,7 +32,7 @@ namespace Chef.HRMS.Test
         {
             //Arrange
             var id = 1;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockDependentDetails()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockDependentDetails()));
 
             // Act
             var okResult = await dependentDetailsController.Get(id);
@@ -58,7 +58,7 @@ namespace Chef.HRMS.Test
         public async void GetAll_WhenCalled_ReturnsItems()
         {
             //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns(Task.FromResult<IEnumerable<Dependent>>(GetMockDependentDetailsList()));
+            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult<IEnumerable<Dependent>>(GetMockDependentDetailsList()));
 
             // Act
             var okResult = await dependentDetailsController.GetAll();
@@ -74,7 +74,7 @@ namespace Chef.HRMS.Test
         public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
         {
             //Arrange
-            mockService.Setup(service => service.InsertAsync(It.IsAny<Dependent>())).Returns(Task.FromResult(GetMockDependentDetails()));
+            mockService.Setup(service => service.InsertAsync(It.IsAny<Dependent>())).Returns( await Task.FromResult(GetMockDependentDetails()));
             Dependent dependentDetails = GetMockDependentDetails();
 
             // Act
@@ -93,7 +93,7 @@ namespace Chef.HRMS.Test
             Dependent nameMissingDependentDetails = GetMockDependentDetails();
             nameMissingDependentDetails.Name = null;
             dependentDetailsController.ModelState.AddModelError("Name", "Required");
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockDependentDetails()));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockDependentDetails()));
 
             // Act
             var badResponse = await dependentDetailsController.Insert(nameMissingDependentDetails);
@@ -121,8 +121,8 @@ namespace Chef.HRMS.Test
         {
             // Arrange
             var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(GetMockDependentDetails()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(Task.FromResult(1));
+            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockDependentDetails()));
+            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
 
             // Act
             var okResult = await dependentDetailsController.Delete(existingId);
