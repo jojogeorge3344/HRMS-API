@@ -74,5 +74,12 @@ namespace Chef.HRMS.Web.Controllers
         {
             return await overTimePolicySlabService.IsOverTimePolicyCodeExist(code);
         }
+        [HttpGet("GetOverTimeBenefitTypes")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetOverTimeBenefitTypes()
+        {
+            var type = await overTimePolicySlabService.GetOverTimeBenefitTypes();
+
+            return Ok(type);
+        }
     }
 }
