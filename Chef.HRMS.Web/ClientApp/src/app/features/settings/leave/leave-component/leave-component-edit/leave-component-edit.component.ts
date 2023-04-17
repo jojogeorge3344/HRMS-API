@@ -338,7 +338,7 @@ export class LeaveComponentEditComponent implements OnInit {
         Validators.required
       ]],
       leaveComponentId: ['', ],
-      id:['']
+      id:[0]
     })
   }
   getLeavetype(){
@@ -376,7 +376,7 @@ export class LeaveComponentEditComponent implements OnInit {
   onSubmit3(){
     this.editForm3.patchValue({
       leaveComponentId:this.leaveComponent.id,
-      id:this.configId
+      //id:this.configId
     })
     this.leaveSlabService.update(this.editForm3.getRawValue()).subscribe((result: any) => {
       
@@ -407,7 +407,8 @@ export class LeaveComponentEditComponent implements OnInit {
           lowerLimit:a[0].lowerLimit,
           upperLimit:a[0].upperLimit,
           valueVariable:a[0].valueVariable,
-          valueType:a[0].valueType
+          valueType:a[0].valueType,
+          id:a[0].id
         })
       
         console.log(this.editForm3)
@@ -420,7 +421,7 @@ export class LeaveComponentEditComponent implements OnInit {
      this.editForm3.patchValue({
       leaveComponentName:a[0].name,
       leaveComponentId:this.leaveComponent.id,
-      id:a[0].id
+      
       
      })
     }

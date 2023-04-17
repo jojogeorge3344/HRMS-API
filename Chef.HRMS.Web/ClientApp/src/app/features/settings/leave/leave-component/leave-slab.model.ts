@@ -7,5 +7,6 @@ export interface LeaveSlabGroup extends Model {
       lowerLimit:number,
       upperLimit:number,
       valueVariable:number,
-      valueType:any
+      valueType:any;
+      id:any
 }
