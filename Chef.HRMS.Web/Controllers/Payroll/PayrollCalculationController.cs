@@ -108,5 +108,11 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("IsSystemVariableExist/{code}")]
+        public async Task<bool> IsSystemVariableExist(string code)
+        {
+            return await payrollCalculationService.IsSystemVariableExist(code);
+        }
     }
 }

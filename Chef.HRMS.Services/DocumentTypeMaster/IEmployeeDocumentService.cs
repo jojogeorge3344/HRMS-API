@@ -15,5 +15,6 @@ namespace Chef.HRMS.Services
         Task<bool> IsDocumentCodeExist(string documentnumber);
         Task<byte[]> GetPDFViewer(string filePath);
         //Task<string> ConvertPdfToHtml(byte[] pdfBytes);
+        Task<IEnumerable<DocumentDetail>> GetAllActiveDocumentsTypes();
     }
 }

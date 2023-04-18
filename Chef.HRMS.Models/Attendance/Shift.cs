@@ -48,5 +48,17 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Description("Comments")]
         public string Comments { get; set; }
+
+        [Required]
+        [Description("Grace Start Time")]
+        public DateTime GraceStatTime { get; set; }
+
+        [Required]
+        [Description("Grace End Time")]
+        public DateTime GraceEndTime { get; set; }
+
+        [Required]
+        [Description("Working Hours")]
+        public DateTime WorkingHours { get; set; }
     }
 }

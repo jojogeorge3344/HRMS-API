@@ -32,6 +32,11 @@ namespace Chef.HRMS.Services
             return File.ReadAllBytes(filePath);
         }
 
+        public async Task<IEnumerable<DocumentDetail>> GetAllActiveDocumentsTypes()
+        {
+            return await employeeDocumentRepository.GetAllActiveDocumentsTypes();
+        }
+
         //public Task<string> ConvertPdfToHtml(byte[] pdfBytes)
         //{
         //    //PdfDocument pdfDoc = PdfReader.Open(new MemoryStream(pdfBytes));

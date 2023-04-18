@@ -101,5 +101,13 @@ namespace Chef.HRMS.Web.Controllers.Loan
 
             return Ok(result);
         }
+
+        [HttpGet("GetDeductionBFCode")]
+        public async Task<ActionResult<BenefitTypes>> GetDeductionBFCode()
+        {
+            var bfcode = await loanSettingServices.GetDeductionBFCode();
+
+            return Ok(bfcode);
+        }
     }
 }
