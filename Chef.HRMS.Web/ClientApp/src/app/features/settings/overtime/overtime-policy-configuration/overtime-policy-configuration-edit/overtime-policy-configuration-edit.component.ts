@@ -11,6 +11,12 @@ import { WorkFromHomePeriodType } from '../../../../../models/common/types/workf
 import { OvertimePolicyCalculationComponent } from '../overtime-policy-calculation/overtime-policy-calculation.component';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
+import { OverTimeSlabGroup } from '@settings/overtime/overtime-slab/overtime-slab-model';
+import { OverTimeSlabService } from '@settings/overtime/overtime-slab/overtime-slab-service';
+import { OvertimeSlabCreateComponent } from '@settings/overtime/overtime-slab/overtime-slab-create/overtime-slab-create.component';
+import { OvertimeSlabEditComponent } from '@settings/overtime/overtime-slab/overtime-slab-edit/overtime-slab-edit.component';
+import { OvertimeSlabViewComponent } from '@settings/overtime/overtime-slab/overtime-slab-view/overtime-slab-view.component';
 
 @Component({
   selector: 'hrms-overtime-policy-configuration-edit',
@@ -28,7 +34,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   normalOverTime;
   specialOverTime;
   required:boolean;
-
+  overtimeSlabDetails: OverTimeSlabGroup[] = [];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -36,7 +42,8 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
     private overtimePolicyService: OvertimePolicyService,
-    private overtimePolicyConfigurationService: OvertimePolicyConfigurationService) { }
+    private overtimePolicyConfigurationService: OvertimePolicyConfigurationService,
+    private overTimeSlabService:OverTimeSlabService,) { }
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
@@ -61,7 +68,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
       this.getOvertimePolicy(params.overtimePolicyId);
       this.getOvertimeConfiguration(params.overtimePolicyId);
     });
-
+    this.getOvertimeSlablist()
   }
 
   getOvertimePolicy(overtimePolicyId) {
@@ -214,4 +221,69 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
       createdDate: [],
     });
   }
+
+  getOvertimeSlablist() {
+    debugger
+    this.overTimeSlabService.getAll().subscribe(result => {
+      this.overtimeSlabDetails = result;
+      //this.overtimeSlabDetails=this.overtimeSlabDetails.sort((a, b) => a.overTimePolicyCode.toLowerCase().localeCompare(b.overTimePolicyCode.toLowerCase()));
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the Overtime slab List Details');
+    });
+  }
+  openCreate() {
+    debugger
+    const modalRef = this.modalService.open(OvertimeSlabCreateComponent,
+      {size: 'lg', centered: true, backdrop: 'static' });
+    // modalRef.componentInstance.code = this.Codes;
+    // modalRef.componentInstance.name= this.Names;
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getOvertimeSlablist()
+        }
+    });  
+  }
+  openEdit(relDetails: OverTimeSlabGroup) {
+    const modalRef = this.modalService.open(OvertimeSlabEditComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.relDetails= relDetails;
+    // modalRef.componentInstance.code = this.Codes;
+    // modalRef.componentInstance.name = this.Names;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getOvertimeSlablist()
+      }
+    });
+  }
+  openView(relDetails: OverTimeSlabGroup) {
+    const modalRef = this.modalService.open(OvertimeSlabViewComponent,
+      { size: 'lg',centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.relDetails = relDetails;
+    // modalRef.componentInstance.code = this.Codes;
+    // modalRef.componentInstance.name = this.Names;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getOvertimeSlablist();
+      }
+    });
+  }
+
+delete(relDetails: OverTimeSlabGroup) {
+  const modalRef = this.modalService.open(ConfirmModalComponent,
+    { centered: true, backdrop: 'static' });
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Overtime slab ${relDetails.overTimePolicyCode}`;
+  modalRef.result.then((userResponse) => {
+    if (userResponse == true) {
+      this.overTimeSlabService.delete(relDetails.id).subscribe(() => {
+        this.toastr.showSuccessMessage('Overtime slab deleted successfully!');
+        this.getOvertimeSlablist()
+      });
+    }
+  });
+}
 }

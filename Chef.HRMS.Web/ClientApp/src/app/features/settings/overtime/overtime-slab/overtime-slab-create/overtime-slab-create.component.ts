@@ -1,0 +1,97 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EosService } from '@settings/eos/eos.service';
+import { OverTimeSlabService } from '../overtime-slab-service';
+
+@Component({
+  selector: 'hrms-overtime-slab-create',
+  templateUrl: './overtime-slab-create.component.html',
+  styleUrls: ['./overtime-slab-create.component.scss']
+})
+export class OvertimeSlabCreateComponent implements OnInit {
+
+  addForm: FormGroup;
+  BfDetails: any
+  
+
+
+  constructor( 
+    private formBuilder: FormBuilder,
+    private toastr: ToasterDisplayService,
+    public activeModal: NgbActiveModal,
+    public modalService: NgbModal,
+    private overTimeSlabService:OverTimeSlabService,
+    private eosService:EosService,
+  
+    ) { }
+
+  ngOnInit(): void {
+    this.addForm = this.createFormGroup();
+    //this.getBfDetails()
+  }
+
+
+
+  onSubmit() {
+    debugger
+    const eosForm = this.addForm.value;
+    this.overTimeSlabService.add(eosForm).subscribe(result => {
+          this.toastr.showSuccessMessage('The OvertimeSlab added successfully!');
+          this.activeModal.close('submit');
+        },
+          error => {
+            this.toastr.showErrorMessage('Unable to add the OvertimeSlab');
+    });
+    
+  
+  }
+
+
+  // getBfDetails() {
+  //   this.eosService.getAll().subscribe((result) => {
+  //     for(let i=0;i<result.length;i++){
+  //       this.BfDetails = result
+  //     }
+  //   })
+  // }
+  // getOverTimePolicyName(event){
+  //   if(event){
+  //    let a=this.BfDetails.filter((value)=>value.bfCode==event)
+  //    this.addForm.patchValue({
+  //     overTimePolicyName:a[0].overTimePolicyName,
+  //     //eosId:a[0].id
+  //    })
+  //   }
+
+  // }
+  
+  createFormGroup(): FormGroup {
+    return this.formBuilder.group({
+
+      // bfCode: ['', [
+      //   Validators.required
+      // ]],
+      overTimePolicyCode: ['', [
+        Validators.required
+      ]],
+      lowerLimit: ['', [
+        Validators.required
+      ]],
+      upperLimit: ['', [
+        Validators.required
+      ]],
+      valueVariable: ['', [
+        Validators.required
+      ]],
+      valuetype: ['', [
+        Validators.required
+      ]],
+      overTimePolicyId: [0, ],
+    });
+  }
+
+}
+
+
