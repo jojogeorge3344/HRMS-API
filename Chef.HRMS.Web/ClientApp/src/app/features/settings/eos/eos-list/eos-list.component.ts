@@ -70,7 +70,7 @@ export class EosListComponent implements OnInit {
   }
   openView(relDetails: EosGroup) {
     const modalRef = this.modalService.open(EosViewComponent,
-      { size: 'lg',centered: true, backdrop: 'static' });
+      { size: 'xl',centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.relDetails = relDetails;
     // modalRef.componentInstance.code = this.Codes;
