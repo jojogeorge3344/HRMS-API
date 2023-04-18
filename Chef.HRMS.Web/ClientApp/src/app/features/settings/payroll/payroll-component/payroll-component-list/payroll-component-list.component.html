@@ -41,6 +41,10 @@
                                 <a [ngClass]="{'disabled': isFixed(payrollComponent)}" class="dropdown-item">Edit</a>
                             </li>
                             <li role="menuitem"
+                            (click)="openViewPayrollComponent(payrollComponent)">
+                            <a class="dropdown-item">View</a>
+                        </li>
+                            <li role="menuitem"
                                 (click)="!isDisabled(payrollComponent) && deletePayrollComponent(payrollComponent)">
                                 <a [ngClass]="{'disabled': isDisabled(payrollComponent)}"
                                     class="dropdown-item">Delete</a>

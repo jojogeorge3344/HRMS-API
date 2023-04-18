@@ -113,8 +113,19 @@ export class PayrollCalculationEditComponent implements OnInit {
       payrollComponentId: this.selectedPayrollComponent[0].payrollComponentId,
       payrollStructureId: this.selectedPayrollComponent[0].payrollStructureId,
       isComputed: [true],
-      formula: ['', [Validators.required,formulaValidator]],
+      formula: ['', [formulaValidator]],
     });
   }
-
+  isChangeColor(item){
+    console.log(item)
+    if (item.color=="SV" ) {
+      return { color: 'blueviolet' };
+    }
+    if (item.color=="UV") {
+      return { color: 'darkcyan' };
+    }
+    if (item.color=="PRC") {
+      return { color: 'chocolate' };
+    }
+  }
 }

@@ -16,14 +16,22 @@ namespace Chef.HRMS.Repositories
 
         }
 
+        public async Task<IEnumerable<BenefitTypes>> GetOverTimeBenefitTypes()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id IN (8,9,10)";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
+
         public async Task<bool> IsOverTimePolicyCodeExist(string code)
         {
             if (await QueryFactory
            .Query<OverTimeSlab>()
-           .Where("overtimepolicyname", code)
+           .Where("overtimepolicycode", code)
            .WhereNotArchived()
            .CountAsync<int>() > 0) return true;
             else return false;
         }
+
     }
 }

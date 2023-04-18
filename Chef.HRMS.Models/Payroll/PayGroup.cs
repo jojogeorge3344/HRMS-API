@@ -43,9 +43,9 @@ namespace Chef.HRMS.Models
         /// </summary>
         public int StartingWeek { get; set; }
 
-        public int OTCutoff { get; set; }
-        public int LeaveCutoff { get; set; }
-
+        public string TimeSheetCutOff { get; set; }
+        public string LeaveCutOff { get; set; }
+        public int CurrencyId { get; set; }
 
     }
 }

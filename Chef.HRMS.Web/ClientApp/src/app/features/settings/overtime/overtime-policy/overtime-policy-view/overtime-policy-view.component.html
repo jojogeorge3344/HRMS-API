@@ -34,22 +34,11 @@
 
         <div class="h6 mt-4 mb-4">Overtime Calculation</div>
 
-          <div class="row" *ngIf="overtimePolicyFormula.normalFormula">
-            <div class="with-input form-group  col-sm-5 ">
-              <!-- <label for="normalFormula">
-                Formula for normal working days overtime -->
-                <span class="text-nowrap">Formula for normal working days overtime</span>
-              <!-- </label> -->
+          <div class="row" *ngIf="normalOvertimeDetails">
+            <div class="with-input form-group  col-sm-3 ">
+                <span class="text-nowrap">Normal Overtime BF Code</span>
             </div>
-            <div class="col-sm-3">
-              <input
-                type="text"
-                readOnly
-                class="d-inline form-control ml-2 mr-2"
-                [value]="overtimePolicyFormula?.normalFormula"
-              />
-            </div>
-            <div class="form-group col-sm-4 d-inline-block">
+            <div class="form-group col-sm-4 ">
               <select disabled="disabled"
                 class="form-control"
               >
@@ -60,43 +49,26 @@
               </select>
             </div>         
           </div>
-          <div class="row" *ngIf="overtimePolicyFormula.holidayFormula">
-            <div class="with-input form-group col-sm-5">
-                <span class="text-nowrap">Formula for holiday overtime</span>
-            </div>
-            <div class="col-sm-3">
-              <input
-              type="text"
-              readOnly
-              class="d-inline form-control ml-2 mr-2"
-              [value]="overtimePolicyFormula?.holidayFormula"
-            />
+          <div class="row" *ngIf="holidayOvertimeDetails">
+            <div class="with-input form-group col-sm-3">
+                <span class="text-nowrap">Holiday Overtime BF Code</span>
             </div>
             <div class="form-group col-sm-4 ">
               <select disabled="disabled"
                 class="form-control"
               >
                 <option value="" disabled>Select</option>
-                <option
-                 
+                <option                
                 >
                 {{holidayOvertimeDetails[0].name  }}
               </option>
               </select>
             </div>
           </div>
-          <div class="row" *ngIf="overtimePolicyFormula.specialFormula">
-            <div class="with-input form-group col-sm-5">        
-                <span class="text-nowrap">Formula for special overtime</span>
+          <div class="row" *ngIf="specialOverTimeDetails">
+            <div class="with-input form-group col-sm-3">        
+                <span class="text-nowrap">Special Overtime BF Code</span>
               </div>
-              <div class="col-sm-3">
-                <input
-                  type="text"
-                  readOnly
-                  class="d-inline form-control ml-2 mr-2"
-                  [value]="overtimePolicyFormula?.specialFormula"
-                />
-            </div>
             <div class="form-group col-sm-4">
               <select class="form-control"disabled="disabled">
                 <option
