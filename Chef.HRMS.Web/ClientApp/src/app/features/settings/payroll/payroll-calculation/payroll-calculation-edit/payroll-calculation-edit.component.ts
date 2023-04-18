@@ -60,7 +60,7 @@ export class PayrollCalculationEditComponent implements OnInit {
   getSystemVarible() {
     this.payrollsettingsService.getAll().subscribe(result => {
       this.calculationVariables = result;
-      console.log(this.calculationVariables)
+      //console.log(this.calculationVariables)
     },
       error => {
         console.error(error);

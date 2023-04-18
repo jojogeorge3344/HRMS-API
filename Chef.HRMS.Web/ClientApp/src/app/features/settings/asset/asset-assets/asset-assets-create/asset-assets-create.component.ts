@@ -103,8 +103,8 @@ export class AssetAssetsCreateComponent implements OnInit {
       assetMetadataValues:[ ['', []]],
       assetName: ['', [
         Validators.required,
-        Validators.maxLength(24),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        Validators.maxLength(50),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
       ]],
       isActive: [false, []],
       description: ['', [
