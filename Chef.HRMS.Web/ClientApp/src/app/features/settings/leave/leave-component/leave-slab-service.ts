@@ -33,4 +33,7 @@ export class LeaveSlabService {
   // get(){
   //   return this.http.get<EosSlabGroup[]>(this.baseUrl + 'GetComponentType').pipe(map(response => { return response; }));
   // }
+  getLeaveComponentDetails(id) {
+    return this.http.get<LeaveSlabGroup[]>(this.baseUrl + 'GetLeaveComponentDetails/' + id).pipe(map(response => { return response; }));
+  }
 }

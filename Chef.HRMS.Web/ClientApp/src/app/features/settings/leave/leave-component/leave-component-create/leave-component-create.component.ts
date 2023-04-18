@@ -106,7 +106,7 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.getAccrualType();
     this.getDetectionListType()
     this.getEncashBF()
-    this.getLeaveSlablist()
+    //this.getLeaveSlablist()
     //this.getLeaveDetails()
   }
 getdeductiontype(){
@@ -303,6 +303,7 @@ getAccrualBenefitType(){
         this.isSlabdisabled=false
         this.toastr.showSuccessMessage('Configure Leave Component is created successfully!');
         //this.getWholeDetails()
+        this.getLeaveSlablist(this.leavecomponentid)
         
       }
     },
@@ -320,8 +321,9 @@ getAccrualBenefitType(){
   }
  
 
-  getLeaveSlablist() {
-    this.leaveSlabService.getAll().subscribe(result => {
+  getLeaveSlablist(id) {
+    debugger
+    this.leaveSlabService.getLeaveComponentDetails(id).subscribe(result => {
       this.leaveSlabDetails = result;
       this.leaveSlabDetails=this.leaveSlabDetails.sort((a, b) => a.leaveComponentName.toLowerCase().localeCompare(b.leaveComponentName.toLowerCase()));
     },
@@ -339,7 +341,7 @@ getAccrualBenefitType(){
     modalRef.componentInstance.id= this.leavecomponentid;
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getLeaveSlablist()
+          this.getLeaveSlablist(this.leavecomponentid)
         }
     });  
   }
@@ -353,7 +355,7 @@ getAccrualBenefitType(){
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getLeaveSlablist()
+        this.getLeaveSlablist(this.leavecomponentid)
       }
     });
   }
@@ -367,7 +369,7 @@ getAccrualBenefitType(){
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getLeaveSlablist();
+        this.getLeaveSlablist(this.leavecomponentid);
       }
     });
   }
@@ -380,7 +382,7 @@ delete(relDetails: LeaveSlabGroup) {
     if (userResponse == true) {
       this.leaveSlabService.delete(relDetails.id).subscribe(() => {
         this.toastr.showSuccessMessage('LeaveSlab deleted successfully!');
-        this.getLeaveSlablist()
+        this.getLeaveSlablist(this.leavecomponentid)
       });
     }
   });

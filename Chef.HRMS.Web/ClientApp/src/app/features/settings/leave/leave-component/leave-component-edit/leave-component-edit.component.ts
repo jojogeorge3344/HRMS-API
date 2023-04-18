@@ -105,7 +105,7 @@ export class LeaveComponentEditComponent implements OnInit {
     this.getAccrualType();
     this.getDetectionListType()
     this.getEncashBF()
-    this.getLeaveSlablist()
+    //this.getLeaveSlablist()
     // this.getWholeDetails()
     // this.getLeaveDetails()
     this.editForm.patchValue(this.leaveComponent);
@@ -343,7 +343,7 @@ export class LeaveComponentEditComponent implements OnInit {
       
         //this.activeModal.close('submit');
         this.toastr.showSuccessMessage('Leave component is updated successfully!');
-        
+        this.getLeaveSlablist(this.leaveComponent.id)
     },
       error => {
         console.error(error);
@@ -358,8 +358,8 @@ export class LeaveComponentEditComponent implements OnInit {
   }
 
   
-  getLeaveSlablist() {
-    this.leaveSlabService.getAll().subscribe(result => {
+  getLeaveSlablist(id) {
+    this.leaveSlabService.getLeaveComponentDetails(id).subscribe(result => {
       this.leaveSlabDetails = result;
       this.leaveSlabDetails=this.leaveSlabDetails.sort((a, b) => a.leaveComponentName.toLowerCase().localeCompare(b.leaveComponentName.toLowerCase()));
     },
@@ -377,7 +377,7 @@ export class LeaveComponentEditComponent implements OnInit {
     modalRef.componentInstance.id= this.leaveComponent.id;
     modalRef.result.then((result) => {
         if (result == 'submit') {
-          this.getLeaveSlablist()
+          this.getLeaveSlablist(this.leaveComponent.id)
         }
     });  
   }
@@ -391,7 +391,7 @@ export class LeaveComponentEditComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getLeaveSlablist()
+        this.getLeaveSlablist(this.leaveComponent.id)
       }
     });
   }
@@ -405,7 +405,7 @@ export class LeaveComponentEditComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getLeaveSlablist();
+        this.getLeaveSlablist(this.leaveComponent.id);
       }
     });
   }
@@ -418,7 +418,7 @@ delete(relDetails: LeaveSlabGroup) {
     if (userResponse == true) {
       this.leaveSlabService.delete(relDetails.id).subscribe(() => {
         this.toastr.showSuccessMessage('LeaveSlab deleted successfully!');
-        this.getLeaveSlablist()
+        this.getLeaveSlablist(this.leaveComponent.id)
       });
     }
   });
