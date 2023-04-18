@@ -8,4 +8,7 @@ export interface PayGroup extends Model {
     startingYear: number;
     startingMonth: number;
     startingWeek: number;
+    currencyId:number;
+    timeSheetCutOff:number;
+    leaveCutOff:number;
 }

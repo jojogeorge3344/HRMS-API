@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Chef.HRMS.Models.Slab
         public int LowerLimit { get; set; }
         public int UpperLimit { get; set; }
         public int ValueVariable { get; set; }
-        public string ValueType { get; set; }
+        public Chef.HRMS.Types.ValueType ValueType { get; set; }
         public int EOSId { get; set; }
         public string BFCode { get; set; }
         public string BFName { get; set; }
