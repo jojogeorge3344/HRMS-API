@@ -82,7 +82,7 @@ export class LeaveConfigurationContainerComponent implements OnInit {
     this.activeId = 1;
     this.selected = index;
     this.currentLeaveComponent = this.assignedLeaveComponents[index];
-     this.activeIndex =index
+     this.activeIndex =this.assignedLeaveComponents[index].id;
   }
  
 

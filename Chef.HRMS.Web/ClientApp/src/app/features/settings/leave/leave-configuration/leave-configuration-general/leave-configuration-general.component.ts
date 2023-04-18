@@ -62,22 +62,50 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
 
   }
 
-  setConfigurationDetails(index){
-    if (this.assignedLeaveConfigurations) {
-      this.editForm.patchValue({
-        annualLeaveQuota: this.assignedLeaveConfigurations[index].eligibleDays,
-       // maxConsecutiveDays: this.assignedLeaveConfigurations[0].eligibilityBase,
-         maxConsecutiveDays:this.assignedLeaveConfigurations[index].maxLeaveAtaTime,
-       // maxNumberOfDaysPerMonth: this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
-        leaveBalancesAtTheYearEnd:this.assignedLeaveConfigurations[index].isCarryForward == true ? 3 :0,
-        maxCarryForwardDays:this.assignedLeaveConfigurations[index].cfLimitDays
+  // setConfigurationDetails(index){
+  //   debugger
+  //   if (this.assignedLeaveConfigurations) {
+  //     console.log('data',this.assignedLeaveConfigurations)
+  //     this.editForm.patchValue({
+  //       annualLeaveQuota: this.assignedLeaveConfigurations[index].eligibleDays,
+  //      // maxConsecutiveDays: this.assignedLeaveConfigurations[0].eligibilityBase,
+  //        maxConsecutiveDays:this.assignedLeaveConfigurations[index].maxLeaveAtaTime,
+  //      // maxNumberOfDaysPerMonth: this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+  //       leaveBalancesAtTheYearEnd:this.assignedLeaveConfigurations[index].isCarryForward == true ? 3 :0,
+  //       maxCarryForwardDays:this.assignedLeaveConfigurations[index].cfLimitDays
        
+  //     })
+
+  //     this.maxCarryForwardDisable = this.assignedLeaveConfigurations[index].cfLimitDays > 0 && this.assignedLeaveConfigurations[index].isCarryForward == true ? true  : false
+  //   }
+
+  // }
+
+
+  setConfigurationDetails(index){
+    var componetIdIndex
+    if (this.assignedLeaveConfigurations) {
+      for(let i=0;i < this.assignedLeaveConfigurations.length;i++){
+           if(index == this.assignedLeaveConfigurations[i].leaveComponentId){
+            componetIdIndex = i
+           }
+      }
+      this.editForm.patchValue({
+        annualLeaveQuota: this.assignedLeaveConfigurations[componetIdIndex].eligibleDays,
+       // maxConsecutiveDays: this.assignedLeaveConfigurations[0].eligibilityBase,
+         maxConsecutiveDays:this.assignedLeaveConfigurations[componetIdIndex].maxLeaveAtaTime,
+       // maxNumberOfDaysPerMonth: this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+        leaveBalancesAtTheYearEnd:this.assignedLeaveConfigurations[componetIdIndex].isCarryForward == true ? 3 :0,
+        maxCarryForwardDays:this.assignedLeaveConfigurations[componetIdIndex].cfLimitDays
+    
       })
 
       this.maxCarryForwardDisable = this.assignedLeaveConfigurations[index].cfLimitDays > 0 && this.assignedLeaveConfigurations[index].isCarryForward == true ? true  : false
     }
 
   }
+
+
 
   ngOnChanges(changes: SimpleChanges) {
     this.currentUserId = getCurrentUserId();
@@ -90,11 +118,12 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   }
 
   getLeaveGeneralSettings() {
-    debugger
     this.leaveConfigurationGeneralService.get(this.leaveStructureId, this.leaveComponentId).subscribe((result: any) => {
-      if (result && !this.assignedLeaveConfigurations) {
+      if (result) {
         this.editForm.patchValue(result);
+        this.setConfigurationDetails(this.activeIndex)
       }
+      
     },
       error => {
         console.error(error);
@@ -105,7 +134,11 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
 
   onSubmit() {
     this.editForm.value.leaveBalancesAtTheYearEnd = this.editForm.value.leaveBalancesAtTheYearEnd == "" ? 0 : parseInt(this.editForm.value.leaveBalancesAtTheYearEnd)
-    this.editForm.patchValue({ isConfigured: true });
+    this.editForm.patchValue({ 
+      isConfigured: true,
+      leaveComponentId :this.leaveComponentId,
+      leaveStructureId :this.leaveStructureId
+     });
     this.leaveConfigurationGeneralService.update(this.editForm.value)
       .subscribe(() => {
         this.toastr.showSuccessMessage('Leave General Settings is updated successfully!');
