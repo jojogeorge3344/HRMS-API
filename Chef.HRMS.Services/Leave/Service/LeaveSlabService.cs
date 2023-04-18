@@ -17,9 +17,9 @@ namespace Chef.HRMS.Services
             this.leaveSlabRepository = leaveSlabRepository;
         }
 
-        public async Task<IEnumerable<LeaveSlab>> GetLeaveComponentDetails(int payrollcomponentid)
+        public async Task<IEnumerable<LeaveSlab>> GetLeaveComponentDetails(int leavecomponentid)
         {
-            return await leaveSlabRepository.GetLeaveComponentDetails(payrollcomponentid);
+            return await leaveSlabRepository.GetLeaveComponentDetails(leavecomponentid);
         }
     }
 }

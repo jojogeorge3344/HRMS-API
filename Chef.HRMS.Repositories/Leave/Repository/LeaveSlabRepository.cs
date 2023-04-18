@@ -14,11 +14,11 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async Task<IEnumerable<LeaveSlab>> GetLeaveComponentDetails(int payrollcomponentid)
+        public async Task<IEnumerable<LeaveSlab>> GetLeaveComponentDetails(int leavecomponentid)
         {
             return await QueryFactory
                 .Query<LeaveSlab>()
-                .Where("leavecomponentid", payrollcomponentid)
+                .Where("leavecomponentid", leavecomponentid)
                 .WhereNotArchived()
                 .OrderBy("id")
                 .GetAsync<LeaveSlab>();
