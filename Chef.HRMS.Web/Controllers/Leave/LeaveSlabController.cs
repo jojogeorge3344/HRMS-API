@@ -69,5 +69,13 @@ namespace Chef.HRMS.Web.Controllers.Leave
 
             return Ok(result);
         }
+
+        [HttpGet("GetLeaveComponentDetails")]
+        public async Task<ActionResult<IEnumerable<LeaveSlab>>> GetLeaveComponentDetails(int payrollcomponentid)
+        {
+            var leave = await leaveSlabService.GetLeaveComponentDetails(payrollcomponentid);
+
+            return Ok(leave);
+        }
     }
 }

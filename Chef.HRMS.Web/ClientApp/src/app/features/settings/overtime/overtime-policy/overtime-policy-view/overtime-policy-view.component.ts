@@ -40,6 +40,8 @@ export class OvertimePolicyViewComponent implements OnInit {
     debugger
     this.overtimePolicyConfigurationService.getByOverTimePolicyId(this.overtimePolicyId).subscribe((result) => {
       this.overtimePolicyFormula = result;
+      console.log(this.overtimePolicyFormula);
+      
       this.overtimePolicyConfigurationService.getNormalOverTime()
       .subscribe((result)=>{
         this.normalOverTime=result 

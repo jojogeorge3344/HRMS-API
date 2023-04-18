@@ -15,12 +15,14 @@ import { PayrollComponentCreateComponent } from "./payroll-component-create/payr
 import { PayrollComponentEditComponent } from "./payroll-component-edit/payroll-component-edit.component";
 import { CUSTOM_ERRORS } from "@shared/utils/validators.messages";
 import { SelectDropDownModule } from "ngx-select-dropdown";
+import { PayrollComponentViewComponent } from './payroll-component-view/payroll-component-view.component';
 
 @NgModule({
   declarations: [
     PayrollComponentListComponent,
     PayrollComponentCreateComponent,
     PayrollComponentEditComponent,
+    PayrollComponentViewComponent,
   ],
   imports: [
     CommonModule,

@@ -106,5 +106,12 @@ namespace Chef.HRMS.Web.Controllers
             return await employeeDocumentService.GetPDFViewer(filePath);
 
         }
+        [HttpGet("GetAllActiveDocumentsTypes")]
+        public async Task<ActionResult<IEnumerable<HRMS.Models.DocumentDetail>>> GetAllActiveDocumentsTypes()
+        {
+            var documentList = await employeeDocumentService.GetAllActiveDocumentsTypes();
+
+            return Ok(documentList);
+        }
     }
 }

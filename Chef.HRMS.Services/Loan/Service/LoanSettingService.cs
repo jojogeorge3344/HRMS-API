@@ -50,5 +50,10 @@ namespace Chef.HRMS.Services
         {
             return await loanSettingRepository.GetTopOneLoanSetting();
         }
+
+        public async Task<BenefitTypes> GetDeductionBFCode()
+        {
+            return await loanSettingRepository.GetDeductionBFCode();
+        }
     }
 }

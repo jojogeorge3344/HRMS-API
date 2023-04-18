@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Services;
+using Chef.Common.Exceptions;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
@@ -56,5 +57,13 @@ namespace Chef.HRMS.Services
             return await payrollCalculationRepository.UpdateAsync(payrollCalculation);
         }
 
+        public async Task<bool> IsSystemVariableExist(string code)
+        {
+            if (await payrollCalculationRepository.IsSystemVariableExist(code))
+            {
+                throw new ResourceAlreadyExistsException("System Variable code already exists in Payroll Calculation");
+            }
+            return false;
+        }
     }
 }
