@@ -30,8 +30,8 @@
         >
         <select class="form-control" formControlName="documentTypeList">
           <option Value="" disabled>Select Document Type</option>
-          <option *ngFor="let key of documentTypeKeys" [ngValue]="key">
-            {{ documentType[key] }}
+          <option *ngFor="let key of documentTypeKeys" [ngValue]="key.id">
+            {{key.name }}
           </option>
         </select>
       </div>

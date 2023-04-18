@@ -34,7 +34,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   documentSave;
   isDisabled = true;
   fileName = "";
-  documentTypeKeys: number[];
+  documentTypeKeys;
   documentType = DocumentType;
   minDate;
   maxDate;
@@ -57,9 +57,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     this.getAllEmployeeDetails();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Education\\${this.currentUserId}\\`;
     this.editForm = this.createFormGroup();
-    this.documentTypeKeys = Object.keys(this.documentType)
-      .filter(Number)
-      .map(Number);
+   
     this.editForm.patchValue(this.identityDetails);
 
     this.editForm

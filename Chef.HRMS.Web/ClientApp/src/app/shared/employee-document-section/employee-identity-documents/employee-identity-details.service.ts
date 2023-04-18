@@ -69,4 +69,12 @@ export class EmployeeIdentityDetailsService {
       this.baseUrl + "IsDocumentCodeExist/" + documentNumber
     );
   }
+  getAllActiveDocumentsTypes(){
+    return this.http.get<EmployeeIdentityDetails>(this.baseUrl + "getAllActiveDocumentsTypes").pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
 }
+
