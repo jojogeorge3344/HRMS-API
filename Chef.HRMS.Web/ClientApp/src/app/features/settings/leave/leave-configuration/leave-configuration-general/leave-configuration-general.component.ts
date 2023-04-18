@@ -100,7 +100,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     
       })
 
-      this.maxCarryForwardDisable = this.assignedLeaveConfigurations[index].cfLimitDays > 0 && this.assignedLeaveConfigurations[index].isCarryForward == true ? true  : false
+      this.maxCarryForwardDisable = this.assignedLeaveConfigurations[componetIdIndex].cfLimitDays > 0 && this.assignedLeaveConfigurations[componetIdIndex].isCarryForward == true ? true  : false
     }
 
   }
