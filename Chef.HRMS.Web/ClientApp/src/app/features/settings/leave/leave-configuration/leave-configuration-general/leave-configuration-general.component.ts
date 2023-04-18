@@ -16,10 +16,12 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   editForm: FormGroup;
   currentUserId: number;
   viewValue: boolean;
+  maxCarryForwardDisable =false;
 
   @Input() leaveStructureId: number;
   @Input() leaveComponentId: number;
   @Input() assignedLeaveConfigurations;
+  @Input() activeIndex:number;
 
   @Input() isView: boolean;
   @Output() saveConfiguration = new EventEmitter<boolean>();
@@ -31,7 +33,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     private router: Router) {
   }
   ngOnInit(){
-    
+
     let href = this.router.url.split('/');   
     if(href.includes('view')){
       this.viewValue = true;
@@ -42,14 +44,39 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     if(this.viewValue == true){
       this.editForm.disable();
     }
-    if(this.assignedLeaveConfigurations){
-  this.editForm.patchValue({
-  annualLeaveQuota:this.assignedLeaveConfigurations[0].eligibleDays,
-  maxConsecutiveDays:this.assignedLeaveConfigurations[0].eligibilityBase,
-  maxNumberOfDaysPerMonth:this.assignedLeaveConfigurations[0].maxLeaveAtaTime
-})
-    }
+    this.setConfigurationDetails(this.activeIndex)
+    // if (this.assignedLeaveConfigurations) {
+    //   this.editForm.patchValue({
+    //     annualLeaveQuota: this.assignedLeaveConfigurations[0].eligibleDays,
+    //    // maxConsecutiveDays: this.assignedLeaveConfigurations[0].eligibilityBase,
+    //      maxConsecutiveDays:this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+    //    // maxNumberOfDaysPerMonth: this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+    //     leaveBalancesAtTheYearEnd:this.assignedLeaveConfigurations[0].isCarryForward == true ? 3 :'',
+    //     maxCarryForwardDays:this.assignedLeaveConfigurations[0].cfLimitDays
+       
+    //   })
+
+    //   this.maxCarryForwardDisable = this.assignedLeaveConfigurations[0].cfLimitDays > 0 && this.assignedLeaveConfigurations[0].isCarryForward == true ? true  : false
     
+    // }
+
+  }
+
+  setConfigurationDetails(index){
+    if (this.assignedLeaveConfigurations) {
+      this.editForm.patchValue({
+        annualLeaveQuota: this.assignedLeaveConfigurations[index].eligibleDays,
+       // maxConsecutiveDays: this.assignedLeaveConfigurations[0].eligibilityBase,
+         maxConsecutiveDays:this.assignedLeaveConfigurations[index].maxLeaveAtaTime,
+       // maxNumberOfDaysPerMonth: this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+        leaveBalancesAtTheYearEnd:this.assignedLeaveConfigurations[index].isCarryForward == true ? 3 :0,
+        maxCarryForwardDays:this.assignedLeaveConfigurations[index].cfLimitDays
+       
+      })
+
+      this.maxCarryForwardDisable = this.assignedLeaveConfigurations[index].cfLimitDays > 0 && this.assignedLeaveConfigurations[index].isCarryForward == true ? true  : false
+    }
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -59,6 +86,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
       this.editForm = this.createFormGroup();
       this.getLeaveGeneralSettings();
     }
+    this.setConfigurationDetails(this.activeIndex)
   }
 
   getLeaveGeneralSettings() {
@@ -76,6 +104,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   }
 
   onSubmit() {
+    this.editForm.value.leaveBalancesAtTheYearEnd = this.editForm.value.leaveBalancesAtTheYearEnd == "" ? 0 : parseInt(this.editForm.value.leaveBalancesAtTheYearEnd)
     this.editForm.patchValue({ isConfigured: true });
     this.leaveConfigurationGeneralService.update(this.editForm.value)
       .subscribe(() => {
@@ -108,6 +137,9 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
       maxConsecutiveDays: [0, [
         Validators.min(0),
         Validators.required]],
+        maxCarryForwardDays: [0, [
+          Validators.min(0),
+          Validators.required]],
       // maxNumberOfDaysPerMonth: [0],
       maxNumberOfDaysPerMonth: [0, [
         Validators.required,
@@ -123,7 +155,8 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
       negativeLeaveBalancesAtTheYearEnd: [0],
       leaveStructureId: [0],
       leaveComponentId: [0],
-      createdDate: []
+      //createdDate: []
+      createdDate: [new Date()]
     });
   }
 }
