@@ -11,6 +11,7 @@ import { PayGroupListComponent } from './pay-group-list/pay-group-list.component
 import { PayGroupCreateComponent } from './pay-group-create/pay-group-create.component';
 import { PayGroupEditComponent } from './pay-group-edit/pay-group-edit.component';
 import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
+import { PayGroupViewComponent } from './pay-group-view/pay-group-view.component';
 
 
 
@@ -19,7 +20,7 @@ import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
   declarations: [
     PayGroupListComponent,
     PayGroupCreateComponent, 
-    PayGroupEditComponent
+    PayGroupEditComponent, PayGroupViewComponent
   ],
   imports: [
     CommonModule,

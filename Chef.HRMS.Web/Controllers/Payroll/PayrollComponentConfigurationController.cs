@@ -87,5 +87,17 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetAllByPayrollComponentId/{payrollComponentId}")]
+        public async Task<ActionResult<PayrollComponentConfiguration>> GetAllByPayrollComponentId(int payrollComponentId)
+        {
+            var payrollComponentConfiguration = await payrollComponentConfigurationService.GetAllByPayrollComponentId(payrollComponentId);
+
+            if (payrollComponentConfiguration == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(payrollComponentConfiguration);
+        }
     }
 }

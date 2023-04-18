@@ -8,5 +8,6 @@ namespace Chef.HRMS.Repositories
     {
         Task<int> GetLoanSettingId();
         Task<LoanSetting> GetTopOneLoanSetting();
+        Task<BenefitTypes> GetDeductionBFCode();
     }
 }

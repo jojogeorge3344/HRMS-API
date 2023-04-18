@@ -55,6 +55,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   minDate;
   searchFailed: boolean;
   employeeList: Employee[];
+  config;
 
   @Input() id: any;
   location: Branch[];
@@ -131,8 +132,21 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
         day: dob.getDate()
       };
     }
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Reporting Manager",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: false,
+    };
   }
 
+  selectionChanged(args) {
+    this.addForm.get("reportingManager").patchValue(args.value.id);
+  }
   getJobList() {
     this.employeeJobTitleService.getAll().subscribe(result => {
       this.jobTitleId = result;
@@ -214,9 +228,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
 
   onSubmit() {
     const addJobDetails = this.addForm.getRawValue();
-    addJobDetails.reportingManager = addJobDetails.reportingManager.id;
+    // addJobDetails.reportingManager = addJobDetails.reportingManager.id;
     this.jobDetailsForm.emit(addJobDetails);
-
   }
 
   createFormGroup(): FormGroup {

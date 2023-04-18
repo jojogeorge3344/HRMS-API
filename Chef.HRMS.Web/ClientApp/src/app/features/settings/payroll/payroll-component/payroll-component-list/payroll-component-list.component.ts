@@ -8,6 +8,7 @@ import { PayrollComponentEditComponent } from "../payroll-component-edit/payroll
 import { PayrollComponentType } from "../../../../../models/common/types/payrollcomponenttype";
 import { PayrollComponent } from "../payroll-component.model";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { PayrollComponentViewComponent } from "../payroll-component-view/payroll-component-view.component";
 
 @Component({
   selector: "hrms-payroll-component-list",
@@ -139,6 +140,32 @@ export class PayrollComponentListComponent implements OnInit {
       }
     });
   }
+  openViewPayrollComponent(payrollComponent: PayrollComponent) {
+    const modalRef = this.modalService.open(PayrollComponentViewComponent, {
+      size: "lg",
+      centered: true,
+      backdrop: "static",
+    });
+
+    modalRef.componentInstance.payrollComponent = payrollComponent;
+    modalRef.componentInstance.payrollComponentTypes =
+      this.payrollComponentTypes;
+    modalRef.componentInstance.payrollComponentNames =
+      this.payrollComponentNames.filter(
+        (v) => v !== payrollComponent.name.toLowerCase()
+      );
+    modalRef.componentInstance.payrollComponentCodes =
+      this.payrollComponentCodes.filter(
+        (v) => v !== payrollComponent.shortCode.toLowerCase()
+      );
+
+    modalRef.result.then((result) => {
+      if (result == "submit") {
+        this.getPayrollComponents();
+      }
+    });
+  }
+
 
   deletePayrollComponent(payrollComponent: PayrollComponent) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {

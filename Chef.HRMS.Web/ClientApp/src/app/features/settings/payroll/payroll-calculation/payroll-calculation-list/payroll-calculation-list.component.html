@@ -30,7 +30,7 @@
                             <td>
                                 <span class="text-capitalize">{{component.payrollComponentName}}</span>
                                 <span class="text-uppercase">({{component.shortCode}})</span> </td>
-                                <td>{{component.payHeadContractValueType==0 ? 'Computed':'Fixed'}}</td>
+                                <td>{{component.payHeadContractValueType==2 ? 'Computed':'Fixed'}}</td>
                                 <td>{{payHeadBaseUnitType[component.payHeadBaseUnitType]}}</td>
                             <td>{{component.isComputed? 'Yes' : 'No'}}</td>
                             <td>{{component.formula? component.formula : '--'}}</td>

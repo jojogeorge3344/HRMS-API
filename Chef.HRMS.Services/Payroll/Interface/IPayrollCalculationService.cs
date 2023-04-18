@@ -12,5 +12,6 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<PayrollCalculationViewModel>> GetPayrollComponentsByEmployeeId(int employeeId);
 
         Task<IEnumerable<PayrollCalculation>> GetAllCalculationDetailsById(int id);
+        Task<bool> IsSystemVariableExist(string code);
     }
 }
