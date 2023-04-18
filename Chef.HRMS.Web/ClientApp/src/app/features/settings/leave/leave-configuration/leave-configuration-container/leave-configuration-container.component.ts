@@ -5,6 +5,7 @@ import { LeaveComponentService } from '../../leave-component/leave-component.ser
 import { LeaveComponent } from '../../leave-component/leave-component.model';
 import { LeaveConfigurationService } from '../leave-configuration.service';
 import { LeaveConfiguration } from '../leave-configuration.model';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'hrms-leave-configuration-container',
@@ -18,28 +19,54 @@ export class LeaveConfigurationContainerComponent implements OnInit {
   leaveStructureId: number;
   currentLeaveComponent: LeaveComponent;
   activeId = 1;
+  activeIndex:number
+  queryString:string;
+  removeComponentIdArray:any=[]
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     private leaveComponentService: LeaveComponentService,
     private leaveConfigurationService: LeaveConfigurationService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.route.params.subscribe(params => {    
       this.leaveStructureId = parseInt(params['leaveStructureId']);
       this.getLeaveComponents(this.leaveStructureId);
       this.getLeaveConfigurations(this.leaveStructureId);
     });
+   const url = window.location.href;
+   if (url.includes('?')) {
+    var paramValue= url.split('?')
+    var QueryStringValue = paramValue[1]
+    QueryStringValue = QueryStringValue.replace('componentQstring=','')
+    this.removeComponentIdArray = QueryStringValue.split(',')
+   }
+  
+  }
+
+  setComponetList(){
+    
+    this.removeComponentIdArray.forEach(o =>{
+      var data = parseInt(o)
+       for(let i =0;i< this.assignedLeaveComponents.length;i++){
+        if(this.assignedLeaveComponents[i].id == data){
+             this.assignedLeaveComponents.splice(i,1)
+        }
+     }
+    })
+   
   }
 
   getLeaveComponents(leaveStructureId) {
     this.leaveComponentService.getAllByLeaveStructure(leaveStructureId).subscribe((result:LeaveComponent[]) => {
       this.assignedLeaveComponents = result.filter(v => v.code.toLowerCase() !== "lop");
+      this.setComponetList()
       this.selectLeaveComponent(0);
     },
     error => {
       console.error(error);
     });
+
   }
 
   getLeaveConfigurations(leaveStructureId) {
@@ -55,7 +82,9 @@ export class LeaveConfigurationContainerComponent implements OnInit {
     this.activeId = 1;
     this.selected = index;
     this.currentLeaveComponent = this.assignedLeaveComponents[index];
+     this.activeIndex =this.assignedLeaveComponents[index].id;
   }
+ 
 
   getLeaveConfiguration(leaveComponentId): LeaveConfiguration {
     return this.assignedLeaveConfigurations.find(v => v.leaveComponentId === leaveComponentId);

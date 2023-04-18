@@ -7,5 +7,8 @@ export interface EosGroup extends Model {
       includeLOPDays: boolean,
       includeProbationDays: boolean,
       includedBenefits: string,
-      eosSettlementBFCode: string
+      eosSettlementBFCode: string,
+      employeeEOSAccrualType:number,
+      employeeEOSpaymentType:number,
+      includedBenefit:string
 }

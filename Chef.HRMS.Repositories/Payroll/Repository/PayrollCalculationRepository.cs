@@ -34,7 +34,7 @@
                                       pcmp.id, 
                                       pcalc.formula,
                                       pcalc.id
-                            ORDER  BY ps.NAME ASC";
+                            ORDER  BY ps.id DESC";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
         }

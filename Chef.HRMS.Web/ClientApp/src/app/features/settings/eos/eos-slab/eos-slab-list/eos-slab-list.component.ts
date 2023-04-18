@@ -6,6 +6,7 @@ import { EosSlabGroup } from '../eos-slab.model';
 import { EosSlabService } from '../eos-slab.service';
 import { EosSlabCreateComponent } from '../eos-slab-create/eos-slab-create.component';
 import { EosSlabEditComponent } from '../eos-slab-edit/eos-slab-edit.component';
+import { EosSlabViewComponent } from '../eos-slab-view/eos-slab-view.component';
 
 @Component({
   selector: 'hrms-eos-slab-list',
@@ -61,20 +62,20 @@ export class EosSlabListComponent implements OnInit {
       }
     });
   }
-  // openView(relDetails: EosSlabGroup) {
-  //   const modalRef = this.modalService.open(EosViewComponent,
-  //     { size: 'lg',centered: true, backdrop: 'static' });
+  openView(relDetails: EosSlabGroup) {
+    const modalRef = this.modalService.open(EosSlabViewComponent,
+      { size: 'lg',centered: true, backdrop: 'static' });
 
-  //   modalRef.componentInstance.relDetails = relDetails;
-  //   // modalRef.componentInstance.code = this.Codes;
-  //   // modalRef.componentInstance.name = this.Names;
+    modalRef.componentInstance.relDetails = relDetails;
+    // modalRef.componentInstance.code = this.Codes;
+    // modalRef.componentInstance.name = this.Names;
 
-  //   modalRef.result.then((result) => {
-  //     if (result == 'submit') {
-  //       this.getEosSlablist();
-  //     }
-  //   });
-  // }
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getEosSlablist();
+      }
+    });
+  }
 
 delete(relDetails: EosSlabGroup) {
   const modalRef = this.modalService.open(ConfirmModalComponent,
