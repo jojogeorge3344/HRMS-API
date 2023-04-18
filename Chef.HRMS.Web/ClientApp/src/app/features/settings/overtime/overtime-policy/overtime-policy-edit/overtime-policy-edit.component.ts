@@ -59,7 +59,7 @@ export class OvertimePolicyEditComponent implements OnInit {
       name: ['', [
         Validators.required,
         Validators.maxLength(50),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.overtimePolicyNames)
       ]],
       description: [null, [

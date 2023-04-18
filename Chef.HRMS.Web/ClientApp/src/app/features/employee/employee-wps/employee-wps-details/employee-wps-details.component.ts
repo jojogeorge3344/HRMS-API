@@ -134,13 +134,13 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     return this.formBuilder.group({
       employeeId: [''],
       groupId: ['', [
-        Validators.maxLength(18),
+        Validators.maxLength(60),
         Validators.required
       ]],
       wpsId: ['', [
       // Validators.pattern(/^\d{1,14}$/),
         Validators.required,
-         Validators.maxLength(14),
+         Validators.maxLength(30),
         
       ]],
       molId: ['', [

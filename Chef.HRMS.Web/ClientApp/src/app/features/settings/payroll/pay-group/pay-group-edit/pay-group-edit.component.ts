@@ -82,7 +82,7 @@ export class PayGroupEditComponent implements OnInit {
       name: ['', [
         Validators.required,
         Validators.maxLength(50),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.payGroupNames)
       ]],
       payrollCalendarId: [{ value: null, disabled: this.isDisabled }, [
@@ -90,8 +90,8 @@ export class PayGroupEditComponent implements OnInit {
       ]],
       code: ['', [
         Validators.required,
-        Validators.maxLength(10),
-        Validators.pattern('^([a-zA-Z0-9])+$'),
+        Validators.maxLength(30),
+        //Validators.pattern('^([a-zA-Z0-9])+$'),
         duplicateNameValidator(this.payGroupCodes)
       ]],
       startingYear: [{ value: null, disabled: this.isDisabled }, [

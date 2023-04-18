@@ -71,10 +71,10 @@ export class EosSlabCreateComponent implements OnInit {
     return this.formBuilder.group({
 
       bfCode: ['', [
-        Validators.required
+        Validators.required,Validators.maxLength(30)
       ]],
       bfName: ['', [
-        Validators.required
+        Validators.required,Validators.maxLength(60)
       ]],
       lowerLimit: ['', [
         Validators.required
