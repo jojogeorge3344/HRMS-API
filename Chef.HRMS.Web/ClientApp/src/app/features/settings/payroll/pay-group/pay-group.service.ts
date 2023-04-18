@@ -10,11 +10,13 @@ import { map } from 'rxjs/operators';
 export class PayGroupService {
 
   public baseUrl: string;
+  public currencyUrl:string;
   public http: HttpClient;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + "api/settings/payroll/PayGroup/";
+    this.currencyUrl=baseUrl + "api/common/masterData/"
   }
 
   getAll() {
@@ -43,4 +45,8 @@ export class PayGroupService {
   delete(id: number) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
+  getCurrencies() {
+    return this.http.get<number[]>(this.currencyUrl + 'getCurrencies').pipe(map(response => { return response; }));
+  }
+
 }

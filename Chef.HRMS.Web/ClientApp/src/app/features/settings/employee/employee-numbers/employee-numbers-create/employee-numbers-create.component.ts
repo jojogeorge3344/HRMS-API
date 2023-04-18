@@ -70,6 +70,12 @@ export class EmployeeNumbersCreateComponent implements OnInit {
   get name() { return this.addForm.get('name'); }
 
   onSubmit() {
+
+    // if(this.addForm.value.suffix == null){
+    //   this.addForm.patchValue({
+    //     suffix:0
+    //   })
+    // }
     this.employeeNumbersService.add(this.addForm.value).subscribe((result: EmployeeNumbers) => {
       if (result.id === -1) {
         this.toastr.showErrorMessage('Employee Series already exists!');
@@ -101,7 +107,6 @@ export class EmployeeNumbersCreateComponent implements OnInit {
         Validators.maxLength(8)
       ]],
       suffix: [null, [
-        Validators.required,
         Validators.maxLength(8)
       ]],
       digitInNumber: [null, [

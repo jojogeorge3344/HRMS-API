@@ -27,7 +27,7 @@ export class PayGroupCreateComponent implements OnInit {
   months = Months;
   monthKeys: number[];
   isStartingMonth = false;
-
+  currency:any[];
 
   constructor(
     private payGroupService: PayGroupService,
@@ -45,6 +45,10 @@ export class PayGroupCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.onChanges();
     this.calenders=this.calenders.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    this.payGroupService.getCurrencies()
+    .subscribe((result)=>{
+      this.currency=result;
+    })
   }
 
   onChanges(): void {
@@ -78,6 +82,10 @@ export class PayGroupCreateComponent implements OnInit {
         Validators.required,
       ]],
       startingMonth: [0, []],
+      currencyId: [null, []],
+      TimeSheetCutOff: [null, [Validators.max(31),Validators.min(1)]],
+      LeaveCutOff: [null, [Validators.max(31),Validators.min(1)]],
+
       startingWeek: [0, []],
     });
   }

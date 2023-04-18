@@ -42,11 +42,6 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
-    this.addForm.get('holidayOverTime').disable();
-    this.addForm.get('normalOverTime').disable();
-    this.addForm.get('specialOverTime').disable();
-    debugger
-
     this.overtimePolicyConfigurationService.getNormalOverTime()
     .subscribe((result)=>{
       this.normalOverTime=result  
@@ -115,36 +110,36 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         this.addForm.patchValue( {isRoundOffLowest: true} );
       }
     });
-    this.addForm.get('holidayFormula').valueChanges.subscribe(value => {
-      if (value) {
-        this.addForm.get('holidayOverTime').enable(); 
-        this.addForm.get('holidayOverTime').setValidators(Validators.required)
+    // this.addForm.get('holidayFormula').valueChanges.subscribe(value => {
+    //   if (value) {
+    //     this.addForm.get('holidayOverTime').enable(); 
+    //     this.addForm.get('holidayOverTime').setValidators(Validators.required)
 
-      }else{
-        this.addForm.get('holidayOverTime').disable(); 
-        this.addForm.get('holidayOverTime').reset(); 
-      } 
-    }); 
-    this.addForm.get('specialFormula').valueChanges.subscribe(value => {
-      if (value) {
-        this.addForm.get('specialOverTime').enable();
-        this.addForm.get('specialOverTime').setValidators(Validators.required)
+    //   }else{
+    //     this.addForm.get('holidayOverTime').disable(); 
+    //     this.addForm.get('holidayOverTime').reset(); 
+    //   } 
+    // }); 
+    // this.addForm.get('specialFormula').valueChanges.subscribe(value => {
+    //   if (value) {
+    //     this.addForm.get('specialOverTime').enable();
+    //     this.addForm.get('specialOverTime').setValidators(Validators.required)
 
-      }else{
-        this.addForm.get('specialOverTime').disable();
-        this.addForm.get('specialOverTime').reset(); 
+    //   }else{
+    //     this.addForm.get('specialOverTime').disable();
+    //     this.addForm.get('specialOverTime').reset(); 
 
-      }
-    }); 
-    this.addForm.get('normalFormula').valueChanges.subscribe(value => {
-      if (value) {
-        this.addForm.get('normalOverTime').enable();
-        this.addForm.get('normalOverTime').setValidators(Validators.required)
-      }else{
-        this.addForm.get('normalOverTime').disable(); 
-        this.addForm.get('normalOverTime').reset(); 
-      }
-    }); 
+    //   }
+    // }); 
+    // this.addForm.get('normalFormula').valueChanges.subscribe(value => {
+    //   if (value) {
+    //     this.addForm.get('normalOverTime').enable();
+    //     this.addForm.get('normalOverTime').setValidators(Validators.required)
+    //   }else{
+    //     this.addForm.get('normalOverTime').disable(); 
+    //     this.addForm.get('normalOverTime').reset(); 
+    //   }
+    // }); 
 
    }
 
@@ -161,21 +156,21 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
     });
   }
 
-  openFormulaEditor(type: string) {
-    const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+  // openFormulaEditor(type: string) {
+  //   const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
+  //     { size: 'lg', centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.formulaType = type;
-    modalRef.componentInstance.formula = '';
+  //   modalRef.componentInstance.formulaType = type;
+  //   modalRef.componentInstance.formula = '';
 
-    modalRef.result.then((result) => { console.log(result);
-                                       if (result !== 'Close click') {
-        this.addForm.get(type).patchValue(result);
-        console.log('reslt',result);
+  //   modalRef.result.then((result) => { console.log(result);
+  //                                      if (result !== 'Close click') {
+  //       this.addForm.get(type).patchValue(result);
+  //       console.log('reslt',result);
 
-      }
-    });
-  }
+  //     }
+  //   });
+  // }
 
   onSubmit() {
     debugger
@@ -205,12 +200,9 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
-      normalOverTime:[null,[
-        Validators.required]],
-      holidayOverTime:[null,[
-        Validators.required,]],
-      specialOverTime:[null,[
-        Validators.required,]],
+      normalOverTime:[0],
+      holidayOverTime:[0],
+      specialOverTime:[0],
 
       roundOffType: [{ value: 1, disabled: true }],
       noticeDays: [{ value: null, disabled: true }, [
@@ -246,18 +238,6 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         Validators.min(1),
         Validators.max(999999999)
       ]],
-      normalFormula: ['', [
-        Validators.required,
-        Validators.maxLength(256)
-      ]],
-      holidayFormula: ['', [
-        // Validators.required,
-        Validators.maxLength(256)
-      ]],
-      specialFormula: ['', [
-        // Validators.required,
-        Validators.maxLength(256)
-      ]]
     });
   }
 }

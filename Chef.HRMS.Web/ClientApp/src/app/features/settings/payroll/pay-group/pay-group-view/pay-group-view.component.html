@@ -1,0 +1,70 @@
+<form >
+    <div class="modal-header">
+        <h4 class="modal-title">
+            View Pay Group
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-wrap">
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="code">Code</label>
+                <input type="text" class="form-control" value="{{payGroup.code}}" readonly>
+            </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="name">Name</label>
+                <input type="text" class="form-control" value="{{payGroup.name}}" readonly>   
+            </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="payrollCalendarId">Payroll Calendar</label>
+                <select class="form-control" disabled>
+                    <option >
+                        {{calender[0].name}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="startingYear">Starting year</label>
+                <select class="form-control" disabled>
+                    <option >
+                        {{payGroup.startingYear}}
+                    </option>
+                </select>
+            </div>
+            <div *ngIf="isStartingMonth" class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="startingMonth">
+                    <span>Starting Month </span>
+                </label>
+                <select class="form-control" disabled>
+                    <option *ngFor="let key of monthKeys" [ngValue]="key">
+                        {{payGroup.startingMonth}}
+                    </option>
+                </select>
+            </div>
+            <div *ngIf="!isStartingMonth" class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="startingWeek">
+                    <span>Starting Week </span>
+                </label>
+                <select class="form-control" disabled>
+                    <option >
+                        week-{{payGroup.startingWeek}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-6 form-group form-input-line" *ngIf="payGroup.currencyId" >
+                <label class=" col-form-label" for="currency">Currency</label>
+                <input type="text" class="form-control" value="{{currency[0].name}}" readonly>
+            </div>
+            <div class="col-6 form-group form-input-line" *ngIf="payGroup.timeSheetCutOff">
+                <label class=" col-form-label" for="timesheetCutOff">Timesheet cut off day</label>
+                <input type="number" class="form-control" readonly value="{{payGroup.timeSheetCutOff}}">
+            </div>
+            <div class="col-6 form-group form-input-line" *ngIf="payGroup.leaveCutOff"> 
+                <label class=" col-form-label" for="leaveCutOff">Leave cut off day</label>
+                <input type="number" class="form-control" readonly value="{{payGroup.leaveCutOff}}">
+            </div>
+        </div>
+    </div>
+</form>

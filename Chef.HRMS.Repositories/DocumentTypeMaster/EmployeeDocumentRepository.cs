@@ -15,6 +15,15 @@ namespace Chef.HRMS.Repositories
 
         }
 
+        public async Task<IEnumerable<DocumentDetail>> GetAllActiveDocumentsTypes()
+        {
+            return await QueryFactory
+            .Query<DocumentDetail>()
+            .Where("status", true)
+            .WhereNotArchived()
+            .GetAsync<DocumentDetail>();
+        }
+
         public async Task<IEnumerable<EmployeeDocumentAttachment>> GetAllByEmployeeId(int employeeId, int documentid)
         {
             var sql = @"SELECT ed.*,

@@ -57,6 +57,25 @@
                     </option>
                 </select>
             </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="currencyId">
+                    Currency
+                </label>
+                <select class="form-control" formControlName="currencyId">
+                    <option [ngValue]="null">Select Currency</option>
+                    <option *ngFor="let key of currency" [ngValue]="key.id">
+                        {{key.code}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="timeSheetCutOff">Timesheet cut off day</label>
+                <input type="number" class="form-control" formControlName="timeSheetCutOff">
+            </div>
+            <div class="col-6 form-group form-input-line">
+                <label class=" col-form-label" for="leaveCutOff">Leave cut off day</label>
+                <input type="number" class="form-control" formControlName="leaveCutOff">
+            </div>
         </div>
 
     </div>

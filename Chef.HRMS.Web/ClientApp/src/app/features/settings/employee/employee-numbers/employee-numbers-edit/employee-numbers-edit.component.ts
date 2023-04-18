@@ -128,7 +128,6 @@ export class EmployeeNumbersEditComponent implements OnInit {
         Validators.maxLength(8)
       ]],
       suffix: [{ value: null, disabled: this.isDisabled }, [
-        Validators.required,
         Validators.maxLength(8)
       ]],
       digitInNumber: [{ value: null, disabled: this.isDisabled }, [

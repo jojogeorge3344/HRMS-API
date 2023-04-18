@@ -65,14 +65,15 @@ export class PayrollComponentCreateComponent implements OnInit {
     this.roundingTypeKeys = Object.keys(this.roundingTypes)
       .filter(Number)
       .map(Number);
+      debugger
+
     this.payrollComponentService
       .getAllPayrollComponentByType()
-      
       .subscribe((result) => {        
         this.payrollComponentTypeKeys = result.sort((a, b) => a.categoryId - b.categoryId);
         this.payrollComponentTypeKeysSearch = result.sort((a, b) => a.categoryId - b.categoryId);
       });
-
+ debugger
     this.config = {
       displayKey: "name",
       search: true,
@@ -126,6 +127,7 @@ export class PayrollComponentCreateComponent implements OnInit {
   // }
 
   selectionChanged(args) {
+    debugger
     this.addForm.get("payrollComponentType").patchValue(args.value.id);
   }
 

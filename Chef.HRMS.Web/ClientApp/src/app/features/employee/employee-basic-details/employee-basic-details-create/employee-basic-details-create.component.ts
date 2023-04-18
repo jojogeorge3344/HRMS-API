@@ -119,7 +119,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       ]],
       fileNumber: ['', [
         Validators.required,
-        Validators.pattern(/^-?(0|[1-9]\d*)?$/),
+        Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$'),
         Validators.maxLength(30),
       ]],
       religionId: ['', [
@@ -133,7 +133,6 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
         Validators.required]
       ],
       remarks:[null,[
-        Validators.required,
         Validators.maxLength(250)]
       ],
       refNum:[null,[
