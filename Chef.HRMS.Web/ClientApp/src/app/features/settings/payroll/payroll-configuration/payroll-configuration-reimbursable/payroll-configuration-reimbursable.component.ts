@@ -49,7 +49,7 @@ export class PayrollConfigurationReimbursableComponent implements OnChanges {
         this.onUpdate(true);
       }
 
-      this.editForm.patchValue(this.payrollConfiguration[0]);
+      this.editForm.patchValue(this.payrollConfiguration);
     }
 
     if (this.isView) {
@@ -95,6 +95,13 @@ export class PayrollConfigurationReimbursableComponent implements OnChanges {
   }
 
   onSubmit() {
+    debugger
+    if(this.payrollConfiguration){
+      this.editForm.patchValue({
+        name:this.payrollConfiguration.name,
+        shortCode:this.payrollConfiguration.shortCode
+      })
+    }
     this.editForm.patchValue({ isConfigured: true });
     this.payrollConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Payroll component configured successfully!');
@@ -123,7 +130,7 @@ export class PayrollConfigurationReimbursableComponent implements OnChanges {
   
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      id: [null],
+      id: [0],
       isCustomizedAndOverridenAtEmployeeLevel: [false],
       isConfigured: [false],
       isDifferenceAmountAdjustable: [false],
@@ -140,12 +147,12 @@ export class PayrollConfigurationReimbursableComponent implements OnChanges {
         Validators.min(1),
         Validators.required
       ]],
-      payrollComponentType: [null],
+      payrollComponentType: [0],
       shortCode: [''],
       name: [''],
-      payrollComponentId: [],
-      payrollStructureId: [],
-      createdDate: [],
+      payrollComponentId: [0],
+      payrollStructureId: [0],
+      createdDate: [new Date()],
     });
   }
 }

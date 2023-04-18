@@ -141,6 +141,7 @@ export class PayrollStructureListComponent implements OnInit {
   }
 
   openEditPayrollStructure(payrollStructure: PayrollStructure) {
+    debugger
     const modalRef = this.modalService.open(PayrollStructureEditComponent,
       {centered: true, backdrop: 'static' });
 

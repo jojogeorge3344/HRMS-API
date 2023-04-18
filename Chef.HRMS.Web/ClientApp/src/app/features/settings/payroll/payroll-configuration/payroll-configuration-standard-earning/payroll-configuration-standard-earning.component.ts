@@ -29,7 +29,7 @@ export class PayrollConfigurationStandardEarningComponent implements OnChanges {
 
     if (changes.payrollConfiguration) {
       this.editForm = this.createFormGroup();
-      this.editForm.patchValue(this.payrollConfiguration[0]);
+      this.editForm.patchValue(this.payrollConfiguration);
     }
 
     if (this.isView) {
@@ -44,6 +44,12 @@ export class PayrollConfigurationStandardEarningComponent implements OnChanges {
   }
 
   onSubmit() {
+    if(this.payrollConfiguration){
+      this.editForm.patchValue({
+        name:this.payrollConfiguration.name,
+        shortCode:this.payrollConfiguration.shortCode
+      })
+    }
     this.editForm.patchValue({ isConfigured: true });
     this.payrollConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Payroll component configured successfully!');
