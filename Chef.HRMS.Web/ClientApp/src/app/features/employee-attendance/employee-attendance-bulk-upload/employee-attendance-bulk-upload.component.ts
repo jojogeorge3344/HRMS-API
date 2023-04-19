@@ -42,7 +42,7 @@ export class EmployeeAttendanceBulkUploadComponent implements OnInit {
   addfile(event)     
   { 
     debugger  
-    console.log("filter",this.attendanceFilter, this.fromDateFilter, this.toDateFilter)
+    console.log("filter",this.attendanceFilter, this.fromDateFilter, this.toDateFilter,)
   // if(this.attendanceFilter != null && this.fromDateFilter != null  && this.toDateFilter != null ){
     this.file= event.target.files[0]; 
     this.fileName =this.file.name;
