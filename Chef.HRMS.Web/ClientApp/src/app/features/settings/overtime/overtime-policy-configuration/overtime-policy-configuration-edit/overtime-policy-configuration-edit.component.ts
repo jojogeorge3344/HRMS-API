@@ -81,7 +81,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   }
 
   getOvertimePolicy(overtimePolicyId) {
-    debugger
     this.overtimePolicyService.get(overtimePolicyId).subscribe((result) => {
       this.overtimePolicy = result;
       this.editForm.patchValue({
@@ -95,7 +94,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   }
 
   getOvertimeConfiguration(overtimePolicyId) {
-    debugger
     this.overtimePolicyConfigurationService.getByOverTimePolicyId(overtimePolicyId).subscribe((result) => {
       this.overtimePolicyConfiguration = result;
       this.editForm.patchValue(this.overtimePolicyConfiguration);
@@ -152,7 +150,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   }
 
   // openFormulaEditor(type: string) {
-  //   debugger
+  //   
   //   const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
   //     { size: 'lg', centered: true, backdrop: 'static' });
 
@@ -167,7 +165,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   // }
 
   onSubmit() {
-    debugger
     console.log(this.editForm.value)
     this.overtimePolicyConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Overtime Policy configured successfully!');
@@ -235,7 +232,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   }
 
   getOvertimeSlablist(id) {
-    debugger
     this.overTimeSlabService.getOvertimeDetail(id).subscribe(result => {
       this.overtimeSlabDetails = result;
       //this.overtimeSlabDetails=this.overtimeSlabDetails.sort((a, b) => a.overTimePolicyCode.toLowerCase().localeCompare(b.overTimePolicyCode.toLowerCase()));
@@ -246,7 +242,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     });
   }
   openCreate() {
-    debugger
     const modalRef = this.modalService.open(OvertimeSlabCreateComponent,
       {size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.code = this.overtimePolicy.name;
