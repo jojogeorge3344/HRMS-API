@@ -17,6 +17,7 @@ import { ExpensePolicy } from '../expense-policy.model';
 import { ExpenseType } from '../../expense-type/expense-type.model';
 import { ExpenseConfiguration } from '../../expense-configuration/expense-configuration.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { ExpensePolicyViewComponent } from '../expense-policy-view/expense-policy-view.component';
 
 
 @Component({
@@ -227,7 +228,21 @@ export class ExpensePolicyListComponent implements OnInit {
   }
 
 
+  viewExpensePolicy(expensePolicy: ExpensePolicy){
+    const modalRef = this.modalService.open(ExpensePolicyViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
 
+    modalRef.componentInstance.expensePolicy = expensePolicy;
+    modalRef.componentInstance.isDisabled = this.isDisabled(expensePolicy);
+    modalRef.componentInstance.expensePolicyNames = this.expensePolicyNames.filter(v => v !== expensePolicy.name.toLowerCase());
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.firstOpen = expensePolicy.id;
+        this.getExpensePolicies();
+      }
+    });
+  }
 
 
 }

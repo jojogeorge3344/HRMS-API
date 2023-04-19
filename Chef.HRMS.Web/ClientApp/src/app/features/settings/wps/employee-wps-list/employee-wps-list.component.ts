@@ -7,6 +7,7 @@ import { WpsGroup } from '../wps-model';
 import { EmployeeWpsCreateComponent } from '../employee-wps-create/employee-wps-create.component';
 import { EmployeeWpsEditComponent } from '../employee-wps-edit/employee-wps-edit.component';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeWpsViewComponent } from '../employee-wps-view/employee-wps-view.component';
 
 @Component({
   selector: 'hrms-employee-wps-list',
@@ -72,6 +73,21 @@ export class EmployeeWpsListComponent implements OnInit {
       });
     }
 
+    openView(wpsDetails: WpsGroup) {
+      const modalRef = this.modalService.open(EmployeeWpsViewComponent,
+        { size: 'lg', centered: true, backdrop: 'static' });
+      modalRef.componentInstance.wpsDetails = wpsDetails;
+      modalRef.componentInstance.groupCodes = this.groupCodes;
+      modalRef.componentInstance.groupNames = this.groupNames;
+      modalRef.componentInstance.establishmentId = this.establishmentId;
+      console.log('Details', wpsDetails);
+
+      modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getWPSlist();
+        }
+      });
+    }
   delete(wpsDetails: WpsGroup) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
