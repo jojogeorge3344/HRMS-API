@@ -60,6 +60,7 @@ export class EosSlabEditComponent implements OnInit {
   
   onSubmit() {
     this.addForm.value.id=this.relDetails.id
+    this.addForm.value.valueType = parseInt(this.addForm.value.valueType)
     const eosForm = this.addForm.value;
     this.eosSlabService.update(eosForm).subscribe(result => {
     this.toastr.showSuccessMessage('The EosSlab updated successfully!');

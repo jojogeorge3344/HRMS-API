@@ -81,5 +81,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(type);
         }
+
+        [HttpGet("GetOverTimeComponentDetails/{overtimepolicyid}")]
+        public async Task<ActionResult<IEnumerable<OverTimeSlab>>> GetOverTimeComponentDetails(int overtimepolicyid)
+        {
+            var overTime = await overTimePolicySlabService.GetOverTimeComponentDetails(overtimepolicyid);
+
+            return Ok(overTime);
+        }
     }
 }

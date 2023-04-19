@@ -38,7 +38,7 @@ namespace Chef.HRMS.Repositories
                 var sql = @"SELECT pc.*,bt.name AS typename FROM  hrms.payrollcomponent pc
                             INNER JOIN hrms.benefittypes bt
                             ON pc.payrollcomponenttype = bt.id
-                            WHERE pc.isarchived = false ORDER BY name ASC";
+                            WHERE pc.isarchived = false ORDER BY id DESC";
 
                 return await Connection.QueryAsync<PayrollComponent>(sql);
         }
