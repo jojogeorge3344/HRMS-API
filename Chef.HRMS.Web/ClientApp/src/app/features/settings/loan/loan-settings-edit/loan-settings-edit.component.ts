@@ -16,7 +16,8 @@ export class LoanSettingsEditComponent implements OnInit {
   editForm: FormGroup;
   currentUserId: number;
   interestMethod = InterestMethod;
-  
+  deductionBfCodeTypes;
+
   constructor(private loanSettingsService: LoanSettingsService,
     private formBuilder: FormBuilder,
     private router: Router,
@@ -26,6 +27,7 @@ export class LoanSettingsEditComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();  
     this.editForm = this.createFormGroup();
+    this.GetDeductionBFCode()
     this.onChanges();
     this.getLoanSettings();
   }
@@ -53,6 +55,14 @@ export class LoanSettingsEditComponent implements OnInit {
         this.editForm.get('salaryToRange').disable();
       }        
     });
+  }
+
+  GetDeductionBFCode(){
+    debugger
+    this.loanSettingsService.getDeductionBFCode()
+    .subscribe((result)=>{
+     this.deductionBfCodeTypes=result;
+    })
   }
 
   getLoanSettings() {
@@ -123,7 +133,8 @@ export class LoanSettingsEditComponent implements OnInit {
         Validators.required,
         Validators.min(1) ,
         Validators.max(36)         
-      ]],   
+      ]], 
+      deductionBFCode:[0,[]]  ,
       interestCalcutationMethod: [this.interestMethod['ReductionRate']],
       createdDate: []
     }, { validators: rangeValidator });  

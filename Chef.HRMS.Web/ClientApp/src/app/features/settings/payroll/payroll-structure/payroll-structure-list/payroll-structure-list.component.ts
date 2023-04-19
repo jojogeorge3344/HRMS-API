@@ -58,7 +58,7 @@ export class PayrollStructureListComponent implements OnInit {
       }
 
       this.getPayrollComponents(this.firstOpen);
-
+     debugger
       this.payrollStructures = result;
       this.payrollStructureNames = this.payrollStructures.map(a => a.name.toLowerCase());
     },
