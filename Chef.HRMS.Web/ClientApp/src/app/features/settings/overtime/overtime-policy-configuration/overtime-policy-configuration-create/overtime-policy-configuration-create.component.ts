@@ -192,7 +192,6 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   // }
 
   onSubmit() {
-    debugger
     this.overtimePolicyConfigurationService.add(this.addForm.value).subscribe(() => {
       this.overtimePolicy.isConfigured = true;
       this.overtimePolicyService.update(this.overtimePolicy).subscribe(() => {
@@ -265,7 +264,6 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
 
   
   getOvertimeSlablist(id) {
-    debugger
     this.overTimeSlabService.getOvertimeDetail(id).subscribe(result => {
       this.overtimeSlabDetails = result;
       //this.overtimeSlabDetails=this.overtimeSlabDetails.sort((a, b) => a.overTimePolicyCode.toLowerCase().localeCompare(b.overTimePolicyCode.toLowerCase()));
@@ -276,7 +274,6 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
     });
   }
   openCreate() {
-    debugger
     const modalRef = this.modalService.open(OvertimeSlabCreateComponent,
       {size: 'lg', centered: true, backdrop: 'static' });
        modalRef.componentInstance.code = this.overtimePolicy.name;
