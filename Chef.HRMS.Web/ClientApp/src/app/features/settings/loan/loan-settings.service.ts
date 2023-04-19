@@ -18,6 +18,9 @@ export class LoanSettingsService {
   get(){
     return this.http.get<LoanSettings>(this.baseUrl + 'get').pipe(map(response => { return response; }));
   }
+  getDeductionBFCode(){
+    return this.http.get<LoanSettings>(this.baseUrl + 'getDeductionBFCode').pipe(map(response => { return response; }));
+  }
 
   getLoanSettingId() {
     return this.http.get<number>(this.baseUrl + 'getLoanSettingId').pipe(map(response => { return response; }));
