@@ -13,6 +13,7 @@ import { PayrollConfiguration } from '../../payroll-configuration/payroll-config
 import { PayrollComponent } from '@settings/payroll/payroll-component/payroll-component.model';
 import { PayrollComponentService } from '@settings/payroll/payroll-component/payroll-component.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { PayrollStructureViewComponent } from '../payroll-structure-view/payroll-structure-view.component';
 
 
 @Component({
@@ -57,7 +58,7 @@ export class PayrollStructureListComponent implements OnInit {
       }
 
       this.getPayrollComponents(this.firstOpen);
-
+     debugger
       this.payrollStructures = result;
       this.payrollStructureNames = this.payrollStructures.map(a => a.name.toLowerCase());
     },
@@ -141,6 +142,20 @@ export class PayrollStructureListComponent implements OnInit {
 
   openEditPayrollStructure(payrollStructure: PayrollStructure) {
     const modalRef = this.modalService.open(PayrollStructureEditComponent,
+      {centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.payrollStructure = payrollStructure;
+    modalRef.componentInstance.payrollStructureNames = this.payrollStructureNames.filter(v => v !== payrollStructure.name.toLowerCase());
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.firstOpen = payrollStructure.id;
+        this.getPayrollStructures();
+      }
+    });
+  }
+  openViewPayrollStructure(payrollStructure: PayrollStructure) {
+    const modalRef = this.modalService.open(PayrollStructureViewComponent,
       {centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.payrollStructure = payrollStructure;

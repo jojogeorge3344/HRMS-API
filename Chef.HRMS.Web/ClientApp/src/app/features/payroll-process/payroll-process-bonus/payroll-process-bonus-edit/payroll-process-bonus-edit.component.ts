@@ -82,7 +82,7 @@ export class PayrollProcessBonusEditComponent implements OnInit {
         Validators.required,
         // Validators.maxLength(64),
         // Validators.pattern('^([a-zA-Z0-9 ])+$')
-        Validators.max(40)
+        Validators.max(60)
       ]],
       id: [],
       bonusTypeId: [null, [

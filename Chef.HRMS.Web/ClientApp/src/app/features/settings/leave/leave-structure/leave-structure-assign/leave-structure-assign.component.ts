@@ -19,6 +19,7 @@ export class LeaveStructureAssignComponent implements OnInit {
   currentUserId: number;
   isMatch: boolean;
   isEmpty = false;
+  selectedLeaveConfig:any=[]
 
   @Input() assignedLeaveComponents: LeaveComponent[];
   @Input() leaveStructure: LeaveStructure;
@@ -46,7 +47,6 @@ export class LeaveStructureAssignComponent implements OnInit {
     const selectedTypes = [];
     const removedTypes = [];
     let componentCount = 0;
-
     this.addForm.get('types').value.forEach((type, i) => {
       const currentLeaveComponent = this.assignedLeaveComponents.find(e => e.id === this.allLeaveComponents[i].id);
 
@@ -71,7 +71,7 @@ export class LeaveStructureAssignComponent implements OnInit {
       this.isEmpty = true;
     } else {
       this.leaveConfigurationService.add(this.leaveStructure.id, selectedTypes, removedTypes).subscribe(() => {
-
+        this.selectedLeaveConfig = selectedTypes
         if (selectedTypes.length === 0 && this.leaveStructure.isConfigured) {
           this.router.navigate(['settings/leave/leave-structure'], {
             queryParams: {
@@ -79,7 +79,18 @@ export class LeaveStructureAssignComponent implements OnInit {
             }
           });
         } else {
-          this.router.navigate(['settings/leave/' + this.leaveStructure.id + '/leave-configuration/']);
+          let componentQstring = ''
+          if(removedTypes.length > 0){
+            removedTypes.forEach(e => {
+              
+              componentQstring = componentQstring + e.leaveComponentId + ','
+            })
+          }
+          this.router.navigate(['settings/leave/' + this.leaveStructure.id + '/leave-configuration/'],{
+            queryParams: {
+              componentQstring: componentQstring
+            }
+          });
         }
         this.activeModal.close('submit');
 

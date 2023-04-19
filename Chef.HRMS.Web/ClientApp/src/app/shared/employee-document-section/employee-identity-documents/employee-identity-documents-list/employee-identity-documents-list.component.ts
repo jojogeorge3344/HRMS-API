@@ -25,8 +25,8 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
   @Input() isView: boolean;
 
   identityDetails: EmployeeIdentityDetails[];
-  documentType = enumSelector(DocumentType);
-
+  documentTypeKeys: any[] = [];
+  documentTypeName
   constructor(
     private identityDetailsService: EmployeeIdentityDetailsService,
     private documentService: DocumentService,
@@ -34,22 +34,24 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
     private sanitizer: DomSanitizer,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.getIdentityDetails();
+    this.getDocumentTypeValue()
   }
 
   getIdentityDetails() {
+    debugger
     this.identityDetailsService.getEmployeeId(this.employeeId).subscribe(
       (result: any) => {
         if (result.length) {
-          this.identityDetails = result;
-          this.identityDetails.forEach((element) => {
-            element.documentType = this.getDocumentTypeValue(
-              element.documentTypeList
-            );
+          let docList = [];
+          result.forEach(data => {
+            data.documentName = this.getNameValue(data.documentTypeMasterId);
+            docList.push(data)
           });
+          this.identityDetails = docList
+
         }
       },
       (error) => {
@@ -105,14 +107,13 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
   }
 
   deleteIdentityDetails(identityDetails) {
+    debugger
     const documentPath = new FormData();
     documentPath.append("path", identityDetails.path);
-
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true,
       backdrop: "static",
     });
-
     modalRef.componentInstance.confirmationMessage =
       "Are you sure you want to delete this document";
 
@@ -153,13 +154,39 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
       });
   }
 
-  getDocumentTypeValue(value) {
-    let data: any;
-    this.documentType.find((result) => {
-      if (result.value == value) {
-        data = result;
+  getDocumentTypeValue() {
+    debugger
+    this.identityDetailsService.getAllActiveDocumentsTypes()
+      .subscribe((item) => {
+        if (item && item.length > 0) {
+          this.documentTypeKeys = item;
+          this.getIdentityDetails();
+        }
+
+        // item.forEach(element => {
+        //   this.identityDetails.forEach(e =>{
+
+        //     if(element.id == e.documentTypeMasterId){
+
+        //       this.documentTypeName=e.name
+        //     }
+        //   })
+
+        // });
+      }
+        // this.documentTypeKeys=item.fiter(item=>{
+        //   item.id==this.documentTypeMasterId
+        //   this.documentTypeName=this.documentTypeKeys.name
+        // })
+      )
+  }
+  getNameValue(documentId) {
+    let nameValue = "";
+    this.documentTypeKeys.find((data) => {
+      if (data.id == documentId) {
+        nameValue = data.name;
       }
     });
-    return data ? data.text : "-";
+    return nameValue ? nameValue : "";
   }
 }

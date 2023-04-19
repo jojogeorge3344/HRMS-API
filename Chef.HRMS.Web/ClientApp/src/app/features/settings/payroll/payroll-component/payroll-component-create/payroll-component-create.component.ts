@@ -65,17 +65,15 @@ export class PayrollComponentCreateComponent implements OnInit {
     this.roundingTypeKeys = Object.keys(this.roundingTypes)
       .filter(Number)
       .map(Number);
+      debugger
+
     this.payrollComponentService
       .getAllPayrollComponentByType()
-      .subscribe((result) => {
-        this.payrollComponentTypeKeys = result.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        );
-        this.payrollComponentTypeKeysSearch = result.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        );
+      .subscribe((result) => {        
+        this.payrollComponentTypeKeys = result.sort((a, b) => a.categoryId - b.categoryId);
+        this.payrollComponentTypeKeysSearch = result.sort((a, b) => a.categoryId - b.categoryId);
       });
-
+ debugger
     this.config = {
       displayKey: "name",
       search: true,
@@ -129,6 +127,7 @@ export class PayrollComponentCreateComponent implements OnInit {
   // }
 
   selectionChanged(args) {
+    debugger
     this.addForm.get("payrollComponentType").patchValue(args.value.id);
   }
 
@@ -171,7 +170,7 @@ export class PayrollComponentCreateComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.pattern("^([a-zA-Z0-9 ])+$"),
+          //Validators.pattern("^([a-zA-Z0-9 ])+$"),
           duplicateNameValidator(this.payrollComponentNames),
         ],
       ],
@@ -180,8 +179,8 @@ export class PayrollComponentCreateComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.maxLength(7),
-          Validators.pattern("^([a-zA-Z0-9])+$"),
+          Validators.maxLength(30),
+          //Validators.pattern("^([a-zA-Z0-9])+$"),
           duplicateNameValidator(this.payrollComponentCodes),
         ],
       ],

@@ -18,6 +18,5 @@ export interface EmployeeIdentityDetails extends Model {
   documentReturnType: number;
   documentUpdateType: number;
   active: boolean;
-  documentTypeList: number;
   documentTypeMasterId: number;
 }

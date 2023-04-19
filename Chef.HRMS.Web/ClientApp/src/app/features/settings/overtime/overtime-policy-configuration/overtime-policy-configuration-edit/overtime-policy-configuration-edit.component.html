@@ -194,66 +194,37 @@
           </div>
 
           <div class="h6 mt-4 mb-4">Overtime Calculation</div>
+
           <div class="row">
-            <div class="with-input form-group d-inline-block col-md-6">
-              <label
-                for="normalFormula"
-                class="mr-2 align-items-center d-flex flex-wrap"
-              >
-                <span class="text-nowrap">
-                  Formula for normal working days overtime
-                </span>
-                <input
-                  type="text"
-                  readOnly
-                  class="d-inline form-control ml-2 mr-2"
-                  formControlName="normalFormula"
-                />
-                <button
-                  type="button"
-                  (click)="openFormulaEditor('normalFormula')"
-                  class="btn btn-outline-primary btn-sm ml-3"
-                >
-                  <i class="fal fa-edit"></i>
-                </button>
-              </label>
+            <div class="with-input form-group col-md-3">             
+                <span class="text-nowrap"
+                  >Normal Overtime BF Code</span
+                >        
             </div>
-            <div class="form-group form-input-line col-md-3 d-inline-block">
+            <div class="form-group col-md-3">
               <select class="form-control" formControlName="normalOverTime">
-                <option value="" disabled>Select</option>
-                <option *ngFor="let item of normalOverTime" [ngValue]="item.id">
-                  {{ item.name }}
+                <option [ngValue]="null" disabled>Select</option>
+                <option
+                  *ngFor="let items of normalOverTime"
+                  [ngValue]="items.id"
+                >
+                  {{ items.name }}
                 </option>
               </select>
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-md-6"></div>
           </div>
-
           <div class="row">
-            <div class="with-input form-group d-inline-block col-md-6">
-              <label
-                for="holidayFormula"
-                class="mr-2 align-items-center d-flex flex-wrap"
-              >
-                <span class="text-nowrap">Formula for holiday overtime</span>
-                <input
-                  type="text"
-                  readOnly
-                  class="d-inline form-control ml-2 mr-2"
-                  formControlName="holidayFormula"
-                />
-                <button
-                  type="button"
-                  (click)="openFormulaEditor('holidayFormula')"
-                  class="btn btn-outline-primary btn-sm ml-3"
-                >
-                  <i class="fal fa-edit"></i>
-                </button>
-              </label>
+            <div class="with-input form-group col-md-3">
+                <span class="text-nowrap">Holiday Overtime BF Code</span>
             </div>
-            <div class="form-group form-input-line col-md-3 d-inline-block">
-              <select class="form-control" formControlName="holidayOverTime">
-                <option value="" disabled>Select</option>
+            <div class="form-group col-md-3 ">
+              <select
+                class="form-control"
+                formControlName="holidayOverTime"
+                [disabled]="disableholiday"
+              >
+                <option [ngValue]="null" disabled>Select</option>
                 <option
                   *ngFor="let item of holidayOverTime"
                   [ngValue]="item.id"
@@ -262,33 +233,15 @@
                 </option>
               </select>
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-md-6"></div>
           </div>
           <div class="row">
-            <div class="with-input form-group d-inline-block col-md-6">
-              <label
-                for="specialFormula"
-                class="mr-2 align-items-center d-flex flex-wrap"
-              >
-                <span class="text-nowrap">Formula for special overtime</span>
-                <input
-                  type="text"
-                  readOnly
-                  class="d-inline form-control ml-2 mr-2"
-                  formControlName="specialFormula"
-                />
-                <button
-                  type="button"
-                  (click)="openFormulaEditor('specialFormula')"
-                  class="btn btn-outline-primary btn-sm ml-3"
-                >
-                  <i class="fal fa-edit"></i>
-                </button>
-              </label>
+            <div class="with-input form-group col-md-3">
+                <span class="text-nowrap">Special Overtime BF Code</span>
             </div>
-            <div class="form-group form-input-line col-md-3 d-inline-block">
+            <div class="form-group col-md-3">
               <select class="form-control" formControlName="specialOverTime">
-                <option value="" disabled>Select</option>
+                <option [ngValue]="null" disabled>Select</option>
                 <option
                   *ngFor="let item of specialOverTime"
                   [ngValue]="item.id"
@@ -297,8 +250,8 @@
                 </option>
               </select>
             </div>
-            <div class="col-md-3"></div>
-          </div>
+            <div class="col-md-6"></div>
+          </div> 
           <div class="with-input form-group">
             <label
               for="minimumOverTimeHour"

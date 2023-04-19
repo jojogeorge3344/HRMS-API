@@ -11,6 +11,7 @@ import { PayrollCalendarListComponent } from './payroll-calendar-list/payroll-ca
 import { PayrollCalendarCreateComponent } from './payroll-calendar-create/payroll-calendar-create.component';
 import { PayrollCalendarEditComponent } from './payroll-calendar-edit/payroll-calendar-edit.component';
 import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
+import { PayrollCalenderViewComponent } from './payroll-calender-view/payroll-calender-view.component';
 
 
 
@@ -19,7 +20,7 @@ import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
   declarations: [
     PayrollCalendarListComponent, 
     PayrollCalendarCreateComponent, 
-    PayrollCalendarEditComponent
+    PayrollCalendarEditComponent, PayrollCalenderViewComponent
   ],
   imports: [
     CommonModule,

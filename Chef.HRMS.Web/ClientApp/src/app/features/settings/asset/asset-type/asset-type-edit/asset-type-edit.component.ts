@@ -76,8 +76,8 @@ export class AssetTypeEditComponent implements OnInit {
       id: [''],
       assettypename: ['', [
         Validators.required,
-        Validators.maxLength(15),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        Validators.maxLength(30),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.assetTypeNames)
       ]],
       description: ['', [

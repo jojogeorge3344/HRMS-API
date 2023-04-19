@@ -41,9 +41,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
-    this.editForm.get('holidayOverTime').disable();
-    this.editForm.get('normalOverTime').disable();
-    this.editForm.get('specialOverTime').disable();
     this.overtimePolicyConfigurationService.getNormalOverTime()
     .subscribe((result)=>{
       this.normalOverTime=result  
@@ -135,48 +132,23 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
         this.editForm.patchValue( {isRoundOffLowest: true} );
       }
     });
-    this.editForm.get('holidayFormula').valueChanges.subscribe(value => {
-      if (value) {
-        this.editForm.get('holidayOverTime').enable(); 
-        this.required=true;
-      } else{
-        this.editForm.get('holidayOverTime').disable(); 
-        this.editForm.get('holidayOverTime').reset();
-      }
-    }); 
-    this.editForm.get('specialFormula').valueChanges.subscribe(value => {
-      if (value) {
-        this.editForm.get('specialOverTime').enable();
-        this.required=true;
-      }else{
-        this.editForm.get('specialOverTime').disable();
-        this.editForm.get('specialOverTime').reset();
-      }
-    }); 
-    this.editForm.get('normalFormula').valueChanges.subscribe(value => {
-      if (value) {
-        this.editForm.get('normalOverTime').enable();
-        this.required=true;
-      }else{
-        this.editForm.get('normalOverTime').disable();
-        this.editForm.get('normalOverTime').reset();
-      }
-    }); 
+    
   }
 
-  openFormulaEditor(type: string) {
-    const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+  // openFormulaEditor(type: string) {
+  //   debugger
+  //   const modalRef = this.modalService.open(OvertimePolicyCalculationComponent,
+  //     { size: 'lg', centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.formulaType = type;
-    modalRef.componentInstance.formula = this.editForm.get(type).value;
+  //   modalRef.componentInstance.formulaType = type;
+  //   modalRef.componentInstance.formula = this.editForm.get(type).value;
 
-    modalRef.result.then((result) => { console.log(result);
-        if (result !== 'Close click') {
-        this.editForm.get(type).patchValue(result);        
-      }
-    });
-  }
+  //   modalRef.result.then((result) => { console.log(result);
+  //       if (result !== 'Close click') {
+  //       this.editForm.get(type).patchValue(result);        
+  //     }
+  //   });
+  // }
 
   onSubmit() {
     debugger
@@ -202,12 +174,9 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
-      normalOverTime:[null,[
-        Validators.required]],
-      holidayOverTime:[null,[
-        Validators.required,]],
-      specialOverTime:[null,[
-        Validators.required,]],      
+      normalOverTime:[0],
+      holidayOverTime:[0],
+      specialOverTime:[0],      
         roundOffType: [{ value: 1, disabled: true }],
       noticeDays: [{ value: null, disabled: true }, [
         Validators.required,
@@ -241,15 +210,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
         Validators.required,
         Validators.min(1),
         Validators.max(999999999)
-      ]],
-      normalFormula: ['', [
-        Validators.maxLength(256)
-      ]],
-      holidayFormula: ['', [
-        Validators.maxLength(256)
-      ]],
-      specialFormula: ['', [
-        Validators.maxLength(256)
       ]],
       createdDate: [],
     });

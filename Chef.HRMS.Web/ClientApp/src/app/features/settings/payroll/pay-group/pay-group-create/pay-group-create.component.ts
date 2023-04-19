@@ -27,7 +27,7 @@ export class PayGroupCreateComponent implements OnInit {
   months = Months;
   monthKeys: number[];
   isStartingMonth = false;
-
+  currency:any[];
 
   constructor(
     private payGroupService: PayGroupService,
@@ -45,6 +45,10 @@ export class PayGroupCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.onChanges();
     this.calenders=this.calenders.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    this.payGroupService.getCurrencies()
+    .subscribe((result)=>{
+      this.currency=result;
+    })
   }
 
   onChanges(): void {
@@ -62,7 +66,7 @@ export class PayGroupCreateComponent implements OnInit {
       name: ['', [
         Validators.required,
         Validators.maxLength(50),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.payGroupNames)
       ]],
       payrollCalendarId: [null, [
@@ -70,14 +74,18 @@ export class PayGroupCreateComponent implements OnInit {
       ]],
       code: ['', [
         Validators.required,
-        Validators.maxLength(10),
-        Validators.pattern('^([a-zA-Z0-9])+$'),
+        Validators.maxLength(30),
+        //Validators.pattern('^([a-zA-Z0-9])+$'),
         duplicateNameValidator(this.payGroupCodes)
       ]],
       startingYear: [null, [
         Validators.required,
       ]],
       startingMonth: [0, []],
+      currencyId: [null, []],
+      TimeSheetCutOff: [null, [Validators.max(31),Validators.min(1)]],
+      LeaveCutOff: [null, [Validators.max(31),Validators.min(1)]],
+
       startingWeek: [0, []],
     });
   }
