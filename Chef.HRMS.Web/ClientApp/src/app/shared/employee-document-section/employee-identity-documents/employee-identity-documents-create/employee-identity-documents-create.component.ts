@@ -65,7 +65,6 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
     // this.documentTypeKeys = Object.keys(this.documentType)
     //   .filter(Number)
     //   .map(Number);
-    debugger
 
      this.identityDetailsService.getAllActiveDocumentsTypes()
     .subscribe((item)=>(
@@ -203,7 +202,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       employeeId: this.employeeId,
-      documentTypeList: ["", [Validators.required]],
+      documentTypeMasterId: ["", [Validators.required]],
       documentNumber: [null, [Validators.required]],
       issueDate: ["", [Validators.required]],
       placeOfIssue: ["", [Validators.required]],

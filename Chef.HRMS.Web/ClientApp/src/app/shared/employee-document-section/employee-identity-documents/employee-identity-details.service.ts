@@ -70,7 +70,7 @@ export class EmployeeIdentityDetailsService {
     );
   }
   getAllActiveDocumentsTypes(){
-    return this.http.get<EmployeeIdentityDetails>(this.baseUrl + "getAllActiveDocumentsTypes").pipe(
+    return this.http.get<any>(this.baseUrl + "getAllActiveDocumentsTypes").pipe(
       map((response) => {
         return response;
       })

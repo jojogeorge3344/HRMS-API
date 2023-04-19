@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { DocumentType } from "src/app/models/common/types/documentType";
+import { EmployeeIdentityDetailsService } from "../employee-identity-details.service";
 
 @Component({
   templateUrl: "./employee-identity-documents-view.component.html",
@@ -10,13 +11,15 @@ export class EmployeeIdentityDocumentsViewComponent implements OnInit {
   viewForm: FormGroup;
   isDisabled = true;
   fileName = "";
-  documentTypeKeys: number[];
+  documentTypeKeys;
   documentType = DocumentType;
   @Input() identityDetails: any;
 
   constructor(
     private formBuilder: FormBuilder,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private identityDetailsService: EmployeeIdentityDetailsService,
+
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +34,11 @@ export class EmployeeIdentityDocumentsViewComponent implements OnInit {
     this.viewForm
       .get("expiryDate")
       .patchValue(this.formatDate(new Date(this.identityDetails.expiryDate)));
+
+      this.identityDetailsService.getAllActiveDocumentsTypes()
+      .subscribe((item)=>(
+        this.documentTypeKeys=item
+      ))
 
     if (this.identityDetails.fileName.length > 40) {
       this.fileName = this.identityDetails.fileName.substr(0, 40) + "...";
@@ -53,7 +61,7 @@ export class EmployeeIdentityDocumentsViewComponent implements OnInit {
     return this.formBuilder.group({
       id: [this.identityDetails.id],
       employeeId: this.identityDetails.employeeId,
-      documentTypeList: [""],
+      documentTypeMasterId: [""],
       documentNumber: [""],
       issueDate: [""],
       placeOfIssue: [""],

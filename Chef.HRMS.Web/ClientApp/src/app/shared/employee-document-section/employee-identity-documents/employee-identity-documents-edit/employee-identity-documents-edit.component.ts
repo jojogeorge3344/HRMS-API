@@ -57,7 +57,13 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     this.getAllEmployeeDetails();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Education\\${this.currentUserId}\\`;
     this.editForm = this.createFormGroup();
-   
+    debugger
+
+    this.identityDetailsService.getAllActiveDocumentsTypes()
+    .subscribe((item)=>(
+      this.documentTypeKeys=item
+    ))
+   debugger
     this.editForm.patchValue(this.identityDetails);
 
     this.editForm
@@ -251,7 +257,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     return this.formBuilder.group({
       id: [this.identityDetails.id],
       employeeId: this.identityDetails.employeeId,
-      documentTypeList: ["", [Validators.required]],
+      documentTypeMasterId: ["", [Validators.required]],
       documentNumber: ["", [Validators.required]],
       issueDate: ["", [Validators.required]],
       placeOfIssue: ["", [Validators.required]],

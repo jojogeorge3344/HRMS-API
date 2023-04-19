@@ -59,12 +59,9 @@ namespace Chef.HRMS.Services
 
         public async Task<bool> IsSystemVariableExist(string code)
         {
-            //return await payrollCalculationRepository.IsSystemVariableExist(code);
-            if (await payrollCalculationRepository.IsSystemVariableExist(code))
-            {
-                throw new ResourceAlreadyExistsException("System Variable code already exists in Payroll Calculation");
-            }
-            return false;
+            var result = await payrollCalculationRepository.IsSystemVariableExist(code);
+            
+            return result;
         }
     }
 }
