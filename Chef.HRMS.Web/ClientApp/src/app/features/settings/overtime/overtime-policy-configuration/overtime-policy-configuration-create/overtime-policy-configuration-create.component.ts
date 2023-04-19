@@ -280,7 +280,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
     const modalRef = this.modalService.open(OvertimeSlabCreateComponent,
       {size: 'lg', centered: true, backdrop: 'static' });
        modalRef.componentInstance.code = this.overtimePolicy.name;
-    // modalRef.componentInstance.name= this.Names;
+    modalRef.componentInstance.id= this.id;
     modalRef.result.then((result) => {
         if (result == 'submit') {
           this.getOvertimeSlablist(this.id)
@@ -292,7 +292,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       { size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.relDetails= relDetails;
     modalRef.componentInstance.code = this.overtimePolicy.name;
-    // modalRef.componentInstance.name = this.Names;
+    modalRef.componentInstance.id = this.id;
 
     modalRef.result.then((result) => {
       if (result == 'submit') {

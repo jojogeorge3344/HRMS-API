@@ -17,6 +17,7 @@ export class OvertimeSlabEditComponent implements OnInit {
   BfDetails: any
   @Input() code
   @Input() relDetails: OverTimeSlabGroup;
+  @Input() id
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -32,6 +33,7 @@ export class OvertimeSlabEditComponent implements OnInit {
     this.addForm.patchValue({
       // bfCode:this.relDetails.bfCode,
       overTimePolicyCode:this.code,
+      overTimePolicyId:this.id,
       lowerLimit:this.relDetails.lowerLimit,
       upperLimit:this.relDetails.upperLimit,
       valueVariable:this.relDetails.valueVariable,

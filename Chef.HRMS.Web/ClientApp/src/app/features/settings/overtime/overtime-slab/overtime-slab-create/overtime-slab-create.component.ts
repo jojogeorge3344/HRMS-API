@@ -15,6 +15,7 @@ export class OvertimeSlabCreateComponent implements OnInit {
   addForm: FormGroup;
   BfDetails: any
   @Input() code
+  @Input() id
 
 
   constructor( 
@@ -33,7 +34,8 @@ export class OvertimeSlabCreateComponent implements OnInit {
     //this.getBfDetails()
     if(this.code){
       this.addForm.patchValue({
-        overTimePolicyCode:this.code
+        overTimePolicyCode:this.code,
+        overTimePolicyId:this.id
       })
     }
   }
