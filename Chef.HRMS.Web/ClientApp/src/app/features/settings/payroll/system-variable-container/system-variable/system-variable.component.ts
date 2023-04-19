@@ -90,7 +90,7 @@ export class SystemVariableComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       code: ['', [
-        Validators.maxLength(20),
+        Validators.maxLength(30),
         //Validators.required,
       ]],
       name: ['', [

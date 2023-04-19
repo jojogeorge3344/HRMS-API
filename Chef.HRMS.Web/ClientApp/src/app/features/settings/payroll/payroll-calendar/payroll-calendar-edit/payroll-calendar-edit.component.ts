@@ -92,7 +92,7 @@ export class PayrollCalendarEditComponent implements OnInit {
       name: ['', [
         Validators.required,
         Validators.maxLength(32),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.payrollCalendarNames)
       ]],
       periodType: [{ value: null, disabled: this.isDisabled }, [

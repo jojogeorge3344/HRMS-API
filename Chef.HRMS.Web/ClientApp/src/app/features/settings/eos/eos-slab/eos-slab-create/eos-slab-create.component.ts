@@ -35,6 +35,7 @@ export class EosSlabCreateComponent implements OnInit {
 
 
   onSubmit() {
+    this.addForm.value.valuetype = parseInt(this.addForm.value.valuetype)
     const eosForm = this.addForm.value;
     this.eosSlabService.add(eosForm).subscribe(result => {
           this.toastr.showSuccessMessage('The EosSlab added successfully!');
@@ -70,10 +71,10 @@ export class EosSlabCreateComponent implements OnInit {
     return this.formBuilder.group({
 
       bfCode: ['', [
-        Validators.required
+        Validators.required,Validators.maxLength(30)
       ]],
       bfName: ['', [
-        Validators.required
+        Validators.required,Validators.maxLength(60)
       ]],
       lowerLimit: ['', [
         Validators.required

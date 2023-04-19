@@ -121,7 +121,7 @@ export class PayrollCreateAdhocPaymentComponent implements OnInit {
     return this.formBuilder.group({
       payrollProcessingMethodId: this.processId,
       employeeId: ['', [
-        Validators.required,Validators.maxLength(10)
+        Validators.required,Validators.maxLength(60)
       ]],
       employeeCode: ['', [
         Validators.required,Validators.maxLength(50)

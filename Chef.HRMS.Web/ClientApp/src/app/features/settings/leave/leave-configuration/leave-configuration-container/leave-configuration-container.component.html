@@ -41,7 +41,8 @@
               <a ngbNavLink>General Settings</a>
 
               <ng-template ngbNavContent>
-                <hrms-leave-configuration-general [leaveStructureId]="leaveStructureId" [assignedLeaveConfigurations]="assignedLeaveConfigurations"
+                <hrms-leave-configuration-general [leaveStructureId]="leaveStructureId" [assignedLeaveConfigurations]="assignedLeaveConfigurations" 
+                [activeIndex]="activeIndex"
                   [leaveComponentId]="currentLeaveComponent?.id" (saveConfiguration)="onSubmit($event)">
                 </hrms-leave-configuration-general>
               </ng-template>
