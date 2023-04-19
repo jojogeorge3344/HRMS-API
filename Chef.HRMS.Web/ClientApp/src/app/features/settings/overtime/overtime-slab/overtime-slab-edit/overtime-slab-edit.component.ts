@@ -15,6 +15,7 @@ import { OverTimeSlabService } from '../overtime-slab-service';
 export class OvertimeSlabEditComponent implements OnInit {
   addForm: FormGroup;
   BfDetails: any
+  @Input() code
   @Input() relDetails: OverTimeSlabGroup;
 
   constructor(
@@ -30,7 +31,7 @@ export class OvertimeSlabEditComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.addForm.patchValue({
       // bfCode:this.relDetails.bfCode,
-      overTimePolicyCode:this.relDetails.overTimePolicyCode,
+      overTimePolicyCode:this.code,
       lowerLimit:this.relDetails.lowerLimit,
       upperLimit:this.relDetails.upperLimit,
       valueVariable:this.relDetails.valueVariable,

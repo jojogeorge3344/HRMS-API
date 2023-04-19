@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,7 @@ export class OvertimeSlabCreateComponent implements OnInit {
 
   addForm: FormGroup;
   BfDetails: any
-  
+  @Input() code
 
 
   constructor( 
@@ -28,8 +28,14 @@ export class OvertimeSlabCreateComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    debugger
     this.addForm = this.createFormGroup();
     //this.getBfDetails()
+    if(this.code){
+      this.addForm.patchValue({
+        overTimePolicyCode:this.code
+      })
+    }
   }
 
 

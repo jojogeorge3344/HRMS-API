@@ -32,4 +32,8 @@ export class OverTimeSlabService {
   // get(){
   //   return this.http.get<OverTimeSlabGroup[]>(this.baseUrl + 'GetComponentType').pipe(map(response => { return response; }));
   // }
+
+  getOvertimeDetail(id) {
+    return this.http.get<OverTimeSlabGroup[]>(this.baseUrl + 'GetOverTimeComponentDetails/'+ id).pipe(map(response => { return response; }));
+  }
 }
