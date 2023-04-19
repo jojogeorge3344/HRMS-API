@@ -11,6 +11,9 @@ import { LeaveComponentListComponent } from './leave-component-list/leave-compon
 import { LeaveComponentCreateComponent } from './leave-component-create/leave-component-create.component';
 import { LeaveComponentEditComponent } from './leave-component-edit/leave-component-edit.component';
 import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
+import { LeaveSlabCreateComponent } from './leave-slab-create/leave-slab-create.component';
+import { LeaveSlabEditComponent } from './leave-slab-edit/leave-slab-edit.component';
+import { LeaveSlabViewComponent } from './leave-slab-view/leave-slab-view.component';
 
 
 
@@ -18,7 +21,7 @@ import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
   declarations: [
     LeaveComponentListComponent,
     LeaveComponentCreateComponent, 
-    LeaveComponentEditComponent 
+    LeaveComponentEditComponent, LeaveSlabCreateComponent, LeaveSlabEditComponent, LeaveSlabViewComponent 
   ],
   imports: [
     CommonModule,

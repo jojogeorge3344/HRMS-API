@@ -63,8 +63,8 @@ export class LeaveStructureEditComponent implements OnInit {
       id: [this.leaveStructure.id],
       name: [this.leaveStructure.name, [
         Validators.required,
-        Validators.maxLength(32),
-        Validators.pattern('^([a-zA-Z0-9 -])+$'),
+        Validators.maxLength(60),
+        //Validators.pattern('^([a-zA-Z0-9 -])+$'),
         duplicateNameValidator(this.leaveStructureNames)
       ]],
       description: [this.leaveStructure.description, [
