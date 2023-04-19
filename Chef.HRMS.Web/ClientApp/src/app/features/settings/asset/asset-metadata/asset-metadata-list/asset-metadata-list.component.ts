@@ -9,6 +9,7 @@ import { AssetType } from '../../asset-type/asset-type.model';
 import { AssetTypeMetadata } from '../asset-metadata.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetAssetsService } from '../../asset-assets/asset-assets.service';
+import { AssetMetadataViewComponent } from '../asset-metadata-view/asset-metadata-view.component';
 
 
 @Component({
@@ -116,6 +117,22 @@ export class AssetMetadataListComponent implements OnInit {
       }
     });
   }
+  openView(assettypeid, assettypename, metadata: AssetTypeMetadata[]) {
+    const modalRef = this.modalService.open(AssetMetadataViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.assetTpId = assettypeid;
+    modalRef.componentInstance.assetTpName = assettypename;
+    modalRef.componentInstance.metaData = metadata;
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getAssetTypeList();
+      }
+      else {
+        this.getAssetTypeList();
+      }
+    });
+  }
+
 
   delete(assetType: AssetType) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
