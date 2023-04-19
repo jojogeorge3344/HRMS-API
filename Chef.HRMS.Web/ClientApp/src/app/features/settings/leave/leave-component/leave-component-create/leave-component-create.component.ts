@@ -76,6 +76,7 @@ export class LeaveComponentCreateComponent implements OnInit {
   leaveSlabDetails: LeaveSlabGroup[] = [];
  
   isSaveDisable: boolean = false;
+  isSaveDisableConfig: boolean = false;
   activeTab: string = "basic";
   isSlabdisabled: boolean=true;
 
@@ -334,6 +335,7 @@ export class LeaveComponentCreateComponent implements OnInit {
           // this.activeModal.close(true);
           this.activeTab = "slab";
           this.isSlabdisabled=false
+          this.isSaveDisableConfig=true
           this.toastr.showSuccessMessage(
             "Configure Leave Component is created successfully!"
           );

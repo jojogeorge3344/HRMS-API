@@ -71,6 +71,7 @@ export class LeaveComponentEditComponent implements OnInit {
   configId: any;
   encashBfList: any;
   isSaveDisable: boolean=false;
+  isSaveDisableConfig:boolean=false
   leaveDetails: any;
   valuetype: object;
   valueSlabOffTypeKeys: number[];
@@ -121,6 +122,7 @@ export class LeaveComponentEditComponent implements OnInit {
     this.getDetectionListType();
     this.getEncashBF();
     this.editForm.patchValue(this.leaveComponent);
+    this.getLeaveSlablist(this.leaveComponent.id)
     this.getLeaveType();
   }
 
@@ -380,10 +382,12 @@ export class LeaveComponentEditComponent implements OnInit {
     this.leaveEligiblityService.update(this.editForm2.getRawValue()).subscribe(
       (result: any) => {
        // this.activeModal.close(true);
+       this.activeTab = "slab";
+       this.isSaveDisableConfig=true
         this.toastr.showSuccessMessage(
           "Leave component is updated successfully!"
         );
-        this.getLeaveSlablist(this.leaveComponent.id)
+        
       },
       (error) => {
         console.error(error);
