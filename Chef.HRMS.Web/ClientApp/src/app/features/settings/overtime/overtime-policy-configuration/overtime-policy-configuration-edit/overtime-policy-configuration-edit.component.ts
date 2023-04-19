@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
 import { OvertimePolicy } from '../../overtime-policy/overtime-policy.model';
 import { OvertimePolicyService } from '../../overtime-policy/overtime-policy.service';
@@ -24,6 +24,8 @@ import { OvertimeSlabViewComponent } from '@settings/overtime/overtime-slab/over
 })
 export class OvertimePolicyConfigurationEditComponent implements OnInit {
 
+  @ViewChild("myTabSet") tabSet: NgbTabset;
+  
   editForm: FormGroup;
   currentUserId: number;
   overtimePolicy: OvertimePolicy;
@@ -36,6 +38,10 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   required:boolean;
   overtimeSlabDetails: OverTimeSlabGroup[] = [];
   id: any;
+  isDisabled: boolean = true;
+  isSaveDisable: boolean = false;
+  activeTab: string = "configuration";
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -166,6 +172,9 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     this.overtimePolicyConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Overtime Policy configured successfully!');
       //this.router.navigate(['./settings/overtime']);
+      this.isSaveDisable = true;
+      this.isDisabled = false;
+      this.activeTab = "slab";
     },
     error => {
       console.error(error);

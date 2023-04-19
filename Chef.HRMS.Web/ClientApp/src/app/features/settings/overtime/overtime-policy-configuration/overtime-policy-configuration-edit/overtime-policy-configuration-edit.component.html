@@ -3,8 +3,8 @@
 </div>
 <div class="card p-3" id="payrollSetting">
 <div class="modal-body" style="max-height:94vh">
-  <ngb-tabset>
-      <ngb-tab title="Configuration">
+  <ngb-tabset  #myTabSet [activeId]="activeTab">
+      <ngb-tab title="Configuration" id="configuration" [disabled]="!isDisabled">
 
           <ng-template ngbTabContent>
 
@@ -23,7 +23,7 @@
                 </div>
                 <div class="h6 mt-4"></div>
                 <div class="ml-2">
-                  <form [formGroup]="editForm" (validSubmit)="onSubmit()">
+                  <form [formGroup]="editForm" (validSubmit)="onSubmit(myTabSet)">
                     <div class="h6 mt-4 mb-4">Basic Configuration</div>
           
                     <div class="form-group">
@@ -292,8 +292,8 @@
                     </div>
           
                     <div class="d-flex justify-content-end mt-3">
-                      <button type="submit" class="btn btn-success">
-                        <i class="mr-1 fal fa-save"></i>Save
+                      <button type="submit" class="btn btn-success"  [disabled]="isSaveDisable">
+                        <i class="mr-1 fal fa-save"></i>Save & Next
                       </button>
                     </div>
                   </form>
@@ -305,10 +305,17 @@
       </ngb-tab>
 
 
-      <ngb-tab title="Slab" >
+      <ngb-tab title="Slab" id="slab" [disabled]="isDisabled" >
           <ng-template ngbTabContent>
             <div id="wps" class="panel">
-              <div class="panel-container show">
+              <div class="d-flex justify-content-end" style="margin-top: 15px;margin-right: 17px;">
+                <a routerLink="/settings/overtime">
+                  <button class="btn btn-outline-primary btn-sm btn-redirect pull-right">
+                    <i class="fal fa-arrow-left mr-2"></i> Back to overtime settings
+                  </button>
+                </a>
+              </div>
+              <div class="panel-container show" style="margin-top: 20px;">
                   <div class="panel-content">
                       <div class="row">
                           <div class="col-md">
