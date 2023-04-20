@@ -12,6 +12,7 @@ import { EmployeeDependentDetailsEditComponent } from '../employee-dependent-det
 
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeDependentDetailsViewComponent } from '../employee-dependent-details-view/employee-dependent-details-view.component';
 
 @Component({
   selector: 'hrms-employee-dependent-details-list',
@@ -71,8 +72,26 @@ export class EmployeeDependentDetailsListComponent implements OnInit {
       console.log(error);
     }
     );
-
   }
+  openViewDependent(id: number, dependent: EmployeeDependentDetails) {
+    const modalRef = this.modalService.open(EmployeeDependentDetailsViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.currentUserId = this.userId;
+    modalRef.componentInstance.id = id;
+    modalRef.componentInstance.dependent = dependent;
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getDependents();
+      } else {
+        dependent.phone = `+${dependent.phoneCode}-${dependent.phone}`
+      }
+    }, error => {
+      dependent.phone = `+${dependent.phoneCode}-${dependent.phone}`;
+      console.log(error);
+    }
+    );
+  }
+
   deleteDependent(id: number, name: string) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });

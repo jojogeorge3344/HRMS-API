@@ -46,6 +46,7 @@ export class EmployeeDependentDetailsEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUserId = getCurrentUserId();
     const tempObj: any = this.dependent;
     if (tempObj.phone) {

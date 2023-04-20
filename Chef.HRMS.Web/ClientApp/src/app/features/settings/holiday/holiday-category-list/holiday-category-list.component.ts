@@ -13,6 +13,7 @@ import { HolidayEditComponent } from '../holiday-edit/holiday-edit.component';
 import { HolidayCategory } from '../holiday-category.model';
 import { Holiday } from '../holiday.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { HolidayViewComponent } from '../holiday-view/holiday-view.component';
 
 @Component({
   selector: 'hrms-holiday-category-list',
@@ -140,6 +141,20 @@ export class HolidayCategoryListComponent implements OnInit {
 
   openEditHoliday(holiday: Holiday, category) {
     const modalRef = this.modalService.open(HolidayEditComponent,
+      { centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.holiday = holiday;
+    modalRef.componentInstance.year = category.year;
+    modalRef.componentInstance.isDisabled = this.isDisabled(category);
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getHolidays(holiday.holidayCategoryId);
+      }
+    });
+  }
+  openViewHoliday(holiday: Holiday, category) {
+    const modalRef = this.modalService.open(HolidayViewComponent,
       { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.holiday = holiday;

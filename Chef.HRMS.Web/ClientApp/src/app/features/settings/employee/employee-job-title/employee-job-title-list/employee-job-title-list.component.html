@@ -36,6 +36,7 @@
                         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                             aria-labelledby="button-basic">
                             <li role="menuitem" (click)="openEdit(jobTitle)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="openView(jobTitle)"><a class="dropdown-item">View</a></li>
                             <li role="menuitem" (click)="!isDisabled(jobTitle) && delete(jobTitle)">
                                 <a [ngClass]="{'disabled': isDisabled(jobTitle)}" class="dropdown-item">Delete</a>
                             </li>

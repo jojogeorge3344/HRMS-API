@@ -15,6 +15,7 @@ import { HolidayCategoryEditComponent } from './holiday-category-edit/holiday-ca
 import { HolidayCreateComponent } from './holiday-create/holiday-create.component';
 import { HolidayEditComponent } from './holiday-edit/holiday-edit.component';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { HolidayViewComponent } from './holiday-view/holiday-view.component';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
     HolidayCategoryCreateComponent, 
     HolidayCategoryEditComponent, 
     HolidayCreateComponent, 
-    HolidayEditComponent
+    HolidayEditComponent, HolidayViewComponent
   ],
   imports: [
     CommonModule,

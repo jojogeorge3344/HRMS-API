@@ -27,6 +27,7 @@
                         </button>
                         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                             aria-labelledby="button-basic">
+                            <li role="menuitem" (click)="openViewList(assetType)"><a class="dropdown-item">View</a></li>
                             <li role="menuitem" (click)="openEdit(assetType)"><a class="dropdown-item">Edit</a></li>
                             <li role="menuitem" (click)="!isDisabled(assetType) && delete(assetType)">
                                 <a [ngClass]="{'disabled': isDisabled(assetType)}" class="dropdown-item">Delete</a>
