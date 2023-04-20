@@ -117,7 +117,6 @@ export class PayrollCalculationEditComponent implements OnInit {
     });
   }
   isChangeColor(item){
-    console.log(item)
     if (item.color=="SV" ) {
       return { color: 'blueviolet' };
     }
