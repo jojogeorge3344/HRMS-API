@@ -7,6 +7,7 @@ import { EmployeeNumbersCreateComponent } from '../employee-numbers-create/emplo
 import { EmployeeNumbersEditComponent } from '../employee-numbers-edit/employee-numbers-edit.component';
 import { EmployeeNumbersService } from '../employee-numbers.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeNumbersViewComponent } from '../employee-numbers-view/employee-numbers-view.component';
 
 @Component({
   selector: 'hrms-employee-numbers-list',
@@ -76,6 +77,22 @@ export class EmployeeNumbersListComponent implements OnInit {
         }
     });
   }
+  openView(employeeSeries) {
+    const modalRef = this.modalService.open(EmployeeNumbersViewComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.employeeSeries = employeeSeries;
+    modalRef.componentInstance.isDisabled = this.isDisabled(employeeSeries);
+    modalRef.componentInstance.numberSeriesNames = this.employeeNumberSeriesNames.filter(v => v !== employeeSeries.name.toLowerCase());
+
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getemployeenumberseries();
+        }
+    });
+  }
+
+
 
   delete(id: number, name: string) {
     const modalRef = this.modalService.open(ConfirmModalComponent,

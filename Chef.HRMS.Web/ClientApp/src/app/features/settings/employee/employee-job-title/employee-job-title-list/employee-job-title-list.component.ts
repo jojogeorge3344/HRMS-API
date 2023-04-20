@@ -8,6 +8,7 @@ import { EmployeeListComponent } from '../employee-list/employee-list.component'
 import { EmployeeJobTitleService } from '../employee-job-title.service';
 import { EmployeeJobTitle } from '../employee-job-title.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeJobTitleViewComponent } from '../employee-job-title-view/employee-job-title-view.component';
 
 @Component({
   selector: 'hrms-employee-job-title-list',
@@ -58,6 +59,20 @@ export class EmployeeJobTitleListComponent implements OnInit {
 
   openEdit(jobTitle: EmployeeJobTitle) {
     const modalRef = this.modalService.open(EmployeeJobTitleEditComponent,
+      { centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.jobId = jobTitle.id;
+    modalRef.componentInstance.jobTitleNames = this.jobTitleNames.filter(v => v !== jobTitle.name.toLowerCase());
+
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getJobList();
+        }
+    });
+  }
+
+  openView(jobTitle: EmployeeJobTitle) {
+    const modalRef = this.modalService.open(EmployeeJobTitleViewComponent,
       { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.jobId = jobTitle.id;

@@ -52,6 +52,7 @@
                             aria-labelledby="button-basic">
                             <!-- <li role="menuitem" (click)="openView(shift)"><a class="dropdown-item">View</a></li> -->
                             <li role="menuitem" (click)="openEditLoanRequest(request.id)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="openViewLoanRequest(request.id)"><a class="dropdown-item">View</a></li>
                             <li role="menuitem" (click)="!isDisabled(request) && deleteLoanRequest(request)"><a [ngClass]="{'disabled': isDisabled(request)}" class="dropdown-item">Cancel</a></li>
                         </ul>
                     </div>
