@@ -11,6 +11,7 @@ import { EmployeeNumbersListComponent } from './employee-numbers-list/employee-n
 import { EmployeeNumbersCreateComponent } from './employee-numbers-create/employee-numbers-create.component';
 import { EmployeeNumbersEditComponent } from './employee-numbers-edit/employee-numbers-edit.component';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { EmployeeNumbersViewComponent } from './employee-numbers-view/employee-numbers-view.component';
 
 
 
@@ -19,7 +20,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
   declarations: [
     EmployeeNumbersListComponent,
     EmployeeNumbersCreateComponent, 
-    EmployeeNumbersEditComponent
+    EmployeeNumbersEditComponent, EmployeeNumbersViewComponent
   ],
   imports: [
     CommonModule,

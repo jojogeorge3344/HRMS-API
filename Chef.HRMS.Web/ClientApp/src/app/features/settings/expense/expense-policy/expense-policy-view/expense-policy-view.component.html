@@ -1,0 +1,32 @@
+<form [formGroup]="editForm">
+    <div class="modal-header">
+        <h4 class="modal-title">View Expense Policy</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="name">Name</label>
+                <input disabled type="text" class="form-control" formControlName="name">
+            </div>
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="currency">Currency</label>
+                <select disabled class="form-control" formControlName="currency">
+                    <option value="null" disabled>Select Currency</option>
+                    <option value="INR">INR</option>
+                    <option value="USD">USD</option>
+                    <option value="AED">AED</option>
+                </select>
+            </div>
+            <div class="form-group form-textarea-line col-12">
+                <label class="col-form-label" for="description">Description</label>
+                <textarea disabled type="text" rows="3" class="form-control" formControlName="description"></textarea>
+            </div>
+        </div>
+
+
+    </div>
+  
+</form>

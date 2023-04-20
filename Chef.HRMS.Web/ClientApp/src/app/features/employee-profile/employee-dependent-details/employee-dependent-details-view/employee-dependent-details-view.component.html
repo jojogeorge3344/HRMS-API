@@ -1,0 +1,64 @@
+<form [formGroup]="viewForm" id="updateDependentForm" >
+    <div class="modal-header">
+        <h4 class="modal-title">View Dependent </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <input type="hidden" class="form-control" formControlName="leavePlanId"> -->
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" formControlName="name" readonly>
+            </div>
+            <div class="form-group col-6">
+                <label for="description">Gender</label>
+                <select class="form-control" id="gender" formControlName="gender" disabled>
+                    <option [ngValue]="null" disabled>Select a gender</option>
+                    <option *ngFor="let key of genderTypeKeys" [ngValue]='key' q>
+                        {{genderTypes[key]}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="description">Date of Birth</label>
+                <div class="input-group">
+                    <input class="form-control" formControlName="dateOfBirth" [readonly]="true" [minDate]="{year: 1900, month: 1, day: 1}"
+                        [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button" disabled>
+                            <i class="fal fa-calendar-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+         
+            <div class="form-group col-6 ">
+                <label for="phone">Phone</label>
+                <div class="form-group d-flex flex-wrap align-items-center">
+                    +<input type="number" class="form-control mx-1 width-10" formControlName="phoneCode" readonly>-
+                    <input type="number" class="form-control ml-1 col" formControlName="phone" readonly>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="relationship">Relation</label>
+                <select class="form-control" id="relationship" name="relationship" formControlName="relationship" disabled>
+                    <option [ngValue]="null" disabled>Select a relation</option>
+                    <option *ngFor="let key of relationshipTypeKeys"
+                        [ngValue]='key'>{{relationshipTypes[key]}}</option>
+                </select>
+            </div>
+            <div class="form-group col-6">
+                <label for="profession">Profession</label>
+                <input type="text" class="form-control" id="profession" formControlName="profession" readonly>
+            </div>
+        </div>
+
+    </div>
+</form>

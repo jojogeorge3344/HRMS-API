@@ -8,6 +8,7 @@ import { LeaveComponentService } from "../leave-component.service";
 import { LeaveComponent } from "../leave-component.model";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { BaseType } from "@settings/leave/basetype.enum";
+import { LeaveComponentViewComponent } from "../leave-component-view/leave-component-view.component";
 
 @Component({
   selector: "hrms-leave-component-list",
@@ -111,6 +112,33 @@ export class LeaveComponentListComponent implements OnInit {
       }
     });
   }
+
+  openViewLeaveComponent(leaveComponent: LeaveComponent) {
+    console.log(leaveComponent);
+    const modalRef = this.modalService.open(LeaveComponentViewComponent, {
+      size: "xl",
+      centered: true,
+      backdrop: "static",
+    });
+
+    modalRef.componentInstance.leaveComponent = leaveComponent;
+    modalRef.componentInstance.isDisabled = this.isDisabled(leaveComponent);
+    modalRef.componentInstance.leaveComponentNames =
+      this.leaveComponentNames.filter(
+        (v) => v !== leaveComponent.name.toLowerCase()
+      );
+    modalRef.componentInstance.leaveComponentCodes =
+      this.leaveComponentCodes.filter(
+        (v) => v !== leaveComponent.code.toLowerCase()
+      );
+
+    modalRef.result.then((result) => {
+      if (result === true) {
+        this.getAllLeaveComponents();
+      }
+    });
+  }
+
 
   deleteLeaveComponent(leaveComponent: LeaveComponent) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {

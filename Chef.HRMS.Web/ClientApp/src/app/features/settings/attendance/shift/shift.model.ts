@@ -7,4 +7,8 @@ export interface Shift extends Model {
     breakDuration: number;
     numberOfDays: number;
     comments: string;  
+    graceStartTime:string;
+    graceEndTime:string;
+    workingHours:string;
+    minimumHours : string
   }

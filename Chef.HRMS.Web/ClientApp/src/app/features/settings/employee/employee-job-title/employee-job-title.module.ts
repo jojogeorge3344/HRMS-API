@@ -12,6 +12,7 @@ import { EmployeeJobTitleCreateComponent } from './employee-job-title-create/emp
 import { EmployeeJobTitleEditComponent } from './employee-job-title-edit/employee-job-title-edit.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { EmployeeJobTitleViewComponent } from './employee-job-title-view/employee-job-title-view.component';
 
 
 
@@ -20,7 +21,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
     EmployeeJobTitleListComponent,
     EmployeeJobTitleCreateComponent, 
     EmployeeJobTitleEditComponent, 
-    EmployeeListComponent
+    EmployeeListComponent, EmployeeJobTitleViewComponent
   ],
   imports: [
     CommonModule,

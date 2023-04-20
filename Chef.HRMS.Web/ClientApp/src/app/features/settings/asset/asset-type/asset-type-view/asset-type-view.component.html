@@ -1,0 +1,21 @@
+<form [formGroup]="editForm" id="assetTypeForm">
+    <div class="modal-header">
+        <h4 class="modal-title">View Asset Type </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+            
+                <div class="form-group form-input-line col-12">
+                    <label class="col-form-label" for="assettypename">Asset Type</label>
+                    <input disabled type="text" class="form-control" id="assettypename" name="assettypename" formControlName="assettypename">
+                </div>
+                <div class="form-group form-textarea-line col-12">
+                <label class="col-form-label" for="description">Description</label>
+                    <textarea disabled type="text" rows="3" class="form-control" id="description" name="description"  formControlName="description" ></textarea>
+                </div>  
+        </div>
+</form>
+
+
