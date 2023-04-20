@@ -1,0 +1,21 @@
+<form [formGroup]="viewForm" id="jobTitleForm">
+    <div class="modal-header">
+        <h4 class="modal-title">View Job Title </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body">
+            
+                <div class="form-group form-input-line col-12">
+                    <label class="col-form-label" for="name">Job Title</label>
+                    <input type="text" class="form-control" id="name" name="name" formControlName="name" readonly>
+                </div>
+                <div class="form-group form-textarea-line col-12">
+                <label class="col-form-label" for="description">Description</label>
+                    <textarea type="text" rows="3" class="form-control" id="description" name="description"  formControlName="description" readonly ></textarea>
+                </div>  
+        </div>
+</form>
+
+

@@ -12,17 +12,19 @@ import { EmployeeDependentDetails } from '../employee-dependent-details.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 
 @Component({
-  templateUrl: './employee-dependent-details-edit.component.html',
+  selector: 'hrms-employee-dependent-details-view',
+  templateUrl: './employee-dependent-details-view.component.html',
+  styleUrls: ['./employee-dependent-details-view.component.scss'],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
-export class EmployeeDependentDetailsEditComponent implements OnInit {
+export class EmployeeDependentDetailsViewComponent implements OnInit {
 
   @Input() currentUserId: number;
   @Input() id: number;
   @Input() dependent: EmployeeDependentDetails;
-  editForm: FormGroup;
+  viewForm: FormGroup;
   maxDate;
-
+  
 
   genderTypes = GenderType;
   relationshipTypes = RelationshipType;
@@ -32,9 +34,8 @@ export class EmployeeDependentDetailsEditComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService,
-    private dependentService: EmployeeDependentDetailsService,
     public activeModal: NgbActiveModal) {
+      debugger
     this.genderTypeKeys = Object.keys(this.genderTypes).filter(Number).map(Number);
     this.relationshipTypeKeys = Object.keys(this.relationshipTypes).filter(Number).map(Number);
     const current = new Date();
@@ -56,60 +57,21 @@ export class EmployeeDependentDetailsEditComponent implements OnInit {
       tempObj.phoneCode = code;
     }
     tempObj.dateOfBirth = new Date(tempObj.dateOfBirth);
-    this.editForm = this.createFormGroup();
-    this.editForm.patchValue(tempObj);
+    this.viewForm = this.createFormGroup();
+   
+    this.viewForm.patchValue(tempObj);
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      dateOfBirth: [null, [
-        Validators.required,
-      ]],
-      name: ['', [
-        Validators.required,
-        Validators.maxLength(50),
-      ]],
-      phone: ['', [Validators.required,
-              Validators.pattern("[0-9 ]{10}")
-      ]],
-      phoneCode: ['', [Validators.required,
-        Validators.pattern("[0-9 ]{2}")]],
-      gender: [null, [
-        Validators.required,
-      ]],
-      relationship: [null, [
-        Validators.required,
-      ]],
-      profession: ['', [Validators.maxLength(32),
-
-      ]],
+      dateOfBirth: [null],
+      name: [''],
+      phone: [''],
+      phoneCode: [''],
+      gender: [null],
+      relationship: [null],
+      profession: [''],
       createdDate: []
     });
   }
-  onSubmit() {
-    const updateDependentForm = this.editForm.value;
-
-    if (updateDependentForm.phoneCode && updateDependentForm.phone) {
-      updateDependentForm.phone = `+${updateDependentForm.phoneCode}-${updateDependentForm.phone}`;
-    } else {
-      updateDependentForm.phone = '';
-    }
-
-    updateDependentForm.employeeId = this.currentUserId;
-    updateDependentForm.id = this.id;
-    this.dependentService.update(updateDependentForm).subscribe((result: any) => {
-      if (result === -1) {
-        this.toastr.showErrorMessage('Dependent already exists!');
-      } else {
-        this.activeModal.close('submit');
-        this.toastr.showSuccessMessage('Dependent is updated successfully!');
-      }
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to update the Dependent');
-      });
-
-  }
-
 }
