@@ -343,9 +343,9 @@ export class LeaveComponentEditComponent implements OnInit {
 
   createFormGroup2(): FormGroup {
     return this.formBuilder.group({
-      eligibleDays: [null],
+      eligibleDays: [null,[Validators.required]],
       eligibilityBase: [0, [Validators.required]],
-      maxLeaveAtATime: [null],
+      maxLeaveAtATime: [0],
       vacationSalaryFormula: [null],
       encashBFCode: [{ value: 0, disabled: this.isEncashBf }],
       encashLimitDays: [{ value: 0, disabled: this.isEncashLimit }],
