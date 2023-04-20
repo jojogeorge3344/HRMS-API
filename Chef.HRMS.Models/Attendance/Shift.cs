@@ -51,7 +51,7 @@ namespace Chef.HRMS.Models
 
         [Required]
         [Description("Grace Start Time")]
-        public DateTime GraceStatTime { get; set; }
+        public DateTime GraceStartTime { get; set; }
 
         [Required]
         [Description("Grace End Time")]
