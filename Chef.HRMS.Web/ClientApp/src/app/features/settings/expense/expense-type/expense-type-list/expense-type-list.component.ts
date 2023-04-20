@@ -9,6 +9,7 @@ import { ExpenseTypeService } from '../../expense-type/expense-type.service';
 import { ExpenseType } from '../../expense-type/expense-type.model';
 import { ExpenseCategoryType } from '../../../../../models/common/types/expensecategorytype';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { ExpenseTypeViewComponent } from '../expense-type-view/expense-type-view.component';
 
 @Component({
   selector: 'hrms-expense-type-list',
@@ -107,6 +108,23 @@ export class ExpenseTypeListComponent implements OnInit {
           this.toastr.showSuccessMessage('The expense type deleted successfully!');
           this.getAllExpenseTypes();
         });
+      }
+    });
+  }
+  openView(expenseType: ExpenseType) {
+    const modalRef = this.modalService.open(ExpenseTypeViewComponent,
+      {centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.expenseType = expenseType;
+    modalRef.componentInstance.expenseCategoryType = this.expenseCategoryType;
+    modalRef.componentInstance.expenseCategoryTypeKeys = this.expenseCategoryTypeKeys;
+    modalRef.componentInstance.isDisabled = this.isDisabled(expenseType);
+    modalRef.componentInstance.expenseTypeNames = this.expenseTypeNames.filter(v => v !== expenseType.name.toLowerCase());
+    modalRef.componentInstance.expenseTypeCodes = this.expenseTypeCodes.filter(v => v !== expenseType.code.toLowerCase());
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getAllExpenseTypes();
       }
     });
   }

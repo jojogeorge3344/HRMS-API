@@ -7,6 +7,7 @@ import { AssetTypeService } from '../asset-type.service';
 import { AssetType } from '../asset-type.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AssetMetadataService } from '../../asset-metadata/asset-metadata.service';
+import { AssetTypeViewComponent } from '../asset-type-view/asset-type-view.component';
 
 @Component({
   selector: 'hrms-asset-type-list',
@@ -86,10 +87,12 @@ export class AssetTypeListComponent implements OnInit {
   }
 
   openViewList(assetType: AssetType) {
-    const modalRef = this.modalService.open(AssetTypeListComponent,
+    const modalRef = this.modalService.open(AssetTypeViewComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.assetType = assetType;
+    modalRef.componentInstance.assetTypeId = assetType;
+    modalRef.componentInstance.assetTypeNames = this.assetTypeNames.filter(v => v !== assetType.assettypename.toLowerCase());
 
     modalRef.result.then((result) => {
         if (result == 'submit') {

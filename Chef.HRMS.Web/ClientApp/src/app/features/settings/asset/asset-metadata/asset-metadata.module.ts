@@ -10,6 +10,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 import { AssetMetadataListComponent } from './asset-metadata-list/asset-metadata-list.component';
 import { AssetMetadataCreateComponent } from './asset-metadata-create/asset-metadata-create.component';
 import { AssetMetadataEditComponent } from './asset-metadata-edit/asset-metadata-edit.component';
+import { AssetMetadataViewComponent } from './asset-metadata-view/asset-metadata-view.component';
 
 
 
@@ -17,7 +18,8 @@ import { AssetMetadataEditComponent } from './asset-metadata-edit/asset-metadata
   declarations: [
     AssetMetadataListComponent,
     AssetMetadataCreateComponent,
-    AssetMetadataEditComponent
+    AssetMetadataEditComponent,
+    AssetMetadataViewComponent
   ],
   imports: [
     CommonModule,

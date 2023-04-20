@@ -60,5 +60,8 @@ namespace Chef.HRMS.Models
         [Required]
         [Description("Working Hours")]
         public DateTime WorkingHours { get; set; }
+
+        [Required]
+        public DateTime MinimumHours { get; set; }
     }
 }

@@ -196,7 +196,12 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<byte[]>> ExportExcelFormat()
         {
             return await bulkUploadService.ExportExcelFormat();
+        }
 
+        [HttpPost("RegularLoginBulkInsert")]
+        public async Task<ActionResult<int>> RegularLoginBulkInsert([FromBody] IEnumerable<RegularLogin> regularLogins)
+        {
+            return await bulkUploadService.RegularLoginBulkInsert(regularLogins);
         }
     }
 }

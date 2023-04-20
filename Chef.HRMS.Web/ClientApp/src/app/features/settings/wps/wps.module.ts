@@ -10,12 +10,14 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 import { EmployeeWpsListComponent } from './employee-wps-list/employee-wps-list.component';
 import { EmployeeWpsCreateComponent } from './employee-wps-create/employee-wps-create.component';
 import { EmployeeWpsEditComponent } from './employee-wps-edit/employee-wps-edit.component';
+import { EmployeeWpsViewComponent } from './employee-wps-view/employee-wps-view.component';
 
 @NgModule({
   declarations: [
     EmployeeWpsListComponent,
     EmployeeWpsCreateComponent,
     EmployeeWpsEditComponent,
+    EmployeeWpsViewComponent,
   ],
   imports: [
     CommonModule,
