@@ -11,6 +11,7 @@ import { ExpenseTypeListComponent } from './expense-type-list/expense-type-list.
 import { ExpenseTypeCreateComponent } from './expense-type-create/expense-type-create.component';
 import { ExpenseTypeEditComponent } from './expense-type-edit/expense-type-edit.component';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { ExpenseTypeViewComponent } from './expense-type-view/expense-type-view.component';
 
 
 
@@ -18,7 +19,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
   declarations: [
     ExpenseTypeListComponent,
     ExpenseTypeCreateComponent, 
-    ExpenseTypeEditComponent 
+    ExpenseTypeEditComponent, ExpenseTypeViewComponent 
   ],
   imports: [
     CommonModule,

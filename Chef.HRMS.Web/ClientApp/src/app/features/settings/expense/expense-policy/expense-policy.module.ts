@@ -12,6 +12,7 @@ import { ExpensePolicyCreateComponent } from './expense-policy-create/expense-po
 import { ExpensePolicyEditComponent } from './expense-policy-edit/expense-policy-edit.component';
 import { ExpensePolicyAssignComponent } from './expense-policy-assign/expense-policy-assign.component';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { ExpensePolicyViewComponent } from './expense-policy-view/expense-policy-view.component';
 
 
 
@@ -20,7 +21,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
     ExpensePolicyListComponent, 
     ExpensePolicyCreateComponent, 
     ExpensePolicyEditComponent, 
-    ExpensePolicyAssignComponent
+    ExpensePolicyAssignComponent, ExpensePolicyViewComponent
   ],
   imports: [
     CommonModule,
