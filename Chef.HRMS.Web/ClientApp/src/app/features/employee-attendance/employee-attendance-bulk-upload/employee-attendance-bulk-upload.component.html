@@ -102,8 +102,8 @@
                 <span *ngIf="attendance.attendanceType == 'WFH'" class ="badge-info badge-pill ml-1" style="font-size: x-small;">WFH</span>
                 <span *ngIf="attendance.attendanceType == 'On Duty'" class ="badge-info badge-pill ml-1" style="font-size: x-small;">On Duty</span>
             </td>
-            <td>{{attendance.clockIn}}</td>
-            <td>{{attendance.clockOut }}</td>
+            <td>{{attendance.clockIn | date: 'hh:mm a'}}</td>
+            <td>{{attendance.clockOut | date: 'hh:mm a' }}</td>
             <td>{{attendance.grossHours}}</td>
             <td>{{attendance.effectiveHours}}</td>
             <td>{{attendance.attendanceType}}</td>

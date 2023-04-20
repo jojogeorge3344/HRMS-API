@@ -1,11 +1,4 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Chef.HRMS.Repositories
+﻿namespace Chef.HRMS.Repositories
 {
     public class PayrollCalculationRepository : GenericRepository<PayrollCalculation>, IPayrollCalculationRepository
     {
@@ -41,7 +34,7 @@ namespace Chef.HRMS.Repositories
                                       pcmp.id, 
                                       pcalc.formula,
                                       pcalc.id
-                            ORDER  BY ps.NAME ASC";
+                            ORDER  BY ps.id DESC";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
         }

@@ -60,8 +60,8 @@ export class LeaveStructureCreateComponent implements OnInit {
     return this.formBuilder.group({
       name: ['', [
         Validators.required,
-        Validators.maxLength(32),
-        Validators.pattern('^([a-zA-Z0-9 -])+$'),
+        Validators.maxLength(60),
+        //Validators.pattern('^([a-zA-Z0-9 -])+$'),
         duplicateNameValidator(this.leaveStructureNames)
       ]],
       description: ['', [

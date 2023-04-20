@@ -1,0 +1,60 @@
+<form [formGroup]="addForm" id="religionGroupForm" (submit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Overtime SLAB</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-wrap align-items-baseline">
+            <!-- <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="bfCode">Benefit Code<span class="required">*</span></label>
+                <select (change)="getBfName($event.target.value)" class="form-control" formControlName="bfCode" >
+                    <option [ngValue]="null" disabled>Select Benefit Code</option>
+                    <option *ngFor="let key of BfDetails" value='{{key.bfCode}}'>{{key.bfCode}}</option>
+                </select>
+            </div> -->
+            <div class="form-group form-input-line col-6">
+                <label  class="col-form-label" for="overTimePolicyCode">Over Time Policy code<span class="required">*</span></label>
+                <input readonly type="string" class="form-control" id="overTimePolicyCode" name="overTimePolicyCode" formControlName="overTimePolicyCode">
+            </div>
+            <div class="form-group form-input-line col-6">
+                <label  class="col-form-label" for="overTimePolicyCode">Over Time Policy Name<span class="required">*</span></label>
+                <input readonly type="string" class="form-control" id="overTimePolicyCode" name="overTimePolicyCode" formControlName="overTimePolicyCode">
+            </div>
+           
+        </div>
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="lowerLimit">Lower Limit<span class="required">*</span></label>
+                <input type="string" class="form-control" id="lowerLimit" name="lowerLimit" formControlName="lowerLimit">
+            </div>
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="upperLimit">Upper Limit<span class="required">*</span></label>
+                <input type="string" class="form-control" id="upperLimit" name="upperLimit" formControlName="upperLimit">
+            </div>
+           
+           
+        </div>
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="valueVariable">Value Variable<span class="required">*</span></label>
+                <input type="string" class="form-control" id="valueVariable" name="valueVariable" formControlName="valueVariable">
+            </div>
+       
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="valuetype">Value Type<span class="required">*</span></label>
+                    <select class="form-control" formControlName="valuetype">
+                         <option value="" disabled>Select</option>
+                         <option value="1">Number/%</option>
+                         <option value="2">Number</option>
+                    </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+    </div>
+</form>

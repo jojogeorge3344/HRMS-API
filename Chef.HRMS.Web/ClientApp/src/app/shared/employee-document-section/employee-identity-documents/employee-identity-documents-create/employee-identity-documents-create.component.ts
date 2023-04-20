@@ -37,7 +37,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
   documentToUpload: File = null;
   fileName: string;
   documentPath = "";
-  documentTypeKeys: number[];
+  documentTypeKeys;
   documentType = DocumentType;
   directoryName = "c:";
   companyName = "Company";
@@ -62,9 +62,14 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
     this.identityDetailsService.getAll().subscribe((result) => {});
     console.log("doc type", this.documentType);
 
-    this.documentTypeKeys = Object.keys(this.documentType)
-      .filter(Number)
-      .map(Number);
+    // this.documentTypeKeys = Object.keys(this.documentType)
+    //   .filter(Number)
+    //   .map(Number);
+
+     this.identityDetailsService.getAllActiveDocumentsTypes()
+    .subscribe((item)=>(
+      this.documentTypeKeys=item
+    ))
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Education\\${this.currentUserId}\\`;
   }
 
@@ -197,7 +202,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       employeeId: this.employeeId,
-      documentTypeList: ["", [Validators.required]],
+      documentTypeMasterId: ["", [Validators.required]],
       documentNumber: [null, [Validators.required]],
       issueDate: ["", [Validators.required]],
       placeOfIssue: ["", [Validators.required]],

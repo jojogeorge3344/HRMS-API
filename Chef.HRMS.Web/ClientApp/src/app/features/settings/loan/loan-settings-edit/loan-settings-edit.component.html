@@ -86,7 +86,25 @@
                         </label>
 
                     </div>
-                    <div class="header-button-wrapper mt-5 mb-0">
+                    <div class="row mt-5">
+                        <div class="with-input form-group col-md-2">             
+                            <span class="text-nowrap"
+                              >Normal Overtime BF Code</span
+                            >        
+                        </div>
+                        <div class="form-group col-md-3">
+                          <select class="form-control" formControlName="deductionBFCode">
+                            <option [ngValue]="null" disabled>Select</option>
+                            <option
+                              [ngValue]="deductionBfCodeTypes.id"
+                            >
+                              {{ deductionBfCodeTypes.name }}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-md-7"></div>
+                      </div>
+                    <div class="header-button-wrapper mb-0">
                         <div class="content-header ">Loan and EMI calculations</div>
                     </div>
                     <div class="fs-xs text-muted">These settings can be overriden for individual loan applications

@@ -11,5 +11,6 @@ export interface EmployeeBasicDetails extends Model {
     uid:string,
     language:string,
     remarks:string,
-    refno:string
+    refno:string,
+    userId:string,
 }

@@ -17,6 +17,10 @@ export class PayrollCalculationService {
     this.baseUrl = `${baseUrl}api/settings/payroll/payrollcalculation/`;
   }
 
+  IsSystemVariableExist(code) {
+    return this.http.get<PayrollCalculation>(this.baseUrl + 'isSystemVariableExist/' + code).pipe(map(response => { return response; }));
+  }
+
   get(id) {
     return this.http.get<PayrollCalculation>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
   }
