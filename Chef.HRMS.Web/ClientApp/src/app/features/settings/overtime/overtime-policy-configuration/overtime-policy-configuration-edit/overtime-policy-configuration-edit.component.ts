@@ -41,6 +41,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   isDisabled: boolean = true;
   isSaveDisable: boolean = false;
   activeTab: string = "configuration";
+  overtimeFlagCheck: boolean=false;
 
   constructor(
     private router: Router,
@@ -136,6 +137,13 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
         this.editForm.patchValue( {roundOffType: 1, isRoundOffNearest: false, isRoundOffLowest: false} );
       }
     });
+    this.editForm.get('overtimeFlag').valueChanges.subscribe(value => {
+      if (value) {
+        this.overtimeFlagCheck=true
+      } else {
+        this.overtimeFlagCheck=false
+      }
+    });
 
     this.editForm.get('roundOffType').valueChanges.subscribe(value => {
       if (value === 1) {
@@ -168,10 +176,14 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     console.log(this.editForm.value)
     this.overtimePolicyConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Overtime Policy configured successfully!');
-      //this.router.navigate(['./settings/overtime']);
+      
       this.isSaveDisable = true;
+      if(this.overtimeFlagCheck==true){
       this.isDisabled = false;
       this.activeTab = "slab";
+      }else{
+        this.router.navigate(['./settings/overtime']);
+      }
     },
     error => {
       console.error(error);
@@ -190,6 +202,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
+      overtimeFlag:[false],
       normalOverTime:[0],
       holidayOverTime:[0],
       specialOverTime:[0],      

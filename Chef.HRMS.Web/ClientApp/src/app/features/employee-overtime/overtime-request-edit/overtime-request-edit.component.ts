@@ -159,7 +159,10 @@ export class OvertimeRequestEditComponent implements OnInit {
       ]],
       employeeId: [],
       requestStatus: [1],
-      createdDate: []
+      createdDate: [],
+      normalOvertime:[null],
+      holidayOvertime:[null],
+      specialOvertime:[null]
     });
   }
 

@@ -405,7 +405,10 @@ export class OvertimeRequestCreateComponent implements OnInit {
         Validators.maxLength(250),
       ]],
       employeeId: [this.currentUserId],
-      requestStatus: [1]
+      requestStatus: [1],
+      normalOvertime:[null],
+      holidayOvertime:[null],
+      specialOvertime:[null]
     });
   }
 
