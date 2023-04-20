@@ -1,28 +1,29 @@
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from "@angular/forms";
-import {
-  NgbActiveModal,
-  NgbModal,
-  NgbTabset,
-} from "@ng-bootstrap/ng-bootstrap";
-import { LeaveComponentService } from "../leave-component.service";
-import { GenderType } from "../../../../../models/common/types/gendertype";
-import { MaritalStatusType } from "../../../../../models/common/types/maritalstatustype";
-import { duplicateNameValidator } from "@shared/utils/validators.functions";
-import { getCurrentUserId } from "@shared/utils/utils.functions";
-import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
-import { BaseType } from "@settings/leave/basetype.enum";
-import { EligiblityBase } from "@settings/leave/Eligibilitybase.enum";
-import { LeaveCutoffType } from "@settings/leave/leavecuttoff.enum";
-import { LeaveType } from "@settings/leave/leavetype.enum";
-import { Loptype } from "@settings/leave/lopdays.enum";
-import { LeaveEligiblityService } from "../leave-eligiblity.service";
-import { OvertimePolicyCalculationComponent } from "@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component";
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { NgbActiveModal, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { LeaveComponentService } from '../leave-component.service';
+import { GenderType } from '../../../../../models/common/types/gendertype';
+import { MaritalStatusType } from '../../../../../models/common/types/maritalstatustype';
+import { duplicateNameValidator } from '@shared/utils/validators.functions';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { BaseType } from '@settings/leave/basetype.enum';
+import { EligiblityBase } from '@settings/leave/Eligibilitybase.enum';
+import { LeaveCutoffType } from '@settings/leave/leavecuttoff.enum';
+import { LeaveType } from '@settings/leave/leavetype.enum';
+import { Loptype } from '@settings/leave/lopdays.enum';
+import { LeaveEligiblityService } from '../leave-eligiblity.service';
+import { debounce } from 'lodash';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component';
+import { LeaveSlabService } from '../leave-slab-service';
+import { valueTypeOff } from 'src/app/models/common/types/leaveSlabOff';
+import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
+import { LeaveSlabGroup } from '../leave-slab.model';
+import { LeaveSlabViewComponent } from '../leave-slab-view/leave-slab-view.component';
+import { LeaveSlabEditComponent } from '../leave-slab-edit/leave-slab-edit.component';
+import { LeaveSlabCreateComponent } from '../leave-slab-create/leave-slab-create.component';
+
 
 @Component({
   selector: "hrms-leave-component-create",
@@ -67,8 +68,17 @@ export class LeaveComponentCreateComponent implements OnInit {
   accuralList: any;
   accuralBenefitList: any;
   encashBfList: any;
+  //leaveDetails: any;
+  valuetype: object;
+  valueSlabOffTypeKeys: number[];
+  valueSlabOffType = valueTypeOff;
+  leaveComponentsList: any;
+  leaveSlabDetails: LeaveSlabGroup[] = [];
+ 
   isSaveDisable: boolean = false;
+  isSaveDisableConfig: boolean = false;
   activeTab: string = "basic";
+  isSlabdisabled: boolean=true;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -76,8 +86,10 @@ export class LeaveComponentCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private toastr: ToasterDisplayService,
-    public modalService: NgbModal
-  ) {}
+    public modalService: NgbModal,
+    public leaveSlabService: LeaveSlabService,
+    ) {
+  }
 
   ngOnInit(): void {
     this.genderTypeKeys = Object.keys(this.genderTypes)
@@ -259,25 +271,22 @@ export class LeaveComponentCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      name: [
-        null,
-        [
-          Validators.required,
-          Validators.maxLength(100),
-          Validators.pattern("^([a-zA-Z0-9 ])+$"),
-          duplicateNameValidator(this.leaveComponentNames),
-        ],
-      ],
-      code: [
-        null,
-        [
-          Validators.required,
-          Validators.maxLength(20),
-          //Validators.pattern('^([a-zA-Z0-9])+$'),
-          duplicateNameValidator(this.leaveComponentCodes),
-        ],
-      ],
-      description: [null, [Validators.required, Validators.maxLength(256)]],
+      name: [null, [
+        Validators.required,
+        Validators.maxLength(100),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        duplicateNameValidator(this.leaveComponentNames)
+      ]],
+      code: [null, [
+        Validators.required,
+        Validators.maxLength(30),
+        //Validators.pattern('^([a-zA-Z0-9])+$'),
+        duplicateNameValidator(this.leaveComponentCodes)
+      ]],
+      description: [null, [
+        Validators.required,
+        Validators.maxLength(256)
+      ]],
       showLeaveDescription: [false],
       isPaidLeave: [false],
       isSickLeave: [false],
@@ -323,11 +332,15 @@ export class LeaveComponentCreateComponent implements OnInit {
             "Configure Leave component already exists!"
           );
         } else {
-          this.activeModal.close(true);
-
+          // this.activeModal.close(true);
+          this.activeTab = "slab";
+          this.isSlabdisabled=false
+          this.isSaveDisableConfig=true
           this.toastr.showSuccessMessage(
             "Configure Leave Component is created successfully!"
           );
+          this.getLeaveSlablist(this.leaveComponentId)
+          
         }
       },
       (error) => {
@@ -342,4 +355,150 @@ export class LeaveComponentCreateComponent implements OnInit {
       this.encashBfList = res;
     });
   }
+ 
+
+  getLeaveSlablist(id) {
+    debugger
+    this.leaveSlabService.getLeaveComponentDetails(id).subscribe(result => {
+      this.leaveSlabDetails = result;
+      this.leaveSlabDetails=this.leaveSlabDetails.sort((a, b) => a.leaveComponentName.toLowerCase().localeCompare(b.leaveComponentName.toLowerCase()));
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the LeaveSlab List Details');
+    });
+  }
+  openCreate() {
+    debugger
+    const modalRef = this.modalService.open(LeaveSlabCreateComponent,
+      {size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.code = this.addForm.value.code;
+    modalRef.componentInstance.name= this.addForm.value.name;
+    modalRef.componentInstance.id= this.leaveComponentId;
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getLeaveSlablist(this.leaveComponentId)
+        }
+    });  
+  }
+  openEdit(relDetails: LeaveSlabGroup) {
+    const modalRef = this.modalService.open(LeaveSlabEditComponent,
+      { size: 'lg', centered: true, backdrop: 'static' });
+    modalRef.componentInstance.relDetails= relDetails;
+    modalRef.componentInstance.code = this.addForm.value.code;;
+    modalRef.componentInstance.name = this.addForm.value.name;
+    modalRef.componentInstance.id= this.leaveComponentId;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getLeaveSlablist(this.leaveComponentId)
+      }
+    });
+  }
+  openView(relDetails: LeaveSlabGroup) {
+    const modalRef = this.modalService.open(LeaveSlabViewComponent,
+      { size: 'lg',centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.relDetails = relDetails;
+    // modalRef.componentInstance.code = this.Codes;
+    // modalRef.componentInstance.name = this.Names;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getLeaveSlablist(this.leaveComponentId);
+      }
+    });
+  }
+
+delete(relDetails: LeaveSlabGroup) {
+  const modalRef = this.modalService.open(ConfirmModalComponent,
+    { centered: true, backdrop: 'static' });
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the LeaveSlab ${relDetails.leaveComponentName}`;
+  modalRef.result.then((userResponse) => {
+    if (userResponse == true) {
+      this.leaveSlabService.delete(relDetails.id).subscribe(() => {
+        this.toastr.showSuccessMessage('LeaveSlab deleted successfully!');
+        this.getLeaveSlablist(this.leaveComponentId)
+      });
+    }
+  });
+}
+
+  // createFormGroup3(): FormGroup {
+  //   return this.formBuilder.group({
+  //     leaveComponentCode: ['', [
+  //       Validators.required
+  //     ]],
+  //     leaveComponentName: ['', [
+  //       Validators.required
+  //     ]],
+  //     lowerLimit: ['', [
+  //       Validators.required
+  //     ]],
+  //     upperLimit: ['', [
+  //       Validators.required
+  //     ]],
+  //     valueVariable: ['', [
+  //       Validators.required
+  //     ]],
+  //     valueType: ['', [
+  //       Validators.required
+  //     ]],
+  //     leaveComponentId: ['', ],
+  //   })
+  // }
+  
+  // onSubmit3() {
+
+  //   this.addForm3.patchValue({
+  //     leaveComponentId:this.leavecomponentid
+  //   })
+  //   this.leaveSlabService.add(this.addForm3.value).subscribe((result: any) => {
+  //     if (result.id === -1) {
+  //       this.toastr.showErrorMessage('Configure Slab component already exists!');
+  //     } else {
+  //       this.activeModal.close(result);
+        
+  //       this.toastr.showSuccessMessage('Configure Slab Component is created successfully!');
+        
+  //     }
+  //   },
+  //     error => {
+  //       console.error(error);
+  //       this.toastr.showErrorMessage('Unable to add the Slab Component');
+  //     });
+  // }
+
+ // getWholeDetails(){
+  //   debugger
+  // this.leaveComponentService.getAll().subscribe(res => {
+  //   this.leaveComponentsList = res
+  //   let a=this.leaveComponentsList.filter((value)=>value.code==this.addForm.value.code)
+  //   this.addForm3.patchValue({
+  //     leaveComponentCode:a[0].code,
+  //     leaveComponentName:a[0].name,
+  //   })
+  // })
+  // }
+
+  // getLeaveDetails() {
+  //   debugger
+  //   this.leaveSlabService.getAll().subscribe((result) => {
+  //     for(let i=0;i<result.length;i++){
+  //       this.leaveDetails = result
+  //     }
+  //   })
+  // }
+  // getLeaveName(event){
+  //   debugger
+  //   if(event){
+  //    let a=this.leaveComponentsList.filter((value)=>value.code==event)
+  //    this.addForm3.patchValue({
+  //     leaveComponentName:a[0].name,
+  //     // leaveComponentId:a[0].id
+  //    })
+  //   }
+
+  // }
+
 }

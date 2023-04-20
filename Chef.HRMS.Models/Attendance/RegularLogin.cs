@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.HRMS.Types;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,5 +17,13 @@ namespace Chef.HRMS.Models
         public int EmployeeId { get; set; }
 
         public bool IsRemoteLogin { get; set; }
+        public DateTime WorkingHours { get; set; }
+        public DateTime GrossHours { get; set; }
+        public AttendanceTrackingType AttendanceTrackingType { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeCode { get; set; }
     }
 }
