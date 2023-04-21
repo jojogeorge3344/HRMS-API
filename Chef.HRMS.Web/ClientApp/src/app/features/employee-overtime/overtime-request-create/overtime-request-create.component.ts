@@ -18,6 +18,7 @@ import { apply } from '@angular-devkit/schematics';
 import { toInteger, toNumber } from 'lodash';
 import { OvertimeRequest } from '../overtime-request.model';
 import { timeStamp } from 'console';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -66,16 +67,24 @@ export class OvertimeRequestCreateComponent implements OnInit {
     private holidayService: HolidayService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService) {
+    private toastr: ToasterDisplayService,
+    private route: ActivatedRoute,
+    private router: Router) {
   }
 
   ngOnInit(): void {
+    debugger
     this.current = new Date();
     this.addForm = this.createFormGroup();
     this.getEmployeeList();
     this.getOvertimeConfiguration();
     this.getMarkedDates(this.currentUserId);
     // this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
+    let b=this.router.routerState.snapshot.url;
+    console.log(b)
+     
+    
+  
   }
 
   getEmployeeList() {

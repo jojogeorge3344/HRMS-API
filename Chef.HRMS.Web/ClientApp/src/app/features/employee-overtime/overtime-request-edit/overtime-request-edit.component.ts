@@ -13,6 +13,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { OvertimePolicyConfiguration } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   templateUrl: './overtime-request-edit.component.html',
@@ -43,9 +44,12 @@ export class OvertimeRequestEditComponent implements OnInit {
     private calendar: NgbCalendar,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService) { }
+    private toastr: ToasterDisplayService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
+    debugger
     this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
@@ -54,6 +58,8 @@ export class OvertimeRequestEditComponent implements OnInit {
       fromDate: new Date(this.overtimeRequest.fromDate),
       toDate: new Date(this.overtimeRequest.toDate)
     });
+    let b=this.router.routerState.snapshot.url;
+    console.log(b)
     this.getOvertimeConfiguration();
     this.getEmployeeList();
   }

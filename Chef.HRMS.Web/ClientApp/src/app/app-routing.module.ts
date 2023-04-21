@@ -180,6 +180,11 @@ const routes: Routes = [
         //canActivateChild: [AuthGuard]
       },
       {
+        path: 'asset-employee-overtimewise',
+        loadChildren: () => import('./features/employee-overtime/employee-overtime.module').then(m => m.EmployeeOvertimeModule),
+        canActivateChild: [AuthGuard]
+      },
+      {
         path: 'finance',
         loadChildren: () => import('./features/finance/finance.module').then(m => m.FinanceModule),
         canActivateChild: [AuthGuard]
