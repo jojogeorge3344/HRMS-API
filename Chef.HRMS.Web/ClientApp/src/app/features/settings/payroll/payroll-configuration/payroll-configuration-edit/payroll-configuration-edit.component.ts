@@ -17,20 +17,23 @@ export class PayrollConfigurationEditComponent implements OnInit {
   payrollComponentTypes = PayrollComponentType;
   payrollConfiguration: PayrollConfiguration;
   isView = false;
+  payrollcomponentid: any
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToasterDisplayService,
-    private payrollConfigurationService: PayrollConfigurationService) { }
+    private payrollConfigurationService: PayrollConfigurationService,
+    ) { }
 
   ngOnInit(): void {
     this.isView = (this.route.snapshot.url[1].path === 'view');
     this.route.params.subscribe(params => {
-      this.payrollConfigurationService.get(params.id).subscribe((result) => {
-        this.payrollConfiguration = result;
-        this.payrollComponentType = result.payrollComponentType;
-        this.payrollComponent = result.name;
+      this.payrollConfigurationService.getAllPayRoll(params.id).subscribe((result:any) => {
+        // let a=result.filter(x=>x.payrollStructureId==this.payrollConfiguration.payrollStructureId)
+        this.payrollConfiguration = result[0];
+        this.payrollComponentType = result[0].categoryId;
+        this.payrollComponent = result[0].name;
       },
       error => {
         console.error(error);

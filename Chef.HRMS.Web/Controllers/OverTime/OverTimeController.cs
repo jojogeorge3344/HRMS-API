@@ -133,5 +133,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("GetCalenderDetails/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<CalenderView>>> GetCalenderDetails(int employeeId)
+        {
+            var calender = await overTimeService.GetCalenderDetails(employeeId);
+
+            return Ok(calender);
+        }
     }
 }

@@ -20,8 +20,18 @@ export class ShiftEditComponent implements OnInit {
   toTime: NgbTimeStruct;
   currentUserId: number;
 
+  graceStartHr:NgbTimeStruct;
+  graceEndHr:NgbTimeStruct;
+
   startDate: Date;
   endDate: Date;
+
+  graceStartDate: Date;
+  graceEndDate: Date;
+
+  workingHr:string;
+  minimunHr:string;
+
 
   @Input() shiftNames: string[];
   @Input() shift: Shift;
@@ -35,6 +45,8 @@ export class ShiftEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+  
     this.fromTime = {
       hour: new Date(this.shift.startTime).getHours(),
       minute: new Date(this.shift.startTime).getMinutes(),
@@ -46,11 +58,34 @@ export class ShiftEditComponent implements OnInit {
       second: 0
     };
 
+    this.graceStartHr = {
+      hour: new Date(this.shift.graceStartTime).getHours(),
+      minute: new Date(this.shift.graceStartTime).getMinutes(),
+      second: 0
+    };
+    this.graceEndHr = {
+      hour: new Date(this.shift.graceEndTime).getHours(),
+      minute: new Date(this.shift.graceEndTime).getMinutes(),
+      second: 0
+    };
+
     this.currentUserId = getCurrentUserId();
 
     this.editForm = this.createFormGroup();
     this.editForm.patchValue(this.shift);
     this.setTime();
+    this.setGraceHours()
+    
+    // this.editForm.patchValue({
+    //   workingHours: new Date(this.shift.workingHours).getHours() + ':' +  new Date(this.shift.workingHours).getMinutes(), 
+    // })
+
+    // this.editForm.patchValue({
+    //   minimumHours: new Date(this.shift.minimumHours).getHours() + ':' +  new Date(this.shift.minimumHours).getMinutes(), 
+    // })
+    // this.workingHr =  new Date(this.shift.workingHours).getHours() + ':' +  new Date(this.shift.workingHours).getMinutes()
+    
+    this.minimunHr = new Date(this.shift.minimumHours).getHours() + ':' +  new Date(this.shift.minimumHours).getMinutes()
   }
 
   setTime() {
@@ -67,9 +102,49 @@ export class ShiftEditComponent implements OnInit {
     } else {
       this.editForm.patchValue({ startTime: null, endTime: null });
     }
+    this.setWorkingHours()
   }
 
+
+  setGraceHours() {
+    if (this.graceStartHr && this.graceEndHr) {
+      const currentDate = new Date();
+      this.graceStartDate = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), this.graceStartHr.hour, this.graceStartHr.minute));
+      this.graceEndDate = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), this.graceEndHr.hour, this.graceEndHr.minute));
+
+      if (this.graceStartDate > this.graceEndDate) {
+        this.graceEndDate.setDate(this.graceEndDate.getDate() + 1);
+      }
+
+      this.editForm.patchValue({ graceStartTime: this.graceStartDate.toISOString().split('.')[0], graceEndTime: this.graceEndDate.toISOString().split('.')[0] });
+    } else {
+      this.editForm.patchValue({ graceStartTime: 0, graceEndTime: 0 });
+    }
+  }
+
+  setWorkingHours(){
+
+    const diffInMs = Date.parse(this.editForm.value.endTime) - Date.parse(this.editForm.value.startTime);
+    const diffInHours = diffInMs / 1000 / 60 / 60
+    const diffMinutes = diffInMs / 1000 / 60 % 60
+  //  this.editForm.patchValue({workingHours  : Math.trunc(diffInHours) + ':' + diffMinutes})
+   // this.workingHr =   Math.trunc(diffInHours) + ':' + diffMinutes 
+    const hrValue = Math.trunc(diffInHours) >= 10 ? Math.trunc(diffInHours) : '0'+Math.trunc(diffInHours)
+    const minValue = diffMinutes >= 10 ? diffMinutes : '0' +diffMinutes
+    this.workingHr = hrValue + ':' +minValue
+  }
+
+
   onSubmit() {
+
+
+    this.editForm.patchValue({
+      workingHours: this.workingHr, 
+    })
+
+    this.editForm.patchValue({
+      minimumHours: this.minimunHr 
+    })
     this.shiftService.update(this.editForm.getRawValue()).subscribe((result: number) => {
       if (result === -1) {
         this.toastr.showErrorMessage('Shift name already exists!');
@@ -89,6 +164,10 @@ export class ShiftEditComponent implements OnInit {
   get startTime() { return this.editForm.get('startTime'); }
 
   get endTime() { return this.editForm.get('endTime'); }
+
+  get graceStartTime() { return this.editForm.get('graceStartTime');}
+  
+  get graceEndTime() {return this.editForm.get('graceEndTime');}
 
   private createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -118,7 +197,12 @@ export class ShiftEditComponent implements OnInit {
       comments: [null, [
         Validators.maxLength(256)
       ]],
+      graceStartTime: [{ value: 0, disabled: this.isDisabled }],
+      graceEndTime: [{ value: 0, disabled: this.isDisabled }],
+      workingHours:[null],
       createdDate: [],
+      minimumHours:[null,[
+        Validators.required]]
     }, { validators: durationValidator });
   }
 }

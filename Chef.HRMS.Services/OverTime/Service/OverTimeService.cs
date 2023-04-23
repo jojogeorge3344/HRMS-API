@@ -61,6 +61,9 @@ namespace Chef.HRMS.Services
             return await overTimeRepository.GetOvertimeNotifyPersonnelByOvertimeId(overtimeId);
         }
 
-        
+        public async Task<IEnumerable<CalenderView>> GetCalenderDetails(int employeeId)
+        {
+            return await overTimeRepository.GetCalenderDetails(employeeId);
+        }
     }
 }
