@@ -25,11 +25,14 @@ export class LoanRequestEditComponent implements OnInit {
   currentUserId: number;
   loanSettingId: number;
   minDate = undefined;
-
+  showLoanSchedules:boolean=false
+  
+  scheduleArray:any=[]
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
   @Input() loanId: any;
   @Input() loanRequest: LoanRequest;
+  @Input()  isApproved:boolean
 
   constructor(
     private loanRequestService: LoanRequestService,
@@ -50,17 +53,17 @@ export class LoanRequestEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.loanTypeKeys = Object.keys(this.loanTypes).filter(Number).map(Number);
     this.paymentTypeKeys = Object.keys(this.paymentTypes).filter(Number).map(Number);
-
     this.loanRequestService.get(this.loanId).subscribe(result => {
       result.requestedDate = new Date(result.requestedDate);
       result.expectedOn = new Date(result.expectedOn);
       this.loanNo = result.loanNo;
       this.editForm.patchValue(result);
-
+      console.log('editform',result)
     },
       error => {
         console.error(error);
@@ -118,6 +121,41 @@ export class LoanRequestEditComponent implements OnInit {
     }
   }
 
+
+  generateSchedule(){
+    this.scheduleArray=[]
+    
+  var startingMonth = parseInt(this.editForm.value.emiStartsFromMonth)
+  var startYear = this.editForm.value.emiStartsFromYear
+  let totalperiod = this.editForm.value.repaymentTerm
+  let amountperMonth 
+  amountperMonth =this.editForm.value.loanAmount/totalperiod
+  amountperMonth = parseInt(amountperMonth)
+  amountperMonth = parseFloat(amountperMonth).toFixed(2)
+  const current = new Date();
+  var nectdate = current.setMonth(current.getMonth() + 2);
+  var year= current.getFullYear()
+  var month= current.getMonth() + 1
+
+  // var q= nectdate.getFullYear()
+  // var b= nectdate.getMonth() + 1
+  // var v= nectdate.getDate()
+ 
+
+  var array = []
+
+  for(var i=0;i< totalperiod;i++){
+    let month = current.getMonth() + i+1
+    let year = current.getFullYear()
+    this.scheduleArray.push({Year : year,Month : this.months[month],Amount :amountperMonth,Status :'Pending'})
+
+  }
+  console.log('array',this.scheduleArray)
+
+  this.showLoanSchedules =  true
+
+  }
+
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       loanNo: this.loanNo,
@@ -133,8 +171,9 @@ export class LoanRequestEditComponent implements OnInit {
       comments: ['', [Validators.required,Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
-
       createdDate: [],
+      extendedMonth:[0]
+
 
     });
   }

@@ -38,6 +38,13 @@
                     <input type="number" class="form-control" id="loanAmount" name="loanAmount" (keydown)="validateNumber($event)"
                         formControlName="loanAmount">
                 </div>
+                <div class="form-group" >
+                    <label for="extendedMonth">Extended Months</label>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <input type="number" class="form-control" id="extendedMonth" name="extendedMonth" (keydown)="validateNumber($event)"
+                        formControlName="extendedMonth">
+                    </div>                 
+                </div>
             </div>
             <div class="col-sm">
                 <div class="form-group ">
@@ -80,6 +87,9 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
                 class="mr-1 fal fa-window-close"></i> Cancel</button>
+                <button *ngIf ="editForm.controls.loanType.value ===2" (click)="generateSchedule()" type="button" class="btn btn-success">
+                    <i class="mr-1 fal fa-arrow-down"></i> Generate Schedule</button>
         <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Update</button>
+      
     </div>
 </form>

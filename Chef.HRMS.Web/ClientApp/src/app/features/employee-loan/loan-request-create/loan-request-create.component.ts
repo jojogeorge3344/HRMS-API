@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { Subscription } from 'rxjs';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import * as moment from 'moment';
 
 @Component({
   templateUrl: './loan-request-create.component.html',
@@ -33,7 +34,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   years: any;
   months: any;
   minDate = undefined;
-
+  scheduleArray:any=[]
+  showLoanSchedules:boolean=false
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
   @Input() companyCode: string;
@@ -162,6 +164,53 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     }
   }
 
+  generateSchedule(){
+    this.scheduleArray=[]
+
+    var month = 0; // January
+    var d = new Date(2023,  2, 0);
+    console.log(d); // last day in January
+    
+  var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
+  var startYear = this.addForm.value.emiStartsFromYear
+  let totalperiod = this.addForm.value.repaymentTerm
+  let amountperMonth 
+  amountperMonth =this.addForm.value.loanAmount/totalperiod
+  amountperMonth = parseInt(amountperMonth)
+  amountperMonth = parseFloat(amountperMonth).toFixed(2)
+  const current = new Date() ;
+  var nectdate = current.setMonth(current.getMonth() + 2);
+  var year= current.getFullYear()
+  var month= current.getMonth() + 1
+
+  // var q= nectdate.getFullYear()
+  // var b= nectdate.getMonth() + 1
+  // var v= nectdate.getDate()
+ 
+
+  var array = []
+
+  for(var i=0;i< totalperiod;i++){
+    let month =current.getMonth() + i
+    let year = current.getFullYear()
+    this.scheduleArray.push({Year : year,Month : this.months[month],Amount :amountperMonth,Status :'Pending'})
+
+  }
+  console.log('array',this.scheduleArray)
+
+  this.showLoanSchedules =  true
+
+  // for(var i=0;i< totalperiod;i++){
+  //   var d = new Date(startYear,  startingMonth + i, 0)
+  //   let month =d.getMonth() + i
+  //   let year = d.getFullYear()
+  //   this.scheduleArray.push({Year : year,Month : this.months[month -1],Amount :amountperMonth,Status :'Pending'})
+
+  // }
+
+
+  }
+
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -178,6 +227,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       comments: ['', [Validators.required,Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
+      extendedmonth:[0]
     });
   }
 }
