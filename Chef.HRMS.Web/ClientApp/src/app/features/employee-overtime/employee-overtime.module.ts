@@ -10,6 +10,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { OvertimeRequestListComponent } from './overtime-request-list/overtime-request-list.component';
 import { OvertimeRequestCreateComponent } from './overtime-request-create/overtime-request-create.component';
 import { OvertimeRequestEditComponent } from './overtime-request-edit/overtime-request-edit.component';
+import { OvertimeRequestViewComponent } from './overtime-request-view/overtime-request-view.component';
 
 
 
@@ -17,7 +18,8 @@ import { OvertimeRequestEditComponent } from './overtime-request-edit/overtime-r
   declarations: [
     OvertimeRequestListComponent,
     OvertimeRequestCreateComponent,
-    OvertimeRequestEditComponent
+    OvertimeRequestEditComponent,
+    OvertimeRequestViewComponent
   ],
   imports: [
     CommonModule,
