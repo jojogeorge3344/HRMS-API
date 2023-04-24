@@ -6,6 +6,6 @@
     public enum LoanType
     {
         Advance = 1,
-        Loan
+        Loan = 2
     }
 }
