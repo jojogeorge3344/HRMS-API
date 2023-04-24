@@ -54,6 +54,7 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<OvertimeViewModel>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId)
         {
             var sql = @"SELECT  
+                                op.id,
 		                        op.overtimeid,
 		                        op.notifypersonnel,
 		                        ee.firstname

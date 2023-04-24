@@ -31,6 +31,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   selectedItems = [];
   alreadySelectedItem=[];
   overtimeConfiguration: OvertimePolicyConfiguration;
+  notifyPersonList:any=[]
 
 
   @Input() overtimeRequest: OvertimeRequest;
@@ -75,6 +76,8 @@ export class OvertimeRequestEditComponent implements OnInit {
     this.overtimeRequestService.getOvertimeNotifyPersonnelByOvertimeId(this.overtimeRequest.id).subscribe((res:any) =>{
       this.selectedItems = this.employeeList?.filter(({ id: id1 }) => res.some(({ notifyPersonnel: id2 }) => id2 === id1));
       this.alreadySelectedItem = [...this.selectedItems]
+      this.notifyPersonList = res
+      
     },
       error => {
         console.error(error);
@@ -128,25 +131,17 @@ export class OvertimeRequestEditComponent implements OnInit {
         const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
           overtimeId: this.overtimeRequest.id,
           notifyPersonnel: notifyPerson.id,
-          isarchived:false
-          
+          isarchived:false,
+          id:0
         }));
 
-        // const notifyPersonnelForm = this.alreadySelectedItem.map(notifyPerson => ({
-        //   overtimeId: this.overtimeRequest.id,
-        //   notifyPersonnel: notifyPerson.id,
-        //   isArchived:true
-        // }));
-
-        console.log('alre',this.alreadySelectedItem)
-        console.log('sel',this.selectedItems)
-       
+     
         this.selectedItems.forEach( array1Ttem => {
 
           this.alreadySelectedItem.forEach( array2Item => {
     
              if(array1Ttem.id != array2Item.id){
-              var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true}
+              var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true,id:0}
               notifyPersonnelForm.push(data)
             }
            
@@ -154,12 +149,17 @@ export class OvertimeRequestEditComponent implements OnInit {
           })
         })
 
+
+        notifyPersonnelForm.forEach(obj1 =>{
+          this.notifyPersonList.forEach(obj2 =>{
+            if(obj1.notifyPersonnel == obj2.notifyPersonnel){
+              obj1.id = obj2.id
+            }
+          })
+        })
         
-        console.log('notifyPersonnelForm',notifyPersonnelForm)
-
-
-
-        this.overtimeRequestService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
+        
+        this.overtimeRequestService.UpdateNotifyPersonal(notifyPersonnelForm).subscribe(() => {
           this.toastr.showSuccessMessage('Overtime request updated successfully!');
           this.activeModal.close('submit');
         });
