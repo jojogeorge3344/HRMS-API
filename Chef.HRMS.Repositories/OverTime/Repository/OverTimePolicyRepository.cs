@@ -29,7 +29,7 @@ namespace Chef.HRMS.Repositories
                                    otp.description, 
                                    otp.createddate, 
                                    otp.modifieddate, 
-                                   otp.createdby, 
+                                   otp.createdby as RequestedBy, 
                                    otp.modifiedby, 
                                    otp.isarchived, 
                                    otp.attendancehourstype, 
