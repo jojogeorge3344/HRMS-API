@@ -39,7 +39,7 @@
       <div class="form-group form-input-line col-4">
         <label class="col-form-label" for="type">Type<span class="required">*</span></label>
         <select class="form-control" formControlName="type">
-          <option [ngValue]="null" disabled>Select Type</option>
+          <option value="0" disabled>Select Type</option>
           <option *ngFor="let key of userVariableTypeKeys" [ngValue]='key'>{{userVariableTypeOf[key]}}</option>
       </select>
       </div>
