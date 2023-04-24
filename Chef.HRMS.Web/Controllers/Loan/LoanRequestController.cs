@@ -118,5 +118,18 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("GetLoanRequestDetails/{loanId}")]
+        public async Task<ActionResult<LoanRequestDetailsView>> GetLoanRequestDetails(int loanId)
+        {
+            var loanRequest = await loanRequestServices.GetLoanRequestDetails(loanId);
+
+            if (loanRequest == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(loanRequest);
+        }
     }
 }
