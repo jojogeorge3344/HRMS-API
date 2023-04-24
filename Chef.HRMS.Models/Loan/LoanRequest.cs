@@ -87,5 +87,6 @@ namespace Chef.HRMS.Models
         /// Holds the approved status
         /// </summary>
         public bool IsApproved { get; set; }
+        public int ExtendedMonth { get; set; }
     }
 }
