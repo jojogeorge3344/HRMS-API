@@ -20,6 +20,6 @@ export interface OvertimePolicyConfiguration {
     normalOverTime8:number;
     holidayOvertime9:number;
     specialOvertime10:number;
-    overtimeFlag:boolean
+    isOvertimeSlab:boolean
 
 }

@@ -137,7 +137,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
         this.editForm.patchValue( {roundOffType: 1, isRoundOffNearest: false, isRoundOffLowest: false} );
       }
     });
-    this.editForm.get('overtimeFlag').valueChanges.subscribe(value => {
+    this.editForm.get('isOvertimeSlab').valueChanges.subscribe(value => {
       if (value) {
         this.overtimeFlagCheck=true
       } else {
@@ -202,7 +202,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
-      overtimeFlag:[false],
+      isOvertimeSlab:[false],
       normalOverTime:[0],
       holidayOverTime:[0],
       specialOverTime:[0],      
