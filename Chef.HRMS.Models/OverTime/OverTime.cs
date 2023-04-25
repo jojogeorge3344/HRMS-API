@@ -58,5 +58,11 @@ namespace Chef.HRMS.Models
         /// Holds the approved status
         /// </summary>
         public RequestStatusType RequestStatus { get; set; }
+
+        public int NormalOverTime { get; set; }
+
+        public int SpecialOverTime { get; set; }
+
+        public int HolidayOverTime { get; set; }
     }
 }

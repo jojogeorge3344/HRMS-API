@@ -61,7 +61,7 @@ export class LoanRequestListComponent implements OnInit {
     modalRef.componentInstance.loanTypes = this.loanTypes;
     modalRef.componentInstance.paymentTypes = this.paymentTypes;
     modalRef.componentInstance.nextLoanNumber = this.nextLoanNumber;
-
+   
     modalRef.result.then((result) => {
       if (result == 'submit') {
         this.getloanRequests();
@@ -69,14 +69,14 @@ export class LoanRequestListComponent implements OnInit {
     });
   }
 
-  openEditLoanRequest(id: number) {
+  openEditLoanRequest(id: number,isApproved:boolean) {
     const modalRef = this.modalService.open(LoanRequestEditComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.loanTypes = this.loanTypes;
     modalRef.componentInstance.paymentTypes = this.paymentTypes;
     modalRef.componentInstance.loanId = id;
-
+    modalRef.componentInstance.isApproved = isApproved
     modalRef.result.then((result) => {
         if (result == 'submit') {
           this.getloanRequests();
