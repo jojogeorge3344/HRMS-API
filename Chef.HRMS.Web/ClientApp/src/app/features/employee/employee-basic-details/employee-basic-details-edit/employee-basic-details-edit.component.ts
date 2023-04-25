@@ -24,6 +24,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   maxDate;
   emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   nameCheck: any;
+  userId;
 
   constructor(
     private employeeBasicDetailsService: EmployeeBasicDetailsService,
@@ -61,12 +62,12 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
 
   
   getBasicDetailsId() {
-    debugger
-    this.employeeBasicDetailsService.get(this.id).subscribe(result => {
-      console.log('edt ',result);
-      
-      result.dateOfBirth = new Date(result.dateOfBirth);
+    this.employeeBasicDetailsService.get(this.id).subscribe(result => {  
+      debugger
+      this.userId=result.userId
+      result.dateOfBirth = new Date(result.dateOfBirth);    
       this.editForm.patchValue(result);
+
     },
       error => {
         console.error(error);
@@ -100,7 +101,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     return this.formBuilder.group({
       id: [''],
       firstName: ['', [
-        Validators.maxLength(18),
+        Validators.maxLength(60),
         Validators.required
       ]],
       middleName: ['', [Validators.maxLength(18)]],
@@ -144,6 +145,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         Validators.required,
         Validators.maxLength(30)]
       ],
+      userId:[this.userId]
     });
   }
 

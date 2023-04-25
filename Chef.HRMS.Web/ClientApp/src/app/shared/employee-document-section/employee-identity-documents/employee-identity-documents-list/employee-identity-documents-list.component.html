@@ -18,7 +18,7 @@
     <tbody>
       <tr *ngFor="let details of identityDetails; let i = index">
         <td>{{ i + 1 }}</td>
-        <td class="text-capitalize">{{ details.documentType }}</td>
+        <td class="text-capitalize">{{ details.documentName }}</td>
         <td class="text-capitalize">{{ details.issueDate | date }}</td>
         <td>{{ details.placeOfIssue }}</td>
         <td>{{ details.active === true ? "Active" : "Inactive" }}</td>

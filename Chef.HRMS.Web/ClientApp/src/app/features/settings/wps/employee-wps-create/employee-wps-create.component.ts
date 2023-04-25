@@ -53,7 +53,7 @@ export class EmployeeWpsCreateComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       groupCode: ['', [
-        Validators.maxLength(14),
+        Validators.maxLength(30),
         Validators.required,
         duplicateNameValidator(this.groupCodes)
       ]],

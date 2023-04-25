@@ -8,6 +8,6 @@ namespace Chef.HRMS.Types
         WebCheckin = 1,
 
         [Description("Swipping")]
-        Swiping,
+        Swiping = 2,
     }
 }

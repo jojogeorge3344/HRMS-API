@@ -6,14 +6,14 @@
             <div class="form-group row">
                 <label for="AnnualCasualLeaveQuota" class="col-sm-5 col-form-label">Annual Leave Quota<span class="required">*</span></label>
                 <div class="col-sm-3 form-input-inline">
-                    <input style="width: 100%;" type="number" class="form-control" formControlName="annualLeaveQuota">
+                    <input style="width: 100%;" type="number" class="form-control" formControlName="annualLeaveQuota" disabled>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="maxConsecutiveDays" class="col-sm-5 col-form-label">Maximum number of consecutive
                     days<span class="required">*</span></label>
                 <div class="col-sm-3  form-input-inline">
-                    <input type="number" class="form-control" formControlName="maxConsecutiveDays">
+                    <input type="number" class="form-control" formControlName="maxConsecutiveDays" disabled>
                 </div>
             </div>
             <div class="form-group row">
@@ -110,7 +110,7 @@
                 <label for="maxCarryForwardDays" class="col-sm-5 col-form-label">Maximum carry forward leave (in
                     days)</label>
                 <div class="col-sm-3">
-                    <input type="number" class="form-control" formControlName="maxCarryForwardDays">
+                    <input [readonly] = "maxCarryForwardDisable" type="number" class="form-control" name ="maxCarryForwardDays" formControlName="maxCarryForwardDays">
                 </div>
             </div>
 

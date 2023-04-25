@@ -16,10 +16,12 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   editForm: FormGroup;
   currentUserId: number;
   viewValue: boolean;
+  maxCarryForwardDisable =false;
 
   @Input() leaveStructureId: number;
   @Input() leaveComponentId: number;
   @Input() assignedLeaveConfigurations;
+  @Input() activeIndex:number;
 
   @Input() isView: boolean;
   @Output() saveConfiguration = new EventEmitter<boolean>();
@@ -31,7 +33,7 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     private router: Router) {
   }
   ngOnInit(){
-    
+
     let href = this.router.url.split('/');   
     if(href.includes('view')){
       this.viewValue = true;
@@ -42,15 +44,68 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
     if(this.viewValue == true){
       this.editForm.disable();
     }
-    if(this.assignedLeaveConfigurations){
-  this.editForm.patchValue({
-  annualLeaveQuota:this.assignedLeaveConfigurations[0].eligibleDays,
-  maxConsecutiveDays:this.assignedLeaveConfigurations[0].eligibilityBase,
-  maxNumberOfDaysPerMonth:this.assignedLeaveConfigurations[0].maxLeaveAtaTime
-})
-    }
+    this.setConfigurationDetails(this.activeIndex)
+    // if (this.assignedLeaveConfigurations) {
+    //   this.editForm.patchValue({
+    //     annualLeaveQuota: this.assignedLeaveConfigurations[0].eligibleDays,
+    //    // maxConsecutiveDays: this.assignedLeaveConfigurations[0].eligibilityBase,
+    //      maxConsecutiveDays:this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+    //    // maxNumberOfDaysPerMonth: this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+    //     leaveBalancesAtTheYearEnd:this.assignedLeaveConfigurations[0].isCarryForward == true ? 3 :'',
+    //     maxCarryForwardDays:this.assignedLeaveConfigurations[0].cfLimitDays
+       
+    //   })
+
+    //   this.maxCarryForwardDisable = this.assignedLeaveConfigurations[0].cfLimitDays > 0 && this.assignedLeaveConfigurations[0].isCarryForward == true ? true  : false
     
+    // }
+
   }
+
+  // setConfigurationDetails(index){
+  //   debugger
+  //   if (this.assignedLeaveConfigurations) {
+  //     console.log('data',this.assignedLeaveConfigurations)
+  //     this.editForm.patchValue({
+  //       annualLeaveQuota: this.assignedLeaveConfigurations[index].eligibleDays,
+  //      // maxConsecutiveDays: this.assignedLeaveConfigurations[0].eligibilityBase,
+  //        maxConsecutiveDays:this.assignedLeaveConfigurations[index].maxLeaveAtaTime,
+  //      // maxNumberOfDaysPerMonth: this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+  //       leaveBalancesAtTheYearEnd:this.assignedLeaveConfigurations[index].isCarryForward == true ? 3 :0,
+  //       maxCarryForwardDays:this.assignedLeaveConfigurations[index].cfLimitDays
+       
+  //     })
+
+  //     this.maxCarryForwardDisable = this.assignedLeaveConfigurations[index].cfLimitDays > 0 && this.assignedLeaveConfigurations[index].isCarryForward == true ? true  : false
+  //   }
+
+  // }
+
+
+  setConfigurationDetails(index){
+    var componetIdIndex
+    if (this.assignedLeaveConfigurations) {
+      for(let i=0;i < this.assignedLeaveConfigurations.length;i++){
+           if(index == this.assignedLeaveConfigurations[i].leaveComponentId){
+            componetIdIndex = i
+           }
+      }
+      this.editForm.patchValue({
+        annualLeaveQuota: this.assignedLeaveConfigurations[componetIdIndex].eligibleDays,
+       // maxConsecutiveDays: this.assignedLeaveConfigurations[0].eligibilityBase,
+         maxConsecutiveDays:this.assignedLeaveConfigurations[componetIdIndex].maxLeaveAtaTime,
+       // maxNumberOfDaysPerMonth: this.assignedLeaveConfigurations[0].maxLeaveAtaTime,
+        leaveBalancesAtTheYearEnd:this.assignedLeaveConfigurations[componetIdIndex].isCarryForward == true ? 3 :0,
+        maxCarryForwardDays:this.assignedLeaveConfigurations[componetIdIndex].cfLimitDays
+    
+      })
+
+      this.maxCarryForwardDisable = this.assignedLeaveConfigurations[componetIdIndex].cfLimitDays > 0 && this.assignedLeaveConfigurations[componetIdIndex].isCarryForward == true ? true  : false
+    }
+
+  }
+
+
 
   ngOnChanges(changes: SimpleChanges) {
     this.currentUserId = getCurrentUserId();
@@ -59,14 +114,16 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
       this.editForm = this.createFormGroup();
       this.getLeaveGeneralSettings();
     }
+    this.setConfigurationDetails(this.activeIndex)
   }
 
   getLeaveGeneralSettings() {
-    debugger
     this.leaveConfigurationGeneralService.get(this.leaveStructureId, this.leaveComponentId).subscribe((result: any) => {
-      if (result && !this.assignedLeaveConfigurations) {
+      if (result) {
         this.editForm.patchValue(result);
+        this.setConfigurationDetails(this.activeIndex)
       }
+      
     },
       error => {
         console.error(error);
@@ -76,7 +133,12 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   }
 
   onSubmit() {
-    this.editForm.patchValue({ isConfigured: true });
+    this.editForm.value.leaveBalancesAtTheYearEnd = this.editForm.value.leaveBalancesAtTheYearEnd == "" ? 0 : parseInt(this.editForm.value.leaveBalancesAtTheYearEnd)
+    this.editForm.patchValue({ 
+      isConfigured: true,
+      leaveComponentId :this.leaveComponentId,
+      leaveStructureId :this.leaveStructureId
+     });
     this.leaveConfigurationGeneralService.update(this.editForm.value)
       .subscribe(() => {
         this.toastr.showSuccessMessage('Leave General Settings is updated successfully!');
@@ -108,6 +170,9 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
       maxConsecutiveDays: [0, [
         Validators.min(0),
         Validators.required]],
+        maxCarryForwardDays: [0, [
+          Validators.min(0),
+          Validators.required]],
       // maxNumberOfDaysPerMonth: [0],
       maxNumberOfDaysPerMonth: [0, [
         Validators.required,
@@ -123,7 +188,8 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
       negativeLeaveBalancesAtTheYearEnd: [0],
       leaveStructureId: [0],
       leaveComponentId: [0],
-      createdDate: []
+      //createdDate: []
+      createdDate: [new Date()]
     });
   }
 }

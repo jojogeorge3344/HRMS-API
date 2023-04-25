@@ -10,12 +10,14 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 import { AssetTypeEditComponent } from './asset-type-edit/asset-type-edit.component';
 import { AssetTypeCreateComponent } from './asset-type-create/asset-type-create.component';
 import { AssetTypeListComponent } from './asset-type-list/asset-type-list.component';
+import { AssetTypeViewComponent } from './asset-type-view/asset-type-view.component';
 
 @NgModule({
   declarations: [
     AssetTypeListComponent,
     AssetTypeCreateComponent,
-    AssetTypeEditComponent
+    AssetTypeEditComponent,
+    AssetTypeViewComponent
   ],
   imports: [
     CommonModule,

@@ -59,13 +59,13 @@ export class ExpenseTypeCreateComponent implements OnInit {
       name: ['', [
         Validators.required,
         Validators.maxLength(50),
-        Validators.pattern('^([a-zA-Z0-9 ])+$'),
+        //Validators.pattern('^([a-zA-Z0-9 ])+$'),
         duplicateNameValidator(this.expenseTypeNames)
       ]],
       code: ['', [
         Validators.required,
-        Validators.maxLength(12),
-        Validators.pattern('^([a-zA-Z0-9-])+$'),
+        Validators.maxLength(30),
+        //Validators.pattern('^([a-zA-Z0-9-])+$'),
         duplicateNameValidator(this.expenseTypeCodes)
       ]],
       description: ['', [

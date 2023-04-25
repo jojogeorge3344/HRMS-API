@@ -36,4 +36,7 @@ export class PayrollConfigurationService {
   delete(id: number) {
     return this.http.delete<PayrollConfiguration>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
+  getAllPayRoll(id) {
+    return this.http.get<PayrollConfiguration>(this.baseUrl + 'GetAllByPayrollComponentId/' + id).pipe(map(response => { return response; }));
+  }
 }

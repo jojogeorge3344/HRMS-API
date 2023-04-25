@@ -23,6 +23,16 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 
+        public async Task<IEnumerable<OverTimeSlab>> GetOverTimeComponentDetails(int overtimepolicyid)
+        {
+            return await QueryFactory
+               .Query<OverTimeSlab>()
+               .Where("overtimepolicyid", overtimepolicyid)
+               .WhereNotArchived()
+               .OrderBy("id")
+               .GetAsync<OverTimeSlab>();
+        }
+
         public async Task<bool> IsOverTimePolicyCodeExist(string code)
         {
             if (await QueryFactory

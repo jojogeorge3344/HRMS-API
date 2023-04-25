@@ -4,6 +4,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SystemVariableService } from './system-service';
 import { UserVariableGroup } from '@settings/payroll/user-variable/user-variable-list/user-variable.model';
+import { PayrollCalculationService } from '@settings/payroll/payroll-calculation/payroll-calculation.service';
 
 
 @Component({
@@ -18,17 +19,32 @@ export class SystemVariableComponent implements OnInit {
   // @Input() Code: string[];
   // @Input() Name: string[];
   codeExistCheck:boolean=false
+  disabled:boolean=false;
 
   constructor(
     private systemVariableService:SystemVariableService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService) {
+    private toastr: ToasterDisplayService,
+    private payrollCalculationService:PayrollCalculationService
+    ) {
   }
 
   ngOnInit(): void {
     debugger
     this.addForm = this.createFormGroup();
+
+    this.payrollCalculationService.IsSystemVariableExist(this.systemDetails.code)
+    .subscribe((result)=>{
+      debugger
+     let variableExist=result;
+     if(!variableExist){
+      this.disabled=false;
+     }else{
+      this.disabled=true;
+     }
+    })
+
     this.addForm.patchValue(this.systemDetails);
     if(this.addForm.value.status==true){
       this.addForm.patchValue({
@@ -74,7 +90,7 @@ export class SystemVariableComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       code: ['', [
-        Validators.maxLength(20),
+        Validators.maxLength(30),
         //Validators.required,
       ]],
       name: ['', [

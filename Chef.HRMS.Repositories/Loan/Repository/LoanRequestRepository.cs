@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Models;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.Loan;
 using Dapper;
@@ -95,6 +96,18 @@ namespace Chef.HRMS.Repositories
         {
             var sql = @"SELECT requesteddate FROM hrms.loanrequest WHERE employeeid=@employeeid";
             return await Connection.QueryAsync<LoanRequestedViewModel>(sql, new { employeeId = employeeId });
+        }
+
+        public async Task<LoanRequestDetailsView> GetLoanRequestDetails(int loanId)
+        {
+            var sql = @"SELECT lr.*,lp.tenurenumber,lp.emiamount,lp.payrollprocessingmethodid,lp.balanceamount,
+                        lp.remainingtenure FROM hrms.loanrequest lr
+                        INNER JOIN hrms.loanpayment lp
+                        ON lr.id = lp.loanid
+                        WHERE lr.id = @loanId
+                        AND lr.isarchived = false";
+
+            return await Connection.QueryFirstOrDefaultAsync<LoanRequestDetailsView>(sql, new { loanId });
         }
     }
 }

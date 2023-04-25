@@ -24,14 +24,14 @@
           Document number already exists.
         </div>
       </div>
-      <div class="form-group form-input-line col-sm">
-        <label class="col-form-label" for="documentTypeList"
+      <div class="form-group col-6">
+        <label class="col-form-label" for="documentTypeMasterId"
           >Document Type<span class="required">*</span></label
         >
-        <select class="form-control" formControlName="documentTypeList">
+        <select class="form-control" formControlName="documentTypeMasterId">
           <option Value="" disabled>Select Document Type</option>
-          <option *ngFor="let key of documentTypeKeys" [ngValue]="key">
-            {{ documentType[key] }}
+          <option *ngFor="let key of documentTypeKeys" [ngValue]="key.id">
+            {{key.name }}
           </option>
         </select>
       </div>

@@ -122,7 +122,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> InsertNotifyPersonnel(IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
+        public async Task<ActionResult<int>> InsertNotifyPersonnel([FromBody] IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
         {
             if (!ModelState.IsValid)
             {
@@ -130,6 +130,30 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await overTimeService.InsertNotifyPersonnel(overTimeNotifyPersonnel);
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetCalenderDetails/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<CalenderView>>> GetCalenderDetails(int employeeId)
+        {
+            var calender = await overTimeService.GetCalenderDetails(employeeId);
+
+            return Ok(calender);
+        }
+
+        [HttpPost("UpdateNotifyPersonnel")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> UpdateNotifyPersonnel([FromBody] IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await overTimeService.UpdateNotifyPersonnel(overTimeNotifyPersonnel);
 
             return Ok(result);
         }

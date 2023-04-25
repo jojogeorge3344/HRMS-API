@@ -94,5 +94,15 @@ namespace Chef.HRMS.Models
         /// </summary>
         public decimal NumberOfDays { get; set; }
         public string CurrentDate { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeName { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeCode { get; set; }
     }
 }

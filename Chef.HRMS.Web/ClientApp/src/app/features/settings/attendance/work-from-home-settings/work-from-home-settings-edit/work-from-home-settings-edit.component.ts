@@ -124,8 +124,8 @@ export class WorkFromHomeSettingsEditComponent implements OnInit {
       periodType: [{ value: null, disabled: true }, [
         Validators.required
       ]],
-      priorDays: [0, [Validators.max(31), Validators.min(1)]],
-      subsequentDays: [0, [Validators.max(300), Validators.min(1)]],
+      priorDays: [0, [Validators.max(31), Validators.min(1),Validators.required]],
+      subsequentDays: [0, [Validators.max(300), Validators.min(1),Validators.required]],
       createdDate: [],
     });
   }

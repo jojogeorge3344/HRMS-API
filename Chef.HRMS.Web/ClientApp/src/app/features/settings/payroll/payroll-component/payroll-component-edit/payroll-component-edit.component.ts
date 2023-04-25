@@ -34,6 +34,9 @@ export class PayrollComponentEditComponent implements OnInit {
   payBaseUnitTypeKeys: number[];
   includePaySlipTypeKeys: number[];
   roundingTypeKeys: number[];
+  config;
+  selectedDatasource;
+
 
   @Input() payrollComponentTypes: PayrollComponentType;
   @Input() payrollComponent: PayrollComponent;
@@ -51,7 +54,7 @@ export class PayrollComponentEditComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
-
+debugger
     this.payHeadTypeKeys = Object.keys(this.payHeadTypes)
       .filter(Number)
       .map(Number);
@@ -70,12 +73,30 @@ export class PayrollComponentEditComponent implements OnInit {
     this.payrollComponentService
       .getAllPayrollComponentByType()
       .subscribe((result) => {
-        this.payrollComponentTypeKeys = result.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        );
+        this.payrollComponentTypeKeys = result.sort((a, b) => a.categoryId - b.categoryId);
+
+        const details = result.find(item => item.id === this.payrollComponent.payrollComponentType);
+        this.selectedDatasource=details.name
+        this.editForm.patchValue({ payrollComponentType: this.selectedDatasource });
+  
       });
 
+
     this.editForm.patchValue(this.payrollComponent);
+    this.config = {
+      displayKey: "name",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select a Payroll Component Type",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "name",
+      clearOnSelection: false,
+    };
+  }
+
+  selectionChanged(args) {
+    this.editForm.get("payrollComponentType").patchValue(args.value.id);
   }
 
   get name() {
@@ -114,20 +135,19 @@ export class PayrollComponentEditComponent implements OnInit {
         "",
         [
           Validators.required,
-          Validators.pattern("^([a-zA-Z0-9 ])+$"),
+          //Validators.pattern("^([a-zA-Z0-9 ])+$"),
           duplicateNameValidator(this.payrollComponentNames),
         ],
       ],
       payrollComponentType: [
-        { value: null, disabled: this.isDisabled },
         [Validators.required],
       ],
       shortCode: [
         "",
         [
           Validators.required,
-          Validators.maxLength(7),
-          Validators.pattern(/[a-zA-Z0-9\.\-]+./),
+          Validators.maxLength(30),
+          //Validators.pattern("^([a-zA-Z0-9])+$"),
           duplicateNameValidator(this.payrollComponentCodes),
         ],
       ],

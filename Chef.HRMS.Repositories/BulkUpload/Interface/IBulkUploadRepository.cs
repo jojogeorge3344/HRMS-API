@@ -11,5 +11,8 @@ namespace Chef.HRMS.Repositories
         Task<int> BulkInsertWorkFromHome(IEnumerable<WorkFromHome> workFromHome);
         Task<int> BulkInsertOnduty(IEnumerable<OnDuty> onDuty);
         Task<int> BulkInsertRegularLogin(IEnumerable<RegularLogin> regularLogin);
+        Task<int> RegularLoginBulkInsert(IEnumerable<RegularLogin> regularLogins);
+        Task<bool> GetEmployeeCodeExist(string employeeCode);
+
     }
 }

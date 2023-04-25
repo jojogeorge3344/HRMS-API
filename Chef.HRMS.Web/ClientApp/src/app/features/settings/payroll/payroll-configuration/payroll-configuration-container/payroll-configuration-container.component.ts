@@ -57,7 +57,7 @@ export class PayrollConfigurationContainerComponent implements OnInit {
 
   selectPayrollComponent(index) {
     this.selected = index;
-    this.currentType = this.assignedPayrollComponents[index].payrollComponentType;
+    this.currentType = this.assignedPayrollComponents[index].categoryId;
     this.currentPayrollConfiguration = this.assignedPayrollComponents[index];
   }
 
