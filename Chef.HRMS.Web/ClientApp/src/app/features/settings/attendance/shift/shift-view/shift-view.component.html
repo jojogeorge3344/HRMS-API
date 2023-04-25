@@ -22,7 +22,29 @@
                     <div class="col-sm-4">
                         <ngb-timepicker [ngModel]="endTime" [meridian]='true' [size]="'small'" name="endTime" [spinners]='false' disabled></ngb-timepicker>
                     </div>
-                </div>                
+                </div>    
+                
+                <div class="form-group row align-items-center">
+                    <label class="col-sm-4 col-form-label">Grace Time</label>
+                    <div class="col-sm-4">
+                        <ngb-timepicker [ngModel]="graceStartTime" [meridian]='true' [size]="'small'" name="graceStartTime" [spinners]='false' disabled></ngb-timepicker>
+                    </div>
+                    <div class="col-sm-4">
+                        <ngb-timepicker [ngModel]="graceEndTime" [meridian]='true' [size]="'small'" name="graceEndTime" [spinners]='false' disabled></ngb-timepicker>
+                    </div>
+                </div>    
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="workingHours">Working Hours</label>
+                    <div class="col-sm-8">
+                        <input type="string" [ngModel]="workingHr" class="form-control" disabled name="workingHours" value="{{ shift.workingHours }}">
+                    </div>
+                </div>  
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="minimumHours">Minimum Half Day Hour</label>
+                    <div class="col-sm-8">
+                        <input type="string" [ngModel] = "minimunHr" class="form-control" disabled name="minimumHours" value="{{ shift.minimumHours}}">
+                    </div>
+                </div>  
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label" for="breakDuration">Break Duration (in minutes)</label>
                     <div class="col-sm-8">

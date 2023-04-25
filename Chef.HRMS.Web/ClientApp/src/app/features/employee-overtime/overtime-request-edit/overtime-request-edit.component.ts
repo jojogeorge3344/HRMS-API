@@ -29,6 +29,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   markDisabled;
   employeeList: Employee[];
   selectedItems = [];
+  alreadySelectedItem=[];
   overtimeConfiguration: OvertimePolicyConfiguration;
 
 
@@ -73,6 +74,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   getOvertimeNotifyPersonnelByOvertimeId(){
     this.overtimeRequestService.getOvertimeNotifyPersonnelByOvertimeId(this.overtimeRequest.id).subscribe((res:any) =>{
       this.selectedItems = this.employeeList?.filter(({ id: id1 }) => res.some(({ notifyPersonnel: id2 }) => id2 === id1));
+      this.alreadySelectedItem = [...this.selectedItems]
     },
       error => {
         console.error(error);
@@ -122,10 +124,40 @@ export class OvertimeRequestEditComponent implements OnInit {
   onSubmit() {
     this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
       if (result.id !== -1) {
+        
         const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
           overtimeId: this.overtimeRequest.id,
-          notifyPersonnel: notifyPerson.id
+          notifyPersonnel: notifyPerson.id,
+          isarchived:false
+          
         }));
+
+        // const notifyPersonnelForm = this.alreadySelectedItem.map(notifyPerson => ({
+        //   overtimeId: this.overtimeRequest.id,
+        //   notifyPersonnel: notifyPerson.id,
+        //   isArchived:true
+        // }));
+
+        console.log('alre',this.alreadySelectedItem)
+        console.log('sel',this.selectedItems)
+       
+        this.selectedItems.forEach( array1Ttem => {
+
+          this.alreadySelectedItem.forEach( array2Item => {
+    
+             if(array1Ttem.id != array2Item.id){
+              var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true}
+              notifyPersonnelForm.push(data)
+            }
+           
+    
+          })
+        })
+
+        
+        console.log('notifyPersonnelForm',notifyPersonnelForm)
+
+
 
         this.overtimeRequestService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
           this.toastr.showSuccessMessage('Overtime request updated successfully!');

@@ -9,6 +9,7 @@ import { OvertimeRequest } from '../overtime-request.model';
 import { RequestStatus } from '../../../models/common/types/requeststatustype';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { OvertimeRequestViewComponent } from '../overtime-request-view/overtime-request-view.component';
 
 @Component({
   templateUrl: './overtime-request-list.component.html'
@@ -72,6 +73,19 @@ export class OvertimeRequestListComponent implements OnInit {
 
   openEdit(overtimeRequest: OvertimeRequest) {
     const modalRef = this.modalService.open(OvertimeRequestEditComponent,
+      {centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.overtimeRequest = overtimeRequest;
+
+    modalRef.result.then((result) => {
+      if (result == 'submit') {
+        this.getOvertimeRequests();
+      }
+    });
+  }
+
+  openView(overtimeRequest: OvertimeRequest) {
+    const modalRef = this.modalService.open(OvertimeRequestViewComponent,
       {centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.overtimeRequest = overtimeRequest;

@@ -1,0 +1,453 @@
+<div class="modal-header">
+    <h4 class="modal-title">View Leave Component</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.close(isSaveDisable)"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="max-height: 94vh">
+    <ngb-tabset #myTabSet [activeId]="activeTab">
+      <ngb-tab title="Basic" id="basic">
+        <ng-template ngbTabContent>
+          <form [formGroup]="ViewForm">
+            <input type="hidden" formControlName="id" />
+            <div class="d-flex flex-wrap align-items-baseline">
+              <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="code"
+                  >Code</label
+                >
+                <input type="text" class="form-control" formControlName="code" readonly/>
+              </div>
+              <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="name"
+                  >Name</label
+                >
+                <input type="text" class="form-control" formControlName="name" readonly/>
+              </div>
+            </div>
+            <div class="form-group form-textarea-line col-12">
+              <label class="col-form-label" for="description"
+                >Description</label
+              >
+              <textarea
+                type="text"
+                rows="3"
+                class="form-control"
+                formControlName="description" readonly
+              ></textarea>
+            </div>
+  
+            <div class="row">
+              <div class="col-sm">
+                <div class="form-group">
+                  <div class="col-12">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                      disabled
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="showLeaveDescription"
+                        formControlName="showLeaveDescription"
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="showLeaveDescription"
+                        >Show leave description</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-12">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                      disabled
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="isPaidLeave"
+                        formControlName="isPaidLeave"
+                        readonly
+                      />
+                      <label class="custom-control-label" for="isPaidLeave"
+                        >Paid leave</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-12">
+                    <div class="custom-control custom-checkbox">
+                      <input disabled
+                        #isRestrictedToGender
+                        type="checkbox"
+                        (change)="toggleGender(isRestrictedToGender.checked)"
+                        class="custom-control-input"
+                        id="isRestrictedToGender"
+                        formControlName="isRestrictedToGender"
+                        readonly
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="isRestrictedToGender"
+                        >Restricted to gender</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div
+                  *ngIf="isRestrictedToGender.checked"
+                  class="form-group col-12"
+                >
+                  <select disabled
+                    class="form-control"
+                    formControlName="restrictedToGender"
+                  >
+                    <option [ngValue]="null" disabled>Select a gender</option>
+                    <option *ngFor="let key of genderTypeKeys" [ngValue]="key">
+                      {{ genderTypes[key] }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm">
+                <div class="form-group">
+                  <div class="col-12">
+                    <div class="custom-control custom-checkbox">
+                      <input disabled
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="isStatutoryLeave"
+                        formControlName="isStatutoryLeave"
+                      />
+                      <label class="custom-control-label" for="isStatutoryLeave"
+                        >Statuatory leave</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-12">
+                    <div class="custom-control custom-checkbox">
+                      <input disabled
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="isSickLeave"
+                        formControlName="isSickLeave"
+                        readonly
+                      />
+                      <label class="custom-control-label" for="isSickLeave"
+                        >Sick leave</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-12 mb-5">
+                    <div class="custom-control custom-checkbox">
+                      <input disabled
+                        type="checkbox"
+                        (change)="
+                          toggleMaritalStatus(isRestrictedToMaritalStatus.checked)
+                        "
+                        class="custom-control-input"
+                        #isRestrictedToMaritalStatus
+                        id="isRestrictedToMaritalStatus"
+                        formControlName="isRestrictedToMaritalStatus"
+                        readonly
+                      />
+                      <label
+                        class="custom-control-label"
+                        for="isRestrictedToMaritalStatus"
+                        >Restricted to marital status</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div
+                  *ngIf="isRestrictedToMaritalStatus.checked"
+                  class="form-group"
+                >
+                  <select
+                    class="form-control"
+                    formControlName="restrictedToMaritalStatus"
+                    disabled
+                  >
+                    <option [ngValue]="null" disabled>
+                      Select marital status
+                    </option>
+                    <option
+                      *ngFor="let key of maritalStatusTypeKeys"
+                      [ngValue]="key"
+                    >
+                      {{ maritalStatusTypes[key] }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Configure" id="configure">
+        <ng-template ngbTabContent>
+          <form [formGroup]="ViewForm2">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group form-input-line">
+                  <label class="col-form-label" for="eligibleDays"
+                    >Eligible Days</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="eligibleDays"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="eligibilityBase"
+                    >Eligibility Base</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="eligibilityBase"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="baseType"
+                    >Base Type<span class="required">*</span></label
+                  >
+                  <select class="form-control" formControlName="baseType" disabled>
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option *ngFor="let key of basetypes" [ngValue]="key">
+                      {{ basetype[key] }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="isIncludeLOPDays"
+                    >Include LOP Days</label
+                  >
+                  <select class="form-control" formControlName="isIncludeLOPDays" disabled>
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option [ngValue]="true">Yes</option>
+                    <option [ngValue]="false">No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="leaveType"
+                    >Leave Type</label
+                  >
+                  <select disabled
+                    class="form-control"
+                    formControlName="leaveType"
+                    (ngModelChange)="getLeave($event)"
+                  >
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option *ngFor="let key of leavetypearray" [ngValue]="key">
+                      {{ leavetypes[key] }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+  
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="leaveDeduction"
+                    >Deduction Type</label
+                  >
+                  <select class="form-control" formControlName="leaveDeduction" disabled>
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option
+                      *ngFor="let key of detectionTypeList"
+                      [ngValue]="key.id"
+                    >
+                      {{ key.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="annualLeave"
+                    >Annual Leave</label
+                  >
+                  <select class="form-control" formControlName="annualLeave" disabled>
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option *ngFor="let key of accuralList" [ngValue]="key.id">
+                      {{ key.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="leaveCutOffType"
+                    >Leave CutOff</label
+                  >
+                  <select class="form-control" formControlName="leaveCutOffType" disabled>
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option *ngFor="let key of leavecutoff" [ngValue]="key">
+                      {{ leavecutofftype[key] }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="isEncash"
+                    >Encash</label
+                  >
+                  <select
+                    class="form-control"
+                    formControlName="isEncash"
+                    (change)="getcash($event.target.value)"
+                    disabled
+                  >
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group form-input-line">
+                  <label class="col-form-label" for="encashBFCode"
+                    >Encash BF Code</label
+                  >
+                  <select class="form-control" formControlName="encashBFCode" disabled>
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option
+                      *ngFor="let key of accuralBenefitList"
+                      [ngValue]="key.id"
+                    >
+                      {{ key.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group form-input-line">
+                  <label class="col-form-label" for="encashLimitDays"
+                    >Encash Limit Days</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="encashLimitDays"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="isAccruedLeaveAmount"
+                    >Accrue Leave Amount<span class="required">*</span></label
+                  >
+                  <select disabled
+                    class="form-control"
+                    formControlName="isAccruedLeaveAmount"
+                  >
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option [ngValue]="true">Yes</option>
+                    <option [ngValue]="false">No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group form-input-line">
+                  <label class="col-form-label" for="maxLeaveAtATime"
+                    >Maximum Leave At A Time</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="maxLeaveAtATime"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="col-form-label" for="isCarryForward"
+                    >Carry Forward</label
+                  >
+                  <select disabled
+                    class="form-control"
+                    formControlName="isCarryForward"
+                    (change)="getCarry($event.target.value)"
+                  >
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group form-input-line">
+                  <label class="col-form-label" for="cfLimitDays"
+                    >C/F Limit Days</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="cfLimitDays"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row">
+  
+                      </div> -->
+            <div class="row">
+              <div class="col-md-6 mb-5">
+                <div class="form-group form-input-line">
+                  <label class="col-form-label" for="vacationSalaryFormula"
+                    >General Expression Formula</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="vacationSalaryFormula"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="form-group form-input-line col-4">
+                <button disabled
+                  style="margin-top: 38px"
+                  type="button"
+                  (click)="openFormulaEditor('vacationSalaryFormula')"
+                  class="btn btn-outline-primary btn-sm "
+                >
+                  <i class="fal fa-edit"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+  

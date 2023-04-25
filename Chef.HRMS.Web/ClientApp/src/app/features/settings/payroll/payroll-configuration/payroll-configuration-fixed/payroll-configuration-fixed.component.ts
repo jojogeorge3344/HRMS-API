@@ -38,6 +38,12 @@ export class PayrollConfigurationFixedComponent implements OnChanges {
   }
 
   onSubmit() {
+    if(this.payrollConfiguration){
+      this.editForm.patchValue({
+        name:this.payrollConfiguration.name,
+        shortCode:this.payrollConfiguration.shortCode
+      })
+    }
     this.editForm.patchValue({ isConfigured: true });
     this.payrollConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Payroll component configured successfully!');

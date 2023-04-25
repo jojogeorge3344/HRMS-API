@@ -23,6 +23,7 @@ import { EmployeeContactDetailsViewComponent } from './employee-contact-details/
 import { EmployeeDependentDetailsListComponent } from './employee-dependent-details/employee-dependent-details-list/employee-dependent-details-list.component';
 import { EmployeeDependentDetailsCreateComponent } from './employee-dependent-details/employee-dependent-details-create/employee-dependent-details-create.component';
 import { EmployeeDependentDetailsEditComponent } from './employee-dependent-details/employee-dependent-details-edit/employee-dependent-details-edit.component';
+import { EmployeeDependentDetailsViewComponent } from './employee-dependent-details/employee-dependent-details-view/employee-dependent-details-view.component';
 
 
 
@@ -39,7 +40,8 @@ import { EmployeeDependentDetailsEditComponent } from './employee-dependent-deta
     EmployeeContactDetailsViewComponent,
     EmployeeDependentDetailsListComponent,
     EmployeeDependentDetailsCreateComponent,
-    EmployeeDependentDetailsEditComponent
+    EmployeeDependentDetailsEditComponent,
+    EmployeeDependentDetailsViewComponent
   ],
   imports: [
     CommonModule,

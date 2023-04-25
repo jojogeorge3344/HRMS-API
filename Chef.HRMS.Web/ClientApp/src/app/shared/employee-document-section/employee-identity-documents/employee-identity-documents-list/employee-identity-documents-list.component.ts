@@ -41,6 +41,7 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
   }
 
   getIdentityDetails() {
+    this.identityDetails =[]
     debugger
     this.identityDetailsService.getEmployeeId(this.employeeId).subscribe(
       (result: any) => {
@@ -121,10 +122,11 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
       if (userResponse == true) {
         forkJoin([
           this.identityDetailsService.delete(identityDetails.id),
-          this.documentService.delete(identityDetails.id),
+          this.documentService.delete(identityDetails.documentId),
           this.documentUploadService.delete(documentPath),
         ]).subscribe(
           () => {
+            debugger
             this.toastr.showSuccessMessage("Document deleted successfully!");
             this.getIdentityDetails();
           },
