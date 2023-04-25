@@ -47,6 +47,11 @@ namespace Chef.HRMS.Services
             return await loanRequestRepository.GetLoanLastRequestId();
         }
 
+        public async Task<LoanRequestDetailsView> GetLoanRequestDetails(int loanId)
+        {
+            return await loanRequestRepository.GetLoanRequestDetails(loanId);
+        }
+
         public async Task<IEnumerable<LoanRequestedViewModel>> GetRequestedDateByEmployeeId(int employeeId)
         {
             return await loanRequestRepository.GetRequestedDateByEmployeeId(employeeId);

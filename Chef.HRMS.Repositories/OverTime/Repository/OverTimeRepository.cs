@@ -57,10 +57,13 @@ namespace Chef.HRMS.Repositories
 		                        op.overtimeid,
 		                        op.notifypersonnel,
 		                        ee.firstname
-                        FROM hrms.overtimenotifypersonnel as op
-                        INNER JOIN hrms.overtime as ot ON op.overtimeid = ot.id
-                        INNER JOIN hrms.HRMSEmployee as ee on op.notifypersonnel=ee.id
-                        WHERE       overtimeId = @overtimeId";
+                         FROM hrms.overtimenotifypersonnel AS op
+                         INNER JOIN hrms.overtime AS ot
+                         ON op.overtimeid = ot.id
+                         INNER JOIN hrms.HRMSEmployee AS ee 
+                         ON op.notifypersonnel = ee.id
+                         WHERE overtimeId = @overtimeId
+                         AND op.isarchived = false";
 
             return await Connection.QueryAsync<OvertimeViewModel>(sql, new { overtimeId });
         }
@@ -72,6 +75,13 @@ namespace Chef.HRMS.Repositories
                 var sql = new QueryBuilder<OverTimeNotifyPersonnel>().GenerateInsertQuery();
                 sql = sql.Replace("RETURNING id", "");
                 return await Connection.ExecuteAsync(sql, overTimeNotifyPersonnel);
+        }
+
+        public async Task<int> UpdateNotifyPersonnel(IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
+        {
+            var sql = new QueryBuilder<OverTimeNotifyPersonnel>().GenerateUpdateQuery();
+            sql = sql.Replace("RETURNING id", "");
+            return await Connection.ExecuteAsync(sql, overTimeNotifyPersonnel);
         }
     }
 }
