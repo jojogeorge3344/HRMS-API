@@ -139,5 +139,17 @@ namespace Chef.HRMS.Repositories
             else return false;
         }
 
+        public async Task<LoginEmployeeView> GetLoginEmployee(int employeeId)
+        {
+            var sql = @"SELECT em.firstname,em.id,em.email,em.lastname,em.displayname,
+                        jd.employeenumber AS employeecode,em.middlename
+                        FROM hrms.hrmsemployee em
+                        INNER JOIN hrms.jobdetails jd
+                        ON em.id = jd.employeeid
+                        WHERE em.id = @employeeId
+                        AND em.isarchived = false";
+
+            return await Connection.QueryFirstOrDefaultAsync<LoginEmployeeView>(sql, new { employeeId });
+        }
     }
 }

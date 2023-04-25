@@ -90,5 +90,10 @@ namespace Chef.HRMS.Services
         {
            return await employeeRepository.IsNameExist(name);
         }
+
+        public async Task<LoginEmployeeView> GetLoginEmployee(int employeeId)
+        {
+            return await employeeRepository.GetLoginEmployee(employeeId);
+        }
     }
 }
