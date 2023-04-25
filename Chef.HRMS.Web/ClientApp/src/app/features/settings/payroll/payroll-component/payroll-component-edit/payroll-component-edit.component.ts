@@ -54,7 +54,7 @@ export class PayrollComponentEditComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
-
+debugger
     this.payHeadTypeKeys = Object.keys(this.payHeadTypes)
       .filter(Number)
       .map(Number);
@@ -73,9 +73,8 @@ export class PayrollComponentEditComponent implements OnInit {
     this.payrollComponentService
       .getAllPayrollComponentByType()
       .subscribe((result) => {
-        this.payrollComponentTypeKeys = result.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        );
+        this.payrollComponentTypeKeys = result.sort((a, b) => a.categoryId - b.categoryId);
+
         const details = result.find(item => item.id === this.payrollComponent.payrollComponentType);
         this.selectedDatasource=details.name
         this.editForm.patchValue({ payrollComponentType: this.selectedDatasource });
