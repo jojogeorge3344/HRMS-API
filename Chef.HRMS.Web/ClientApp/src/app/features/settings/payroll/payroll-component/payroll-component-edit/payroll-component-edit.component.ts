@@ -34,6 +34,9 @@ export class PayrollComponentEditComponent implements OnInit {
   payBaseUnitTypeKeys: number[];
   includePaySlipTypeKeys: number[];
   roundingTypeKeys: number[];
+  config;
+  selectedDatasource;
+
 
   @Input() payrollComponentTypes: PayrollComponentType;
   @Input() payrollComponent: PayrollComponent;
@@ -73,9 +76,28 @@ export class PayrollComponentEditComponent implements OnInit {
         this.payrollComponentTypeKeys = result.sort((a, b) =>
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
+        const details = result.find(item => item.id === this.payrollComponent.payrollComponentType);
+        this.selectedDatasource=details.name
+        this.editForm.patchValue({ payrollComponentType: this.selectedDatasource });
+  
       });
 
+
     this.editForm.patchValue(this.payrollComponent);
+    this.config = {
+      displayKey: "name",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select a Payroll Component Type",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "name",
+      clearOnSelection: false,
+    };
+  }
+
+  selectionChanged(args) {
+    this.editForm.get("payrollComponentType").patchValue(args.value.id);
   }
 
   get name() {
@@ -119,7 +141,6 @@ export class PayrollComponentEditComponent implements OnInit {
         ],
       ],
       payrollComponentType: [
-        { value: null, disabled: this.isDisabled },
         [Validators.required],
       ],
       shortCode: [

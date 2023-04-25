@@ -120,7 +120,7 @@ export class PayrollComponentListComponent implements OnInit {
       centered: true,
       backdrop: "static",
     });
-
+  debugger
     modalRef.componentInstance.payrollComponent = payrollComponent;
     modalRef.componentInstance.payrollComponentTypes =
       this.payrollComponentTypes;
