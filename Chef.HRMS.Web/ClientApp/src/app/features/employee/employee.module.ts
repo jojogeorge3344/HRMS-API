@@ -45,6 +45,10 @@ import { EmployeeSalaryFormComponent } from "./employee-salary/employee-salary-f
 import { EmployeeSalaryConfirmComponent } from "./employee-salary/employee-salary-confirm/employee-salary-confirm.component";
 import { SharedModule } from "@shared/shared.module";
 import { SelectDropDownModule } from "ngx-select-dropdown";
+import { EmployeeTicketListComponent } from './employee-ticket-details/employee-ticket-list/employee-ticket-list.component';
+import { EmployeeTicketCreateComponent } from './employee-ticket-details/employee-ticket-create/employee-ticket-create.component';
+import { EmployeeTicketEditComponent } from './employee-ticket-details/employee-ticket-edit/employee-ticket-edit.component';
+import { EmployeeTicketViewComponent } from './employee-ticket-details/employee-ticket-view/employee-ticket-view.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +79,11 @@ import { SelectDropDownModule } from "ngx-select-dropdown";
     EmployeeJobFilingViewComponent,
     EmployeeSalaryViewContainerComponent,
     EmployeeAddressEditComponent,
-    EmployeeAddressViewComponent
+    EmployeeAddressViewComponent,
+    EmployeeTicketListComponent,
+    EmployeeTicketCreateComponent,
+    EmployeeTicketEditComponent,
+    EmployeeTicketViewComponent
   ],
   imports: [   
     CommonModule,

@@ -1,0 +1,46 @@
+<form [formGroup]="addForm" id="religionGroupForm" (validSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h4 class="modal-title">Ticket</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="travelFrom">Travel From<span class="required">*</span></label>
+                <input type="string" class="form-control" id="travelFrom" name="travelFrom" formControlName="travelFrom">
+            </div>
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="travelTo">Travel To<span class="required">*</span></label>
+                <input type="string" class="form-control" id="travelTo" name="travelTo" formControlName="travelTo">
+            </div>
+            
+           
+        </div>
+        <div class="d-flex flex-wrap align-items-baseline">
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="roundTrip">Round Trip<span class="required">*</span></label>
+                    <select class="form-control" formControlName="roundTrip">
+                         <option value="" disabled>Select</option>
+                         <option value="Yes">True</option>
+                         <option value="No">False</option>
+                    </select>
+            </div>
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="ticketAmount">Ticket Amount<span class="required">*</span></label>
+                <input type="string" class="form-control" id="ticketAmount" name="ticketAmount" formControlName="ticketAmount">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
+    </div>
+</form>
+
+
+
+
+
