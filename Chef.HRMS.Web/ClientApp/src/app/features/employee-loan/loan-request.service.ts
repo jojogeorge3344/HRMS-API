@@ -51,4 +51,7 @@ export class LoanRequestService {
   delete(id: number) {
     return this.http.delete<LoanRequest>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
+  GetLoanRequestDetails(id) {
+    return this.http.get<EmployeeLoanView[]>(this.baseUrl + 'GetLoanRequestDetails/' + id).pipe(map(response => { return response; }));
+  }
 }

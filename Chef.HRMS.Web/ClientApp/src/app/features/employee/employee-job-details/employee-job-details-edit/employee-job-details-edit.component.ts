@@ -160,7 +160,8 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       this.employeeList = result.filter(employee => employee.id !== this.id);
       const details = this.employeeList.find(emp => emp.id === this.reportingManager);
       this.selectedDatasource=details.firstName
-      this.editForm.patchValue({ reportingManager: this.selectedDatasource });
+      //this.editForm.patchValue({ reportingManager: this.selectedDatasource });
+      this.selectionChanged(details)
     },
       error => {
         console.error(error);

@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { Subscription } from 'rxjs';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import * as moment from 'moment';
 
 @Component({
   templateUrl: './loan-request-create.component.html',
@@ -33,7 +34,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   years: any;
   months: any;
   minDate = undefined;
-
+  scheduleArray:any=[]
+  showLoanSchedules:boolean=false
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
   @Input() companyCode: string;
@@ -162,6 +164,49 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     }
   }
 
+  generateSchedule(){
+  this.scheduleArray=[]
+
+    
+    let totalperiod = this.addForm.value.repaymentTerm
+    let amountperMonth 
+    amountperMonth =this.addForm.value.loanAmount/totalperiod
+    amountperMonth = parseInt(amountperMonth)
+    amountperMonth = parseFloat(amountperMonth).toFixed(0)
+
+
+
+    var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
+    var startYear = this.addForm.value.emiStartsFromYear
+    var startDate = new Date(startYear,  startingMonth -1);
+   
+   
+
+
+  for(var i=1;i<= totalperiod;i++){
+    if(i == 1){
+    var month =  startDate.getMonth() + 1 
+    var year = startDate.getFullYear()
+    this.scheduleArray.push({Year : year,Month : this.months[month -1],Amount :amountperMonth,Status :'Pending'})
+    }else{
+      var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
+      var startYear = this.addForm.value.emiStartsFromYear
+      var startDate = new Date(startYear,  startingMonth -1);
+      var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i-1));
+       month =  upComingDate.getMonth() +1
+       year = upComingDate.getFullYear()
+       this.scheduleArray.push({Year : year,Month : this.months[month-1],Amount :amountperMonth,Status :'Pending'})
+    }
+    
+  }
+  
+
+  this.showLoanSchedules =  true
+
+
+
+  }
+
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -178,6 +223,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       comments: ['', [Validators.required,Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
+      extendedmonth:[0]
     });
   }
 }

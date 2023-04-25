@@ -14,4 +14,5 @@ export interface Employee extends Model {
     id: number;
     fullName: string;
     shortCode: string;
+    notifyPersonnel:number;
 }
