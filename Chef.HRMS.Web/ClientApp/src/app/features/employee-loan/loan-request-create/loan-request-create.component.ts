@@ -165,48 +165,44 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   }
 
   generateSchedule(){
-    this.scheduleArray=[]
+  this.scheduleArray=[]
 
-    var month = 0; // January
-    var d = new Date(2023,  2, 0);
-    console.log(d); // last day in January
     
-  var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
-  var startYear = this.addForm.value.emiStartsFromYear
-  let totalperiod = this.addForm.value.repaymentTerm
-  let amountperMonth 
-  amountperMonth =this.addForm.value.loanAmount/totalperiod
-  amountperMonth = parseInt(amountperMonth)
-  amountperMonth = parseFloat(amountperMonth).toFixed(2)
-  const current = new Date() ;
-  var nectdate = current.setMonth(current.getMonth() + 2);
-  var year= current.getFullYear()
-  var month= current.getMonth() + 1
+    let totalperiod = this.addForm.value.repaymentTerm
+    let amountperMonth 
+    amountperMonth =this.addForm.value.loanAmount/totalperiod
+    amountperMonth = parseInt(amountperMonth)
+    amountperMonth = parseFloat(amountperMonth).toFixed(0)
 
-  // var q= nectdate.getFullYear()
-  // var b= nectdate.getMonth() + 1
-  // var v= nectdate.getDate()
- 
 
-  var array = []
 
-  for(var i=0;i< totalperiod;i++){
-    let month =current.getMonth() + i
-    let year = current.getFullYear()
-    this.scheduleArray.push({Year : year,Month : this.months[month],Amount :amountperMonth,Status :'Pending'})
+    var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
+    var startYear = this.addForm.value.emiStartsFromYear
+    var startDate = new Date(startYear,  startingMonth -1);
+   
+   
 
+
+  for(var i=1;i<= totalperiod;i++){
+    if(i == 1){
+    var month =  startDate.getMonth() + 1 
+    var year = startDate.getFullYear()
+    this.scheduleArray.push({Year : year,Month : this.months[month -1],Amount :amountperMonth,Status :'Pending'})
+    }else{
+      var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
+      var startYear = this.addForm.value.emiStartsFromYear
+      var startDate = new Date(startYear,  startingMonth -1);
+      var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i-1));
+       month =  upComingDate.getMonth() +1
+       year = upComingDate.getFullYear()
+       this.scheduleArray.push({Year : year,Month : this.months[month-1],Amount :amountperMonth,Status :'Pending'})
+    }
+    
   }
-  console.log('array',this.scheduleArray)
+  
 
   this.showLoanSchedules =  true
 
-  // for(var i=0;i< totalperiod;i++){
-  //   var d = new Date(startYear,  startingMonth + i, 0)
-  //   let month =d.getMonth() + i
-  //   let year = d.getFullYear()
-  //   this.scheduleArray.push({Year : year,Month : this.months[month -1],Amount :amountperMonth,Status :'Pending'})
-
-  // }
 
 
   }

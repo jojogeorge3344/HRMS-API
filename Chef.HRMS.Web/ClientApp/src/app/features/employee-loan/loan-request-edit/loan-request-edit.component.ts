@@ -26,7 +26,7 @@ export class LoanRequestEditComponent implements OnInit {
   loanSettingId: number;
   minDate = undefined;
   showLoanSchedules:boolean=false
-  
+  loanDetails:any=[]
   scheduleArray:any=[]
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
@@ -53,9 +53,16 @@ export class LoanRequestEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+   console.log('isApproved',this.isApproved)
+ 
     this.currentUserId = getCurrentUserId();
-    this.editForm = this.createFormGroup();
+    this.editForm = this.createFormGroup(); 
+    if(this.isApproved == true){
+      this.editForm.controls.loanType.disable();
+      this.editForm.controls.paymentType.disable();
+      this.editForm.controls.emiStartsFromMonth.disable();
+      this.editForm.controls.emiStartsFromYear.disable();
+    }
     this.loanTypeKeys = Object.keys(this.loanTypes).filter(Number).map(Number);
     this.paymentTypeKeys = Object.keys(this.paymentTypes).filter(Number).map(Number);
     this.loanRequestService.get(this.loanId).subscribe(result => {
@@ -88,6 +95,8 @@ export class LoanRequestEditComponent implements OnInit {
       this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
       this.editForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
     });
+
+    //this.GetLoanRequestDetails()
   }
 
   onSubmit() {
@@ -120,41 +129,179 @@ export class LoanRequestEditComponent implements OnInit {
       ev.preventDefault();
     }
   }
-
-
-  generateSchedule(){
+  generateSchedule_forNonApproved(){
     this.scheduleArray=[]
+  
+      
+      let totalperiod = this.editForm.value.repaymentTerm
+      let amountperMonth 
+      amountperMonth =this.editForm.value.loanAmount/totalperiod
+      amountperMonth = parseInt(amountperMonth)
+      amountperMonth = parseFloat(amountperMonth)
+      amountperMonth = Math.round( amountperMonth)
+  
+  
+  
+      var startingMonth = parseInt(this.editForm.value.emiStartsFromMonth)
+      var startYear = this.editForm.value.emiStartsFromYear
+      var startDate = new Date(startYear,  startingMonth -1);
+     
+     
+  
+  
+    for(var i=1;i<= totalperiod;i++){
+      if(i == 1){
+      var month =  startDate.getMonth() + 1 
+      var year = startDate.getFullYear()
+      this.scheduleArray.push({Year : year,Month : this.months[month -1],Amount :amountperMonth,Status :'Pending'})
+      }else{
+        var startingMonth = parseInt(this.editForm.value.emiStartsFromMonth)
+        var startYear = this.editForm.value.emiStartsFromYear
+        var startDate = new Date(startYear,  startingMonth -1);
+        var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i-1));
+         month =  upComingDate.getMonth() +1
+         year = upComingDate.getFullYear()
+         this.scheduleArray.push({Year : year,Month : this.months[month-1],Amount :amountperMonth,Status :'Pending'})
+      }
+      
+    }
     
-  var startingMonth = parseInt(this.editForm.value.emiStartsFromMonth)
-  var startYear = this.editForm.value.emiStartsFromYear
-  let totalperiod = this.editForm.value.repaymentTerm
-  let amountperMonth 
-  amountperMonth =this.editForm.value.loanAmount/totalperiod
-  amountperMonth = parseInt(amountperMonth)
-  amountperMonth = parseFloat(amountperMonth).toFixed(2)
-  const current = new Date();
-  var nectdate = current.setMonth(current.getMonth() + 2);
-  var year= current.getFullYear()
-  var month= current.getMonth() + 1
+  
+    this.showLoanSchedules =  true
+  
+  
+  
+    }
 
-  // var q= nectdate.getFullYear()
-  // var b= nectdate.getMonth() + 1
-  // var v= nectdate.getDate()
- 
+    generateSchedule(){
+      if(this.isApproved == true){
+            this.GetLoanRequestDetails()
+            // this.editForm.controls..disable()
+             
+  
+      }else {
+        this.generateSchedule_forNonApproved()
+      }
+    }
 
-  var array = []
+  // generateSchedule_forApproved(){
 
-  for(var i=0;i< totalperiod;i++){
-    let month = current.getMonth() + i+1
-    let year = current.getFullYear()
-    this.scheduleArray.push({Year : year,Month : this.months[month],Amount :amountperMonth,Status :'Pending'})
+  //   this.scheduleArray=[]
+  //   let loanAmt = this.loanDetails.loanAmount
+  //   let amtPerMonth = this.loanDetails.emiAmount
+  //   let tenureNumber = this.loanDetails.tenureNumber
+  //   let remainingtenure = this.loanDetails.remainingTenure
+  //   let paidedtenure = tenureNumber - remainingtenure
+  //   let balanceAmt = this.loanDetails.balanceAmount
 
+
+  //   var startingMonth = this.loanDetails.emiStartsFromMonth
+  //   var startYear = this.loanDetails.emiStartsFromYear
+  //   var startDate = new Date(startYear,  startingMonth -1);
+   
+  //   let totalperiod = tenureNumber + this.editForm.value.extendedMonth
+   
+
+
+  // for(var i=1;i<= totalperiod;i++){
+  //   if(i == 1){
+  //     if(i <= paidedtenure){
+  //       var month =  startDate.getMonth() + 1 
+  //       var year = startDate.getFullYear()
+  //       this.scheduleArray.push({Year : year,Month : this.months[month -1],Amount :amtPerMonth.toFixed(2),Status :'Processed'})
+  //     }
+  //   }else{
+
+  //     if(i <= paidedtenure){
+  //       var startingMonth = this.loanDetails.emiStartsFromMonth
+  //       var startYear = this.loanDetails.emiStartsFromYear
+  //       var startDate = new Date(startYear,  startingMonth -1);
+  //       var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i-1));
+  //       month =  upComingDate.getMonth() +1
+  //       year = upComingDate.getFullYear()
+  //       this.scheduleArray.push({Year : year,Month : this.months[month-1],Amount :amtPerMonth.toFixed(2),Status :'Processed'})
+  //     }else {
+  //       amtPerMonth = balanceAmt/(remainingtenure + this.editForm.value.extendedMonth)
+  //       var startingMonth = this.loanDetails.emiStartsFromMonth
+  //       var startYear = this.loanDetails.emiStartsFromYear
+  //       var startDate = new Date(startYear,  startingMonth -1);
+  //       var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i-1));
+  //       month =  upComingDate.getMonth() +1
+  //       year = upComingDate.getFullYear()
+  //       this.scheduleArray.push({Year : year,Month : this.months[month-1],Amount :amtPerMonth.toFixed(2),Status :'Pending'})
+
+  //     }
+  //   }
+    
+  // }
+  
+
+  // this.showLoanSchedules =  true
+
+  // }
+
+  GetLoanRequestDetails(){
+    this.loanRequestService.GetLoanRequestDetails(this.loanId).subscribe((res:any) =>{
+    this.loanDetails = res
+    
+    this.scheduleArray=[]
+    let loanAmt = this.loanDetails.loanAmount
+    let amtPerMonth = this.loanDetails.emiAmount
+    let tenureNumber = this.loanDetails.tenureNumber
+    let remainingtenure = this.loanDetails.remainingTenure
+    let paidedtenure = tenureNumber - remainingtenure
+    let balanceAmt = this.loanDetails.balanceAmount
+
+
+    var startingMonth = this.loanDetails.emiStartsFromMonth
+    var startYear = this.loanDetails.emiStartsFromYear
+    var startDate = new Date(startYear,  startingMonth -1);
+   
+    let totalperiod = tenureNumber + this.editForm.value.extendedMonth
+   
+
+
+  for(var i=1;i<= totalperiod;i++){
+    if(i == 1){
+      if(i <= paidedtenure){
+        var month =  startDate.getMonth() + 1 
+        var year = startDate.getFullYear()
+        this.scheduleArray.push({Year : year,Month : this.months[month -1],Amount :Math.round(amtPerMonth),Status :'Processed'})
+      }
+    }else{
+
+      if(i <= paidedtenure){
+        var startingMonth = this.loanDetails.emiStartsFromMonth
+        var startYear = this.loanDetails.emiStartsFromYear
+        var startDate = new Date(startYear,  startingMonth -1);
+        var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i-1));
+        month =  upComingDate.getMonth() +1
+        year = upComingDate.getFullYear()
+        this.scheduleArray.push({Year : year,Month : this.months[month-1],Amount :Math.round(amtPerMonth),Status :'Processed'})
+      }else {
+        amtPerMonth = balanceAmt/(remainingtenure + this.editForm.value.extendedMonth)
+        var startingMonth = this.loanDetails.emiStartsFromMonth
+        var startYear = this.loanDetails.emiStartsFromYear
+        var startDate = new Date(startYear,  startingMonth -1);
+        var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i-1));
+        month =  upComingDate.getMonth() +1
+        year = upComingDate.getFullYear()
+        this.scheduleArray.push({Year : year,Month : this.months[month-1],Amount :Math.round(amtPerMonth),Status :'Pending'})
+
+      }
+    }
+    
   }
-  console.log('array',this.scheduleArray)
+  
 
   this.showLoanSchedules =  true
-
-  }
+    
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch Loan Details.');
+      });
+    }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

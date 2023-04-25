@@ -104,7 +104,7 @@ namespace Chef.HRMS.Repositories
                         lp.remainingtenure FROM hrms.loanrequest lr
                         INNER JOIN hrms.loanpayment lp
                         ON lr.id = lp.loanid
-                        WHERE lr.id = 36
+                        WHERE lr.id = @loanId
                         AND lr.isarchived = false";
 
             return await Connection.QueryFirstOrDefaultAsync<LoanRequestDetailsView>(sql, new { loanId });
