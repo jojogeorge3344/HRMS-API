@@ -55,6 +55,9 @@ export class OvertimeRequestCreateComponent implements OnInit {
   taken = ['', ''];
   @Input() currentUserId;
   @Input() policyId;
+  employeeDetails: any;
+  employeeDetailsCheck: boolean;
+  selectEnable: boolean;
 
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
 
@@ -81,15 +84,21 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.getMarkedDates(this.currentUserId);
     // this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
     let b=this.router.routerState.snapshot.url;
-    console.log(b)
-     
+    if(b=="/my-overtime"){
+      this.employeeDetailsCheck=true
+    }else{
+      this.employeeDetailsCheck=false  
+    }
     
-  
   }
 
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.currentUserId);
+      if(this.employeeDetailsCheck==false){
+        this.employeeDetails=result
+        this.selectEnable=true
+      }
     },
       error => {
         console.error(error);
@@ -418,7 +427,8 @@ export class OvertimeRequestCreateComponent implements OnInit {
       requestStatus: [1],
       normalOvertime:[null],
       holidayOvertime:[null],
-      specialOvertime:[null]
+      specialOvertime:[null],
+      employeeName:[null]
     });
   }
 

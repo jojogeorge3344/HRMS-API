@@ -32,6 +32,9 @@ export class OvertimeRequestEditComponent implements OnInit {
   selectedItems = [];
   alreadySelectedItem=[];
   overtimeConfiguration: OvertimePolicyConfiguration;
+  employeeDetails: any;
+  employeeDetailsCheck: boolean;
+  selectEnable: boolean;
 
 
   @Input() overtimeRequest: OvertimeRequest;
@@ -60,7 +63,11 @@ export class OvertimeRequestEditComponent implements OnInit {
       toDate: new Date(this.overtimeRequest.toDate)
     });
     let b=this.router.routerState.snapshot.url;
-    console.log(b)
+    if(b=="/my-overtime"){
+      this.employeeDetailsCheck=true
+    }else{
+      this.employeeDetailsCheck=false  
+    }
     this.getOvertimeConfiguration();
     this.getEmployeeList();
   }
@@ -91,6 +98,10 @@ export class OvertimeRequestEditComponent implements OnInit {
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
+      if(this.employeeDetailsCheck==false){
+        this.employeeDetails=result
+        this.selectEnable=true
+      }
       this.getOvertimeNotifyPersonnelByOvertimeId();
     },
       error => {
@@ -200,7 +211,8 @@ export class OvertimeRequestEditComponent implements OnInit {
       createdDate: [],
       normalOvertime:[null],
       holidayOvertime:[null],
-      specialOvertime:[null]
+      specialOvertime:[null],
+      employeeName:[null]
     });
   }
 

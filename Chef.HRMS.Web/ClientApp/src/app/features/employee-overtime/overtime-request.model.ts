@@ -10,5 +10,6 @@ export interface OvertimeRequest extends Model {
     requestStatus: number;
     normalOvertime:number,
     holidayOvertime:number,
-    specialOvertime:number
+    specialOvertime:number,
+    employeeName:any
 }
