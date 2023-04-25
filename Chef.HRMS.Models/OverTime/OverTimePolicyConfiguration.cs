@@ -129,5 +129,7 @@ namespace Chef.HRMS.Models
         public int HolidayOverTime { get; set; }
         public int SpecialOverTime { get; set; }
         public bool Status { get; set; }
+        [Required]
+        public bool IsOvertimeSlab { get; set; }
     }
 }

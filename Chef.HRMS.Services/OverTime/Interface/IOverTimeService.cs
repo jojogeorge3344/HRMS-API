@@ -12,6 +12,7 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<OverTime>> GetAllOvertimeDetailsById(int employeeId);
         Task<int> GetAssignedOverTimePolicy(int employeeId);
         Task<IEnumerable<OvertimeViewModel>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId);
-        
+        Task<IEnumerable<CalenderView>> GetCalenderDetails(int employeeId);
+        Task<int> UpdateNotifyPersonnel(IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel);
     }
 }

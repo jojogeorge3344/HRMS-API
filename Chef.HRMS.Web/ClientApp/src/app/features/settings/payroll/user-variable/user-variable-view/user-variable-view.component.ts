@@ -1,6 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserVariableGroup } from '../user-variable-list/user-variable.model';
+import { UserVariableType } from '../user-variable.model';
 
 
 @Component({
@@ -9,11 +10,15 @@ import { UserVariableGroup } from '../user-variable-list/user-variable.model';
   styleUrls: ['./user-variable-view.component.scss']
 })
 export class UserVariableViewComponent implements OnInit {
-  @Input() userDetails: UserVariableGroup;
+  userVariableTypeKeys: number[];
+  userVariableTypeOf = UserVariableType;
 
+  @Input() userDetails: UserVariableGroup;
+ 
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
+    this.userVariableTypeKeys=UserVariableType[this.userDetails.type]    
   }
 
 }

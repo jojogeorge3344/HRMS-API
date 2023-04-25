@@ -86,6 +86,7 @@ export class PayrollStructureListComponent implements OnInit {
   }
 
   getPayrollComponents(payrollStructureId) {
+    debugger
     this.assignedPayrollComponents = null;
 
     this.payrollConfigurationService.getAll(payrollStructureId).subscribe(result => {
@@ -141,6 +142,7 @@ export class PayrollStructureListComponent implements OnInit {
   }
 
   openEditPayrollStructure(payrollStructure: PayrollStructure) {
+    debugger
     const modalRef = this.modalService.open(PayrollStructureEditComponent,
       {centered: true, backdrop: 'static' });
 
@@ -231,7 +233,7 @@ export class PayrollStructureListComponent implements OnInit {
         { relativeTo: this.route.parent });
     } else {
       this.router.navigate(
-        ['../' + payrollComponentConfiguration.payrollStructureId + '/payroll-configuration/' + payrollComponentConfiguration.id + '/edit'],
+        ['../' + payrollComponentConfiguration.payrollStructureId + '/payroll-configuration/' + payrollComponentConfiguration.payrollComponentId + '/edit'],
         { relativeTo: this.route.parent });
     }
 
