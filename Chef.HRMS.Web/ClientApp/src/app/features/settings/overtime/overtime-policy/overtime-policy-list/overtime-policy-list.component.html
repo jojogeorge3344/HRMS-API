@@ -23,6 +23,7 @@
                             <th>Overtime Policy Name</th>
                             <th>Description</th>
                             <th>No of assigned employees</th>
+                            <th>Requested By</th>
                             <th>Created On</th>
                             <th>Last Modified On</th>
                             <th>Actions</th>
@@ -34,6 +35,7 @@
                             <td class="text-capitalize">{{ overtimePolicy.name }}</td>
                             <td class="text-ellipsis" title="{{ overtimePolicy.description }}">{{ overtimePolicy.description }}</td>
                             <td>{{ overtimePolicy.numberOfEmployees > 0 ? overtimePolicy.numberOfEmployees : "-" }}</td>
+                            <td>{{ overtimePolicy.createdBy}}</td>
                             <td>{{ overtimePolicy.createdDate | date }}</td>
                             <td>{{ overtimePolicy.modifiedDate | date }}</td>
                             <td>
