@@ -134,6 +134,7 @@ export class LoanRequestViewComponent implements OnInit {
       loanSettingId: [this.loanSettingId],
 
       createdDate: [],
+      extendedMonth:[0]
 
     });
   }
