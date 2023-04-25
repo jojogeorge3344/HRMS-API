@@ -6,7 +6,7 @@
         </button>
     </div>
       <div *ngIf="selectEnable" style="display: flex;flex-direction: row;">
-            <h5 style="padding-left: 20px;">Employee Name</h5>
+            <label style="padding-left: 20px;">Employee Name</label>
             <select  class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
                 <option *ngFor="let list of employeeDetails" value={{list.id}}>
                     {{list.firstName}}
@@ -14,12 +14,13 @@
             </select>
       </div>
       <div *ngIf="!selectEnable" style="display: flex;flex-direction: row;">
-        <h5 style="padding-left: 20px;">Employee Name</h5>
-        <select  disabled class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
-            <option *ngFor="let list of employeeDetails" value={{list.id}}>
+        <label style="padding-left: 20px;">Employee Name</label>
+        <!-- <select  disabled class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
+            <option *ngFor="let list of employeeLogin" value={{list.id}}>
                 {{list.firstName}}
             </option>
-        </select>
+        </select> -->
+        <input type="text" disabled class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
       </div>
     <div class="modal-body">
         <div class="row">

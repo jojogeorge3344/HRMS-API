@@ -35,7 +35,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   employeeDetails: any;
   employeeDetailsCheck: boolean;
   selectEnable: boolean;
-
+  employeeLogin: any;
 
   @Input() overtimeRequest: OvertimeRequest;
 
@@ -70,6 +70,7 @@ export class OvertimeRequestEditComponent implements OnInit {
     }
     this.getOvertimeConfiguration();
     this.getEmployeeList();
+    this.getLoginEmployeeDetail()
   }
   getOvertimeConfiguration() {
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
@@ -224,5 +225,15 @@ export class OvertimeRequestEditComponent implements OnInit {
       employeeName:[null]
     });
   }
-
+  getLoginEmployeeDetail(){
+    debugger
+    this.employeeService.getLoginEmployee(this.currentUserId).subscribe(res=>{
+      this.employeeLogin=res
+      if(this.employeeDetailsCheck==true){
+        this.editForm.patchValue({
+          employeeName:this.employeeLogin.firstName
+        })
+      }
+    })
+  }
 }

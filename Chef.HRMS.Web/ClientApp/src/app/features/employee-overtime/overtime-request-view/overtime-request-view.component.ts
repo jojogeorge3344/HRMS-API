@@ -4,6 +4,7 @@ import { OvertimePolicyConfigurationService } from '@settings/overtime/overtime-
 import { EmployeeService } from '@features/employee/employee.service';
 import { OvertimeRequest } from '../overtime-request.model';
 import { NgbActiveModal, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 @Component({
   selector: 'hrms-overtime-request-view',
   templateUrl: './overtime-request-view.component.html',
@@ -13,14 +14,24 @@ export class OvertimeRequestViewComponent implements OnInit {
   @Input() overtimeRequest: OvertimeRequest;
   selectedItems:any=[]
   employeeList:any=[]
+  employeeDetailsCheck: boolean;
+  employeeDetails: any;
+  selectEnable: boolean;
   constructor(
     private overtimeRequestService: OvertimeRequestService,
     private employeeService: EmployeeService,
     public activeModal: NgbActiveModal,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.getEmployeeList();
+    let b=this.router.routerState.snapshot.url;
+    if(b=="/my-overtime"){
+      this.employeeDetailsCheck=true
+    }else{
+      this.employeeDetailsCheck=false  
+    }
    
   }
 
@@ -37,6 +48,10 @@ export class OvertimeRequestViewComponent implements OnInit {
     getEmployeeList() {
       this.employeeService.getAll().subscribe(result => {
         this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
+        if(this.employeeDetailsCheck==false){
+          //this.employeeDetails=result
+          this.selectEnable=true
+        }
         this.getOvertimeNotifyPersonnelByOvertimeId();
       },
         error => {

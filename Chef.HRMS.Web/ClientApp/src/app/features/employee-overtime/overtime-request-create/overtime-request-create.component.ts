@@ -58,6 +58,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   employeeDetails: any;
   employeeDetailsCheck: boolean;
   selectEnable: boolean;
+  employeeLogin: any;
 
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
 
@@ -89,7 +90,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
     }else{
       this.employeeDetailsCheck=false  
     }
-    
+    this.getLoginEmployeeDetail()
   }
 
   getEmployeeList() {
@@ -441,5 +442,15 @@ export class OvertimeRequestCreateComponent implements OnInit {
       employeeName:[null]
     });
   }
-
+getLoginEmployeeDetail(){
+  debugger
+  this.employeeService.getLoginEmployee(this.currentUserId).subscribe(res=>{
+    this.employeeLogin=res
+    if(this.employeeDetailsCheck==true){
+      this.addForm.patchValue({
+        employeeName:this.employeeLogin.firstName
+      })
+    }
+  })
+}
 }
