@@ -4,6 +4,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { EmployeeTicketGroup } from '../employee-ticket-details/employee-ticket-model';
 import { EmployeeTicketService } from '../employee-ticket-details/employee-ticket-service';
+import { TicketBase } from '../employee-ticket-details/employee-ticket.enum';
 
 
 
@@ -16,6 +17,8 @@ export class EmployeeTicketViewContainerComponent implements OnInit {
 
   
   employeeTicketDetails: EmployeeTicketGroup[] = [];
+  ticketBaseKeys: number[];
+  ticketBaseOf = TicketBase;
 
   constructor(
     public modalService: NgbModal,
@@ -25,6 +28,7 @@ export class EmployeeTicketViewContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeeTicketSlablist()
+    this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
   }
 
   getEmployeeTicketSlablist() {

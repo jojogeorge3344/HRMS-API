@@ -10,6 +10,8 @@
                     <th>Sl No.</th>
                     <th>Travel From</th>
                     <th>Travel To</th>
+                    <th>Travel Mode</th>
+                    <th>Travel Date</th>
                     <th>Round Trip</th>
                     <th>Ticket Amount</th>
                    
@@ -20,8 +22,10 @@
                     <td>{{i+1}}</td>
                     <td>{{ rel.travelFrom }}</td>
                     <td>{{ rel.travelTo }}</td>
-                    <td>{{ rel.roundTrip }}</td>
-                    <td>{{ rel.ticketAmount}}</td>
+                    <td>{{ ticketBaseOf[rel.travelMode] }}</td>
+                    <td>{{ rel.travelDate}}</td>
+                    <td>{{ rel.roundTrip==true ? 'Yes':'No' }}</td>
+                    <td>{{ rel.amount}}</td>
                 </tr> 
             
             </tbody>
