@@ -200,6 +200,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/asset-employee-wise'
       },
+      {
+        title: 'ADOC Earnings And Deduction',
+        tags: 'settings-expense',
+        routerLink: '/adoc-earnings-and-deduction'
+      },
     ]
   },
   {
