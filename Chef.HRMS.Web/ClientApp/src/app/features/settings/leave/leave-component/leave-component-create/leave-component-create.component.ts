@@ -28,6 +28,8 @@ import { LeaveSlabCreateComponent } from '../leave-slab-create/leave-slab-create
 @Component({
   selector: "hrms-leave-component-create",
   templateUrl: "./leave-component-create.component.html",
+  styleUrls: ['./leave-component-create.component.scss']
+
 })
 export class LeaveComponentCreateComponent implements OnInit {
   @Input() leaveComponentNames: string[];

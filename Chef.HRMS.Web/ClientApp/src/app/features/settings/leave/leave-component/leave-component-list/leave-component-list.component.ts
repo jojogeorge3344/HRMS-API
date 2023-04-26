@@ -13,6 +13,8 @@ import { LeaveComponentViewComponent } from "../leave-component-view/leave-compo
 @Component({
   selector: "hrms-leave-component-list",
   templateUrl: "./leave-component-list.component.html",
+  styleUrls: ['./leave-component-list.component.scss']
+
 })
 export class LeaveComponentListComponent implements OnInit {
   leaveComponents: any;
@@ -75,6 +77,7 @@ export class LeaveComponentListComponent implements OnInit {
       size: "xl",
       centered: true,
       backdrop: "static",
+      windowClass:'tablealign'
     });
 
     modalRef.componentInstance.leaveComponentNames = this.leaveComponentNames;
@@ -93,6 +96,7 @@ export class LeaveComponentListComponent implements OnInit {
       size: "xl",
       centered: true,
       backdrop: "static",
+      windowClass:'tablealign'
     });
 
     modalRef.componentInstance.leaveComponent = leaveComponent;
@@ -119,6 +123,7 @@ export class LeaveComponentListComponent implements OnInit {
       size: "xl",
       centered: true,
       backdrop: "static",
+      windowClass:'tablealign'
     });
 
     modalRef.componentInstance.leaveComponent = leaveComponent;
