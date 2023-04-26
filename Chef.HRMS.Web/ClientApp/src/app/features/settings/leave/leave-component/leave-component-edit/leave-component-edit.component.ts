@@ -27,6 +27,8 @@ import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-mod
 @Component({
   selector: "hrms-leave-component-edit",
   templateUrl: "./leave-component-edit.component.html",
+  styleUrls: ['./leave-component-edit.component.scss']
+
 })
 export class LeaveComponentEditComponent implements OnInit {
   @Input() leaveComponent: LeaveComponent;
