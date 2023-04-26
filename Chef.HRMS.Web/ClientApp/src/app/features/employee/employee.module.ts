@@ -49,6 +49,7 @@ import { EmployeeTicketListComponent } from './employee-ticket-details/employee-
 import { EmployeeTicketCreateComponent } from './employee-ticket-details/employee-ticket-create/employee-ticket-create.component';
 import { EmployeeTicketEditComponent } from './employee-ticket-details/employee-ticket-edit/employee-ticket-edit.component';
 import { EmployeeTicketViewComponent } from './employee-ticket-details/employee-ticket-view/employee-ticket-view.component';
+import { EmployeeTicketViewContainerComponent } from './employee-ticket-view-container/employee-ticket-view-container.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { EmployeeTicketViewComponent } from './employee-ticket-details/employee-
     EmployeeTicketListComponent,
     EmployeeTicketCreateComponent,
     EmployeeTicketEditComponent,
-    EmployeeTicketViewComponent
+    EmployeeTicketViewComponent,
+    EmployeeTicketViewContainerComponent
   ],
   imports: [   
     CommonModule,
