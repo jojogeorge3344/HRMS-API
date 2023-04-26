@@ -4,6 +4,8 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeTicketService } from '../employee-ticket-service';
 import { EmployeeService } from '@features/employee/employee.service';
+import { TicketBase } from '../employee-ticket.enum';
+import * as moment from 'moment';
 
 @Component({
   selector: 'hrms-employee-ticket-create',
@@ -15,8 +17,10 @@ export class EmployeeTicketCreateComponent implements OnInit {
   addForm: FormGroup;
   ticketDetails: any
   employees: any;
-  
-
+  ticketBaseKeys: number[];
+  ticketBaseOf = TicketBase;
+  minDate;
+  maxDate;
 
   constructor( 
     private formBuilder: FormBuilder,
@@ -30,6 +34,13 @@ export class EmployeeTicketCreateComponent implements OnInit {
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
     this.getEmployeeDetails()
+    this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
+    const current = new Date();
+    this.maxDate = {
+      year: current.getFullYear() - 18,
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
   }
 
   getEmployeeDetails() {
@@ -46,6 +57,12 @@ export class EmployeeTicketCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    // debugger
+    // let b=moment(this.addForm.value.travelDate).format('YYYY-MM-DDT00:00:00')
+    // console.log(b)
+    // this.addForm.patchValue({
+    //   travelDate:b
+    // })
     this.addForm.value.valuetype = parseInt(this.addForm.value.valuetype)
     const ticketForm = this.addForm.value;
     this.employeeTicketService.add(ticketForm).subscribe(result => {
@@ -76,7 +93,7 @@ export class EmployeeTicketCreateComponent implements OnInit {
       travelMode:['', [
         Validators.required
       ]],
-      travelDate:['', [
+      travelDate:[null, [
         Validators.required
       ]],
       employeeId:[0]

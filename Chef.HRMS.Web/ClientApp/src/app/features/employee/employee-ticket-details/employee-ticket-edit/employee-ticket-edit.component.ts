@@ -4,6 +4,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeTicketGroup } from '../employee-ticket-model';
 import { EmployeeTicketService } from '../employee-ticket-service';
+import { TicketBase } from '../employee-ticket.enum';
 
 @Component({
   selector: 'hrms-employee-ticket-edit',
@@ -13,6 +14,8 @@ import { EmployeeTicketService } from '../employee-ticket-service';
 export class EmployeeTicketEditComponent implements OnInit {
 
   addForm: FormGroup;
+  ticketBaseKeys: number[];
+  ticketBaseOf = TicketBase;
 
   @Input() relDetails: EmployeeTicketGroup;
 
@@ -34,7 +37,7 @@ export class EmployeeTicketEditComponent implements OnInit {
       amount:this.relDetails.amount
 
     });
-  
+    this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
   }
 
 
