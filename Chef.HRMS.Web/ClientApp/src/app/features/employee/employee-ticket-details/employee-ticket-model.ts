@@ -5,5 +5,7 @@ export interface EmployeeTicketGroup extends Model {
       travelTo: string,
       roundTrip:boolean,
       ticketAmount:number,
+      travelType:string
+      date:string
       
 }

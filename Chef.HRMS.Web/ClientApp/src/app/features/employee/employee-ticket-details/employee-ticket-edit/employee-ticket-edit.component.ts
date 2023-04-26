@@ -67,6 +67,12 @@ export class EmployeeTicketEditComponent implements OnInit {
       ticketAmount: ['', [
         Validators.required
       ]],
+      travelType:['', [
+        Validators.required
+      ]],
+      date:['', [
+        Validators.required
+      ]],
     });
   }
 
