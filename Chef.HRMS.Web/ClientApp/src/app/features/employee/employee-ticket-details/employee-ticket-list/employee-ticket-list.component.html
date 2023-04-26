@@ -15,7 +15,7 @@
                     <th>Sl No.</th>
                     <th>Travel From</th>
                     <th>Travel To</th>
-                    <th>Travel Type</th>
+                    <th>Travel Mode</th>
                     <th>Date</th>
                     <th>Round Trip</th>
                     <th>Ticket Amount</th>
@@ -27,10 +27,10 @@
                     <td>{{i+1}}</td>
                     <td>{{ rel.travelFrom }}</td>
                     <td>{{ rel.travelTo }}</td>
-                    <td>{{ rel.travelType }}</td>
-                    <td>{{ rel.date}}</td>
-                    <td>{{ rel.roundTrip }}</td>
-                    <td>{{ rel.ticketAmount}}</td>
+                    <td>{{ rel.travelMode }}</td>
+                    <td>{{ rel.travelDate}}</td>
+                    <td>{{ rel.isRoundTrip }}</td>
+                    <td>{{ rel.amount}}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
                             <button id="button-basic" dropdownToggle type="button"

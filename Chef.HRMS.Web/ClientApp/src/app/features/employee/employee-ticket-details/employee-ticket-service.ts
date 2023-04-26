@@ -15,7 +15,7 @@ export class EmployeeTicketService {
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
-    this.baseUrl = `${baseUrl}api/Slab/`;
+    this.baseUrl = `${baseUrl}api/EmployeeTicket/`;
   }
 
   getAll() {

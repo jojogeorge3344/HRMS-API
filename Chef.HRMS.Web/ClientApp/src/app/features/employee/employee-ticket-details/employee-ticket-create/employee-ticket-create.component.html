@@ -20,12 +20,12 @@
         </div>
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="travelType">Travel Type<span class="required">*</span></label>
-                <input type="string" class="form-control" id="travelType" name="travelType" formControlName="travelType">
+                <label class="col-form-label" for="travelMode">Travel Mode<span class="required">*</span></label>
+                <input type="string" class="form-control" id="travelMode" name="travelMode" formControlName="travelMode">
             </div>
             <div class="form-group form-input-inline input-group col-6">
                 <label class="col-12 col-form-label px-0">Date</label>
-                    <input readonly class="form-control" formControlName="date" [minDate]="{year: 2023, month: 1, day: 1}"
+                    <input readonly class="form-control" formControlName="travelDate" [minDate]="{year: 2023, month: 1, day: 1}"
                         [maxDate]="{year: 2050, month: 1, day: 1}" ngbDatepicker #d="ngbDatepicker">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
@@ -36,16 +36,16 @@
         </div>
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="roundTrip">Round Trip<span class="required">*</span></label>
-                    <select class="form-control" formControlName="roundTrip">
+                <label class="col-form-label" for="isRoundTrip">Round Trip<span class="required">*</span></label>
+                    <select class="form-control" formControlName="isRoundTrip">
                          <option value="" disabled>Select</option>
-                         <option value="Yes">True</option>
-                         <option value="No">False</option>
+                         <option value="true">True</option>
+                         <option value="false">False</option>
                     </select>
             </div>
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="ticketAmount">Ticket Amount<span class="required">*</span></label>
-                <input type="string" class="form-control" id="ticketAmount" name="ticketAmount" formControlName="ticketAmount">
+                <label class="col-form-label" for="amount">Ticket Amount<span class="required">*</span></label>
+                <input type="string" class="form-control" id="amount" name="amount" formControlName="amount">
             </div>
         </div>
     </div>

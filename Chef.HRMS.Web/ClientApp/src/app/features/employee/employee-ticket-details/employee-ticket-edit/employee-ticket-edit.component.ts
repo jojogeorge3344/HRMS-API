@@ -30,8 +30,8 @@ export class EmployeeTicketEditComponent implements OnInit {
     this.addForm.patchValue({
       travelFrom:this.relDetails.travelFrom,
       travelTo:this.relDetails.travelTo,
-      roundTrip:this.relDetails.roundTrip,
-      ticketAmount:this.relDetails.ticketAmount
+      isRoundTrip:this.relDetails.isRoundTrip,
+      amount:this.relDetails.amount
 
     });
   
@@ -61,18 +61,19 @@ export class EmployeeTicketEditComponent implements OnInit {
       travelTo: ['', [
         Validators.required
       ]],
-      roundTrip: ['', [
+      isRoundTrip: ['', [
         Validators.required
       ]],
-      ticketAmount: ['', [
+      amount: ['', [
         Validators.required
       ]],
-      travelType:['', [
+      travelMode:['', [
         Validators.required
       ]],
-      date:['', [
+      travelDate:['', [
         Validators.required
       ]],
+      employeeId:[0]
     });
   }
 

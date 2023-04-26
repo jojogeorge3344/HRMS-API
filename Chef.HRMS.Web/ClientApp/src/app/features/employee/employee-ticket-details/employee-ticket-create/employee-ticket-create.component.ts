@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeTicketService } from '../employee-ticket-service';
+import { EmployeeService } from '@features/employee/employee.service';
 
 @Component({
   selector: 'hrms-employee-ticket-create',
@@ -13,6 +14,7 @@ export class EmployeeTicketCreateComponent implements OnInit {
 
   addForm: FormGroup;
   ticketDetails: any
+  employees: any;
   
 
 
@@ -22,14 +24,26 @@ export class EmployeeTicketCreateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public modalService: NgbModal,
     private employeeTicketService:EmployeeTicketService,
-  
+    private employeeService: EmployeeService,
     ) { }
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
+    this.getEmployeeDetails()
   }
 
-
+  getEmployeeDetails() {
+    debugger
+    this.employeeService.getAll().subscribe(
+      (result) => {
+        this.employees = result;
+      },
+      (error) => {
+        console.error(error);
+        this.toastr.showErrorMessage("Unable to fetch the Employee Details");
+      }
+    );
+  }
 
   onSubmit() {
     this.addForm.value.valuetype = parseInt(this.addForm.value.valuetype)
@@ -53,18 +67,19 @@ export class EmployeeTicketCreateComponent implements OnInit {
       travelTo: ['', [
         Validators.required
       ]],
-      roundTrip: ['', [
+      isRoundTrip: ['', [
         Validators.required
       ]],
-      ticketAmount: ['', [
+      amount: ['', [
         Validators.required
       ]],
-      travelType:['', [
+      travelMode:['', [
         Validators.required
       ]],
-      date:['', [
+      travelDate:['', [
         Validators.required
       ]],
+      employeeId:[0]
     });
   }
 
