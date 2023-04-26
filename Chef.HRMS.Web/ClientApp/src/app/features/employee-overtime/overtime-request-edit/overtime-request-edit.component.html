@@ -7,8 +7,8 @@
     </div>
     <div *ngIf="selectEnable" style="display: flex;flex-direction: row;">
         <label style="padding-left: 20px;">Employee Name</label>
-        <select  class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
-            <option *ngFor="let list of employeeDetails" value={{list.id}}>
+        <select  class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName"  (change)="getEmployeeId($event.target.value)">
+            <option *ngFor="let list of employeeDetails" value={{list.firstName}}>
                 {{list.firstName}}
             </option>
         </select>

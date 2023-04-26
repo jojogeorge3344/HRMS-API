@@ -105,7 +105,15 @@ export class OvertimeRequestCreateComponent implements OnInit {
         console.error(error);
       });
   }
+  getEmployeeId(event){
+    debugger
+    let a=this.employeeDetails.filter(x=>x.firstName==event)
+    this.addForm.patchValue({
+      employeeId:a[0].id,
+      employeeName:a[0].firstName
 
+    })
+  }
   getOvertimeConfiguration() {
     debugger
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
@@ -434,7 +442,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       reason: ['', [
         Validators.maxLength(250),
       ]],
-      employeeId: [this.currentUserId],
+      employeeId: [0],
       requestStatus: [1],
       normalovertime:[null],
       holidayovertime:[null],

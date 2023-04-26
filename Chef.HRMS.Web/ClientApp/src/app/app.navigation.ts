@@ -201,7 +201,7 @@ export const NavigationItems = [
         routerLink: '/asset-employee-wise'
       },
       {
-        title: 'Employee Overtime Asset',
+        title: 'Employee Overtime',
         tags: 'me-overtime',
         routerLink: '/asset-employee-overtimewise'
       },

@@ -122,7 +122,15 @@ export class OvertimeRequestEditComponent implements OnInit {
         console.error(error);
       });
   }
+  getEmployeeId(event){
+    debugger
+    let a=this.employeeDetails.filter(x=>x.firstName==event)
+    this.editForm.patchValue({
+      employeeId:a[0].id,
+      employeeName:a[0].firstName
 
+    })
+  }
   formatter = (employee) => employee.firstName;
 
   search = (text$: Observable<string>) => text$.pipe(
