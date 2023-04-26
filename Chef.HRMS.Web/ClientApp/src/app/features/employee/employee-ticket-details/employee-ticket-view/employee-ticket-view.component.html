@@ -21,7 +21,7 @@
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="travelMode">Travel Mode<span class="required">*</span></label>
-                <input type="string" class="form-control" id="travelMode" name="travelMode" formControlName="travelMode">
+                <input type="string" class="form-control" id="travelMode" name="travelMode"  value="{{ relDetails.travelMode }}">
             </div>
             <div class="form-group form-input-inline input-group col-6">
                 <label class="col-12 col-form-label px-0">Date</label>
@@ -38,7 +38,7 @@
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="isRoundTrip">Round Trip</label>
                 <input type="text" class="form-control" name="isRoundTrip"
-                    value="{{ relDetails.isRoundTrip }}" disabled />
+                    value="{{ relDetails.isRoundTrip}}" disabled />
             </div>
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="amount">Ticket Amount</label>

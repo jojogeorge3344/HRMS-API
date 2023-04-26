@@ -5,6 +5,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeTicketGroup } from '../employee-ticket-model';
 import { EmployeeTicketService } from '../employee-ticket-service';
 import { TicketBase } from '../employee-ticket.enum';
+import * as moment from 'moment';
 
 @Component({
   selector: 'hrms-employee-ticket-edit',
@@ -29,12 +30,17 @@ export class EmployeeTicketEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.addForm = this.createFormGroup();
     this.addForm.patchValue({
       travelFrom:this.relDetails.travelFrom,
       travelTo:this.relDetails.travelTo,
       isRoundTrip:this.relDetails.isRoundTrip,
-      amount:this.relDetails.amount
+      amount:this.relDetails.amount,
+      travelDate:this.relDetails.travelDate,
+      travelMode:this.relDetails.travelMode,
+      employeeId:this.relDetails.employeeId,
+      id:this.relDetails.id
 
     });
     this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
@@ -43,6 +49,8 @@ export class EmployeeTicketEditComponent implements OnInit {
 
   
   onSubmit() {
+    let b=moment(this.addForm.value.travelDate).format('YYYY-MM-DDT00:00:00')
+    this.addForm.value.travelDate=b
     this.addForm.value.id=this.relDetails.id
     this.addForm.value.valueType = parseInt(this.addForm.value.valueType)
     const ticketForm = this.addForm.value;
@@ -76,7 +84,8 @@ export class EmployeeTicketEditComponent implements OnInit {
       travelDate:['', [
         Validators.required
       ]],
-      employeeId:[0]
+      employeeId:[0],
+      id:[0]
     });
   }
 

@@ -27,9 +27,9 @@
                     <td>{{i+1}}</td>
                     <td>{{ rel.travelFrom }}</td>
                     <td>{{ rel.travelTo }}</td>
-                    <td>{{ rel.travelMode }}</td>
+                    <td>{{ ticketBaseOf[rel.travelMode] }}</td>
                     <td>{{ rel.travelDate}}</td>
-                    <td>{{ rel.isRoundTrip }}</td>
+                    <td>{{ rel.isRoundTrip==true ? 'Yes':'No'}}</td>
                     <td>{{ rel.amount}}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">

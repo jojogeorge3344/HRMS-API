@@ -28,10 +28,10 @@
             </div>
             <div class="form-group form-input-inline input-group col-6">
                 <label class="col-12 col-form-label px-0">Travel Date</label>
-                <input readonly class="form-control" formControlName="travelDate" [minDate]="{year: 1900, month: 1, day: 1}"
-                [maxDate]="maxDate" ngbDatepicker #d="ngbDatepicker">
+                <input readonly class="form-control" formControlName="travelDate" [minDate]="minDateFrom"
+                [maxDate]="maxDateFrom" ngbDatepicker #travelDate="ngbDatepicker">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                <button class="btn btn-outline-secondary calendar" (click)="travelDate.toggle()" type="button">
                     <i class="fal fa-calendar-alt"></i>
                 </button>
             </div>

@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeTicketService } from '../employee-ticket-service';
-import { EmployeeService } from '@features/employee/employee.service';
 import { TicketBase } from '../employee-ticket.enum';
 import * as moment from 'moment';
 
@@ -19,8 +18,9 @@ export class EmployeeTicketCreateComponent implements OnInit {
   employees: any;
   ticketBaseKeys: number[];
   ticketBaseOf = TicketBase;
-  minDate;
-  maxDate;
+  minDateFrom;
+  maxDateFrom;
+  @Input() employeeId
 
   constructor( 
     private formBuilder: FormBuilder,
@@ -28,42 +28,30 @@ export class EmployeeTicketCreateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public modalService: NgbModal,
     private employeeTicketService:EmployeeTicketService,
-    private employeeService: EmployeeService,
     ) { }
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
-    this.getEmployeeDetails()
     this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
     const current = new Date();
-    this.maxDate = {
-      year: current.getFullYear() - 18,
+    this.minDateFrom = {
+      year: current.getFullYear(),
       month: current.getMonth() + 1,
       day: current.getDate()
     };
-  }
-
-  getEmployeeDetails() {
-    debugger
-    this.employeeService.getAll().subscribe(
-      (result) => {
-        this.employees = result;
-      },
-      (error) => {
-        console.error(error);
-        this.toastr.showErrorMessage("Unable to fetch the Employee Details");
-      }
-    );
+    this.maxDateFrom = {
+      year: current.getFullYear() + 1,
+      month: 3,
+      day: 31
+    };
+   
   }
 
   onSubmit() {
-    // debugger
-    // let b=moment(this.addForm.value.travelDate).format('YYYY-MM-DDT00:00:00')
-    // console.log(b)
-    // this.addForm.patchValue({
-    //   travelDate:b
-    // })
-    this.addForm.value.valuetype = parseInt(this.addForm.value.valuetype)
+    debugger
+    let b=moment(this.addForm.value.travelDate).format('YYYY-MM-DDT00:00:00')
+    this.addForm.value.travelDate=b
+    this.addForm.value.employeeId=this.employeeId
     const ticketForm = this.addForm.value;
     this.employeeTicketService.add(ticketForm).subscribe(result => {
           this.toastr.showSuccessMessage('The Ticket added successfully!');
@@ -93,7 +81,7 @@ export class EmployeeTicketCreateComponent implements OnInit {
       travelMode:['', [
         Validators.required
       ]],
-      travelDate:[null, [
+      travelDate:['', [
         Validators.required
       ]],
       employeeId:[0]

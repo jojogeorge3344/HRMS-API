@@ -7,6 +7,8 @@ import { EmployeeTicketService } from '../employee-ticket-service';
 import { EmployeeTicketViewComponent } from '../employee-ticket-view/employee-ticket-view.component';
 import { EmployeeTicketEditComponent } from '../employee-ticket-edit/employee-ticket-edit.component';
 import { EmployeeTicketCreateComponent } from '../employee-ticket-create/employee-ticket-create.component';
+import { ActivatedRoute } from '@angular/router';
+import { TicketBase } from '../employee-ticket.enum';
 
 @Component({
   selector: 'hrms-employee-ticket-list',
@@ -17,21 +19,30 @@ export class EmployeeTicketListComponent implements OnInit {
 
   
   employeeTicketDetails: EmployeeTicketGroup[] = [];
+  findEmployeeId: number;
+  ticketBaseKeys: number[];
+  ticketBaseOf = TicketBase;
 
   constructor(
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
-    private employeeTicketService:EmployeeTicketService
+    private employeeTicketService:EmployeeTicketService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    debugger
     this.getEmployeeTicketSlablist()
+    this.route.params.subscribe((params: any) => {
+      this.findEmployeeId = parseInt(params.id, 10);
+    });
+    this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
   }
 
   getEmployeeTicketSlablist() {
     this.employeeTicketService.getAll().subscribe(result => {
       this.employeeTicketDetails = result;
-      // this.employeeTicketDetails=this.employeeTicketDetails.sort((a, b) => a.bfName.toLowerCase().localeCompare(b.bfName.toLowerCase()));
+       this.employeeTicketDetails=this.employeeTicketDetails.sort((a, b) => a.travelFrom.toLowerCase().localeCompare(b.travelFrom.toLowerCase()));
     },
     error => {
       console.error(error);
@@ -41,8 +52,7 @@ export class EmployeeTicketListComponent implements OnInit {
   openCreate() {
     const modalRef = this.modalService.open(EmployeeTicketCreateComponent,
       {size: 'lg', centered: true, backdrop: 'static' });
-    // modalRef.componentInstance.code = this.Codes;
-    // modalRef.componentInstance.name= this.Names;
+    modalRef.componentInstance.employeeId = this.findEmployeeId;
     modalRef.result.then((result) => {
         if (result == 'submit') {
           this.getEmployeeTicketSlablist()
@@ -53,6 +63,7 @@ export class EmployeeTicketListComponent implements OnInit {
     const modalRef = this.modalService.open(EmployeeTicketEditComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.relDetails= relDetails;
+    modalRef.componentInstance.employeeId = this.findEmployeeId;
     // modalRef.componentInstance.code = this.Codes;
     // modalRef.componentInstance.name = this.Names;
 
@@ -80,7 +91,7 @@ export class EmployeeTicketListComponent implements OnInit {
 delete(relDetails: EmployeeTicketGroup) {
   const modalRef = this.modalService.open(ConfirmModalComponent,
     { centered: true, backdrop: 'static' });
-  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Ticket ${relDetails}`;
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Ticket ${relDetails.travelFrom}`;
   modalRef.result.then((userResponse) => {
     if (userResponse == true) {
       this.employeeTicketService.delete(relDetails.id).subscribe(() => {
