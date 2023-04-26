@@ -73,6 +73,7 @@ export class OvertimeRequestEditComponent implements OnInit {
     this.getOvertimeConfiguration();
     this.getEmployeeList();
     this.getLoginEmployeeDetail()
+    this.getAllOvertimeDetails()
   }
   getOvertimeConfiguration() {
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
@@ -244,6 +245,12 @@ export class OvertimeRequestEditComponent implements OnInit {
           employeeName:this.employeeLogin.firstName
         })
       }
+    })
+  }
+  getAllOvertimeDetails(){
+    debugger
+    this.overtimeRequestService.getAllOvertimeDetailsById(this.editForm.value.employeeId).subscribe(res=>{
+     console.log(res)
     })
   }
 }

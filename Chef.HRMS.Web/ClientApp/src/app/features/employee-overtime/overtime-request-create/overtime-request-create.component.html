@@ -6,21 +6,22 @@
         </button>
     </div>
       <div *ngIf="selectEnable" style="display: flex;flex-direction: row;">
-            <label style="padding-left: 20px;">Employee Name</label>
-            <select  class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName" (change)="getEmployeeId($event.target.value)">
+            <label style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
+            <select   class="form-control col-sm-6" style="margin-left: 50px;" formControlName="employeeName" (change)="getEmployeeId($event.target.value)">
+                <option [ngValue]="null" disabled>Select Employee Name</option>
                 <option *ngFor="let list of employeeDetails" value={{list.firstName}}>
                     {{list.firstName}}
                 </option>
             </select>
       </div>
       <div *ngIf="!selectEnable" style="display: flex;flex-direction: row;">
-        <label style="padding-left: 20px;">Employee Name</label>
+        <label style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
         <!-- <select  disabled class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
             <option *ngFor="let list of employeeLogin" value={{list.id}}>
                 {{list.firstName}}
             </option>
         </select> -->
-        <input type="text" disabled class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
+        <input type="text" disabled class="form-control col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
       </div>
     <div class="modal-body">
         <div class="row">
