@@ -41,35 +41,35 @@ namespace Chef.HRMS.Services
             return await employeeRepository.GetAsync(id);
         }
 
-        public new async Task<int> InsertAsync(HRMSEmployee employee)
+        public new async Task<int> InsertAsync(HRMSEmployee EmployeeTicket)
         {
             var registerDto = new RegisterDto
             {
-                Email = employee.Email,
-                FirstName = employee.FirstName,
+                Email = EmployeeTicket.Email,
+                FirstName = EmployeeTicket.FirstName,
                 IsActive = true,
-                LastName = employee.LastName,
-                Password = "FFFF1" + employee.FirstName + "@@@@",
+                LastName = EmployeeTicket.LastName,
+                Password = "FFFF1" + EmployeeTicket.FirstName + "@@@@",
                 TimeZone = "5.30",
-                Username = employee.FirstName
+                Username = EmployeeTicket.FirstName
             };
 
             if ((await authService.RegisterUser(registerDto)).Succeeded)
             {
-                var user = await authService.GetUser(employee.FirstName);
-                employee.UserId = user.Id;
-                employee.Id = await employeeRepository.InsertAsync(employee);
+                var user = await authService.GetUser(EmployeeTicket.FirstName);
+                EmployeeTicket.UserId = user.Id;
+                EmployeeTicket.Id = await employeeRepository.InsertAsync(EmployeeTicket);
             }
             else
             {
-                employee.Id = await employeeRepository.InsertAsync(employee);
+                EmployeeTicket.Id = await employeeRepository.InsertAsync(EmployeeTicket);
             }
-            return employee.Id;
+            return EmployeeTicket.Id;
         }
 
-        public async Task<int> UpdateAsync(HRMSEmployee employee)
+        public async Task<int> UpdateAsync(HRMSEmployee EmployeeTicket)
         {
-            return await employeeRepository.UpdateAsync(employee);
+            return await employeeRepository.UpdateAsync(EmployeeTicket);
         }
 
         public async Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId)
