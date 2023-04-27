@@ -85,7 +85,6 @@ namespace Chef.HRMS.Repositories
         public async Task<int> UpdateNotifyPersonnel(IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
         {
             var sql = new QueryBuilder<OverTimeNotifyPersonnel>().GenerateUpdateQuery();
-            sql = sql.Replace("RETURNING id", "");
             return await Connection.ExecuteAsync(sql, overTimeNotifyPersonnel);
         }
     }
