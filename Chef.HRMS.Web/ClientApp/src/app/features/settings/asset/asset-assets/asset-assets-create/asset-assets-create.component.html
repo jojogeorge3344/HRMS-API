@@ -51,6 +51,7 @@
           formControlName="assetTypeId"
           (change)="getselectedvalue($event)"
         >
+        <option value="" disabled>Select Asset Type</option>
           <option *ngFor="let dtype of dataType" [ngValue]="dtype.id">
             {{ dtype.assettypename }}
           </option>
@@ -121,15 +122,15 @@
 
 
   <div class="modal-footer">
+    <button type="submit" class="btn btn-success">
+      <i class="mr-1 fal fa-save"></i> Save
+    </button>
     <button
       type="button"
       class="btn btn-warning"
       (click)="activeModal.close('Close click')"
     >
       <i class="mr-1 fal fa-window-close"></i> Cancel
-    </button>
-    <button type="submit" class="btn btn-success">
-      <i class="mr-1 fal fa-save"></i> Save
     </button>
   </div>
 </form>

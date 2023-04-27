@@ -18,7 +18,7 @@
             <div class="form-group form-input-line col-4">
                 <label class="col-form-label" for="retrospectiveAccrual">Retrospective Accrual<span class="required">*</span></label>
                     <select class="form-control" formControlName="retrospectiveAccrual">
-                         <option value="" disabled>Select</option>
+                         <option [ngValue]="null" disabled>Select</option>
                          <option value="Yes">Yes</option>
                          <option value="No">No</option>
                      </select>
@@ -31,7 +31,7 @@
             <div class="form-group form-input-line col-4">
                 <label class="col-form-label" for="includeLOPDays">Include Lop Days<span class="required">*</span></label>
                     <select class="form-control" formControlName="includeLOPDays">
-                         <option value="" disabled>Select</option>
+                         <option [ngValue]="null" disabled>Select</option>
                          <option value="Yes">Yes</option>
                          <option value="No">No</option>
                     </select>
@@ -39,7 +39,7 @@
             <div class="form-group form-input-line col-4">
                 <label class="col-form-label" for="includeProbationDays">Include Probation Days<span class="required">*</span></label>
                     <select class="form-control" formControlName="includeProbationDays">
-                        <option value="" disabled>Select</option>
+                        <option [ngValue]="null" disabled>Select</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
@@ -77,9 +77,9 @@
         </div>
     </div>
     <div class="modal-footer">
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
         <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
                 class="mr-1 fal fa-window-close"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
     </div>
 </form>
 
