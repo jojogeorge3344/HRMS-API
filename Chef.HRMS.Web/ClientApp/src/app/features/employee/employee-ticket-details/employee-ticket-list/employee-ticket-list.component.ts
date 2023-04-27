@@ -93,7 +93,7 @@ export class EmployeeTicketListComponent implements OnInit {
 delete(relDetails: EmployeeTicketGroup) {
   const modalRef = this.modalService.open(ConfirmModalComponent,
     { centered: true, backdrop: 'static' });
-  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Ticket ${relDetails.travelFrom}`;
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Ticket from ${relDetails.travelFrom} to ${relDetails.travelTo}`;
   modalRef.result.then((userResponse) => {
     if (userResponse == true) {
       this.employeeTicketService.delete(relDetails.id).subscribe(() => {
