@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Chef.HRMS.Web.Controllers
 {
     [ApiController]
-    [Route("api/profile/[controller]")]
+    [Route("api/[controller]")]
     public class LeaveDocumentController : ControllerBase
     {
         private readonly ILeaveDocumentService leaveDocumentService;
