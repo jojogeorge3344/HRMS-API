@@ -6,6 +6,7 @@ import { EmployeeTicketGroup } from '../employee-ticket-details/employee-ticket-
 import { EmployeeTicketService } from '../employee-ticket-details/employee-ticket-service';
 import { TicketBase } from '../employee-ticket-details/employee-ticket.enum';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -21,21 +22,27 @@ export class EmployeeTicketViewContainerComponent implements OnInit {
   employeeTicketDetails: EmployeeTicketGroup[] = [];
   ticketBaseKeys: number[];
   ticketBaseOf = TicketBase;
+  findEmployeeId: number;
 
   constructor(
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
-    private employeeTicketService:EmployeeTicketService
+    private employeeTicketService:EmployeeTicketService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
     this.getEmployeeTicketSlablist()
     this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
+    this.route.params.subscribe((params: any) => {
+      this.findEmployeeId = parseInt(params.id, 10);
+    });
   }
 
   getEmployeeTicketSlablist() {
     this.employeeTicketService.getAll().subscribe(result => {
       this.employeeTicketDetails = result;
+      this.employeeTicketDetails=this.employeeTicketDetails.filter(x=>x.employeeId==this.findEmployeeId)
       this.employeeTicketDetails=this.employeeTicketDetails.sort((a, b) => a.travelFrom.toLowerCase().localeCompare(b.travelFrom.toLowerCase()));
     },
     error => {
