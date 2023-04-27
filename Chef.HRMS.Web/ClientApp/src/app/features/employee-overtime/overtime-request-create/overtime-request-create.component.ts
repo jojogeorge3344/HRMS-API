@@ -119,13 +119,13 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
       this.overtimeConfiguration = result;
       if(result.isOvertimeSlab==true){
-        this.addForm.get("normalovertime").enable();
-        this.addForm.get("holidayovertime").enable();
-        this.addForm.get("specialovertime").disable();
+        this.addForm.get("normalOverTime").enable();
+        this.addForm.get("holidayOverTime").enable();
+        this.addForm.get("specialOverTime").disable();
       }else{
-        this.addForm.get("normalovertime").enable();
-        this.addForm.get("holidayovertime").enable();
-        this.addForm.get("specialovertime").enable();
+        this.addForm.get("normalOverTime").enable();
+        this.addForm.get("holidayOverTime").enable();
+        this.addForm.get("specialOverTime").enable();
       }
       this.setCalendar();
       this.addForm.patchValue({ overTimePolicyId: this.overtimeConfiguration.overTimePolicyId });
@@ -399,6 +399,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     let addForm = this.addForm.value;
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
@@ -406,6 +407,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12))
     };
+    this.addForm.value.specialOverTime=this.addForm.value.specialOverTime?this.addForm.value.specialOverTime:0
   //  this.addForm.patchValue({fromDate : new Date(this.addForm.value.fromDate.setHours(12)),toDate  : new Date(this.addForm.value.toDate.setHours(12))})
     this.overtimeRequestService.add(addForm).subscribe((result: any) => {
       if (result.id !== -1) {
@@ -444,9 +446,9 @@ export class OvertimeRequestCreateComponent implements OnInit {
       ]],
       employeeId: [0],
       requestStatus: [1],
-      normalovertime:[null],
-      holidayovertime:[null],
-      specialovertime:[null],
+      normalOverTime:[null],
+      holidayOverTime:[null],
+      specialOverTime:[null],
       employeeName:[null]
     });
   }

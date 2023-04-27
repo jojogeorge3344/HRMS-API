@@ -79,13 +79,13 @@ export class OvertimeRequestEditComponent implements OnInit {
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
       this.overtimeConfiguration = result;
       if(result.isOvertimeSlab==true){
-        this.editForm.get("normalovertime").enable();
-        this.editForm.get("holidayovertime").enable();
-        this.editForm.get("specialovertime").disable();
+        this.editForm.get("normalOverTime").enable();
+        this.editForm.get("holidayOverTime").enable();
+        this.editForm.get("specialOverTime").disable();
       }else{
-        this.editForm.get("normalovertime").enable();
-        this.editForm.get("holidayovertime").enable();
-        this.editForm.get("specialovertime").enable();
+        this.editForm.get("normalOverTime").enable();
+        this.editForm.get("holidayOverTime").enable();
+        this.editForm.get("specialOverTime").enable();
       }
       this.editForm.patchValue({ overTimePolicyId: this.overtimeConfiguration.overTimePolicyId });
       if (this.overtimeConfiguration.isCommentRequired) {
@@ -230,9 +230,9 @@ export class OvertimeRequestEditComponent implements OnInit {
       employeeId: [],
       requestStatus: [1],
       createdDate: [],
-      normalovertime:[null],
-      holidayovertime:[null],
-      specialovertime:[null],
+      normalOverTime:[null],
+      holidayOverTime:[null],
+      specialOverTime:[null],
       employeeName:[null]
     });
   }
