@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Chef.Common.Core;
+using Chef.Common.Models;
 
 namespace Chef.HRMS.Models
 {

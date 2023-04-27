@@ -26,6 +26,7 @@ import { EmployeeJobDetailsService } from '../employee-job-details.service';
 @Component({
   selector: 'hrms-employee-job-details-create',
   templateUrl: './employee-job-details-create.component.html',
+  styleUrls: ['./employee-job-details.create.component.scss'],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class EmployeeJobDetailsCreateComponent implements OnInit {
@@ -160,6 +161,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   getEmployeeNumber() {
     this.employeeNumbersService.getAllActiveNumberSeries().subscribe(result => {
       this.numberSeriesId = result;
+      console.log('numberseries',this.numberSeriesId)
 
     },
       error => {
@@ -213,7 +215,9 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     seriesValue.nextNumber = seriesValue.nextNumber;
     seriesValue.digitInNumber = seriesValue.digitInNumber;
     addJobDetails.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
-    this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
+   // this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
+    //preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix}`
+    this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0).concat(seriesValue.suffix));
   }
 
   getBranches() {

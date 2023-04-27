@@ -4,22 +4,22 @@
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label"  for="firstName">First Name<span class="required">*</span></label>
                 <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName"
-                (input)="checkCodeName($event.target.value)">
+                (input)="checkCodeName($event.target.value)" autocomplete="off">
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label"  for="middleName">Middle Name</label>
-                <input type="text" class="form-control" id="middleName" name="middleName" formControlName="middleName">
+                <input type="text" class="form-control" id="middleName" name="middleName" formControlName="middleName" autocomplete="off">
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label"  for="lastName">Last Name<span class="required">*</span></label>
-                <input type="test" class="form-control" id="lastName" name="lastName" formControlName="lastName">
+                <input type="test" class="form-control" id="lastName" name="lastName" formControlName="lastName" autocomplete="off">
             </div>
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label"  for="displayName">Display Name<span class="required">*</span></label>
                 <input type="text" class="form-control" id="displayName" name="displayName"
-                    formControlName="displayName">
+                    formControlName="displayName" autocomplete="off">
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="gender">Select Gender<span class="required">*</span></label>
@@ -41,11 +41,11 @@
         <div class="row">
             <div class="form-group form-input-line col-sm-4">
                 <label class="col-form-label"  for="email">Email<span class="required">*</span></label>
-                <input type="email" class="form-control" id="email" name="email" formControlName="email">
+                <input type="email" class="form-control" id="email" name="email" formControlName="email" autocomplete="off">
             </div>
             <div class="form-group form-input-line col-sm-4">
                 <label class="col-form-label" for="fileNumber">File Number<span class="required">*</span></label>
-                <input type="text" class="form-control" id="fileNumber" name="fileNumber" formControlName="fileNumber">
+                <input type="text" class="form-control" id="fileNumber" name="fileNumber" formControlName="fileNumber" autocomplete="off">
             </div>
             <div class="form-group form-input-line col-sm-4">
                 <label class="col-form-label" for="religionId">Select Religion<span class="required">*</span></label>
@@ -58,7 +58,7 @@
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-4">
                 <label class="col-form-label" for="uidNumber">UID<span class="required">*</span></label>
-                <input type="text" class="form-control" id="uidNumber" name="uidNumber" formControlName="uidNumber">
+                <input autocomplete="off"  maxlength="15" (keypress)="keyPressNumbers($event)" type="text" class="form-control" id="uidNumber" name="uidNumber" formControlName="uidNumber">
             </div>  
             <div class="form-group form-input-line col-sm-4">
                 <label class="col-form-label"  for="languageKnown">Language Known<span class="required">*</span></label>
