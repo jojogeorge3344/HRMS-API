@@ -30,7 +30,7 @@ export class EmployeeTicketService {
   delete(id: number) {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
-  // get(){
-  //   return this.http.get<EmployeeTicketGroup[]>(this.baseUrl + 'GetComponentType').pipe(map(response => { return response; }));
-  // }
+  get(id){
+    return this.http.get<EmployeeTicketGroup[]>(this.baseUrl + 'Get/' + id).pipe(map(response => { return response; }));
+  }
 }

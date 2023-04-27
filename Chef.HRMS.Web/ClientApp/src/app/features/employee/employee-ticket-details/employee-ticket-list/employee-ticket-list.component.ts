@@ -44,6 +44,7 @@ export class EmployeeTicketListComponent implements OnInit {
   getEmployeeTicketSlablist() {
     this.employeeTicketService.getAll().subscribe(result => {
       this.employeeTicketDetails = result;
+      this.employeeTicketDetails=this.employeeTicketDetails.filter(x=>x.employeeId==this.findEmployeeId)
        this.employeeTicketDetails=this.employeeTicketDetails.sort((a, b) => a.travelFrom.toLowerCase().localeCompare(b.travelFrom.toLowerCase()));
     },
     error => {
