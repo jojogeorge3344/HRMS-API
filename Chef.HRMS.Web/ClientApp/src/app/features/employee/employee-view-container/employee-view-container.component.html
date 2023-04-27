@@ -62,6 +62,12 @@
         <hrms-employee-address-view></hrms-employee-address-view>
       </ng-template>
     </li>
+    <li [ngbNavItem]="8">
+      <a ngbNavLink>Ticket Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-ticket-view-container></hrms-employee-ticket-view-container>
+      </ng-template>
+    </li>
   </ul>
   <div [ngbNavOutlet]="nav"></div>
 </div>
