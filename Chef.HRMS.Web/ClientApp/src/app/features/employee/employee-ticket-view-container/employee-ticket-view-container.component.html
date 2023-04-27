@@ -1,0 +1,39 @@
+<div id="wps" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content">
+            <div class="row">
+            </div> 
+        <div class="frame-wrap">
+        <table class="table m-0">
+            <thead class="thead-themed">
+                <tr>
+                    <th>Sl No.</th>
+                    <th>Travel From</th>
+                    <th>Travel To</th>
+                    <th>Travel Mode</th>
+                    <th>Travel Date</th>
+                    <th>Round Trip</th>
+                    <th>Ticket Amount</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rel of employeeTicketDetails; let i= index;">
+                    <td>{{i+1}}</td>
+                    <td>{{ rel.travelFrom }}</td>
+                    <td>{{ rel.travelTo }}</td>
+                    <td>{{ ticketBaseOf[rel.travelMode] }}</td>
+                    <td>{{ rel.travelDate | date}}</td>
+                    <td>{{ rel.roundTrip==true ? 'Yes':'No' }}</td>
+                    <td>{{ rel.amount}}</td>
+                </tr> 
+            
+            </tbody>
+        </table>
+        </div>
+    </div>    
+</div>
+
+
+
+
