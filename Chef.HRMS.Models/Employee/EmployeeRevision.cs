@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Chef.Common.Core;
@@ -47,6 +48,16 @@ namespace Chef.HRMS.Models
         public int EOSId { get; set; }
 
         public string Remark { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public List<EmployeeRevisionDetails>  EmployeeRevisionDetails { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public List<EmployeeRevisionDetailsOld> EmployeeRevisionDetailsOlds { get; set; }
     }
 
     public class EmployeeRevisionOld : EmployeeRevision
