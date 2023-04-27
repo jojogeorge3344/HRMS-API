@@ -84,6 +84,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
       console.log("details",this.addForm.getRawValue());
       
       addWpsDetails.employeeId = parseInt(this.id, 10);
+      addWpsDetails.wpsId = parseInt(addWpsDetails.wpsId)
       this.employeeWpsUserService.update(addWpsDetails).subscribe((result:any)=> {
            this.toastr.showSuccessMessage('WPS Details updated successfully!');
            this.getWPSUserlistById();  
@@ -129,6 +130,17 @@ export class EmployeeWpsDetailsComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the WPS Group List Details');
       });
+  }
+
+  keyPressNumbers(event) {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    // Only Numbers 0-9
+    if ((charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
   }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

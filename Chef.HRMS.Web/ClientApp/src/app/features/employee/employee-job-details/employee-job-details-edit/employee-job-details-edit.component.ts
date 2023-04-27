@@ -24,6 +24,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 @Component({
   selector: 'hrms-employee-job-details-edit',
   templateUrl: './employee-job-details-edit.component.html',
+  styleUrls: ['./employee-job-details.edit.component.scss'],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class EmployeeJobDetailsEditComponent implements OnInit {
@@ -132,7 +133,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       });
   }
   getJobDetailsId() {
-    debugger
+   
     this.employeeJobDetailsService.get(this.jobDetailsId).subscribe(result => {
       this.getEmployeeList();
       result.dateOfJoin = new Date(result.dateOfJoin);
@@ -155,7 +156,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   getEmployeeList() {
-    debugger
+   
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.id);
       const details = this.employeeList.find(emp => emp.id === this.reportingManager);
@@ -212,7 +213,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
     const editJobDetails = this.editForm.value;
     editJobDetails.branchId = editJobDetails.location;
     editJobDetails.companyId = this.branches.find(c => c.id == editJobDetails.branchId).companyId;

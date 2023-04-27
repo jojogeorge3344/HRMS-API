@@ -65,15 +65,15 @@ export class EmployeeDefaultsEditComponent implements OnInit {
 
     switch (periodType) {
       case this.periodType.Days: {
-        probationDurationControl.setValidators([Validators.max(365)]);
+        probationDurationControl.setValidators([Validators.max(365),Validators.required]);
         break;
       }
       case this.periodType.Weeks: {
-        probationDurationControl.setValidators([Validators.max(52)]);
+        probationDurationControl.setValidators([Validators.max(52),Validators.required]);
         break;
       }
       case this.periodType.Months: {
-        probationDurationControl.setValidators([Validators.max(50)]);
+        probationDurationControl.setValidators([Validators.max(50),Validators.required]);
         break;
       }
       default:
