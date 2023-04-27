@@ -32,7 +32,6 @@ export class EmployeeTicketEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.addForm = this.createFormGroup();
     this.addForm.patchValue({
       travelFrom:this.relDetails.travelFrom,

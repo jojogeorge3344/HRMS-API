@@ -33,7 +33,6 @@ export class EmployeeTicketListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    debugger
     this.getEmployeeTicketSlablist()
     this.route.params.subscribe((params: any) => {
       this.findEmployeeId = parseInt(params.id, 10);
