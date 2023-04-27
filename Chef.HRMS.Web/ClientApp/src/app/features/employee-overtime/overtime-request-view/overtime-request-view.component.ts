@@ -5,6 +5,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { OvertimeRequest } from '../overtime-request.model';
 import { NgbActiveModal, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
 @Component({
   selector: 'hrms-overtime-request-view',
   templateUrl: './overtime-request-view.component.html',
@@ -17,6 +18,8 @@ export class OvertimeRequestViewComponent implements OnInit {
   employeeDetailsCheck: boolean;
   employeeDetails: any;
   selectEnable: boolean;
+  employeeLogin: any;
+  currentUserId: number;
   constructor(
     private overtimeRequestService: OvertimeRequestService,
     private employeeService: EmployeeService,
@@ -25,6 +28,7 @@ export class OvertimeRequestViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.currentUserId = getCurrentUserId();
     this.getEmployeeList();
     let b=this.router.routerState.snapshot.url;
     if(b=="/my-overtime"){
@@ -32,7 +36,7 @@ export class OvertimeRequestViewComponent implements OnInit {
     }else{
       this.employeeDetailsCheck=false  
     }
-   
+   this.getLoginEmployeeDetail()
   }
 
   getOvertimeNotifyPersonnelByOvertimeId(){
@@ -45,7 +49,7 @@ export class OvertimeRequestViewComponent implements OnInit {
       });
     }
 
-    getEmployeeList() {
+  getEmployeeList() {
       this.employeeService.getAll().subscribe(result => {
         this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
         if(this.employeeDetailsCheck==false){
@@ -62,4 +66,15 @@ export class OvertimeRequestViewComponent implements OnInit {
     }
   
     formatter = (employee) => employee.firstName;
+  getLoginEmployeeDetail(){
+      debugger
+      this.employeeService.getLoginEmployee(this.currentUserId).subscribe(res=>{
+        this.employeeLogin=res
+        if(this.employeeDetailsCheck==true){
+          
+          this.overtimeRequest.employeeName=this.employeeLogin.firstName
+          
+        }
+      })
+    }
 }

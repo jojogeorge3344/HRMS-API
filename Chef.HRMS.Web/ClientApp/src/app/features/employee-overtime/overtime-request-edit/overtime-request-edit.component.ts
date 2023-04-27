@@ -69,11 +69,14 @@ export class OvertimeRequestEditComponent implements OnInit {
       this.employeeDetailsCheck=true
     }else{
       this.employeeDetailsCheck=false  
+      this.editForm.patchValue({
+        employeeName:this.overtimeRequest.employeeId
+      });
     }
     this.getOvertimeConfiguration();
     this.getEmployeeList();
     this.getLoginEmployeeDetail()
-    this.getAllOvertimeDetails()
+    //this.getAllOvertimeDetails()
   }
   getOvertimeConfiguration() {
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
@@ -112,6 +115,7 @@ export class OvertimeRequestEditComponent implements OnInit {
 
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
+      debugger
       this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
       if(this.employeeDetailsCheck==false){
         this.employeeDetails=result
@@ -247,10 +251,10 @@ export class OvertimeRequestEditComponent implements OnInit {
       }
     })
   }
-  getAllOvertimeDetails(){
-    debugger
-    this.overtimeRequestService.getAllOvertimeDetailsById(this.editForm.value.employeeId).subscribe(res=>{
-     console.log(res)
-    })
-  }
+  // getAllOvertimeDetails(){
+  //   debugger
+  //   this.overtimeRequestService.getAllOvertimeDetailsById(this.editForm.value.employeeId).subscribe(res=>{
+  //    console.log(res)
+  //   })
+  // }
 }

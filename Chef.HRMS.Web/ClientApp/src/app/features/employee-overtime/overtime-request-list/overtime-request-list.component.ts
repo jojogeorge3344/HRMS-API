@@ -33,13 +33,15 @@ export class OvertimeRequestListComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
-    this.getOvertimeRequests();
     this.getAssignedOverTimePolicyRequests();
     let b=this.router.routerState.snapshot.url;
     if(b=="/my-overtime"){
       this.employeeDetailsCheck=true
+      this.getOvertimeRequestsSelf();
     }else{
       this.employeeDetailsCheck=false  
+      this.getOvertimeRequestsAll();
+
     }
     
   }
@@ -48,8 +50,17 @@ export class OvertimeRequestListComponent implements OnInit {
     return overtimeRequestStatus == this.overtimeRequestStatusTypes.Applied;
   }
 
-  getOvertimeRequests() {
+  getOvertimeRequestsSelf() {
     this.overtimeRequestService.getAllOvertimeDetailsById(this.currentUserId).subscribe((result: OvertimeRequest[]) => {
+      this.overtimeRequests = result;
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the overtime requests');
+      });
+  }
+  getOvertimeRequestsAll() {
+    this.overtimeRequestService.getAll().subscribe((result: OvertimeRequest[]) => {
       this.overtimeRequests = result;
     },
       error => {
@@ -77,7 +88,11 @@ export class OvertimeRequestListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getOvertimeRequests();
+        if(this.router.routerState.snapshot.url=="/my-overtime"){
+        this.getOvertimeRequestsSelf();
+        }else{
+          this.getOvertimeRequestsAll()
+        }
       }
     });
   }
@@ -90,7 +105,11 @@ export class OvertimeRequestListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getOvertimeRequests();
+        if(this.router.routerState.snapshot.url=="/my-overtime"){
+          this.getOvertimeRequestsSelf();
+          }else{
+            this.getOvertimeRequestsAll()
+          }
       }
     });
   }
@@ -103,7 +122,11 @@ export class OvertimeRequestListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
-        this.getOvertimeRequests();
+        if(this.router.routerState.snapshot.url=="/my-overtime"){
+          this.getOvertimeRequestsSelf();
+          }else{
+            this.getOvertimeRequestsAll()
+          }
       }
     });
   }
@@ -118,8 +141,14 @@ export class OvertimeRequestListComponent implements OnInit {
       if (userResponse == true) {
         this.overtimeRequestService.delete(overtimeRequest.id).subscribe(() => {
           this.toastr.showSuccessMessage('The overtime request is deleted successfully!');
-          this.getOvertimeRequests();
+          if(this.router.routerState.snapshot.url=="/my-overtime"){
+            this.getOvertimeRequestsSelf();
+            }else{
+              this.getOvertimeRequestsAll()
+            }
+          
         });
+     
       }
     });
   }

@@ -407,7 +407,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12))
     };
-    this.addForm.value.specialOverTime=this.addForm.value.specialOverTime?this.addForm.value.specialOverTime:0
+    //this.addForm.value.specialOverTime=this.addForm.value.specialOverTime?this.addForm.value.specialOverTime:0
   //  this.addForm.patchValue({fromDate : new Date(this.addForm.value.fromDate.setHours(12)),toDate  : new Date(this.addForm.value.toDate.setHours(12))})
     this.overtimeRequestService.add(addForm).subscribe((result: any) => {
       if (result.id !== -1) {
