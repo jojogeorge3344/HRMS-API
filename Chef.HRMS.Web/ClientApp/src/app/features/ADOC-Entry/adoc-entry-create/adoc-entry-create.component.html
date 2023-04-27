@@ -11,7 +11,7 @@
                 <label class="col-form-label" for="employeeId">Employee<span class="required">*</span></label>
                 <select class="form-control" formControlName="employeeId">
                     <option Value="" disabled>Select Employee</option>
-                    <option *ngFor="let key of employeeList" [ngValue]='key'>{{employeeList[key]}}</option>
+                    <option *ngFor="let list of employeeList" [ngValue]='list.id'>{{list.firstName}}</option>
                 </select>
             </div>
             <div class="form-group form-input-inline input-group col-6">
