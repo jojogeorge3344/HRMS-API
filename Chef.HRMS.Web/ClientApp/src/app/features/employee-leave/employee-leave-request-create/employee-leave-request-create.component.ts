@@ -358,6 +358,9 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
 
   onToDateSelection(date: NgbDate) {
     this.maxDateFrom = date;
+    this.addForm.patchValue({
+      rejoinDate: new Date(date.year, date.month - 1, date.day + 1),
+    });
   }
   checkDates() {
     if (
@@ -598,6 +601,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       isFirstDaySecondHalf: [false],
       isSecondDayFirstHalf: [false],
       isSecondDaySecondHalf: [false],
+      rejoinDate: [null, [Validators.required]],
     });
   }
   getEmployeeHoliday() {
