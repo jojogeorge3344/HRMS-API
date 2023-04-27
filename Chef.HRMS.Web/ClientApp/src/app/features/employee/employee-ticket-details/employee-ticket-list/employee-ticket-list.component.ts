@@ -9,11 +9,13 @@ import { EmployeeTicketEditComponent } from '../employee-ticket-edit/employee-ti
 import { EmployeeTicketCreateComponent } from '../employee-ticket-create/employee-ticket-create.component';
 import { ActivatedRoute } from '@angular/router';
 import { TicketBase } from '../employee-ticket.enum';
+import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'hrms-employee-ticket-list',
   templateUrl: './employee-ticket-list.component.html',
-  styleUrls: ['./employee-ticket-list.component.scss']
+  styleUrls: ['./employee-ticket-list.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class EmployeeTicketListComponent implements OnInit {
 

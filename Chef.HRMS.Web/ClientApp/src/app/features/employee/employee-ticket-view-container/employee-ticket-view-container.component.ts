@@ -5,13 +5,15 @@ import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-mod
 import { EmployeeTicketGroup } from '../employee-ticket-details/employee-ticket-model';
 import { EmployeeTicketService } from '../employee-ticket-details/employee-ticket-service';
 import { TicketBase } from '../employee-ticket-details/employee-ticket.enum';
+import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 
 
 @Component({
   selector: 'hrms-employee-ticket-view-container',
   templateUrl: './employee-ticket-view-container.component.html',
-  styleUrls: ['./employee-ticket-view-container.component.scss']
+  styleUrls: ['./employee-ticket-view-container.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class EmployeeTicketViewContainerComponent implements OnInit {
 
@@ -34,7 +36,7 @@ export class EmployeeTicketViewContainerComponent implements OnInit {
   getEmployeeTicketSlablist() {
     this.employeeTicketService.getAll().subscribe(result => {
       this.employeeTicketDetails = result;
-      // this.employeeTicketDetails=this.employeeTicketDetails.sort((a, b) => a.bfName.toLowerCase().localeCompare(b.bfName.toLowerCase()));
+      this.employeeTicketDetails=this.employeeTicketDetails.sort((a, b) => a.travelFrom.toLowerCase().localeCompare(b.travelFrom.toLowerCase()));
     },
     error => {
       console.error(error);

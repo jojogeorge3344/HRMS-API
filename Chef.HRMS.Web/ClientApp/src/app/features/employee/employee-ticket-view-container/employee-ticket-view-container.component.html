@@ -23,7 +23,7 @@
                     <td>{{ rel.travelFrom }}</td>
                     <td>{{ rel.travelTo }}</td>
                     <td>{{ ticketBaseOf[rel.travelMode] }}</td>
-                    <td>{{ rel.travelDate}}</td>
+                    <td>{{ rel.travelDate | date}}</td>
                     <td>{{ rel.roundTrip==true ? 'Yes':'No' }}</td>
                     <td>{{ rel.amount}}</td>
                 </tr> 

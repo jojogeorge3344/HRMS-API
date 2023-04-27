@@ -6,11 +6,13 @@ import { EmployeeTicketGroup } from '../employee-ticket-model';
 import { EmployeeTicketService } from '../employee-ticket-service';
 import { TicketBase } from '../employee-ticket.enum';
 import * as moment from 'moment';
+import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'hrms-employee-ticket-edit',
   templateUrl: './employee-ticket-edit.component.html',
-  styleUrls: ['./employee-ticket-edit.component.scss']
+  styleUrls: ['./employee-ticket-edit.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class EmployeeTicketEditComponent implements OnInit {
 
@@ -37,7 +39,7 @@ export class EmployeeTicketEditComponent implements OnInit {
       travelTo:this.relDetails.travelTo,
       isRoundTrip:this.relDetails.isRoundTrip,
       amount:this.relDetails.amount,
-      travelDate:this.relDetails.travelDate,
+      travelDate:new Date(this.relDetails.travelDate),
       travelMode:this.relDetails.travelMode,
       employeeId:this.relDetails.employeeId,
       id:this.relDetails.id
@@ -49,8 +51,6 @@ export class EmployeeTicketEditComponent implements OnInit {
 
   
   onSubmit() {
-    let b=moment(this.addForm.value.travelDate).format('YYYY-MM-DDT00:00:00')
-    this.addForm.value.travelDate=b
     this.addForm.value.id=this.relDetails.id
     this.addForm.value.valueType = parseInt(this.addForm.value.valueType)
     const ticketForm = this.addForm.value;

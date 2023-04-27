@@ -5,11 +5,13 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeTicketService } from '../employee-ticket-service';
 import { TicketBase } from '../employee-ticket.enum';
 import * as moment from 'moment';
+import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'hrms-employee-ticket-create',
   templateUrl: './employee-ticket-create.component.html',
-  styleUrls: ['./employee-ticket-create.component.scss']
+  styleUrls: ['./employee-ticket-create.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class EmployeeTicketCreateComponent implements OnInit {
 
@@ -48,9 +50,6 @@ export class EmployeeTicketCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
-    let b=moment(this.addForm.value.travelDate).format('YYYY-MM-DDT00:00:00')
-    this.addForm.value.travelDate=b
     this.addForm.value.employeeId=this.employeeId
     const ticketForm = this.addForm.value;
     this.employeeTicketService.add(ticketForm).subscribe(result => {

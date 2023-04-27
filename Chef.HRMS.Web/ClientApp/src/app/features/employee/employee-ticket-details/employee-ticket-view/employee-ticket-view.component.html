@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="addForm" id="religionGroupForm">
     <div class="modal-header">
         <h4 class="modal-title">Ticket</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -8,23 +8,26 @@
     <div class="modal-body">
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="travelFrom">Travel From</label>
-                <input type="text" class="form-control" name="travelFrom" value="{{ relDetails.travelFrom }}"
-                    disabled />
+                <label class="col-form-label" for="travelFrom">Travel From<span class="required">*</span></label>
+                <input disabled type="string" class="form-control" id="travelFrom" name="travelFrom" formControlName="travelFrom">
             </div>
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="travelTo">Travel To</label>
-                <input type="text" class="form-control" name="travelTo" value="{{ relDetails.travelTo }}"
-                    disabled />
+                <label class="col-form-label" for="travelTo">Travel To<span class="required">*</span></label>
+                <input disabled type="string" class="form-control" id="travelTo" name="travelTo" formControlName="travelTo">
             </div>
+            
+           
         </div>
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="travelMode">Travel Mode<span class="required">*</span></label>
-                <input type="string" class="form-control" id="travelMode" name="travelMode"  value="{{ ticketBaseOf[relDetails.travelMode] }}">
+                <select disabled class="form-control" formControlName="travelMode">
+                    <option value="" disabled>Select Travel Mode</option>
+                    <option *ngFor="let key of ticketBaseKeys" [ngValue]='key'>{{ticketBaseOf[key]}}</option>
+                </select>
             </div>
             <div class="form-group form-input-inline input-group col-6">
-                <label class="col-12 col-form-label px-0">Date</label>
+                <label class="col-12 col-form-label px-0">Travel Date</label>
                     <input readonly class="form-control" formControlName="travelDate" [minDate]="{year: 2023, month: 1, day: 1}"
                         [maxDate]="{year: 2050, month: 1, day: 1}" ngbDatepicker #d="ngbDatepicker">
                     <div class="input-group-append">
@@ -36,15 +39,18 @@
         </div>
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="isRoundTrip">Round Trip</label>
-                <input type="text" class="form-control" name="isRoundTrip"
-                    value="{{ relDetails.isRoundTrip}}" disabled />
+                <label class="col-form-label" for="isRoundTrip">Round Trip<span class="required">*</span></label>
+                    <select disabled class="form-control" formControlName="isRoundTrip">
+                         <option value="" disabled>Select</option>
+                         <option value="true">Yes</option>
+                         <option value="false">No</option>
+                    </select>
             </div>
             <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="amount">Ticket Amount</label>
-                <input type="text" class="form-control" name="amount" value="{{ relDetails.amount }}"
-                    disabled />
+                <label class="col-form-label" for="amount">Ticket Amount<span class="required">*</span></label>
+                <input disabled type="string" class="form-control" id="amount" name="amount" formControlName="amount">
             </div>
         </div>
     </div>
+   
 </form>
