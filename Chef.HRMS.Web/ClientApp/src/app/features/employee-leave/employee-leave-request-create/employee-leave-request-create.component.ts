@@ -1,5 +1,9 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
-import { NgbActiveModal, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbActiveModal,
+  NgbDateStruct,
+  NgbModal,
+} from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { EmployeeLeaveService } from "../employee-leave.service";
 import {
@@ -27,7 +31,7 @@ import { SignalrService } from "@shared/services/signalr.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { HolidayService } from "@settings/holiday/holiday.service";
 import { formatDate, DatePipe } from "@angular/common";
-import { result } from "lodash";
+import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
 
 @Component({
   templateUrl: "./employee-leave-request-create.component.html",
@@ -71,6 +75,14 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   leaveInfo: any;
   currentUserId: number;
   employeeId: number;
+  fileName: string;
+
+  documentToUpload: File = null;
+  documentPath = "";
+  companyName = "Company";
+  branchName = "Branch";
+  directoryName = "c:";
+  documentSave;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -81,7 +93,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
     private holidayService: HolidayService,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    public modalService: NgbModal
   ) {
     const current = new Date();
     this.minDateFrom = {
@@ -112,6 +125,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
+
     console.log("test1", this.requestId);
     this.employeeId = this.requestId;
     this.addForm = this.createFormGroup();
@@ -310,6 +325,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       }
     );
   }
+
   isAlreadyApplied(date) {
     const currentDate = `${date.year}-${date.month
       .toString()
@@ -362,6 +378,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       rejoinDate: new Date(date.year, date.month - 1, date.day + 1),
     });
   }
+
   checkDates() {
     if (
       this.fromDate &&
@@ -427,6 +444,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       return true;
     }
   }
+
   getNumberOfDaysInMonth() {
     const daysInMonths = [];
     if (
@@ -510,6 +528,68 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
         this.addForm.controls.numberOfDays.setErrors(null);
       }
     }
+  }
+
+  handleFileInput(files: FileList) {
+    if (files.length == 0) {
+      return;
+    }
+
+    this.documentToUpload = files.item(0) as File;
+    const documentExtension = this.documentToUpload.type.substring(
+      this.documentToUpload.type.lastIndexOf("/") + 1
+    );
+
+    if (this.documentToUpload.size >= 2097152) {
+      (this.addForm.get("document") as FormGroup).controls.size.setErrors({
+        filesize: true,
+      });
+      return;
+    }
+
+    const validExtensions = ["pdf", "png", "jpg", "jpeg", "doc", "docx"];
+    if (!validExtensions.includes(documentExtension)) {
+      (this.addForm.get("document") as FormGroup).controls.extension.setErrors({
+        filetype: true,
+      });
+      return;
+    }
+
+    this.fileName = this.documentToUpload.name;
+    this.documentSave = new FormData();
+
+    this.addForm.patchValue({ document: { name: this.fileName } });
+    this.addForm.patchValue({
+      document: { path: this.documentPath + this.documentToUpload.name },
+    });
+    this.addForm.patchValue({ document: { extension: documentExtension } });
+    this.addForm.patchValue({ document: { size: this.documentToUpload.size } });
+
+    this.documentSave.append("document", this.documentToUpload);
+    this.documentSave.append("path", this.documentPath);
+  }
+
+  removeFile() {
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      centered: true,
+      backdrop: "static",
+    });
+
+    modalRef.componentInstance.confirmationMessage =
+      "Are you sure you want to delete this document";
+
+    modalRef.result.then((userResponse) => {
+      if (userResponse == true) {
+        this.resetFileData();
+      }
+    });
+  }
+
+  resetFileData() {
+    this.documentToUpload = null;
+    this.documentSave = null;
+    this.fileName = "";
+    this.addForm.get("document").reset();
   }
 
   onSubmit() {
@@ -602,6 +682,13 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       isSecondDayFirstHalf: [false],
       isSecondDaySecondHalf: [false],
       rejoinDate: [null, [Validators.required]],
+      document: this.formBuilder.group({
+        id: [],
+        name: [],
+        path: [],
+        extension: [],
+        size: [null],
+      }),
     });
   }
   getEmployeeHoliday() {
