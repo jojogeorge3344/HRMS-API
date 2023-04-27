@@ -86,6 +86,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   }
   onSubmit() {
     var editBasicDetails = this.editForm.value;
+    editBasicDetails.uidNumber = parseInt(editBasicDetails.uidNumber)
     if(!this.nameCheck){
     this.employeeBasicDetailsService.update(editBasicDetails).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Basic Details updated successfully!');
@@ -94,6 +95,17 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the Employee Basic Details');
       });
+    }
+  }
+
+  keyPressNumbers(event) {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    // Only Numbers 0-9
+    if ((charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -132,7 +144,8 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
       ]],
       uidNumber: ['', [
         Validators.required,
-        Validators.maxLength(30),
+        Validators.maxLength(15),
+        Validators.minLength(15)
       ]],
       createdDate: [],
       languageKnown: [null,[
