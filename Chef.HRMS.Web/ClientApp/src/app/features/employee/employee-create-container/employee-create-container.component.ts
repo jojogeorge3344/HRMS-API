@@ -81,7 +81,7 @@ export class EmployeeCreateContainerComponent implements OnInit {
   onSubmitJobFilings(jobFilingsForm) {
 debugger
     this.jobFilingsForm = jobFilingsForm;
-
+    this.basicDetailsForm.uidNumber = parseInt(this.basicDetailsForm.uidNumber)
     this.employeeBasicDetailsService.add(this.basicDetailsForm).subscribe((result) => {
 
 
