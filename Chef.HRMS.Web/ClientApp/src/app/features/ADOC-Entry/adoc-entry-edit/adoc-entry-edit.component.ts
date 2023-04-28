@@ -84,7 +84,6 @@ export class AdocEntryEditComponent implements OnInit {
       ]],
       remarks: ['', [
       ]],
-      currencyId:['']
      });
   }
 

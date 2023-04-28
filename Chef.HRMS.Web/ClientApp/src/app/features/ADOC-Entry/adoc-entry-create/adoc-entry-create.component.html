@@ -41,17 +41,6 @@
                 <label for="amount">Amount<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="amount">
             </div>
-            <div class="col-6 form-group form-input-line">
-                <label class=" col-form-label" for="currencyId">
-                    Currency
-                </label>
-                <select class="form-control" formControlName="currencyId">
-                    <option [ngValue]="null" disabled >Select Currency</option>
-                    <option *ngFor="let key of currency" [ngValue]="key.id">
-                        {{key.code}}
-                    </option>
-                </select>
-            </div>
             <div class="form-group col-6">
                     <label class="col-form-label"  for="remarks">Remarks</label>
                     <textarea type="text" class="form-control"  formControlName="remarks"></textarea>

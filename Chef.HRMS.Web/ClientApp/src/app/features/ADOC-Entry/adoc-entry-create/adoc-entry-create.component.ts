@@ -83,7 +83,6 @@ export class AdocEntryCreateComponent implements OnInit {
       ]],
       remarks: ['', [
       ]],
-      currencyId:[null]
      });
   }
 
