@@ -65,6 +65,6 @@ namespace Chef.HRMS.Models
 
         public int HolidayOverTime { get; set; }
 
-        //public string EmployeeName{ get; set; }
+        public string EmployeeName{ get; set; }
     }
 }

@@ -458,7 +458,8 @@ getLoginEmployeeDetail(){
     this.employeeLogin=res
     if(this.employeeDetailsCheck==true){
       this.addForm.patchValue({
-        employeeName:this.employeeLogin.firstName
+        employeeName:this.employeeLogin.firstName,
+        employeeId:this.currentUserId
       })
     }
   })

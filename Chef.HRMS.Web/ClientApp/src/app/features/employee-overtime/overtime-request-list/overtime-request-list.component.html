@@ -16,7 +16,7 @@
                     <thead class="thead-themed">
                         <tr>
                             <th>Sl No.</th>
-                            <th *ngIf="!employeeDetailsCheck">Employee ID</th>
+                            <th *ngIf="!employeeDetailsCheck">Employee Name</th>
                             <th>From Date</th>
                             <th>To Date</th>
                             <th>Overtime Hours</th>
@@ -29,7 +29,7 @@
                     <tbody>
                         <tr *ngFor="let overtimeRequest of overtimeRequests; let i= index;">
                             <td>{{i+1}}</td>
-                            <td *ngIf="!employeeDetailsCheck">{{overtimeRequest.employeeId}}</td>
+                            <td *ngIf="!employeeDetailsCheck">{{overtimeRequest.employeeName}}</td>
                             <td>{{overtimeRequest.fromDate | date }}</td>
                             <td>{{overtimeRequest.toDate | date }}</td>
                             <td>{{overtimeRequest.numberOfHours}} hours</td>

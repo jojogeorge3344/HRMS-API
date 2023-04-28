@@ -56,6 +56,12 @@ export class OvertimeRequestViewComponent implements OnInit {
           //this.employeeDetails=result
           this.selectEnable=true
         }
+        if(this.overtimeRequest.employeeId){
+          let a= result.filter(x=>x.id==this.overtimeRequest.employeeId)
+          
+          this.overtimeRequest.employeeName=a[0].firstName
+        
+        }
         this.getOvertimeNotifyPersonnelByOvertimeId();
       },
         error => {
