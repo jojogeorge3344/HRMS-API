@@ -17,7 +17,7 @@ namespace Chef.HRMS.Models
 
         public int EmployeeId { get; set; }
 
-        public string EffectiveFrm { get; set; }
+        public DateTime EffectiveFrm { get; set; }
 
         public int RevStatus { get; set; }
 
