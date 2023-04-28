@@ -42,7 +42,7 @@
         <div class="form-group form-input-line col-6">
             <label class="col-form-label" for="valueType">Value Type<span class="required">*</span></label>
             <select class="form-control" formControlName="valueType">
-                <option [ngValue]="null" disabled>Select value Type</option>
+                <option value="" disabled>Select value Type</option>
                 <option *ngFor="let key of valueSlabOffTypeKeys" [ngValue]='key'>{{valueSlabOffType[key]}}
                 </option>
             </select>

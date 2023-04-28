@@ -15,7 +15,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="employeeNumber">Employee Number</label>
+                <label class="col-form-label" for="employeeNumber">Employee Code</label>
                 <input readonly class="form-control" id="employeeNumber" name="employeeNumber" [(ngModel)]="employeeNumber" value="" formControlName="employeeNumber">
             </div>
             <div class="form-group form-input-inline input-group col">
@@ -161,9 +161,9 @@
     </div>
     <div class="modal-footer">
         <a routerLink="/employee">
+            <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
             <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
         </a>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
     </div>
 </form>
 

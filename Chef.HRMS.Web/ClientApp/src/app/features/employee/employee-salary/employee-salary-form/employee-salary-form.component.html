@@ -1,39 +1,66 @@
-
 <div class="small">
-    Please open fields. The rest of the components will be based on the calcualation formulas mentioned below
+  Please open fields. The rest of the components will be based on the
+  calculation formulas mentioned below
 </div>
 <table class="table mt-2" [formGroup]="salaryForm">
-    <thead class="thead-themed">
-        <tr>
-            <th>#</th>
-            <th>Component Name</th>
-            <th>Short Codes</th>
-            <th>Formula</th>
-            <th>Amount(Monthly)</th>
-            <th>Amount(Yearly)</th>
-        </tr>
-    </thead>
-    <tbody formArrayName="salaryArray">
-        <tr *ngFor="let component of salaryStructure;let i= index;" [formGroupName]="i">
-            <td>{{i+1}}</td>
-            <td class="text-capitalize">{{component.payrollComponentName}}</td>
-            <td>{{component.shortCode}}</td>
-            <td>{{component.formula || '--'}}</td>
-            <td>
-                <div  class="form-group" >
-                    <input type="number" [ngClass]="{'border-0' : component.isComputed, 'bg-white' : component.isComputed}" class="form-control"
-                        formControlName="monthly"></div>
-            </td>
-            <td>
-                <div class="form-group" >
-                    <input type="number" [ngClass]="{'border-0' : component.isComputed, 'bg-white' : component.isComputed}" class="form-control"
-                        formControlName="yearly"></div>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center" colspan="4">Total(in currency)</td>
-            <td><div  class="form-control border-0">{{ salaryTotalMonthly| number : '1.0-2' }}</div></td>
-            <td><div  class="form-control border-0">{{ salaryTotalYearly | number : '1.0-2' }}</div></td>
-        </tr>
-    </tbody>
+  <thead class="thead-themed">
+    <tr>
+      <th>#</th>
+      <th>Component Name</th>
+      <th>Short Codes</th>
+      <th>Formula</th>
+      <th>Amount(Monthly)</th>
+      <th>Amount(Yearly)</th>
+    </tr>
+  </thead>
+  <tbody formArrayName="salaryArray">
+    <tr
+      *ngFor="let component of salaryStructure; let i = index"
+      [formGroupName]="i"
+    >
+      <td>{{ i + 1 }}</td>
+      <td class="text-capitalize">{{ component.payrollComponentName }}</td>
+      <td>{{ component.shortCode }}</td>
+      <td>{{ component.formula || "--" }}</td>
+      <td>
+        <div class="form-group">
+          <input
+            type="number"
+            [ngClass]="{
+              'border-0': component.isComputed,
+              'bg-white': component.isComputed
+            }"
+            class="form-control"
+            formControlName="monthly"
+          />
+        </div>
+      </td>
+      <td>
+        <div class="form-group">
+          <input
+            type="number"
+            [ngClass]="{
+              'border-0': component.isComputed,
+              'bg-white': component.isComputed
+            }"
+            class="form-control"
+            formControlName="yearly"
+          />
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center" colspan="4">Total(in currency)</td>
+      <td>
+        <div class="form-control border-0">
+          {{ salaryTotalMonthly | number : "1.0-2" }}
+        </div>
+      </td>
+      <td>
+        <div class="form-control border-0">
+          {{ salaryTotalYearly | number : "1.0-2" }}
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </table>

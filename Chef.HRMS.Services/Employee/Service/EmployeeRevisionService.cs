@@ -13,11 +13,14 @@ namespace Chef.HRMS.Services
     public class EmployeeRevisionService : AsyncService<EmployeeRevision>, IEmployeeRevisionService
     {
         private readonly IEmployeeRevisionRepository employeeRevisionRepository;
+        private readonly IEmployeeRevisionOldService employeeRevisionOldService;
         private readonly IAuthService authService;
 
-        public EmployeeRevisionService(IEmployeeRevisionRepository employeeRevisionRepository, IAuthService authService )
+        public EmployeeRevisionService(IEmployeeRevisionRepository employeeRevisionRepository, IAuthService authService,
+            IEmployeeRevisionOldService employeeRevisionOldService)
         {
             this.employeeRevisionRepository = employeeRevisionRepository;
+            this.employeeRevisionOldService = employeeRevisionOldService;
             this.authService = authService;
         }
 
@@ -43,6 +46,41 @@ namespace Chef.HRMS.Services
 
         public async Task<int> UpdateAsync(EmployeeRevision employeeRevision)
         {
+
+            var empRevOld = await employeeRevisionRepository.GetAsync(employeeRevision.Id);
+            //later we need to changes as auto mapper.
+            EmployeeRevisionOld employeeRevisionOld = new()
+            {
+                EmployeeRevisionId = empRevOld.Id,
+                AttendanceTrackingId = empRevOld.AttendanceTrackingId,
+                IsArchived = empRevOld.IsArchived,
+                Id = 0,
+                CreatedBy = empRevOld.CreatedBy,
+                CreatedDate = empRevOld.CreatedDate,
+                DepartmentId = empRevOld.DepartmentId,
+                EffectiveFrm = empRevOld.EffectiveFrm,
+                EmployeeId = empRevOld.EmployeeId,
+                EOSId = empRevOld.EOSId,
+                HolidayCategoryId = empRevOld.HolidayCategoryId,
+                JobTitleId = empRevOld.JobTitleId,
+                LeavesStructureId = empRevOld.LeavesStructureId,
+                ModifiedBy = empRevOld.ModifiedBy,
+                ModifiedDate = empRevOld.ModifiedDate,
+                OverTimePolicyId = empRevOld.OverTimePolicyId,
+                PayGroupId = empRevOld.PayGroupId,
+                PayrollStructureId = empRevOld.PayrollStructureId,
+                Remark = empRevOld.Remark,
+                ReqDate = empRevOld.ReqDate,
+                ReqNum = empRevOld.ReqNum,
+                RevStatus = empRevOld.RevStatus,
+                ShiftId = empRevOld.ShiftId,
+                TimeType = empRevOld.TimeType,
+                WeekOff = empRevOld.WeekOff,
+                WorkerType = empRevOld.WorkerType
+            };
+
+            await employeeRevisionOldService.InsertAsync(employeeRevisionOld);
+
             return await employeeRevisionRepository.UpdateAsync(employeeRevision);
         }
     }
