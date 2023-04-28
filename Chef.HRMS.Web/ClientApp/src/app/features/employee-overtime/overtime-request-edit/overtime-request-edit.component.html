@@ -7,7 +7,7 @@
     </div>
     <div *ngIf="selectEnable" style="display: flex;flex-direction: row;">
         <label style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
-        <select  class="form-control col-sm-6" style="margin-left: 50px;" formControlName="employeeName"  (change)="getEmployeeId($event.target.value)">
+        <select disabled class="form-control col-sm-6" style="margin-left: 50px;" formControlName="employeeName"  (change)="getEmployeeId($event.target.value)">
             <option [ngValue]="null" disabled>Select Employee Name</option>
             <option *ngFor="let list of employeeDetails" value={{list.firstName}}>
                 {{list.firstName}}

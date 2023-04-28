@@ -61,7 +61,7 @@ export class OvertimeRequestListComponent implements OnInit {
   }
   getOvertimeRequestsAll() {
     this.overtimeRequestService.getAll().subscribe((result: OvertimeRequest[]) => {
-      this.overtimeRequests = result;
+      this.overtimeRequests = result.sort((a, b) => a.employeeName.toLowerCase().localeCompare(b.employeeName.toLowerCase())) ;
     },
       error => {
         console.error(error);
