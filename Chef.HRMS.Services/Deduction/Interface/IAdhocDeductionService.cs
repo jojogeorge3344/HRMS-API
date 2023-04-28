@@ -9,6 +9,7 @@ namespace Chef.HRMS.Services
     {
         Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId, int year, int month);
         Task<IEnumerable<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId);
+        Task<IEnumerable<BenefitTypes>> GetBenefitTypes();
 
     }
 }
