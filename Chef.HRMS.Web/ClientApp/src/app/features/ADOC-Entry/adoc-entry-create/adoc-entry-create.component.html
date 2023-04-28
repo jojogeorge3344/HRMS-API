@@ -46,7 +46,7 @@
                     Currency
                 </label>
                 <select class="form-control" formControlName="currencyId">
-                    <option value="0" disabled >Select Currency</option>
+                    <option [ngValue]="null" disabled >Select Currency</option>
                     <option *ngFor="let key of currency" [ngValue]="key.id">
                         {{key.code}}
                     </option>
