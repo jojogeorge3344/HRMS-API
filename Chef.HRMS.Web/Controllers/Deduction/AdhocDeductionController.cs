@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -112,6 +113,14 @@ namespace Chef.HRMS.Web.Controllers
             var result = await adhocDeductionService.UpdateAsync(adhocDeduction);
 
             return Ok(result);
+        }
+
+        [HttpGet("GetBenefitTypes")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitTypes()
+        {
+            var benefitlist = await adhocDeductionService.GetBenefitTypes();
+
+            return Ok(benefitlist);
         }
     }
 }
