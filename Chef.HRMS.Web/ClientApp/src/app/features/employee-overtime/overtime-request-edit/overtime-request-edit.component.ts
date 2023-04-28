@@ -69,9 +69,7 @@ export class OvertimeRequestEditComponent implements OnInit {
       this.employeeDetailsCheck=true
     }else{
       this.employeeDetailsCheck=false  
-      this.editForm.patchValue({
-        employeeName:this.overtimeRequest.employeeId
-      });
+     
     }
     this.getOvertimeConfiguration();
     this.getEmployeeList();
@@ -120,6 +118,12 @@ export class OvertimeRequestEditComponent implements OnInit {
       if(this.employeeDetailsCheck==false){
         this.employeeDetails=result
         this.selectEnable=true
+      }
+      if(this.overtimeRequest.employeeId){
+        let a= this.employeeDetails.filter(x=>x.id==this.overtimeRequest.employeeId)
+        this.editForm.patchValue({
+          employeeName:a[0].firstName
+        });
       }
       this.getOvertimeNotifyPersonnelByOvertimeId();
     },
