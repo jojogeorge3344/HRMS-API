@@ -15,7 +15,7 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="employeeNumber">Employee Number</label>
+                <label class="col-form-label" for="employeeNumber">Employee Code</label>
                 <input readonly class="form-control" id="employeeNumber" name="employeeNumber" [(ngModel)]="employeeNumber" value="" formControlName="employeeNumber">
             </div>
             <div class="form-group form-input-inline input-group col">
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="secondaryJobTitle">Secondary Job Title</label>
-                <input type="text" class="form-control" id="secondaryJobTitle" name="secondaryJobTitle" formControlName="secondaryJobTitle">
+                <input autocomplete="off" type="text" class="form-control" id="secondaryJobTitle" name="secondaryJobTitle" formControlName="secondaryJobTitle">
             </div>
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="businessUnit">Business Unit<span class="required">*</span></label>
@@ -82,7 +82,7 @@
             <!-- </div> -->
 
             <div class="form-group form-input-line col-sm">
-                <label for="reportingManager">
+                <label for="reportingManager" style="margin-bottom: 9px">
                     Reporting Manager<span class="required">*</span>
                 </label>
         
@@ -91,7 +91,7 @@
                   {{ item.name }}
                   <span class="new badge"></span>
                 </ng-template>
-                <ngx-select-dropdown
+                <ngx-select-dropdown 
                   (change)="selectionChanged($event)"
                   [config]="config"
                   [_value]="selectedDatasource"
@@ -161,9 +161,9 @@
     </div>
     <div class="modal-footer">
         <a routerLink="/employee">
+            <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
             <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
         </a>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
     </div>
 </form>
 

@@ -70,5 +70,13 @@ namespace Chef.HRMS.Repositories
 
                 return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId });
         }
+
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitTypes()
+        {
+            var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id IN (17,25)";
+
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
     }
 }

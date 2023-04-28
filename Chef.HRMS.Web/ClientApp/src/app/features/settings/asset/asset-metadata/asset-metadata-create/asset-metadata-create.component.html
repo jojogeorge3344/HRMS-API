@@ -13,6 +13,7 @@
                 id="assetType">
                 <option [ngValue]="null">Asset Types</option>
                 <ng-container *ngFor="let type of assetTypes">
+                    
                     <option>
                         {{type.assettypename}}
                     </option>
@@ -45,7 +46,7 @@
                                 <div class="col-3 py-2 pl-2">
                                     <select class="form-control" formControlName="assetDataType" id="assetDataType"
                                         name="assetDataType">
-                                        <option [ngValue]="0" disabled>Select Datatype</option>
+                                        <option [ngValue]="null" disabled>Select Datatype</option>
                                         <option *ngFor="let key of metadataDatatypeKeys" [ngValue]='key'>
                                             {{metadataDatatype[key]}}</option>
                                     </select>
@@ -90,10 +91,10 @@
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')">
-            <i class="mr-1 fal fa-window-close"></i> Cancel</button>
         <button type="submit" class="btn btn-success" [attr.disabled]="saveDisable?true:null"><i
-                class="mr-1 fal fa-save"></i>Save</button>
+            class="mr-1 fal fa-save"></i>Save</button>
+        <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')">
+            <i class="mr-1 fal fa-window-close"></i> Cancel</button>      
     </div>
 
 </form>

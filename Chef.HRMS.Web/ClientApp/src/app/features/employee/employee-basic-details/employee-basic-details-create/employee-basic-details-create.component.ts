@@ -26,7 +26,8 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   genderType = GenderType;
   religion:any[]=[];
   currentUserId: number;
-   emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  // emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  emailRegex = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
   employees: Employee[] = [];
   emails: string[];
   @Output() basicDetailsForm = new EventEmitter<boolean>();
@@ -91,6 +92,18 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
     debugger
     this.addForm.value.languageKnown= this.addForm.value.languageKnown.value.toUpperCase()
   }
+
+
+  keyPressNumbers(event) {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    // Only Numbers 0-9
+    if ((charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       firstName: ['', [
@@ -127,7 +140,8 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       ]],
       uidNumber: ['', [
         Validators.required,
-        Validators.maxLength(30),
+        Validators.maxLength(12),
+        Validators.minLength(12)
       ]],
       languageKnown: [null,[
         Validators.required]
