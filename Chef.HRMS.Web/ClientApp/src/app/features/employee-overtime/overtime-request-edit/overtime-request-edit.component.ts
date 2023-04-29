@@ -252,6 +252,7 @@ export class OvertimeRequestEditComponent implements OnInit {
         this.editForm.patchValue({
           employeeName:this.employeeLogin.firstName
         })
+        this.getOvertimeNotifyPersonnelByOvertimeId();
       }
     })
   }
