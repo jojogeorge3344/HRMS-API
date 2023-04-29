@@ -36,6 +36,11 @@ namespace Chef.HRMS.Services
             return await adhocDeductionRepository.GetAsync(id);
         }
 
+        public async Task<IEnumerable<BenefitTypes>> GetBenefitTypes()
+        {
+            return await adhocDeductionRepository.GetBenefitTypes();
+        }
+
         public async Task<IEnumerable<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId)
         {
             return await adhocDeductionRepository.GetEmployeeAdhocDeductionByPayrollProcessingMethodId(payrollProcessingMethodId);

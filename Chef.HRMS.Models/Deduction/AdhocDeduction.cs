@@ -1,4 +1,6 @@
 ﻿using Chef.Common.Core;
+using Chef.HRMS.Types;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -57,5 +59,21 @@ namespace Chef.HRMS.Models
         [Description("Adhoc deduction amount")]
         [Required]
         public float Amount { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public PayrollProcessingStatus Status { get; set; }
+
+        public string AdhocBFCode { get; set; }
+
+        public string Remarks { get; set; }
+
+        public int PayrollComponentId { get; set; }
+
+        public bool IsAddition { get; set; }
+
+        public int PayrollProcessYear { get; set; }
+
+        public int PayrollProcessMonth { get; set; }
     }
 }
