@@ -34,8 +34,9 @@
                 <label class="col-form-label" for="isAddition">ADOC BF Code<span class="required">*</span></label>
                 <select class="form-control" formControlName="isAddition">
                     <option Value="" disabled>Select ADOC BF Code</option>
-                    <option *ngFor="let key of documentTypeKeys" [ngValue]='key'>{{documentTypeList[key]}}</option>
-                </select>
+                    <option value="true">sundry earnings</option>
+                    <option value="false">sundry deductions</option>
+                          </select>
             </div>
             <div class="form-group  col-6">
                 <label for="amount">Amount<span class="required">*</span></label>

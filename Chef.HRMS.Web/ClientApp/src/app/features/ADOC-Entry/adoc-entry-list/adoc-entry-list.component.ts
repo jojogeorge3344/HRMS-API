@@ -31,6 +31,7 @@ export class AdocEntryListComponent implements OnInit {
 
 
   openCreate(){
+    debugger
     const modalRef = this.modalService.open(AdocEntryCreateComponent,
       {size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.code = this.Codes;

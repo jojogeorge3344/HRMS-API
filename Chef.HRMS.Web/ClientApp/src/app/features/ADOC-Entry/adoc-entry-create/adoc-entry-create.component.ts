@@ -8,6 +8,7 @@ import { PayGroupService } from '@settings/payroll/pay-group/pay-group.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { AdocStatusType } from 'src/app/models/common/types/adocStatusType';
 import { DocumentType } from 'src/app/models/common/types/documentType';
+import { AdocEntryService } from '../adoc-entry-service';
 
 @Component({
   selector: 'hrms-adoc-entry-create',
@@ -32,36 +33,27 @@ export class AdocEntryCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
-    private employeeService:EmployeeService,
-    private payGroupService: PayGroupService,
+    private adocEntryService:AdocEntryService,
 
   ) { }
 
   ngOnInit(): void {
-    this.addForm = this.createFormGroup();
-    this.documentTypeKeys = Object.keys(this.documentTypeList).filter(Number).map(Number);
-    this.statusTypes=Object.keys(this.statusTypeList).filter(Number).map(Number);
-   this.employeeService.getAll()
-   .subscribe((result)=>{
-    this.employeeList=result
-   })
-   this.payGroupService.getCurrencies()
-    .subscribe((result)=>{
-      this.currency=result;
-    })
   }
 
   onSubmit(){
-    debugger
     if(this.addForm.invalid){
       return
     }
-      if(this.addForm.value.status=="Active"){
-        this.addForm.value.status=true
-        }else{
-          this.addForm.value.status=false
+    else{
+      this.adocEntryService.add(this.addForm.value).subscribe((result)=>{
+        if(result){
+          this.toastr.showSuccessMessage('The Document Type added successfully!');         
+          this.activeModal.close('submit');
         }
+          },
+          );
 
+        }
   }
 
   createFormGroup(): FormGroup {
