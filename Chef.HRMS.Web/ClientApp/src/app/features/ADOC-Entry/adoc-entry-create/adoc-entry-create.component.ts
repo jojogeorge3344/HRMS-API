@@ -34,10 +34,17 @@ export class AdocEntryCreateComponent implements OnInit {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
     private adocEntryService:AdocEntryService,
+    private employeeService:EmployeeService,
 
   ) { }
 
   ngOnInit(): void {
+    this.addForm = this.createFormGroup();
+    this.employeeService.getAll()
+    .subscribe((result)=>{
+     this.employeeList=result
+    })
+ 
   }
 
   onSubmit(){
@@ -58,22 +65,21 @@ export class AdocEntryCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      employeeId: ['', [
+      employeeId: [null, [
         Validators.required,
       ]],
-      date: ['', [
+      date: [null, [
         Validators.required,
       ]],
-      status:['', [
+      status:[0, [
+      ]],
+      isAddition: [null, [
         Validators.required,
       ]],
-      isAddition: ['', [
-        Validators.required,
-      ]],
-      amount: ['', [
+      amount: [null, [
         Validators.required
       ]],
-      remarks: ['', [
+      remarks: [null, [
       ]],
      });
   }

@@ -40,7 +40,6 @@ export class AdocEntryEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.editForm = this.createFormGroup();
-    this.documentTypeKeys = Object.keys(this.documentTypeList).filter(Number).map(Number);
     this.statusTypes=Object.keys(this.statusTypeList).filter(Number).map(Number);
    this.employeeService.getAll()
    .subscribe((result)=>{
