@@ -18,6 +18,7 @@ import { apply } from '@angular-devkit/schematics';
 import { toInteger, toNumber } from 'lodash';
 import { OvertimeRequest } from '../overtime-request.model';
 import { timeStamp } from 'console';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -54,6 +55,10 @@ export class OvertimeRequestCreateComponent implements OnInit {
   taken = ['', ''];
   @Input() currentUserId;
   @Input() policyId;
+  employeeDetails: any;
+  employeeDetailsCheck: boolean;
+  selectEnable: boolean;
+  employeeLogin: any;
 
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
 
@@ -66,30 +71,62 @@ export class OvertimeRequestCreateComponent implements OnInit {
     private holidayService: HolidayService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService) {
+    private toastr: ToasterDisplayService,
+    private route: ActivatedRoute,
+    private router: Router) {
   }
 
   ngOnInit(): void {
+    debugger
     this.current = new Date();
     this.addForm = this.createFormGroup();
     this.getEmployeeList();
     this.getOvertimeConfiguration();
     this.getMarkedDates(this.currentUserId);
     // this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
+    let b=this.router.routerState.snapshot.url;
+    if(b=="/my-overtime"){
+      this.employeeDetailsCheck=true
+    }else{
+      this.employeeDetailsCheck=false  
+    }
+    this.getLoginEmployeeDetail()
   }
 
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.currentUserId);
+      if(this.employeeDetailsCheck==false){
+        this.employeeDetails=result
+        this.selectEnable=true
+      }
     },
       error => {
         console.error(error);
       });
   }
+  getEmployeeId(event){
+    debugger
+    let a=this.employeeDetails.filter(x=>x.firstName==event)
+    this.addForm.patchValue({
+      employeeId:a[0].id,
+      employeeName:a[0].firstName
 
+    })
+  }
   getOvertimeConfiguration() {
+    debugger
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
       this.overtimeConfiguration = result;
+      if(result.isOvertimeSlab==true){
+        this.addForm.get("normalOverTime").enable();
+        this.addForm.get("holidayOverTime").enable();
+        this.addForm.get("specialOverTime").disable();
+      }else{
+        this.addForm.get("normalOverTime").enable();
+        this.addForm.get("holidayOverTime").enable();
+        this.addForm.get("specialOverTime").enable();
+      }
       this.setCalendar();
       this.addForm.patchValue({ overTimePolicyId: this.overtimeConfiguration.overTimePolicyId });
       if (this.overtimeConfiguration.isCommentRequired) {
@@ -362,6 +399,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     let addForm = this.addForm.value;
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
@@ -369,6 +407,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12))
     };
+    //this.addForm.value.specialOverTime=this.addForm.value.specialOverTime?this.addForm.value.specialOverTime:0
   //  this.addForm.patchValue({fromDate : new Date(this.addForm.value.fromDate.setHours(12)),toDate  : new Date(this.addForm.value.toDate.setHours(12))})
     this.overtimeRequestService.add(addForm).subscribe((result: any) => {
       if (result.id !== -1) {
@@ -405,9 +444,24 @@ export class OvertimeRequestCreateComponent implements OnInit {
       reason: ['', [
         Validators.maxLength(250),
       ]],
-      employeeId: [this.currentUserId],
-      requestStatus: [1]
+      employeeId: [0],
+      requestStatus: [1],
+      normalOverTime:[null],
+      holidayOverTime:[null],
+      specialOverTime:[null],
+      employeeName:[null]
     });
   }
-
+getLoginEmployeeDetail(){
+  debugger
+  this.employeeService.getLoginEmployee(this.currentUserId).subscribe(res=>{
+    this.employeeLogin=res
+    if(this.employeeDetailsCheck==true){
+      this.addForm.patchValue({
+        employeeName:this.employeeLogin.firstName,
+        employeeId:this.currentUserId
+      })
+    }
+  })
+}
 }
