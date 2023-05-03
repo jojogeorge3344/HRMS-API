@@ -17,8 +17,8 @@ namespace Chef.HRMS.Repositories
         public async Task<EmployeeRevisionView> GetEmployeeDetail(int employeeId)
         {
             var sql = @"SELECT jf.employeeid,jf.leavestructureid,jf.shiftid,jf.weekoff,
-                        ls.name AS leavestructurename,s.name AS shiftname,hc.name AS holidaycategoryname,
-                        jf.eosid,jf.bfcode,jf.bfname,jt.name AS designationname,jd.department,jd.timetype,
+                        ls.name AS leavestructurename,s.name AS shiftname,hc.id AS holidaycategoryid,hc.name AS holidaycategoryname,
+                        jf.eosid,jf.bfcode,jf.bfname,jt.id AS designationid,jt.name AS designationname,jd.department,jd.timetype,
                         jd.workertype,jf.attendancetracking,jf.payrollstructureid,ps.name AS payrollstructurename,
                         jf.paygroupid,pg.name AS paygroupname,jf.overtimepolicyid,otp.name AS overtimepolicyname
                         FROM hrms.jobfiling jf
