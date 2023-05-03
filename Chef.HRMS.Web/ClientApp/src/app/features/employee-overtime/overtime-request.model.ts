@@ -8,4 +8,9 @@ export interface OvertimeRequest extends Model {
     reason: string;
     employeeId: number;
     requestStatus: number;
+    normalOverTime:number,
+    holidayOverTime:number,
+    specialOverTime:number,
+    employeeName:any,
+    
 }

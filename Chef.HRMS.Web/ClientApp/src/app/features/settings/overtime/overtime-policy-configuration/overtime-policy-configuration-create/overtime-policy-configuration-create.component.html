@@ -194,6 +194,22 @@
                         </div>
                       </div>
                     </div>
+
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox custom-switch">
+                        <input
+                          type="checkbox"
+                          #isovertimeslab
+                          class="custom-control-input"
+                          id="isovertimeslab"
+                          formControlName="isovertimeslab"
+                        />
+                        <label class="custom-control-label" for="isovertimeslab">
+                          Overtime Flag
+                        </label>
+                      </div>
+
+                    </div>
           
                     <div class="h6 mt-4 mb-4">Overtime Calculation</div>
                     <div class="row">
@@ -204,7 +220,7 @@
                       </div>
                       <div class="form-group col-md-3">
                         <select class="form-control" formControlName="normalOverTime">
-                          <option [ngValue]="null" disabled>Select</option>
+                          <option value="0" disabled>Select</option>
                           <option
                             *ngFor="let items of normalOverTime"
                             [ngValue]="items.id"
@@ -225,7 +241,7 @@
                           formControlName="holidayOverTime"
                           [disabled]="disableholiday"
                         >
-                          <option [ngValue]="null" disabled>Select</option>
+                          <option value="0" disabled>Select</option>
                           <option
                             *ngFor="let item of holidayOverTime"
                             [ngValue]="item.id"
@@ -242,7 +258,7 @@
                       </div>
                       <div class="form-group col-md-3">
                         <select class="form-control" formControlName="specialOverTime">
-                          <option [ngValue]="null" disabled>Select</option>
+                          <option value="0" disabled>Select</option>
                           <option
                             *ngFor="let item of specialOverTime"
                             [ngValue]="item.id"

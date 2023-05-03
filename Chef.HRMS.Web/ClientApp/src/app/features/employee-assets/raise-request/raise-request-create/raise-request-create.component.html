@@ -50,7 +50,7 @@
         <label class="col-form-label" for="name">Asset Type<span class="required">*</span></label>
         <select class="form-control" formControlName="assetTypeId" id="assetTypeId"
               name="assetTypeId">
-              <option [ngValue]="0" disabled>Select Asset Type</option>
+              <option value="" disabled>Select Asset Type</option>
               <option *ngFor="let key of assetTypeArray" [ngValue] = "key.id">{{key.assettypename}}</option>
           </select>
       </div>
@@ -65,8 +65,8 @@
 
 </div>
     <div class="modal-footer">
+      <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
       <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
           class="mr-1 fal fa-window-close"></i> Cancel</button>
-      <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
     </div>
 </form>

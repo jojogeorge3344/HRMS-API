@@ -135,7 +135,7 @@ export class EmployeeAddressEditComponent implements OnInit {
       ]],
       currentPinCode: ['', [
         Validators.required,
-        Validators.maxLength(16),
+        Validators.maxLength(6),
         Validators.pattern("^[0-9]*$")
       ]],
       currentState: ['', [
@@ -154,7 +154,7 @@ export class EmployeeAddressEditComponent implements OnInit {
       ]],
       permanentPinCode: ['', [
         Validators.required,
-        Validators.maxLength(16),
+        Validators.maxLength(6),
         Validators.pattern("^[0-9]*$"),
       ]],
       permanentState: ['', [
@@ -250,5 +250,16 @@ export class EmployeeAddressEditComponent implements OnInit {
   }
 
 
+  }
+
+  keyPressNumbers(event) {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    // Only Numbers 0-9
+    if ((charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
   }
 }

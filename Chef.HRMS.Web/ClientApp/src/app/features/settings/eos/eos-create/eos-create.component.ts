@@ -112,19 +112,19 @@ export class EosCreateComponent implements OnInit {
       bfName: ['', [
         Validators.required, Validators.maxLength(50),
       ]],
-      retrospectiveAccrual: [false, [
+      retrospectiveAccrual: [null, [
         Validators.required
       ]],
-      includeLOPDays: [false, [
+      includeLOPDays: [null, [
         Validators.required
       ]],
-      includeProbationDays: [false, [
+      includeProbationDays: [null, [
         Validators.required
       ]],
-      employeeEOSAccrualType: ['', [
+      employeeEOSAccrualType: [null, [
         Validators.required
       ]],
-      employeeEOSpaymentType: ['', [
+      employeeEOSpaymentType: [null, [
         Validators.required
       ]],
       includedBenefits: ['', [

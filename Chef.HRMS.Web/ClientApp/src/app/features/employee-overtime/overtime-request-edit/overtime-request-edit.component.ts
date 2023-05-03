@@ -13,6 +13,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { OvertimePolicyConfiguration } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   templateUrl: './overtime-request-edit.component.html',
@@ -31,6 +32,10 @@ export class OvertimeRequestEditComponent implements OnInit {
   selectedItems = [];
   alreadySelectedItem=[];
   overtimeConfiguration: OvertimePolicyConfiguration;
+  employeeDetails: any;
+  employeeDetailsCheck: boolean;
+  selectEnable: boolean;
+  employeeLogin: any;
   notifyPersonList:any=[]
 
 
@@ -45,9 +50,12 @@ export class OvertimeRequestEditComponent implements OnInit {
     private calendar: NgbCalendar,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private toastr: ToasterDisplayService) { }
+    private toastr: ToasterDisplayService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
+    debugger
     this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
@@ -56,12 +64,30 @@ export class OvertimeRequestEditComponent implements OnInit {
       fromDate: new Date(this.overtimeRequest.fromDate),
       toDate: new Date(this.overtimeRequest.toDate)
     });
+    let b=this.router.routerState.snapshot.url;
+    if(b=="/my-overtime"){
+      this.employeeDetailsCheck=true
+    }else{
+      this.employeeDetailsCheck=false  
+     
+    }
     this.getOvertimeConfiguration();
     this.getEmployeeList();
+    this.getLoginEmployeeDetail()
+    //this.getAllOvertimeDetails()
   }
   getOvertimeConfiguration() {
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
       this.overtimeConfiguration = result;
+      if(result.isOvertimeSlab==true){
+        this.editForm.get("normalOverTime").enable();
+        this.editForm.get("holidayOverTime").enable();
+        this.editForm.get("specialOverTime").disable();
+      }else{
+        this.editForm.get("normalOverTime").enable();
+        this.editForm.get("holidayOverTime").enable();
+        this.editForm.get("specialOverTime").enable();
+      }
       this.editForm.patchValue({ overTimePolicyId: this.overtimeConfiguration.overTimePolicyId });
       if (this.overtimeConfiguration.isCommentRequired) {
         this.editForm.get('reason').setValidators([Validators.required, Validators.maxLength(250)]);
@@ -87,14 +113,33 @@ export class OvertimeRequestEditComponent implements OnInit {
 
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
+      debugger
       this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
+      if(this.employeeDetailsCheck==false){
+        this.employeeDetails=result
+        this.selectEnable=true
+      }
+      if(this.overtimeRequest.employeeId){
+        let a= this.employeeDetails.filter(x=>x.id==this.overtimeRequest.employeeId)
+        this.editForm.patchValue({
+          employeeName:a[0].firstName
+        });
+      }
       this.getOvertimeNotifyPersonnelByOvertimeId();
     },
       error => {
         console.error(error);
       });
   }
+  getEmployeeId(event){
+    debugger
+    let a=this.employeeDetails.filter(x=>x.firstName==event)
+    this.editForm.patchValue({
+      employeeId:a[0].id,
+      employeeName:a[0].firstName
 
+    })
+  }
   formatter = (employee) => employee.firstName;
 
   search = (text$: Observable<string>) => text$.pipe(
@@ -148,6 +193,7 @@ export class OvertimeRequestEditComponent implements OnInit {
     
           })
         })
+        
 
 
         notifyPersonnelForm.forEach(obj1 =>{
@@ -191,8 +237,29 @@ export class OvertimeRequestEditComponent implements OnInit {
       ]],
       employeeId: [],
       requestStatus: [1],
-      createdDate: []
+      createdDate: [],
+      normalOverTime:[null],
+      holidayOverTime:[null],
+      specialOverTime:[null],
+      employeeName:[null]
     });
   }
-
+  getLoginEmployeeDetail(){
+    debugger
+    this.employeeService.getLoginEmployee(this.currentUserId).subscribe(res=>{
+      this.employeeLogin=res
+      if(this.employeeDetailsCheck==true){
+        this.editForm.patchValue({
+          employeeName:this.employeeLogin.firstName
+        })
+        this.getOvertimeNotifyPersonnelByOvertimeId();
+      }
+    })
+  }
+  // getAllOvertimeDetails(){
+  //   debugger
+  //   this.overtimeRequestService.getAllOvertimeDetailsById(this.editForm.value.employeeId).subscribe(res=>{
+  //    console.log(res)
+  //   })
+  // }
 }

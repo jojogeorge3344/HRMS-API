@@ -151,7 +151,7 @@ createFormGroup(): FormGroup {
     ]],
     currentPinCode: ['', [
       Validators.required,
-      Validators.maxLength(16),
+      Validators.maxLength(6),
       Validators.pattern("^[0-9]*$")
     ]],
     currentState: ['', [
@@ -170,7 +170,7 @@ createFormGroup(): FormGroup {
     ]],
     permanentPinCode: ['', [
       Validators.required,
-      Validators.maxLength(16),
+      Validators.maxLength(6),
       Validators.pattern("^[0-9]*$"),
     ]],
     permanentState: ['', [

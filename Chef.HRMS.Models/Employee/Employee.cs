@@ -2,9 +2,11 @@
 using Chef.Common.Types;
 using Chef.HRMS.Types;
 using Org.BouncyCastle.Bcpg;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
 
 namespace Chef.HRMS.Models
 {
@@ -70,7 +72,7 @@ namespace Chef.HRMS.Models
         public string UserId { get; set; }
         public string FileNumber { get; set; }
 
-        public int UIDNumber { get; set; }
+        public Int64 UIDNumber { get; set; }
 
         public string LanguageKnown { get; set; }
         public int ReligionId { get; set; }

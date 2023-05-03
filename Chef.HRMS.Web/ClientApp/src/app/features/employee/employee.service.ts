@@ -65,4 +65,7 @@ export class EmployeeService {
   getName(name) {
     return this.http.get<Employee[]>(this.baseUrl + 'IsNameExist/' + name).pipe(map(response => { return response; }));
   }
+  getLoginEmployee(id){
+    return this.http.get<Employee[]>(this.baseUrl + 'GetLoginEmployee/' + id).pipe(map(response => { return response; }));
+  }
 }

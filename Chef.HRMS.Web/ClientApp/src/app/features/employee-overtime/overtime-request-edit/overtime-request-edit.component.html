@@ -5,6 +5,24 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    <div *ngIf="selectEnable" style="display: flex;flex-direction: row;">
+        <label style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
+        <select disabled class="form-control col-sm-7" style="margin-left: 50px;" formControlName="employeeName"  (change)="getEmployeeId($event.target.value)">
+            <option [ngValue]="null" disabled>Select Employee Name</option>
+            <option *ngFor="let list of employeeDetails" value={{list.firstName}}>
+                {{list.firstName}}
+            </option>
+        </select>
+    </div>
+    <div *ngIf="!selectEnable" style="display: flex;flex-direction: row;">
+    <label style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
+    <!-- <select  disabled class="form-group col-sm-6" style="margin-left: 50px;" formControlName="employeeName">
+        <option *ngFor="let list of employeeDetails" value={{list.id}}>
+            {{list.firstName}}
+        </option>
+    </select> -->
+    <input type="text" disabled class="form-control col-sm-7" style="margin-left: 50px;" formControlName="employeeName">
+    </div>
     <div class="modal-body">
         <div class="row">
             <div class="form-group col-sm">
@@ -33,7 +51,20 @@
             <label for="numberOfHours">Overtime Hours<span class="required">*</span></label>
             <input type="number" formControlName="numberOfHours" class="form-control" id="numberOfHours">    
         </div> 
-        
+        <div class="row">
+            <div class="form-group col-sm-4">
+              <label for="normalOverTime">Normal Overtime</label>
+              <input type="number" formControlName="normalOverTime" class="form-control" id="normalOverTime">
+            </div>  
+            <div class="form-group col-sm-4">
+                <label for="holidayOverTime">Holiday Overtime</label>
+                <input type="number" formControlName="holidayOverTime" class="form-control" id="holidayOverTime">
+            </div>
+            <div class="form-group col-sm-4">
+                <label for="specialOverTime">Special Overtime</label>
+                <input type="number" formControlName="specialOverTime" class="form-control" id="specialOverTime">
+            </div>
+        </div> 
         <div class="form-group">            
             <span *ngFor="let item of selectedItems" class="badge border border-primary tag">{{ item.firstName }} 
                 <span class="fal fa-times ml-1 text-primary mr-1 link" (click)="remove(item)"></span>
@@ -51,8 +82,8 @@
     </div>
 
     <div class="modal-footer">
+        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
         <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
                 class="mr-1 fal fa-window-close"></i> Cancel</button>
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Save</button>
     </div>
 </form>
