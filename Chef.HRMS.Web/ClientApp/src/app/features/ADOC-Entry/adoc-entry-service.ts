@@ -21,9 +21,8 @@ export class AdocEntryService {
   }
 
   getAll() {
-    return this.http.get<AdocEntry>(this.baseUrl + 'insert').pipe(map(response => { return response; }));
+    return this.http.get<AdocEntry>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
-
 
   update(adocDetails: AdocEntry) {
     return this.http.post<AdocEntry>(this.baseUrl + 'update', adocDetails).pipe(map(response => { return response; }));
@@ -31,6 +30,10 @@ export class AdocEntryService {
 
   delete(id: number) {
     return this.http.delete<AdocEntry>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
+  }
+
+  getBenefitTypes(){
+    return this.http.get<any>(this.baseUrl + 'getBenefitTypes').pipe(map(response => { return response; }));
   }
 
   get(id) {

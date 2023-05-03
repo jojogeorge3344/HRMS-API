@@ -1,7 +1,7 @@
 <div class="subheader mt-3">
     <h1 class="subheader-title mb-2">
         <div>
-            ADOC Earnings And Deduction
+            ADOC Earnings And Deductions
         </div>
     </h1>
 </div>
@@ -21,7 +21,7 @@
                 <tr>
                     <th>Sl No.</th>
                     <th>Date</th>
-                    <!-- <th>Employee ID</th> -->
+                    <th>Employee Code</th>
                     <th>Employee Name</th>
                     <th>BF Code</th>
                     <th>Amount</th>
@@ -30,13 +30,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let documentType of documentTypeDetails; let i= index;">
+                <tr *ngFor="let listItem of adocEntryList; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ documentType.code }}</td>
-                    <td>{{ documentType.name }}</td>
-                    <td>{{ documentType.isExpired==true? 'Yes' :'No' }}</td>
-                    <td>{{ documentType.expiryBeforeDays }}</td>
-                    <td>{{ documentType.status==true ? 'Active' : 'Inactive' }}</td>
+                    <td>{{ listItem.date | date }}</td>
+                    <td>{{ listItem.employeeCode }}</td>
+                    <td>{{ listItem.employeeName }}</td>
+                    <td>{{ listItem.adhocBFCode}}</td>
+                    <td>{{ listItem.amount }}</td>
+                    <td>{{ listItem.status==1? 'pending' : listItem.status== 2 ? 'approved' : 'processed' }}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
                             <button id="button-basic" dropdownToggle type="button"
@@ -46,9 +47,9 @@
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                                 aria-labelledby="button-basic">
                                 <!-- <li role="menuitem" (click)="openView(employee)"><a class="dropdown-item">View</a></li> -->
-                                <li role="menuitem" (click)="openView(documentType)"><a class="dropdown-item">View</a></li>
-                                <li role="menuitem" (click)="openEdit(documentType)"><a class="dropdown-item">Edit</a></li>
-                                <li role="menuitem" (click)="delete(documentType)"><a class="dropdown-item">Delete</a></li>
+                                <li role="menuitem" (click)="openView(listItem)"><a class="dropdown-item">View</a></li>
+                                <li role="menuitem" (click)="openEdit(listItem)"><a class="dropdown-item">Edit</a></li>
+                                <li role="menuitem" (click)="delete(listItem)"><a class="dropdown-item">Delete</a></li>
                             </ul>
                         </div>
                     </td>

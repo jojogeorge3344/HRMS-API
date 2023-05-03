@@ -20,47 +20,77 @@ export class AdocEntryCreateComponent implements OnInit {
 
   addForm: FormGroup;
   documentReturnTypeKeys: number[];
-  documentUpdateTypeKeys:number[];
-  documentTypeKeys:number[]
+  documentUpdateTypeKeys: number[];
+  documentTypeKeys: number[]
   documentTypeList = DocumentType;
-  statusTypeList=AdocStatusType;
+  statusTypeList = AdocStatusType;
   employeeList;
-  currency:any[];
+  currency: any[];
   statusTypes;
-
+  benefitTypes: any[];
+  employee;
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
-    private adocEntryService:AdocEntryService,
-    private employeeService:EmployeeService,
+    private adocEntryService: AdocEntryService,
+    private employeeService: EmployeeService,
 
   ) { }
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
-    this.employeeService.getAll()
-    .subscribe((result)=>{
-     this.employeeList=result
-    })
- 
+    this.getEmployeeList()
+    this.getBenefitTypes()
   }
 
-  onSubmit(){
-    if(this.addForm.invalid){
+  getEmployeeList() {
+    this.employeeService.getAll()
+      .subscribe((result) => {
+        this.employeeList = result
+      })
+  }
+
+  getBenefitTypes() {
+    this.adocEntryService.getBenefitTypes()
+      .subscribe((result) => {
+        this.benefitTypes = result;
+      })
+  }
+
+  onSubmit() {
+    debugger
+    if (this.addForm.invalid) {
       return
     }
-    else{
-      this.adocEntryService.add(this.addForm.value).subscribe((result)=>{
-        if(result){
-          this.toastr.showSuccessMessage('The Document Type added successfully!');         
+    else {
+      debugger
+     this.employee= this.employeeList.find((item)=>this.addForm.get('employeeId').value==item.id)
+     this.addForm.patchValue({
+      employeeName:this.employee.firstName,
+      employeeCode:this.employee.employeeNumber
+     })
+      if(this.addForm.value.adhocBFCode=='SE'){
+        this.addForm.patchValue({
+          isAddition:true,
+          payrollComponentId:17
+        })
+      }else{
+        this.addForm.patchValue({
+          isAddition:false,
+          payrollComponentId:25
+        })
+      }
+      this.adocEntryService.add(this.addForm.value).subscribe((result) => {
+        if (result) {
+          this.toastr.showSuccessMessage('ADOC Entry added successfully!');
           this.activeModal.close('submit');
         }
-          },
-          );
+      },
+      );
 
-        }
+    }
   }
 
   createFormGroup(): FormGroup {
@@ -68,12 +98,14 @@ export class AdocEntryCreateComponent implements OnInit {
       employeeId: [null, [
         Validators.required,
       ]],
+      payrollComponentId: [null],
+
       date: [null, [
         Validators.required,
       ]],
-      status:[0, [
+      status: ['pending', [
       ]],
-      isAddition: [null, [
+      adhocBFCode: [null, [
         Validators.required,
       ]],
       amount: [null, [
@@ -81,7 +113,13 @@ export class AdocEntryCreateComponent implements OnInit {
       ]],
       remarks: [null, [
       ]],
-     });
+      isAddition:[null, [
+      ]],
+      employeeName:[null, [
+      ]],
+      employeeCode:[null, [
+      ]],
+    });
   }
 
 }
