@@ -48,6 +48,7 @@ namespace Chef.HRMS.Models
         public int EOSId { get; set; }
 
         public string Remark { get; set; }
+        public int RequestedBy { get; set; }
     }
 
     public class EmployeeRevisionOld : EmployeeRevision
