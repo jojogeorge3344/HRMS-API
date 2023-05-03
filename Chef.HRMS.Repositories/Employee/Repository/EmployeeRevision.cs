@@ -43,5 +43,20 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryFirstOrDefaultAsync<EmployeeRevisionView>(sql, new { employeeId });
         }
+
+        public async Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId)
+        {
+            var sql = @"SELECT pcc.payrollstructureid,ps.name AS payrollstructurecode,ps.description AS payrollstructurename,
+                        pc.id AS payrollcomponentid,pc.shortcode AS payrollcomponentcode,pc.name AS payrollcomponentname,pcc.maximumlimit
+                        FROM hrms.payrollcomponentconfiguration pcc
+                        INNER JOIN hrms.payrollcomponent pc 
+                        ON pcc.payrollcomponentid = pc.id
+                        INNER JOIN hrms.payrollstructure ps 
+                        ON ps.id = pcc.payrollstructureid
+                        WHERE pcc.payrollstructureid = @payrollStructureId
+                        AND pcc.isarchived = false";
+
+            return await Connection.QueryAsync<EmployeeRevisionStructureView>(sql, new { payrollStructureId });
+        }
     }
 }

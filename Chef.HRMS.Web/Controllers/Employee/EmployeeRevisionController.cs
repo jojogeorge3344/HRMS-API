@@ -95,5 +95,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(employee);
         }
+
+        [HttpGet("GetPayrollComponent/{payrollStructureId}")]
+        public async Task<ActionResult<IEnumerable<EmployeeRevisionStructureView>>> GetPayrollComponent(int payrollStructureId)
+        {
+            var componentlist = await employeeRevisionService.GetPayrollComponent(payrollStructureId);
+
+            return Ok(componentlist);
+        }
     }
 }
