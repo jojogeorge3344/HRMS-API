@@ -17,7 +17,7 @@ import {
   calculateDaysInBetween,
   getCurrentUserId,
 } from "@shared/utils/utils.functions";
-import { Observable } from "rxjs";
+import { Observable, forkJoin } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
@@ -32,6 +32,9 @@ import { ToasterDisplayService } from "src/app/core/services/toaster-service.ser
 import { HolidayService } from "@settings/holiday/holiday.service";
 import { formatDate, DatePipe } from "@angular/common";
 import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-modal.component";
+import { DocumentService } from "@shared/services/document.service";
+import { DocumentUploadService } from "@shared/services/document-upload.service";
+import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.service";
 
 @Component({
   templateUrl: "./employee-leave-request-create.component.html",
@@ -83,12 +86,15 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   branchName = "Branch";
   directoryName = "c:";
   documentSave;
+  leaveDocument: any;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
     private employeeService: EmployeeService,
     private signalrService: SignalrService,
-    private calendar: NgbCalendar,
+    private documentService: DocumentService,
+    private documentUploadService: DocumentUploadService,
+    private employeeLeaveDocumentsService: EmployeeLeaveDocumentsService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
@@ -602,38 +608,69 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       fromDate: new Date(addForm.fromDate.setHours(12)),
       leaveComponentId: parseInt(addForm.leaveComponentId, 10),
     };
-    // this.currentDate=new Date();
-    // formatDate(new Date(), 'yyyy/MM/dd', 'en');
-    console.log("datenow", this.currentDate);
+
     if (this.flag !== 1) {
-      this.employeeLeaveService.add(addForm).subscribe((result) => {
-        const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
-          leaveId: result.id,
-          notifyPersonnel: notifyPerson.id,
-        }));
-        this.signalrService
-          .invokeConnection(result.id)
-          .then(() => console.log("invoked"))
-          .catch((err) =>
-            console.log("Error while invoking connection: " + err)
-          );
-        this.employeeLeaveService
-          .addNotifyPersonnel(notifyPersonnelForm)
-          .subscribe(
-            () => {
-              this.getLeaveBalance();
-              this.toastr.showSuccessMessage(
-                "Leave Request submitted successfully"
+      if (this.addForm.get("document.name").value === null) {
+        this.employeeLeaveService.add(addForm).subscribe((result) => {
+          this.notify(result.id);
+        });
+      } else {
+        forkJoin([
+          this.employeeLeaveService.add(this.addForm.value),
+          this.documentService.add(this.addForm.value.document),
+          this.documentUploadService.upload(this.documentSave),
+        ]).subscribe(
+          ([leaveRequest, document]) => {
+            this.leaveDocument = {
+              educationId: leaveRequest,
+              documentId: document,
+            };
+            console.log("leaveRequest", leaveRequest);
+            console.log("document", document);
+
+            this.employeeLeaveDocumentsService
+              .add(this.leaveDocument)
+              .subscribe(
+                (result: any) => {
+                  this.notify(leaveRequest.id);
+                },
+                (error) => {
+                  console.error(error);
+                  this.toastr.showErrorMessage(
+                    "Unable to submit Leave Request"
+                  );
+                }
               );
-              this.activeModal.close("submit");
-            },
-            (error) => {
-              console.error(error);
-              this.toastr.showErrorMessage("Unable to submit Leave Request");
-            }
-          );
-      });
+          },
+          (error) => {
+            console.error(error);
+            this.toastr.showErrorMessage("Unable to submit Leave Request");
+          }
+        );
+      }
     }
+  }
+
+  notify(leaveRequestId): void {
+    const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
+      leaveId: leaveRequestId,
+      notifyPersonnel: notifyPerson.id,
+    }));
+    this.signalrService
+      .invokeConnection(leaveRequestId)
+      .then(() => console.log("invoked"))
+      .catch((err) => console.log("Error while invoking connection: " + err));
+    this.employeeLeaveService.addNotifyPersonnel(notifyPersonnelForm).subscribe(
+      () => {
+        this.getLeaveBalance();
+        this.toastr.showSuccessMessage("Leave Request submitted successfully");
+        this.activeModal.close("submit");
+      },
+      (error) => {
+        console.error(error);
+        this.toastr.showErrorMessage("Unable to submit Leave Request");
+      }
+    );
   }
 
   markDisabled = (date: NgbDateStruct) => {
