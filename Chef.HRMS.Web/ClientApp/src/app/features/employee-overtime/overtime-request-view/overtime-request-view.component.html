@@ -6,12 +6,12 @@
         </button>
     </div>
     <div *ngIf="selectEnable" style="display: flex;flex-direction: row;">
-        <label style="padding-left: 30px;">Employee Name</label>
-        <input class="form-group col-sm-6" style="margin-left: 50px;" type="text"   value="{{ overtimeRequest.employeeName}}" disabled>
+        <label style="padding-left: 30px;padding-top: 10px;">Employee Name</label>
+        <input class="form-control col-sm-7" style="margin-left: 50px;" type="text"   value="{{ overtimeRequest.employeeName}}" disabled>
   </div>
   <div *ngIf="!selectEnable" style="display: flex;flex-direction: row;">
-    <label style="padding-left: 30px;">Employee Name</label>
-    <input class="form-group col-sm-6" style="margin-left: 50px;" type="text"   value="{{ overtimeRequest.employeeName}}" disabled>
+    <label style="padding-left: 30px;padding-top: 10px;">Employee Name</label>
+    <input class="form-control col-sm-7" style="margin-left: 50px;" type="text"   value="{{ overtimeRequest.employeeName}}" disabled>
   </div>
     <div class="modal-body">
         <div class="d-flex flex-wrap align-items-baseline">

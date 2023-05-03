@@ -21,7 +21,8 @@
                             <th>To Date</th>
                             <th>Overtime Hours</th>
                             <th>Status</th>
-                            <th>Comments</th>
+                            <!-- <th>Reason</th> -->
+                            <th>Requested By</th>
                             <th>Submitted On</th>
                             <th>Actions</th>
                         </tr>
@@ -34,7 +35,8 @@
                             <td>{{overtimeRequest.toDate | date }}</td>
                             <td>{{overtimeRequest.numberOfHours}} hours</td>
                             <td>{{overtimeRequestStatusTypes[overtimeRequest.requestStatus]}}</td>
-                            <td>{{overtimeRequest.reason}}</td>
+                            <!-- <td>{{overtimeRequest.reason}}</td> -->
+                            <td>{{overtimeRequest.createdBy}}</td>
                             <td>{{overtimeRequest.createdDate | date }}</td>
                             <td>
                                 <div class="btn-group" dropdown container="main">
