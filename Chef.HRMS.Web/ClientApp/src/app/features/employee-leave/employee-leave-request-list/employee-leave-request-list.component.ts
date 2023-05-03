@@ -23,6 +23,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
   leaveFilter = null;
   leaveStatusFilter = null;
+  @Input() isEmployeeLeave: boolean;
   @Input() leaveComponent: any;
   @Input() leaveSettings: any;
   @Output() getBalance = new EventEmitter<string>();
@@ -100,6 +101,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
       centered: true,
       backdrop: "static",
     });
+
     modalRef.componentInstance.leaveRequest = leaveRequest;
     modalRef.componentInstance.currentUserId = this.currentUserId;
     modalRef.result.then((result) => {
@@ -153,6 +155,8 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     modalRef.componentInstance.leaves = this.leavesApplied;
     modalRef.componentInstance.wfh = this.wfhApplied;
     modalRef.componentInstance.onDuty = this.onDutyApplied;
+    modalRef.componentInstance.isEmployeeLeave = this.isEmployeeLeave;
+
     modalRef.result.then((result) => {
       if (result == "submit") {
         this.getAllRequestedLeave();

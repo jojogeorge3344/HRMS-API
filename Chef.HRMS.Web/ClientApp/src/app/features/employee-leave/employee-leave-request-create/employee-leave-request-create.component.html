@@ -1,6 +1,6 @@
 <form [formGroup]="addForm" id="leaveRequestForm" (validSubmit)="onSubmit()">
   <div class="modal-header">
-    <h4 class="modal-title">Leave Request</h4>
+    <h4 class="modal-title">Leave Request{{ isEmployeeLeave }}</h4>
     <button
       type="button"
       class="close"
@@ -11,7 +11,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="form-group">
+    <div class="form-group" *ngIf="isEmployeeLeave">
       <label for="employeeName"
         >Requested By<span class="required">*</span></label
       >
@@ -22,6 +22,17 @@
         id="employeeName"
         readonly
       />
+    </div>
+    <div class="form-group" *ngIf="!isEmployeeLeave">
+      <label for="employeeName"
+        >Requested By<span class="required">*</span></label
+      >
+      <select class="form-control" formControlName="employeeId">
+        <option [ngValue]="null" disabled>Select Employee Name</option>
+        <option *ngFor="let list of employeeList" value="{{ list.id }}">
+          {{ list.firstName }}
+        </option>
+      </select>
     </div>
     <div class="row align-items-baseline">
       <div class="form-group input-group form-input-inline col-sm">

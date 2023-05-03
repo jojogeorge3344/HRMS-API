@@ -47,6 +47,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   @Input() requestId: any;
   @Input() leaveBalance: any = [];
   @Input() leaveSettings: any;
+  @Input() isEmployeeLeave: boolean;
 
   fromDate: Date;
   toDate: Date;
@@ -134,7 +135,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
 
-    console.log("test1", this.requestId);
     this.employeeId = this.requestId;
     this.addForm = this.createFormGroup();
     this.getLeaveBalance();

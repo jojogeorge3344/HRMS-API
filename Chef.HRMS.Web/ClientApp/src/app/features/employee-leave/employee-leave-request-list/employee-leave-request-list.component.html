@@ -1,5 +1,5 @@
 <div class="header-button-wrapper">
-  <div class="content-header">Leave History</div>
+  <div class="content-header">Leave Requests</div>
 </div>
 <div class="d-flex justify-content-start border border-bottom-0">
   <div class="d-flex justify-content-start">
@@ -39,6 +39,7 @@
   <thead class="thead-themed">
     <tr>
       <th>Sl No.</th>
+      <th *ngIf="!isEmployeeLeave">Employee Name</th>
       <th>Leave Date</th>
       <th>Leave Component</th>
       <th>Status</th>
@@ -51,6 +52,7 @@
   <tbody>
     <tr *ngFor="let history of leaveLogsOnDisplay; let i = index">
       <td>{{ i + 1 }}</td>
+      <th *ngIf="!isEmployeeLeave">{{ history.employeeName }}</th>
       <td>
         {{ history.fromDate | date }} -
         <small style="color: #fb760d">{{ history.numberOfDays }} Days</small>
@@ -59,7 +61,7 @@
         {{ getLeaveBalanceName(history.leaveComponentId) }}
       </td>
       <td style="color: green">{{ leaveStatus[history.leaveStatus] }}</td>
-      <td>{{ history.employeeName }}</td>
+      <td>{{ history.createdBy }}</td>
       <td>{{ history.createdDate | date }}</td>
       <td title="{{ history.description }}" class="text-ellipsis">
         {{ history.description }}
