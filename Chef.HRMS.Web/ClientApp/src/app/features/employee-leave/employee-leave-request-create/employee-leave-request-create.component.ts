@@ -672,7 +672,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       fromDate: ["", [Validators.required]],
       toDate: ["", [Validators.required]],
       numberOfDays: [""],
-      leaveStatus: [2, [Validators.required]],
+      leaveStatus: [3, [Validators.required]],
       singleDay: [1],
       firstDay: [1],
       lastDay: [2],
