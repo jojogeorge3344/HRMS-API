@@ -81,6 +81,7 @@ export class AdocEntryEditComponent implements OnInit {
   }
 
   onSubmit(){
+    debugger
     if(this.editForm.invalid){
       return
     }
@@ -136,8 +137,7 @@ export class AdocEntryEditComponent implements OnInit {
       ]],
       employeeCode: [null, [
       ]],
-      payrollcomponentId: [null, [
-        Validators.required,
+      payrollComponentId: [null, [
       ]],
       date: [null, [
         Validators.required,

@@ -201,15 +201,16 @@ export const NavigationItems = [
         routerLink: '/asset-employee-wise'
       },
       {
-        title: 'ADOC Earnings And Deduction',
-        tags: 'settings-expense',
-        routerLink: '/adoc-earnings-and-deduction'
-      },
-      {
         title: 'Employee Overtime',
         tags: 'me-overtime',
         routerLink: '/asset-employee-overtimewise'
       },
+      {
+        title: 'ADOC Earnings And Deduction',
+        tags: 'settings-expense',
+        routerLink: '/adoc-earnings-and-deduction'
+      },
+     
     ]
   },
   {
