@@ -17,5 +17,6 @@ namespace Chef.HRMS.Models
         /// </summary>
         [ForeignKey("Leave")]
         public int EducationId { get; set; }
+        public int LeaveId { get; set; }
     }
 }
