@@ -131,6 +131,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
 
     console.log("test1", this.requestId);
@@ -141,7 +142,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.getEmployeeList();
     this.subscribeToChanges();
     this.getEmployeeHoliday();
-    this.currentUserId = getCurrentUserId();
     //this.getAllInfoLeave(this.employeeId);
     this.formatLeaves();
   }
@@ -606,6 +606,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       currentDate: this.datepipe.transform(Date.now(), "yyyy-MM-dd hh:mm:ss"),
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12)),
+      rejoinDate: new Date(addForm.rejoinDate.setHours(12)),
       leaveComponentId: parseInt(addForm.leaveComponentId, 10),
     };
 
@@ -622,7 +623,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
         ]).subscribe(
           ([leaveRequest, document]) => {
             this.leaveDocument = {
-              educationId: leaveRequest,
+              leaveId: leaveRequest,
               documentId: document,
             };
             console.log("leaveRequest", leaveRequest);
@@ -720,7 +721,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       isSecondDaySecondHalf: [false],
       rejoinDate: [null, [Validators.required]],
       document: this.formBuilder.group({
-        id: [],
         name: [],
         path: [],
         extension: [],
