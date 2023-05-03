@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,16 @@ namespace Chef.HRMS.Repositories
             if (await QueryFactory
            .Query<HRMSBank>()
            .Where("code", code)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
+        }
+
+        public async Task<bool> IsBankNameExist(string name)
+        {
+            if (await QueryFactory
+           .Query<HRMSBank>()
+           .Where("name", name)
            .WhereNotArchived()
            .CountAsync<int>() > 0) return true;
             else return false;
