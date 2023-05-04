@@ -32,7 +32,9 @@ namespace Chef.HRMS.Models
         public int PayGroupId { get; set; }
         public string PayGroupName { get; set;}
         public int OverTimePolicyId { get; set; }
-        public string OverTimePolicyName { get;}
+        public string OverTimePolicyName { get; set; }
+        public int DesignationId { get; set; }
+        public int HolidayCategoryId { get; set; }
 
     }
 }
