@@ -59,6 +59,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   employeeDetailsCheck: boolean;
   selectEnable: boolean;
   employeeLogin: any;
+  config;
 
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
 
@@ -91,8 +92,17 @@ export class OvertimeRequestCreateComponent implements OnInit {
       this.employeeDetailsCheck=false  
     }
     this.getLoginEmployeeDetail()
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Reporting Manager",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: false,
+    };
   }
-
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.currentUserId);
@@ -105,15 +115,20 @@ export class OvertimeRequestCreateComponent implements OnInit {
         console.error(error);
       });
   }
-  getEmployeeId(event){
+  selectionChanged(args) {
     debugger
-    let a=this.employeeDetails.filter(x=>x.firstName==event)
-    this.addForm.patchValue({
-      employeeId:a[0].id,
-      employeeName:a[0].firstName
-
-    })
+    this.addForm.get("employeeName").patchValue(args.value.firstName);
+    this.addForm.get("employeeId").patchValue(args.value.id);
   }
+  // getEmployeeId(event){
+  //   debugger
+  //   let a=this.employeeDetails.filter(x=>x.firstName==event)
+  //   this.addForm.patchValue({
+  //     employeeId:a[0].id,
+  //     employeeName:a[0].firstName
+
+  //   })
+  // }
   getOvertimeConfiguration() {
     debugger
     this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {

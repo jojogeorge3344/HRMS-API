@@ -6,13 +6,25 @@
         </button>
     </div>
       <div *ngIf="selectEnable" style="display: flex;flex-direction: row;">
-            <label style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
-            <select   class="form-control col-sm-7" style="margin-left: 50px;" formControlName="employeeName" (change)="getEmployeeId($event.target.value)">
+            <label for="employeeName" style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
+            <!-- <select   class="form-control col-sm-7" style="margin-left: 50px;" formControlName="employeeName" (change)="getEmployeeId($event.target.value)">
                 <option [ngValue]="null" disabled>Select Employee Name</option>
                 <option *ngFor="let list of employeeDetails" value={{list.firstName}}>
                     {{list.firstName}}
                 </option>
-            </select>
+            </select> -->
+            
+            <ng-template #optionTemplate let-item="item" let-config="config">
+                <i class="fa fa-plus"></i>
+                {{ item.name }}
+                <span class="new badge"></span>
+              </ng-template>
+              <ngx-select-dropdown
+                (change)="selectionChanged($event)"
+                [config]="config"
+                [options]="employeeDetails"
+              ></ngx-select-dropdown>
+            
       </div>
       <div *ngIf="!selectEnable" style="display: flex;flex-direction: row;">
         <label style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
