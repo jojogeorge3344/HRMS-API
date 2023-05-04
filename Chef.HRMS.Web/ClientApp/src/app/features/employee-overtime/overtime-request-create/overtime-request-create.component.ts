@@ -96,7 +96,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       displayKey: "firstName",
       search: true,
       limitTo: 0,
-      placeholder: "Select Reporting Manager",
+      placeholder: "Select Employee Name",
       noResultsFound: "No results found!",
       searchPlaceholder: "Search",
       searchOnKey: "firstName",
