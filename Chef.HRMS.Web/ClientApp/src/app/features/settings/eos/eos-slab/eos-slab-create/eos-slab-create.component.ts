@@ -65,7 +65,7 @@ export class EosSlabCreateComponent implements OnInit {
      })
     }
 
-  }
+  } 
   
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

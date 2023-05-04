@@ -80,9 +80,9 @@ export class EmployeeTicketCreateComponent implements OnInit {
       travelMode:['', [
         Validators.required
       ]],
-      travelDate:['', [
-        Validators.required
-      ]],
+      // travelDate:['', [
+      //   Validators.required
+      // ]],
       employeeId:[0]
     });
   }
