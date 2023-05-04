@@ -70,7 +70,7 @@ export class EmployeeTicketViewComponent implements OnInit {
         Validators.required
       ]],
       // travelDate:['', [
-      //   Validators.required
+      //   Validators.required 
       // ]],
       employeeId:[0],
       id:[0]
