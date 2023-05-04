@@ -284,6 +284,10 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
       },
       {
+        path: 'adoc-earnings-and-deduction',
+        loadChildren: () => import('./features/ADOC-Entry/adoc-entry.module').then(m => m.AdocEntryModule),
+      },
+      {
         path: "finance",
         loadChildren: () =>
           import("./features/finance/finance.module").then(

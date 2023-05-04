@@ -209,6 +209,11 @@ export const NavigationItems = [
         tags: "me-overtime",
         routerLink: "/asset-employee-overtimewise",
       },
+      {
+        title: 'ADOC Earnings & Deductions',
+        tags: 'settings-expense',
+        routerLink: '/adoc-earnings-and-deduction'
+      },
     ],
   },
   {
