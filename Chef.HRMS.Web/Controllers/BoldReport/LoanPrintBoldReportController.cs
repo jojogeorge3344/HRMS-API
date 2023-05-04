@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Chef.HRMS.Web.Controllers.BoldReport
@@ -50,3 +51,4 @@ namespace Chef.HRMS.Web.Controllers.BoldReport
         }
 
     }
+}

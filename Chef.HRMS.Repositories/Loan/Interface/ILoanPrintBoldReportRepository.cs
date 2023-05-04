@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-    public class ILoanPrintBoldReportRepository
+    public interface ILoanPrintBoldReportRepository:IBaseRepository
     {
+        Task<IEnumerable<LoanPrintBoldReport>> GetLoanDetailsAsync(int id);
     }
 }
