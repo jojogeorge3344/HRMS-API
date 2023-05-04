@@ -95,7 +95,7 @@ export class AdocEntryListComponent implements OnInit {
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
         this.adocEntryService.delete(listItem.id).subscribe(() => {
-          this.toastr.showSuccessMessage('The Item deleted successfully!');
+          this.toastr.showSuccessMessage('The ADOC Entry deleted successfully!');
           this.getAll()
         });
       }
