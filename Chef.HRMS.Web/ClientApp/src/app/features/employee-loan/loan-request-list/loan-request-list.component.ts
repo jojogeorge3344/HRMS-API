@@ -10,9 +10,11 @@ import { PaymentType } from '../../../models/common/types/paymenttype';
 import { LoanRequest } from '../loan-request.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { LoanRequestViewComponent } from '../loan-request-view/loan-request-view.component';
+import { LoanRequestPrintComponent } from '../loan-request-print/loan-request-print.component';
 
 @Component({
-  templateUrl: './loan-request-list.component.html'
+  templateUrl: './loan-request-list.component.html',
+  styleUrls:['./loan-request-list.component.scss']
 })
 export class LoanRequestListComponent implements OnInit {
 
@@ -86,6 +88,21 @@ export class LoanRequestListComponent implements OnInit {
   openViewLoanRequest(id: number) {
     const modalRef = this.modalService.open(LoanRequestViewComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.loanTypes = this.loanTypes;
+    modalRef.componentInstance.paymentTypes = this.paymentTypes;
+    modalRef.componentInstance.loanId = id;
+
+    modalRef.result.then((result) => {
+        if (result == 'submit') {
+          this.getloanRequests();
+        }
+    });
+  }
+  openPrintLoanRequest(id: number) {
+    debugger
+    const modalRef = this.modalService.open(LoanRequestPrintComponent,
+      { size: 'lg', centered: true, backdrop: 'static',windowClass:'tablealign' });
 
     modalRef.componentInstance.loanTypes = this.loanTypes;
     modalRef.componentInstance.paymentTypes = this.paymentTypes;

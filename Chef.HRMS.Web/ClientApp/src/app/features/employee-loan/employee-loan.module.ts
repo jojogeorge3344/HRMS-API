@@ -11,6 +11,8 @@ import { LoanRequestListComponent } from './loan-request-list/loan-request-list.
 import { LoanRequestCreateComponent } from './loan-request-create/loan-request-create.component';
 import { LoanRequestEditComponent } from './loan-request-edit/loan-request-edit.component';
 import { LoanRequestViewComponent } from './loan-request-view/loan-request-view.component';
+import { LoanRequestPrintComponent } from './loan-request-print/loan-request-print.component';
+import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
 
 
 
@@ -19,7 +21,8 @@ import { LoanRequestViewComponent } from './loan-request-view/loan-request-view.
     LoanRequestListComponent,
     LoanRequestCreateComponent,
     LoanRequestEditComponent,
-    LoanRequestViewComponent
+    LoanRequestViewComponent,
+    LoanRequestPrintComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +37,8 @@ import { LoanRequestViewComponent } from './loan-request-view/loan-request-view.
     ReactiveFormsModule,
     NgBootstrapFormValidationModule,
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    ReportViewerModule
   ]
 })
 export class EmployeeLoanModule { }
