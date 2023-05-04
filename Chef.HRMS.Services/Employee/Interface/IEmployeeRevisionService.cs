@@ -7,6 +7,7 @@ namespace Chef.HRMS.Services
 {
     public interface IEmployeeRevisionService : IAsyncService<EmployeeRevision>
     {
-
+        Task<EmployeeRevisionView> GetEmployeeDetail(int employeeId);
+        Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId);
     }
 }
