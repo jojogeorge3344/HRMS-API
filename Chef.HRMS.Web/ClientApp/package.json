@@ -45,7 +45,7 @@
     "downloadjs": "^1.4.7",
     "file-saver": "^2.0.2",
     "holderjs": "^2.9.7",
-    "jquery": "^3.5.1",
+    "jquery": "^3.6.0",
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.6",
     "lodash": "^4.17.15",
@@ -81,7 +81,9 @@
     "karma-jasmine": "~3.3.1",
     "karma-jasmine-html-reporter": "^1.5.4",
     "tslib": "^2.5.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "@boldreports/angular-reporting-components": "^2.4.27",
+    "@boldreports/types": "^2.4.27"
   },
   "optionalDependencies": {
     "node-sass": "^4.12.0",
