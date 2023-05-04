@@ -7,10 +7,13 @@ namespace Chef.HRMS.Types
     /// </summary>
     public enum PayrollProcessingStatus
     {
-        [Description("Drafted")]
-        Drafted = 1,
+        [Description("Pending")]
+        Pending = 1,
 
-        [Description("Submitted")]
-        Submitted = 2,
+        [Description("Approved")]
+        Approved = 2,
+
+        [Description("Processed")]
+        Processed = 3
     }
 }

@@ -4,6 +4,8 @@ import { OvertimePolicyConfigurationService } from '@settings/overtime/overtime-
 import { EmployeeService } from '@features/employee/employee.service';
 import { OvertimeRequest } from '../overtime-request.model';
 import { NgbActiveModal, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
 @Component({
   selector: 'hrms-overtime-request-view',
   templateUrl: './overtime-request-view.component.html',
@@ -13,15 +15,28 @@ export class OvertimeRequestViewComponent implements OnInit {
   @Input() overtimeRequest: OvertimeRequest;
   selectedItems:any=[]
   employeeList:any=[]
+  employeeDetailsCheck: boolean;
+  employeeDetails: any;
+  selectEnable: boolean;
+  employeeLogin: any;
+  currentUserId: number;
   constructor(
     private overtimeRequestService: OvertimeRequestService,
     private employeeService: EmployeeService,
     public activeModal: NgbActiveModal,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.currentUserId = getCurrentUserId();
     this.getEmployeeList();
-   
+    let b=this.router.routerState.snapshot.url;
+    if(b=="/my-overtime"){
+      this.employeeDetailsCheck=true
+    }else{
+      this.employeeDetailsCheck=false  
+    }
+   this.getLoginEmployeeDetail()
   }
 
   getOvertimeNotifyPersonnelByOvertimeId(){
@@ -34,9 +49,19 @@ export class OvertimeRequestViewComponent implements OnInit {
       });
     }
 
-    getEmployeeList() {
+  getEmployeeList() {
       this.employeeService.getAll().subscribe(result => {
         this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
+        if(this.employeeDetailsCheck==false){
+          //this.employeeDetails=result
+          this.selectEnable=true
+        }
+        if(this.overtimeRequest.employeeId){
+          let a= result.filter(x=>x.id==this.overtimeRequest.employeeId)
+          
+          this.overtimeRequest.employeeName=a[0].firstName
+        
+        }
         this.getOvertimeNotifyPersonnelByOvertimeId();
       },
         error => {
@@ -47,4 +72,15 @@ export class OvertimeRequestViewComponent implements OnInit {
     }
   
     formatter = (employee) => employee.firstName;
+  getLoginEmployeeDetail(){
+      debugger
+      this.employeeService.getLoginEmployee(this.currentUserId).subscribe(res=>{
+        this.employeeLogin=res
+        if(this.employeeDetailsCheck==true){
+          
+          this.overtimeRequest.employeeName=this.employeeLogin.firstName
+          
+        }
+      })
+    }
 }

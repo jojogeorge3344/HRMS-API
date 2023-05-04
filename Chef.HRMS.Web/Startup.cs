@@ -9,6 +9,7 @@ using Chef.Common.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,7 +42,10 @@ namespace Chef.HRMS.Web
             services.Configure<JwtConfigOptions>(Configuration.GetSection(JwtConfigOptions.JwtConfig));
 
             services
-                .AddControllersWithViews()
+                .AddControllersWithViews(c =>
+                {
+                    c.Conventions.Add(new ApiExplorerIgnores());
+                })
                 .AddApplicationPart(typeof(AuthController).Assembly)
                 .AddApplicationPart(typeof(CommonDataController).Assembly)
                 .AddControllersAsServices()
@@ -124,6 +128,15 @@ namespace Chef.HRMS.Web
             });
 
             app.UseResponseCompression();
+        }
+
+        public class ApiExplorerIgnores : IActionModelConvention
+        {
+            public void Apply(ActionModel action)
+            {
+                if (action.Controller.ControllerName.Contains("Report"))
+                    action.ApiExplorer.IsVisible = false;
+            }
         }
     }
 }

@@ -200,6 +200,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/asset-employee-wise'
       },
+      {
+        title: 'Employee Overtime',
+        tags: 'me-overtime',
+        routerLink: '/asset-employee-overtimewise'
+      },
     ]
   },
   {
