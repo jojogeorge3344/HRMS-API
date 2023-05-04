@@ -2,6 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@boldreports/types"
+    ],
     "types": []
   },
   "files": [

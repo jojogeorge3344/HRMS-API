@@ -21,22 +21,20 @@ import { EmployeeBasicDetailsEditComponent } from "./employee-basic-details/empl
 import { EmployeeJobDetailsEditComponent } from "./employee-job-details/employee-job-details-edit/employee-job-details-edit.component";
 import { EmployeeJobFilingEditComponent } from "./employee-job-filing/employee-job-filing-edit/employee-job-filing-edit.component";
 
-
-
-import { EmployeeBonusListComponent } from './employee-bonus/employee-bonus-list/employee-bonus-list.component';
-import { EmployeeBonusCreateComponent } from './employee-bonus/employee-bonus-create/employee-bonus-create.component';
-import { EmployeeBonusEditComponent } from './employee-bonus/employee-bonus-edit/employee-bonus-edit.component';
-import { EmployeeBonusViewComponent } from './employee-bonus/employee-bonus-view/employee-bonus-view.component';
-import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
-import { EmployeeWpsDetailsComponent } from './employee-wps/employee-wps-details/employee-wps-details.component';
-import { EmployeeBasicDetailsViewComponent } from './employee-basic-details/employee-basic-details-view/employee-basic-details-view.component';
-import { EmployeeViewContainerComponent } from './employee-view-container/employee-view-container.component';
-import { EmployeeWpsViewComponent } from './employee-wps/employee-wps-view/employee-wps-view.component';
-import { EmployeeJobDetailsViewComponent } from './employee-job-details/employee-job-details-view/employee-job-details-view.component';
-import { EmployeeJobFilingViewComponent } from './employee-job-filing/employee-job-filing-view/employee-job-filing-view.component';
-import { EmployeeSalaryViewContainerComponent } from './employee-salary-view-container/employee-salary-view-container.component';
-import { EmployeeAddressEditComponent } from './employee-address-edit/employee-address-edit.component';
-import { EmployeeAddressViewComponent } from './employee-address-view/employee-address-view.component';
+import { EmployeeBonusListComponent } from "./employee-bonus/employee-bonus-list/employee-bonus-list.component";
+import { EmployeeBonusCreateComponent } from "./employee-bonus/employee-bonus-create/employee-bonus-create.component";
+import { EmployeeBonusEditComponent } from "./employee-bonus/employee-bonus-edit/employee-bonus-edit.component";
+import { EmployeeBonusViewComponent } from "./employee-bonus/employee-bonus-view/employee-bonus-view.component";
+import { CUSTOM_ERRORS } from "@shared/utils/validators.messages";
+import { EmployeeWpsDetailsComponent } from "./employee-wps/employee-wps-details/employee-wps-details.component";
+import { EmployeeBasicDetailsViewComponent } from "./employee-basic-details/employee-basic-details-view/employee-basic-details-view.component";
+import { EmployeeViewContainerComponent } from "./employee-view-container/employee-view-container.component";
+import { EmployeeWpsViewComponent } from "./employee-wps/employee-wps-view/employee-wps-view.component";
+import { EmployeeJobDetailsViewComponent } from "./employee-job-details/employee-job-details-view/employee-job-details-view.component";
+import { EmployeeJobFilingViewComponent } from "./employee-job-filing/employee-job-filing-view/employee-job-filing-view.component";
+import { EmployeeSalaryViewContainerComponent } from "./employee-salary-view-container/employee-salary-view-container.component";
+import { EmployeeAddressEditComponent } from "./employee-address-edit/employee-address-edit.component";
+import { EmployeeAddressViewComponent } from "./employee-address-view/employee-address-view.component";
 import { EmployeeSalaryContainerComponent } from "./employee-salary-container/employee-salary-container.component";
 import { EmployeeSalaryCreateContainerComponent } from "./employee-salary/employee-salary-create-container/employee-salary-create-container.component";
 import { EmployeeSalaryEditContainerComponent } from "./employee-salary/employee-salary-edit-container/employee-salary-edit-container.component";
@@ -45,11 +43,14 @@ import { EmployeeSalaryFormComponent } from "./employee-salary/employee-salary-f
 import { EmployeeSalaryConfirmComponent } from "./employee-salary/employee-salary-confirm/employee-salary-confirm.component";
 import { SharedModule } from "@shared/shared.module";
 import { SelectDropDownModule } from "ngx-select-dropdown";
-import { EmployeeTicketListComponent } from './employee-ticket-details/employee-ticket-list/employee-ticket-list.component';
-import { EmployeeTicketCreateComponent } from './employee-ticket-details/employee-ticket-create/employee-ticket-create.component';
-import { EmployeeTicketEditComponent } from './employee-ticket-details/employee-ticket-edit/employee-ticket-edit.component';
-import { EmployeeTicketViewComponent } from './employee-ticket-details/employee-ticket-view/employee-ticket-view.component';
-import { EmployeeTicketViewContainerComponent } from './employee-ticket-view-container/employee-ticket-view-container.component';
+import { EmployeeTicketListComponent } from "./employee-ticket-details/employee-ticket-list/employee-ticket-list.component";
+import { EmployeeTicketCreateComponent } from "./employee-ticket-details/employee-ticket-create/employee-ticket-create.component";
+import { EmployeeTicketEditComponent } from "./employee-ticket-details/employee-ticket-edit/employee-ticket-edit.component";
+import { EmployeeTicketViewComponent } from "./employee-ticket-details/employee-ticket-view/employee-ticket-view.component";
+import { EmployeeTicketViewContainerComponent } from "./employee-ticket-view-container/employee-ticket-view-container.component";
+import { EmployeePrintComponent } from "./employee-print/employee-print.component";
+import { BoldReportViewerModule } from "@boldreports/angular-reporting-components";
+import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
 
 @NgModule({
   declarations: [
@@ -85,9 +86,10 @@ import { EmployeeTicketViewContainerComponent } from './employee-ticket-view-con
     EmployeeTicketCreateComponent,
     EmployeeTicketEditComponent,
     EmployeeTicketViewComponent,
-    EmployeeTicketViewContainerComponent
+    EmployeeTicketViewContainerComponent,
+    EmployeePrintComponent,
   ],
-  imports: [   
+  imports: [
     CommonModule,
     RouterModule.forChild([
       {
@@ -138,6 +140,14 @@ import { EmployeeTicketViewContainerComponent } from './employee-ticket-view-con
           name: "organization-employeedirectory ",
         },
       },
+      {
+        path: ":id/print",
+        component: EmployeePrintComponent,
+        data: {
+          breadcrumbs: ["Organization", "Employee", "Print"],
+          name: "organization-employeedirectory ",
+        },
+      },
     ]),
     NgbModule,
     FormsModule,
@@ -146,7 +156,9 @@ import { EmployeeTicketViewContainerComponent } from './employee-ticket-view-con
     BsDropdownModule.forRoot(),
     DirectivesModule,
     SharedModule,
-    SelectDropDownModule
+    SelectDropDownModule,
+    ReportViewerModule,
+    BoldReportViewerModule,
   ],
   providers: [
     {
@@ -158,13 +170,3 @@ import { EmployeeTicketViewContainerComponent } from './employee-ticket-view-con
   entryComponents: [],
 })
 export class EmployeeModule {}
-
-
-
-
-
-
-
-
-
-

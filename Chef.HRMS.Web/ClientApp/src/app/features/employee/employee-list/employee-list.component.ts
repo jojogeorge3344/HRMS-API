@@ -103,6 +103,12 @@ export class EmployeeListComponent implements OnInit {
     );
   }
 
+  openPrint(employee: Employee) {
+    this.router.navigate(["./" + employee.id + "/print"], {
+      relativeTo: this.route.parent,
+    });
+  }
+
   delete(employee: Employee) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true,
