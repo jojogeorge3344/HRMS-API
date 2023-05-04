@@ -35,6 +35,12 @@ public abstract class ReportViewerController : ControllerBase, IReportController
             this.hostingEnvironment = hostingEnvironment;
         }
 
+    protected ReportViewerController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService)
+    {
+        this.memoryCache = memoryCache;
+        this.hostingEnvironment = hostingEnvironment;
+    }
+
     protected ReportViewerController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment)
     {
         this.memoryCache = memoryCache;
