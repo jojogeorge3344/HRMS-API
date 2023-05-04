@@ -9,5 +9,6 @@ namespace Chef.HRMS.Services
     {
         Task<EmployeeRevisionView> GetEmployeeDetail(int employeeId);
         Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId);
+        Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid);
     }
 }

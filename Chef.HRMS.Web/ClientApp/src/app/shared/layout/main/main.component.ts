@@ -37,6 +37,7 @@ export class MainComponent implements OnInit {
             this.userId = res.id;
             this.featuresService.getById(this.userId).subscribe((res) => {
               if (res) {
+                console.log('role',res)
                 res = res.flatMap((feature) => [
                   feature.featureName.toLowerCase(),
                   `${feature.featureName.toLowerCase()}-${feature.subFeatureName.toLowerCase()}`,
@@ -45,7 +46,7 @@ export class MainComponent implements OnInit {
 
               this.features = res.filter((feature, i) => i % 2 === 0);
               this.subFeatures = res.filter((feature, i) => i % 2 === 1);
-
+              console.log('subFeatures',this.subFeatures)
               localStorage.setItem("features", this.features.join(","));
               localStorage.setItem("subFeatures", this.subFeatures.join(","));
             });

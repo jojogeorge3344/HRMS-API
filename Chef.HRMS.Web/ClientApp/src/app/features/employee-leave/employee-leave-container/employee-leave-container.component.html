@@ -1,19 +1,29 @@
 <div class="subheader">
-    <h1 class="subheader-title">
-        My Leave
-    </h1>
+  <h1 class="subheader-title">Leave</h1>
 </div>
 <div class="card p-3">
-    <div class="button-right-wrapper">
-        <!-- <button class="btn btn-success btn-add" [disabled]=true *ngIf="!canApplyLeave" title="Cannot Apply Leave this Period" 
+  <div class="button-right-wrapper">
+    <!-- <button class="btn btn-success btn-add" [disabled]=true *ngIf="!canApplyLeave" title="Cannot Apply Leave this Period"
         (click)="request.openRequestLeave()">
             <i class="fa fal fa-plus fa-plus mr-1"></i> Request Leave</button> -->
-        <button class="btn btn-success btn-add"  (click)="request.openRequestLeave()">
-            <i class="fa fal fa-plus fa-plus mr-1"></i> Request Leave</button>
-    </div>
-    <div>
-        <hrms-employee-leave-balance [item]="leaveComponent"></hrms-employee-leave-balance>
-        <hrms-employee-leave-request-list (getBalance)="getLeaveBalance()" [leaveSettings]="leaveSettings"
-            [leaveComponent]="leaveComponent" #request></hrms-employee-leave-request-list>
-    </div>
+    <button
+      class="btn btn-success btn-add"
+      (click)="request.openRequestLeave()"
+    >
+      <i class="fa fal fa-plus fa-plus mr-1"></i> Request Leave
+    </button>
+  </div>
+  <div>
+    <hrms-employee-leave-balance
+      *ngIf="isEmployeeLeave"
+      [item]="leaveComponent"
+    ></hrms-employee-leave-balance>
+    <hrms-employee-leave-request-list
+      (getBalance)="getLeaveBalance()"
+      [leaveSettings]="leaveSettings"
+      [leaveComponent]="leaveComponent"
+      [isEmployeeLeave]="isEmployeeLeave"
+      #request
+    ></hrms-employee-leave-request-list>
+  </div>
 </div>

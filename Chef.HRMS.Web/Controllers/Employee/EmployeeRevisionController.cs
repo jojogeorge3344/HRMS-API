@@ -103,5 +103,21 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(componentlist);
         }
+
+        [HttpPost("UpdateEmployeeRevisionStatus/{employeeRevisionid}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> UpdateEmployeeRevisionStatus(int employeeRevisionid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await employeeRevisionService.UpdateEmployeeRevisionStatus(employeeRevisionid);
+
+            return Ok(result);
+        }
     }
 }

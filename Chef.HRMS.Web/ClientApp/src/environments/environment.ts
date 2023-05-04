@@ -5,9 +5,10 @@
 export const environment = {
   production: false,
 
-  app_url:'http://localhost:19632/',
-  authApiUrl:'http://localhost:19632/api/Auth/',
-  baseApiUrl: 'http://localhost:19632/api/admin/'
+  app_url: "http://localhost:19632/",
+  authApiUrl: "http://localhost:19632/api/Auth/",
+  baseApiUrl: "http://localhost:19632/api/admin/",
+  reportBaseUrl: "http://localhost:19632",
 };
 
 /*
