@@ -58,5 +58,12 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<EmployeeRevisionStructureView>(sql, new { payrollStructureId });
         }
+
+        public async Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid)
+        {
+            var sql = "UPDATE hrms.employeerevision SET revstatus = 2 WHERE id = @employeeRevisionid";
+
+            return await Connection.ExecuteAsync(sql, new { employeeRevisionid });
+        }
     }
 }
