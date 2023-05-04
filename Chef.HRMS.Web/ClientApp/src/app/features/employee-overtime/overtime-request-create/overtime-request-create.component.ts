@@ -436,8 +436,8 @@ export class OvertimeRequestCreateComponent implements OnInit {
       toDate: ['', [
         Validators.required
       ]],
-      numberOfHours: [null, [
-        Validators.required,
+      numberOfHours: [0, [
+        //Validators.required,
         Validators.max(524),
         Validators.pattern('^[0-9]+$')
       ]],

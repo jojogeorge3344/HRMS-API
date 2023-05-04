@@ -19,7 +19,7 @@
                             <th *ngIf="!employeeDetailsCheck">Employee Name</th>
                             <th>From Date</th>
                             <th>To Date</th>
-                            <th>Overtime Hours</th>
+                            <!-- <th>Overtime Hours</th> -->
                             <th>Status</th>
                             <!-- <th>Reason</th> -->
                             <th>Requested By</th>
@@ -33,7 +33,7 @@
                             <td *ngIf="!employeeDetailsCheck">{{overtimeRequest.employeeName}}</td>
                             <td>{{overtimeRequest.fromDate | date }}</td>
                             <td>{{overtimeRequest.toDate | date }}</td>
-                            <td>{{overtimeRequest.numberOfHours}} hours</td>
+                            <!-- <td>{{overtimeRequest.numberOfHours}} hours</td> -->
                             <td>{{overtimeRequestStatusTypes[overtimeRequest.requestStatus]}}</td>
                             <!-- <td>{{overtimeRequest.reason}}</td> -->
                             <td>{{overtimeRequest.createdBy}}</td>
