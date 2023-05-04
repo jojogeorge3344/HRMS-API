@@ -25,7 +25,7 @@ export class AdocEntryService {
   }
 
   update(adocDetails: AdocEntry) {
-    return this.http.post<AdocEntry>(this.baseUrl + 'update', adocDetails).pipe(map(response => { return response; }));
+    return this.http.put<AdocEntry>(this.baseUrl + 'update', adocDetails).pipe(map(response => { return response; }));
   }
 
   delete(id: number) {

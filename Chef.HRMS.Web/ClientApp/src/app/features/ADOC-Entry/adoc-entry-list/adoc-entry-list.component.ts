@@ -78,7 +78,7 @@ export class AdocEntryListComponent implements OnInit {
     const modalRef = this.modalService.open(AdocEntryViewComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
 
-    modalRef.componentInstance.documentTypeDetails = listItem;
+    modalRef.componentInstance.listItem = listItem;
     modalRef.componentInstance.code = this.Codes;
     modalRef.componentInstance.name = this.Names;
     modalRef.result.then((result) => {

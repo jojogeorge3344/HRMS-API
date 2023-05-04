@@ -30,6 +30,9 @@ export class AdocEntryEditComponent implements OnInit {
   statusTypes;
   benefitTypes:any[];
   employee;
+  config;
+  selectedDatasource:any;
+
   @Input() listItem;
 
   constructor(
@@ -44,11 +47,10 @@ export class AdocEntryEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.editForm = this.createFormGroup();
-    debugger
     this.editForm.patchValue(this.listItem);
     this.getEmployeeList()
     this.getBenefitTypes()
-   
+   this.selectedDatasource=this.listItem.employeeName
     this.listItem.date = new Date(this.listItem.date);    
     this.editForm.patchValue(this.listItem);
     if(this.listItem.status==1){
@@ -64,7 +66,23 @@ export class AdocEntryEditComponent implements OnInit {
         status:'processed'
       })
     }
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Employee",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: false,
+    };
+
   }
+
+  selectionChanged(args) {
+    this.editForm.get("employeeId").patchValue(args.value.id);
+  }
+
 
   getEmployeeList(){
     this.employeeService.getAll()
@@ -93,11 +111,11 @@ export class AdocEntryEditComponent implements OnInit {
        employeeCode:this.employee.employeeNumber
       })
  
-      if(this.listItem.status=='pending'){
+      if(this.editForm.get('status').value=='pending'){
         this.editForm.patchValue({
           status:1
         })
-      }if(this.listItem.status=='approved'){
+      }else if(this.editForm.get('status').value=='approved'){
         this.editForm.patchValue({
           status:2
         })
@@ -130,6 +148,7 @@ export class AdocEntryEditComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+      id: [this.listItem.id],
       employeeId: [null, [
         Validators.required,
       ]],
@@ -142,7 +161,7 @@ export class AdocEntryEditComponent implements OnInit {
       date: [null, [
         Validators.required,
       ]],
-      status:[0, [
+      status:['pending', [
       ]],
       adhocBFCode: [null, [
         Validators.required,

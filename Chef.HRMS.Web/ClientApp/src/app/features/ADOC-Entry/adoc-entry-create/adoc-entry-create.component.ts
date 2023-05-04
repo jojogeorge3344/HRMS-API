@@ -29,6 +29,8 @@ export class AdocEntryCreateComponent implements OnInit {
   statusTypes;
   benefitTypes: any[];
   employee;
+  config;
+
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -43,6 +45,21 @@ export class AdocEntryCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getEmployeeList()
     this.getBenefitTypes()
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Employee",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: false,
+    };
+
+  }
+
+  selectionChanged(args) {
+    this.addForm.get("employeeId").patchValue(args.value.id);
   }
 
   getEmployeeList() {
@@ -65,8 +82,19 @@ export class AdocEntryCreateComponent implements OnInit {
       return
     }
     else {
-      debugger
-     this.employee= this.employeeList.find((item)=>this.addForm.get('employeeId').value==item.id)
+      if(this.addForm.get('status').value=='pending'){
+        this.addForm.patchValue({
+          status:1
+        })
+      }else if(this.addForm.get('status').value=='approved'){
+        this.addForm.patchValue({
+          status:2
+        })
+      }else{
+        this.addForm.patchValue({
+          status:3
+        })
+      }     this.employee= this.employeeList.find((item)=>this.addForm.get('employeeId').value==item.id)
      this.addForm.patchValue({
       employeeName:this.employee.firstName,
       employeeCode:this.employee.employeeNumber

@@ -15,9 +15,7 @@ import { AdocEntryListComponent } from './adoc-entry-list/adoc-entry-list.compon
 import { AdocEntryCreateComponent } from './adoc-entry-create/adoc-entry-create.component';
 import { AdocEntryEditComponent } from './adoc-entry-edit/adoc-entry-edit.component';
 import { AdocEntryViewComponent } from './adoc-entry-view/adoc-entry-view.component';
-
-
-
+import { SelectDropDownModule } from "ngx-select-dropdown";
 
 @NgModule({
   declarations: [
@@ -38,7 +36,9 @@ AdocEntryViewComponent
     PipesModule,
     //  NgBootstrapFormValidationModule,
     NgBootstrapFormValidationModule.forRoot(),
-    BsDropdownModule
+    BsDropdownModule,
+    SelectDropDownModule
+
   ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
