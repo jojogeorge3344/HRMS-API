@@ -104,5 +104,7 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public string EmployeeCode { get; set; }
+
+        public DateTime RejoinDate { get; set; }
     }
 }
