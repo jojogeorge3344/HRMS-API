@@ -10,6 +10,10 @@ namespace Chef.HRMS.Services
     public interface IEmployeeRevisionBoldService:IBaseService
     {
         Task<IEnumerable<EmployeeRevisionBoldDto>> GetemployeeOldDetailsAsync(int id);
+        Task<IEnumerable<EmployeeRevisionBoldDto>> GetemployeeNewDetailsAsync(int id);
+        Task<IEnumerable<EmployeeSalarayDto>> GetSalaryOldDetailsAsync(int id);
+        Task<IEnumerable<EmployeeSalarayDto>> GetSalaryNewDetailsAsync(int id);
+
     }
 }
 

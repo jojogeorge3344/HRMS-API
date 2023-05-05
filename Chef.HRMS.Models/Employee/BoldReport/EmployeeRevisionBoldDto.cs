@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chef.Common.Types;
+using Chef.HRMS.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,14 +21,14 @@ namespace Chef.HRMS.Models
         //OldValue
         public string LeaveStructure { get; set; }
         public string Shift{ get; set; }
-        public int WeekOff { get; set; }//enum
+        public Chef.HRMS.Types.WeekOff WeekOff { get; set; }//enum
         public string HolidayList{ get; set; }
         public string EOSType { get; set; }
         public string Designation { get; set; }
-        public string Department { get; set; }
+        public DepartmentType Department { get; set; }
         public int WorkerType { get; set; }//enum
-        public int TimeType { get; set; }
-        public string AttendanceTracking { get; set; }
+        public TimeType TimeType { get; set; }
+        public AttendanceTrackingType AttendanceTracking { get; set; }
         public string PayrollStructure { get; set; }
         public string PayGroup { get; set; }
         public string OverTimePolicy { get; set; }
@@ -35,5 +37,20 @@ namespace Chef.HRMS.Models
 
         public DateTime EffectiveFrmed { get; set; }
         public DateTime ReqDated { get; set; }
+
+        //New
+        public string LeaveStructureNew { get; set; }
+        public string ShiftNew { get; set; }
+        public Chef.HRMS.Types.WeekOff WeekOffNew { get; set; }//enum
+        public string HolidayListNew { get; set; }
+        public string EOSTypeNew { get; set; }
+        public string DesignationNew { get; set; }
+        public DepartmentType DepartmentNew { get; set; }
+        public int WorkerTypeNew { get; set; }//enum
+        public TimeType TimeTypeNew { get; set; }
+        public AttendanceTrackingType AttendanceTrackingNew { get; set; }
+        public string PayrollStructureNew { get; set; }
+        public string PayGroupNew { get; set; }
+        public string OverTimePolicyNew { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Chef.Common.Data.Services;
 using Chef.HRMS.Services;
 using Chef.HRMS.Web.Controllers.Base;
+using Chef.HRMS.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using System;
 
 namespace Chef.HRMS.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/hrms/[controller]/[action]")]
     [ApiController]
     public class EmployeeRevisionBoldReportController : ReportViewerController
     {
@@ -40,7 +41,11 @@ namespace Chef.HRMS.Web.Controllers
 
                 int id = Convert.ToInt32(CustomData["id"].ToString());
                 var ERData = employeeRevisionBoldService.GetemployeeOldDetailsAsync(id).Result;
-
+                var ERNewData= employeeRevisionBoldService.GetemployeeNewDetailsAsync(id).Result;
+                var SalOldData = employeeRevisionBoldService.GetSalaryOldDetailsAsync(id).Result;
+                var SalNewData = employeeRevisionBoldService.GetSalaryNewDetailsAsync(id).Result;
+                reportOption.AddDataSource("EROldPrintDataSet", ERData);
+                reportOption.AddDataSource("ESOldPrintDataSet", SalOldData);
             }
         }
     }
