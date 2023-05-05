@@ -11,6 +11,7 @@ import { OvertimeRequestListComponent } from './overtime-request-list/overtime-r
 import { OvertimeRequestCreateComponent } from './overtime-request-create/overtime-request-create.component';
 import { OvertimeRequestEditComponent } from './overtime-request-edit/overtime-request-edit.component';
 import { OvertimeRequestViewComponent } from './overtime-request-view/overtime-request-view.component';
+import { SelectDropDownModule } from "ngx-select-dropdown";
 
 
 
@@ -34,7 +35,8 @@ import { OvertimeRequestViewComponent } from './overtime-request-view/overtime-r
     ReactiveFormsModule,
     NgBootstrapFormValidationModule,
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    SelectDropDownModule
   ]
 })
 export class EmployeeOvertimeModule { }

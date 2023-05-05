@@ -7,10 +7,10 @@ import { OvertimeRequestCreateComponent } from '../overtime-request-create/overt
 import { OvertimeRequestEditComponent } from '../overtime-request-edit/overtime-request-edit.component';
 import { OvertimeRequest } from '../overtime-request.model';
 import { RequestStatus } from '../../../models/common/types/requeststatustype';
-import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { OvertimeRequestViewComponent } from '../overtime-request-view/overtime-request-view.component';
 import { Router } from '@angular/router';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
 
 @Component({
   templateUrl: './overtime-request-list.component.html'
@@ -33,6 +33,7 @@ export class OvertimeRequestListComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
+
     this.getAssignedOverTimePolicyRequests();
     let b=this.router.routerState.snapshot.url;
     if(b=="/my-overtime"){
