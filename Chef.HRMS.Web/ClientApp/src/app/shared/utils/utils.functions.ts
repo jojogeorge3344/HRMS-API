@@ -79,6 +79,7 @@ export function getCurrentUser() {
 }
 
 export function getCurrentUserId() {
+  debugger
   if (localStorage.getItem("currentUser")) {
     let a = JSON.parse(localStorage.getItem("currentUser"));
     let empid = a[0].employeeId;

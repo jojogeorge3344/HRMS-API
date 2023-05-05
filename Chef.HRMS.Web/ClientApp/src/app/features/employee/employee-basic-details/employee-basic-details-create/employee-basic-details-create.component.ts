@@ -49,6 +49,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     if (this.basicDetails != null) {
