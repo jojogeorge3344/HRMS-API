@@ -45,7 +45,7 @@ public class EmployeeDirectoryReportController : ReportViewerController
         this.employeeBonusService = employeeBonusService;
         this.employeeSalaryConfigurationService = employeeSalaryConfigurationService;
         this.wPSUserService= wPSUserService;
-        this.ReportPath = @"Reports/.rdlc";
+        this.ReportPath = @"Reports/EmployeeDetailsFormatArabic.rdlc";
     }
 
     public override void OnReportLoaded(ReportViewerOptions reportOption)
