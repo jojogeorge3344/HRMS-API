@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
                                          (Concat(e.firstname, ' ', e.lastname)) as RequestedBy, 
                                          l.createddate as RequestedOn,lc.description AS LeaveType,
                                          l.numberofdays,l.rejoindate,l.description
-                                        FROM hrms.leave
+                                        FROM hrms.leave l
                                         LEFT JOIN hrms.HRMSEmployee e ON l.employeeid = e.id 
                                         LEFT JOIN hrms.leavecomponent lc ON  l.leavecomponentid=lc.id
                                         WHERE leave.id = {0}; "", id);");
