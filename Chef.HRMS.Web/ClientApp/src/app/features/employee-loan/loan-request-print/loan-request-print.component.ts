@@ -16,7 +16,7 @@ export class LoanRequestPrintComponent implements OnInit {
   @ViewChild(ReportViewerComponent)
   reportViewerComponent: ReportViewerComponent;
 
-  readonly serviceUrl = "/api/settings/BoldReport/LoanPrintBoldReportController";
+  readonly serviceUrl = "/api/LoanPrintBoldReport";
 
   constructor(
     private reportViewerService: ReportViewerService,
