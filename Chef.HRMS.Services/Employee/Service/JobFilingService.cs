@@ -31,6 +31,11 @@ namespace Chef.HRMS.Services
             return await jobFilingRepository.GetAsync(id);
         }
 
+        public async Task<JobFiling> GetByEmployeeId(int employeeId)
+        {
+            return await jobFilingRepository.GetByEmployeeId(employeeId);
+        }
+
         public async Task<int> GetWeekendPolicyById(int employeeId)
         {
             return await jobFilingRepository.GetWeekendPolicyById(employeeId);
