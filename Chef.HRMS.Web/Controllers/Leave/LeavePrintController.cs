@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace Chef.HRMS.Web.Controllers.Leave
 {
-    [Route("api/settings/LeavePrint/[controller]")]
+    [Route("api/Leave/[controller]")]
     [ApiController]
     public class LeavePrintController : ReportViewerController
     {
@@ -26,6 +26,7 @@ namespace Chef.HRMS.Web.Controllers.Leave
             this.leavePrintBoldReportService = leavePrintBoldReportService;
             this.commonDataService = commonDataService;
         }
+        [NonAction]
         public override void OnInitReportOptions(ReportViewerOptions reportOption)
         {
             AssignReportPath();
@@ -35,6 +36,7 @@ namespace Chef.HRMS.Web.Controllers.Leave
         {
             this.ReportPath = @"Reports\LeavePrintReport.rdlc";
         }
+        [NonAction]
         public override void OnReportLoaded(ReportViewerOptions reportOption)
         {
             if (CustomData != null && CustomData.Count > 0)

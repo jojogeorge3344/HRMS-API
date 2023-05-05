@@ -15,7 +15,7 @@ export class LeaveRequestPrintComponent implements OnInit {
   @ViewChild(ReportViewerComponent)
   reportViewerComponent: ReportViewerComponent;
 
-  readonly serviceUrl = "api/settings/LeavePrint";
+  readonly serviceUrl = "/api/Leave/LeavePrint";
 
   constructor(
     private reportViewerService: ReportViewerService,
