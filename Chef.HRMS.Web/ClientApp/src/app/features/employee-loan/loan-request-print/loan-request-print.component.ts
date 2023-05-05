@@ -16,7 +16,7 @@ export class LoanRequestPrintComponent implements OnInit {
   @ViewChild(ReportViewerComponent)
   reportViewerComponent: ReportViewerComponent;
 
-  readonly serviceUrl = "/api/hrms/EmployeeDirectoryReport";
+  readonly serviceUrl = "/api/settings/BoldReport";
 
   constructor(
     private reportViewerService: ReportViewerService,
