@@ -14,7 +14,7 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<EmployeeRevisionView> GetEmployeeDetail(int employeeId)
+        public async Task<EmployeeRevisionOld> GetEmployeeDetail(int employeeId)
         {
             var sql = @"SELECT jf.employeeid,jf.leavestructureid,jf.shiftid,jf.weekoff,
                         ls.name AS leavestructurename,s.name AS shiftname,hc.id AS holidaycategoryid,hc.name AS holidaycategoryname,
@@ -41,7 +41,7 @@ namespace Chef.HRMS.Repositories
                         WHERE jf.employeeid = @employeeId 
                         AND jf.isarchived = false";
 
-            return await Connection.QueryFirstOrDefaultAsync<EmployeeRevisionView>(sql, new { employeeId });
+            return await Connection.QueryFirstOrDefaultAsync<EmployeeRevisionOld>(sql, new { employeeId });
         }
 
         public async Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId)
@@ -59,11 +59,11 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<EmployeeRevisionStructureView>(sql, new { payrollStructureId });
         }
 
-        public async Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid)
+        public async Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status)
         {
-            var sql = "UPDATE hrms.employeerevision SET revstatus = 2 WHERE id = @employeeRevisionid";
+            var sql = "UPDATE hrms.employeerevision SET revstatus = @status WHERE id = @employeeRevisionid";
 
-            return await Connection.ExecuteAsync(sql, new { employeeRevisionid });
+            return await Connection.ExecuteAsync(sql, new { employeeRevisionid, status });
         }
     }
 }

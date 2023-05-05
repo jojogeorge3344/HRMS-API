@@ -40,7 +40,7 @@ export class LoanRequestListComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this.getloanRequests();
+    this.getloanRequests(); 
   }
 
   getloanRequests() {

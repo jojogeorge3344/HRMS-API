@@ -7,6 +7,5 @@ namespace Chef.HRMS.Services
 {
     public interface IEmployeeRevisionOldService : IAsyncService<EmployeeRevisionOld>
     {
-
     }
 }
