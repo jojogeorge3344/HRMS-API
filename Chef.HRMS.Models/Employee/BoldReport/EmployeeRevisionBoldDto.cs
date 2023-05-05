@@ -31,7 +31,9 @@ namespace Chef.HRMS.Models
         public string PayGroup { get; set; }
         public string OverTimePolicy { get; set; }
 
+        //string
 
-
+        public DateTime EffectiveFrmed { get; set; }
+        public DateTime ReqDated { get; set; }
     }
 }

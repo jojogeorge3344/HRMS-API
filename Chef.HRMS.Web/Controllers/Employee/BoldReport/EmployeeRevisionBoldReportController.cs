@@ -17,7 +17,7 @@ namespace Chef.HRMS.Web.Controllers
         private readonly IEmployeeRevisionBoldService employeeRevisionBoldService;
         private readonly ICommonDataService commonDataService;
         public EmployeeRevisionBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService,
-              IEmployeeRevisionBoldService employeeRevisionBoldService, ICommonDataService commonDataService) :base(memoryCache, hostingEnvironment, branchService)
+              IEmployeeRevisionBoldService employeeRevisionBoldService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment, branchService)
         {
             this.ReportPath = @"Reports\EmployeeRevisionPrintReport.rdlc";
             this.employeeRevisionBoldService = employeeRevisionBoldService;
@@ -42,5 +42,7 @@ namespace Chef.HRMS.Web.Controllers
                 var ERData = employeeRevisionBoldService.GetemployeeOldDetailsAsync(id).Result;
 
             }
+        }
     }
+}
 

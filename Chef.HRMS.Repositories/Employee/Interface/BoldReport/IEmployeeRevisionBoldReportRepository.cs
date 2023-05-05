@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-    public interface IEmployeeRevisionBoldReportRepository
+    public interface IEmployeeRevisionBoldReportRepository:IBaseRepository
     {
+        Task<IEnumerable<EmployeeRevisionBoldDto>> GetemployeeOldDetailsAsync(int id);
     }
 }
+
