@@ -87,5 +87,15 @@ namespace Chef.HRMS.Repositories
             var sql = new QueryBuilder<OverTimeNotifyPersonnel>().GenerateUpdateQuery();
             return await Connection.ExecuteAsync(sql, overTimeNotifyPersonnel);
         }
+
+        public async Task<IEnumerable<OverTime>> GetAllAsync()
+        {
+            var sql = @"SELECT ot.*,jd.employeenumber FROM hrms.overtime ot
+                        INNER JOIN hrms.jobdetails jd
+                        ON ot.employeeid = jd.employeeid
+                        WHERE ot.isarchived = false";
+                         
+            return await Connection.QueryAsync<OverTime>(sql); 
+        }
     }
 }
