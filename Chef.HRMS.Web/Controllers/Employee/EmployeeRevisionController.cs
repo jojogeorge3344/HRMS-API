@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.Employee;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -61,14 +62,14 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(EmployeeRevision employeeRevision)
+        public async Task<IActionResult> Insert(EmployeeRevisionDTO employeeRevisionDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await employeeRevisionService.InsertAsync(employeeRevision);
+            var result = await employeeRevisionService.InsertAsync(employeeRevisionDTO);
             return CreatedAtAction(nameof(Insert), result);
         }
 
