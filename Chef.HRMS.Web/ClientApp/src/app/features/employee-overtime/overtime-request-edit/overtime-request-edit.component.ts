@@ -228,7 +228,7 @@ export class OvertimeRequestEditComponent implements OnInit {
         Validators.required
       ]],
       numberOfHours: [null, [
-        Validators.required,
+        //Validators.required,
         Validators.max(524)
       ]],
       reason: ['', [

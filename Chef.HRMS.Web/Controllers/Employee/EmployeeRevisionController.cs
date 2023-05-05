@@ -89,7 +89,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetEmployeeDetail/{employeeId}")]
-        public async Task<ActionResult<EmployeeRevisionView>> GetEmployeeDetail(int employeeId)
+        public async Task<ActionResult<EmployeeRevisionOld>> GetEmployeeDetail(int employeeId)
         {
             var employee = await employeeRevisionService.GetEmployeeDetail(employeeId);
 
@@ -104,18 +104,34 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(componentlist);
         }
 
-        [HttpPost("UpdateEmployeeRevisionStatus/{employeeRevisionid}")]
+        [HttpPost("UpdateEmployeeRevisionStatus/{employeeRevisionid}/{status}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UpdateEmployeeRevisionStatus(int employeeRevisionid)
+        public async Task<ActionResult> UpdateEmployeeRevisionStatus(int employeeRevisionid, int status)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await employeeRevisionService.UpdateEmployeeRevisionStatus(employeeRevisionid);
+            var result = await employeeRevisionService.UpdateEmployeeRevisionStatus(employeeRevisionid, status);
+
+            return Ok(result);
+        }
+
+        [HttpPost("EmployeeRevisionProcess/{employeeRevisionid}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> EmployeeRevisionProcess(int employeeRevisionid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await employeeRevisionService.EmployeeRevisionProcess(employeeRevisionid);
 
             return Ok(result);
         }

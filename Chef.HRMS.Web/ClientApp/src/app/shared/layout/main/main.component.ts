@@ -30,6 +30,7 @@ export class MainComponent implements OnInit {
     this.isAtAuth = this.router.url.startsWith("/auth");
 
     if (this.isLoggedIn && !this.isAtAuth) {
+      debugger
       if (localStorage.getItem("token")) {
         this.authService.getCurrentUser().subscribe((res) => {
           if (res) {
