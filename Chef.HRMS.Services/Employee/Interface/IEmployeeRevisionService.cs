@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Services;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Employee;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,6 @@ namespace Chef.HRMS.Services
         Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId);
         Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status);
         Task<int> EmployeeRevisionProcess(int employeeRevisionid);
-        new Task<int> InsertAsync(EmployeeRevision employeeRevision);
+        Task<int> InsertAsync(EmployeeRevisionDTO employeeRevisionDTO);
     }
 }
