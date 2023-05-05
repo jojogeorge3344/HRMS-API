@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace Chef.HRMS.Web.Controllers.Leave
 {
-    [Route("api/[controller]")]
+    [Route("api/settings/LeavePrint/[controller]")]
     [ApiController]
     public class LeavePrintController : ReportViewerController
     {
