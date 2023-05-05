@@ -7,8 +7,10 @@ namespace Chef.HRMS.Services
 {
     public interface IEmployeeRevisionService : IAsyncService<EmployeeRevision>
     {
-        Task<EmployeeRevisionView> GetEmployeeDetail(int employeeId);
+        Task<EmployeeRevisionOld> GetEmployeeDetail(int employeeId);
         Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId);
-        Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid);
+        Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status);
+        Task<int> EmployeeRevisionProcess(int employeeRevisionid);
+        new Task<int> InsertAsync(EmployeeRevision employeeRevision);
     }
 }

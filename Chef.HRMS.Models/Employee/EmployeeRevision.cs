@@ -49,10 +49,7 @@ namespace Chef.HRMS.Models
 
         public string Remark { get; set; }
         public int RequestedBy { get; set; }
-    }
 
-    public class EmployeeRevisionOld : EmployeeRevision
-    {
-        public int EmployeeRevisionId { get; set; }
+        public List<EmployeeRevisionOld> EmployeeRevisionsOldList { get; set; }
     }
 }
