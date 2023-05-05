@@ -136,5 +136,11 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("IsEmployeeRevisionApproved/{employeeRevisionId}")]
+        public async Task<bool> IsEmployeeRevisionApproved(int employeeRevisionId)
+        {
+            return await employeeRevisionService.IsEmployeeRevisionApproved(employeeRevisionId);
+        }
     }
 }
