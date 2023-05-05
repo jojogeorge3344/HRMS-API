@@ -9,6 +9,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { EmployeeLeaveRequestCreateComponent } from "../employee-leave-request-create/employee-leave-request-create.component";
 import { TeamAttendanceService } from "@features/team-attendance/team-attendance.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "hrms-employee-leave-request-list",
@@ -33,6 +34,8 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   leaveInfo: EmployeeLeaveRequest[];
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private employeeLeaveService: EmployeeLeaveService,
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
@@ -108,6 +111,12 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
       if (result == "submit") {
         this.getAllRequestedLeave();
       }
+    });
+  }
+  openPrint(leaveRequest: EmployeeLeaveRequest) {
+    debugger
+    this.router.navigate(["./print/" + leaveRequest.id ], {
+      relativeTo: this.route.parent,
     });
   }
 
