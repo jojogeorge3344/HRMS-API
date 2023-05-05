@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ReportViewerComponent } from "@shared/report-viewer/report-viewer.component";
@@ -13,6 +13,7 @@ export class LoanRequestPrintComponent implements OnInit {
 
   id: number;
   loadReportOnInit: boolean;
+  @Input() loanId
   @ViewChild(ReportViewerComponent)
   reportViewerComponent: ReportViewerComponent;
 
@@ -43,6 +44,9 @@ export class LoanRequestPrintComponent implements OnInit {
   private updateReportViewerService() {
     this.reportViewerService.loadReportOnInit = this.loadReportOnInit;
     this.reportViewerService.customData.id = this.id;
+    if(this.loanId){
+      this.reportViewerService.customData.id = this.loanId
+    }
   }
 
 
