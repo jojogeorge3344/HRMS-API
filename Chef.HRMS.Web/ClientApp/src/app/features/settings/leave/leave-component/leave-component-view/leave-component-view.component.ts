@@ -24,6 +24,8 @@ import { LeaveType } from "@settings/leave/leavetype.enum";
 import { Loptype } from "@settings/leave/lopdays.enum";
 import { LeaveEligiblityService } from "../leave-eligiblity.service";
 import { OvertimePolicyCalculationComponent } from "@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component";
+import { LeaveSlabService } from "../leave-slab-service";
+import { valueTypeOff } from "src/app/models/common/types/leaveSlabOff";
 
 
 @Component({
@@ -74,6 +76,9 @@ export class LeaveComponentViewComponent implements OnInit {
   encashBfList: any;
   isSaveDisable: boolean = false;
   activeTab: string = "basic";
+  leaveSlabDetails: any;
+  valueSlabOffTypeKeys: number[];
+  valueSlabOffType = valueTypeOff;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -81,7 +86,8 @@ export class LeaveComponentViewComponent implements OnInit {
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private toastr: ToasterDisplayService,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    public leaveSlabService: LeaveSlabService,
   ) {}
 
   ngOnInit(): void {
@@ -108,6 +114,7 @@ export class LeaveComponentViewComponent implements OnInit {
     this.ViewForm2 = this.createFormGroup2();
     // this.toggleGender(this.leaveComponent.isRestrictedToGender);
     // this.toggleMaritalStatus(this.leaveComponent.isRestrictedToMaritalStatus);
+    this.valueSlabOffTypeKeys = Object.keys(this.valueSlabOffType).filter(Number).map(Number);
     this.getConfigureData();
     this.getDeductionType();
     this.getAccrualBenefitType();
@@ -116,6 +123,7 @@ export class LeaveComponentViewComponent implements OnInit {
     this.getEncashBF();
     this.ViewForm.patchValue(this.leaveComponent);
     this.getLeaveType();
+    this.getLeaveSlablist(this.leaveComponent.id)
   }
 
   getDeductionType() {
@@ -370,5 +378,14 @@ export class LeaveComponentViewComponent implements OnInit {
       this.encashBfList = res;
     });
   }
-
+  getLeaveSlablist(id) {
+    this.leaveSlabService.getLeaveComponentDetails(id).subscribe(result => {
+      this.leaveSlabDetails = result;
+      this.leaveSlabDetails=this.leaveSlabDetails.sort((a, b) => a.leaveComponentName.toLowerCase().localeCompare(b.leaveComponentName.toLowerCase()));
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the LeaveSlab List Details');
+    });
+  }
 }

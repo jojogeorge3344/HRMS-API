@@ -1,3 +1,5 @@
+@import "../node_modules/@boldreports/javascript-reporting-controls/Content/bootstrap-theme/bold.theme.compatibility.min.css";
+
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
@@ -347,14 +349,14 @@ aside ::-webkit-scrollbar-thumb {
   .h-100 {
     height: 50% !important;
     width:100%;
-    
+
   }
 } */
 
   /* .h-100 {
     height: 20% !important;
     width:65%;
-   
+
   } */
 
 .row-style{
@@ -362,7 +364,7 @@ aside ::-webkit-scrollbar-thumb {
   flex-direction: row;
   /* flex-basis:30%; */
   /* justify-content:center;*/
-} 
+}
 
 
 .card-div-height{
@@ -415,8 +417,8 @@ aside ::-webkit-scrollbar-thumb {
 /*Asset-metadata*/
 
 .lidisable{
-  pointer-events:none; 
-    opacity:0.6;        
+  pointer-events:none;
+    opacity:0.6;
 }
 
 /*validation * coloring*/
@@ -428,4 +430,3 @@ aside ::-webkit-scrollbar-thumb {
 .notifySpacing{
   margin-bottom: 50px;
 }
-

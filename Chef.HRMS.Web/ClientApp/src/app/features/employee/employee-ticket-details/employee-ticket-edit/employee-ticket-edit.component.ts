@@ -38,7 +38,7 @@ export class EmployeeTicketEditComponent implements OnInit {
       travelTo:this.relDetails.travelTo,
       isRoundTrip:this.relDetails.isRoundTrip,
       amount:this.relDetails.amount,
-      travelDate:new Date(this.relDetails.travelDate),
+      // travelDate:new Date(this.relDetails.travelDate),
       travelMode:this.relDetails.travelMode,
       employeeId:this.relDetails.employeeId,
       id:this.relDetails.id
@@ -80,9 +80,9 @@ export class EmployeeTicketEditComponent implements OnInit {
       travelMode:['', [
         Validators.required
       ]],
-      travelDate:['', [
-        Validators.required
-      ]],
+      // travelDate:['', [
+      //   Validators.required
+      // ]],
       employeeId:[0],
       id:[0]
     });

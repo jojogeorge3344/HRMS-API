@@ -1,37 +1,106 @@
 <div class="modal-header">
-    <h4 class="modal-title">Leave Request Details</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
+  <h4 class="modal-title">Leave Request Details</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <div class="modal-body">
-<div *ngIf="leaveRequest">
-        <p>Leave Requested on {{leaveRequest.currentDate | date: 'MMM d, y, hh:mm a'}} </p>
-    <div class="card-body">
-    <div class="card-text">
-        <div class="row ">
-            <div class="border border-circle p-1 " style="border-width: 2px!important; border-color:#9198AA">
-                <span class="px-1">{{leaveRequest.numberOfDays}}</span>
-            </div>
-            <div class="col-sm">
-                <div class="text-capitalize">
-                    day {{getLeaveBalanceName(leaveRequest.leaveComponentId)}} on <span style="font-weight: bold;">{{leaveRequest.fromDate | date}}</span>
-                </div>               
-            </div>
+  <div *ngIf="leaveRequest">
+    <div class="form-group">
+      <label for="employeeName">Requested By</label>
+      <input
+        type="text"
+        [ngModel]="leaveRequest?.employeeName"
+        class="form-control"
+        id="employeeName"
+        readonly
+      />
+    </div>
+    <div class="row align-items-baseline">
+      <div class="form-group input-group form-input-inline col-sm">
+        <label class="col-form-label col-12 px-0" for="fromDate"
+          >From Date</label
+        >
+        <input
+          type="text"
+          [ngModel]="fromDate"
+          class="form-control"
+          id="fromDate"
+          readonly
+        />
+      </div>
+
+      <div class="form-group input-group form-input-inline col-sm">
+        <label class="col-form-label col-12 px-0" for="toDate">To Date</label>
+        <input
+          type="text"
+          [ngModel]="toDate"
+          class="form-control"
+          id="toDate"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="row" style="height: 65px">
+      <div class="form-group col-sm">
+        <div class="alert alert-info" role="alert">
+          Leave applied for {{ leaveRequest?.numberOfDays }} Days
         </div>
+      </div>
     </div>
-    <div class="card-text pt-3">
-        <div class="row ">
-            <div class="">
-                <i class="fal cursor-pointer fa-check-circle fs-xxl color-success-700"></i>
-            </div>
-            <div class="col-sm">
-                <div>
-                    Approved On <small>{{dateChange}}</small>
-                </div>               
-            </div>
-        </div>
+
+    <div class="row align-items-baseline">
+      <div class="form-group input-group form-input-inline col-sm">
+        <label for="leaveComponentId">Leave Type</label>
+        <input
+          type="text"
+          [ngModel]="leaveComponentName"
+          class="form-control"
+          id="leaveComponentName"
+          readonly
+        />
+      </div>
+      <div class="form-group input-group form-input-inline col-sm">
+        <label class="col-form-label col-6 px-0" for="rejoinDate"
+          >Rejoin Date</label
+        >
+        <input
+          type="text"
+          [ngModel]="rejoinDate"
+          class="form-control"
+          id="rejoinDate"
+          readonly
+        />
+      </div>
     </div>
+
+    <div class="form-group">
+      <label for="description">Note</label>
+      <textarea
+        type="text"
+        class="form-control"
+        id="description"
+        name="description"
+        placeholder="Please enter reason for applying leave"
+        [ngModel]="leaveRequest?.description"
+      ></textarea>
     </div>
+    <!-- <div class="form-group col-6">
+      <div>
+        <label>
+          <i class="fal fa-paperclip"></i>
+          <a class="link">View Attachment</a>
+        </label>
+      </div>
+      <div class="color-fusion-300 font-weight-bold" id="file-name">
+        {{ fileName }}
+      </div>
+    </div> -->
+  </div>
 </div>
-</div>    

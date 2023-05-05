@@ -12,6 +12,13 @@ namespace Chef.HRMS.Repositories
         {
         }
 
+        public async Task<JobFiling> GetByEmployeeId(int employeeId)
+        {
+            var sql = @"SELECT * FROM hrms.jobfiling where employeeid = @employeeId";
+
+            return await Connection.QueryFirstAsync<JobFiling>(sql, new { employeeId });
+        }
+
         public async Task<int> GetWeekendPolicyById(int employeeId)
         {
 

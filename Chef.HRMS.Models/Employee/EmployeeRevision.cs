@@ -19,7 +19,7 @@ namespace Chef.HRMS.Models
 
         public DateTime EffectiveFrm { get; set; }
 
-        public int RevStatus { get; set; }
+        public EmployeeRevisionStatus RevStatus { get; set; }
 
         public int JobTitleId { get; set; }
 
@@ -49,10 +49,7 @@ namespace Chef.HRMS.Models
 
         public string Remark { get; set; }
         public int RequestedBy { get; set; }
-    }
 
-    public class EmployeeRevisionOld : EmployeeRevision
-    {
-        public int EmployeeRevisionId { get; set; }
+        public List<EmployeeRevisionOld> EmployeeRevisionsOldList { get; set; }
     }
 }
