@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
@@ -57,6 +58,13 @@ namespace Chef.HRMS.Repositories
                         AND pcc.isarchived = false";
 
             return await Connection.QueryAsync<EmployeeRevisionStructureView>(sql, new { payrollStructureId });
+        }
+
+        public async Task<bool> IsEmployeeRevisionApproved(int employeeRevisionId)
+        {
+            var sql = @"SELECT * FROM hrms.employeerevision WHERE id = @employeeRevisionId AND revstatus = 2";
+
+            return await Connection.QueryFirstOrDefaultAsync<bool>(sql, new { employeeRevisionId });
         }
 
         public async Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status)
