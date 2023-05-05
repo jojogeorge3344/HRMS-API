@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 namespace Chef.HRMS.Web.Controllers.BoldReport
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class LoanPrintBoldReportController : ReportViewerController
     {
