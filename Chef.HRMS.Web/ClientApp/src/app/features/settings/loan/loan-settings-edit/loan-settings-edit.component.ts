@@ -135,6 +135,8 @@ export class LoanSettingsEditComponent implements OnInit {
         Validators.max(36)         
       ]], 
       deductionBFCode:[0,[]]  ,
+      loanAdvance:[0],
+      loanRepayment:[0],
       interestCalcutationMethod: [this.interestMethod['ReductionRate']],
       createdDate: []
     }, { validators: rangeValidator });  
