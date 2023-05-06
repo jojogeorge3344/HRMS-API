@@ -151,7 +151,7 @@ debugger
           duplicateNameValidator(this.payrollComponentCodes),
         ],
       ],
-      description: ["", [Validators.required, Validators.maxLength(128)]],
+      description: ["", [ Validators.maxLength(128)]],
       payHeadType: [null, Validators.required],
       payHeadContractValueType: [null, Validators.required],
       minimumLimit: [0],
