@@ -77,7 +77,8 @@ debugger
 
         const details = result.find(item => item.id === this.payrollComponent.payrollComponentType);
         this.selectedDatasource=details.name
-        this.editForm.patchValue({ payrollComponentType: this.selectedDatasource });
+        //this.editForm.patchValue({ payrollComponentType: this.selectedDatasource });
+        this.selectionChanged(details)
   
       });
 
@@ -96,6 +97,7 @@ debugger
   }
 
   selectionChanged(args) {
+    debugger
     this.editForm.get("payrollComponentType").patchValue(args.value.id);
   }
 
@@ -108,6 +110,7 @@ debugger
   }
 
   onSubmit() {
+    debugger
     this.payrollComponentService.update(this.editForm.getRawValue()).subscribe(
       (result: any) => {
         if (result === -1) {
