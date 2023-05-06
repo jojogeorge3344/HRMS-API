@@ -131,14 +131,18 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
       dateOfBirth: ['', [
         Validators.required
       ]],
-      email: ['', [
-        Validators.required,
-        Validators.pattern(this.emailRegex),
-      ]],
-      fileNumber: ['', [
-        Validators.required,
-        Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$'),
-      ]],
+      email: ['',
+      //  [
+      //   Validators.required,
+      //   Validators.pattern(this.emailRegex),
+      // ]
+      ],
+      fileNumber: ['', 
+      // [
+      //   Validators.required,
+      //   Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$'),
+      // ]
+    ],
       religionId: ['', [
         Validators.required,
       ]],
@@ -148,15 +152,17 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         Validators.minLength(15)
       ]],
       createdDate: [],
-      languageKnown: [null,[
-        Validators.required]
+      languageKnown: [null,
+        // [
+        // Validators.required]
       ],
       remarks:[null,[
         Validators.maxLength(250)]
       ],
-      refNum:[null,[
-        Validators.required,
-        Validators.maxLength(30)]
+      refNum:[null,
+        // [
+        // Validators.required,
+        // Validators.maxLength(30)]
       ],
       userId:[this.userId]
     });
