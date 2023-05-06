@@ -17,6 +17,8 @@ export class LoanSettingsEditComponent implements OnInit {
   currentUserId: number;
   interestMethod = InterestMethod;
   deductionBfCodeTypes;
+  loanAdvanceDetails: any;
+  loanRepaymentDetails: any;
 
   constructor(private loanSettingsService: LoanSettingsService,
     private formBuilder: FormBuilder,
@@ -30,6 +32,8 @@ export class LoanSettingsEditComponent implements OnInit {
     this.GetDeductionBFCode()
     this.onChanges();
     this.getLoanSettings();
+    this.getLoanAdvanceDetails()
+    this.getLoanRepaymentDetails()
   }
 
   onChanges(): void {
@@ -63,6 +67,22 @@ export class LoanSettingsEditComponent implements OnInit {
     .subscribe((result)=>{
      this.deductionBfCodeTypes=result;
     })
+  }
+  getLoanAdvanceDetails(){
+    debugger
+    this.loanSettingsService.getLoanAdvance()
+    .subscribe((result)=>{
+     this.loanAdvanceDetails=result;
+    })
+
+  }
+  getLoanRepaymentDetails(){
+    debugger
+    this.loanSettingsService.getLoanRepayment()
+    .subscribe((result)=>{
+     this.loanRepaymentDetails=result;
+    })
+
   }
 
   getLoanSettings() {
@@ -135,8 +155,8 @@ export class LoanSettingsEditComponent implements OnInit {
         Validators.max(36)         
       ]], 
       deductionBFCode:[0,[]]  ,
-      loanAdvance:[0],
-      loanRepayment:[0],
+      loanAdvanceType:[0],
+      loanRepaymentType:[0],
       interestCalcutationMethod: [this.interestMethod['ReductionRate']],
       createdDate: []
     }, { validators: rangeValidator });  

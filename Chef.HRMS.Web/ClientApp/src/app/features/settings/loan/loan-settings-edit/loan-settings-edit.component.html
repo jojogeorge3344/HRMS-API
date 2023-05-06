@@ -112,12 +112,13 @@
                             >        
                         </div>
                         <div class="form-group col-md-3">
-                          <select class="form-control" formControlName="loanAdvance">
+                          <select class="form-control" formControlName="loanAdvanceType">
                             <option [ngValue]="null" disabled>Select</option>
-                            <option
-                              [ngValue]="deductionBfCodeTypes.id"
+                            <option *ngFor="let list of loanAdvanceDetails" 
+                              [ngValue]="list.payrollComponentId"
+                              
                             >
-                              {{ deductionBfCodeTypes.name }}
+                              {{ list.payrollComponentName }}
                             </option>
                           </select>
                         </div>
@@ -131,12 +132,12 @@
                             >        
                         </div>
                         <div class="form-group col-md-3">
-                          <select class="form-control" formControlName="loanRepayment">
+                          <select class="form-control" formControlName="loanRepaymentType">
                             <option [ngValue]="null" disabled>Select</option>
-                            <option
-                              [ngValue]="deductionBfCodeTypes.id"
+                            <option *ngFor="let list of loanRepaymentDetails" 
+                              [ngValue]="list.payrollComponentId"
                             >
-                              {{ deductionBfCodeTypes.name }}
+                              {{ list.payrollComponentName }}
                             </option>
                           </select>
                         </div>
