@@ -132,10 +132,10 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
         Validators.required
       ]],
       email: ['',
-      //  [
-      //   Validators.required,
-      //   Validators.pattern(this.emailRegex),
-      // ]
+       [
+        // Validators.required,
+        Validators.pattern(this.emailRegex),
+      ]
       ],
       fileNumber: ['', 
       // [

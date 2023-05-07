@@ -128,7 +128,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       ],
       email: ['', [
         // Validators.required,
-        // Validators.pattern(this.emailRegex),
+        Validators.pattern(this.emailRegex),
        // emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       ]],
       fileNumber: ['', [
