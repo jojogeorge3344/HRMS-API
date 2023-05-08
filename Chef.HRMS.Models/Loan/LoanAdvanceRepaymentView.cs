@@ -14,5 +14,6 @@ namespace Chef.HRMS.Models
         public int PayrollComponentType { get; set; }
         public string BenefitTypeCode { get; set; }
         public string BenefitTypeName { get; set; }
+        public int PayrollComponentId { get; set; }
     }
 }
