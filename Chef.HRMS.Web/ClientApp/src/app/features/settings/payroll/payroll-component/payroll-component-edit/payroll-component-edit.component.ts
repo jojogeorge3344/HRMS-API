@@ -79,6 +79,7 @@ debugger
         this.selectedDatasource=details.name
         //this.editForm.patchValue({ payrollComponentType: this.selectedDatasource });
         this.selectionChanged(details)
+        this.editForm.get("payrollComponentType").patchValue(details.id);
   
       });
 
@@ -163,6 +164,8 @@ debugger
       includeInPaySlipType: [null, Validators.required],
       roundingType: [null, Validators.required],
       createdDate: [],
+      orderNumber:[null,Validators.required]
+
     });
   }
 }

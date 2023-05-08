@@ -192,6 +192,7 @@ export class PayrollComponentCreateComponent implements OnInit {
       payHeadBaseUnitType: [null, Validators.required],
       includeInPaySlipType: [null, Validators.required],
       roundingType: [null, Validators.required],
+      orderNumber:[null,Validators.required]
     });
   }
 }

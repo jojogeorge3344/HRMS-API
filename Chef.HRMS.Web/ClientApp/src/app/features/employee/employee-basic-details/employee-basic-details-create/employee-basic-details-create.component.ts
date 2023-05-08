@@ -127,14 +127,14 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
         Validators.required]
       ],
       email: ['', [
-        Validators.required,
+        // Validators.required,
         Validators.pattern(this.emailRegex),
        // emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       ]],
       fileNumber: ['', [
-        Validators.required,
-        Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$'),
-        Validators.maxLength(30),
+        // Validators.required,
+        // Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$'),
+        // Validators.maxLength(30),
       ]],
       religionId: ['', [
         Validators.required,
@@ -142,17 +142,19 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       uidNumber: ['', [
         Validators.required,
         Validators.maxLength(12),
-        Validators.minLength(12)
+        Validators.minLength(12) 
       ]],
-      languageKnown: [null,[
-        Validators.required]
+      languageKnown: [null,
+        // [
+        // Validators.required] 
       ],
       remarks:[null,[
         Validators.maxLength(250)]
       ],
       refNum:[null,[
-        Validators.required,
-        Validators.maxLength(30)]
+        // Validators.required,
+        // Validators.maxLength(30)
+      ]
       ],
     });
   }

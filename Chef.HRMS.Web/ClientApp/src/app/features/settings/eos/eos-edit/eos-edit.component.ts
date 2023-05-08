@@ -163,9 +163,9 @@ export class EosEditComponent implements OnInit {
       employeeEOSpaymentType: ['', [
         Validators.required
       ]],
-      includedBenefits: ['', [
-        Validators.required
-      ]],
+      // includedBenefits: ['', [
+      //   Validators.required
+      // ]],
       
     });
   }
