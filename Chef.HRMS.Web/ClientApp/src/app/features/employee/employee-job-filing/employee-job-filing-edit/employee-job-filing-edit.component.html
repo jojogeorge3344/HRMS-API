@@ -52,7 +52,7 @@
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="expensePolicyId">Expense Policy</label>
                 <select class="form-control" formControlName="expensePolicyId">
-                    <option value="" disabled>Select Expense Policy</option>
+                    <option value="0" >Select Expense Policy</option>
                     <option *ngFor="let type of expensePolicyId" [ngValue]='type.id'>
                         {{type.name}}
                     </option>
@@ -122,7 +122,7 @@
             <div class="form-group form-input-line col-sm-4">
                 <label class="col-form-label" for="">EOS Type</label>
                 <select class="form-control" formControlName="eosId"  (change)='onOptionsSelected()'>
-                    <option value="" disabled>Select EOS Type</option>
+                    <option value="0" >Select EOS Type</option>
                     <option  style="width: 100px;" *ngFor="let items of eosTypes" [ngValue]='items.id'>
                         <div style="width: 130px;">{{items.bfName}}</div>
                     </option>
