@@ -18,7 +18,8 @@ export class EmployeeJobTitleListComponent implements OnInit {
 
   jobTitles: EmployeeJobTitle[];
   jobTitleNames: string[];
-
+  searchKey: string = "";
+  filteredJobTitles: EmployeeJobTitle[];
   constructor(
     private employeeJobTitleService: EmployeeJobTitleService,
     public modalService: NgbModal,
@@ -32,6 +33,7 @@ export class EmployeeJobTitleListComponent implements OnInit {
   getJobList() {
     this.employeeJobTitleService.getAllJobTitleList().subscribe(result => {
       this.jobTitles = result;
+      this.filteredJobTitles = result;
       this.jobTitleNames = this.jobTitles.map(a => a.name.toLowerCase());
     },
     error => {
@@ -111,5 +113,11 @@ export class EmployeeJobTitleListComponent implements OnInit {
           });
         }
     });
+  }
+  searchEmployee(): void {
+    this.filteredJobTitles = this.jobTitles.filter(
+      (emp) =>
+        emp.name?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
   }
 }

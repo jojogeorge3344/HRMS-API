@@ -315,9 +315,9 @@ export class LeaveComponentCreateComponent implements OnInit {
       leaveCutOffType: [null, [Validators.required]],
       isAccruedLeaveAmount: [false, [Validators.required]],
       isEncash: [false, [Validators.required]],
-      isCarryForward: [false, [Validators.required]],
+      // isCarryForward: [false, [Validators.required]],
       leaveComponentId: [null],
-      leaveDeduction: [0],
+      leaveDeduction: ['',[Validators.required]],
       leaveEncashment: [{ value: 0, disabled: this.isEncash }],
       annualLeave: [{ value: 0, disabled: this.isAnnual }],
     });

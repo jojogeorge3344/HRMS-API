@@ -6,5 +6,7 @@ namespace Chef.HRMS.Repositories
     {
         Task<IEnumerable<EmployeeRevisionSalaryView>> GetEmployeeRevisionSalaryDetails(int payrollStructureId,int employee);
 
+        Task<IEnumerable<EmployeeRevisionDetails>> GetEmployeeRevisionSalaryDetail(int employeeRevisionId);
+
     }
 }
