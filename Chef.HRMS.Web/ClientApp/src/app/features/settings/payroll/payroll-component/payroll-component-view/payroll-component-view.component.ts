@@ -104,6 +104,7 @@ export class PayrollComponentViewComponent implements OnInit {
       includeInPaySlipType: [null],
       roundingType: [null],
       createdDate: [],
+      orderNumber:[null,Validators.required]
     });
   }
 }

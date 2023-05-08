@@ -66,5 +66,10 @@ namespace Chef.HRMS.Models
         public int HolidayOverTime { get; set; }
 
         public string EmployeeName{ get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeNumber { get; set; }
     }
 }

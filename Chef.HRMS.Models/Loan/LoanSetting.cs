@@ -64,6 +64,7 @@ namespace Chef.HRMS.Models
         /// </summary>n
         public bool isEnabled { get; set; }
 
-        public int DeductionBFCode { get; set; }
+        public int LoanAdvanceType { get; set; }
+        public int LoanRepaymentType { get; set; }
     }
 }
