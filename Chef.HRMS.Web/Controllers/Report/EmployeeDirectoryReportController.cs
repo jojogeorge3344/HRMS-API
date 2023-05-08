@@ -52,7 +52,15 @@ public class EmployeeDirectoryReportController : ReportViewerController
         this.baseService= baseService;
         this.ReportPath = @"Reports\EmployeeDetailsFormatNewDesign.rdlc";
     }
-
+    public override void OnInitReportOptions(ReportViewerOptions reportOption)
+    {
+        AssignReportPath();
+        base.OnInitReportOptions(reportOption);
+    }
+    private void AssignReportPath()
+    {
+        this.ReportPath = @"Reports\EmployeeDetailsFormatNewDesign.rdlc";
+    }
     public override void OnReportLoaded(ReportViewerOptions reportOption)
     {
         if (CustomData != null && CustomData.Count > 0)
@@ -76,8 +84,5 @@ public class EmployeeDirectoryReportController : ReportViewerController
             reportOption.AddDataSource("WPSDetails", wpsDetails);
         }
     }
-    public override void OnInitReportOptions(ReportViewerOptions reportOption)
-    {
-        base.OnInitReportOptions(reportOption);
-    }
+    
 }
