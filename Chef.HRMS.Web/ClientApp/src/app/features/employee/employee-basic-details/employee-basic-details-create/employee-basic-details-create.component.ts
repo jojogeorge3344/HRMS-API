@@ -142,7 +142,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       uidNumber: ['', [
         Validators.required,
         Validators.maxLength(12),
-        Validators.minLength(12)
+        Validators.minLength(12) 
       ]],
       languageKnown: [null,
         // [
