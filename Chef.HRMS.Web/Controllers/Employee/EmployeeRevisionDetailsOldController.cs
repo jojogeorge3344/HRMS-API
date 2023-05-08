@@ -84,5 +84,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("GetOldEmployeeRevisionSalaryDetail/{employeeRevisionId}")]
+        public async Task<ActionResult<IEnumerable<EmployeeRevisionDetailsOld>>> GetOldEmployeeRevisionSalaryDetail(int employeeRevisionId)
+        {
+            var componentlist = await employeeRevisionDetailsOldService.GetOldEmployeeRevisionSalaryDetail(employeeRevisionId);
+
+            return Ok(componentlist);
+        }
     }
 }

@@ -14,6 +14,15 @@ namespace Chef.HRMS.Repositories
         {
         }
 
+        public async Task<IEnumerable<EmployeeRevisionDetails>> GetEmployeeRevisionSalaryDetail(int employeeRevisionId)
+        {
+            return await QueryFactory
+           .Query<EmployeeRevisionDetails>()
+           .Where("employeerevisionid", employeeRevisionId)
+           .WhereNotArchived()
+           .GetAsync<EmployeeRevisionDetails>();
+        }
+
         public async Task<IEnumerable<EmployeeRevisionSalaryView>> GetEmployeeRevisionSalaryDetails(int payrollStructureId,int employee)
         {
             var sql = @"SELECT DISTINCT pcc.payrollcomponentid ,pcc.shortcode,pcc.name,pc.formula,escd.monthlyamount,pc.id AS payrollcalculationid
