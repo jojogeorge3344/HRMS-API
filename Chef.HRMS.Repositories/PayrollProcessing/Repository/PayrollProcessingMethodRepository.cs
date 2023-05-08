@@ -324,7 +324,7 @@ namespace Chef.HRMS.Repositories
                         FROM   hrms.payrollprocessingmethod
                         WHERE processedstep = 5 AND employeeid=@employeeid AND month=@month AND year=@year";
             result = await Connection.QueryFirstOrDefaultAsync<int>(sql, new { employeeid, month, year });
-           if(result == 0)
+            if(result == 0)
             {
                 return 0;
             }
@@ -332,6 +332,15 @@ namespace Chef.HRMS.Repositories
             {
                 return 1;
             }
+        }
+
+        public async Task<IEnumerable<PayrollProcessingMethod>> GetDetailsByPaygroupId(int paygroupid, int prevmonth, int prevyear)
+        {
+            var sql = @"SELECT ppm.processedstep,ppm.name, ppm.month, 
+                        ppm.year,pg.startingyear, pg.startingmonth FROM hrms.payrollprocessingmethod ppm 
+                        right join hrms.paygroup pg on pg.id = ppm.paygroupid where pg.id = @paygroupid
+                        and year = @prevyear and month = @prevmonth ORDER BY pg.id ASC ";
+            return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { paygroupid, prevmonth, prevyear });
         }
 
         public async Task<IEnumerable<PayrollProcessingMethod>> GetEmployeeDetails(int employeeid, int paygroupid)
