@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeRevisionSalaryView>> GetEmployeeRevisionSalaryDetails(int payrollStructureId,int employee)
         {
-            var sql = @"SELECT DISTINCT pcc.payrollcomponentid ,pcc.shortcode,pcc.name,pc.formula,escd.monthlyamount
+            var sql = @"SELECT DISTINCT pcc.payrollcomponentid ,pcc.shortcode,pcc.name,pc.formula,escd.monthlyamount,pc.id AS payrollcalculationid
                         FROM hrms.payrollcomponentconfiguration pcc
                         INNER JOIN hrms.payrollcalculation pc
                         ON pcc.payrollstructureid = pc.payrollstructureid
