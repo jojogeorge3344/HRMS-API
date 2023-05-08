@@ -3,6 +3,7 @@ using Chef.Common.Authentication.Repositories;
 using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Employee;
 using Chef.HRMS.Repositories;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
@@ -13,15 +14,15 @@ namespace Chef.HRMS.Services
     public class EmployeeRevisionService : AsyncService<EmployeeRevision>, IEmployeeRevisionService
     {
         private readonly IEmployeeRevisionRepository employeeRevisionRepository;
-        private readonly IEmployeeRevisionOldService employeeRevisionOldService;
+        private readonly IEmployeeRevisionOldRepository employeeRevisionOldRepository;
         private readonly IAuthService authService;
         private readonly IJobFilingService jobFilingService;
 
         public EmployeeRevisionService(IEmployeeRevisionRepository employeeRevisionRepository, IAuthService authService,
-            IEmployeeRevisionOldService employeeRevisionOldService, IJobFilingService jobFilingService)
+            IEmployeeRevisionOldRepository employeeRevisionOldRepository, IJobFilingService jobFilingService)
         {
             this.employeeRevisionRepository = employeeRevisionRepository;
-            this.employeeRevisionOldService = employeeRevisionOldService;
+            this.employeeRevisionOldRepository = employeeRevisionOldRepository;
             this.authService = authService;
             this.jobFilingService = jobFilingService;
         }
@@ -46,17 +47,17 @@ namespace Chef.HRMS.Services
             return await employeeRevisionRepository.GetEmployeeDetail(employeeId);
         }
 
-        public new async Task<int> InsertAsync(EmployeeRevision employeeRevision)
+        public new async Task<int> InsertAsync(EmployeeRevisionDTO employeeRevisionDTO)
         {
-            int revisionId = await employeeRevisionRepository.InsertAsync(employeeRevision);
+            int revisionId = await employeeRevisionRepository.InsertAsync(employeeRevisionDTO.employeeRevision);
 
-            if (employeeRevision.EmployeeRevisionsOldList != null)
+            var status = (int)(employeeRevisionDTO.employeeRevision.RevStatus = Types.EmployeeRevisionStatus.Approveed);
+            var approveStatus = await employeeRevisionRepository.UpdateEmployeeRevisionStatus(revisionId, status);
+
+            if (employeeRevisionDTO.employeeRevisionsOld != null)
             {
-                foreach(EmployeeRevisionOld list in employeeRevision.EmployeeRevisionsOldList)
-                {
-                    list.EmployeeRevisionId = revisionId;   
-                    await employeeRevisionOldService.InsertAsync(list);
-                }
+                employeeRevisionDTO.employeeRevisionsOld.EmployeeRevisionId = revisionId;   
+                await employeeRevisionOldRepository.InsertAsync(employeeRevisionDTO.employeeRevisionsOld);
             }
             return revisionId;
         }
@@ -132,6 +133,11 @@ namespace Chef.HRMS.Services
             //};
 
             return await jobFilingService.UpdateAsync(job);
+        }
+
+        public async Task<bool> IsEmployeeRevisionApproved(int employeeRevisionId)
+        {
+            return await employeeRevisionRepository.IsEmployeeRevisionApproved(employeeRevisionId);
         }
     }
 }
