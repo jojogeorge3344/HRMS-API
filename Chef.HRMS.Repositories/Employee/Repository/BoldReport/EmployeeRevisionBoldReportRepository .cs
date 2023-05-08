@@ -25,7 +25,8 @@ namespace Chef.HRMS.Repositories
                                           LEFT JOIN hrms.payrollstructure prs ON er.payrollstructureid=prs.id
                                           LEFT JOIN hrms.paygroup pg ON er.paygroupid=pg.id
                                          LEFT JOIN hrms.overtimepolicy otp ON er.overtimepolicyid=otp.id
-                                     WHERE employeerevisionold.id = {0}; "", id); ");
+                                     WHERE employeerevisionold.id = {0}", id);
+           
             var result = await DatabaseSession.QueryAsync<EmployeeRevisionBoldDto>(query);
             return result;
         }
@@ -46,7 +47,7 @@ namespace Chef.HRMS.Repositories
                                           LEFT JOIN hrms.payrollstructure prs ON er.payrollstructureid=prs.id
                                           LEFT JOIN hrms.paygroup pg ON er.paygroupid=pg.id
                                          LEFT JOIN hrms.overtimepolicy otp ON er.overtimepolicyid=otp.id
-                                        WHERE employeerevision.id = {0}; "", id); ");
+                                        WHERE employeerevision.id = {0}", id);
             var result = await DatabaseSession.QueryAsync<EmployeeRevisionBoldDto>(query);
             return result;
         }
@@ -57,7 +58,7 @@ namespace Chef.HRMS.Repositories
                                             FROM hrms.employeerevisionold er
                                             LEFT JOIN hrms.payrollcomponent pr ON er.payrollstructureid=pr.id
                                             LEFT JOIN hrms.employeesalaryconfigurationdetails es ON er.payrollstructureid=es.id
-                                            WHERE employeerevisionold.id = {0}; """", id); ");
+                                            WHERE employeerevisionold.id = {0}", id);
             var result = await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query);
             return result;
         }
@@ -68,7 +69,7 @@ namespace Chef.HRMS.Repositories
                                             FROM hrms.employeerevision er
                                             LEFT JOIN hrms.payrollcomponent pr ON er.payrollstructureid=pr.id
                                             LEFT JOIN hrms.employeesalaryconfigurationdetails es ON er.payrollstructureid=es.id
-                                             WHERE employeerevision.id = {0}; "", id); ");
+                                             WHERE employeerevision.id = {0}", id);
             var result = await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query);
             return result;
         }
