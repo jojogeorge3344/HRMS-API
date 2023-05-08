@@ -1,8 +1,9 @@
 ﻿using BoldReports.Web.ReportViewer;
+using Chef.Common.Core.Services;
 using Chef.Common.Data.Services;
 using Chef.Common.Models;
 using Chef.HRMS.Services;
-using Chef.HRMS.Web.Controllers.Base;
+using Chef.HRMS.Web.Controllers;
 using Chef.HRMS.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ public class EmployeeDirectoryReportController : ReportViewerController
     private readonly IEmployeeBonusService employeeBonusService;
     private readonly IWPSUserService wPSUserService;
     private readonly IAddressService addressService;
+    private readonly IBaseService baseService;
 
     public EmployeeDirectoryReportController(
            IMemoryCache memoryCache,
@@ -33,8 +35,9 @@ public class EmployeeDirectoryReportController : ReportViewerController
            IEmployeeSalaryConfigurationService employeeSalaryConfigurationService,
            IEmployeeBonusService employeeBonusService,
            IWPSUserService wPSUserService,
-           IAddressService addressService
+           IAddressService addressService,
            //IDMSService dMSService
+           IBaseService baseService
            )
       : base(memoryCache, hostingEnvironment)
     {
@@ -45,6 +48,7 @@ public class EmployeeDirectoryReportController : ReportViewerController
         this.employeeBonusService = employeeBonusService;
         this.employeeSalaryConfigurationService = employeeSalaryConfigurationService;
         this.wPSUserService= wPSUserService;
+        this.baseService= baseService;
         this.ReportPath = @"Reports/.rdlc";
     }
 

@@ -1,7 +1,7 @@
 ﻿using BoldReports.Web.ReportViewer;
 using Chef.Common.Data.Services;
 using Chef.HRMS.Services;
-using Chef.HRMS.Web.Controllers.Base;
+using Chef.HRMS.Web.Controllers;
 using Chef.HRMS.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,11 +20,11 @@ namespace Chef.HRMS.Web.Controllers.BoldReport
         private readonly ILoanPrintBoldReportService loanPrintBoldReportService;
         private readonly ICommonDataService commonDataService;
         public LoanPrintBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService,
-              ILoanPrintBoldReportService loanPrintBoldReportService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment, branchService)
+              ILoanPrintBoldReportService loanPrintBoldReportService) : base(memoryCache, hostingEnvironment, branchService)
         {
             this.ReportPath = @"Reports\LoanPrintReport.rdlc";
             this.loanPrintBoldReportService = loanPrintBoldReportService;
-            this.commonDataService = commonDataService;
+            //this.commonDataService = commonDataService;
         }
         public override void OnInitReportOptions(ReportViewerOptions reportOption)
         {
