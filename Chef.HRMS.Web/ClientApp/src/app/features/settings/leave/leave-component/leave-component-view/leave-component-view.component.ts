@@ -326,7 +326,7 @@ export class LeaveComponentViewComponent implements OnInit {
       eligibleDays: [null],
       eligibilityBase: [0, [Validators.required]],
       maxLeaveAtATime: [null],
-      vacationSalaryFormula: [null],
+      // vacationSalaryFormula: [null],
       encashBFCode: [{ value: 0, disabled: this.isEncashBf }],
       encashLimitDays: [{ value: 0, disabled: this.isEncashLimit }],
       cfLimitDays: [{ value: 0, disabled: this.isCfLimit }],
