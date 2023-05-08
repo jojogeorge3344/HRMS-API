@@ -284,6 +284,10 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
       },
       {
+        path: 'employee-payroll-parameter-details',
+        loadChildren: () => import('./features/employee-payroll-parameter-details/payroll-parameter-details.module').then(m => m.PayrollParameterDetailsModule),
+      },
+      {
         path: 'adoc-earnings-and-deduction',
         loadChildren: () => import('./features/ADOC-Entry/adoc-entry.module').then(m => m.AdocEntryModule),
       },
