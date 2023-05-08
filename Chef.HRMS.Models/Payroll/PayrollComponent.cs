@@ -10,7 +10,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds the payroll componnet description
         /// </summary>
-        [Required]
+       // [Required]
         [Description("Payroll component description")]
         public string Description { get; set; }
 

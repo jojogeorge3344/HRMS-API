@@ -23,6 +23,7 @@ import { LeaveStructure } from '@settings/leave/leave-structure/leave-structure.
 import { Shift } from '@settings/attendance/shift/shift.model';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EosService } from '@settings/eos/eos.service';
 
 @Component({
   selector: 'hrms-employee-job-filing-view',
@@ -55,7 +56,10 @@ export class EmployeeJobFilingViewComponent implements OnInit {
   attendanceCaptureSchemeType = AttendanceCaptureSchemeType;
   paymentMode = PaymentMode;
   paymentModeKeys: number[];
+  eosTypes:any[]=[];
+
   constructor(
+    private eosService: EosService,
     private employeeJobFilingService: EmployeeJobFilingService,
     private leaveStructureService: LeaveStructureService,
     private holidayCategoryService: HolidayCategoryService,
@@ -90,6 +94,13 @@ export class EmployeeJobFilingViewComponent implements OnInit {
     this.getPayGroupList();
     this.getPayrollStructureList();
     this.getOverTimePolicyList();
+    this.eosService.getAll()
+    .subscribe((result) => {
+      this.eosTypes = result
+      console.log('eos type', this.eosTypes);
+
+    })
+
   }
 
   getJobFilingID() {
@@ -209,6 +220,7 @@ export class EmployeeJobFilingViewComponent implements OnInit {
       paymentMode: [{value:'', disabled:true}, [
         Validators.required
       ]],
+      eosId: [0],
       createdDate: []
     });
   }

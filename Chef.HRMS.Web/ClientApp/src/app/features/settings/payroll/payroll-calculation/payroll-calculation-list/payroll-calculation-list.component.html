@@ -19,7 +19,7 @@
                             <th>Salary Component</th>
                             <th>Pay Head Contract Value</th>
                             <th>Pay Head Base Unit</th>
-                            <th>Computed</th>
+                            <!-- <th>Computed</th> -->
                             <th>Formula</th>
                             <th>Actions</th>
                         </tr>
@@ -32,7 +32,7 @@
                                 <span class="text-uppercase">({{component.shortCode}})</span> </td>
                                 <td>{{component.payHeadContractValueType==2 ? 'Computed':'Fixed'}}</td>
                                 <td>{{payHeadBaseUnitType[component.payHeadBaseUnitType]}}</td>
-                            <td>{{component.isComputed? 'Yes' : 'No'}}</td>
+                            <!-- <td>{{component.isComputed? 'Yes' : 'No'}}</td> -->
                             <td>{{component.formula? component.formula : '--'}}</td>
                             <td [ngClass]="{ 'disabled': isDisabled(component, payroll.structureId)}">
                                 <button [disabled]="isDisabled(component, payroll.structureId)"

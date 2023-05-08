@@ -246,7 +246,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       paymentMode: ['', [
         Validators.required
       ]],
-      eosId: [''],
+      eosId: [0],
       bfCode: [null],
       bfName:[null],
       createdDate: []

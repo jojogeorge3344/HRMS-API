@@ -8,8 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 export class LeaveSettingsContainerComponent implements OnInit {
 
   tabs = [
-    { title: 'Leave Structure', fragment: 'leave-structure' },
-    { title: 'Leave Component', fragment: 'leave-component' }
+    { title: 'Leave Component', fragment: 'leave-component' },
+    { title: 'Leave Structure', fragment: 'leave-structure' }
   ];
   
   constructor(public route: ActivatedRoute) { }

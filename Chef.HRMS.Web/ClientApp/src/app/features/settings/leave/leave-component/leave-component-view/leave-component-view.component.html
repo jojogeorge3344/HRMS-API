@@ -289,7 +289,7 @@
                     >Annual Leave</label
                   >
                   <select class="form-control" formControlName="annualLeave" disabled>
-                    <option [ngValue]="null" disabled>Select</option>
+                    <option value="0" >Select</option>
                     <option *ngFor="let key of accuralList" [ngValue]="key.id">
                       {{ key.name }}
                     </option>
@@ -334,7 +334,7 @@
                     >Encash BF Code</label
                   >
                   <select class="form-control" formControlName="encashBFCode" disabled>
-                    <option [ngValue]="null" disabled>Select</option>
+                    <option value="0" >Select</option>
                     <option
                       *ngFor="let key of accuralBenefitList"
                       [ngValue]="key.id"
@@ -387,7 +387,7 @@
                   />
                 </div>
               </div>
-              <div class="col-md-3">
+              <!-- <div class="col-md-3">
                 <div class="form-group">
                   <label class="col-form-label" for="isCarryForward"
                     >Carry Forward</label
@@ -402,7 +402,7 @@
                     <option value="false">No</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-3">
                 <div class="form-group form-input-line">
                   <label class="col-form-label" for="cfLimitDays"
@@ -420,7 +420,7 @@
             <!-- <div class="row">
   
                       </div> -->
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-6 mb-5">
                 <div class="form-group form-input-line">
                   <label class="col-form-label" for="vacationSalaryFormula"
@@ -444,7 +444,7 @@
                   <i class="fal fa-edit"></i>
                 </button>
               </div>
-            </div>
+            </div> -->
           </form>
         </ng-template>
       </ngb-tab>
