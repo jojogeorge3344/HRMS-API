@@ -16,16 +16,16 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<SystemVariable>> GetAllActived(int payrollstructureid)
         {
             var sql = @"WITH my_cte AS (
-                        SELECT name,shortcode AS code,'PRC' as color
+                        SELECT name,shortcode AS code,'PRC' AS color
                         FROM hrms.payrollcomponentconfiguration WHERE payrollstructureid = @payrollstructureid AND isarchived = false
                         UNION  
-                        SELECT name,code,'SV' as color FROM hrms.systemvariable WHERE isarchived = false AND status = true
+                        SELECT name,code,'SV' AS color FROM hrms.systemvariable WHERE isarchived = false AND status = true
                         UNION 
-                        SELECT name,code,'UV'as color FROM hrms.uservariable WHERE isarchived = false AND status = true
+                        SELECT name,code,'UV' AS color FROM hrms.uservariable WHERE isarchived = false AND status = true
                         )
                         SELECT name,code,color FROM my_cte
                         GROUP BY name,code,color
-                        ORDER BY name ASC";
+                        ORDER BY color ASC";
 
             return await Connection.QueryAsync<SystemVariable>(sql, new { payrollstructureid });
         }
