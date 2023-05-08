@@ -51,5 +51,6 @@ namespace Chef.HRMS.Models
         [SqlKata.Ignore]
         public string TypeName { get; set; }
         public int MaximumLimit { get; set; }
+        public int OrderNumber { get; set; }
     }
 }

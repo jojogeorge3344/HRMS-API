@@ -102,12 +102,20 @@ namespace Chef.HRMS.Web.Controllers.Loan
             return Ok(result);
         }
 
-        [HttpGet("GetDeductionBFCode")]
-        public async Task<ActionResult<BenefitTypes>> GetDeductionBFCode()
+        [HttpGet("GetLoanRepayment")]
+        public async Task<ActionResult<IEnumerable<LoanAdvanceRepaymentView>>> GetLoanRepayment()
         {
-            var bfcode = await loanSettingServices.GetDeductionBFCode();
+            var deduction = await loanSettingServices.GetLoanRepayment();
 
-            return Ok(bfcode);
+            return Ok(deduction);
+        }
+
+        [HttpGet("GetLoanAdvance")]
+        public async Task<ActionResult<IEnumerable<LoanAdvanceRepaymentView>>> GetLoanAdvance()
+        {
+            var advance = await loanSettingServices.GetLoanAdvance();
+
+            return Ok(advance);
         }
     }
 }
