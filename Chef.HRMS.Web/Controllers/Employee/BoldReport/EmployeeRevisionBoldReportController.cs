@@ -1,7 +1,8 @@
 ﻿using BoldReports.Web.ReportViewer;
+using Chef.Common.Core.Services;
 using Chef.Common.Data.Services;
 using Chef.HRMS.Services;
-using Chef.HRMS.Web.Controllers.Base;
+using Chef.HRMS.Web.Controllers;
 using Chef.HRMS.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,12 +18,15 @@ namespace Chef.HRMS.Web.Controllers
     {
         private readonly IEmployeeRevisionBoldService employeeRevisionBoldService;
         private readonly ICommonDataService commonDataService;
+        private readonly IBaseService baseService;
+
         public EmployeeRevisionBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService,
               IEmployeeRevisionBoldService employeeRevisionBoldService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment, branchService)
         {
             this.ReportPath = @"Reports\EmployeeRevisionPrintReport.rdlc";
             this.employeeRevisionBoldService = employeeRevisionBoldService;
             this.commonDataService = commonDataService;
+            this.baseService = baseService;
         }
         public override void OnInitReportOptions(ReportViewerOptions reportOption)
         {

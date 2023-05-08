@@ -2,7 +2,7 @@
 using Chef.Common.Data.Services;
 using Chef.Common.Models;
 using Chef.HRMS.Services;
-using Chef.HRMS.Web.Controllers.Base;
+using Chef.HRMS.Web.Controllers;
 using Chef.HRMS.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
