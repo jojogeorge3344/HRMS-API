@@ -51,6 +51,9 @@ namespace Chef.HRMS.Services
         {
             int revisionId = await employeeRevisionRepository.InsertAsync(employeeRevisionDTO.employeeRevision);
 
+            var status = (int)(employeeRevisionDTO.employeeRevision.RevStatus = Types.EmployeeRevisionStatus.Approveed);
+            var approveStatus = await employeeRevisionRepository.UpdateEmployeeRevisionStatus(revisionId, status);
+
             if (employeeRevisionDTO.employeeRevisionsOld != null)
             {
                 employeeRevisionDTO.employeeRevisionsOld.EmployeeRevisionId = revisionId;   
@@ -130,6 +133,11 @@ namespace Chef.HRMS.Services
             //};
 
             return await jobFilingService.UpdateAsync(job);
+        }
+
+        public async Task<bool> IsEmployeeRevisionApproved(int employeeRevisionId)
+        {
+            return await employeeRevisionRepository.IsEmployeeRevisionApproved(employeeRevisionId);
         }
     }
 }

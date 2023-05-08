@@ -10,7 +10,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds the payroll componnet description
         /// </summary>
-        [Required]
+        //[Required]
         [Description("Payroll component description")]
         public string Description { get; set; }
 
@@ -51,5 +51,6 @@ namespace Chef.HRMS.Models
         [SqlKata.Ignore]
         public string TypeName { get; set; }
         public int MaximumLimit { get; set; }
+        public int OrderNumber { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace Chef.HRMS.Services
         Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status);
         Task<int> EmployeeRevisionProcess(int employeeRevisionid);
         Task<int> InsertAsync(EmployeeRevisionDTO employeeRevisionDTO);
+        Task<bool> IsEmployeeRevisionApproved(int employeeRevisionId);
     }
 }

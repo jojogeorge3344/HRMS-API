@@ -150,7 +150,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
         Validators.required
       ]],
       createdDate: [new Date()],
-      eosId: [''],
+      eosId: [0],
       bfCode: [''],
       bfName: [''],
     });
