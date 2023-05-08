@@ -1,4 +1,5 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Authentication;
+using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,15 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<int>> GetDetailsById(int employeeid, int month, int year)
         {
             var payrollProcessingMethod = await payrollProcessingMethodService.GetDetailsById(employeeid, month, year);
+
+            return Ok(payrollProcessingMethod);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetDetailsByPaygroupId/{paygroupid}/{month}/{year}")]
+        public async Task<ActionResult<int>> GetDetailsByPaygroupId(int paygroupid, int month, int year)
+        {
+            var payrollProcessingMethod = await payrollProcessingMethodService.GetDetailsByPaygroupId(paygroupid, month, year);
 
             return Ok(payrollProcessingMethod);
         }

@@ -51,5 +51,15 @@ namespace Chef.HRMS.Models
         /// Holds the processed step of payroll processing
         /// </summary>
         public ProcessedStep ProcessedStep { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int StartingYear { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int StartingMonth { get; set; }
     }
 }
