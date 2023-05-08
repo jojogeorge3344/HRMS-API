@@ -2,7 +2,7 @@
 using Chef.Common.Data.Services;
 using Chef.Common.Models;
 using Chef.HRMS.Services;
-using Chef.HRMS.Web.Controllers.Base;
+using Chef.HRMS.Web.Controllers;
 using Chef.HRMS.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,18 +33,19 @@ public class EmployeeDirectoryReportController : ReportViewerController
            IEmployeeSalaryConfigurationService employeeSalaryConfigurationService,
            IEmployeeBonusService employeeBonusService,
            IWPSUserService wPSUserService,
-           IAddressService addressService
+           IAddressService addressService,
+           IBranchService branchService
            //IDMSService dMSService
            )
-      : base(memoryCache, hostingEnvironment)
+      : base(memoryCache, hostingEnvironment, branchService)
     {
         this.employeeService = employeeService;
         this.jobDetailsService = jobDetailsService;
-        this.jobFilingService= jobFilingService;
+        this.jobFilingService = jobFilingService;
         this.addressService = addressService;
         this.employeeBonusService = employeeBonusService;
         this.employeeSalaryConfigurationService = employeeSalaryConfigurationService;
-        this.wPSUserService= wPSUserService;
+        this.wPSUserService = wPSUserService;
         this.ReportPath = @"Reports/.rdlc";
     }
 
