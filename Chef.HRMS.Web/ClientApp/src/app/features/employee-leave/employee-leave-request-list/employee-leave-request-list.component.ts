@@ -9,6 +9,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { EmployeeLeaveRequestCreateComponent } from "../employee-leave-request-create/employee-leave-request-create.component";
 import { TeamAttendanceService } from "@features/team-attendance/team-attendance.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { EmployeeLeaveRequestEditComponent } from "../employee-leave-request-edit/employee-leave-request-edit.component";
 
 @Component({
   selector: "hrms-employee-leave-request-list",
@@ -98,6 +99,20 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
   openView(leaveRequest: EmployeeLeaveRequest) {
     const modalRef = this.modalService.open(EmployeeLeaveRequestViewComponent, {
+      centered: true,
+      backdrop: "static",
+    });
+
+    modalRef.componentInstance.leaveRequest = leaveRequest;
+    modalRef.componentInstance.currentUserId = this.currentUserId;
+    modalRef.result.then((result) => {
+      if (result == "submit") {
+        this.getAllRequestedLeave();
+      }
+    });
+  }
+  openEdit(leaveRequest: EmployeeLeaveRequest) {
+    const modalRef = this.modalService.open(EmployeeLeaveRequestEditComponent, {
       centered: true,
       backdrop: "static",
     });

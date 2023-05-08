@@ -366,15 +366,18 @@
     </div>
   </div>
   <div class="modal-footer">
+    <button type="submit" class="btn btn-success">
+      <i class="mr-1 fal fa-draft"></i>Draft
+    </button>
+    <button type="submit" class="btn btn-success">
+      <i class="mr-1 fal fa-save"></i>Send For Approval
+    </button>
     <button
       type="button"
       class="btn btn-warning"
       (click)="activeModal.close('Close click')"
     >
       <i class="mr-1 fal fa-window-close"></i> Cancel
-    </button>
-    <button type="submit" class="btn btn-success">
-      <i class="mr-1 fal fa-save"></i>Request
     </button>
   </div>
 </form>
