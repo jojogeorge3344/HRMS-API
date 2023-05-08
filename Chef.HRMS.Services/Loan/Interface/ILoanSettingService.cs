@@ -8,6 +8,8 @@ namespace Chef.HRMS.Services
     {
         Task<int> GetLoanSettingId();
         Task<LoanSetting> GetTopOneLoanSetting();
-        Task<BenefitTypes> GetDeductionBFCode();
+        Task<IEnumerable<LoanAdvanceRepaymentView>> GetLoanRepayment();
+        Task<IEnumerable<LoanAdvanceRepaymentView>> GetLoanAdvance();
+        
     }
 }
