@@ -2,7 +2,7 @@
 using Chef.Common.Data.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Services;
-using Chef.HRMS.Web.Controllers.Base;
+using Chef.HRMS.Web.Controllers;
 using Chef.HRMS.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
 
-namespace Chef.HRMS.Web.Controllers.Leave
+namespace Chef.HRMS.Web.Controllers
 {
     [Route("api/settings/[controller]/[action]")]
     [ApiController]
@@ -46,13 +46,13 @@ namespace Chef.HRMS.Web.Controllers.Leave
                 int id = Convert.ToInt32(CustomData["id"].ToString());
                 var LRData = leavePrintBoldReportService.GetLeaveRequestDetailsAsync(id).Result;
 
-                var leaves =LRData.
+                var leaves = LRData.
                            Select(x => new LeaveRequestPrintBoldReport
                            {
                                FromDate = x.FromDate,
                                ToDate = x.ToDate,
-                               RequestedOn=x.RequestedOn,
-                               RejoinDate=x.RejoinDate
+                               RequestedOn = x.RequestedOn,
+                               RejoinDate = x.RejoinDate
                            }).FirstOrDefault();
 
                 if (leaves.FromDate == DateTime.MinValue)
