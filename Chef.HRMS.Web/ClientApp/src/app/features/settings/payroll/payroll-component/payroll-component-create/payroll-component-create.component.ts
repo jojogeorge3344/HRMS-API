@@ -184,7 +184,7 @@ export class PayrollComponentCreateComponent implements OnInit {
           duplicateNameValidator(this.payrollComponentCodes),
         ],
       ],
-      description: ["", [Validators.required, Validators.maxLength(128)]],
+      description: ["", [ Validators.maxLength(128)]],
       payHeadType: [null, Validators.required],
       payHeadContractValueType: [null, Validators.required],
       minimumLimit: [0],
@@ -192,6 +192,7 @@ export class PayrollComponentCreateComponent implements OnInit {
       payHeadBaseUnitType: [null, Validators.required],
       includeInPaySlipType: [null, Validators.required],
       roundingType: [null, Validators.required],
+      orderNumber:[null,Validators.required]
     });
   }
 }
