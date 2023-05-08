@@ -146,7 +146,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       ]],
       languageKnown: [null,
         // [
-        // Validators.required]
+        // Validators.required] 
       ],
       remarks:[null,[
         Validators.maxLength(250)]
