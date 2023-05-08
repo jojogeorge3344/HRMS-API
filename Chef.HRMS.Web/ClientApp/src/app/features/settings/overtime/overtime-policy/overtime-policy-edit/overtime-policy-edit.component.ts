@@ -63,7 +63,7 @@ export class OvertimePolicyEditComponent implements OnInit {
         duplicateNameValidator(this.overtimePolicyNames)
       ]],
       description: [null, [
-        Validators.required,
+        // Validators.required,
         Validators.maxLength(128),
       ]],
       attendanceHoursType: [{value: null, disabled: this.isDisabled}, [

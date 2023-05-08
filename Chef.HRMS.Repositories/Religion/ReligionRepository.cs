@@ -14,7 +14,7 @@ namespace Chef.HRMS.Repositories
 
         }
 
-        public async  Task<bool> IsReligionCodeExist(string code)
+        public async Task<bool> IsReligionCodeExist(string code)
         {
             if (await QueryFactory
             .Query<Religion>()
