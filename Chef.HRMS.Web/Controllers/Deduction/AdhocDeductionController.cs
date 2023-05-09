@@ -3,6 +3,7 @@ using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -48,10 +49,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(adhocDeduction);
         }
 
-        [HttpGet("GetAllAdhocDeductionByPayrollProcessingMethodId/{id}/{year}/{month}")]
-        public async Task<ActionResult<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int id, int year, int month)
+        [HttpGet("GetAllAdhocDeductionByPayrollProcessingMethodId/")]
+        public async Task<ActionResult<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, DateTime fromDate, DateTime toDate)
         {
-            var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionByPayrollProcessingMethodId(id, year, month);
+            var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionByPayrollProcessingMethodId(payGroupId,fromDate,toDate);
 
             if (adhocDeduction == null)
             {

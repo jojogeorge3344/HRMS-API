@@ -18,7 +18,12 @@ namespace Chef.HRMS.Models
 
         public int PayrollCalculationId { get; set; }
 
-        public Decimal MonthlyAmount { get; set; } 
+        public Decimal MonthlyAmount { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string Name { get; set; }
     }
 
     public class EmployeeRevisionDetailsOld : EmployeeRevisionDetails
