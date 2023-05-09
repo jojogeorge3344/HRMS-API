@@ -11,54 +11,38 @@
           </Border>
         </Style>
         <ReportItems>
-          <Tablix Name="Tablix2">
-            <Left>42.88125pt</Left>
-            <Top>6.88125pt</Top>
-            <Height>190.5pt</Height>
-            <Width>288.75pt</Width>
+          <Tablix Name="Tablix1">
+            <Left>58.5pt</Left>
+            <Top>17.25pt</Top>
+            <Height>198pt</Height>
+            <Width>375.75pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
                 <Style>None</Style>
               </Border>
-              <TopBorder>
-                <Style>None</Style>
-                <Width>1pt</Width>
-              </TopBorder>
-              <BottomBorder>
-                <Style>None</Style>
-                <Width>1pt</Width>
-              </BottomBorder>
-              <LeftBorder>
-                <Style>None</Style>
-                <Width>1pt</Width>
-              </LeftBorder>
-              <RightBorder>
-                <Style>None</Style>
-                <Width>1pt</Width>
-              </RightBorder>
             </Style>
             <DataSetName>LRPrintDataSet</DataSetName>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>214.8pt</Width>
+                  <Width>241.8pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>73.8pt</Width>
+                  <Width>133.8pt</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>17.4pt</Height>
+                  <Height>18pt</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox26">
+                        <Textbox Name="TextBox1">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -66,15 +50,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -84,7 +62,8 @@
                                 <TextRun>
                                   <Value>Request No:</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -101,11 +80,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox28">
+                        <Textbox Name="TextBox2">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -113,18 +92,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -134,7 +104,7 @@
                                 <TextRun>
                                   <Value>=Fields!RequestNumber.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
@@ -153,15 +123,15 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>17.4pt</Height>
+                  <Height>18pt</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox29">
+                        <Textbox Name="TextBox14">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -169,12 +139,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -184,7 +151,8 @@
                                 <TextRun>
                                   <Value>Employee Name:</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -201,11 +169,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox79">
+                        <Textbox Name="TextBox15">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -213,15 +181,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -231,7 +193,7 @@
                                 <TextRun>
                                   <Value>=Fields!EmployeeName.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
@@ -250,15 +212,15 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>17.4pt</Height>
+                  <Height>18pt</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox31">
+                        <Textbox Name="TextBox17">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -266,12 +228,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -281,7 +240,8 @@
                                 <TextRun>
                                   <Value>LeaveStart Date:</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -298,11 +258,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox33">
+                        <Textbox Name="TextBox18">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -310,15 +270,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -328,7 +282,7 @@
                                 <TextRun>
                                   <Value>=Fields!FromDated.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
@@ -347,15 +301,15 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>17.4pt</Height>
+                  <Height>18pt</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox34">
+                        <Textbox Name="TextBox11">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -363,12 +317,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -378,7 +329,8 @@
                                 <TextRun>
                                   <Value>LeaveEnd Date:</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -395,11 +347,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox35">
+                        <Textbox Name="TextBox12">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -407,15 +359,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -425,7 +371,7 @@
                                 <TextRun>
                                   <Value>=Fields!ToDated.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
@@ -444,15 +390,15 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>17.4pt</Height>
+                  <Height>18pt</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox37">
+                        <Textbox Name="TextBox36">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -460,12 +406,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -475,7 +418,8 @@
                                 <TextRun>
                                   <Value>Requested By:</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -492,11 +436,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox38">
+                        <Textbox Name="TextBox39">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -504,15 +448,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -522,7 +460,7 @@
                                 <TextRun>
                                   <Value>=Fields!EmployeeName.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
@@ -541,39 +479,25 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>17.4pt</Height>
+                  <Height>18pt</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox75">
+                        <Textbox Name="TextBox40">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
-                            <FontSize>10.00001pt</FontSize>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Style>None</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>#cccbcb</Color>
-                              <Style>None</Style>
-                              <Width>0.62475pt</Width>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -583,16 +507,14 @@
                                 <TextRun>
                                   <Value>Requested On:</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
-                                    <FontSize>9.9975pt</FontSize>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                                <FontSize>10.00001pt</FontSize>
-                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -603,11 +525,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox25">
+                        <Textbox Name="TextBox41">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -615,15 +537,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -633,7 +549,7 @@
                                 <TextRun>
                                   <Value>=Fields!RequestedOned.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
@@ -652,15 +568,15 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>17.4pt</Height>
+                  <Height>18pt</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox51">
+                        <Textbox Name="TextBox30">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -668,12 +584,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -683,7 +596,8 @@
                                 <TextRun>
                                   <Value>Leave Name:</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -700,11 +614,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox52">
+                        <Textbox Name="TextBox32">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -712,15 +626,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -730,7 +638,7 @@
                                 <TextRun>
                                   <Value>=Fields!LeaveName.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
@@ -749,15 +657,15 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>17.4pt</Height>
+                  <Height>18pt</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox53">
+                        <Textbox Name="TextBox24">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -765,12 +673,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -780,7 +685,8 @@
                                 <TextRun>
                                   <Value>Num Of Days:</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -797,11 +703,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox54">
+                        <Textbox Name="TextBox27">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -809,15 +715,9 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -827,7 +727,7 @@
                                 <TextRun>
                                   <Value>=Fields!NumberOfDays.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
@@ -835,260 +735,6 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>17.4pt</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox56">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Leave Type:</Value>
-                                  <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox57">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!LeaveType.Value</Value>
-                                  <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
-                                    <FontSize>8.49975pt</FontSize>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>17.4pt</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox70">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Rejoin Date:</Value>
-                                  <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox74">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!RejoinDated.Value</Value>
-                                  <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
-                                    <FontSize>8.49975pt</FontSize>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>17.4pt</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox76">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>214.8pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <FontSize>10.00001pt</FontSize>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Style>None</Style>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Style>None</Style>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Note:</Value>
-                                  <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
-                                    <FontSize>9.9975pt</FontSize>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                                <FontSize>10.00001pt</FontSize>
                                 <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
@@ -1098,13 +744,18 @@
                         <RowSpan>1</RowSpan>
                       </CellContents>
                     </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>18pt</Height>
+                  <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox50">
+                        <Textbox Name="TextBox20">
                           <Left>0in</Left>
                           <Top>0in</Top>
-                          <Height>17.4pt</Height>
-                          <Width>73.8pt</Width>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1112,21 +763,229 @@
                             <PaddingTop>2pt</PaddingTop>
                             <PaddingBottom>2pt</PaddingBottom>
                             <Border>
-                              <Color>LightGrey</Color>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
                             </Border>
-                            <TopBorder>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Leave Type:</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <FontFamily>Arial</FontFamily>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                        </Textbox>
+                        <ColSpan>1</ColSpan>
+                        <RowSpan>1</RowSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TextBox21">
+                          <Left>0in</Left>
+                          <Top>0in</Top>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <Border>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
-                            </TopBorder>
-                            <BottomBorder>
+                            </Border>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!LeaveType.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <FontFamily>Arial</FontFamily>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                        </Textbox>
+                        <ColSpan>1</ColSpan>
+                        <RowSpan>1</RowSpan>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>18pt</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TextBox44">
+                          <Left>0in</Left>
+                          <Top>0in</Top>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <Border>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
-                            </BottomBorder>
-                            <LeftBorder>
+                            </Border>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Rejoin Date:</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <FontFamily>Arial</FontFamily>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                        </Textbox>
+                        <ColSpan>1</ColSpan>
+                        <RowSpan>1</RowSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TextBox45">
+                          <Left>0in</Left>
+                          <Top>0in</Top>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <Border>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
+                            </Border>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!RejoinDated.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <FontFamily>Arial</FontFamily>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                        </Textbox>
+                        <ColSpan>1</ColSpan>
+                        <RowSpan>1</RowSpan>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>18pt</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TextBox42">
+                          <Left>0in</Left>
+                          <Top>0in</Top>
+                          <Height>18pt</Height>
+                          <Width>241.8pt</Width>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <Border>
+                              <Color>#ffffff</Color>
                               <Style>None</Style>
-                            </RightBorder>
+                            </Border>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Note:</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <FontFamily>Arial</FontFamily>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                        </Textbox>
+                        <ColSpan>1</ColSpan>
+                        <RowSpan>1</RowSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TextBox43">
+                          <Left>0in</Left>
+                          <Top>0in</Top>
+                          <Height>18pt</Height>
+                          <Width>133.8pt</Width>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <Border>
+                              <Color>#ffffff</Color>
+                              <Style>None</Style>
+                            </Border>
                           </Style>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1136,158 +995,6 @@
                                 <TextRun>
                                   <Value>=Fields!Description.Value</Value>
                                   <Style>
-                                    <FontFamily>Calibri Light</FontFamily>
-                                    <FontSize>8.49975pt</FontSize>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
-                <TablixMember />
-                <TablixMember />
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
-                <TablixMember>
-                  <Group Name="Details1" />
-                  <TablixMembers>
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                    <TablixMember />
-                  </TablixMembers>
-                </TablixMember>
-              </TablixMembers>
-            </TablixRowHierarchy>
-          </Tablix>
-          <Line Name="Line2">
-            <Left>36.14062pt</Left>
-            <Top>252.15pt</Top>
-            <Height>0pt</Height>
-            <Width>303.75pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Tablix Name="Tablix1">
-            <Left>41.39062pt</Left>
-            <Top>270.9pt</Top>
-            <Height>18pt</Height>
-            <Width>138.75pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-            <DataSetName>LRPrintDataSet</DataSetName>
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>57.6pt</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>81pt</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>18pt</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox2">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>18pt</Height>
-                          <Width>57.6pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Prepared By:</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.49975pt</FontSize>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox3">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>18pt</Height>
-                          <Width>81pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!PreparedBy.Value</Value>
-                                  <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
@@ -1317,166 +1024,23 @@
             <TablixRowHierarchy>
               <TablixMembers>
                 <TablixMember />
-              </TablixMembers>
-            </TablixRowHierarchy>
-          </Tablix>
-          <Tablix Name="Tablix3">
-            <Left>224.4pt</Left>
-            <Top>270.9pt</Top>
-            <Height>18pt</Height>
-            <Width>176.25pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <TopBorder>
-                <Style>None</Style>
-                <Width>1pt</Width>
-              </TopBorder>
-              <BottomBorder>
-                <Style>None</Style>
-                <Width>1pt</Width>
-              </BottomBorder>
-              <LeftBorder>
-                <Style>None</Style>
-                <Width>1pt</Width>
-              </LeftBorder>
-              <RightBorder>
-                <Style>None</Style>
-                <Width>1pt</Width>
-              </RightBorder>
-            </Style>
-            <DataSetName>LRPrintDataSet</DataSetName>
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>58.8pt</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>118.2pt</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>18pt</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox10">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>18pt</Height>
-                          <Width>58.8pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Approved By:</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.49975pt</FontSize>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox11">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>18pt</Height>
-                          <Width>118.2pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!ApprovedBy.Value</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8.49975pt</FontSize>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
                 <TablixMember />
                 <TablixMember />
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
           </Tablix>
-          <Line Name="Line3">
-            <Left>34.64062pt</Left>
-            <Top>307.65pt</Top>
-            <Height>0pt</Height>
-            <Width>303pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
         </ReportItems>
-        <Height>341.25pt</Height>
+        <Height>246pt</Height>
       </Body>
-      <Width>405.9pt</Width>
+      <Width>496.5pt</Width>
       <Page>
         <PageHeight>841.6807pt</PageHeight>
         <PageWidth>595.4405pt</PageWidth>
@@ -1494,13 +1058,13 @@
               <Width>1pt</Width>
             </BottomBorder>
           </Style>
-          <Height>59.25pt</Height>
+          <Height>42pt</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
             <Textbox Name="TextBox7">
-              <Left>36.88125pt</Left>
-              <Top>22.65pt</Top>
+              <Left>61.63125pt</Left>
+              <Top>7.65pt</Top>
               <Height>18pt</Height>
               <Width>135pt</Width>
               <Style>
@@ -1535,10 +1099,10 @@
               </Paragraphs>
             </Textbox>
             <Textbox Name="TextBox8">
-              <Left>267.15pt</Left>
-              <Top>21.9pt</Top>
+              <Left>344.4pt</Left>
+              <Top>7.65pt</Top>
               <Height>20.25pt</Height>
-              <Width>67.5pt</Width>
+              <Width>78pt</Width>
               <Style>
                 <FontFamily>Arial</FontFamily>
                 <PaddingLeft>2pt</PaddingLeft>
@@ -1558,7 +1122,7 @@
                       <Value>Capricorn LLC</Value>
                       <Style>
                         <FontFamily>Calibri Light</FontFamily>
-                        <FontSize>11.49975pt</FontSize>
+                        <FontSize>11.4998pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                         <Color>black</Color>
                       </Style>
@@ -1571,10 +1135,10 @@
               </Paragraphs>
             </Textbox>
             <Line Name="Line1">
-              <Left>35.39062pt</Left>
-              <Top>51.9pt</Top>
+              <Left>20.38125pt</Left>
+              <Top>30.9pt</Top>
               <Height>0pt</Height>
-              <Width>303pt</Width>
+              <Width>449.25pt</Width>
               <Style>
                 <FontFamily>Arial</FontFamily>
                 <Border>
@@ -1584,10 +1148,187 @@
             </Line>
           </ReportItems>
         </PageHeader>
-        <LeftMargin>26.25pt</LeftMargin>
-        <RightMargin>26.25pt</RightMargin>
-        <TopMargin>26.25pt</TopMargin>
-        <BottomMargin>26.25pt</BottomMargin>
+        <PageFooter>
+          <Style>
+            <FontFamily>Arial</FontFamily>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+          <Height>78.75pt</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Line Name="Line8">
+              <Left>24.88125pt</Left>
+              <Top>52.47187pt</Top>
+              <Height>0pt</Height>
+              <Width>450pt</Width>
+              <Style>
+                <FontFamily>Arial</FontFamily>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Line Name="Line10">
+              <Left>24.88125pt</Left>
+              <Top>8.95312pt</Top>
+              <Height>0pt</Height>
+              <Width>447pt</Width>
+              <Style>
+                <FontFamily>Arial</FontFamily>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Textbox Name="TextBox4">
+              <Left>76.64064pt</Left>
+              <Top>21.28125pt</Top>
+              <Height>21pt</Height>
+              <Width>56.25pt</Width>
+              <Style>
+                <FontFamily>Arial</FontFamily>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Prepared By:</Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontSize>8.49975pt</FontSize>
+                        <Color>black</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <FontFamily>Arial</FontFamily>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+            </Textbox>
+            <Textbox Name="PreparedBy2">
+              <Left>125.2219pt</Left>
+              <Top>22.5pt</Top>
+              <Height>15.75pt</Height>
+              <Width>93.75pt</Width>
+              <Style>
+                <FontFamily>Arial</FontFamily>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!PreparedBy.Value, "LRPrintDataSet")</Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontSize>8.49975pt</FontSize>
+                        <Color>black</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <FontFamily>Arial</FontFamily>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+            </Textbox>
+            <Textbox Name="TextBox9">
+              <Left>295.65pt</Left>
+              <Top>22.78125pt</Top>
+              <Height>14.25pt</Height>
+              <Width>57pt</Width>
+              <Style>
+                <FontFamily>Arial</FontFamily>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Approved By:</Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontSize>8.49975pt</FontSize>
+                        <Color>black</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <FontFamily>Arial</FontFamily>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+            </Textbox>
+            <Textbox Name="ApprovedBy1">
+              <Left>354pt</Left>
+              <Top>22.5pt</Top>
+              <Height>15.75pt</Height>
+              <Width>93pt</Width>
+              <Style>
+                <FontFamily>Arial</FontFamily>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!ApprovedBy.Value, "LRPrintDataSet")</Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontSize>8.49975pt</FontSize>
+                        <Color>black</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <FontFamily>Arial</FontFamily>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+            </Textbox>
+          </ReportItems>
+        </PageFooter>
+        <LeftMargin>19.6875pt</LeftMargin>
+        <RightMargin>19.6875pt</RightMargin>
+        <TopMargin>19.6875pt</TopMargin>
+        <BottomMargin>19.6875pt</BottomMargin>
         <ColumnSpacing>36pt</ColumnSpacing>
         <Style>
           <FontFamily>Arial</FontFamily>

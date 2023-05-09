@@ -16,7 +16,7 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 import { LeaveRequestPrintComponent } from './leave-request-print/leave-request-print.component';
 import { ReportViewerModule } from '@shared/report-viewer/report-viewer.module';
 import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
-
+import {NgxPrintModule} from 'ngx-print';
 
 
 @NgModule({
@@ -48,6 +48,7 @@ import { BoldReportViewerModule } from '@boldreports/angular-reporting-component
     DirectivesModule,
     ReportViewerModule,
     BoldReportViewerModule,
+    NgxPrintModule
   ],
   providers: [{
 
