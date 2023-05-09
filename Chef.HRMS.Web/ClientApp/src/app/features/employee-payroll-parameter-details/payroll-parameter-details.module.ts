@@ -11,6 +11,7 @@ import { PayrollParameterDetailsCreateComponent } from './payroll-parameter-deta
 import { PayrollParameterDetailsEditComponent } from './payroll-parameter-details-edit/payroll-parameter-details-edit.component';
 import { PayrollParameterDetailsListComponent } from './payroll-parameter-details-list/payroll-parameter-details-list.component';
 import { PayrollParameterDetailsViewComponent } from './payroll-parameter-details-view/payroll-parameter-details-view.component';
+import { SelectDropDownModule } from "ngx-select-dropdown";
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { PayrollParameterDetailsViewComponent } from './payroll-parameter-detail
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    SelectDropDownModule
     ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,

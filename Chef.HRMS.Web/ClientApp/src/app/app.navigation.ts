@@ -215,7 +215,7 @@ export const NavigationItems = [
         routerLink: '/adoc-earnings-and-deduction'
       },
       {
-        title: 'Employee Payroll Parameter Detials',
+        title: 'Employee Payroll Parameter Details',
         tags: 'settings-expense',
         routerLink: '/employee-payroll-parameter-details'
       },
