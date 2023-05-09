@@ -1,11 +1,13 @@
 ﻿using Chef.Common.Authentication.Models;
 using Chef.Common.Authentication.Repositories;
 using Chef.Common.Core.Services;
+using Chef.Common.Repositories;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.Employee;
 using Chef.HRMS.Repositories;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,14 +19,16 @@ namespace Chef.HRMS.Services
         private readonly IEmployeeRevisionOldRepository employeeRevisionOldRepository;
         private readonly IAuthService authService;
         private readonly IJobFilingService jobFilingService;
+        private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
 
         public EmployeeRevisionService(IEmployeeRevisionRepository employeeRevisionRepository, IAuthService authService,
-            IEmployeeRevisionOldRepository employeeRevisionOldRepository, IJobFilingService jobFilingService)
+            IEmployeeRevisionOldRepository employeeRevisionOldRepository, IJobFilingService jobFilingService, ITenantSimpleUnitOfWork simpleUnitOfWork)
         {
             this.employeeRevisionRepository = employeeRevisionRepository;
             this.employeeRevisionOldRepository = employeeRevisionOldRepository;
             this.authService = authService;
             this.jobFilingService = jobFilingService;
+            this.simpleUnitOfWork = simpleUnitOfWork;
         }
 
         public async Task<int> DeleteAsync(int id)
@@ -49,17 +53,31 @@ namespace Chef.HRMS.Services
 
         public new async Task<int> InsertAsync(EmployeeRevisionDTO employeeRevisionDTO)
         {
-            int revisionId = await employeeRevisionRepository.InsertAsync(employeeRevisionDTO.employeeRevision);
-
-            var status = (int)(employeeRevisionDTO.employeeRevision.RevStatus = Types.EmployeeRevisionStatus.Approveed);
-            var approveStatus = await employeeRevisionRepository.UpdateEmployeeRevisionStatus(revisionId, status);
-
-            if (employeeRevisionDTO.employeeRevisionsOld != null)
+            try
             {
-                employeeRevisionDTO.employeeRevisionsOld.EmployeeRevisionId = revisionId;   
-                await employeeRevisionOldRepository.InsertAsync(employeeRevisionDTO.employeeRevisionsOld);
+                simpleUnitOfWork.BeginTransaction();
+
+                employeeRevisionDTO.employeeRevision.Id = await employeeRevisionRepository.InsertAsync(employeeRevisionDTO.employeeRevision);
+
+                employeeRevisionDTO.employeeRevision.ReqNum = "REQ-" + employeeRevisionDTO.employeeRevision.Id;
+                await employeeRevisionRepository.UpdateAsync(employeeRevisionDTO.employeeRevision);
+
+                var status = (int)(employeeRevisionDTO.employeeRevision.RevStatus = Types.EmployeeRevisionStatus.Approveed);
+                var approveStatus = await employeeRevisionRepository.UpdateEmployeeRevisionStatus(employeeRevisionDTO.employeeRevision.Id, status);
+
+                if (employeeRevisionDTO.employeeRevisionsOld != null)
+                {
+                    employeeRevisionDTO.employeeRevisionsOld.EmployeeRevisionId = employeeRevisionDTO.employeeRevision.Id;
+                    await employeeRevisionOldRepository.InsertAsync(employeeRevisionDTO.employeeRevisionsOld);
+                }
+                simpleUnitOfWork.Commit();
+                return employeeRevisionDTO.employeeRevision.Id;
             }
-            return revisionId;
+            catch (Exception ex)
+            {
+                simpleUnitOfWork.Rollback();
+                return 0;
+            }
         }
 
         public async Task<int> UpdateAsync(EmployeeRevision employeeRevision)

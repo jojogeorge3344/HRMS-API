@@ -85,5 +85,6 @@ namespace Chef.HRMS.Models
         public int BenefitTypeId { get; set; }
         public int BenefitCategoryId { get; set; }
         public int LeaveEligibilityId { get; set; }
+        public bool IsUnpaidLeave { get; set; }
     }
 }

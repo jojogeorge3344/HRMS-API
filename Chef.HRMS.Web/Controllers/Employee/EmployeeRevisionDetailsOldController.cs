@@ -73,7 +73,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(EmployeeRevisionDetailsOld EmployeeRevisionDetailsOld)
+        public async Task<ActionResult> Update([FromBody]IEnumerable<EmployeeRevisionDetailsOld> EmployeeRevisionDetailsOld)
         {
             if (!ModelState.IsValid)
             {
@@ -83,6 +83,14 @@ namespace Chef.HRMS.Web.Controllers
             var result = await employeeRevisionDetailsOldService.UpdateAsync(EmployeeRevisionDetailsOld);
 
             return Ok(result);
+        }
+
+        [HttpGet("GetOldEmployeeRevisionSalaryDetail/{employeeRevisionId}")]
+        public async Task<ActionResult<IEnumerable<EmployeeRevisionDetailsOld>>> GetOldEmployeeRevisionSalaryDetail(int employeeRevisionId)
+        {
+            var componentlist = await employeeRevisionDetailsOldService.GetOldEmployeeRevisionSalaryDetail(employeeRevisionId);
+
+            return Ok(componentlist);
         }
     }
 }
