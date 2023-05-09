@@ -22,7 +22,7 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
   employeeList;
   config;
   userVariableDetails:any[]
-  userVariableTypeOf = UserVariableType;
+  variableType;
 
   constructor(   
      private route: ActivatedRoute,
@@ -54,10 +54,10 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
   selectionChanged(args) {
     this.addForm.get("employeeId").patchValue(args.value.id);
   }
-  onChangeEvent(e){
-    debugger
-  console.log(e.target.value);
-  
+  onChangeEvent(args){
+    let id=this.addForm.get("userVariableId").value
+   let selectedItem= this.userVariableDetails.find((item)=>item.id==id)
+  this.variableType=UserVariableType[selectedItem.type]
   }
   getEmployeeList() {
     debugger
