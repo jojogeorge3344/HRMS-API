@@ -39,8 +39,9 @@
                 <td>{{request.emiStartsFromMonth}} / {{request.emiStartsFromYear}}</td>
                 <td>{{request.repaymentTerm}}</td>
                 <td>
-                    <span *ngIf="request.isApproved">Approved</span>
-                    <span *ngIf="!request.isApproved">Approval Pending</span>
+                    <!-- <span *ngIf="request.isApproved">Approved</span>
+                    <span *ngIf="!request.isApproved">Approval Pending</span> -->
+                    {{requestTypes[request.isApproved]}}
                 </td>
                 <td class="d-flex justify-content-around">
                     <div class="btn-group" dropdown container="main">
@@ -51,7 +52,7 @@
                         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                             aria-labelledby="button-basic">
                             <!-- <li role="menuitem" (click)="openView(shift)"><a class="dropdown-item">View</a></li> -->
-                            <li role="menuitem" (click)="openEditLoanRequest(request.id,request.isApproved)"><a class="dropdown-item">Edit</a></li>
+                            <li role="menuitem" (click)="openEditLoanRequest(request.id,request.isApproved) && isApplied(request.isApproved)"><a [ngClass]="{'disabled': !isApplied(request.isApproved)}" class="dropdown-item">Edit</a></li>
                             <li role="menuitem" (click)="openViewLoanRequest(request.id)"><a class="dropdown-item">View</a></li>
                             <li role="menuitem" (click)="!isDisabled(request) && deleteLoanRequest(request)"><a [ngClass]="{'disabled': isDisabled(request)}" class="dropdown-item">Cancel</a></li>
                         </ul>
