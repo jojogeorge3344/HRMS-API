@@ -72,8 +72,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
 
   employeeList: Employee[];
   selectedItems = [];
-  @ViewChild("notifyPersonnel")
-  notifyPersonnel: ElementRef;
+  @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
   employeeDetails: Employee;
   taken = ["", ""];
   @Input() leaves;
@@ -148,7 +147,9 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       fromDate: new Date(this.leaveRequest.fromDate),
       toDate: new Date(this.leaveRequest.toDate),
       rejoinDate:new Date(this.leaveRequest.rejoinDate),
+      leaveComponentId:this.leaveRequest.leaveComponentId
     });
+    console.log(this.addForm)
     this.getLeaveBalance();
     this.getEmployeeDetails();
     this.getEmployeeList();
@@ -612,6 +613,8 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
+    console.log(this.addForm)
     if(this.addForm.invalid){
 
       return
@@ -670,6 +673,8 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     }
   }
   draftSave() {
+    debugger
+    console.log(this.addForm)
     if(this.addForm.invalid){
 
       return

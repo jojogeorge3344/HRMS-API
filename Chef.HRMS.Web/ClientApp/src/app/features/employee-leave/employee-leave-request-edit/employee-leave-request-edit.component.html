@@ -246,7 +246,7 @@
             <ng-container *ngFor="let type of leaveBalance">
               <option
                 *ngIf="type?.leaveBalance > 0 || type.shortCode == 'LOP'"
-                value="{{ type?.leaveComponentId }}"
+                [ngValue]='type.leaveComponentId'
               >
                 {{ type.leaveComponentName }}
                 <span *ngIf="type?.shortCode != 'LOP'"
