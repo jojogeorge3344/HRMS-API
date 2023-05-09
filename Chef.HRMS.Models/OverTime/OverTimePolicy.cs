@@ -19,7 +19,7 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds description of the overtime policy
         /// </summary>
-        [Required]
+        //[Required]
         [StringLength(128)]
         [Description("Description of the overtime policy")]
         public string Description { get; set; }

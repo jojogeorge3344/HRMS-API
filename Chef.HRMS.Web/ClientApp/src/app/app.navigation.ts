@@ -103,7 +103,7 @@ export const NavigationItems = [
         routerLink: "/settings/branches",
       },
       {
-        title: "Employee",
+        title: "Employee Settings",
         tags: "settings-employee",
         routerLink: "/settings/employee",
       },
@@ -185,7 +185,7 @@ export const NavigationItems = [
     icon: "ni ni-loop",
     items: [
       {
-        title: "Employee Directory",
+        title: "Employee Master",
         tags: "organization-employeedirectory ",
         routerLink: "/employee",
       },

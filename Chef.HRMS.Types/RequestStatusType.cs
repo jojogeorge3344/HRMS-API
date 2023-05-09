@@ -7,19 +7,25 @@ namespace Chef.HRMS.Types
     /// </summary>
     public enum RequestStatusType
     {
+        [Description("Draft")]
+        Draft = 1,
+
         [Description("Applied")]
-        Applied = 1,
+        Applied = 2,
 
         [Description("Pending")]
-        Pending = 2,
+        Pending = 3,
 
         [Description("Approved")]
-        Approved = 3,
+        Approved = 4,
 
         [Description("Cancelled")]
-        Cancelled = 4,
+        Cancelled = 5,
 
         [Description("Rejected")]
-        Rejected = 5
+        Rejected = 6,
+
+        [Description("Processed")]
+        Processed = 7
     }
 }

@@ -29,8 +29,8 @@ namespace Chef.HRMS.Models
         /// <summary>
         /// Holds the Email Address
         /// </summary>
-        [Required]
-        [EmailAddress]
+        //[Required]
+        // [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
