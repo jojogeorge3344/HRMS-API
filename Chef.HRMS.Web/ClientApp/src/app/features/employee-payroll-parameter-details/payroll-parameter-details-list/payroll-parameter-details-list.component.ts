@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateNativeAdapter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { PayrollParameterDetails } from '../payroll-parameter-details.model';
@@ -8,103 +8,69 @@ import { PayrollParameterDetailsCreateComponent } from '../payroll-parameter-det
 import { PayrollParameterDetailsEditComponent } from '../payroll-parameter-details-edit/payroll-parameter-details-edit.component';
 import { PayrollParameterDetailsViewComponent } from '../payroll-parameter-details-view/payroll-parameter-details-view.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { log } from 'console';
 @Component({
   selector: 'hrms-payroll-parameter-details-list',
   templateUrl: './payroll-parameter-details-list.component.html',
-  styleUrls: ['./payroll-parameter-details-list.component.scss']
+  styleUrls: ['./payroll-parameter-details-list.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class PayrollParameterDetailsListComponent implements OnInit {
 
   Codes: string[];
   Names: string[];
 
-  documentTypeDetails;
+  payrollParameterDetailsList:any[]
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     public modalService: NgbModal,
-    private payrollParameterDetails:PayrollParameterDetailsComponentService,
+    private payrollParameterDetailsService:PayrollParameterDetailsComponentService,
     private toastr: ToasterDisplayService,
 
   ) { }
 
   ngOnInit(): void {
-    // this.getDocumentTypelist()
-   
+    this.getAllList()
   }
 
 
-  // openCreate(){
-  //   const modalRef = this.modalService.open(PayrollParameterDetailsCreateComponent,
-  //     {size: 'lg', centered: true, backdrop: 'static' });
-  //   modalRef.componentInstance.code = this.Codes;
-  //   modalRef.componentInstance.name= this.Names;
-  //   modalRef.result.then((result) => {
-  //       if (result == 'submit') {
-  //         // this.getDocumentTypelist()
-  //       }
-  //   });  
-  // }
   openCreate() {
     this.router.navigate(["./create/"], { relativeTo: this.route.parent });
   }
 
 
-  // getDocumentTypelist(){
-  //   debugger
-  //     this.documentTypeService.getAll().subscribe(result => {
-  //       this.documentTypeDetails = result;
-  //       this.documentTypeDetails=this.documentTypeDetails.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-  //       this.Names = this.documentTypeDetails.map(a => a.name.toLowerCase());
-  //     },
-  //     error => {
-  //       console.error(error);
-  //       this.toastr.showErrorMessage('Unable to fetch the Religion List Details');
-  //     });
-  //   }
+  getAllList(){
+    debugger
+      this.payrollParameterDetailsService.getAll().subscribe(result => {
+        this.payrollParameterDetailsList = result;
+      },
+      // error => {
+      //   console.error(error);
+      //   this.toastr.showErrorMessage('Unable to fetch the Payroll Parameter Details List');
+      // }
+      );
+    }
 
-  openEdit(documentTypeDetails: DocumentType) {
-    const modalRef = this.modalService.open(PayrollParameterDetailsEditComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
-    modalRef.componentInstance.documentTypeDetails= documentTypeDetails;
-    modalRef.componentInstance.code = this.Codes;
-    modalRef.componentInstance.name = this.Names;
-    console.log('code',this.Codes);
-    console.log('name',this.Names);
- 
-    modalRef.result.then((result) => {
-      if (result == 'submit') {
-        // this.getDocumentTypelist()
-      }
-    });
+  openEdit() {
   }
-  openView(documentTypeDetails: DocumentType) {
-    const modalRef = this.modalService.open(PayrollParameterDetailsViewComponent,
-      { size: 'lg',centered: true, backdrop: 'static' });
-
-    modalRef.componentInstance.documentTypeDetails = documentTypeDetails;
-    modalRef.componentInstance.code = this.Codes;
-    modalRef.componentInstance.name = this.Names;
-    modalRef.result.then((result) => {
-      if (result == 'submit') {
-        // this.getDocumentTypelist();
-      }
-    });
+  openView() {
   }
+  openProcess(){}
 
-delete(documentTypeDetails: DocumentType) {
-  // const modalRef = this.modalService.open(ConfirmModalComponent,
-  //   { centered: true, backdrop: 'static' });
-  // modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the Document type ${documentTypeDetails.name}`;
-  // modalRef.result.then((userResponse) => {
-  //   if (userResponse == true) {
-  //     this.documentTypeService.delete(documentTypeDetails.id).subscribe(() => {
-  //       this.toastr.showSuccessMessage('Document Type deleted successfully!');
-  //       this.getDocumentTypelist()
-  //     });
-  //   }
-  // });
+delete(details) {
+  const modalRef = this.modalService.open(ConfirmModalComponent,
+    { centered: true, backdrop: 'static' });
+  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the item?`;
+  modalRef.result.then((userResponse) => {
+    if (userResponse == true) {
+      this.payrollParameterDetailsService.delete(details.id).subscribe(() => {
+        this.toastr.showSuccessMessage('payroll parameter detail deleted successfully!');
+        this.getAllList()
+      });
+    }
+  });
 }
 
 }

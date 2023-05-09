@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateNativeAdapter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeWpsService } from '@settings/wps/employee-wps.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
@@ -10,24 +10,27 @@ import { PayrollParameterDetails } from '../payroll-parameter-details.model';
 import { EmployeeService } from '@features/employee/employee.service';
 import { UserVariableService } from '@settings/payroll/user-variable/user-variable-list/user-variable.service';
 import { UserVariableType } from '@settings/payroll/user-variable/user-variable.model';
+import { Router } from '@angular/router'; 
 
 
 @Component({
   selector: 'hrms-payroll-parameter-details-create',
   templateUrl: './payroll-parameter-details-create.component.html',
-  styleUrls: ['./payroll-parameter-details-create.component.scss']
+  styleUrls: ['./payroll-parameter-details-create.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+
 })
 export class PayrollParameterDetailsCreateComponent implements OnInit {
   addForm: FormGroup;
   employeeList;
   config;
   userVariableDetails:any[]
-  variableType;
-
+  UserVariableType=UserVariableType;
   constructor(   
+    private router: Router,
      private route: ActivatedRoute,
      private userVariableService:UserVariableService,
-     private payrollParameterDetails:PayrollParameterDetailsComponentService,
+     private payrollParameterDetailsService:PayrollParameterDetailsComponentService,
      private toastr: ToasterDisplayService,
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -54,11 +57,18 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
   selectionChanged(args) {
     this.addForm.get("employeeId").patchValue(args.value.id);
   }
-  onChangeEvent(args){
+  onChangeEvent(args){ debugger
     let id=this.addForm.get("userVariableId").value
    let selectedItem= this.userVariableDetails.find((item)=>item.id==id)
-  this.variableType=UserVariableType[selectedItem.type]
+  // this.variableType=UserVariableType[selectedItem.type]
+  // this.addForm.get('variableType').patchValue(UserVariableType[selectedItem.type])
+  this.addForm.patchValue({
+    type:selectedItem.type, //UserVariableType[selectedItem.type]
+    variableTypeName:UserVariableType[selectedItem.type]
+  });
+  // this.addForm.get('variableType').setValue(UserVariableType[selectedItem.type])
   }
+
   getEmployeeList() {
     debugger
     this.employeeService.getAll()
@@ -74,20 +84,36 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
       })
   }
 
-  onSubmit() {
+  sendForApproval(){
 
-    // this.employeeNumbersService.add(this.addForm.value).subscribe((result: EmployeeNumbers) => {
-    //   if (result.id === -1) {
-    //     this.toastr.showErrorMessage('Employee Series already exists!');
-    //   } else {
-    //     this.toastr.showSuccessMessage('Employee Series added successfully!');
-    //     this.activeModal.close('submit');
-    //   }
-    // },
-    //   error => {
-    //     console.error(error);
-    //     this.toastr.showErrorMessage('Unable to add the Employee Series');
-    //   });
+  }
+  onSubmit() { 
+    debugger
+    if(this.addForm.get('statusName').value=='pending'){
+      this.addForm.patchValue({
+        status:1
+      })
+    }else if(this.addForm.get('statusName').value=='approved'){
+      this.addForm.patchValue({
+        status:2
+      })
+    }else{
+      this.addForm.patchValue({
+        status:3
+      })
+    }
+    // let apiData=this.addForm.value;
+    // delete apiData
+    this.payrollParameterDetailsService.add(this.addForm.value).subscribe((result) => {
+      if (result) {
+        this.toastr.showSuccessMessage('Employee Payroll Parameter Details Added Successfully');
+        this.router.navigate(['/employee-payroll-parameter-details']);
+      } 
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to add the Employee Payroll Parameter Details Added Successfully');
+      });
 
   }
 
@@ -99,22 +125,21 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
       userVariableId: [null, [
         Validators.required
       ]],
-      VariableType: ['', [
+      type: ['', [
         Validators.required,        
       ]],
-      date: ['', [
+      transDate: ['', [
         Validators.required
       ]],
-      values: ['', [
-        Validators.maxLength(18),
+      transValue: ['',[
         Validators.required
       ]],
       status: ['', [
         Validators.required
       ]],
-      remarks: ['', [
-        Validators.required
-      ]],
+      variableTypeName:[''],
+      statusName:['pending'],
+      remarks: [''],
     });
   }
 

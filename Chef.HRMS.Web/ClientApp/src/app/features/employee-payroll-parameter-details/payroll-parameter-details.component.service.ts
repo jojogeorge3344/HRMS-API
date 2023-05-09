@@ -12,7 +12,7 @@ export class PayrollParameterDetailsComponentService {
 
   constructor(http: HttpClient, @Inject("BASE_URL") baseUrl: string) {
     this.http = http;
-    this.baseUrl = baseUrl + "api/settings/payroll/payrollcomponent/";
+    this.baseUrl = baseUrl + "api/userVariableValues/";
   }
 
   get(id) {
@@ -25,7 +25,7 @@ export class PayrollParameterDetailsComponentService {
 
   getAll() {
     return this.http
-      .get<PayrollParameterDetails[]>(this.baseUrl + "getAllOrderByPayrollComponent")
+      .get<any[]>(this.baseUrl + "getAll")
       .pipe(
         map((response) => {
           return response;
@@ -51,9 +51,9 @@ export class PayrollParameterDetailsComponentService {
     );
   }
 
-  add(payrollComponent: PayrollParameterDetails) {
+  add(payrollParameterDetails: PayrollParameterDetails) {
     return this.http
-      .post<PayrollParameterDetails>(this.baseUrl + "insert", payrollComponent)
+      .post<PayrollParameterDetails>(this.baseUrl + "insert", payrollParameterDetails)
       .pipe(
         map((response) => {
           return response;

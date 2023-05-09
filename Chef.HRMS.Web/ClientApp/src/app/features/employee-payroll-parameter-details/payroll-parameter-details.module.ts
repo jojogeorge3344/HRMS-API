@@ -13,12 +13,12 @@ import { PayrollParameterDetailsListComponent } from './payroll-parameter-detail
 import { PayrollParameterDetailsViewComponent } from './payroll-parameter-details-view/payroll-parameter-details-view.component';
 import { SelectDropDownModule } from "ngx-select-dropdown";
 
-
 @NgModule({
   declarations: [
     PayrollParameterDetailsCreateComponent,
     PayrollParameterDetailsEditComponent,
     PayrollParameterDetailsViewComponent,
+    PayrollParameterDetailsListComponent
   ],
   imports: [
     CommonModule,
