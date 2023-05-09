@@ -8,5 +8,6 @@ namespace Chef.HRMS.Services
     public interface IEmployeeRevisionDetailsOldService : IAsyncService<EmployeeRevisionDetailsOld>
     {
      Task<IEnumerable<EmployeeRevisionDetailsOld>> GetOldEmployeeRevisionSalaryDetail(int employeeRevisionId);
+        Task<int>UpdateAsync(IEnumerable<EmployeeRevisionDetailsOld> employeeRevisionDetailsOld);
     }
 }

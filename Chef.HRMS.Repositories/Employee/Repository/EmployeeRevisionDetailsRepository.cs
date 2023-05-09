@@ -43,5 +43,11 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<EmployeeRevisionSalaryView>(sql, new { payrollStructureId, employee });
         }
+
+        public async Task<int> UpdateAsync(IEnumerable<EmployeeRevisionDetails> employeeRevisionDetails)
+        {
+            var sql = new QueryBuilder<EmployeeRevisionDetails>().GenerateUpdateQuery();
+            return await Connection.ExecuteAsync(sql, employeeRevisionDetails);
+        }
     }
 }
