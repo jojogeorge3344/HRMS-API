@@ -1,4 +1,4 @@
-<form [formGroup]="addForm" id="leaveRequestForm" (validSubmit)="onSubmit()">
+<form [formGroup]="addForm" id="leaveRequestForm">
   <div class="modal-header">
     <h4 class="modal-title">Leave Request{{ isEmployeeLeave }}</h4>
     <button
@@ -366,10 +366,10 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-success">
+    <button type="submit" style="color: #fff;background-color: #8d4fea;border-color: #8d4fea" class="btn" (click)="draftSave()">
       <i class="mr-1 fal fa-draft"></i>Draft
     </button>
-    <button type="submit" class="btn btn-success">
+    <button type="submit" class="btn btn-success" (click)="onSubmit()">
       <i class="mr-1 fal fa-save"></i>Send For Approval
     </button>
     <button

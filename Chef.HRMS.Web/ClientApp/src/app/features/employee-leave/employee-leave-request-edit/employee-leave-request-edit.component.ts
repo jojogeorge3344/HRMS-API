@@ -39,7 +39,8 @@ import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.servi
 @Component({
   selector: 'hrms-employee-leave-request-edit',
   templateUrl: './employee-leave-request-edit.component.html',
-  styleUrls: ['./employee-leave-request-edit.component.scss']
+  styleUrls: ['./employee-leave-request-edit.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class EmployeeLeaveRequestEditComponent implements OnInit {
 
@@ -50,6 +51,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   @Input() leaveBalance: any = [];
   @Input() leaveSettings: any;
   @Input() isEmployeeLeave: boolean;
+  @Input() leaveRequest:any
 
   fromDate: Date;
   toDate: Date;
@@ -134,11 +136,13 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
 
     this.employeeId = this.requestId;
     this.addForm = this.createFormGroup();
+    this.addForm.patchValue(this.leaveRequest)
     this.getLeaveBalance();
     this.getEmployeeDetails();
     this.getEmployeeList();
@@ -146,6 +150,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     this.getEmployeeHoliday();
     //this.getAllInfoLeave(this.employeeId);
     this.formatLeaves();
+    
   }
 
   formatLeaves() {
@@ -289,7 +294,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   getEmployeeDetails() {
-    this.employeeService.getDetails(this.requestId).subscribe(
+    this.employeeService.getDetails(this.currentUserId).subscribe(
       (result) => {
         this.employeeDetails = result;
         this.addForm.patchValue(
@@ -309,7 +314,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   getLeaveBalance() {
-    this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(
+    this.employeeLeaveService.getAllLeaveBalance(this.currentUserId).subscribe(
       (result) => {
         this.leaveBalance = result;
         console.log("avilable leave tyep", this.leaveBalance);
@@ -601,6 +606,69 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.addForm.invalid){
+
+      return
+         
+       }
+    let addForm = this.addForm.value;
+    addForm.numberOfDays = this.numberOfDays;
+    addForm = {
+      ...addForm,
+      currentDate: this.datepipe.transform(Date.now(), "yyyy-MM-dd hh:mm:ss"),
+      toDate: new Date(addForm.toDate.setHours(12)),
+      fromDate: new Date(addForm.fromDate.setHours(12)),
+      rejoinDate: new Date(addForm.rejoinDate.setHours(12)),
+      leaveComponentId: parseInt(addForm.leaveComponentId, 10),
+    };
+
+    if (this.flag !== 1) {
+      if (this.addForm.get("document.name").value === null) {
+        this.employeeLeaveService.add(addForm).subscribe((result) => {
+          this.notify(result.id);
+        });
+      } else {
+        forkJoin([
+          this.employeeLeaveService.add(this.addForm.value),
+          this.documentService.add(this.addForm.value.document),
+          this.documentUploadService.upload(this.documentSave),
+        ]).subscribe(
+          ([leaveRequest, document]) => {
+            this.leaveDocument = {
+              leaveId: leaveRequest,
+              documentId: document,
+            };
+            console.log("leaveRequest", leaveRequest);
+            console.log("document", document);
+
+            this.employeeLeaveDocumentsService
+              .add(this.leaveDocument)
+              .subscribe(
+                (result: any) => {
+                  this.notify(leaveRequest.id);
+                },
+                (error) => {
+                  console.error(error);
+                  this.toastr.showErrorMessage(
+                    "Unable to submit Leave Request"
+                  );
+                }
+              );
+          },
+          (error) => {
+            console.error(error);
+            this.toastr.showErrorMessage("Unable to submit Leave Request");
+          }
+        );
+      }
+    }
+  }
+  draftSave() {
+    if(this.addForm.invalid){
+
+      return
+         
+       }
     let addForm = this.addForm.value;
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
@@ -704,7 +772,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         ],
       ],
       leaveStructureId: [],
-      employeeId: [this.requestId, [Validators.required]],
+      employeeId: [this.currentUserId, [Validators.required]],
       employeeName: [""],
       // approvedBy: [1],
       // approvedDate: [new Date(Date.now())],

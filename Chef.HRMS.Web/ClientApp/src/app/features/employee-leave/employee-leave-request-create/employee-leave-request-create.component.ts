@@ -132,6 +132,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
 
@@ -599,7 +600,13 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.addForm.invalid){
+
+      return
+         
+       }
     let addForm = this.addForm.value;
+    addForm.leaveStatus=4
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -651,7 +658,65 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       }
     }
   }
+  draftSave() {
+    if(this.addForm.invalid){
 
+      return
+         
+       }
+    let addForm = this.addForm.value;
+    addForm.leaveStatus=1
+    addForm.numberOfDays = this.numberOfDays;
+    addForm = {
+      ...addForm,
+      currentDate: this.datepipe.transform(Date.now(), "yyyy-MM-dd hh:mm:ss"),
+      toDate: new Date(addForm.toDate.setHours(12)),
+      fromDate: new Date(addForm.fromDate.setHours(12)),
+      rejoinDate: new Date(addForm.rejoinDate.setHours(12)),
+      leaveComponentId: parseInt(addForm.leaveComponentId, 10),
+    };
+
+    if (this.flag !== 1) {
+      if (this.addForm.get("document.name").value === null) {
+        this.employeeLeaveService.add(addForm).subscribe((result) => {
+          this.notify(result.id);
+        });
+      } else {
+        forkJoin([
+          this.employeeLeaveService.add(this.addForm.value),
+          this.documentService.add(this.addForm.value.document),
+          this.documentUploadService.upload(this.documentSave),
+        ]).subscribe(
+          ([leaveRequest, document]) => {
+            this.leaveDocument = {
+              leaveId: leaveRequest,
+              documentId: document,
+            };
+            console.log("leaveRequest", leaveRequest);
+            console.log("document", document);
+
+            this.employeeLeaveDocumentsService
+              .add(this.leaveDocument)
+              .subscribe(
+                (result: any) => {
+                  this.notify(leaveRequest.id);
+                },
+                (error) => {
+                  console.error(error);
+                  this.toastr.showErrorMessage(
+                    "Unable to submit Leave Request"
+                  );
+                }
+              );
+          },
+          (error) => {
+            console.error(error);
+            this.toastr.showErrorMessage("Unable to submit Leave Request");
+          }
+        );
+      }
+    }
+  }
   notify(leaveRequestId): void {
     const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
       leaveId: leaveRequestId,
@@ -710,7 +775,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       fromDate: ["", [Validators.required]],
       toDate: ["", [Validators.required]],
       numberOfDays: [""],
-      leaveStatus: [3, [Validators.required]],
+      leaveStatus: [0, [Validators.required]],
       singleDay: [1],
       firstDay: [1],
       lastDay: [2],
