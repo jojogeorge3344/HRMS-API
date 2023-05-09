@@ -309,6 +309,7 @@ export class LeaveComponentViewComponent implements OnInit {
       description: [null, [Validators.required, Validators.maxLength(256)]],
       showLeaveDescription: [{ value: false, disabled: this.isDisabled }],
       isPaidLeave: [{ value: false, disabled: this.isDisabled }],
+      isUnpaidLeave:[{ value: false, disabled: this.isDisabled }],
       isSickLeave: [{ value: false, disabled: this.isDisabled }],
       isStatutoryLeave: [{ value: false, disabled: this.isDisabled }],
       isRestrictedToGender: [{ value: false, disabled: this.isDisabled }],
