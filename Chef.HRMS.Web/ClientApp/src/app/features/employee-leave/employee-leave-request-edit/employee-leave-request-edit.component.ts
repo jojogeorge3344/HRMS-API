@@ -137,12 +137,18 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
+    console.log(this.leaves)
     this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
 
     this.employeeId = this.requestId;
     this.addForm = this.createFormGroup();
     this.addForm.patchValue(this.leaveRequest)
+    this.addForm.patchValue({
+      fromDate: new Date(this.leaveRequest.fromDate),
+      toDate: new Date(this.leaveRequest.toDate),
+      rejoinDate:new Date(this.leaveRequest.rejoinDate),
+    });
     this.getLeaveBalance();
     this.getEmployeeDetails();
     this.getEmployeeList();
@@ -294,7 +300,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   getEmployeeDetails() {
-    this.employeeService.getDetails(this.currentUserId).subscribe(
+    this.employeeService.getDetails(this.requestId).subscribe(
       (result) => {
         this.employeeDetails = result;
         this.addForm.patchValue(
@@ -314,7 +320,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   getLeaveBalance() {
-    this.employeeLeaveService.getAllLeaveBalance(this.currentUserId).subscribe(
+    this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(
       (result) => {
         this.leaveBalance = result;
         console.log("avilable leave tyep", this.leaveBalance);
@@ -772,7 +778,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         ],
       ],
       leaveStructureId: [],
-      employeeId: [this.currentUserId, [Validators.required]],
+      employeeId: [this.requestId, [Validators.required]],
       employeeName: [""],
       // approvedBy: [1],
       // approvedDate: [new Date(Date.now())],

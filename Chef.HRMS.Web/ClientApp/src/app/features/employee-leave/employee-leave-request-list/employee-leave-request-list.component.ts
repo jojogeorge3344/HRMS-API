@@ -112,16 +112,24 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     });
   }
   openEdit(leaveRequest: EmployeeLeaveRequest) {
-    const modalRef = this.modalService.open(EmployeeLeaveRequestEditComponent, {
-      centered: true,
-      backdrop: "static",
-    });
-
+    const modalRef = this.modalService.open(
+      EmployeeLeaveRequestEditComponent,
+      { centered: true, backdrop: "static" }
+    );
+    modalRef.componentInstance.requestId = this.currentUserId;
+    modalRef.componentInstance.leaveBalance = this.leaveComponent;
+    modalRef.componentInstance.leaveSettings = this.leaveSettings;
+    modalRef.componentInstance.leaves = this.leavesApplied;
+    modalRef.componentInstance.wfh = this.wfhApplied;
+    modalRef.componentInstance.onDuty = this.onDutyApplied;
+    modalRef.componentInstance.isEmployeeLeave = this.isEmployeeLeave;
     modalRef.componentInstance.leaveRequest = leaveRequest;
-    modalRef.componentInstance.currentUserId = this.currentUserId;
+
     modalRef.result.then((result) => {
       if (result == "submit") {
         this.getAllRequestedLeave();
+        this.getLeaveBalance();
+        this.getMarkedDates("leave", this.currentUserId);
       }
     });
   }

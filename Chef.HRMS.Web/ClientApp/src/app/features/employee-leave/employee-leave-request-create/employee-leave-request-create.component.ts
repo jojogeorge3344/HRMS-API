@@ -133,6 +133,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
+    console.log(this.leaves)
     this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
 
