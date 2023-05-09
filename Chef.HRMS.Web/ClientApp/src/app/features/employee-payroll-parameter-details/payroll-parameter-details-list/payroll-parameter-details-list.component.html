@@ -22,7 +22,6 @@
                     <th>Sl No.</th>
                     <th>User Variables</th>
                     <th>Variable Type</th>
-                    <th>Employee Name</th>
                     <th>Date</th>
                     <th>Values</th>
                     <th>Status</th>
@@ -33,8 +32,7 @@
                 <tr *ngFor="let detail of payrollParameterDetailsList; let i= index;">
                     <td>{{i+1}}</td>
                     <td>{{ detail.userVariableId }}</td>
-                    <td>{{ detail.type }}</td>
-                    <td>{{ detail.employeeId }}</td>
+                    <td>{{ UserVariableType[detail.type] }}</td>
                     <td>{{ detail.transDate |date}}</td>
                     <td>{{ detail.transValue }}</td>
                     <td>{{ detail.status==1? 'pending' : detail.status== 2 ? 'approved' : 'processed' }}</td>

@@ -9,6 +9,7 @@ import { PayrollParameterDetailsEditComponent } from '../payroll-parameter-detai
 import { PayrollParameterDetailsViewComponent } from '../payroll-parameter-details-view/payroll-parameter-details-view.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { log } from 'console';
+import { UserVariableType } from '@settings/payroll/user-variable/user-variable.model';
 @Component({
   selector: 'hrms-payroll-parameter-details-list',
   templateUrl: './payroll-parameter-details-list.component.html',
@@ -19,6 +20,7 @@ export class PayrollParameterDetailsListComponent implements OnInit {
 
   Codes: string[];
   Names: string[];
+  UserVariableType=UserVariableType;
 
   payrollParameterDetailsList:any[]
 
@@ -54,6 +56,7 @@ export class PayrollParameterDetailsListComponent implements OnInit {
     }
 
   openEdit() {
+    this.router.navigate(["./edit/"], { relativeTo: this.route.parent });
   }
   openView() {
   }

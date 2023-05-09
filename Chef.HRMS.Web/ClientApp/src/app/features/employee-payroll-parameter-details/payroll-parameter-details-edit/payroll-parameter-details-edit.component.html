@@ -1,1 +1,82 @@
-<p>payroll-parameter-details-edit works!</p>
+<div class="subheader">
+    <h1 class="subheader-title">
+      <div>
+       Add Employee Payroll Parameter details
+    </div>
+    </h1>
+  </div>
+<form [formGroup]="addForm" id="payrollParameterDetailsForm" (submit)="onSubmit()">
+    <div class="card p-3" id="addEmployee">
+
+    <div class="p-3">  
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="userVariableId">User Variables<span class="required">*</span></label>
+                <select class="form-control" formControlName="userVariableId" (change)="onChangeEvent($event)">
+                    <option [ngValue]="null" disabled>Select User Variable</option>
+                    <option *ngFor="let item of userVariableDetails" [ngValue]='item.id'>
+                        {{item.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label"  for="variableTypeName">Variable Type<span class="required">*</span></label>
+                <input  readonly   autocomplete="off" type="string" class="form-control" id="type" name="variableTypeName" formControlName="variableTypeName">
+            </div>
+            
+            </div>
+            <div class="row align-items-baseline">
+                <div class="form-group form-input-line col-6">
+                    <label for="employeeId">
+                        Employee
+                    </label>      
+                    <ng-template #optionTemplate let-item="item" let-config="config">
+                      <i class="fa fa-plus"></i>
+                      {{ item.firstName }}
+                      <span class="new badge"></span>
+                    </ng-template>
+                    <ngx-select-dropdown
+                      (change)="selectionChanged($event)"
+                      [config]="config"
+                      [options]="employeeList" 
+                      [ngClass]="{'ddclass':this.addForm.get('employeeId').touched && this.addForm.get('employeeId').invalid}"
+                    ></ngx-select-dropdown>
+                    <label class="col-12 col-form-label px-0" style="display:none;" for="employeeId">Employee</label>
+                    <input class="form-control w-75" name="newDate" style="display:none;" formControlName="employeeId">
+                </div>
+            <div class="form-group form-input-inline input-group col-6">
+                <label class="col-12 col-form-label px-0" for="transDate">Date<span class="required">*</span></label>
+                <input class="form-control w-75" name="newDate" formControlName="transDate"
+                    [minDate]="{year: 1900, month: 1, day: 1}" ngbDatepicker #dob="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label"  for="transValue">Values<span class="required">*</span></label>
+                <input autocomplete="off" type="string" class="form-control" id="transValue" name="values" formControlName="transValue">
+            </div>
+            <div class="form-group form-input-line col-6">
+                <label class="col-form-label" for="statusName">Status<span class="required">*</span></label>
+                <input type="text" class="form-control" value="pending" formControlName="statusName" disabled>
+            </div>
+        </div>
+        <div class="row align-items-baseline">
+            <div class="form-group form-input-line col-6 mb-3">
+                <label class="col-form-label" for="remarks">Remarks</label>
+                <textarea type="text" rows="4" class="form-control" formControlName="remarks"></textarea>
+            </div>
+        </div>
+    <div class="modal-footer">
+        <button  class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+        <button (click)="sendForApproval()" type="button" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Send For Approval</button>
+        <a routerLink="/employee-payroll-parameter-details">
+            <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+        </a>
+    </div>    
+</div>
+</div>
+</form>

@@ -36,6 +36,14 @@ import { SelectDropDownModule } from "ngx-select-dropdown";
           name: "organization-employeePayrollParameterDetails ",
         },
       },
+      {
+        path: "edit",
+        component: PayrollParameterDetailsEditComponent,
+        data: {
+          breadcrumbs: ["Organization", "Employee payroll parameter details", "edit"],
+          name: "organization-employeePayrollParameterDetails ",
+        },
+      },
     ]),
     NgbModule,
     FormsModule,
