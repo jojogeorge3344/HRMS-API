@@ -10,7 +10,7 @@ import { PayrollParameterDetails } from '../payroll-parameter-details.model';
 import { EmployeeService } from '@features/employee/employee.service';
 import { UserVariableService } from '@settings/payroll/user-variable/user-variable-list/user-variable.service';
 import { UserVariableType } from '@settings/payroll/user-variable/user-variable.model';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hrms-payroll-parameter-details-edit',
@@ -20,25 +20,32 @@ import { Router } from '@angular/router';
 })
 export class PayrollParameterDetailsEditComponent implements OnInit {
 
-  addForm: FormGroup;
+  editForm: FormGroup;
   employeeList;
   config;
-  userVariableDetails:any[]
-  UserVariableType=UserVariableType;
-  constructor(   
+  userVariableDetails;
+  UserVariableType = UserVariableType;
+  reqId: any;
+  selectedDatasource;
+
+  constructor(
     private router: Router,
-     private route: ActivatedRoute,
-     private userVariableService:UserVariableService,
-     private payrollParameterDetailsService:PayrollParameterDetailsComponentService,
-     private toastr: ToasterDisplayService,
+    private route: ActivatedRoute,
+    private userVariableService: UserVariableService,
+    private payrollParameterDetailsService: PayrollParameterDetailsComponentService,
+    private toastr: ToasterDisplayService,
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
 
-) { }
+  ) { }
 
   ngOnInit(): void {
-    this.addForm = this.createFormGroup();
+    this.editForm = this.createFormGroup();
+    this.route.params.subscribe((params: any) => {
+      this.reqId = params['id'];
+    });
+    this.getItemById()
     this.getEmployeeList()
     this.getUserVariables()
     this.config = {
@@ -54,18 +61,19 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
   }
   selectionChanged(args) {
-    this.addForm.get("employeeId").patchValue(args.value.id);
+    this.editForm.get("employeeId").patchValue(args.value.id);
   }
-  onChangeEvent(args){ debugger
-    let id=this.addForm.get("userVariableId").value
-   let selectedItem= this.userVariableDetails.find((item)=>item.id==id)
-  // this.variableType=UserVariableType[selectedItem.type]
-  // this.addForm.get('variableType').patchValue(UserVariableType[selectedItem.type])
-  this.addForm.patchValue({
-    type:selectedItem.type, //UserVariableType[selectedItem.type]
-    variableTypeName:UserVariableType[selectedItem.type]
-  });
-  // this.addForm.get('variableType').setValue(UserVariableType[selectedItem.type])
+  onChangeEvent(args) {
+    debugger
+    let id = this.editForm.get("userVariableId").value
+    let selectedItem = this.userVariableDetails.find((item) => item.id == id)
+    // this.variableType=UserVariableType[selectedItem.type]
+    // this.addForm.get('variableType').patchValue(UserVariableType[selectedItem.type])
+    this.editForm.patchValue({
+      type: selectedItem.type, //UserVariableType[selectedItem.type]
+      variableTypeName: UserVariableType[selectedItem.type]
+    });
+    // this.addForm.get('variableType').setValue(UserVariableType[selectedItem.type])
   }
 
   getEmployeeList() {
@@ -83,31 +91,31 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
       })
   }
 
-  sendForApproval(){
+  sendForApproval() {
 
   }
-  onSubmit() { 
+  onSubmit() {
     debugger
-    if(this.addForm.get('statusName').value=='pending'){
-      this.addForm.patchValue({
-        status:1
+    if (this.editForm.get('statusName').value == 'pending') {
+      this.editForm.patchValue({
+        status: 1
       })
-    }else if(this.addForm.get('statusName').value=='approved'){
-      this.addForm.patchValue({
-        status:2
+    } else if (this.editForm.get('statusName').value == 'approved') {
+      this.editForm.patchValue({
+        status: 2
       })
-    }else{
-      this.addForm.patchValue({
-        status:3
+    } else {
+      this.editForm.patchValue({
+        status: 3
       })
     }
     // let apiData=this.addForm.value;
     // delete apiData
-    this.payrollParameterDetailsService.add(this.addForm.value).subscribe((result) => {
+    this.payrollParameterDetailsService.add(this.editForm.value).subscribe((result) => {
       if (result) {
         this.toastr.showSuccessMessage('Employee Payroll Parameter Details Added Successfully');
         this.router.navigate(['/employee-payroll-parameter-details']);
-      } 
+      }
     },
       error => {
         console.error(error);
@@ -116,7 +124,32 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
   }
 
-
+  getItemById() {
+debugger
+    this.payrollParameterDetailsService.get(this.reqId).subscribe(result => {
+    
+    this.userVariableDetails = result;
+    
+    this.editForm.patchValue(this.userVariableDetails);
+    
+     this.editForm.patchValue({
+    
+    
+  });
+    
+   const details = this.employeeList.find(emp => emp.id === this.userVariableDetails.employeeId);
+    
+    this.selectedDatasource = details.firstName
+    //  this.editForm.get("requestedby").patchValue(details.id);
+    },
+    
+     error => {
+    
+    console.error(error);
+    
+    });
+    
+    }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -125,19 +158,19 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
         Validators.required
       ]],
       type: ['', [
-        Validators.required,        
+        Validators.required,
       ]],
       transDate: ['', [
         Validators.required
       ]],
-      transValue: ['',[
+      transValue: ['', [
         Validators.required
       ]],
       status: ['', [
         Validators.required
       ]],
-      variableTypeName:[''],
-      statusName:['pending'],
+      variableTypeName: [''],
+      statusName: ['pending'],
       remarks: [''],
     });
   }
