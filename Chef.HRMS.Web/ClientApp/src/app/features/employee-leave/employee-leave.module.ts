@@ -13,6 +13,7 @@ import { EmployeeLeaveRequestListComponent } from './employee-leave-request-list
 import { EmployeeLeaveRequestCreateComponent } from './employee-leave-request-create/employee-leave-request-create.component';
 import { EmployeeLeaveRequestViewComponent } from './employee-leave-request-view/employee-leave-request-view.component';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
+import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit/employee-leave-request-edit.component';
 
 
 
@@ -22,7 +23,8 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
     EmployeeLeaveBalanceComponent,
     EmployeeLeaveRequestListComponent,
     EmployeeLeaveRequestCreateComponent,
-    EmployeeLeaveRequestViewComponent
+    EmployeeLeaveRequestViewComponent,
+    EmployeeLeaveRequestEditComponent
   ],
   imports: [
     CommonModule,
