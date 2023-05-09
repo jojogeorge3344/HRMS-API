@@ -13,7 +13,7 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId, int year, int month)
+        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, DateTime fromDate,DateTime toDate)
         {
 
                 var sql = @"SELECT DISTINCT ad.id                                    AS deductionId, 
@@ -30,17 +30,21 @@ namespace Chef.HRMS.Repositories
                                             ad.createddate                           AS createddate, 
                                             ad.modifieddate                          AS modifieddate, 
                                             ad.createdby                             AS createdby, 
-                                            ad.modifiedby                            AS modifiedby 
+                                            ad.modifiedby                            AS modifiedby,
+                                            ad.isaddition
                             FROM   hrms.adhocdeduction ad 
                                    INNER JOIN hrms.HRMSEmployee e 
                                            ON ad.employeeid = e.id 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ad.employeeid = jf.employeeid 
-                            WHERE  (ad.payrollprocessingmethodid = @payrollProcessingMethodId 
-                                           AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
-                                            WHERE  (ppm.month =@month AND  ppm.year=@year)))";
+                            --WHERE  (ad.payrollprocessingmethodid = @payrollProcessingMethodId 
+                                          -- AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
+                                            --WHERE  (ppm.month =@month AND  ppm.year=@year)))
+                                   WHERE  To_Date(cast(coalesce(ad.date) as TEXT),'YYYY MM DD') BETWEEN @fromDate AND @toDate
+							AND jf.paygroupid = @payGroupId
+                                  ";
 
-                return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId, year, month });
+                return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payGroupId, fromDate, toDate });
 
         }
         public async Task<IEnumerable<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId)
