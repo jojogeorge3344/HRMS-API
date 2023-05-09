@@ -2,6 +2,7 @@
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks; 
@@ -16,11 +17,13 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeRevisionDetails>> GetEmployeeRevisionSalaryDetail(int employeeRevisionId)
         {
-            return await QueryFactory
-           .Query<EmployeeRevisionDetails>()
-           .Where("employeerevisionid", employeeRevisionId)
-           .WhereNotArchived()
-           .GetAsync<EmployeeRevisionDetails>();
+            var sql = @"SELECT erd.*,pc.name FROM hrms.employeerevisiondetails erd
+                        INNER JOIN hrms.payrollcomponent pc
+                        ON erd.payrollcomponentid = pc.id
+                        WHERE employeerevisionid = employeeRevisionId
+                        AND erd.isarchived = false";
+
+            return await Connection.QueryAsync<EmployeeRevisionDetails>(sql, new { employeeRevisionId });
         }
 
         public async Task<IEnumerable<EmployeeRevisionSalaryView>> GetEmployeeRevisionSalaryDetails(int payrollStructureId,int employee)
@@ -39,6 +42,12 @@ namespace Chef.HRMS.Repositories
                         ORDER BY pcc.shortcode ASC";
 
             return await Connection.QueryAsync<EmployeeRevisionSalaryView>(sql, new { payrollStructureId, employee });
+        }
+
+        public async Task<int> UpdateAsync(IEnumerable<EmployeeRevisionDetails> employeeRevisionDetails)
+        {
+            var sql = new QueryBuilder<EmployeeRevisionDetails>().GenerateUpdateQuery();
+            return await Connection.ExecuteAsync(sql, employeeRevisionDetails);
         }
     }
 }

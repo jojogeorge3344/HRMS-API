@@ -73,7 +73,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(EmployeeRevisionDetails EmployeeRevisionDetails)
+        public async Task<ActionResult> Update([FromBody]IEnumerable<EmployeeRevisionDetails> EmployeeRevisionDetails)
         {
             if (!ModelState.IsValid)
             {
