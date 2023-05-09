@@ -13,7 +13,7 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, DateTime fromDate,DateTime toDate)
+        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate,string toDate)
         {
 
                 var sql = @"SELECT DISTINCT ad.id                                    AS deductionId, 
@@ -40,7 +40,7 @@ namespace Chef.HRMS.Repositories
                             --WHERE  (ad.payrollprocessingmethodid = @payrollProcessingMethodId 
                                           -- AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
                                             --WHERE  (ppm.month =@month AND  ppm.year=@year)))
-                                   WHERE  To_Date(cast(coalesce(ad.date) as TEXT),'YYYY MM DD') BETWEEN @fromDate AND @toDate
+                                   WHERE  To_Date(cast(coalesce(ad.date) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromDate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@toDate) as TEXT),'YYYY MM DD')
 							AND jf.paygroupid = @payGroupId
                                   ";
 

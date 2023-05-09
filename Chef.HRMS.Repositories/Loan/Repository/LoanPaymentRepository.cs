@@ -69,16 +69,16 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<EmployeeLoanView>(sql, new { employeeId, payrollProcessingMethodId });
         }
 
-        public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByPayrollProcessingMethodId(int payrollProcessingMethodId)
+        public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByPayrollProcessingMethodId(int payGroupId, int year, string month)
         {
                 var sql = @"SELECT 
                                                            lr.loantype                                   AS loantype, 
                                                            e.id                                          AS employeeid,
-                                                           lr.loanamount                                 AS amount, 
+                                                           lrd.repaymentamount                           AS amount, 
                                                            Concat (e.firstname, ' ', e.lastname)         AS NAME, 
                                                            jd.employeenumber                             AS employeecode, 
                                                            lr.loanno                                     AS loanNumber, 
-                                                           pm.id                                         AS payrollProcessingmethodid, 
+                                                          -- pm.id                                         AS payrollProcessingmethodid, 
                                                            lr.loansettingid                              AS loansettingid,
                                                            lr.expectedon                                 AS disbursementdate, 
                                                            lr.id                                         AS loanid, 
@@ -93,30 +93,34 @@ namespace Chef.HRMS.Repositories
                                                                    ON e.id = jd.employeeid 
                                                            INNER JOIN hrms.jobfiling jf
 														           ON e.id=jf.employeeid
-														    INNER JOIN hrms.payrollProcessingMethod pm
-                                                                   ON jf.paygroupid=pm.paygroupid AND (pm.id = @payrollProcessingMethodId 	 
-                                                                                                    AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
-                                                                                                    WHERE  (pm.month = ppm.month
-                                                                                                    AND pm.year = ppm.year))) 	   
+														    --INNER JOIN hrms.payrollProcessingMethod pm
+                                                              --     ON jf.paygroupid=pm.paygroupid AND (pm.id = @payrollProcessingMethodId 	 
+                                                                                                  --  AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
+                                                                                                  --  WHERE  (pm.month = ppm.month
+                                                                                                  --  AND pm.year = ppm.year))) 	   
                                                             LEFT JOIN hrms.loanrequest lr 
                                                                    ON e.id = lr.employeeid 
-																   AND
-                                                                     lr.emistartsfrommonth <= pm.month
-                                                                   AND
-																     lr.emistartsfromyear <= pm.year 
+																   --AND
+                                                                   --  lr.emistartsfrommonth <= pm.month
+                                                                   -- AND
+																   --  lr.emistartsfromyear <= pm.year 
+                                                            LEFT JOIN hrms.loanrequestdetail lrd 
+                                                                ON lrd.loanrequestid = lr.id 
+                                                                AND lrd.month = @month AND lrd.year = @year
                                                             LEFT JOIN hrms.loanpayment lp 
                                                                   ON lr.id = lp.loanid
                                                                   AND lp.balanceamount !=0
                                                             INNER JOIN hrms.loansetting ls 
                                                                    ON ls.id = lr.loansettingid  
+                                                            WHERE jf.paygroupid = @payGroupId 
                                                     GROUP  BY lr.loantype, 
                                                               e.id, 
                                                               lr.id, 
-                                                              lr.loanamount, 
+                                                              lrd.repaymentamount, 
                                                               e.displayname, 
                                                               jd.employeenumber, 
                                                               lr.loanno, 
-                                                              pm.id, 
+                                                              --pm.id, 
                                                               lr.loansettingid, 
                                                               lr.expectedon, 
                                                               ls.standardinterestrate, 
@@ -124,7 +128,7 @@ namespace Chef.HRMS.Repositories
                                                               lp.loanamount, 
                                                               lp.tenurenumber";
 
-                return await Connection.QueryAsync<EmployeeLoanView>(sql, new { payrollProcessingMethodId });
+                return await Connection.QueryAsync<EmployeeLoanView>(sql, new { month,year,payGroupId });
         }
 
         public async Task<int> InsertAsync(IEnumerable<LoanPayment> loanPayment)

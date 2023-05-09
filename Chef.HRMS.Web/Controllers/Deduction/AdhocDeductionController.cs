@@ -50,7 +50,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAllAdhocDeductionByPayrollProcessingMethodId/")]
-        public async Task<ActionResult<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate, string toDate)
         {
             var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionByPayrollProcessingMethodId(payGroupId,fromDate,toDate);
 
