@@ -104,7 +104,7 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
           status:2
         })
 
-    this.payrollParameterDetailsService.add(this.editForm.value).subscribe((result) => {
+    this.payrollParameterDetailsService.update(this.editForm.value).subscribe((result) => {
       if (result) {
         this.toastr.showSuccessMessage('Employee Payroll Parameter Details Successfully Send For Approval');
         this.router.navigate(['/employee-payroll-parameter-details']);
