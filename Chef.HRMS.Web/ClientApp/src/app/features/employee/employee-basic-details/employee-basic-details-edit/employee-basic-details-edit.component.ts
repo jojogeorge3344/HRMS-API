@@ -85,6 +85,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     })
   }
   onSubmit() {
+    debugger
     var editBasicDetails = this.editForm.value;
     editBasicDetails.uidNumber = parseInt(editBasicDetails.uidNumber)
     if(!this.nameCheck){
