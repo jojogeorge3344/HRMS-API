@@ -23,7 +23,7 @@ namespace Chef.HRMS.Web.Controllers
         public EmployeeRevisionBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService,
               IEmployeeRevisionBoldService employeeRevisionBoldService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment, branchService)
         {
-            this.ReportPath = @"Reports\EmployeeRevisionPrintReport.rdlc";
+            this.ReportPath = @"Reports\EmployeeRevisionPrint.rdlc";
             this.employeeRevisionBoldService = employeeRevisionBoldService;
             this.commonDataService = commonDataService;
             this.baseService = baseService;
@@ -35,7 +35,7 @@ namespace Chef.HRMS.Web.Controllers
         }
         private void AssignReportPath()
         {
-            this.ReportPath = @"Reports\EmployeeRevisionPrintReport.rdlc";
+            this.ReportPath = @"Reports\EmployeeRevisionPrint.rdlc";
         }
         public override void OnReportLoaded(ReportViewerOptions reportOption)
         {
