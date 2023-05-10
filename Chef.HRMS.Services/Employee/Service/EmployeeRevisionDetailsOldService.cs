@@ -36,12 +36,17 @@ namespace Chef.HRMS.Services
             return await employeeRevisionDetailsOldRepository.GetAsync(id);
         }
 
+        public async Task<IEnumerable<EmployeeRevisionDetailsOld>> GetOldEmployeeRevisionSalaryDetail(int employeeRevisionId)
+        {
+            return await employeeRevisionDetailsOldRepository.GetOldEmployeeRevisionSalaryDetail(employeeRevisionId);
+        }
+
         public new async Task<int> InsertAsync(EmployeeRevisionDetailsOld employeeRevisionDetailsOld)
         {
             return await employeeRevisionDetailsOldRepository.InsertAsync(employeeRevisionDetailsOld);
         }
 
-        public async Task<int> UpdateAsync(EmployeeRevisionDetailsOld employeeRevisionDetailsOld)
+        public async Task<int> UpdateAsync(IEnumerable<EmployeeRevisionDetailsOld> employeeRevisionDetailsOld)
         {
             return await employeeRevisionDetailsOldRepository.UpdateAsync(employeeRevisionDetailsOld);
         }

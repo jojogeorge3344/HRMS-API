@@ -14,5 +14,6 @@ namespace Chef.HRMS.Models
         public string Name { get; set; }
         public string Formula { get; set; }
         public int MonthlyAmount { get; set; }
+        public int PayrollCalculationId { get; set; }
     }
 }

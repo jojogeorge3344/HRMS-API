@@ -37,10 +37,13 @@ import { DocumentUploadService } from "@shared/services/document-upload.service"
 import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.service";
 
 @Component({
-  templateUrl: "./employee-leave-request-create.component.html",
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  selector: 'hrms-employee-leave-request-edit',
+  templateUrl: './employee-leave-request-edit.component.html',
+  styleUrls: ['./employee-leave-request-edit.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
-export class EmployeeLeaveRequestCreateComponent implements OnInit {
+export class EmployeeLeaveRequestEditComponent implements OnInit {
+
   addForm: FormGroup;
   leaveComponents: LeaveComponent[];
 
@@ -48,6 +51,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   @Input() leaveBalance: any = [];
   @Input() leaveSettings: any;
   @Input() isEmployeeLeave: boolean;
+  @Input() leaveRequest:any
 
   fromDate: Date;
   toDate: Date;
@@ -68,8 +72,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
 
   employeeList: Employee[];
   selectedItems = [];
-  @ViewChild("notifyPersonnel")
-  notifyPersonnel: ElementRef;
+  @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
   employeeDetails: Employee;
   taken = ["", ""];
   @Input() leaves;
@@ -139,6 +142,14 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
 
     this.employeeId = this.requestId;
     this.addForm = this.createFormGroup();
+    this.addForm.patchValue(this.leaveRequest)
+    this.addForm.patchValue({
+      fromDate: new Date(this.leaveRequest.fromDate),
+      toDate: new Date(this.leaveRequest.toDate),
+      rejoinDate:new Date(this.leaveRequest.rejoinDate),
+      leaveComponentId:this.leaveRequest.leaveComponentId
+    });
+    console.log(this.addForm)
     this.getLeaveBalance();
     this.getEmployeeDetails();
     this.getEmployeeList();
@@ -146,6 +157,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.getEmployeeHoliday();
     //this.getAllInfoLeave(this.employeeId);
     this.formatLeaves();
+    
   }
 
   formatLeaves() {
@@ -601,13 +613,14 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
+    console.log(this.addForm)
     if(this.addForm.invalid){
 
       return
          
        }
     let addForm = this.addForm.value;
-    addForm.leaveStatus=4
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -660,13 +673,14 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     }
   }
   draftSave() {
+    debugger
+    console.log(this.addForm)
     if(this.addForm.invalid){
 
       return
          
        }
     let addForm = this.addForm.value;
-    addForm.leaveStatus=1
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -718,6 +732,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       }
     }
   }
+
   notify(leaveRequestId): void {
     const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
       leaveId: leaveRequestId,
@@ -776,7 +791,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       fromDate: ["", [Validators.required]],
       toDate: ["", [Validators.required]],
       numberOfDays: [""],
-      leaveStatus: [0, [Validators.required]],
+      leaveStatus: [3, [Validators.required]],
       singleDay: [1],
       firstDay: [1],
       lastDay: [2],
@@ -804,4 +819,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       console.log("leavessting", this.leaveSettings);
     });
   }
+
 }
+
+
