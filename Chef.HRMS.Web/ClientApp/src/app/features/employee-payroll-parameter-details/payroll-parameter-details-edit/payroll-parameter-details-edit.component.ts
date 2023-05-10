@@ -27,16 +27,17 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
   UserVariableType = UserVariableType;
   reqId: any;
   selectedDatasource;
+  payrollParameterDetailsItem;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userVariableService: UserVariableService,
     private payrollParameterDetailsService: PayrollParameterDetailsComponentService,
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
+    private userVariableService:UserVariableService,
 
   ) { }
 
@@ -48,6 +49,12 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     this.getItemById()
     this.getEmployeeList()
     this.getUserVariables()
+    debugger
+  //   this.selectedDatasource=this.employeeList.filter((item)=>{
+  //  this.userVariableDetails.employeeId==item.id
+  //   })
+  this.payrollParameterDetailsItem.transDate = new Date(this.payrollParameterDetailsItem.transDate);    
+
     this.config = {
       displayKey: "firstName",
       search: true,
@@ -70,21 +77,19 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     // this.variableType=UserVariableType[selectedItem.type]
     // this.addForm.get('variableType').patchValue(UserVariableType[selectedItem.type])
     this.editForm.patchValue({
-      type: selectedItem.type, //UserVariableType[selectedItem.type]
+      // type: selectedItem.type, //UserVariableType[selectedItem.type]
       variableTypeName: UserVariableType[selectedItem.type]
     });
-    // this.addForm.get('variableType').setValue(UserVariableType[selectedItem.type])
+    // this.addForm.get('type').setValue(UserVariableType[selectedItem.type])
   }
 
   getEmployeeList() {
-    debugger
     this.employeeService.getAll()
       .subscribe((result) => {
         this.employeeList = result
       })
   }
   getUserVariables() {
-    debugger
     this.userVariableService.getAll()
       .subscribe((result) => {
         this.userVariableDetails = result
@@ -111,36 +116,35 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     }
     // let apiData=this.addForm.value;
     // delete apiData
-    this.payrollParameterDetailsService.add(this.editForm.value).subscribe((result) => {
+    debugger
+    this.payrollParameterDetailsService.update(this.editForm.value).subscribe((result) => {
       if (result) {
-        this.toastr.showSuccessMessage('Employee Payroll Parameter Details Added Successfully');
+        this.toastr.showSuccessMessage('Employee Payroll Parameter Details updated Successfully');
         this.router.navigate(['/employee-payroll-parameter-details']);
       }
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to add the Employee Payroll Parameter Details Added Successfully');
+        this.toastr.showErrorMessage('Unable to Update the Employee Payroll Parameter Details');
       });
 
   }
 
   getItemById() {
-debugger
     this.payrollParameterDetailsService.get(this.reqId).subscribe(result => {
+      
+    this.payrollParameterDetailsItem = result;
     
-    this.userVariableDetails = result;
+    this.editForm.patchValue(this.payrollParameterDetailsItem);
+    let id = this.editForm.get("userVariableId").value
+    debugger
+    this.editForm.patchValue({
+      variableTypeName: UserVariableType[this.payrollParameterDetailsItem.type]
+    });
+    this.editForm.patchValue({  transDate:new Date(this.payrollParameterDetailsItem.transDate)})
     
-    this.editForm.patchValue(this.userVariableDetails);
-    
-     this.editForm.patchValue({
-    
-    
-  });
-    
-   const details = this.employeeList.find(emp => emp.id === this.userVariableDetails.employeeId);
-    
-    this.selectedDatasource = details.firstName
-    //  this.editForm.get("requestedby").patchValue(details.id);
+  //  const details = this.employeeList.find((emp) =>{ this.userVariableDetails.employeeId ==emp.id} );
+  //   this.selectedDatasource = details.firstName
     },
     
      error => {
@@ -160,7 +164,7 @@ debugger
       type: ['', [
         Validators.required,
       ]],
-      transDate: ['', [
+      transDate: [null, [
         Validators.required
       ]],
       transValue: ['', [

@@ -20,15 +20,15 @@ export class PayrollParameterDetailsListComponent implements OnInit {
 
   Codes: string[];
   Names: string[];
-  UserVariableType=UserVariableType;
+  UserVariableType = UserVariableType;
 
-  payrollParameterDetailsList:any[]
+  payrollParameterDetailsList: any[]
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     public modalService: NgbModal,
-    private payrollParameterDetailsService:PayrollParameterDetailsComponentService,
+    private payrollParameterDetailsService: PayrollParameterDetailsComponentService,
     private toastr: ToasterDisplayService,
 
   ) { }
@@ -43,37 +43,47 @@ export class PayrollParameterDetailsListComponent implements OnInit {
   }
 
 
-  getAllList(){
+  getAllList() {
     debugger
-      this.payrollParameterDetailsService.getAll().subscribe(result => {
-        this.payrollParameterDetailsList = result;
-      },
+    this.payrollParameterDetailsService.getAll().subscribe(result => {
+      this.payrollParameterDetailsList = result;
+    },
       // error => {
       //   console.error(error);
       //   this.toastr.showErrorMessage('Unable to fetch the Payroll Parameter Details List');
       // }
-      );
-    }
-
-  openEdit() {
-    this.router.navigate(["./edit/"], { relativeTo: this.route.parent });
+    );
   }
+
+  openEdit(id) {
+    this.router.navigate([
+
+      "./" +
+
+      id +
+
+      "/edit/"
+
+    ], { relativeTo: this.route.parent });
+  }
+
   openView() {
   }
-  openProcess(){}
 
-delete(details) {
-  const modalRef = this.modalService.open(ConfirmModalComponent,
-    { centered: true, backdrop: 'static' });
-  modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the item?`;
-  modalRef.result.then((userResponse) => {
-    if (userResponse == true) {
-      this.payrollParameterDetailsService.delete(details.id).subscribe(() => {
-        this.toastr.showSuccessMessage('payroll parameter detail deleted successfully!');
-        this.getAllList()
-      });
-    }
-  });
-}
+  openProcess() { }
+
+  delete(details) {
+    const modalRef = this.modalService.open(ConfirmModalComponent,
+      { centered: true, backdrop: 'static' });
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want to delete the item?`;
+    modalRef.result.then((userResponse) => {
+      if (userResponse == true) {
+        this.payrollParameterDetailsService.delete(details.id).subscribe(() => {
+          this.toastr.showSuccessMessage('payroll parameter detail deleted successfully!');
+          this.getAllList()
+        });
+      }
+    });
+  }
 
 }

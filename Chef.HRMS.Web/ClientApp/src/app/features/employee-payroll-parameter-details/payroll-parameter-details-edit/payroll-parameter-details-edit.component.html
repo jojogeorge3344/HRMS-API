@@ -5,9 +5,9 @@
     </div>
     </h1>
   </div>
-<form [formGroup]="editForm" id="payrollParameterDetailsForm" (submit)="onSubmit()">
+<form [formGroup]="editForm" id="payrollParameterDetailsForm" (validSubmit)="onSubmit()">
     <div class="card p-3" id="addEmployee">
-
+{{editForm.value | json}}
     <div class="p-3"> 
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-6">

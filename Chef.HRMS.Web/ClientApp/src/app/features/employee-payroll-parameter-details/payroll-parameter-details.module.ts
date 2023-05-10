@@ -37,7 +37,7 @@ import { SelectDropDownModule } from "ngx-select-dropdown";
         },
       },
       {
-        path: "edit",
+        path: ":id/edit",
         component: PayrollParameterDetailsEditComponent,
         data: {
           breadcrumbs: ["Organization", "Employee payroll parameter details", "edit"],
@@ -52,7 +52,7 @@ import { SelectDropDownModule } from "ngx-select-dropdown";
     BsDropdownModule.forRoot(),
     DirectivesModule,
     SelectDropDownModule
-    ],
+  ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: CUSTOM_ERRORS,

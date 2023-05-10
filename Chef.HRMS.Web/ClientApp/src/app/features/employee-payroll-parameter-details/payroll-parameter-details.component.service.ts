@@ -16,7 +16,7 @@ export class PayrollParameterDetailsComponentService {
   }
 
   get(id) {
-    return this.http.get<PayrollParameterDetails>(this.baseUrl + "get/" + id).pipe(
+    return this.http.get<any>(this.baseUrl + "get/" + id).pipe(
       map((response) => {
         return response;
       })
