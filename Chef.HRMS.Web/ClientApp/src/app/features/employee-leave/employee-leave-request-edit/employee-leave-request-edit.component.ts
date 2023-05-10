@@ -348,7 +348,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
   getLeaveRequestNotifyPersonnel(){
     debugger
-    this.employeeLeaveService.getAllNotifyPersonnals(this.leaveRequest.id).subscribe((res:any) =>{
+    this.employeeLeaveService.getAllNotifyPersonnalsIndividual(this.leaveRequest.id).subscribe((res:any) =>{
       this.selectedItems = this.employeeList?.filter(({ id: id1 }) => 
       
       res.some(({ notifyPersonnel: id2 }) => id2 === id1)
