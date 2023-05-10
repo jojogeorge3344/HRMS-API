@@ -69,21 +69,24 @@ public class EmployeeDirectoryReportController : ReportViewerController
             string id = CustomData["id"].ToString();
 
             var employeeBasic = employeeService.GetAsync(Convert.ToInt32(id)).Result;
-            var jobDetails = jobDetailsService.GetAsync(Convert.ToInt32(id)).Result;
-            var jobFilling = jobFilingService.GetAsync(Convert.ToInt32(id)).Result;
-            var address = addressService.GetAllByEmployeeId(Convert.ToInt32(id)).Result;
-            var employeeBonus = employeeBonusService.GetAllBonusByEmployeeId(Convert.ToInt32(id)).Result;
-            var employeeSalaryConfig = employeeSalaryConfigurationService.GetSalaryConfigurationByEmployeeId(Convert.ToInt32(id)).Result;
-            var wpsDetails = wPSUserService.GetAllByemployeeId(Convert.ToInt32(id));
+            var jobDetail = jobDetailsService.GetByEmployeeId(Convert.ToInt32(id)).Result;
+            var jobFilling = jobFilingService.GetByEmployeeId(Convert.ToInt32(id)).Result;
+            var addressDetails = addressService.GetAllByEmployeeId(Convert.ToInt32(id)).Result;
+            var employeeBonusDetails = employeeBonusService.GetAllBonusByEmployeeId(Convert.ToInt32(id)).Result;
+            var employeeSalaryConfigDetails = employeeSalaryConfigurationService.GetSalaryConfigurationByEmployeeId(Convert.ToInt32(id)).Result;
+            var wpsDetail = wPSUserService.GetAllByemployeeId(Convert.ToInt32(id)).Result;
 
             List<HRMSEmployee> employee = new() { employeeBasic };
+            List<JobDetails> jobDetails = new() { jobDetail };
+            List<JobFiling> jobFiling = new() { jobFilling };
+
             reportOption.AddDataSource("EmployeeBasic", employee);
             reportOption.AddDataSource("JobDetails", jobDetails);
-            reportOption.AddDataSource("JobFilling", jobFilling);
-            reportOption.AddDataSource("Address", address);
-            reportOption.AddDataSource("EmployeeBonus", employeeBonus);
-            reportOption.AddDataSource("EmployeeSalaryConfig", employeeSalaryConfig);
-            reportOption.AddDataSource("WPSDetails", wpsDetails);
+            reportOption.AddDataSource("JobFilling", jobFiling);
+            reportOption.AddDataSource("AddressDetails", addressDetails);
+            reportOption.AddDataSource("EmployeeBonus", employeeBonusDetails);
+            reportOption.AddDataSource("EmployeeSalaryConfig", employeeSalaryConfigDetails);
+            reportOption.AddDataSource("WPSDetails", wpsDetail);
         }
     }
     
