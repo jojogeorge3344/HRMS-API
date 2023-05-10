@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using Chef.HRMS.Models;
 
 namespace Chef.HRMS.Web.Controllers;
 
@@ -75,7 +76,8 @@ public class EmployeeDirectoryReportController : ReportViewerController
             var employeeSalaryConfig = employeeSalaryConfigurationService.GetSalaryConfigurationByEmployeeId(Convert.ToInt32(id)).Result;
             var wpsDetails = wPSUserService.GetAllByemployeeId(Convert.ToInt32(id));
 
-            reportOption.AddDataSource("EmployeeBasic", employeeBasic);
+            List<HRMSEmployee> employee = new() { employeeBasic };
+            reportOption.AddDataSource("EmployeeBasic", employee);
             reportOption.AddDataSource("JobDetails", jobDetails);
             reportOption.AddDataSource("JobFilling", jobFilling);
             reportOption.AddDataSource("Address", address);
