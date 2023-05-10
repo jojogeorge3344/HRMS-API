@@ -87,5 +87,17 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetEmployeeRevisionOld/{employeeRevisionId}")]
+        public async Task<ActionResult<EmployeeRevisionOld>> GetEmployeeRevisionOld(int employeeRevisionId)
+        {
+            var EmployeeRevisionOld = await employeeRevisionOldService.GetEmployeeRevisionOld(employeeRevisionId);
+
+            if (EmployeeRevisionOld == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(EmployeeRevisionOld);
+        }
     }
 }

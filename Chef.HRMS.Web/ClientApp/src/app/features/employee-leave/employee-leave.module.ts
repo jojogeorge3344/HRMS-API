@@ -13,9 +13,7 @@ import { EmployeeLeaveRequestListComponent } from './employee-leave-request-list
 import { EmployeeLeaveRequestCreateComponent } from './employee-leave-request-create/employee-leave-request-create.component';
 import { EmployeeLeaveRequestViewComponent } from './employee-leave-request-view/employee-leave-request-view.component';
 import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
-import { LeaveRequestPrintComponent } from './leave-request-print/leave-request-print.component';
-import { ReportViewerModule } from '@shared/report-viewer/report-viewer.module';
-import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
+import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit/employee-leave-request-edit.component';
 
 
 
@@ -26,7 +24,7 @@ import { BoldReportViewerModule } from '@boldreports/angular-reporting-component
     EmployeeLeaveRequestListComponent,
     EmployeeLeaveRequestCreateComponent,
     EmployeeLeaveRequestViewComponent,
-    LeaveRequestPrintComponent
+    EmployeeLeaveRequestEditComponent
   ],
   imports: [
     CommonModule,
@@ -35,10 +33,6 @@ import { BoldReportViewerModule } from '@boldreports/angular-reporting-component
         path: '', component: EmployeeLeaveContainerComponent,
         data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
       },
-      {
-        path: 'print/:id', component: LeaveRequestPrintComponent,
-        data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
-      }
     ]),
     NgbModule,
     FormsModule,
@@ -46,8 +40,6 @@ import { BoldReportViewerModule } from '@boldreports/angular-reporting-component
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
     DirectivesModule,
-    ReportViewerModule,
-    BoldReportViewerModule,
   ],
   providers: [{
 

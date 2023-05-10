@@ -32,6 +32,7 @@ export class OvertimeRequestListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUserId = getCurrentUserId();
 
     this.getAssignedOverTimePolicyRequests();
@@ -48,7 +49,7 @@ export class OvertimeRequestListComponent implements OnInit {
   }
 
   isApplied(overtimeRequestStatus) {
-    return overtimeRequestStatus == this.overtimeRequestStatusTypes.Applied;
+    return overtimeRequestStatus == this.overtimeRequestStatusTypes.Draft;
   }
 
   getOvertimeRequestsSelf() {
@@ -133,6 +134,7 @@ export class OvertimeRequestListComponent implements OnInit {
   }
 
   delete(overtimeRequest: OvertimeRequest) {
+    debugger
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
 
