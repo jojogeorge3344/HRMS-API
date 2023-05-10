@@ -1,0 +1,392 @@
+<form [formGroup]="addForm" id="leaveRequestForm">
+    <div class="modal-header">
+      <h4 class="modal-title">Leave Request{{ isEmployeeLeave }}</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" *ngIf="isEmployeeLeave">
+        <label for="employeeName"
+          >Requested By<span class="required">*</span></label
+        >
+        <input
+          type="text"
+          formControlName="employeeName"
+          class="form-control"
+          id="employeeName"
+          readonly
+        />
+      </div>
+      <div class="form-group" *ngIf="!isEmployeeLeave">
+        <label for="employeeName"
+          >Requested By<span class="required">*</span></label
+        >
+        <select class="form-control" formControlName="employeeId">
+          <option [ngValue]="null" disabled>Select Employee Name</option>
+          <option *ngFor="let list of employeeList" value="{{ list.id }}">
+            {{ list.firstName }}
+          </option>
+        </select>
+      </div>
+      <div class="row align-items-baseline">
+        <div class="form-group input-group form-input-inline col-sm">
+          <label class="col-form-label col-12 px-0" for="fromDate"
+            >From Date<span class="required">*</span></label
+          >
+          <input
+            class="form-control"
+            hrmsBlockPaste
+            [startDate]="currentDate"
+            [minDate]="minDateFrom"
+            [dayTemplate]="customDay"
+            [footerTemplate]="footerTemplate"
+            [maxDate]="maxDateFrom"
+            ngbDatepicker
+            [markDisabled]="markDisabled"
+            #fromDate="ngbDatepicker"
+            formControlName="fromDate"
+            (dateSelect)="onFromDateSelection($event)"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary fal fa-calendar-alt"
+              (click)="fromDate.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+        <ng-template
+          #customDay
+          let-date
+          let-currentMonth="currentMonth"
+          let-selected="selected"
+          let-disabled="disabled"
+          let-focused="focused"
+        >
+          <span
+            class="pl-2"
+            style="vertical-align: sub"
+            [ngStyle]="isAlreadyApplied(date)"
+          >
+            {{ date.day }}
+          </span>
+        </ng-template>
+        <ng-template #footerTemplate>
+          <div class="d-flex flex-wrap justify-content-center">
+            <div class="d-flex align-items-center mr-2">
+              <div
+                class="border-circle mr-1"
+                style="width: 15px; height: 15px; background-color: blueviolet"
+              ></div>
+              Leave
+            </div>
+            <div class="d-flex align-items-center mr-2">
+              <div
+                class="border-circle mr-1"
+                style="width: 15px; height: 15px; background-color: darkcyan"
+              ></div>
+              Wfh
+            </div>
+            <div class="d-flex align-items-center mr-2">
+              <div
+                class="border-circle mr-1"
+                style="width: 15px; height: 15px; background-color: chocolate"
+              ></div>
+              On Duty
+            </div>
+          </div>
+        </ng-template>
+        <div class="form-group input-group form-input-inline col-sm">
+          <label class="col-form-label col-12 px-0" for="toDate"
+            >To Date<span class="required">*</span></label
+          >
+          <input
+            class="form-control"
+            hrmsBlockPaste
+            [startDate]="currentDate"
+            [minDate]="minDateTo"
+            [maxDate]="maxDateTo"
+            ngbDatepicker
+            [dayTemplate]="customDay"
+            [footerTemplate]="footerTemplate"
+            [markDisabled]="markDisabled"
+            #toDate="ngbDatepicker"
+            formControlName="toDate"
+            (dateSelect)="onToDateSelection($event)"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary fal fa-calendar-alt"
+              (click)="toDate.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+      </div>
+  
+      <div
+        class="row"
+        *ngIf="addForm.controls['numberOfDays'].errors?.numberOfDays"
+        style="height: 65px"
+      >
+        <div class="form-group col-sm">
+          <div class="alert alert-danger" role="alert">
+            {{ numberOfDays }} days are not available.
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+        *ngIf="addForm.controls['numberOfDays'].errors?.daysPerMonth"
+        style="height: 65px"
+      >
+        <div class="form-group col-sm">
+          <div class="alert alert-danger" role="alert">
+            Only {{ leaveSettings.maxNumberOfDaysPerMonth }} days are allowed per
+            month
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+        *ngIf="addForm.controls['numberOfDays'].errors?.consecutiveDays"
+        style="height: 65px"
+      >
+        <div class="form-group col-sm">
+          <div class="alert alert-danger" role="alert">
+            Only {{ leaveSettings.maxConsecutiveDays }} consecutive days allowed
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="addForm.controls['numberOfDays'].errors?.daysTaken"
+        class="row"
+        style="height: 65px"
+      >
+        <div class="form-group col-sm">
+          <div class="alert alert-danger" role="alert">
+            {{ taken[0] | date }} is already applied for {{ taken[1] }}.
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="numberOfDays > 0" style="height: 65px">
+        <div class="form-group col-sm">
+          <div class="alert alert-info" role="alert">
+            Apply leave for {{ numberOfDays }} Days
+          </div>
+        </div>
+      </div>
+  
+      <div class="row" *ngIf="isSingleDay">
+        <div class="form-group col-12">
+          <div
+            class="btn-group btn-group-toggle col-12 px-0"
+            ngbRadioGroup
+            name="radioBasic"
+            formControlName="singleDay"
+          >
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="1" /> Full Day
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="2" /> First Half
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="3" /> Second Half
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="isSingleDay === false">
+        <div class="form-group col-sm">
+          <div
+            class="btn-group btn-group-toggle col-12 pl-0"
+            ngbRadioGroup
+            name="radioBasic"
+            formControlName="firstDay"
+          >
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="1" /> First Half
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="2" /> Second Half
+            </label>
+          </div>
+        </div>
+        <div class="form-group col-sm">
+          <div
+            class="btn-group btn-group-toggle col-12 pr-0"
+            ngbRadioGroup
+            name="radioBasic"
+            formControlName="lastDay"
+          >
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="1" /> First Half
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="2" /> Second Half
+            </label>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row align-items-baseline">
+        <div class="form-group input-group form-input-inline col-sm">
+          <label for="leaveComponentId"
+            >Select available leave types<span class="required">*</span></label
+          >
+          <select class="form-control" formControlName="leaveComponentId">
+            <option [ngValue]="null">Select Leave Types</option>
+            <ng-container *ngFor="let type of leaveBalance">
+              <option
+                *ngIf="type?.leaveBalance > 0 || type.shortCode == 'LOP'"
+                [ngValue]='type.leaveComponentId'
+              >
+                {{ type.leaveComponentName }}
+                <span *ngIf="type?.shortCode != 'LOP'"
+                  >({{ type.leaveBalance }} days balance)</span
+                >
+              </option>
+            </ng-container>
+          </select>
+        </div>
+        <div class="form-group input-group form-input-inline col-sm">
+          <label class="col-form-label col-6 px-0" for="rejoinDate"
+            >Rejoin Date<span class="required">*</span></label
+          >
+          <input
+            class="form-control"
+            hrmsBlockPaste
+            [startDate]="currentDate"
+            [minDate]="maxDateFrom"
+            [maxDate]="maxDateTo"
+            ngbDatepicker
+            [dayTemplate]="customDay"
+            [footerTemplate]="footerTemplate"
+            [markDisabled]="markDisabled"
+            #rejoinDate="ngbDatepicker"
+            formControlName="rejoinDate"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary fal fa-calendar-alt"
+              (click)="toDate.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group">
+        <span
+          *ngFor="let item of selectedItems"
+          class="badge border border-primary tag"
+          >{{ item.firstName }}
+          <span
+            class="fal fa-times ml-1 text-primary mr-1 link"
+            (click)="remove(item)"
+          ></span>
+        </span>
+        <label for="notifyPersonnel">Notify</label>
+        <input
+          type="text"
+          class="form-control rounded-0 border-top-0 border-left-0 border-right-0 px-0"
+          id="notifyPersonnel"
+          name="notifyPersonnel"
+          [ngbTypeahead]="search"
+          (selectItem)="selected($event)"
+          #notifyPersonnel
+          [inputFormatter]="formatter"
+          [resultFormatter]="formatter"
+          [editable]="false"
+          placeholder="Search Employee"
+        />
+      </div> -->
+      <div class="form-group">            
+        <span *ngFor="let item of selectedItems" class="badge border border-primary tag">{{ item.firstName }} 
+            <span class="fal fa-times ml-1 text-primary mr-1 link" (click)="remove(item)"></span>
+        </span>
+            <input type="text" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 px-0"
+         id="notifyPersonnel" name="notifyPersonnel" [ngbTypeahead]="search" (selectItem)="selected($event)" 
+         #notifyPersonnel [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]='false' placeholder="Notify">             
+    </div> 
+      <div class="form-group">
+        <label for="description">Note<span class="required">*</span></label>
+        <textarea
+          type="text"
+          class="form-control"
+          id="description"
+          name="description"
+          placeholder="Please enter reason for applying leave"
+          formControlName="description"
+        ></textarea>
+      </div>
+      <div class="form-group col-6">
+        <div formGroupName="document">
+          <label>
+            <input
+              type="file"
+              multiple
+              style="display: none"
+              accept="application/msword, application/pdf, image/*"
+              (change)="handleFileInput($event.target.files)"
+            />
+            <div
+              *ngIf="addForm.controls.document['controls'].size.errors?.filesize"
+              class="invalid-feedback d-block"
+            >
+              File size should be less than 2Mb
+            </div>
+            <div
+              *ngIf="
+                addForm.controls.document['controls'].extension.errors?.filetype
+              "
+              class="invalid-feedback d-block"
+            >
+              Please upload file having extensions .jpeg/.jpg/.png/.pdf only.
+            </div>
+            <div
+              *ngIf="addForm.controls.document['controls'].name.errors?.filename"
+              class="invalid-feedback d-block"
+            >
+              Please upload a file.
+            </div>
+            <i class="fal fa-paperclip"></i>
+            <a class="link">Add Attachment</a>
+          </label>
+        </div>
+        <div class="color-fusion-300 font-weight-bold" id="file-name">
+          {{ fileName }}
+          <i
+            class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl"
+            *ngIf="fileName"
+            (click)="removeFile()"
+          ></i>
+        </div>
+        <small class="color-fusion-300 small">
+          Max file size allowed is 2MB
+        </small>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" style="color: #fff;background-color: #8d4fea;border-color: #8d4fea" class="btn" (click)="draftSave()">
+        <i class="mr-1 fal fa-draft"></i>Draft
+      </button>
+      <button type="submit" class="btn btn-success" (click)="onSubmit()">
+        <i class="mr-1 fal fa-save"></i>Send For Approval
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning"
+        (click)="activeModal.close('Close click')"
+      >
+        <i class="mr-1 fal fa-window-close"></i> Cancel
+      </button>
+    </div>
+  </form>
+  

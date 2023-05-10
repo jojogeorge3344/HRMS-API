@@ -49,7 +49,7 @@ export class OvertimeRequestListComponent implements OnInit {
   }
 
   isApplied(overtimeRequestStatus) {
-    return overtimeRequestStatus == this.overtimeRequestStatusTypes.Applied;
+    return overtimeRequestStatus == this.overtimeRequestStatusTypes.Draft;
   }
 
   getOvertimeRequestsSelf() {
