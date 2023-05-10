@@ -10,6 +10,7 @@ import { PaymentType } from '../../../models/common/types/paymenttype';
 import { LoanRequest } from '../loan-request.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { LoanRequestViewComponent } from '../loan-request-view/loan-request-view.component';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: './loan-request-list.component.html'
@@ -20,6 +21,7 @@ export class LoanRequestListComponent implements OnInit {
 
   loanTypes = LoanType;
   paymentTypes = PaymentType;
+  requestTypes = RequestStatus;
   minDate;
   nextLoanNumber: number;
 
@@ -116,5 +118,8 @@ export class LoanRequestListComponent implements OnInit {
           });
         }
     });
+  }
+  isApplied(request) {
+    return request == this.requestTypes.Draft;
   }
 }

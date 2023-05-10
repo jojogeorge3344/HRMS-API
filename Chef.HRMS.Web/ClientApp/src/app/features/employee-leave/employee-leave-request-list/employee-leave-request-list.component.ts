@@ -9,6 +9,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { EmployeeLeaveRequestCreateComponent } from "../employee-leave-request-create/employee-leave-request-create.component";
 import { TeamAttendanceService } from "@features/team-attendance/team-attendance.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { EmployeeLeaveRequestEditComponent } from "../employee-leave-request-edit/employee-leave-request-edit.component";
 
 @Component({
   selector: "hrms-employee-leave-request-list",
@@ -110,6 +111,28 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
       }
     });
   }
+  openEdit(leaveRequest: EmployeeLeaveRequest) {
+    const modalRef = this.modalService.open(
+      EmployeeLeaveRequestEditComponent,
+      { centered: true, backdrop: "static" }
+    );
+    modalRef.componentInstance.requestId = this.currentUserId;
+    modalRef.componentInstance.leaveBalance = this.leaveComponent;
+    modalRef.componentInstance.leaveSettings = this.leaveSettings;
+    modalRef.componentInstance.leaves = this.leavesApplied;
+    modalRef.componentInstance.wfh = this.wfhApplied;
+    modalRef.componentInstance.onDuty = this.onDutyApplied;
+    modalRef.componentInstance.isEmployeeLeave = this.isEmployeeLeave;
+    modalRef.componentInstance.leaveRequest = leaveRequest;
+
+    modalRef.result.then((result) => {
+      if (result == "submit") {
+        this.getAllRequestedLeave();
+        this.getLeaveBalance();
+        this.getMarkedDates("leave", this.currentUserId);
+      }
+    });
+  }
 
   delete(request) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
@@ -182,5 +205,8 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
           element.leaveStatus == this.leaveStatusFilter)
       );
     });
+  }
+  isApplied(request) {
+    return request == this.leaveStatus.Draft;
   }
 }

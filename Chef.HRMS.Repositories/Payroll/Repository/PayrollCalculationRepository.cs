@@ -24,7 +24,7 @@
                                             pcalc.formula 
                             FROM   hrms.payrollstructure ps 
                                    INNER JOIN hrms.payrollcomponentconfiguration pc 
-                                           ON ps.id = pc.payrollstructureid 
+                                           ON ps.id = pc.payrollstructureid AND pc.isarchived= false
                                    INNER JOIN hrms.payrollcomponent pcmp 
                                            ON pc.payrollcomponentid = pcmp.id 
                                    LEFT JOIN hrms.payrollcalculation pcalc 
