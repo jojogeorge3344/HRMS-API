@@ -8,6 +8,7 @@ namespace Chef.HRMS.Repositories
     public interface ILeaveRepository : IGenericRepository<Leave>
     {
         Task<int> InsertNotifyPersonnel(IEnumerable<LeaveNotifyPersonnel> leaveNotifyPersonnel);
+        Task<int> UpdateNotifyPersonnel(IEnumerable<LeaveNotifyPersonnel> leaveNotifyPersonnel);
 
         Task<IEnumerable<LeaveComponentLeaveBalanceViewModel>> GetAllLeaveBalanceById(int employeeId);
 
