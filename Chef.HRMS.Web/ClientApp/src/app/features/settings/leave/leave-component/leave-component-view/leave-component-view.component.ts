@@ -314,7 +314,7 @@ export class LeaveComponentViewComponent implements OnInit {
       isStatutoryLeave: [{ value: false, disabled: this.isDisabled }],
       isRestrictedToGender: [{ value: false, disabled: this.isDisabled }],
       isRestrictedToMaritalStatus: [
-        { value: false, disabled: this.isDisabled },
+        { value: false, disabled: this.isDisabled }, 
       ],
       createdDate: [],
       benefitCategoryId: [0, Validators.required],
