@@ -98,13 +98,13 @@ namespace Chef.HRMS.Repositories
                                                                                                   --  AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
                                                                                                   --  WHERE  (pm.month = ppm.month
                                                                                                   --  AND pm.year = ppm.year))) 	   
-                                                            LEFT JOIN hrms.loanrequest lr 
+                                                            INNER JOIN hrms.loanrequest lr 
                                                                    ON e.id = lr.employeeid 
 																   --AND
                                                                    --  lr.emistartsfrommonth <= pm.month
                                                                    -- AND
 																   --  lr.emistartsfromyear <= pm.year 
-                                                            LEFT JOIN hrms.loanrequestdetail lrd 
+                                                            INNER JOIN hrms.loanrequestdetail lrd 
                                                                 ON lrd.loanrequestid = lr.id 
                                                                 AND lrd.month = @month AND lrd.year = @year
                                                             LEFT JOIN hrms.loanpayment lp 
