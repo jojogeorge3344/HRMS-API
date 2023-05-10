@@ -29,6 +29,7 @@ import { OvertimePolicyService } from '@settings/overtime/overtime-policy/overti
 import { OvertimePolicy } from '@settings/overtime/overtime-policy/overtime-policy.model';
 import { EmployeeRevisionManagementService } from '../employee-revision-management.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
 @Component({
   selector: 'hrms-employee-revision-management-edit',
   templateUrl: './employee-revision-management-edit.component.html',
@@ -66,6 +67,8 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
   selectedDatasource_req:any
   reqId:any
   employeePayrollStructure:any=[]
+  employeePayrollStructure_rev:any=[]
+  currentUserId:any
  
  
   constructor(
@@ -95,6 +98,7 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.route.params.subscribe((params: any) => {
       this.reqId = params['id'];
@@ -147,7 +151,7 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
       return
     }
     this.editForm.value.employeeId = parseInt(this.editForm.value.employeeId)
-    this.editForm.value.revStatus = 0
+   // this.editForm.value.revStatus = 1
     this.editForm.value.departmentId  =parseInt(this.editForm.value.departmentId )
     this.editForm.value.workerType = parseInt( this.editForm.value.workerType)
     this.editForm.value.timeType =parseInt(this.editForm.value.timeType)
@@ -160,11 +164,18 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
     this.editForm.value.payrollStructureId = parseInt(this.editForm.value.payrollStructureId)
     this.editForm.value.overTimePolicyId = parseInt( this.editForm.value.overTimePolicyId)
     this.editForm.value.eosId = parseInt( this.editForm.value.eosId)
-    this.editForm.value.refNum =0
+   // this.editForm.value.refNum =0
+
+   this.editForm.patchValue({
+    //employeeRevisionsOldList: this.employeeDetails_old,
+    revStatus:1,
+    reqNum:0
+  });
+
     
 
     this.EmployeeRevisionManagementService.update(this.editForm.value).subscribe((result: any) => {
-      this.toastr.showSuccessMessage('Employee Revision  Request Updated Successfully.');
+      this.updateReversedSalaryDetails()
      // this.activeModal.close('submit');
     },
       error => {
@@ -175,9 +186,37 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
   }
 
 
+  updateReversedSalaryDetails(){
+    const details = this.employeeList.find(emp => emp.id === this.currentUserId);
+    for(let i=0;i<this.employeePayrollStructure_rev.length;i++){
+          this.employeePayrollStructure_rev[i].id = 0
+          this.employeePayrollStructure_rev[i].createdDate =new Date(Date.now())
+          this.employeePayrollStructure_rev[i].modifiedDate = new Date(Date.now())
+          this.employeePayrollStructure_rev[i].createdBy = details.firstName
+          this.employeePayrollStructure_rev[i].modifiedBy =  details.firstName
+          this.employeePayrollStructure_rev[i].isArchived = true
+          this.employeePayrollStructure_rev[i].employeeRevisionId = this.reqId
+          this.employeePayrollStructure_rev[i].payrollStructureId =this.editForm.value.payrollStructureId
+
+    }
+
+    //this.employeePayrollStructure_rev = {...this.employeePayrollStructure_rev}
+    this.EmployeeRevisionManagementService.update_ReversedSalaryDetails(this.employeePayrollStructure_rev).subscribe((result: any) => {
+      this.toastr.showSuccessMessage('Employee Revision  Request Updated Successfully.');
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to Update Employee Salary Revision  Request');
+      });  
+  }
+
+
+
   getRevisionRequest() {
+    debugger
     this.EmployeeRevisionManagementService.get(this.reqId).subscribe(result => {
       this.revisionRequest = result;
+      console.log('revdetails',this.revisionRequest)
       this.editForm.patchValue(this.revisionRequest);
       this.editForm.patchValue({
         effectiveFrm: new Date(this.revisionRequest.effectiveFrm),
@@ -188,7 +227,9 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
       const details_req = this.employeeList.find(emp => emp.id === this.revisionRequest.requestedBy);
       this.selectedDatasource_req = details_req.firstName
       this.editForm.get("requestedby").patchValue(details.id);
-      this.getEmployeePayroll()
+     this.getEmployeeOldSalaryDetails(this.revisionRequest.id)
+     this.getEmployeeReversedSalaryDetails(this.revisionRequest.id)
+     // this.getEmployeePayroll(this.revisionRequest.employeeId)
      
     },
       error => {
@@ -196,10 +237,34 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
       });
   }
 
+
+  getEmployeeOldSalaryDetails(id){
+  this.employeePayrollStructure=[]
+    this.EmployeeRevisionManagementService.get_oldSalaryDetails(id).subscribe(result => {
+      this.employeePayrollStructure = result;
+      
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the Employee payroll structure.');
+      });
+  }
+
+  getEmployeeReversedSalaryDetails(id){
+    this.employeePayrollStructure_rev=[]
+    this.EmployeeRevisionManagementService.get_ReversedSalaryDetails(id).subscribe(result => {
+      this.employeePayrollStructure_rev = result;
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the Employee payroll structure.');
+      });
+  }
+
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result
-      console.log('employee',this.employeeList)
+     console.log('employee',this.employeeList)
     },
       error => {
         console.error(error);
@@ -306,16 +371,21 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
     );
   }
 
-  getEmployeePayroll() {
-    this.employeePayrollStructure=[]
-    this.EmployeeRevisionManagementService.getEmployeePayroll(this.editForm.value.payrollStructureId).subscribe(result => {
-      this.employeePayrollStructure = result;
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the Employee payroll structure.');
-      });
-  }
+  // getEmployeePayroll(id) {
+  //   this.employeePayrollStructure=[]
+  //   this.EmployeeRevisionManagementService.getEmployeePayroll(this.editForm.value.payrollStructureId,id).subscribe(result => {
+  //     this.employeePayrollStructure = result;
+  //   },
+  //     error => {
+  //       console.error(error);
+  //       this.toastr.showErrorMessage('Unable to fetch the Employee payroll structure.');
+  //     });
+  // }
+
+
+  // print(){
+  //   window.print()
+  // }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

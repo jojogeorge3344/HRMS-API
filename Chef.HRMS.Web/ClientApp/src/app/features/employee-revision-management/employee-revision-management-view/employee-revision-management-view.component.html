@@ -2,138 +2,292 @@
     <h1 class="subheader-title">
         View Employee Revision Management
     </h1>
-  </div>
-  <div id="emprevisionmanagement" class="panel">
+</div>
+<div class="card p-3" id="addEmployee">
+    <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+    routerLink="/employee-revision-management"><i class="fal fa-arrow-left mr-2"></i> Back to
+    Employee Revision</button>
+<ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs-clean nav nav-tabs" >
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Reversed Details</a>
+      <ng-template ngbNavContent>
+       <div id="emprevisionmanagement" class="panel">
     <div class="panel-container show">
-     <div class="panel-content">
-<form>
-    <div class="p-3">
-        <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right" routerLink="/employee-revision-management"><i
-            class="fal fa-arrow-left mr-2"></i> Back to Employee Revision</button>
-        <div class="d-flex flex-wrap align-items-baseline">
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" >Request Number</label>
-                <input readonly value="{{revisionRequest.reqNum}}" type="text" class="form-control"
-                    />
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" >Requested By</label>
-                <input readonly value="{{reqBy}}" type="text" class="form-control"
-                />
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label>Request Date</label>
-                <input readonly value="{{revisionRequest.reqDate | date}}" type="text" class="form-control"
-                />
-            </div>
-        </div>
-        <div class="d-flex flex-wrap align-items-baseline">
-            <div class="form-group form-input-line col-4">
-                <label >Effect From</label>
-                <input readonly value="{{revisionRequest.effectiveFrm | date}}" type="text" class="form-control"
-                />
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" >Employee</label>
-                <input readonly value="{{employee}}" type="text" class="form-control"
-                />
-            </div>
-            
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label">Status</label>
-                <input readonly value="{{revisionRequest.revStatus == 0 ? 'Pending' : 'Approved'}}" type="text" class="form-control"
-                />
-            </div>
-        </div>
-        <div class="d-flex flex-wrap align-items-baseline">
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" >Leave Structure</label>
-                <input readonly value="{{leaveStructure}}" type="text" class="form-control"
-                />
-            </div>
-             <div class="form-group form-input-line col-4">
-                <label class="col-form-label">Shift</label>
-              
-                <input readonly value="{{shift}}" type="text" class="form-control"
-                />
-                
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="weekOff">Week Off</label>
-                <input readonly  type="text" class="form-control"
-                />
-            </div> 
-        </div>
-        <div class="d-flex flex-wrap align-items-baseline">
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="holidayCategoryId">Holiday List</label>
-                <input readonly value="{{holidayCategory}}" type="text" class="form-control"
-                />
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label">EOS Type</label>
-                <input readonly value="{{eos}}" type="text" class="form-control"
-                />
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="designation">Designation</label>
-                <input readonly value="{{designation}}" type="text" class="form-control"
-                />
-            </div>
-        </div>
-        <div class="d-flex flex-wrap align-items-baseline">
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="departmentId">Department</label>
-                <input readonly  type="text" class="form-control"
-                />
-            </div>
-             <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="workerType">Work Type</label>
-                <input readonly  type="text" class="form-control"
-                /> 
-            </div>
-           <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="timeType">Time Type</label>
-                <input readonly  type="text" class="form-control"
-                /> 
-            </div>
-        </div> 
-         <div class="d-flex flex-wrap align-items-baseline">
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="attendanceTrackingId">Attendence Tracking</label>
-                <input readonly  type="text" class="form-control"
-                /> 
-            </div>
-             <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="payrollStructureId">Payroll Structure</label>
-                <input readonly value="{{payrollstructure}}" type="text" class="form-control"
-                /> 
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="payGroupId">Pay Group</label>
-                <input readonly value="{{payGroup}}" type="text" class="form-control"
-                /> 
-            </div> 
-        </div> 
-        <div class="d-flex flex-wrap align-items-baseline">
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="overTimePolicyId">Over Time Policy</label>
-                <input readonly value="{{overTime}}" type="text" class="form-control"
-                /> 
-            </div>
-            <div class="form-group form-input-line col-8">
-                <label class="col-form-label" for="remark">Remarks</label>
-                <textarea
-                readonly
-                rows="4"
-                class="form-control"
-                value="{{revisionRequest.remark}}"
-                style="height: 37px;"
-              ></textarea>
-            </div>
+        <div class="panel-content">
+            <form>
+                <div class="p-3">
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Request Number</label>
+                            <input readonly value="{{revisionRequest.reqNum}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Requested By</label>
+                            <input readonly value="{{reqBy}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label>Request Date</label>
+                            <input readonly value="{{revisionRequest.reqDate | date}}" type="text"
+                                class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label>Effect From</label>
+                            <input readonly value="{{revisionRequest.effectiveFrm | date}}" type="text"
+                                class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Employee</label>
+                            <input readonly value="{{employee}}" type="text" class="form-control" />
+                        </div>
 
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Status</label>
+                            <input readonly value="{{revisionRequest.revStatus == 0 ? 'Pending' : 'Approved'}}"
+                                type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Leave Structure</label>
+                            <input readonly value="{{leaveStructure}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Shift</label>
+
+                            <input readonly value="{{shift}}" type="text" class="form-control" />
+
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="weekOff">Week Off</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="holidayCategoryId">Holiday List</label>
+                            <input readonly value="{{holidayCategory}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">EOS Type</label>
+                            <input readonly value="{{eos}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="designation">Designation</label>
+                            <input readonly value="{{designation}}" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="departmentId">Department</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="workerType">Work Type</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="timeType">Time Type</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="attendanceTrackingId">Attendence Tracking</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="payrollStructureId">Payroll Structure</label>
+                            <input readonly value="{{payrollstructure}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="payGroupId">Pay Group</label>
+                            <input readonly value="{{payGroup}}" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="overTimePolicyId">Over Time Policy</label>
+                            <input readonly value="{{overTime}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-8">
+                            <label class="col-form-label" for="remark">Remarks</label>
+                            <textarea readonly rows="4" class="form-control" value="{{revisionRequest.remark}}"
+                                style="height: 37px;"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex flex-wrap align-items-baseline" *ngIf="employeePayrollStructure.length > 0">
+                        <div class="form-group form-input-line col-6">
+                            <table class="table m-0">
+                                <thead class="thead-themed">
+                                    <tr>
+                                        <th colspan="2">Old Salary Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Salary Component</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  *ngFor="let employee of employeePayrollStructure; let i= index;">
+                                       <td>{{employee.name}}</td>
+                                       <td><input disabled value="{{employee.monthlyAmount}}" type="text" class="form-control"
+                                        /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group form-input-line col-6">
+                            <table class="table m-0">
+                                <thead class="thead-themed">
+                                    <tr>
+                                        <th colspan="2">Revised Salary Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Salary Component</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  *ngFor="let employee of employeePayrollStructure_rev; let i= index;">
+                                       <td>{{employee.name}}</td>
+                                       <td><input disabled value="{{employee.monthlyAmount}}" type="text" class="form-control"
+                                        /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div> 
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Previous Details </a>
+      <ng-template ngbNavContent>
+        <div id="emprevisionmanagement" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content">
+            <form>
+                <div class="p-3">
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Request Number</label>
+                            <input readonly value="{{emp_oldDetails.reqNum}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Requested By</label>
+                            <input readonly value="{{reqBy_old}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label>Request Date</label>
+                            <input readonly value="{{emp_oldDetails.reqDate | date}}" type="text"
+                                class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label>Effect From</label>
+                            <input readonly value="{{emp_oldDetails.effectiveFrm | date}}" type="text"
+                                class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Employee</label>
+                            <input readonly value="{{employee_old}}" type="text" class="form-control" />
+                        </div>
 
-</form>
-     </div></div></div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Status</label>
+                            <input readonly value="{{emp_oldDetails.revStatus == 0 ? 'Pending' : 'Approved'}}"
+                                type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Leave Structure</label>
+                            <input readonly value="{{leaveStructure_old}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">Shift</label>
+
+                            <input readonly value="{{shift_old}}" type="text" class="form-control" />
+
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="weekOff">Week Off</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="holidayCategoryId">Holiday List</label>
+                            <input readonly value="{{holidayCategory_old}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label">EOS Type</label>
+                            <input readonly value="{{eos_old}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="designation">Designation</label>
+                            <input readonly value="{{designation_old}}" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="departmentId">Department</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="workerType">Work Type</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="timeType">Time Type</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="attendanceTrackingId">Attendence Tracking</label>
+                            <input readonly type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="payrollStructureId">Payroll Structure</label>
+                            <input readonly value="{{payrollstructure_old}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="payGroupId">Pay Group</label>
+                            <input readonly value="{{payGroup_old}}" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <div class="form-group form-input-line col-4">
+                            <label class="col-form-label" for="overTimePolicyId">Over Time Policy</label>
+                            <input readonly value="{{overTime_old}}" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group form-input-line col-8">
+                            <label class="col-form-label" for="remark">Remarks</label>
+                            <textarea readonly rows="4" class="form-control" value="{{emp_oldDetails.remark}}"
+                                style="height: 37px;"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div> 
+      </ng-template>
+    </li>
+   
+  </ul>
+
+  <div [ngbNavOutlet]="nav"></div>
+</div>

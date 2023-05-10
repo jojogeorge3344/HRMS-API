@@ -64,8 +64,10 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
   employeeDetails:any=[]
   currentUserId:any
   employeePayrollStructure:any=[]
-  employeeDetails_old:any=[]
-  employeePayrollStructure_rev:any=[]
+  employeeDetails_old:any={}
+  employeePayrollStructure_rev:any={}
+  employeeRevisionId:any
+  employeeSalaryRevId:any
 
   constructor(
     // public activeModal: NgbActiveModal,
@@ -154,21 +156,30 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
     this.addForm.value.payrollStructureId = parseInt(this.addForm.value.payrollStructureId)
     this.addForm.value.overTimePolicyId = parseInt( this.addForm.value.overTimePolicyId)
     this.addForm.value.eosId = parseInt( this.addForm.value.eosId)
-    this.addForm.value.refNum =0
+    //this.addForm.value.refNum =0
     this.addForm.patchValue({
-      employeeRevisionsOldList: this.employeeDetails_old,
-      revStatus:1
+      //employeeRevisionsOldList: this.employeeDetails_old,
+      revStatus:1,
+      reqNum:0
     });
 
-    this.EmployeeRevisionManagementService.add(this.addForm.value).subscribe((result: any) => {
-      this.toastr.showSuccessMessage('Employee Revision  Request Submitted Successfully.');
-     // this.activeModal.close('submit');
+
+    let employeeRevision = {employeeRevision:this.addForm.value,employeeRevisionsOld:this.employeeDetails_old}
+   
+
+    this.EmployeeRevisionManagementService.add(employeeRevision).subscribe((result: any) => {
+      // this.toastr.showSuccessMessage('Employee Revision  Request Submitted Successfully.');
+        this.employeeRevisionId = result
+        this.saveReversedSalaryDetails()
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to submit Employee Revision  Request');
       });
   }
+
+
+ 
   getEOS (){
     this.eosService.getAll()
     .subscribe((result) => {
@@ -192,13 +203,13 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
   }
 
   getEmployeeDetails(id:number) {
-    debugger
     this.employeeDetails =[]
     this.EmployeeRevisionManagementService.getEmployeeDetailsById(id).subscribe(result => {
       this.employeeDetails = result
       this.employeeDetails_old = result
       this.employeeDetails_old.revStatus = 1
-      this.bindEmployeeDetails()
+      this.employeeDetails_old.reqNum = 0
+      this.bindEmployeeDetails(id)
 
     },
       error => {
@@ -206,7 +217,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
       });
   }
 
-  bindEmployeeDetails(){
+  bindEmployeeDetails(id){
      this.addForm.patchValue({
       leavesStructureId: this.employeeDetails.leaveStructureId,
       shiftId:this.employeeDetails.shiftId,
@@ -223,7 +234,8 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
       overTimePolicyId:this.employeeDetails.overTimePolicyId
   })
   // this.addForm.get("leavesStructureId").patchValue(this.employeeDetails.leaveStructureId);
-    this.getEmployeePayroll()
+  debugger
+    this.getEmployeePayroll(id)
 
   }
 
@@ -278,10 +290,10 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to fetch the Job Title Details');
       });
   }
-   getEmployeePayroll() {
+   getEmployeePayroll(id) {
     this.employeePayrollStructure=[]
-    this.employeePayrollStructure_rev =[]
-    this.EmployeeRevisionManagementService.getEmployeePayroll(this.addForm.value.payrollStructureId).subscribe(result => {
+    this.employeePayrollStructure_rev ={}
+    this.EmployeeRevisionManagementService.getEmployeePayroll(this.addForm.value.payrollStructureId,id).subscribe(result => {
       this.employeePayrollStructure = result;
       this.employeePayrollStructure_rev = result
     },
@@ -293,8 +305,8 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
 
   getEmployeePayroll_rev() {
     debugger
-    this.employeePayrollStructure_rev =[]
-    this.EmployeeRevisionManagementService.getEmployeePayroll(this.addForm.value.payrollStructureId).subscribe(result => {
+    this.employeePayrollStructure_rev ={}
+    this.EmployeeRevisionManagementService.getpayrollComponents(this.addForm.value.payrollStructureId).subscribe(result => {
       this.employeePayrollStructure_rev = result
     },
       error => {
@@ -361,8 +373,24 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
 
 
   saveOldSalaryStructure(){
+    const details = this.employeeList.find(emp => emp.id === this.currentUserId);
+    for(let i=0;i<this.employeePayrollStructure.length;i++){
+          this.employeePayrollStructure[i].id = 0
+          this.employeePayrollStructure[i].createdDate =new Date(Date.now())
+          this.employeePayrollStructure[i].modifiedDate = new Date(Date.now())
+          this.employeePayrollStructure[i].createdBy = details.firstName
+          this.employeePayrollStructure[i].modifiedBy =  details.firstName
+          this.employeePayrollStructure[i].isArchived = true
+          this.employeePayrollStructure[i].employeeRevisionId = this.employeeRevisionId
+          this.employeePayrollStructure[i].payrollStructureId =
+          this.employeePayrollStructure[i].employeeRevisionDetailId = this.employeeSalaryRevId
+          this.employeePayrollStructure[i].payrollStructureId= this.employeeDetails.payrollStructureId
+
+          
+    }
+     //this.employeePayrollStructure = {...this.employeePayrollStructure}
     this.EmployeeRevisionManagementService.save_oldSalaryDetails(this.employeePayrollStructure).subscribe((result: any) => {
-      this.toastr.showSuccessMessage('Employee Old Salary Structure Submitted Successfully.');
+      this.toastr.showSuccessMessage('Employee Salary Revision  Request Submitted Successfully.');
     },
       error => {
         console.error(error);
@@ -371,12 +399,28 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
   }
 
   saveReversedSalaryDetails(){
+    const details = this.employeeList.find(emp => emp.id === this.currentUserId);
+    for(let i=0;i<this.employeePayrollStructure_rev.length;i++){
+          this.employeePayrollStructure_rev[i].id = 0
+          this.employeePayrollStructure_rev[i].createdDate =new Date(Date.now())
+          this.employeePayrollStructure_rev[i].modifiedDate = new Date(Date.now())
+          this.employeePayrollStructure_rev[i].createdBy = details.firstName
+          this.employeePayrollStructure_rev[i].modifiedBy =  details.firstName
+          this.employeePayrollStructure_rev[i].isArchived = true
+          this.employeePayrollStructure_rev[i].employeeRevisionId = this.employeeRevisionId
+          this.employeePayrollStructure_rev[i].payrollStructureId =this.addForm.value.payrollStructureId
+
+    }
+
+    //this.employeePayrollStructure_rev = {...this.employeePayrollStructure_rev}
     this.EmployeeRevisionManagementService.save_ReversedSalaryDetails(this.employeePayrollStructure_rev).subscribe((result: any) => {
-      this.toastr.showSuccessMessage('Employee Revision  Request Submitted Successfully.');
+      
+      this.employeeSalaryRevId = result
+      this.saveOldSalaryStructure()
     },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to submit Employee Reversed Salary Structure');
+        this.toastr.showErrorMessage('Unable to submit Employee Salary Revision  Request');
       });  
   }
 
@@ -412,7 +456,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
       remark:[''],
       createdDate:[new Date(Date.now())],
       modifiedDate:[new Date(Date.now())],
-      employeeRevisionsOldList:[]
+      employeeRevisionsOldList:{}
     });
   }
 

@@ -218,39 +218,55 @@
 
                     </div>
                 </div>
-                <div class="frame-wrap" *ngIf="employeePayrollStructure.length > 0">
-                    <table class="table m-0">
-                        <thead class="thead-themed">
-                            <tr>
-                                <th colspan="2">Old Salary Details</th>
-                                
-                                <th colspan="2">Revised Salary Details</th>
-                            </tr>
-                            <tr>
-                               
-                                <th>Salary Component</th>
-                                <th>Amount</th>
-                                <th>Salary Component</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr  *ngFor="let employee of employeePayrollStructure; let i= index;">
-                               <td>{{employee.name}}</td>
-                               <td>{{employee.maximumLimit}}</td>
-                               <td>{{employee.name}}</td>
-                               <td><input  value="{{employee.maximumLimit}}" type="text" class="form-control"
-                                /></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                <div class="d-flex flex-wrap align-items-baseline" *ngIf="employeePayrollStructure.length > 0">
+                    <div class="form-group form-input-line col-6">
+                        <table class="table m-0">
+                            <thead class="thead-themed">
+                                <tr>
+                                    <th colspan="2">Old Salary Details</th>
+                                </tr>
+                                <tr>
+                                    <th>Salary Component</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr  *ngFor="let employee of employeePayrollStructure; let i= index;">
+                                   <td>{{employee.name}}</td>
+                                   <td><input disabled value="{{employee.monthlyAmount}}" type="text" class="form-control"
+                                    /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group form-input-line col-6">
+                        <table class="table m-0">
+                            <thead class="thead-themed">
+                                <tr>
+                                    <th colspan="2">Revised Salary Details</th>
+                                </tr>
+                                <tr>
+                                    <th>Salary Component</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr  *ngFor="let employee of employeePayrollStructure_rev; let i= index;">
+                                   <td>{{employee.name}}</td>
+                                   <td><input  value="{{employee.monthlyAmount}}" type="text" class="form-control"
+                                    /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Send & Approval
                     </button>
                     <button type="button" class="btn btn-warning" routerLink="/employee-revision-management"><i
                             class="mr-1 fal fa-window-close"></i> Cancel</button>
+                            <!-- <button type="button" class="btn btn-warning" (click)="print()"><i
+                                class="mr-1 fal fa-window-close"></i> Cancel</button> -->
                 </div>
 
             </form>

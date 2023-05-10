@@ -56,6 +56,19 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
   overTimePolicyId:any=[]
   overTime:any=''
   activeTabId: number;
+  employeePayrollStructure:any=[]
+  employeePayrollStructure_rev:any=[]
+  emp_oldDetails:any=[]
+  employee_old:any=''
+  reqBy_old:any=''
+  leaveStructure_old:any=''
+  shift_old:any=''
+  holidayCategory_old:any=''
+  eos_old:any=''
+  designation_old:any=''
+  payrollstructure_old:any=''
+  payGroup_old:any=''
+  overTime_old:any=''
   constructor(
     // public activeModal: NgbActiveModal,
     private employeeService: EmployeeService,
@@ -87,6 +100,7 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
     });
 
     this.getRevisionRequest()
+    this.getOldDetails()
     // this.getEmployeeList()
     // this.getLeaveStructure()
     // this.getShiftList()
@@ -108,6 +122,8 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       
       const details = this.eosTypes.find(eos => eos.id === this.revisionRequest.eosId);
       this.eos = details.bfName
+      const details_old = this.eosTypes.find(eos => eos.id === this.revisionRequest.eosId);
+      this.eos_old = details_old.bfName
       this.getJobList()
     })
   }
@@ -116,6 +132,9 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
     this.EmployeeRevisionManagementService.get(this.reqId).subscribe(result => {
       this.revisionRequest = result;
       this.getEmployeeList()
+      this.getEmployeeOldSalaryDetails(this.revisionRequest.id)
+     this.getEmployeeReversedSalaryDetails(this.revisionRequest.id)
+      
     },
       error => {
         console.error(error);
@@ -123,13 +142,17 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
   }
 
   getEmployeeList() {
-    debugger
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result
       const details = this.employeeList.find(emp => emp.id === this.revisionRequest.employeeId);
       this.employee = details.firstName
       const details_req = this.employeeList.find(emp => emp.id === this.revisionRequest.requestedBy);
       this.reqBy = details_req.firstName
+
+      const details_old = this.employeeList.find(emp => emp.id === this.revisionRequest.employeeId);
+      this.employee_old = details_old.firstName
+      const details_req_old = this.employeeList.find(emp => emp.id === this.revisionRequest.requestedBy);
+      this.reqBy_old = details_req_old.firstName
       this.getLeaveStructure()
     },
       error => {
@@ -138,11 +161,13 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
   }
 
   getLeaveStructure() {
-    debugger
     this.leaveStructureService.getConfiguredLeaveStructures().subscribe(result => {
       this.leaveStructureId = result;
       const details = this.leaveStructureId.find(leav => leav.id === this.revisionRequest.leavesStructureId);
       this.leaveStructure = details.description
+
+      const details_old = this.leaveStructureId.find(leav => leav.id === this.revisionRequest.leavesStructureId);
+      this.leaveStructure_old = details_old.description
       this.getShiftList()
     },
       error => {
@@ -155,6 +180,8 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.shiftId = result;
       const details = this.shiftId.find(leav => leav.id === this.revisionRequest.shiftId);
       this.shift = details.name
+      const details_old = this.shiftId.find(leav => leav.id === this.revisionRequest.shiftId);
+      this.shift_old = details_old.name
       this.getHolidayList()
     },
       error => {
@@ -167,6 +194,8 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
  
       const details = this.holidayCategoryId.find(hol => hol.id === this.revisionRequest.holidayCategoryId);
       this.holidayCategory = details.name
+      const details_old = this.holidayCategoryId.find(hol => hol.id === this.revisionRequest.holidayCategoryId);
+      this.holidayCategory_old = details.name
       this.getEosDetails()
     },
       error => {
@@ -178,6 +207,8 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.jobTitleId = result;
       const details = this.jobTitleId.find(job => job.id === this.revisionRequest.jobTitleId);
       this.designation = details.name
+      const details_old = this.jobTitleId.find(job => job.id === this.revisionRequest.jobTitleId);
+      this.designation_old = details_old.name
       this.getPayrollStructureList()
     },
       error => {
@@ -191,6 +222,8 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.payrollStructureId = result;
       const details = this.payrollStructureId.find(pay => pay.id === this.revisionRequest.payrollStructureId);
       this.payrollstructure = details.description
+      const details_old = this.payrollStructureId.find(pay => pay.id === this.revisionRequest.payrollStructureId);
+      this.payrollstructure_old = details_old.description
       this.getPayGroupList()
     },
       error => {
@@ -204,6 +237,8 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.payGroupId = result;
       const details = this.payGroupId.find(grp => grp.id === this.revisionRequest.payGroupId);
       this.payGroup = details.name
+      const details_old = this.payGroupId.find(grp => grp.id === this.revisionRequest.payGroupId);
+      this.payGroup_old = details_old.name
       this.getOverTimePolicyList()
     },
       error => {
@@ -216,11 +251,49 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.overTimePolicyId = result;
       const details = this.overTimePolicyId.find(o => o.id === this.revisionRequest.overTimePolicyId);
       this.overTime = details.name
+      const details_old = this.overTimePolicyId.find(o => o.id === this.revisionRequest.overTimePolicyId);
+      this.overTime_old = details_old.name
     },
       error => {
         console.error(error);
        
       });
   }
+
+  getEmployeeOldSalaryDetails(id){
+    this.employeePayrollStructure=[]
+      this.EmployeeRevisionManagementService.get_oldSalaryDetails(id).subscribe(result => {
+        this.employeePayrollStructure = result;
+        
+      },
+        error => {
+          console.error(error);
+         
+        });
+    }
+  
+    getEmployeeReversedSalaryDetails(id){
+      this.employeePayrollStructure_rev=[]
+      this.EmployeeRevisionManagementService.get_ReversedSalaryDetails(id).subscribe(result => {
+        this.employeePayrollStructure_rev = result;
+      },
+        error => {
+          console.error(error);
+          
+        });
+    }
+
+
+    getOldDetails(){
+      this.EmployeeRevisionManagementService.get(this.reqId).subscribe(result => {
+      this.emp_oldDetails = result;
+      this.getEmployeeList()
+        
+      },
+        error => {
+          console.error(error);
+        });
+
+    }
 
 }

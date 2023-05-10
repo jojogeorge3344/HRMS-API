@@ -229,7 +229,7 @@
                                 <tbody>
                                     <tr  *ngFor="let employee of employeePayrollStructure; let i= index;">
                                        <td>{{employee.name}}</td>
-                                       <td><input disabled value="{{employee.maximumLimit}}" type="text" class="form-control"
+                                       <td><input disabled value="{{employee.monthlyAmount}}" type="text" class="form-control"
                                         /></td>
                                     </tr>
                                 </tbody>
@@ -249,7 +249,7 @@
                                 <tbody>
                                     <tr  *ngFor="let employee of employeePayrollStructure_rev; let i= index;">
                                        <td>{{employee.name}}</td>
-                                       <td><input  value="{{employee.maximumLimit}}" type="text" class="form-control"
+                                       <td><input  value="{{employee.monthlyAmount}}" type="text" class="form-control"
                                         /></td>
                                     </tr>
                                 </tbody>
