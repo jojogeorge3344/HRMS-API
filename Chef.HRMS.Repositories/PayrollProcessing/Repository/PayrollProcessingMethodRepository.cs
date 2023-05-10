@@ -356,11 +356,11 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
         {
-            var sql = @"SELECT ppm.month,ppm.year, pgc.processingday
-                        FROM hrms.payrollprocessingmethod ppm
-                        LEFT JOIN hrms.paygroup pg ON ppm.paygroupid = pg.id
-                        LEFT JOIN hrms.payrollcalendar pgc ON pg.payrollcalendarid = pgc.id
-                        WHERE ppm.paygroupid=7 ORDER BY ppm.year DESC, ppm.month DESC LIMIT 1";
+            var sql = @"SELECT ppm.month,ppm.year, pgc.processingday, pg.timesheetcutoff, pg.leavecutoff
+	                    FROM hrms.payrollprocessingmethod ppm
+	                    LEFT JOIN hrms.paygroup pg ON ppm.paygroupid = pg.id
+	                    LEFT JOIN hrms.payrollcalendar pgc ON pg.payrollcalendarid = pgc.id
+	                    WHERE ppm.paygroupid=@paygroupId ORDER BY ppm.year DESC, ppm.month DESC LIMIT 1";
             return await Connection.QueryAsync<PayrollMonth>(sql, new { paygroupId });
         }
     }
