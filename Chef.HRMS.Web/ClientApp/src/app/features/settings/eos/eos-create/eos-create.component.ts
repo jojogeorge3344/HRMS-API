@@ -127,9 +127,9 @@ export class EosCreateComponent implements OnInit {
       employeeEOSpaymentType: [null, [
         Validators.required
       ]],
-      includedBenefits: ['', [
-        Validators.required
-      ]],
+      // includedBenefits: ['', [
+      //   Validators.required
+      // ]],
       
     });
   }

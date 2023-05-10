@@ -257,16 +257,16 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         Validators.min(1),
         Validators.max(999999999)
       ]],
-      lastDayLimit: [null, [
-        Validators.required,
-        Validators.min(1),
-        Validators.max(999999999)
-      ]],
-      minimumOverTimeHour: [null, [
-        Validators.required,
-        Validators.min(1),
-        Validators.max(999999999)
-      ]],
+      // lastDayLimit: [null, [
+      //   Validators.required,
+      //   Validators.min(1),
+      //   Validators.max(999999999)
+      // ]],
+      // minimumOverTimeHour: [null, [
+      //   Validators.required,
+      //   Validators.min(1),
+      //   Validators.max(999999999)
+      // ]],
       timeBeyondShiftHour: [null, [
         Validators.required,
         Validators.min(1),

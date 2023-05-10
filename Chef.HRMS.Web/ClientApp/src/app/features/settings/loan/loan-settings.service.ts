@@ -33,4 +33,10 @@ export class LoanSettingsService {
   update(loanSettings: LoanSettings){
     return this.http.post<number>(this.baseUrl + 'update', loanSettings).pipe(map(response => { return response; }));
   }
+  getLoanAdvance(){
+    return this.http.get<LoanSettings>(this.baseUrl + 'getLoanAdvance').pipe(map(response => { return response; }));
+  }
+  getLoanRepayment(){
+    return this.http.get<LoanSettings>(this.baseUrl + 'getLoanRepayment').pipe(map(response => { return response; }));
+  }
 }

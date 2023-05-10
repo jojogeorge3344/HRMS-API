@@ -1,4 +1,24 @@
 <div id="job-title-list" class="p-3">
+    <div class="input-group">
+        <div class="form-outline col-4">
+          <input
+            class="form-control"
+            id="searchKey"
+            name="searchKey"
+            [(ngModel)]="searchKey"
+            type="search"
+            placeholder="Search"
+            (search)="searchEmployee()"
+          />
+        </div>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm ml-3"
+          (click)="searchEmployee()"
+        >
+          <i class="fal fa-search"></i>
+        </button>
+      </div>
 
     <div class="button-right-wrapper">
         <button (click)="openCreate()" class="btn btn-success btn-add">
@@ -18,7 +38,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let jobTitle of jobTitles; let i= index;">
+            <tr *ngFor="let jobTitle of filteredJobTitles; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ jobTitle.name }}</td>
                 <td class="text-ellipsis" title="{{ jobTitle.description }}"> {{ jobTitle.description }} </td>
