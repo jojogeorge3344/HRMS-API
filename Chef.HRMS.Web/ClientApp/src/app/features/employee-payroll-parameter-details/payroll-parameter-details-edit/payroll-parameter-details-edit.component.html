@@ -7,7 +7,6 @@
   </div>
 <form [formGroup]="editForm" id="payrollParameterDetailsForm" (validSubmit)="onSubmit()">
     <div class="card p-3" id="addEmployee">
-{{editForm.value | json}}
     <div class="p-3"> 
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-6">
@@ -38,11 +37,9 @@
                     <ngx-select-dropdown
                       (change)="selectionChanged($event)"
                       [config]="config"
-                      [options]="employeeList" 
-                      [ngClass]="{'ddclass':this.editForm.get('employeeId').touched && this.editForm.get('employeeId').invalid}"
+                      [_value]="selectedDatasource"
+                      [options]="employeeList"
                     ></ngx-select-dropdown>
-                    <label class="col-12 col-form-label px-0" style="display:none;" for="employeeId">Employee</label>
-                    <input class="form-control w-75" name="newDate" style="display:none;" formControlName="employeeId">
                 </div>
             <div class="form-group form-input-inline input-group col-6">
                 <label class="col-12 col-form-label px-0" for="transDate">Date<span class="required">*</span></label>

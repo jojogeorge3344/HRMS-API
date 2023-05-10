@@ -85,10 +85,34 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
   }
 
   sendForApproval(){
+    if(this.addForm.get('statusName').value=='pending'){
+      this.addForm.patchValue({
+        status:1
+      })
+    }else if(this.addForm.get('statusName').value=='approved'){
+      this.addForm.patchValue({
+        status:2
+      })
+    }else{
+      this.addForm.patchValue({
+        status:3
+      })
+    }
+    // let apiData=this.addForm.value;
+    // delete apiData
+    this.payrollParameterDetailsService.add(this.addForm.value).subscribe((result) => {
+      if (result) {
+        this.toastr.showSuccessMessage('Employee Payroll Parameter Details Added Successfully');
+        this.router.navigate(['/employee-payroll-parameter-details']);
+      } 
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to add the Employee Payroll Parameter Details Added Successfully');
+      });
 
   }
   onSubmit() { 
-    debugger
     if(this.addForm.get('statusName').value=='pending'){
       this.addForm.patchValue({
         status:1

@@ -51,7 +51,7 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     this.getUserVariables()
     debugger
   //   this.selectedDatasource=this.employeeList.filter((item)=>{
-  //  this.userVariableDetails.employeeId==item.id
+  //  this.payrollParameterDetailsItem.employeeId==item.id
   //   })
   this.payrollParameterDetailsItem.transDate = new Date(this.payrollParameterDetailsItem.transDate);    
 
@@ -77,7 +77,7 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     // this.variableType=UserVariableType[selectedItem.type]
     // this.addForm.get('variableType').patchValue(UserVariableType[selectedItem.type])
     this.editForm.patchValue({
-      // type: selectedItem.type, //UserVariableType[selectedItem.type]
+      type: selectedItem.type, //UserVariableType[selectedItem.type]
       variableTypeName: UserVariableType[selectedItem.type]
     });
     // this.addForm.get('type').setValue(UserVariableType[selectedItem.type])
@@ -117,6 +117,10 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     // let apiData=this.addForm.value;
     // delete apiData
     debugger
+    this.editForm.patchValue({
+      id: this.payrollParameterDetailsItem.id
+    });
+
     this.payrollParameterDetailsService.update(this.editForm.value).subscribe((result) => {
       if (result) {
         this.toastr.showSuccessMessage('Employee Payroll Parameter Details updated Successfully');
@@ -131,6 +135,7 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
   }
 
   getItemById() {
+    debugger
     this.payrollParameterDetailsService.get(this.reqId).subscribe(result => {
       
     this.payrollParameterDetailsItem = result;
@@ -143,8 +148,8 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     });
     this.editForm.patchValue({  transDate:new Date(this.payrollParameterDetailsItem.transDate)})
     
-  //  const details = this.employeeList.find((emp) =>{ this.userVariableDetails.employeeId ==emp.id} );
-  //   this.selectedDatasource = details.firstName
+   const details = this.employeeList.find((emp) =>{ this.userVariableDetails.employeeId ==emp.id} );
+    this.selectedDatasource = details.firstName
     },
     
      error => {
@@ -157,6 +162,7 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+      id:[null],
       employeeId: [''],
       userVariableId: [null, [
         Validators.required
