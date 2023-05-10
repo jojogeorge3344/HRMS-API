@@ -48,30 +48,23 @@ namespace Chef.HRMS.Repositories
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*) total 
                                               FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.regularlogin rl 
-                                                            ON jf.employeeid = rl.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  rl.checkintime BETWEEN @fromDate AND @toDate 
+                                              INNER JOIN hrms.systemvariablevalues svv
+                                              ON jf.employeeid = svv.employeeid 
+                                              INNER JOIN hrms.systemvariable sv
+                                              ON svv.systemvariableid = sv.id
+                                              WHERE jf.paygroupid = @paygroupId
+                                              AND sv.code = 'Wkg_Dys_Cldr_Mth'
                                               GROUP  BY jf.employeeid 
                                               UNION 
                                               SELECT jf.employeeid, 
                                                      Count(*) total 
                                               FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.workfromhome wfh 
-                                                            ON jf.employeeid = wfh.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  wfh.fromdate >= @fromDate 
-                                                     AND wfh.todate <= @toDate 
-                                              GROUP  BY jf.employeeid 
-                                              UNION 
-                                              SELECT jf.employeeid, 
-                                                     Count(*) total 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.onduty od 
-                                                            ON jf.employeeid = od.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  od.fromdate >= @fromDate 
-                                                     AND od.todate <= @toDate 
+                                              INNER JOIN hrms.systemvariablevalues svv
+                                              ON jf.employeeid = svv.employeeid 
+                                              INNER JOIN hrms.systemvariable sv
+                                              ON svv.systemvariableid = sv.id
+                                              WHERE jf.paygroupid = @paygroupId
+                                              AND sv.code = 'Wkd_Dys_Cldr_Mth'      
                                               GROUP  BY jf.employeeid)Q2 
                                           ON Q1.employeeid = Q2.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
