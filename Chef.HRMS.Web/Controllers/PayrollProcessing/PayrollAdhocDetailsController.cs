@@ -1,4 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Chef.HRMS.Models;
+using Chef.HRMS.Services;
+using ExcelDataReader;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers
 {
@@ -6,29 +15,16 @@ namespace Chef.HRMS.Web.Controllers
 	[ApiController]
 	public class PayrollAdhocDetailsController : ControllerBase
 	{
-		//private readonly IPayrollAdhocDetailsService payrollAdhocDetailsService;
-		//public PayrollAdhocDetailsController(IPayrollAdhocDetailsService payrollAdhocDetailsService)
-		//{
-		//	this.payrollAdhocDetailsService = payrollAdhocDetailsService;
-		//}
-		//[HttpPost]
-		//[Route("Insert")]
-		//public async Task<IActionResult> Insert(CustomerCreditNote customerCreditNote)
-		//{
-		//	return Ok(await customerCreditNoteService.InsertAsync(customerCreditNote));
-		//}
-		//[HttpDelete("Delete/{id}")]
-		//public async Task<ActionResult<int>> Delete(int id)
-		//{
-		//	var rowsAffected = await customerCreditNoteService.DeleteAsync(id);
-
-		//	if (rowsAffected < 1)
-		//	{
-		//		return NotFound("The Customer Credit Note does not exist.");
-		//	}
-
-		//	return Ok(rowsAffected);
-		//}
-
+		private readonly IPayrollAdhocDetailsService payrollAdhocDetailsService;
+		public PayrollAdhocDetailsController(IPayrollAdhocDetailsService payrollAdhocDetailsService)
+		{
+			this.payrollAdhocDetailsService = payrollAdhocDetailsService;
+		}
+		[HttpPost]
+		[Route("Insert")]
+		public async Task<IActionResult> Insert([FromBody] List<PayrollAdhocDetails> payrollAdhocDetails)
+		{
+			return Ok(await payrollAdhocDetailsService.BulkInsertAsync(payrollAdhocDetails));
+		}
 	}
 }
