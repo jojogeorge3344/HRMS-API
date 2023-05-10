@@ -249,7 +249,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       eosId: [0],
       bfCode: [null],
       bfName:[null],
-      createdDate: []
+      createdDate: [new Date()]
     });
   }
 
