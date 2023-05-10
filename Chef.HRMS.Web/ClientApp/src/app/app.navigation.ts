@@ -214,7 +214,18 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/adoc-earnings-and-deduction'
       },
-    ],
+    
+      {
+        title: 'Employee Overtime',
+        tags: 'me-overtime',
+        routerLink: '/asset-employee-overtimewise'
+      },
+      {
+        title: 'Employee Revision Management',
+        tags: 'settings-expense',
+        routerLink: '/employee-revision-management'
+      },
+    ]
   },
   {
     title: "Reports",

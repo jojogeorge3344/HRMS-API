@@ -87,6 +87,9 @@
             <li role="menuitem" (click)="openView(history)">
               <a class="dropdown-item">View</a>
             </li>
+            <li role="menuitem" (click)="openEdit(history)&& isApplied(history.leaveStatus)">
+              <a [ngClass]="{'disabled': !isApplied(history.leaveStatus)}" class="dropdown-item">Edit</a>
+            </li>
             <!-- <li role="menuitem" (click)="openEdit(history)"><a class="dropdown-item">Edit</a></li> -->
             <li role="menuitem" (click)="delete(history)">
               <a class="dropdown-item">Cancel</a>
