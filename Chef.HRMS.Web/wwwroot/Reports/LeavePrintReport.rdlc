@@ -1219,8 +1219,8 @@
               </Paragraphs>
             </Textbox>
             <Textbox Name="PreparedBy2">
-              <Left>125.2219pt</Left>
-              <Top>22.5pt</Top>
+              <Left>132.7219pt</Left>
+              <Top>21.75pt</Top>
               <Height>15.75pt</Height>
               <Width>93.75pt</Width>
               <Style>
@@ -1289,7 +1289,7 @@
               </Paragraphs>
             </Textbox>
             <Textbox Name="ApprovedBy1">
-              <Left>354pt</Left>
+              <Left>352.5pt</Left>
               <Top>22.5pt</Top>
               <Height>15.75pt</Height>
               <Width>93pt</Width>
