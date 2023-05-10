@@ -13,18 +13,41 @@ namespace Chef.HRMS.Services
 	public class PayrollAdhocDetailsService : AsyncService<PayrollAdhocDetails>, IPayrollAdhocDetailsService
 	{
 		private readonly IPayrollAdhocDetailsRepository payrollAdhocDetailsRepository;
-		public PayrollAdhocDetailsService(IPayrollAdhocDetailsRepository payrollAdhocDetailsRepository)
+		private readonly IPayrollComponentDetailsService payrollComponentDetailsService;
+
+		public PayrollAdhocDetailsService(IPayrollAdhocDetailsRepository payrollAdhocDetailsRepository,
+			IPayrollComponentDetailsService payrollComponentDetailsService)
 		{
 			this.payrollAdhocDetailsRepository = payrollAdhocDetailsRepository;
+			this.payrollComponentDetailsService = payrollComponentDetailsService;
 		}
 		public async Task<int> BulkInsertAsync(List<PayrollAdhocDetails> payrollAdhocDetails)
 		{
 			var res = payrollAdhocDetails.Where(x => x.PayrollProcessId > 0).FirstOrDefault();
-			int PayrollProcessID = res.PayrollProcessId;
-			int intRet = await DeleteByPayrollProcessID(PayrollProcessID);
+			int payrollProcessID = res.PayrollProcessId;
+			int intRet = await DeleteByPayrollProcessID(payrollProcessID);
+			intRet = await payrollComponentDetailsService.DeleteByPayrollProcessID(payrollProcessID,4);
 			foreach (PayrollAdhocDetails list in payrollAdhocDetails)
 			{
 				await payrollAdhocDetailsRepository.InsertAsync(list);
+				PayrollComponentDetails payrollComponent = new PayrollComponentDetails();
+				payrollComponent.PayrollProcessid = list.PayrollProcessId;
+				payrollComponent.PayrollProcessdate = list.PayrollProcessDate;
+				payrollComponent.ProcessStatus = list.ProcessStatus;
+				payrollComponent.CrAccount = "";
+				payrollComponent.DrAccount = "";
+				payrollComponent.DeductionAmt = list.IsAddition==true?0: list.AdhocAmount;
+				payrollComponent.DocNum = "";
+				payrollComponent.EarningsAmt = list.IsAddition == false ? 0 : list.AdhocAmount;
+				payrollComponent.Employeeid = list.EmployeeId;
+				payrollComponent.PayrollComponentid = 0;
+				payrollComponent.CreatedBy = list.CreatedBy;
+				payrollComponent.ModifiedBy = list.ModifiedBy;
+				payrollComponent.CreatedDate = list.CreatedDate;
+				payrollComponent.ModifiedDate = list.ModifiedDate;
+				payrollComponent.IsArchived = list.IsArchived;
+				payrollComponent.StepNo = 4;
+				await payrollComponentDetailsService.InsertAsync(payrollComponent);
 			}
 			return 1;
 		}
