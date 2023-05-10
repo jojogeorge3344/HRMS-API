@@ -7,8 +7,8 @@ using Chef.HRMS.Models;
 
 namespace Chef.HRMS.Services
 {
-	internal interface IPayrollAdhocDetailsService :IAsyncService<PayrollAdhocDetails>
+	public interface IPayrollAdhocDetailsService :IAsyncService<PayrollAdhocDetails>
 	{
-		//Task<int> BulkInsertAsync(List<PayrollAdhocDetails> payrollAdhocDetails);
+		Task<int> BulkInsertAsync(List<PayrollAdhocDetails> payrollAdhocDetails);
 	}
 }

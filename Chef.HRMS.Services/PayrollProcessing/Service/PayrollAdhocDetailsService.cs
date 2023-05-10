@@ -24,20 +24,13 @@ namespace Chef.HRMS.Services
 			int intRet = await DeleteByPayrollProcessID(PayrollProcessID);
 			foreach (PayrollAdhocDetails list in payrollAdhocDetails)
 			{
-				await InsertAsync(list);
+				await payrollAdhocDetailsRepository.InsertAsync(list);
 			}
 			return 1;
 		}
-
-		public new async Task<int> InsertAsync(PayrollAdhocDetails payrollAdhocDetails)
-		{
-			return await payrollAdhocDetailsRepository.InsertAsync(payrollAdhocDetails);
-		}
 		public async Task<int> DeleteByPayrollProcessID(int PayrollProcessID)
-		{
-			
+		{	
 				return await payrollAdhocDetailsRepository.DeleteByPayrollProcessID(PayrollProcessID);
-			
 		}
 
 	}

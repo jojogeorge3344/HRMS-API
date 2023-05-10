@@ -16,6 +16,5 @@ namespace Chef.HRMS.Models
 		public bool IsAddition { get; set; }
 		public decimal AdhocAmount { get; set; }
 		public int ProcessStatus { get; set; }
-		public int CreatedBy { get; set; }
 	}
 }

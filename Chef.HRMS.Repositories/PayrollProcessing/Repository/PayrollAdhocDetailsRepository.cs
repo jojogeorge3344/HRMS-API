@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-	public class PayrollAdhocDetailsRepository : TenantRepository<PayrollAdhocDetails>, IPayrollAdhocDetailsRepository
+	public class PayrollAdhocDetailsRepository : GenericRepository<PayrollAdhocDetails>, IPayrollAdhocDetailsRepository
 	{
 		public PayrollAdhocDetailsRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
 		{
@@ -19,7 +19,7 @@ namespace Chef.HRMS.Repositories
 		public async Task<int> DeleteByPayrollProcessID(int payrollProcessID)
 		{
 			string sql = @"UPDATE hrms.payrolladhocdetails 
-							SET isarchived = false 
+							SET isarchived = true 
 							WHERE payrollprocessid = @payrollProcessID 
 							AND processStatus != 1"; // PROCESS STATUS 1 IS PROCESSED
 
@@ -37,10 +37,6 @@ namespace Chef.HRMS.Repositories
 			throw new NotImplementedException();
 		}
 
-		public Task<int> InsertAsync(PayrollAdhocDetails obj)
-		{
-			throw new NotImplementedException();
-		}
 
 		public Task<int> UpdateAsync(PayrollAdhocDetails obj)
 		{
