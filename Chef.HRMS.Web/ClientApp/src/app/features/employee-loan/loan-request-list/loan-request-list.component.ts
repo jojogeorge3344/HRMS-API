@@ -12,6 +12,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { LoanRequestViewComponent } from '../loan-request-view/loan-request-view.component';
 import { LoanRequestPrintComponent } from '../loan-request-print/loan-request-print.component';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   templateUrl: './loan-request-list.component.html',
@@ -31,7 +32,9 @@ export class LoanRequestListComponent implements OnInit {
     http: HttpClient,
     private loanRequestService: LoanRequestService,
     public modalService: NgbModal,
-    private toastr: ToasterDisplayService
+    private toastr: ToasterDisplayService,
+    private router: Router,
+    private route: ActivatedRoute,
     ) {
       const current = new Date();
       this.minDate = {
@@ -103,20 +106,26 @@ export class LoanRequestListComponent implements OnInit {
   }
   openPrintLoanRequest(id: number) {
     debugger
-    const modalRef = this.modalService.open(LoanRequestPrintComponent,
-      { size: 'lg', centered: true, backdrop: 'static',windowClass:'tablealign' });
+    // const modalRef = this.modalService.open(LoanRequestPrintComponent,
+    //   { size: 'lg', centered: true, backdrop: 'static',windowClass:'tablealign' });
 
-    modalRef.componentInstance.loanTypes = this.loanTypes;
-    modalRef.componentInstance.paymentTypes = this.paymentTypes;
-    modalRef.componentInstance.loanId = id;
+    // modalRef.componentInstance.loanTypes = this.loanTypes;
+    // modalRef.componentInstance.paymentTypes = this.paymentTypes;
+    // modalRef.componentInstance.loanId = id;
 
-    modalRef.result.then((result) => {
-        if (result == 'submit') {
-          this.getloanRequests();
-        }
-    });
+    // modalRef.result.then((result) => {
+    //     if (result == 'submit') {
+    //       this.getloanRequests();
+    //     }
+    // });
+
+     
+   this.router.navigate(["./print/" + id ], {
+    
+    relativeTo: this.route.parent,
+   
+   });
   }
-
   isDisabled(request) {
    if(request.isApproved == true){
      return true;

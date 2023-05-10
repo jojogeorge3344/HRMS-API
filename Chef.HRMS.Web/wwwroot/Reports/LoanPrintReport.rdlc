@@ -45,86 +45,6 @@
               </Paragraph>
             </Paragraphs>
           </Textbox>
-          <Line Name="Line17">
-            <Left>3.74062pt</Left>
-            <Top>417.9pt</Top>
-            <Height>0pt</Height>
-            <Width>661.5pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Textbox Name="TextBox50">
-            <Left>17.10938pt</Left>
-            <Top>393.75pt</Top>
-            <Height>15.75pt</Height>
-            <Width>78pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Prepared By:</Value>
-                    <Style>
-                      <FontFamily>Calibri</FontFamily>
-                      <Color>black</Color>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <FontFamily>Arial</FontFamily>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-          </Textbox>
-          <Textbox Name="TextBox51">
-            <Left>377.8594pt</Left>
-            <Top>390.75pt</Top>
-            <Height>18pt</Height>
-            <Width>70.5pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Approved By:</Value>
-                    <Style>
-                      <FontFamily>Calibri</FontFamily>
-                      <Color>black</Color>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <FontFamily>Arial</FontFamily>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-          </Textbox>
           <Tablix Name="Tablix1">
             <Left>14.25pt</Left>
             <Top>32.39062pt</Top>
@@ -1553,20 +1473,76 @@
               </TablixMembers>
             </TablixRowHierarchy>
           </Tablix>
-          <Line Name="Line1">
-            <Left>0pt</Left>
-            <Top>339.15pt</Top>
-            <Height>0pt</Height>
-            <Width>666.75pt</Width>
+          <Textbox Name="TextBox26">
+            <Left>40.65pt</Left>
+            <Top>345.3pt</Top>
+            <Height>15.75pt</Height>
+            <Width>78pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
               <Border>
-                <Style>Solid</Style>
+                <Style>None</Style>
               </Border>
             </Style>
-          </Line>
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Prepared By:</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                      <Color>black</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <FontFamily>Arial</FontFamily>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+          </Textbox>
+          <Textbox Name="TextBox27">
+            <Left>372.9pt</Left>
+            <Top>348.3pt</Top>
+            <Height>18pt</Height>
+            <Width>70.5pt</Width>
+            <Style>
+              <FontFamily>Arial</FontFamily>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Approved By:</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                      <Color>black</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <FontFamily>Arial</FontFamily>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+          </Textbox>
         </ReportItems>
-        <Height>418.65pt</Height>
+        <Height>370.5pt</Height>
       </Body>
       <Width>687pt</Width>
       <Page>
@@ -1691,162 +1667,9 @@
               <Width>1pt</Width>
             </TopBorder>
           </Style>
-          <Height>33pt</Height>
+          <Height>77.25pt</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
-          <ReportItems>
-            <Textbox Name="TextBox136">
-              <Left>530.25pt</Left>
-              <Top>11.24066pt</Top>
-              <Height>15.75pt</Height>
-              <Width>27.75pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Page</Value>
-                      <Style>
-                        <FontFamily>Calibri Light</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <FontFamily>Arial</FontFamily>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox137">
-              <Left>558pt</Left>
-              <Top>10.49066pt</Top>
-              <Height>16.125pt</Height>
-              <Width>24pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Globals!PageNumber</Value>
-                      <Style>
-                        <FontFamily>Calibri Light</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <FontFamily>Arial</FontFamily>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox138">
-              <Left>580.5pt</Left>
-              <Top>10.86566pt</Top>
-              <Height>15.75pt</Height>
-              <Width>13.5pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>of</Value>
-                      <Style>
-                        <FontFamily>Calibri Light</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <FontFamily>Arial</FontFamily>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox139">
-              <Left>592.5pt</Left>
-              <Top>10.49066pt</Top>
-              <Height>16.5pt</Height>
-              <Width>23.25pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Globals!TotalPages</Value>
-                      <Style>
-                        <FontFamily>Calibri Light</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>﻿</Value>
-                      <Style>
-                        <FontFamily>Calibri Light</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <FontFamily>Arial</FontFamily>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-          </ReportItems>
         </PageFooter>
         <InteractiveHeight>595.4405pt</InteractiveHeight>
         <InteractiveWidth>841.6807pt</InteractiveWidth>

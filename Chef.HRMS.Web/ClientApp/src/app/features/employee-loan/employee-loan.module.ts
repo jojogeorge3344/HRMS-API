@@ -30,6 +30,10 @@ import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
       {
         path: '', component: LoanRequestListComponent,
         data: { breadcrumbs: ['Me', 'Loan'], name: 'me-loan' }
+      },
+      {
+        path: 'print/:id', component: LoanRequestPrintComponent,
+        data: { breadcrumbs: ['Me', 'Loan'], name: 'me-loan' }
       }
     ]),
     NgbModule,

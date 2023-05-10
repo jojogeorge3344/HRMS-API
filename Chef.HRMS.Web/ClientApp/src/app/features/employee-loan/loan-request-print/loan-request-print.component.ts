@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ReportViewerComponent } from "@shared/report-viewer/report-viewer.component";
 import { ReportViewerService } from "@shared/report-viewer/report-viewer.service";
 
@@ -22,7 +21,6 @@ export class LoanRequestPrintComponent implements OnInit {
   constructor(
     private reportViewerService: ReportViewerService,
     private route: ActivatedRoute,
-    public activeModal: NgbActiveModal,
   ) {
     this.reportViewerService.serviceUrl = this.serviceUrl;
   }
