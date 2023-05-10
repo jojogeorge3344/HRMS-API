@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Models;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
@@ -431,6 +432,29 @@ namespace Chef.HRMS.Repositories
                                                 OR     leavestatus=2))";
 
                 return await Connection.QueryAsync<EmployeeAttendanceViewModel>(sql, new { employeeId, fromDate, toDate }); 
+        }
+
+        public async Task<IEnumerable<LOPCalculationView>> GetLOPCalculation(DateTime fromDate, DateTime toDate)
+        {
+            var sql = @"SELECT COUNT(*)AS lopcount,ld.employeeid,jf.paygroupid,escd.monthlyamount AS monthlyamount,
+                        le.leavededuction AS payrollcomponentid,ld.leaveid,(COUNT(*) * (escd.monthlyamount)) AS totalamount
+                        FROM hrms.leavedetails ld
+                        INNER JOIN hrms.leavecomponent lc 
+                        ON ld.leavecomponentid = lc.id
+                        AND lc.isunpaidleave = true
+                        INNER JOIN hrms.leaveeligibility le 
+                        ON le.leavecomponentid = lc.id
+                        INNER JOIN hrms.payrollcomponent pc 
+                        ON pc.id = le.leavededuction
+                        INNER JOIN hrms.employeesalaryconfigurationdetails escd 
+                        ON escd.payrollcomponentid = pc.id
+                        INNER JOIN hrms.jobfiling jf 
+                        ON jf.employeeid = ld.employeeid
+                        WHERE ld.leavedate BETWEEN @fromDate AND @toDate
+                        GROUP BY escd.monthlyamount,ld.employeeid,jf.paygroupid,le.leavededuction,ld.leaveid"
+            ;
+
+            return await Connection.QueryAsync<LOPCalculationView>(sql, new { fromDate, toDate });
         }
     }
 }
