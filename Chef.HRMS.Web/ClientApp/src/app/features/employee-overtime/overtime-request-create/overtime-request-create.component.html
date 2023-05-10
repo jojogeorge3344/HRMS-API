@@ -1,4 +1,4 @@
-<form [formGroup]="addForm" id="overtimeRequestForm" (validSubmit)="onSubmit()">
+<form [formGroup]="addForm" id="overtimeRequestForm">
     <div class="modal-header">
         <h4 class="modal-title">Overtime Request</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -144,7 +144,8 @@
     </div>
 
     <div class="modal-footer">
-        <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i>Request</button>
+        <button type="submit" style="color: #fff;background-color: #8d4fea;border-color: #8d4fea" class="btn" (click)="draftSave()"><i class="mr-1 fal fa-draft" ></i>Draft </button> 
+        <button type="submit" class="btn btn-success" (click)="onSubmit()"><i class="mr-1 fal fa-save"></i>Send For Approval</button>
         <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
                 class="mr-1 fal fa-window-close"></i> Cancel</button>
     </div>
