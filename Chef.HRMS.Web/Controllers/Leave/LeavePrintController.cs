@@ -20,13 +20,13 @@ namespace Chef.HRMS.Web.Controllers
         private readonly ILeavePrintBoldReportService leavePrintBoldReportService;
         private readonly ICommonDataService commonDataService;
         public LeavePrintController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService,
-            ILeavePrintBoldReportService leavePrintBoldReportService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment, branchService)
+            ILeavePrintBoldReportService leavePrintBoldReportService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment)
         {
             this.ReportPath = @"Reports\LeavePrintReport.rdlc";
             this.leavePrintBoldReportService = leavePrintBoldReportService;
             this.commonDataService = commonDataService;
         }
-        [NonAction]
+       
         public override void OnInitReportOptions(ReportViewerOptions reportOption)
         {
             AssignReportPath();
@@ -36,7 +36,7 @@ namespace Chef.HRMS.Web.Controllers
         {
             this.ReportPath = @"Reports\LeavePrintReport.rdlc";
         }
-        [NonAction]
+       
         public override void OnReportLoaded(ReportViewerOptions reportOption)
         {
             if (CustomData != null && CustomData.Count > 0)

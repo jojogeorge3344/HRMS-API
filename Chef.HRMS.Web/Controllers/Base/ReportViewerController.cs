@@ -23,7 +23,7 @@ namespace Chef.HRMS.Web.Controllers
 
         // Post action to process the report from server based json parameters and send the result back to the client.
         public ReportViewerController(Microsoft.Extensions.Caching.Memory.IMemoryCache memoryCache,
-            IWebHostEnvironment hostingEnvironment, IBranchService branchService)
+            IWebHostEnvironment hostingEnvironment)
         {
             cache = memoryCache;
             this.hostingEnvironment = hostingEnvironment;

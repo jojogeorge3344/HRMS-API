@@ -37,7 +37,7 @@ public class EmployeeDirectoryReportController : ReportViewerController
            IBranchService branchService
            //IDMSService dMSService
            )
-      : base(memoryCache, hostingEnvironment, branchService)
+      : base(memoryCache, hostingEnvironment)
     {
         this.employeeService = employeeService;
         this.jobDetailsService = jobDetailsService;

@@ -138,7 +138,8 @@
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "src/scss/styles.scss"
+              "src/scss/styles.scss",
+              "./node_modules/@boldreports/javascript-reporting-controls/Content/material/bold.reports.all.min.css"
             ],
             "scripts": []
           }
