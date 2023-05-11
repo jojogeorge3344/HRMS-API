@@ -47,19 +47,18 @@ namespace Chef.HRMS.Repositories
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
                         AND pc.isarchived=false AND bt.id = 15 
-                        ORDER BY name";
+                        ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 
         public async Task<IEnumerable<BenefitTypes>> GetAccrualType()
         {
             //var sql = @"SELECT * FROM hrms.benefittypes WHERE id=32";
-
             var sql = @"SELECT pc.* 
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
                         AND pc.isarchived=false AND bt.id = 32 
-                        ORDER BY name";
+                        ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 
@@ -70,7 +69,7 @@ namespace Chef.HRMS.Repositories
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
                         AND pc.isarchived=false AND bt.id = 36 
-                        ORDER BY name";
+                        ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
         public async Task<IEnumerable<LeaveComponent>> GetAllAsync()
