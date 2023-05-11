@@ -603,6 +603,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
+    console.log(this.addForm)
     if(this.addForm.invalid){
 
       return
@@ -662,6 +664,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     }
   }
   draftSave() {
+    debugger
+    console.log(this.addForm)
     if(this.addForm.invalid){
 
       return
@@ -721,6 +725,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     }
   }
   notify(leaveRequestId): void {
+    debugger
     const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
       leaveId: leaveRequestId,
       notifyPersonnel: notifyPerson.id,

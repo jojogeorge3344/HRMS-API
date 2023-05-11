@@ -655,13 +655,13 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
 
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
-        this.employeeLeaveService.add(addForm).subscribe((result) => {
+        this.employeeLeaveService.update(addForm).subscribe((result) => {
           this.notify(result.id);
         });
       } else {
         forkJoin([
-          this.employeeLeaveService.add(this.addForm.value),
-          this.documentService.add(this.addForm.value.document),
+          this.employeeLeaveService.update(this.addForm.value),
+          this.documentService.update(this.addForm.value.document),
           this.documentUploadService.upload(this.documentSave),
         ]).subscribe(
           ([leaveRequest, document]) => {
@@ -673,7 +673,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
             console.log("document", document);
 
             this.employeeLeaveDocumentsService
-              .add(this.leaveDocument)
+              .update(this.leaveDocument)
               .subscribe(
                 (result: any) => {
                   this.notify(leaveRequest.id);
@@ -716,13 +716,13 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
 
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
-        this.employeeLeaveService.add(addForm).subscribe((result) => {
+        this.employeeLeaveService.update(addForm).subscribe((result) => {
           this.notify(result.id);
         });
       } else {
         forkJoin([
-          this.employeeLeaveService.add(this.addForm.value),
-          this.documentService.add(this.addForm.value.document),
+          this.employeeLeaveService.update(this.addForm.value),
+          this.documentService.update(this.addForm.value.document),
           this.documentUploadService.upload(this.documentSave),
         ]).subscribe(
           ([leaveRequest, document]) => {
@@ -734,7 +734,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
             console.log("document", document);
 
             this.employeeLeaveDocumentsService
-              .add(this.leaveDocument)
+              .update(this.leaveDocument)
               .subscribe(
                 (result: any) => {
                   this.notify(leaveRequest.id);
