@@ -2,6 +2,7 @@
     <h1 class="subheader-title">
       <div>
        Edit Employee Payroll Parameter details
+ 
     </div>
     </h1>
   </div>
@@ -37,9 +38,10 @@
                     </ng-template>
                     <ngx-select-dropdown
                       (change)="selectionChanged($event)"
-                      [config]="config"
-                      [_value]="selectedDatasource"
+                      [config]="config" 
+                      formControlName="employeeId"
                       [options]="employeeList"
+                      [_value]="selectedDatasource"
                     ></ngx-select-dropdown>
                 </div>
             <div class="form-group form-input-inline input-group col-6">

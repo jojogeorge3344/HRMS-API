@@ -68,7 +68,7 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
   }
   selectionChanged(args) {
-    this.editForm.get("employeeId").patchValue(args.value.id);
+    // this.editForm.get("employeeId").patchValue(args.value.id);
   }
   onChangeEvent(args) {
     debugger
@@ -169,6 +169,7 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
     this.editForm.patchValue(this.payrollParameterDetailsItem);
     const details = this.employeeList.filter((emp) =>( this.payrollParameterDetailsItem.employeeId ==emp.id) );
+    debugger
     this.selectedDatasource = details.firstName
     let id = this.editForm.get("userVariableId").value
     debugger
