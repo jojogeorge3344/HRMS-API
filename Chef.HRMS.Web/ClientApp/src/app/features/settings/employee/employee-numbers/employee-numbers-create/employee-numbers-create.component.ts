@@ -76,6 +76,12 @@ export class EmployeeNumbersCreateComponent implements OnInit {
     //     suffix:0
     //   })
     // }
+     this.addForm.value.suffix=this.addForm.value.suffix.trim()
+    //this.addForm.value.prefix=this.addForm.value.prefix.trim()
+    this.addForm.patchValue({
+      suffix:this.addForm.value.suffix,
+      //prefix:this.addForm.value.prefix
+    })
     this.employeeNumbersService.add(this.addForm.value).subscribe((result: EmployeeNumbers) => {
       if (result.id === -1) {
         this.toastr.showErrorMessage('Employee Series already exists!');
