@@ -69,7 +69,7 @@ namespace Chef.HRMS.Repositories
                                               GROUP  BY jf.employeeid)Q2 
                                           ON Q1.employeeid = Q2.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
-                                                     Count(*)applied 
+                                                     Count(*)applied,l.id AS leaveid 
                                               FROM   hrms.jobfiling jf 
                                                      LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
@@ -78,7 +78,7 @@ namespace Chef.HRMS.Repositories
                                                              ON l.leavecomponentid = lc.id 
                                               WHERE  l.fromdate >= @fromDate 
                                                      AND l.todate <= @toDate 
-                                              GROUP  BY jf.employeeid)Q3 
+                                              GROUP  BY jf.employeeid,l.id)Q3 
                                           ON Q1.employeeid = Q3.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*)lop 

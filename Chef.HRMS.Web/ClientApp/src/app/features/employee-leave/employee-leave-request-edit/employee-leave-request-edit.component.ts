@@ -35,6 +35,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.service";
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   selector: 'hrms-employee-leave-request-edit',
@@ -91,6 +92,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   directoryName = "c:";
   documentSave;
   leaveDocument: any;
+  requestTypes = RequestStatus;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -621,6 +623,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
          
        }
     let addForm = this.addForm.value;
+    addForm.leaveStatus=this.requestTypes.Approved
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -681,6 +684,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
          
        }
     let addForm = this.addForm.value;
+    addForm.leaveStatus=this.requestTypes.Draft
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
