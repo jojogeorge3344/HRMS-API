@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Models;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
@@ -48,30 +49,23 @@ namespace Chef.HRMS.Repositories
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*) total 
                                               FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.regularlogin rl 
-                                                            ON jf.employeeid = rl.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  rl.checkintime BETWEEN @fromDate AND @toDate 
+                                              INNER JOIN hrms.systemvariablevalues svv
+                                              ON jf.employeeid = svv.employeeid 
+                                              INNER JOIN hrms.systemvariable sv
+                                              ON svv.systemvariableid = sv.id
+                                              WHERE jf.paygroupid = @paygroupId
+                                              AND sv.code = 'Wkg_Dys_Cldr_Mth'
                                               GROUP  BY jf.employeeid 
                                               UNION 
                                               SELECT jf.employeeid, 
                                                      Count(*) total 
                                               FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.workfromhome wfh 
-                                                            ON jf.employeeid = wfh.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  wfh.fromdate >= @fromDate 
-                                                     AND wfh.todate <= @toDate 
-                                              GROUP  BY jf.employeeid 
-                                              UNION 
-                                              SELECT jf.employeeid, 
-                                                     Count(*) total 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.onduty od 
-                                                            ON jf.employeeid = od.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  od.fromdate >= @fromDate 
-                                                     AND od.todate <= @toDate 
+                                              INNER JOIN hrms.systemvariablevalues svv
+                                              ON jf.employeeid = svv.employeeid 
+                                              INNER JOIN hrms.systemvariable sv
+                                              ON svv.systemvariableid = sv.id
+                                              WHERE jf.paygroupid = @paygroupId
+                                              AND sv.code = 'Wkd_Dys_Cldr_Mth'      
                                               GROUP  BY jf.employeeid)Q2 
                                           ON Q1.employeeid = Q2.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
@@ -438,6 +432,29 @@ namespace Chef.HRMS.Repositories
                                                 OR     leavestatus=2))";
 
                 return await Connection.QueryAsync<EmployeeAttendanceViewModel>(sql, new { employeeId, fromDate, toDate }); 
+        }
+
+        public async Task<IEnumerable<LOPCalculationView>> GetLOPCalculation(DateTime fromDate, DateTime toDate)
+        {
+            var sql = @"SELECT COUNT(*)AS lopcount,ld.employeeid,jf.paygroupid,escd.monthlyamount AS monthlyamount,
+                        le.leavededuction AS payrollcomponentid,ld.leaveid,(COUNT(*) * (escd.monthlyamount)) AS totalamount
+                        FROM hrms.leavedetails ld
+                        INNER JOIN hrms.leavecomponent lc 
+                        ON ld.leavecomponentid = lc.id
+                        AND lc.isunpaidleave = true
+                        INNER JOIN hrms.leaveeligibility le 
+                        ON le.leavecomponentid = lc.id
+                        INNER JOIN hrms.payrollcomponent pc 
+                        ON pc.id = le.leavededuction
+                        INNER JOIN hrms.employeesalaryconfigurationdetails escd 
+                        ON escd.payrollcomponentid = pc.id
+                        INNER JOIN hrms.jobfiling jf 
+                        ON jf.employeeid = ld.employeeid
+                        WHERE ld.leavedate BETWEEN @fromDate AND @toDate
+                        GROUP BY escd.monthlyamount,ld.employeeid,jf.paygroupid,le.leavededuction,ld.leaveid"
+            ;
+
+            return await Connection.QueryAsync<LOPCalculationView>(sql, new { fromDate, toDate });
         }
     }
 }

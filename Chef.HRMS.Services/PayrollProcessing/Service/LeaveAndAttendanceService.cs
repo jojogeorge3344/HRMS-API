@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Services;
+using Chef.Common.Models;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
@@ -85,6 +86,11 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<EmployeeAttendanceViewModel>> GetAllLeaveAndAttendanceByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
         {
             return await leaveAndAttendanceRepository.GetAllLeaveAndAttendanceByEmployeeId(employeeId, fromDate, toDate);
+        }
+
+        public async Task<IEnumerable<LOPCalculationView>> GetLOPCalculation(DateTime fromDate, DateTime toDate)
+        {
+            return await leaveAndAttendanceRepository.GetLOPCalculation(fromDate, toDate);
         }
     }
 }
