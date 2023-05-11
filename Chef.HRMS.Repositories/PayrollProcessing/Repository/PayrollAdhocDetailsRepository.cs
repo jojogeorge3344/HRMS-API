@@ -13,8 +13,6 @@ namespace Chef.HRMS.Repositories
 		public PayrollAdhocDetailsRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
 		{
 
-
-
 		}
 		public async Task<int> DeleteByPayrollProcessID(int payrollProcessID)
 		{

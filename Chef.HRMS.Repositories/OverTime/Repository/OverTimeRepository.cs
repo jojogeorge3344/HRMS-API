@@ -2,6 +2,7 @@
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -97,5 +98,31 @@ namespace Chef.HRMS.Repositories
                          
             return await Connection.QueryAsync<OverTime>(sql); 
         }
-    }
+
+		public async Task<IEnumerable<OverTimePayrollViewModel>> GetOvertimeByPaygroupId(int paygroupId,string fromDate,string toDate)
+		{
+			var sql = @"SELECT OT.normalovertime AS nothrs,OT.holidayovertime AS hothrs,
+                        OT.specialovertime AS sothrs,OT.employeeid,(OTS.variablevalue * escd.monthlyamount)/100 AS notrate,
+                        (OTS.variablevalue * escd1.monthlyamount)/100 AS hotrate,(OTS.variablevalue * escd2.monthlyamount)/100 AS hotrate,
+                        PC.id AS notcomponentid,PC1.id AS hotcomponentid,PC2.id AS sotcomponentid,
+                        ((OTS.variablevalue * escd.monthlyamount)/100)*OT.normalovertime AS notamount,
+                        ((OTS.variablevalue * escd1.monthlyamount)/100)*OT.holidayovertime AS hotamount,
+                        ((OTS.variablevalue * escd2.monthlyamount)/100 )*OT.specialovertime AS sotamount
+                        FROM hrms.overtime OT
+                        INNER JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
+                        INNER JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
+                        LEFT JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
+                        INNER JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
+                        LEFT JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.holidayovertime
+                        INNER JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
+                        LEFT JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.specialovertime
+                        INNER JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
+                        INNER JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
+                        WHERE (To_Date(cast(coalesce(OT.fromdate) as TEXT),'YYYY MM DD')OT.fromdate BETWEEN To_Date(cast(coalesce(@fromdate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
+                        AND  (To_Date(cast(coalesce(OT.todate) as TEXT),'YYYY MM DD')OT.fromdate BETWEEN To_Date(cast(coalesce(@fromdate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
+                        AND OT.isarchived=false AND jf.paygroupid = @payGroupId";
+
+			return await Connection.QueryAsync<OverTimePayrollViewModel>(sql, new { paygroupId, fromDate, toDate });
+		}
+	}
 }
