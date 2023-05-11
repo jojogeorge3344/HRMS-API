@@ -18,6 +18,8 @@ import { AttendanceReportComponent } from './attendance-report/attendance-report
 import { LeaveReportComponent } from './leave-report/leave-report/leave-report.component';
 import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { NumberToWordsPipe } from 'src/app/pipes/number-to-words.pipe';
+import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/employee-payslip-print-filter/employee-payslip-print-filter.component';
+// import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { NumberToWordsPipe } from 'src/app/pipes/number-to-words.pipe';
     EmployeeBasicComponentReportComponent,
     ProcessedSalaryReportComponent,
     AttendanceReportComponent,
-    LeaveReportComponent
+    LeaveReportComponent,
+    EmployeePayslipPrintFilterComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +40,8 @@ import { NumberToWordsPipe } from 'src/app/pipes/number-to-words.pipe';
     HttpClientModule,
     PipesModule,
     NgBootstrapFormValidationModule,
-    BsDropdownModule
+    BsDropdownModule,
+    // MultiSelectModule
   ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,

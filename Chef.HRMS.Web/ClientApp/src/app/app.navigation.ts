@@ -222,6 +222,11 @@ export const NavigationItems = [
     icon: "fal fa-download",
     items: [
       {
+        title: "Employee Payslip",
+        tags: "report-employeelist",
+        routerLink: "/reports/employeepayslip",
+      },
+      {
         title: "Employee Register",
         tags: "report-employeelist",
         routerLink: "/reports/employeeList",
