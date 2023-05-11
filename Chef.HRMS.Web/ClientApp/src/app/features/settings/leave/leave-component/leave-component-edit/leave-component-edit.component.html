@@ -88,6 +88,15 @@
                             <div class="form-group">
                                 <div class="col-12">
                                     <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="isUnpaidLeave"
+                                            formControlName="isUnpaidLeave">
+                                        <label class="custom-control-label" for="isUnpaidLeave">UnPaid leave</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
                                         <input #isRestrictedToGender type="checkbox"
                                             (change)="toggleGender(isRestrictedToGender.checked)"
                                             class="custom-control-input" id="isRestrictedToGender"

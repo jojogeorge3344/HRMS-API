@@ -21,6 +21,12 @@ namespace Chef.HRMS.Repositories
                 return await Connection.ExecuteAsync(sql, leaveNotifyPersonnel);
         }
 
+        public async Task<int> UpdateNotifyPersonnel(IEnumerable<LeaveNotifyPersonnel> leaveNotifyPersonnel)
+        {
+            var sql = new QueryBuilder<LeaveNotifyPersonnel>().GenerateUpdateQuery();
+            return await Connection.ExecuteAsync(sql, leaveNotifyPersonnel);
+        }
+
         public async Task<IEnumerable<LeaveComponentLeaveBalanceViewModel>> GetAllLeaveBalanceById(int employeeId)
         {
                 var sql = @"SELECT lslc.leavestructureid, 
@@ -149,9 +155,22 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveNotifyPersonnel>> GetAllNotifyPersonnelById(int leaveRequestId)
         {
-                var sql = "SELECT * FROM  hrms.leavenotifypersonnel WHERE leaveId = @leaveRequestId";
+            //var sql = "SELECT * FROM  hrms.leavenotifypersonnel WHERE leaveId = @leaveRequestId";
 
-                return await Connection.QueryAsync<LeaveNotifyPersonnel>(sql, new { leaveRequestId });
+            var sql = @"SELECT  
+             lp.id,
+		     lp.leaveid,
+		     lp.notifypersonnel,
+		     ee.firstname
+             FROM hrms.leavenotifypersonnel AS lp
+             INNER JOIN hrms.leave AS l
+             ON lp.leaveid = l.id
+             INNER JOIN hrms.HRMSEmployee AS ee 
+             ON lp.notifypersonnel = ee.id
+             WHERE leaveid = @leaveRequestId
+             AND lp.isarchived = false";
+
+            return await Connection.QueryAsync<LeaveNotifyPersonnel>(sql, new { leaveRequestId });
         }
 
         public async Task<IEnumerable<Leave>> GetAllUnApprovedLeaveById(int employeeId)

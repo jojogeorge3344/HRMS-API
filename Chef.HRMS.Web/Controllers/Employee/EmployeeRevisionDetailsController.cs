@@ -58,7 +58,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(EmployeeRevisionDetails employeeRevisionDetails)
+        public async Task<IActionResult> Insert([FromBody]IEnumerable<EmployeeRevisionDetails> employeeRevisionDetails)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(EmployeeRevisionDetails EmployeeRevisionDetails)
+        public async Task<ActionResult> Update([FromBody]IEnumerable<EmployeeRevisionDetails> EmployeeRevisionDetails)
         {
             if (!ModelState.IsValid)
             {
@@ -92,5 +92,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(componentlist);
         }
+        [HttpGet("GetEmployeeRevisionSalaryDetail/{employeeRevisionId}")]
+        public async Task<ActionResult<IEnumerable<EmployeeRevisionDetails>>> GetEmployeeRevisionSalaryDetail(int employeeRevisionId)
+        {
+            var componentlist = await employeeRevisionDetailsService.GetEmployeeRevisionSalaryDetail(employeeRevisionId);
+
+            return Ok(componentlist);
+        }
+
     }
 }

@@ -6,6 +6,7 @@ import { LoanSettingsService } from '@settings/loan/loan-settings.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { LoanRequest } from '../loan-request.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: './loan-request-edit.component.html',
@@ -32,7 +33,8 @@ export class LoanRequestEditComponent implements OnInit {
   @Input() paymentTypes: any;
   @Input() loanId: any;
   @Input() loanRequest: LoanRequest;
-  @Input()  isApproved:boolean
+  @Input()  isApproved:any
+  requestTypes = RequestStatus;
 
   constructor(
     private loanRequestService: LoanRequestService,
@@ -57,7 +59,7 @@ export class LoanRequestEditComponent implements OnInit {
  
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup(); 
-    if(this.isApproved == true){
+    if(this.isApproved == "4"){
       this.editForm.controls.loanType.disable();
       this.editForm.controls.paymentType.disable();
       this.editForm.controls.emiStartsFromMonth.disable();
@@ -100,10 +102,17 @@ export class LoanRequestEditComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
+    if(this.editForm.invalid){
+
+      return
+         
+       }
     const editloanRequestForm = this.editForm.value;
     editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId;
+    editloanRequestForm.isapproved = this.requestTypes.Approved;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
     this.loanRequestService.update(editloanRequestForm).subscribe(result => {
@@ -115,7 +124,28 @@ export class LoanRequestEditComponent implements OnInit {
         this.toastr.showErrorMessage('There is an error in updating loan request');
       });
   }
+  draftSave() {
+    if(this.editForm.invalid){
 
+      return
+         
+       }
+    const editloanRequestForm = this.editForm.value;
+    editloanRequestForm.loanNo = this.loanNo;
+    editloanRequestForm.loanSettingId = this.loanSettingId;
+    editloanRequestForm.id = this.loanId;
+    editloanRequestForm.isapproved = this.requestTypes.Draft;
+    editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
+    editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
+    this.loanRequestService.update(editloanRequestForm).subscribe(result => {
+      this.toastr.showSuccessMessage('The loan request is updated successfully!');
+      this.activeModal.close('submit');
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('There is an error in updating loan request');
+      });
+  }
   validateNumber(ev) {
     const keyCode = ev.keyCode;
     const excludedKeys = [8, 110, 190];

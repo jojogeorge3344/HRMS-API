@@ -11,6 +11,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { Subscription } from 'rxjs';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import * as moment from 'moment';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: './loan-request-create.component.html',
@@ -42,6 +43,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   @Input() nextLoanNumber: number;
   formSubscription: Subscription;
   controlSubscription: Subscription;
+  requestTypes = RequestStatus;
 
   constructor(
     private loanRequestService: LoanRequestService,
@@ -123,10 +125,48 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
 
  
   onSubmit() {
+    debugger
+  if(this.addForm.invalid){
+
+   return
+      
+    }
     const addloanRequestForm = this.addForm.value;  
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = false;
+    addloanRequestForm.isapproved = this.requestTypes.Approved;
+    addloanRequestForm.requestedDate = new Date();
+    addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
+    addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
+    // addloanRequestForm.emiStartsFrom = `${addloanRequestForm.emiStartsFrom}-01`
+
+    const modalRef = this.modalService.open(ConfirmModalComponent,
+      { centered: true, backdrop: 'static' });
+
+    modalRef.componentInstance.confirmationMessage = `Are you sure you want submit the Loan Request ${addloanRequestForm.loanNo}?`;
+    modalRef.result.then((userResponse) => {
+      if (userResponse == true) {
+        this.loanRequestService.add(addloanRequestForm).subscribe(result => {
+          this.toastr.showSuccessMessage('The loan request added successfully!');
+          this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to add the loan request');
+          });
+      }
+    });
+
+  }
+  draftSave(){
+    if(this.addForm.invalid){
+      return 
+       }
+    debugger
+    const addloanRequestForm = this.addForm.value;  
+    addloanRequestForm.loanNo = this.loanNo;
+    addloanRequestForm.loanSettingId = this.loanSettingId;
+    addloanRequestForm.isapproved = this.requestTypes.Draft;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -149,7 +189,6 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   validateNumber(ev) {
     const keyCode = ev.keyCode;
     const excludedKeys = [8, 110, 190];
