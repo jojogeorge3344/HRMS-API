@@ -204,7 +204,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
         {
-            int result = 0;
+            string result = "";
             using (var transaction = Connection.BeginTransaction())
             {
                 try
@@ -247,7 +247,7 @@ namespace Chef.HRMS.Repositories
                             else
                             {
                                 var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                                await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+                                result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
 
 
 
@@ -261,7 +261,7 @@ namespace Chef.HRMS.Repositories
                     {
 
                         var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                        await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+                        result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
 
 
 
@@ -273,7 +273,7 @@ namespace Chef.HRMS.Repositories
                     string msg = ex.Message;
                     transaction.Rollback();
                 }
-                return result.ToString();
+                return result;
             }
         }
 

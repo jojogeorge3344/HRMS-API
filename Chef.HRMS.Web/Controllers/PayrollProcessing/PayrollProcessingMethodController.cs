@@ -3,6 +3,7 @@ using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -70,7 +71,14 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<string>> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
         {
             var result = await payrollProcessingMethodService.InsertOrAlreadyExist(payrollProcessingMethod);
+            ///
+            var payrollProcessingData = await payrollProcessingMethodService.GetAsync(Convert.ToInt32(result));
 
+            if (payrollProcessingData == null)
+            {
+
+            }
+            ///
             return Ok(result);
         }
 
