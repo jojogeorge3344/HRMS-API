@@ -7,5 +7,15 @@
   "exclude": [
     "src/test.ts",
     "**/*.spec.ts"
-  ]
+  ],
+  "compilerOptions": {
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@boldreports/types"
+    ],
+    "types": [
+      "jquery",
+      "reports.all"
+    ]
+  },
 }
