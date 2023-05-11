@@ -1,42 +1,27 @@
-<div>
-<div class="subheader">
+ <div class="subheader">
     <h1 class="subheader-title">
       <div>Print leave</div>
     </h1>
   </div>
-  <!-- <div class="row" >
-    <div class="col-8"></div>
-    <div class="col-4">
-    <button class="btn btn-primary hidden-print" onclick="myFunction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</button>
-      <button
-        routerLink="/leave"
-        class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
-      >
-        <i class="fal fa-arrow-left mr-2"></i> Back to Employee
-      </button>
-  </div>
-   
+<div class="card p-3" id="printLeave">
 
-</div> -->
-<div class="row align-items-baseline">
-  <div class="col-sm-9"></div>
-<div class="form-group col-sm-3">
-  <!-- <button class="btn btn-primary hidden-print" style="margin-top: 14px;" (click)="print('leaveRequest-view')"
-  ><i class="fal fa-print"></i> </button>     -->
-
-  <button class="btn btn-primary hidden-print" style="margin-top: 14px;" (click)="print('leaveRequest-view')"
-  ><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</button>
-  <button
-        routerLink="/leave"
-        class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
-      >
-        <i class="fal fa-arrow-left mr-2"></i> Back to Leave
-      </button>
-</div>
-</div>
-</div>
+  <div>
+  
+   <button
+  
+  routerLink="/leave"
+  
+ class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+  
+  >
+  
+  <i class="fal fa-arrow-left mr-2"></i> Back to Leave
+  
+ </button>
+  
+   </div>
     <div style=" display: flex; justify-content: center; align-items: center;" class=" pb-5 "  id="componentID">
-      <div  style="height: 100%;">
+      <div  style="height: 600px;">
       <app-reportviewer  id="leaveRequest-view"> </app-reportviewer>
       </div>
   </div>

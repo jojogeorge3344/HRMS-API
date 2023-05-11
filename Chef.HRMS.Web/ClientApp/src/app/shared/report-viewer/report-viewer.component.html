@@ -1,5 +1,5 @@
 <div style="height:100%">
-  <bold-reportviewer *ngIf="showReportViewer" id="reportViewer"  style="width: 100%;height: 950px" [reportServiceUrl]="serviceUrl" [toolbarSettings]="toolbarSettings"
+  <bold-reportviewer *ngIf="showReportViewer" id="reportViewer"  style="width: 100%;height: 600px;" [reportServiceUrl]="serviceUrl" [toolbarSettings]="toolbarSettings"
     [processingMode]="processingMode" (ajaxBeforeLoad)="onAjaxRequest($event)" (ajaxSuccess)="onAjaxSuccess($event)"
     (ajaxError)="onAjaxFailure($event)" [exportSettings]="">
   </bold-reportviewer>

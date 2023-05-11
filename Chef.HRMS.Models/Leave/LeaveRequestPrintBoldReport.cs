@@ -8,6 +8,7 @@ namespace Chef.HRMS.Models
 {
     public class LeaveRequestPrintBoldReport
     {
+        public int id { get; set; }
         public string EmployeeName { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
@@ -20,6 +21,7 @@ namespace Chef.HRMS.Models
         public string Description { get; set; }
         public string PreparedBy { get; set; }
         public string LeaveType { get; set; }
+        public string RequestNumber {get; set;}
         //String
         public string FromDated { get; set; }
         public string ToDated { get; set; }

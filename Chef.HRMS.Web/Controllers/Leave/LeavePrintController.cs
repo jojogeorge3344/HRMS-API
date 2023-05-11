@@ -26,7 +26,7 @@ namespace Chef.HRMS.Web.Controllers
             this.leavePrintBoldReportService = leavePrintBoldReportService;
             this.commonDataService = commonDataService;
         }
-       
+        [NonAction]
         public override void OnInitReportOptions(ReportViewerOptions reportOption)
         {
             AssignReportPath();
@@ -36,7 +36,7 @@ namespace Chef.HRMS.Web.Controllers
         {
             this.ReportPath = @"Reports\LeavePrintReport.rdlc";
         }
-       
+        [NonAction]
         public override void OnReportLoaded(ReportViewerOptions reportOption)
         {
             if (CustomData != null && CustomData.Count > 0)
