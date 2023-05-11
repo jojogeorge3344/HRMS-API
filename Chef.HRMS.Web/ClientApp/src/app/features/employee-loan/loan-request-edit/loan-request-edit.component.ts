@@ -6,6 +6,7 @@ import { LoanSettingsService } from '@settings/loan/loan-settings.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { LoanRequest } from '../loan-request.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: './loan-request-edit.component.html',
@@ -33,6 +34,7 @@ export class LoanRequestEditComponent implements OnInit {
   @Input() loanId: any;
   @Input() loanRequest: LoanRequest;
   @Input()  isApproved:any
+  requestTypes = RequestStatus;
 
   constructor(
     private loanRequestService: LoanRequestService,
@@ -110,7 +112,7 @@ export class LoanRequestEditComponent implements OnInit {
     editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId;
-    editloanRequestForm.isapproved = 4;
+    editloanRequestForm.isapproved = this.requestTypes.Approved;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
     this.loanRequestService.update(editloanRequestForm).subscribe(result => {
@@ -132,7 +134,7 @@ export class LoanRequestEditComponent implements OnInit {
     editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId;
-    editloanRequestForm.isapproved = 1;
+    editloanRequestForm.isapproved = this.requestTypes.Draft;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
     this.loanRequestService.update(editloanRequestForm).subscribe(result => {
