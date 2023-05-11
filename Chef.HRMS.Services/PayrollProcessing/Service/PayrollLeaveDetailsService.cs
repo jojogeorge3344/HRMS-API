@@ -11,10 +11,12 @@ namespace Chef.HRMS.Services
     public class PayrollLeaveDetailsService : AsyncService<PayrollLeaveDetails>, IPayrollLeaveDetailsService
     {
         private readonly IPayrollLeaveDetailsRepository payrollLeaveDetailsRepository;
+        private readonly IPayrollComponentDetailsRepository payrollComponentDetailsRepository;
 
-        public PayrollLeaveDetailsService(IPayrollLeaveDetailsRepository payrollLeaveDetailsRepository)
+        public PayrollLeaveDetailsService(IPayrollLeaveDetailsRepository payrollLeaveDetailsRepository, IPayrollComponentDetailsRepository payrollComponentDetailsRepository)
         {
             this.payrollLeaveDetailsRepository = payrollLeaveDetailsRepository;
+            this.payrollComponentDetailsRepository = payrollComponentDetailsRepository;
         }
 
         public async Task<int> BulkInsertAsync(List<PayrollLeaveDetails> payrollLeaveDetails)
@@ -22,7 +24,7 @@ namespace Chef.HRMS.Services
             var res = payrollLeaveDetails.Where(x => x.PayrollProcessId > 0).FirstOrDefault();
             int payrollProcessID = res.PayrollProcessId;
             int intRet = await DeleteByPayrollProcessID(payrollProcessID);
-            intRet = await payrollComponentDetailsService.DeleteByPayrollProcessID(payrollProcessID, 1);
+            intRet = await payrollComponentDetailsRepository.DeleteByPayrollProcessID(payrollProcessID, 1);
 
             await payrollLeaveDetailsRepository.BulkInsertAsync(payrollLeaveDetails);
             List<PayrollComponentDetails> payrollComponent = payrollLeaveDetails.Select(x => new PayrollComponentDetails()
@@ -32,9 +34,9 @@ namespace Chef.HRMS.Services
                 ProcessStatus = x.ProcessStatus,
                 CrAccount = "",
                 DrAccount = "",
-                DeductionAmt = "",
+                DeductionAmt = 0,
                 DocNum = "",
-                EarningsAmt = "",
+                EarningsAmt = 0,
                 Employeeid = x.EmployeeId,
                 PayrollComponentid = 0,
                 CreatedBy = x.CreatedBy,
@@ -43,8 +45,9 @@ namespace Chef.HRMS.Services
                 ModifiedDate = x.ModifiedDate,
                 IsArchived = x.IsArchived,
                 StepNo = 1,
-            }).Tolist();
-                await payrollComponentDetailsService.BulkInsertAsync(payrollComponent);
+            }).ToList();
+                await payrollComponentDetailsRepository.BulkInsertAsync(payrollComponent);
+
                 return 1;
             }
 
