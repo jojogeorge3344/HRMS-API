@@ -19,6 +19,7 @@ import { toInteger, toNumber } from 'lodash';
 import { OvertimeRequest } from '../overtime-request.model';
 import { timeStamp } from 'console';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 
 @Component({
@@ -60,6 +61,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   selectEnable: boolean;
   employeeLogin: any;
   config;
+  requestTypes = RequestStatus;
 
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
 
@@ -427,7 +429,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12))
     };
-    addForm.requestStatus=4
+    addForm.requestStatus=this.requestTypes.Approved
     //this.addForm.value.specialOverTime=this.addForm.value.specialOverTime?this.addForm.value.specialOverTime:0
   //  this.addForm.patchValue({fromDate : new Date(this.addForm.value.fromDate.setHours(12)),toDate  : new Date(this.addForm.value.toDate.setHours(12))})
     this.overtimeRequestService.add(addForm).subscribe((result: any) => {
@@ -462,7 +464,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12))
     };
-    addForm.requestStatus=1
+    addForm.requestStatus=this.requestTypes.Draft
     //this.addForm.value.specialOverTime=this.addForm.value.specialOverTime?this.addForm.value.specialOverTime:0
   //  this.addForm.patchValue({fromDate : new Date(this.addForm.value.fromDate.setHours(12)),toDate  : new Date(this.addForm.value.toDate.setHours(12))})
     this.overtimeRequestService.add(addForm).subscribe((result: any) => {
