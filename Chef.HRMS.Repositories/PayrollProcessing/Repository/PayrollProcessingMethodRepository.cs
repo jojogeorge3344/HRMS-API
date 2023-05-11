@@ -1,4 +1,11 @@
-﻿using System;
+﻿using Chef.Common.Models;
+using Chef.HRMS.Models;
+using Chef.HRMS.Models.PayrollProcessing;
+using Dapper.Contrib.Extensions;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System;
+using System.Runtime.CompilerServices;
+using System.Security.Principal;
 
 namespace Chef.HRMS.Repositories
 {
@@ -341,6 +348,57 @@ namespace Chef.HRMS.Repositories
                         AND paygroupid=@paygroupid";
 
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
+        }
+        
+        public async Task<IEnumerable<PayrollComponentDetails>> GetPayrollComponentsSummary(int payrollprocessid)
+        {
+            var sql = @"select pcd.payrollprocessid,pcd.payrollprocesseddate,pcd.employeeid, emp.displayname as employeename,
+                        pcd.earningsamt, pcd.deductionamt, 
+                        pcd.payrollcomponentid,pc.name as payrollcomponentname
+                        from hrms.payrollcomponentdetails pcd 
+                        left join hrms.hrmsemployee emp 
+                        on emp.id = pcd.employeeid 
+                        join hrms.payrollcomponent pc on pc.id = pcd.payrollcomponentid
+                        where payrollprocessid = @payrollprocessid";
+
+            return await Connection.QueryAsync<PayrollComponentDetails>(sql, new { payrollprocessid });
+        }
+
+
+        public async Task<int> InsertPayrollFixedComponentDetails(int payrollProcessId, DateTime payrollprocessDate, int paygroupId)
+        {
+            var deletedRowCount = await DeletePayrollFixedComponentDetails(payrollProcessId);
+
+            DateTime currentDate = DateTime.Now;
+            var sql = @"INSERT INTO hrms.payrollcomponentdetails(employeeid, payrollcomponentid, earningsamt,
+            deductionamt, processstatus, createdby, createddate,  isarchived, payrollprocessid,payrollprocessdate)
+            (SELECT distinct esc.employeeid as employeeid, escd.payrollcomponentid as payrollcomponentid,
+            escd.monthlyamount as earningsamt, 0 as deductionamt, 0 as processedStatus, 'system', @currentDate,false,@payrollProcessId,@payrollprocessDate
+            from hrms.employeesalaryconfiguration esc join hrms.employeesalaryconfigurationdetails escd
+            on esc.id = escd.employeesalaryconfigurationid
+            left join hrms.payrollcomponent pc on escd.payrollcomponentid = pc.id
+            left join hrms.jobfiling jf on esc.employeeid = jf.employeeid
+            left join hrms.paygroup pg on jf.paygroupid = pg.id
+            where esc.isarchived = false and pg.id = @paygroupId and pc.isfixed = true)";
+
+            return await Connection.ExecuteAsync(sql, new { currentDate,payrollProcessId, paygroupId, payrollprocessDate });
+        }
+
+        private async Task<int>DeletePayrollFixedComponentDetails(int payrollProcessId)
+        {
+            var sql = @"DELETE from hrms.payrollcomponentdetails where id in (
+            (SELECT distinct pcd.id from hrms.payrollcomponentdetails pcd
+             join
+            hrms.employeesalaryconfiguration esc on pcd.employeeid = esc.employeeid
+             join hrms.employeesalaryconfigurationdetails escd
+            on esc.id = escd.employeesalaryconfigurationid
+            left join hrms.payrollcomponent pc on escd.payrollcomponentid = pc.id
+            left join hrms.jobfiling jf on esc.employeeid = jf.employeeid
+            left join hrms.paygroup pg on jf.paygroupid = pg.id
+            where esc.isarchived = false and pg.id = @payrollProcessId and pc.isfixed = true))";
+
+
+            return await Connection.ExecuteAsync(sql, new { payrollProcessId  });
         }
     }
 }

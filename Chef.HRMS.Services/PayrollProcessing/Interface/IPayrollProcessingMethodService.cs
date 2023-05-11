@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Services;
 using Chef.HRMS.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,5 +17,6 @@ namespace Chef.HRMS.Services
         Task<int> InsertLOPDeduction(IEnumerable<LOPDeduction> lopDeduction);
         Task<int> GetDetailsById(int employeeid, int month, int year);
         Task<IEnumerable<PayrollProcessingMethod>> GetEmployeeDetails(int employeeid, int paygroupid);
+        Task<int> InsertPayrollFixedComponentDetaisl(int payrollProcessId, DateTime payrollprocessdate, int paygroupid);
     }
 }

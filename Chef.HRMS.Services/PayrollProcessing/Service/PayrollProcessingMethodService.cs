@@ -1,7 +1,9 @@
 ﻿using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -84,6 +86,20 @@ namespace Chef.HRMS.Services
         public async Task<int> UpdateAsync(PayrollProcessingMethod payrollProcessingMethod)
         {
             return await payrollProcessingMethodRepository.UpdateAsync(payrollProcessingMethod);
+        }
+
+        public async Task<int> InsertPayrollFixedComponentDetaisl(int payrollProcessId, DateTime payrollprocessdate, int paygroupid)
+        {
+            return await payrollProcessingMethodRepository.InsertPayrollFixedComponentDetails(payrollProcessId,payrollprocessdate, paygroupid);
+        }
+
+        public async Task<IEnumerable<PayrollSummary>> GetPayrollComponentsSummary(int payrollprocessid)
+        {
+            List<PayrollSummary> payrollSummaries = new List<PayrollSummary>();
+
+            var payrollComponentDetails = await payrollProcessingMethodRepository.GetPayrollComponentsSummary(payrollprocessid);
+           
+            return 
         }
     }
 }
