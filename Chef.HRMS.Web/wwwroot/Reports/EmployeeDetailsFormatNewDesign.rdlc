@@ -12,35 +12,11 @@
           </Border>
         </Style>
         <ReportItems>
-          <Line Name="Line3">
-            <Left>3.75pt</Left>
-            <Top>0pt</Top>
-            <Height>0pt</Height>
-            <Width>637.5pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Line Name="Line5">
-            <Left>13.5pt</Left>
-            <Top>0pt</Top>
-            <Height>525.75pt</Height>
-            <Width>0pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
           <Tablix Name="Tablix1">
             <Left>15.14062pt</Left>
             <Top>22.64062pt</Top>
             <Height>144pt</Height>
-            <Width>297pt</Width>
+            <Width>309pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -54,7 +30,7 @@
                   <Width>72pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>72pt</Width>
+                  <Width>84pt</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>72pt</Width>
@@ -115,7 +91,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>84pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -136,6 +112,7 @@
                                   <Value>Job Details</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -285,7 +262,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>84pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -303,14 +280,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!DateOfJoin.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -385,14 +365,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!ReportingManager.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -450,11 +433,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox43">
+                        <Textbox Name="TextBox13">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>84pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -472,14 +455,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!EmployeeId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -554,14 +540,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!WorkerType.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -623,7 +612,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>84pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -641,14 +630,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!NumberSeriesId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -723,14 +715,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!TimeType.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -792,7 +787,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>84pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -810,14 +805,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Department.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -892,14 +890,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!NoticePeriod.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -961,7 +962,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>84pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -979,14 +980,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!SecondaryJobTitle.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1061,14 +1065,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!ProbationPeriod.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1130,7 +1137,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>84pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1148,14 +1155,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!BusinessUnit.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1233,11 +1243,13 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1299,7 +1311,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>84pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1317,14 +1329,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Department.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1360,6 +1375,7 @@
                                   <Value>visa Designation</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1398,14 +1414,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!VisaDesignationId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1459,7 +1478,7 @@
             <Left>338.4pt</Left>
             <Top>23.39062pt</Top>
             <Height>126pt</Height>
-            <Width>297pt</Width>
+            <Width>321pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -1473,7 +1492,7 @@
                   <Width>72pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>72pt</Width>
+                  <Width>96pt</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>72pt</Width>
@@ -1534,7 +1553,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>96pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1555,6 +1574,7 @@
                                   <Value>Basic details</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1704,7 +1724,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>96pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1725,12 +1745,14 @@
                                   <Value>=Fields!FirstName.Value</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1805,14 +1827,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Email.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1874,7 +1899,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>96pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1895,12 +1920,14 @@
                                   <Value>=Fields!MiddleName.Value</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1975,14 +2002,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!FileNumber.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2044,7 +2074,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>96pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -2065,12 +2095,14 @@
                                   <Value>=Fields!LastName.Value</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2145,14 +2177,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!ReligionId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2214,7 +2249,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>96pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -2232,14 +2267,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!DisplayName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2314,14 +2352,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!UIDNumber.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2383,7 +2424,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>96pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -2401,14 +2442,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Gender.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2483,14 +2527,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!LanguageKnown.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2552,7 +2599,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>96pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -2570,14 +2617,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!DateOfBirth.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2652,14 +2702,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!RefNum.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2710,7 +2763,7 @@
             <Left>337.65pt</Left>
             <Top>155.4pt</Top>
             <Height>144pt</Height>
-            <Width>299.25pt</Width>
+            <Width>322.35pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -2724,7 +2777,7 @@
                   <Width>111.6pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>187.2pt</Width>
+                  <Width>210.6pt</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2779,7 +2832,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>187.2pt</Width>
+                          <Width>210.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -2800,6 +2853,7 @@
                                   <Value>WPS Details</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -2867,7 +2921,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>187.2pt</Width>
+                          <Width>210.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -2954,7 +3008,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>187.2pt</Width>
+                          <Width>210.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -2972,14 +3026,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!GroupId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3017,7 +3074,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value> MOS ID</Value>
+                                  <Value> MOL ID</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
@@ -3041,7 +3098,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>187.2pt</Width>
+                          <Width>210.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3059,14 +3116,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!MolId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3128,7 +3188,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>187.2pt</Width>
+                          <Width>210.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3146,14 +3206,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!RoutingId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3215,7 +3278,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>187.2pt</Width>
+                          <Width>210.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3233,14 +3296,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!SalaryCardNo.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3302,7 +3368,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>187.2pt</Width>
+                          <Width>210.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3320,14 +3386,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!BankId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3389,7 +3458,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>187.2pt</Width>
+                          <Width>210.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3407,14 +3476,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!AccountNo.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3462,23 +3534,11 @@
               </TablixMembers>
             </TablixRowHierarchy>
           </Tablix>
-          <Line Name="Line6">
-            <Left>651.7313pt</Left>
-            <Top>0.75000pt</Top>
-            <Height>525pt</Height>
-            <Width>0pt</Width>
-            <Style>
-              <FontFamily>Arial</FontFamily>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
           <Tablix Name="Tablix3">
             <Left>16.63125pt</Left>
             <Top>173.3813pt</Top>
             <Height>126pt</Height>
-            <Width>305.2499pt</Width>
+            <Width>307.5pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -3489,16 +3549,16 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
+                  <Width>77.4pt</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>80.4pt</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>69.60001pt</Width>
+                </TablixColumn>
+                <TablixColumn>
                   <Width>79.8pt</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>72pt</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>72pt</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>81pt</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -3511,7 +3571,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>79.8pt</Width>
+                          <Width>77.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3553,7 +3613,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>80.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3574,6 +3634,7 @@
                                   <Value>Job Filing</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -3594,7 +3655,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>69.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3636,7 +3697,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>81pt</Width>
+                          <Width>79.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3681,7 +3742,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>79.8pt</Width>
+                          <Width>77.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3723,7 +3784,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>80.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3741,14 +3802,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!LeaveStructureId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3763,7 +3827,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>69.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3805,7 +3869,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>81pt</Width>
+                          <Width>79.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3826,11 +3890,13 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3850,7 +3916,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>79.8pt</Width>
+                          <Width>77.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3892,7 +3958,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>80.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3910,14 +3976,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!ShiftId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -3932,7 +4001,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>69.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3974,7 +4043,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>81pt</Width>
+                          <Width>79.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -3992,14 +4061,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PayrollStructureId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4019,7 +4091,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>79.8pt</Width>
+                          <Width>77.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4061,7 +4133,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>80.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4079,14 +4151,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!WeekOff.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4101,7 +4176,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>69.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4143,7 +4218,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>81pt</Width>
+                          <Width>79.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4161,14 +4236,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PayGroupId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4188,7 +4266,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>79.8pt</Width>
+                          <Width>77.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4230,7 +4308,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>80.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4248,14 +4326,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!HolidayCategoryId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4270,7 +4351,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>69.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4312,7 +4393,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>81pt</Width>
+                          <Width>79.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4330,14 +4411,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!OverTimePolicyId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4357,7 +4441,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>79.8pt</Width>
+                          <Width>77.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4399,7 +4483,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>80.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4417,14 +4501,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!AttendanceTracking.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4439,7 +4526,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>69.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4481,7 +4568,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>81pt</Width>
+                          <Width>79.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4499,14 +4586,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!EOSId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4526,7 +4616,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>79.8pt</Width>
+                          <Width>77.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4568,7 +4658,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>80.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4586,14 +4676,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!ExpensePolicyId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4608,7 +4701,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72pt</Width>
+                          <Width>69.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4648,7 +4741,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>81pt</Width>
+                          <Width>79.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -4817,6 +4910,7 @@
                                   <Value>Current Address</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -4859,6 +4953,7 @@
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>9.99975pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -4944,14 +5039,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!CurrentAddressLine1.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -4984,7 +5082,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PermanentAddressLine1.Value</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
@@ -4994,6 +5092,7 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5073,14 +5172,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!CurrentAddressLine2.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5113,7 +5215,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!PermanentAddressLine2.Value</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
@@ -5123,6 +5225,7 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5202,14 +5305,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!CurrentCountry.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5242,7 +5348,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!CurrentCountry.Value</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
@@ -5252,6 +5358,7 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5331,14 +5438,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!CurrentState.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5371,7 +5481,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!CurrentState.Value</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
@@ -5381,6 +5491,7 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5460,14 +5571,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!CurrentPinCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5500,14 +5614,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!CurrentPinCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -5551,10 +5668,10 @@
             </TablixRowHierarchy>
           </Tablix>
           <Tablix Name="Tablix6">
-            <Left>332.4pt</Left>
-            <Top>308.85pt</Top>
-            <Height>36pt</Height>
-            <Width>300pt</Width>
+            <Left>14.38125pt</Left>
+            <Top>423.5906pt</Top>
+            <Height>35.99999pt</Height>
+            <Width>313.6499pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -5574,7 +5691,7 @@
                   <Width>72pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>72.60001pt</Width>
+                  <Width>85.8pt</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -5650,6 +5767,7 @@
                                   <Value>Salary Detail</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -5710,7 +5828,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72.6pt</Width>
+                          <Width>85.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -5815,9 +5933,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!EmployeeName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -5878,7 +5998,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72.6pt</Width>
+                          <Width>85.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -5896,9 +6016,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!YearlyAmount.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -5936,10 +6058,10 @@
             </TablixRowHierarchy>
           </Tablix>
           <Tablix Name="Tablix7">
-            <Left>339.1499pt</Left>
-            <Top>362.3999pt</Top>
-            <Height>89.99997pt</Height>
-            <Width>295.4999pt</Width>
+            <Left>337.6219pt</Left>
+            <Top>309.8719pt</Top>
+            <Height>89.99992pt</Height>
+            <Width>323.0998pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -5953,7 +6075,7 @@
                   <Width>151.8pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>143.4pt</Width>
+                  <Width>171pt</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -6008,7 +6130,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>143.4pt</Width>
+                          <Width>171pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -6029,6 +6151,7 @@
                                   <Value>Employee Bonus</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -6096,7 +6219,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>143.4pt</Width>
+                          <Width>171pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -6114,14 +6237,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!BonusTypeId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -6183,7 +6309,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>143.4pt</Width>
+                          <Width>171pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -6201,14 +6327,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!EmployeeId.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -6270,7 +6399,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>143.4pt</Width>
+                          <Width>171pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -6288,14 +6417,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Amount.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -6357,7 +6489,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>143.4pt</Width>
+                          <Width>171pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -6375,14 +6507,17 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!DisburseOn.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -6442,7 +6577,7 @@
               <Width>1pt</Width>
             </BottomBorder>
           </Style>
-          <Height>60.75pt</Height>
+          <Height>59.25pt</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -6470,7 +6605,8 @@
                       <Value>EMPLOYEE DETAILS</Value>
                       <Style>
                         <FontFamily>Calibri</FontFamily>
-                        <FontSize>11.49975pt</FontSize>
+                        <FontSize>11.4998pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                         <Color>black</Color>
                       </Style>
                     </TextRun>
@@ -6505,7 +6641,8 @@
                       <Value>THOMSUN INFOCARE</Value>
                       <Style>
                         <FontFamily>Calibri</FontFamily>
-                        <FontSize>11.49975pt</FontSize>
+                        <FontSize>11.4998pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                         <Color>black</Color>
                       </Style>
                     </TextRun>
@@ -6534,20 +6671,6 @@
           <Height>33pt</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
-          <ReportItems>
-            <Line Name="Line52">
-              <Left>4.5pt</Left>
-              <Top>0pt</Top>
-              <Height>0pt</Height>
-              <Width>636.75pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
-          </ReportItems>
         </PageFooter>
         <InteractiveHeight>595.4405pt</InteractiveHeight>
         <InteractiveWidth>841.6807pt</InteractiveWidth>

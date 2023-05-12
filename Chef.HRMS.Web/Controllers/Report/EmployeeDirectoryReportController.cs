@@ -83,7 +83,7 @@ public class EmployeeDirectoryReportController : ReportViewerController
             reportOption.AddDataSource("EmployeeBasic", employee);
             reportOption.AddDataSource("JobDetails", jobDetails);
             reportOption.AddDataSource("JobFilling", jobFiling);
-            reportOption.AddDataSource("AddressDetails", addressDetails);
+            reportOption.AddDataSource("Address", addressDetails);
             reportOption.AddDataSource("EmployeeBonus", employeeBonusDetails);
             reportOption.AddDataSource("EmployeeSalaryConfig", employeeSalaryConfigDetails);
             reportOption.AddDataSource("WPSDetails", wpsDetail);
