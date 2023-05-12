@@ -26,7 +26,7 @@ namespace Chef.HRMS.Services
 			var res = payrollAdhocDetails.Where(x => x.PayrollProcessId > 0).FirstOrDefault();
 			int payrollProcessID = res.PayrollProcessId;
 			int intRet = await DeleteByPayrollProcessID(payrollProcessID);
-			intRet = await payrollComponentDetailsService.DeleteByPayrollProcessID(payrollProcessID,4);
+			intRet = await payrollComponentDetailsService.DeleteByPayrollProcessID(payrollProcessID,2);
 			foreach (PayrollAdhocDetails list in payrollAdhocDetails)
 			{
 				await payrollAdhocDetailsRepository.InsertAsync(list);
@@ -46,7 +46,7 @@ namespace Chef.HRMS.Services
 				payrollComponent.CreatedDate = list.CreatedDate;
 				payrollComponent.ModifiedDate = list.ModifiedDate;
 				payrollComponent.IsArchived = list.IsArchived;
-				payrollComponent.StepNo = 4;
+				payrollComponent.StepNo = 2;
 				await payrollComponentDetailsService.InsertAsync(payrollComponent);
 			}
 			return 1;

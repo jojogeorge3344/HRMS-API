@@ -102,12 +102,12 @@ namespace Chef.HRMS.Repositories
 		public async Task<IEnumerable<OverTimePayrollViewModel>> GetOvertimeByPaygroupId(int paygroupId,string fromDate,string toDate)
 		{
 			var sql = @"SELECT OT.normalovertime AS nothrs,OT.holidayovertime AS hothrs,
-                        OT.specialovertime AS sothrs,OT.employeeid,(OTS.variablevalue * escd.monthlyamount)/100 AS notrate,
-                        (OTS.variablevalue * escd1.monthlyamount)/100 AS hotrate,(OTS.variablevalue * escd2.monthlyamount)/100 AS hotrate,
+                        OT.specialovertime AS sothrs,OT.employeeid,(OTS.valuevariable * escd.monthlyamount)/100 AS notrate,
+                        (OTS.valuevariable * escd1.monthlyamount)/100 AS hotrate,(OTS.valuevariable * escd2.monthlyamount)/100 AS hotrate,
                         PC.id AS notcomponentid,PC1.id AS hotcomponentid,PC2.id AS sotcomponentid,
-                        ((OTS.variablevalue * escd.monthlyamount)/100)*OT.normalovertime AS notamount,
-                        ((OTS.variablevalue * escd1.monthlyamount)/100)*OT.holidayovertime AS hotamount,
-                        ((OTS.variablevalue * escd2.monthlyamount)/100 )*OT.specialovertime AS sotamount
+                        ((OTS.valuevariable * escd.monthlyamount)/100)*OT.normalovertime AS notamount,
+                        ((OTS.valuevariable * escd1.monthlyamount)/100)*OT.holidayovertime AS hotamount,
+                        ((OTS.valuevariable * escd2.monthlyamount)/100 )*OT.specialovertime AS sotamount
                         FROM hrms.overtime OT
                         INNER JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
                         INNER JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
