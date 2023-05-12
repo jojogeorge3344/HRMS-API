@@ -15,10 +15,10 @@ namespace Chef.HRMS.Models
 {
 	public class PayrollComponentDetails:Model
 	{
-		public int PayrollProcessid { get; set; }
-		public DateTime PayrollProcessdate { get; set; }
-		public int Employeeid { get; set; }
-		public int PayrollComponentid { get; set; }
+		public int PayrollProcessId { get; set; }
+		public DateTime PayrollProcessDate { get; set; }
+		public int EmployeeId { get; set; }
+		public int PayrollComponentId { get; set; }
 		public decimal EarningsAmt { get; set; }
 		public decimal DeductionAmt { get; set; }
 		public int ProcessStatus { get; set; }
