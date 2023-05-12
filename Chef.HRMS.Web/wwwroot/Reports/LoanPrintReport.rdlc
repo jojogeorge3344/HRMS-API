@@ -32,9 +32,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value> Distribution:</Value>
+                    <Value> Distribution</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Bold</FontWeight>
                       <Color>black</Color>
                     </Style>
                   </TextRun>
@@ -96,7 +97,7 @@
                                 <TextRun>
                                   <Value>Request No</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -183,7 +184,7 @@
                                 <TextRun>
                                   <Value>Employee Name</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -224,7 +225,7 @@
                                 <TextRun>
                                   <Value>=Fields!NAME.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -270,7 +271,7 @@
                                 <TextRun>
                                   <Value>EMI Start Year</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -311,7 +312,7 @@
                                 <TextRun>
                                   <Value>=Fields!EMIStartsFromYear.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -358,7 +359,7 @@
                                 <TextRun>
                                   <Value>Loan Amount</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -399,7 +400,7 @@
                                 <TextRun>
                                   <Value>=Fields!LoanAmount.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -446,7 +447,7 @@
                                 <TextRun>
                                   <Value>Loan Description</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -487,7 +488,7 @@
                                 <TextRun>
                                   <Value>=Fields!Comments.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -586,7 +587,7 @@
                                 <TextRun>
                                   <Value>Loan Type</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -627,7 +628,7 @@
                                 <TextRun>
                                   <Value>=Fields!LoanType.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -674,7 +675,7 @@
                                 <TextRun>
                                   <Value>EMI Start Month</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -715,7 +716,7 @@
                                 <TextRun>
                                   <Value>=Fields!EMIStartsMonth.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -809,7 +810,8 @@
                                 <TextRun>
                                   <Value>Year</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>11.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -850,7 +852,8 @@
                                 <TextRun>
                                   <Value>Month</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>11.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -891,7 +894,8 @@
                                 <TextRun>
                                   <Value>Repayment Amount</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>11.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -932,7 +936,8 @@
                                 <TextRun>
                                   <Value>status</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>11.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -978,7 +983,8 @@
                                 <TextRun>
                                   <Value>=Fields!Year.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1018,7 +1024,8 @@
                                 <TextRun>
                                   <Value>=Fields!Month.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1058,7 +1065,7 @@
                                 <TextRun>
                                   <Value>=Fields!RepaymentAmount.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1100,7 +1107,8 @@
                                 <TextRun>
                                   <Value>=Fields!IsApproved.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1591,6 +1599,7 @@
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                         <FontSize>11.4975pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                         <Color>black</Color>
                       </Style>
                     </TextRun>
@@ -1599,6 +1608,7 @@
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                         <FontSize>11.4975pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                         <Color>black</Color>
                       </Style>
                     </TextRun>
@@ -1634,6 +1644,7 @@
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                         <FontSize>11.4975pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                         <Color>black</Color>
                       </Style>
                     </TextRun>
@@ -1642,6 +1653,7 @@
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                         <FontSize>11.4975pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                         <Color>black</Color>
                       </Style>
                     </TextRun>
