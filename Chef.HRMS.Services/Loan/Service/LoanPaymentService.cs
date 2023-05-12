@@ -2,6 +2,8 @@
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -31,9 +33,9 @@ namespace Chef.HRMS.Services
             return await loanPaymentRepository.GetAllLoanPaymentByEmployeeId(employeeId, payrollProcessingMethodId);
         }
 
-        public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByPayrollProcessingMethodId(int payrollProcessingMethodId)
+        public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByPayrollProcessingMethodId(int payGroupId, int year, string month)
         {
-            return await loanPaymentRepository.GetAllLoanPaymentByPayrollProcessingMethodId(payrollProcessingMethodId);
+            return await loanPaymentRepository.GetAllLoanPaymentByPayrollProcessingMethodId(payGroupId,year,month);
         }
 
         public async Task<LoanPayment> GetAsync(int id)
