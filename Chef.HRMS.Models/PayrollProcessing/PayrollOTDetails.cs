@@ -16,6 +16,18 @@ namespace Chef.HRMS.Models
 		public decimal NotHrs { get; set; }
 		public decimal HotHrs { get; set; }
 		public decimal SotHrs { get; set; }
+		[Write(false)]
+		[Skip(true)]
+		[SqlKata.Ignore]
+		public decimal NotHrsAmount { get; set; }
+		[Write(false)]
+		[Skip(true)]
+		[SqlKata.Ignore]
+		public decimal HotHrsAmount { get; set; }
+		[Write(false)]
+		[Skip(true)]
+		[SqlKata.Ignore]
+		public decimal SotHrsAmount { get; set; }
 
 	}
 }

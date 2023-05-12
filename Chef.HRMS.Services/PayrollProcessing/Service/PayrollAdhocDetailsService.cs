@@ -33,16 +33,16 @@ namespace Chef.HRMS.Services
 			await payrollAdhocDetailsRepository.BulkInsertAsync(payrollAdhocDetails);
 			List<PayrollComponentDetails> payrollComponent = payrollAdhocDetails.Select(x => new PayrollComponentDetails()
 			{
-				PayrollProcessid = x.PayrollProcessId,
-				PayrollProcessdate = x.PayrollProcessDate,
+				PayrollProcessId = x.PayrollProcessId,
+				PayrollProcessDate = x.PayrollProcessDate,
 				ProcessStatus = x.ProcessStatus,
 				CrAccount = "",
 				DrAccount = "",
 				DeductionAmt = x.IsAddition==true?0: x.AdhocAmount,
 				DocNum = "",
 				EarningsAmt = x.IsAddition == false ? 0 : x.AdhocAmount,
-				Employeeid = x.EmployeeId,
-				PayrollComponentid = 0,
+				EmployeeId = x.EmployeeId,
+				PayrollComponentId = 0,
 				CreatedBy = x.CreatedBy,
 				ModifiedBy = x.ModifiedBy,
 				CreatedDate = x.CreatedDate,
