@@ -21,5 +21,10 @@ namespace Chef.HRMS.Services
         {
             return await userVariableValuesRepository.GetUserVariables();
         }
+
+        public new async Task<IEnumerable<UserVariable>> GetAllAsync()
+        {
+            return await userVariableValuesRepository.GetAllAsync();
+        }
     }
 }
