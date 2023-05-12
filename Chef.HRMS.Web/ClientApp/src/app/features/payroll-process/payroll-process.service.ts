@@ -13,11 +13,13 @@ export class PayrollProcessService {
   public baseUrl: string;
   public http: HttpClient;
   public employeeDetails: BehaviorSubject<any>
+  public baseUrl_overtime:any
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.employeeDetails = <BehaviorSubject<any>>new BehaviorSubject(null);
     this.baseUrl = baseUrl + 'api/settings/payrollprocessing/PayrollProcessingMethod/';
+    this.baseUrl_overtime = baseUrl + 'api/OverTime/'
   }
 
   add(payrollProcess: PayrollProcess) {
@@ -75,5 +77,14 @@ export class PayrollProcessService {
     return this.employeeDetails.asObservable()
 
   }
+
+getPayrollProcessingMonthDetails(payGrpId){
+  return this.http.get<PayrollProcess>(this.baseUrl + 'GetPayrollProcessingMonth/' + payGrpId).pipe(map(response => response));
+}
+
+getPayrollProcessOvertime(payGrpId,fromdate,todate){
+  return this.http.get<PayrollProcess>(this.baseUrl_overtime + 'GetOvertimeByPaygroupId?paygroupId=' + payGrpId + '&fromDate=' + fromdate + '&toDate=' + todate).pipe(map(response => response));
+}
+  
 
 }

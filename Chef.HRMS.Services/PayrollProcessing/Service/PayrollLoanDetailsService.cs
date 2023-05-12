@@ -30,16 +30,16 @@ namespace Chef.HRMS.Services
 			{
 				await payrollLoanDetailsRepository.InsertAsync(list);
 				PayrollComponentDetails payrollComponent = new PayrollComponentDetails();
-				payrollComponent.PayrollProcessid = list.PayrollProcessId;
-				payrollComponent.PayrollProcessdate = list.PayrollProcessDate;
+				payrollComponent.PayrollProcessId = list.PayrollProcessId;
+				payrollComponent.PayrollProcessedDate = list.PayrollProcessDate;
 				payrollComponent.ProcessStatus = list.ProcessStatus;
 				payrollComponent.CrAccount = "";
 				payrollComponent.DrAccount = "";
 				payrollComponent.DeductionAmt = list.LoanAmount;
 				payrollComponent.DocNum = "";
 				payrollComponent.EarningsAmt = 0;
-				payrollComponent.Employeeid = list.EmployeeId;
-				payrollComponent.PayrollComponentid = 0;
+				payrollComponent.EmployeeId = list.EmployeeId;
+				payrollComponent.PayrollComponentId = 0;
 				payrollComponent.CreatedBy = list.CreatedBy;
 				payrollComponent.ModifiedBy = list.ModifiedBy;
 				payrollComponent.CreatedDate = list.CreatedDate;

@@ -34,6 +34,12 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
   employeedetails: Employee[] = [];
   toUnsubscribe: Subscription[] = [];
   previousDetails: PayrollProcess[];
+  payrollProcessMonthDetails:any=[]
+  isDisabled:boolean=true
+  payrollSelectedMonth:any
+  payrollleaveCutOff:any
+  payrollYear:any
+  overtimeCutoff:any
 
 
   constructor(
@@ -52,14 +58,17 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+   
     this.getEmployeeDetails();
     this.getPayGroup();
-    this.getPayrollMonths();
     this.getPreviousDetails();
     this.currentUser = getCurrentUserId();
     this.addForm = this.createFormGroup();
+    this.getMonthForPayRollProcess()
     this.subscribeToChanges();
+   // this.getPayrollMonths();
     this.modeOfPayrollProcessTypeKeys = Object.keys(this.modeOfPayrollProcessType).filter(Number).map(Number);
+    
   }
   getPreviousDetails() {
     debugger
@@ -102,6 +111,7 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
         }
       })
     );
+    console.log('months',this.previousMonths)
   }
 
   getPayGroup() {
@@ -131,11 +141,14 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
     const today = new Date();
     let month = today.getMonth() + 1;
     let year = today.getUTCFullYear();
-    this.selectedMonth = month;
-    this.selectedYear = year;
+    // this.selectedMonth = month;
+    // this.selectedYear = year;
+
+    this.selectedMonth = this.payrollSelectedMonth;
+    this.selectedYear = this.payrollleaveCutOff;
     this.noOfCalendarDays = new Date(year, month, 0).getDate();
 
-    for (let index = 0; index < 6; index++) {
+    for (let index = 0; index < 12; index++) {
       this.previousMonths.push({ month, year, processed: false });
       if (month <= 1) {
         month = 12;
@@ -159,13 +172,14 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
     return ` 0.75rem `;
   }
   payrollMonths(payrollMonth) {
-    this.selectedMonth = payrollMonth.month;
-    this.selectedYear = payrollMonth.year;
+    // this.selectedMonth = payrollMonth.month;
+    // this.selectedYear = payrollMonth.year;
+    this.selectedMonth = this.payrollSelectedMonth
+    this.selectedYear = this.payrollYear
     this.noOfCalendarDays = new Date(this.selectedYear, payrollMonth.month, 0).getDate();
   }
 
   openPayrollProcessMonth() {
-    debugger
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     debugger
     const assignPayrollProcess = {
@@ -201,8 +215,16 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
               queryParams:
               {
                 date: `${this.months[this.selectedMonth]}-${this.selectedYear}`,
-                payGroup: assignPayrollProcess.payGroupId, id: currentUser[0].employeeId
+                payGroup: assignPayrollProcess.payGroupId, 
+                id: currentUser[0].employeeId,
+                month: this.payrollSelectedMonth,
+                year:this.payrollYear,
+                cutOffDay:this.payrollleaveCutOff,
+                // processId:res
+                processId:4,
+                overTimeCutOff:this.overtimeCutoff
               }
+             
             });
         } else {
           this.router.navigate(['/payroll-processing/payroll-process-employee'],
@@ -225,6 +247,59 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
     }
 
   }
+
+
+
+  getMonthForPayRollProcess(){
+    this.previousMonths=[]
+    const date = new Date();
+
+    const previousMonth = new Date(date.getTime());
+    previousMonth.setDate(0);
+    let year = previousMonth.getFullYear()
+    let month =  previousMonth.getMonth() + 1
+    var firstDay = new Date(2023,
+                           4, 25)
+    var previousdaye = new Date(2023,
+    4-1, 25)
+
+    this.payrollProcessService.getPayrollProcessingMonthDetails(this.addForm.value.payGroupId).subscribe(res => {
+      this.payrollProcessMonthDetails = res
+
+      // this.payrollSelectedMonth = this.payrollProcessMonthDetails[0].month
+      // this.payrollleaveCutOff = this.payrollProcessMonthDetails[0].leaveCutOff
+      // this.payrollYear = this.payrollProcessMonthDetails[0].year
+      // this.overtimeCutoff = this.payrollProcessMonthDetails[0].timeSheetCutOff
+
+
+      this.payrollSelectedMonth = 5
+      this.payrollleaveCutOff = 25
+      this.payrollYear = 2023
+      this.overtimeCutoff = 25 
+     // this.getPayrollMonths();
+
+     const today = new Date();
+    let month = today.getMonth() + 1;
+    let year = today.getUTCFullYear();
+    // this.selectedMonth = month;
+    // this.selectedYear = year;
+
+    this.selectedMonth = this.payrollSelectedMonth;
+    this.selectedYear = this.payrollYear;
+    this.noOfCalendarDays = new Date(year, month, 0).getDate();
+
+    for (let index = 0; index < 12; index++) {
+      this.previousMonths.push({ month, year, processed: false });
+      if (month <= 1) {
+        month = 12;
+        year--;
+      } else {
+        month--;
+      }
+    }
+    });
+  }
+
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       name: [`${this.months[this.selectedMonth]} - ${this.selectedYear} Payroll`],

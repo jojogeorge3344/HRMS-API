@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using static Humanizer.In;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Chef.HRMS.Models.PayrollProcessing
+namespace Chef.HRMS.Models
 {
     public class PayrollComponentDetails : Model
     {

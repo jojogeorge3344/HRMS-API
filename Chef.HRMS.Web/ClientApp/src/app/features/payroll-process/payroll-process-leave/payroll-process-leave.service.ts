@@ -61,7 +61,7 @@ export class PayrollProcessLeaveService {
     }));
   }
 
-  add(PayrollLeaveAndAttandance: PayrollLeaveAndAttandance[]) {
+  add(PayrollLeaveAndAttandance) {
     return this.http.post<PayrollLeaveAndAttandance[]>(this.baseUrl + 'InsertLeaveAndAttendanceDetails', PayrollLeaveAndAttandance).pipe(map(response => { return response; }));
   }
 

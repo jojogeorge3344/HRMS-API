@@ -29,16 +29,16 @@ namespace Chef.HRMS.Services
             await payrollLeaveDetailsRepository.BulkInsertAsync(payrollLeaveDetails);
             List<PayrollComponentDetails> payrollComponent = payrollLeaveDetails.Select(x => new PayrollComponentDetails()
             {
-                PayrollProcessid = x.PayrollProcessId,
-                PayrollProcessdate = x.PayrollProcessDate,
+                PayrollProcessId = x.PayrollProcessId,
+                PayrollProcessedDate = x.PayrollProcessDate,
                 ProcessStatus = x.ProcessStatus,
                 CrAccount = "",
                 DrAccount = "",
                 DeductionAmt = 0,
                 DocNum = "",
                 EarningsAmt = 0,
-                Employeeid = x.EmployeeId,
-                PayrollComponentid = 0,
+                EmployeeId = x.EmployeeId,
+                PayrollComponentId = 0,
                 CreatedBy = x.CreatedBy,
                 ModifiedBy = x.ModifiedBy,
                 CreatedDate = x.CreatedDate,
