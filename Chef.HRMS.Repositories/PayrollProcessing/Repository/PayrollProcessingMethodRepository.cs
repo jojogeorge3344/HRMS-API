@@ -209,7 +209,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
         {
-            int result = 0;
+            string result = "";
             using (var transaction = Connection.BeginTransaction())
             {
                 try
@@ -252,7 +252,7 @@ namespace Chef.HRMS.Repositories
                             else
                             {
                                 var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                                await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+                                result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
 
 
 
@@ -266,7 +266,7 @@ namespace Chef.HRMS.Repositories
                     {
 
                         var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                        await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+                        result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
 
 
 
@@ -358,7 +358,7 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
         }
-        
+
         public async Task<IEnumerable<PayrollComponentDetails>> GetPayrollComponentsSummary(int payrollprocessid)
         {
             var sql = @"select pcd.payrollprocessid,pcd.payrollprocessdate,pcd.employeeid, emp.displayname as employeename,
@@ -390,10 +390,10 @@ namespace Chef.HRMS.Repositories
             left join hrms.paygroup pg on jf.paygroupid = pg.id
             where esc.isarchived = false and pg.id = @paygroupId and pc.isfixed = true)";
 
-            return await Connection.ExecuteAsync(sql, new { currentDate,payrollProcessId, paygroupId, payrollprocessDate });
+            return await Connection.ExecuteAsync(sql, new { currentDate, payrollProcessId, paygroupId, payrollprocessDate });
         }
 
-        private async Task<int>DeletePayrollFixedComponentDetails(int payrollProcessId)
+        private async Task<int> DeletePayrollFixedComponentDetails(int payrollProcessId)
         {
             var sql = @"DELETE from hrms.payrollcomponentdetails where id in (
             (SELECT distinct pcd.id from hrms.payrollcomponentdetails pcd
@@ -407,7 +407,7 @@ namespace Chef.HRMS.Repositories
             where esc.isarchived = false and pg.id = @payrollProcessId and pc.isfixed = true))";
 
 
-            return await Connection.ExecuteAsync(sql, new { payrollProcessId  });
+            return await Connection.ExecuteAsync(sql, new { payrollProcessId });
         }
 
         public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
