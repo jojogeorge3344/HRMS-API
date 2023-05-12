@@ -110,39 +110,67 @@ export class ShiftCreateComponent implements OnInit {
   }
 
 
-  numberOnly(event): boolean {          
-    const charCode = (event.which) ? event.which : event.keyCode;      
-    if (charCode == 46) {
-        this.dotCount += 1;
-        this.checkNumberOnly = (event.target.value);
-        var numericCheck = (event.target.value).toString();
-        if (numericCheck.includes('.')) {
-            this.dotCount += 1;
-        }
-        if (this.dotCount > 1) {   
-            this.dotCount = 0;
-            return false;
-        }
-    }
-    if (charCode > 31 && (charCode < 45 || charCode > 57 || charCode==47)) {
-        return false;
-    }
-    this.checkNumberOnly = (event.target.value);
-    if (this.checkNumberOnly != null) {
-        var numeric = (event.target.value).toString();
-        if (numeric.includes('.')) {
-            var checkNumeric = numeric.split('.');
-            if (checkNumeric.length > 2) {
-                return false;
-            }
-            this.checkString = checkNumeric[1].split('');
-            if (this.checkString.length > 1) {
-                return false;
-            }
-        }
+ // numberOnly(event)
 
+  numberOnly(event) {
+debugger
+    var charCode = (event.which) ? event.which : event.keyCode;
+    
+   // Only Numbers 0-9
+    if(charCode == 58){
+      return true;
     }
-  }
+    else if ((charCode < 48 || charCode > 57)) {
+    
+     event.preventDefault();
+    
+    return false;
+    
+    } else {
+    
+    return true;
+    
+     }
+    
+     }
+
+
+  // numberOnly(event): boolean {   
+  //   debugger   
+  //   const charCode = (event.which) ? event.which : event.keyCode;   
+   
+  //   if (charCode == 46) {
+  //       this.dotCount += 1;
+  //       this.checkNumberOnly = (event.target.value);
+  //       var numericCheck = (event.target.value).toString();
+  //       if (numericCheck.includes('.')) {
+  //           this.dotCount += 1;
+  //       }
+  //       if (this.dotCount > 1) {   
+  //           this.dotCount = 0;
+  //           return false;
+  //       }
+  //   }
+  //   if (charCode > 31 && (charCode < 45 || charCode > 57 || charCode==47)) {
+  //       return false;
+  //   }
+  //   this.checkNumberOnly = (event.target.value);
+  //   if (this.checkNumberOnly != null) {
+  //       var numeric = (event.target.value).toString();
+  //       if (numeric.includes('.')) {
+  //           var checkNumeric = numeric.split('.');
+  //           if (checkNumeric.length > 2) {
+  //               return false;
+  //           }
+  //           this.checkString = checkNumeric[1].split('');
+  //           if (this.checkString.length > 1) {
+  //               return false;
+  //           }
+  //       }
+
+  //   }
+   
+  // }
 
   onSubmit() {
 

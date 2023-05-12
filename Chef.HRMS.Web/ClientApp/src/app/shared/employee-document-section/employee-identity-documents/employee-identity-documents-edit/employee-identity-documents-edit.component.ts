@@ -271,7 +271,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
       displayOrder: [0, []],
       documentReturnType: [4, []],
       documentUpdateType: [2, []],
-      active: [],
+      active: [null,[Validators.required]],
       isApproved: [true],
       documentId: [0],
       document: this.formBuilder.group({

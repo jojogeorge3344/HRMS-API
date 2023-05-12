@@ -12,17 +12,18 @@ namespace Chef.HRMS.Web.Controllers
     public abstract class ReportViewerController : ControllerBase, IReportController
     {
         public string ReportPath { get; set; }
-        // Report viewer requires a memory cache to store the information of consecutive client request and
-        // have the rendered report viewer information in server.
-        readonly Microsoft.Extensions.Caching.Memory.IMemoryCache cache;
-        // IHostingEnvironment used with sample to get the application data from wwwroot.
-        readonly IWebHostEnvironment hostingEnvironment;
+        // Report viewer requires a memory cache to store the information of consecutive client request and
+        // have the rendered report viewer information in server.
+        readonly Microsoft.Extensions.Caching.Memory.IMemoryCache cache;
+        // IHostingEnvironment used with sample to get the application data from wwwroot.
+        readonly IWebHostEnvironment hostingEnvironment;
 
         public Dictionary<string, object> CustomData = null;
 
+
         // Post action to process the report from server based json parameters and send the result back to the client.
         public ReportViewerController(Microsoft.Extensions.Caching.Memory.IMemoryCache memoryCache,
-               IWebHostEnvironment hostingEnvironment, IBranchService branchService)
+            IWebHostEnvironment hostingEnvironment)
         {
             cache = memoryCache;
             this.hostingEnvironment = hostingEnvironment;
@@ -34,8 +35,8 @@ namespace Chef.HRMS.Web.Controllers
         {
             if (jsonArray.ContainsKey("customData"))
             {
-                //Gets the parameter values specified in client-side 
-                CustomData = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonArray["customData"].ToString());
+                //Gets the parameter values specified in client-side 
+                CustomData = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonArray["customData"].ToString());
             }
             return ReportHelper.ProcessReport(jsonArray, this, this.cache);
         }
