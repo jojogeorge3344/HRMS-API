@@ -97,6 +97,12 @@ export class EmployeeNumbersEditComponent implements OnInit {
   get name() { return this.editForm.get('name'); }
 
   onSubmit() {
+    this.editForm.value.suffix=this.editForm.value.suffix.trim()
+    //this.editForm.value.prefix=this.editForm.value.prefix.trim()
+    this.editForm.patchValue({
+      suffix:this.editForm.value.suffix,
+      //prefix:this.editForm.value.prefix
+    })
     this.employeeNumbersService.update(this.editForm.getRawValue()).subscribe((result: any) => {
       if (result === -1) {
         this.toastr.showErrorMessage('Employee Series already exists!');

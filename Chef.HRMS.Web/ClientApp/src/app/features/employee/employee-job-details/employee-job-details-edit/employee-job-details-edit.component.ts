@@ -156,7 +156,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   getEmployeeList() {
-   
+   debugger
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.id);
       const details = this.employeeList.find(emp => emp.id === this.reportingManager);
