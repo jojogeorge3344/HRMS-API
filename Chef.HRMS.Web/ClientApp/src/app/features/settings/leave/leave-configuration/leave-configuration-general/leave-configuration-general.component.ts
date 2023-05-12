@@ -169,14 +169,16 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
       ]],
       maxConsecutiveDays: [0, [
         Validators.min(0),
-        Validators.required]],
+        // Validators.required
+      ]],
         maxCarryForwardDays: [0, [
           Validators.min(0),
-          Validators.required]],
+          Validators.required
+        ]],
       // maxNumberOfDaysPerMonth: [0],
       maxNumberOfDaysPerMonth: [0, [
-        Validators.required,
-        Validators.min(1),
+        // Validators.required,
+        Validators.min(0),
         Validators.max(365)]],
       numberOfDaysGapRequiredBetweenLeaves: [0, [
         Validators.min(0)]],
