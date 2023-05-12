@@ -70,5 +70,10 @@ namespace Chef.HRMS.Services
         {
             return await overTimeRepository.UpdateNotifyPersonnel(overTimeNotifyPersonnel);
         }
-    }
+
+        public async Task<IEnumerable<OverTimePayrollViewModel>> GetOvertimeByPaygroupId(int paygroupId, string fromDate, string toDate)
+        {
+            return await overTimeRepository.GetOvertimeByPaygroupId(paygroupId, fromDate, toDate);
+        }
+	}
 }

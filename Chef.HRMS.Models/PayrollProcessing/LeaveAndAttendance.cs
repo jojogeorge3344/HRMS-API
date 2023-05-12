@@ -85,5 +85,6 @@ namespace Chef.HRMS.Models
         /// </summary>
         [Required]
         public PayrollProcessingStatus Status { get; set; }
+        public int LeaveId { get; set; }
     }
 }
