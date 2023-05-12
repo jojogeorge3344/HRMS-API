@@ -36,6 +36,7 @@ public class EmployeeDirectoryReportController : ReportViewerController
            IEmployeeBonusService employeeBonusService,
            IWPSUserService wPSUserService,
            IAddressService addressService,
+           IBranchService branchService
            //IDMSService dMSService
            IBaseService baseService
            )
@@ -43,7 +44,7 @@ public class EmployeeDirectoryReportController : ReportViewerController
     {
         this.employeeService = employeeService;
         this.jobDetailsService = jobDetailsService;
-        this.jobFilingService= jobFilingService;
+        this.jobFilingService = jobFilingService;
         this.addressService = addressService;
         this.employeeBonusService = employeeBonusService;
         this.employeeSalaryConfigurationService = employeeSalaryConfigurationService;

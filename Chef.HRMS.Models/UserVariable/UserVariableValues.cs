@@ -21,5 +21,6 @@ namespace Chef.HRMS.Models
         public EmployeeRevisionStatus Status { get; set; }
 
         public string Remarks { get; set; }
+        public int EmployeeId { get; set; }
     }
 }

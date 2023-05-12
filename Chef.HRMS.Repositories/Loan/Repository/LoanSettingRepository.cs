@@ -20,8 +20,8 @@ namespace Chef.HRMS.Repositories.Loan
                         FROM hrms.payrollcomponent pc
                         INNER JOIN hrms.benefittypes bt
                         ON bt.id = pc.payrollcomponenttype
-                        WHERE pc.payrollcomponenttype = 24
-                        AND pc.isarchived = false";
+                        WHERE pc.payrollcomponenttype = 23
+                        AND pc.isarchived = false order by pc.name";
 
             return await Connection.QueryAsync<LoanAdvanceRepaymentView>(sql);
         }
@@ -33,8 +33,8 @@ namespace Chef.HRMS.Repositories.Loan
                         FROM hrms.payrollcomponent pc
                         INNER JOIN hrms.benefittypes bt
                         ON bt.id = pc.payrollcomponenttype
-                        WHERE pc.payrollcomponenttype = 16
-                        AND pc.isarchived = false";
+                        WHERE pc.payrollcomponenttype = 11
+                        AND pc.isarchived = false order by pc.name";
 
             return await Connection.QueryAsync<LoanAdvanceRepaymentView>(sql);
         }

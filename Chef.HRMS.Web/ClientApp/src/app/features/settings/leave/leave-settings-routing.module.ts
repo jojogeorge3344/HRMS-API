@@ -9,18 +9,18 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'leave-structure', pathMatch: 'full'
+        redirectTo: 'leave-component', pathMatch: 'full'
+      },
+      {
+        path: 'leave-component',
+        loadChildren: () => import('./leave-component/leave-component.module').then(m => m.LeaveComponentModule),
+        data: { name: 'settings-leave' }
       },
       {
         path: 'leave-structure',
         loadChildren: () => import('./leave-structure/leave-structure.module').then(m => m.LeaveStructureModule),
         data: { name: 'settings-leave' }
       },
-      {
-        path: 'leave-component',
-        loadChildren: () => import('./leave-component/leave-component.module').then(m => m.LeaveComponentModule),
-        data: { name: 'settings-leave' }
-      }
     ]
   },
   {

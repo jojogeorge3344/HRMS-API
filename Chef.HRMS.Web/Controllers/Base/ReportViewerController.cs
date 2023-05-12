@@ -3,7 +3,6 @@ using Chef.HRMS.Services;
 using Chef.HRMS.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;

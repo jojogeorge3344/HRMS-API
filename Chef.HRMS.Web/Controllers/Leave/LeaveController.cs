@@ -151,7 +151,7 @@ namespace Chef.HRMS.Web.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> InsertNotifyPersonnel(IEnumerable<LeaveNotifyPersonnel> LeaveNotifyPersonnel)
+        public async Task<ActionResult<int>> InsertNotifyPersonnel([FromBody] IEnumerable<LeaveNotifyPersonnel> LeaveNotifyPersonnel)
         {
             if (!ModelState.IsValid)
             {
@@ -159,6 +159,22 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             var result = await leaveService.InsertNotifyPersonnel(LeaveNotifyPersonnel);
+
+            return Ok(result);
+        }
+
+        [HttpPost("UpdateNotifyPersonnel")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> UpdateNotifyPersonnel([FromBody] IEnumerable<LeaveNotifyPersonnel> LeaveNotifyPersonnel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await leaveService.UpdateNotifyPersonnel(LeaveNotifyPersonnel);
 
             return Ok(result);
         }

@@ -114,5 +114,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(leaveAndAttendanceList);
         }
+
+        [HttpGet("GetLOPCalculation/{fromDate}/{toDate}")]
+        public async Task<ActionResult<IEnumerable<LOPCalculationView>>> GetLOPCalculation(DateTime fromDate, DateTime toDate)
+        {
+            var calculation = await leaveAndAttendanceService.GetLOPCalculation(fromDate, toDate);
+
+            return Ok(calculation);
+        }
     }
 }
