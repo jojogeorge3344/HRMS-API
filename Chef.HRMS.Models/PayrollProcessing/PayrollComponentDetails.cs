@@ -12,6 +12,10 @@ namespace Chef.HRMS.Models.PayrollProcessing
         public int PayrollProcessId { get; set; }
         public DateTime PayrollProcessedDate { get; set; }
         public int EmployeeId { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
         public string EmployeeName { get; set; }
         public int PayrollComponentId { get; set; }
 
