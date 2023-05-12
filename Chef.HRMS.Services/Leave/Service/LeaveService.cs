@@ -49,27 +49,27 @@ namespace Chef.HRMS.Services
 
                 leaveDetails.EmployeeId = leave.EmployeeId;
                 leaveDetails.LeaveId = leaveId;
-                leaveDetails.LeavecomponentId = leave.LeaveComponentId;
+                leaveDetails.LeaveComponentId = leave.LeaveComponentId;
                 if (i == 1)
                 {
                     if (leave.IsFirstDayFirstHalf || leave.IsFirstDaySecondHalf)
-                        leaveDetails.Leavetype = 2;
+                        leaveDetails.LeaveType = 2;
                     else
-                        leaveDetails.Leavetype = 1;
+                        leaveDetails.LeaveType = 1;
                 }
                 else if (i == MaxDay)
                 {
                     if (leave.IsSecondDayFirstHalf || leave.IsSecondDaySecondHalf)
-                        leaveDetails.Leavetype = 2;
+                        leaveDetails.LeaveType = 2;
                     else
-                        leaveDetails.Leavetype = 1;
+                        leaveDetails.LeaveType = 1;
                 }
                 else
                 { 
-                    leaveDetails.Leavetype = 1;
+                    leaveDetails.LeaveType = 1;
                 }
 				leaveDetails.LeaveDate = startDate.AddDays(i-1);
-                leaveDetails.Leavestatus = (int)leave.LeaveStatus;
+                leaveDetails.LeaveStatus = leave.LeaveStatus;
                 await leaveDetailsRepository.InsertAsync(leaveDetails);
 
 			}

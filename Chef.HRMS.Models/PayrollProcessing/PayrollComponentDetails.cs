@@ -27,8 +27,6 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public string PayrollComponentName { get; set; }
-        [SqlKata.Ignore]
-        public string PayrollComponentName { get; set; }
         public decimal EarningsAmt { get; set; }
         public decimal DeductionAmt { get; set; }
         public int ProcessStatus { get; set; }
