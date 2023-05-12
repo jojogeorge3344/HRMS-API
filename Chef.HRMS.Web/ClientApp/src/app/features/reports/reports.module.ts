@@ -19,8 +19,7 @@ import { LeaveReportComponent } from './leave-report/leave-report/leave-report.c
 import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { NumberToWordsPipe } from 'src/app/pipes/number-to-words.pipe';
 import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/employee-payslip-print-filter/employee-payslip-print-filter.component';
-// import { MultiSelectModule } from 'primeng/multiselect';
-
+import {MultiSelectModule} from 'primeng/multiselect';
 @NgModule({
   declarations: [
     EmployeeListReportComponent,
@@ -41,7 +40,6 @@ import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/e
     PipesModule,
     NgBootstrapFormValidationModule,
     BsDropdownModule,
-    // MultiSelectModule
   ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
