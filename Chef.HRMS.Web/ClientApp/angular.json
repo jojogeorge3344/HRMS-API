@@ -41,7 +41,8 @@
               "src/scss/app.angular.scss",
               "./node_modules/ngx-toastr/toastr.css",
               "src/styles.css",
-              "./node_modules/ng2-dnd/bundles/style.css"
+              "./node_modules/ng2-dnd/bundles/style.css",
+              "./node_modules/@boldreports/javascript-reporting-controls/Content/material/bold.reports.all.min.css"
             ],
             "scripts": [
               "node_modules/pace-js/pace.min.js",
@@ -138,7 +139,8 @@
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "src/scss/styles.scss"
+              "src/scss/styles.scss",
+              "./node_modules/@boldreports/javascript-reporting-controls/Content/material/bold.reports.all.min.css"
             ],
             "scripts": []
           }
