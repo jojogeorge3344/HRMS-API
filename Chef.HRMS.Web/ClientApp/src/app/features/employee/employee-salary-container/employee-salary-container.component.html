@@ -14,8 +14,10 @@
         <div>
             <span class="ml-2 font-weight-bold">Annual pay:</span>
             Annual amount + Bonus
-            <span class="ml-2 font-weight-bold" *ngIf="salary.salary?.length">INR {{salary.yearlySum + bonus.bonusTotal | number : '1.0-2'}}</span>
-            <span class="ml-2 font-weight-bold" *ngIf="!salary.salary?.length">INR {{0 + bonus.bonusTotal | number : '1.0-2'}}</span>
+            <span class="ml-2 font-weight-bold" *ngIf="salary.salary?.length">INR {{salary.yearlySum + bonus.bonusTotal
+                | number : '1.0-2'}}</span>
+            <span class="ml-2 font-weight-bold" *ngIf="!salary.salary?.length">INR {{0 + bonus.bonusTotal | number :
+                '1.0-2'}}</span>
         </div>
         <div class="btn-group" dropdown *ngIf="salary.salary?.length">
             <button id="button-basic" dropdownToggle type="button" class="border-0 mr-2 pr-2 dropdown-toggle btn-more"

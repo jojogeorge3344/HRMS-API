@@ -282,6 +282,19 @@ const routes: Routes = [
             (m) => m.EmployeeOvertimeModule
           ),
         canActivateChild: [AuthGuard],
+          },
+      {
+        path: 'asset-employee-overtimewise',
+        loadChildren: () => import('./features/employee-overtime/employee-overtime.module').then(m => m.EmployeeOvertimeModule),
+      },
+      {
+        path: 'employee-revision-management',
+        loadChildren: () => import('./features/employee-revision-management/employee-revision-management.module').then(m => m.EmployeeRevisionManagementModule),
+        canActivateChild: [AuthGuard]
+      },
+      {
+        path: 'employee-payroll-parameter-details',
+        loadChildren: () => import('./features/employee-payroll-parameter-details/payroll-parameter-details.module').then(m => m.PayrollParameterDetailsModule),
       },
       {
         path: 'adoc-earnings-and-deduction',

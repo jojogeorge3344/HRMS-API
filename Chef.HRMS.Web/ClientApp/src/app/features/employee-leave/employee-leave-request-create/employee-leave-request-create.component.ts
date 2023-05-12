@@ -35,6 +35,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.service";
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: "./employee-leave-request-create.component.html",
@@ -88,6 +89,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   directoryName = "c:";
   documentSave;
   leaveDocument: any;
+  requestTypes = RequestStatus;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -607,7 +609,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
          
        }
     let addForm = this.addForm.value;
-    addForm.leaveStatus=4
+    addForm.leaveStatus=this.requestTypes.Approved
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -666,7 +668,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
          
        }
     let addForm = this.addForm.value;
-    addForm.leaveStatus=1
+    addForm.leaveStatus=this.requestTypes.Draft
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,

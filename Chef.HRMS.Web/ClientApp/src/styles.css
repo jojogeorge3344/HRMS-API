@@ -1,4 +1,5 @@
 @import "../node_modules/@boldreports/javascript-reporting-controls/Content/bootstrap-theme/bold.theme.compatibility.min.css";
+@import "../node_modules/@boldreports/javascript-reporting-controls/Content/bootstrap-theme/bold.theme.compatibility.min.css";
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -9,6 +10,21 @@ a {
 
 code {
   color: #e01a76;
+}
+li#reportViewer_toolbar_li_refresh,
+li#reportViewer_toolbar_li_pagefit,
+li#reportViewer_toolbar_li_zoom,
+li#reportViewer_toolbar_li_preview,
+li#reportViewer_toolbar_li_pagesetup {
+  display: none !important;
+}
+.e-toolbar {
+  min-height: 30px;
+  height: 35px;
+}
+.e-toolbar .e-toolbar-items {
+  height: 28px;
+  min-height: 27px;
 }
 
 /* .btn {
@@ -420,7 +436,21 @@ aside ::-webkit-scrollbar-thumb {
   pointer-events:none;
     opacity:0.6;
 }
-
+li#reportViewer_toolbar_li_refresh,
+li#reportViewer_toolbar_li_pagefit,
+li#reportViewer_toolbar_li_zoom,
+li#reportViewer_toolbar_li_preview,
+li#reportViewer_toolbar_li_pagesetup {
+  display: none !important;
+}
+.e-toolbar {
+  min-height: 30px;
+  height: 35px;
+}
+.e-toolbar .e-toolbar-items {
+  height: 28px;
+  min-height: 27px;
+}
 /*validation * coloring*/
 
 .required {

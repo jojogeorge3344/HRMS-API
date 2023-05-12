@@ -21,5 +21,16 @@ namespace Chef.HRMS.Models
         public EmployeeRevisionStatus Status { get; set; }
 
         public string Remarks { get; set; }
+        public int EmployeeId { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string Name { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string Code { get; set; }
     }
 }
