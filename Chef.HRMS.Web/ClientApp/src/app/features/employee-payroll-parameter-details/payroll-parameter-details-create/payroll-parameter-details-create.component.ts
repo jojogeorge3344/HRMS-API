@@ -85,13 +85,14 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
   }
 
   sendForApproval(){
+    debugger
+    this.addForm.patchValue({
+      status:2
+    })
+
     if(this.addForm.invalid){
       return
     }
-    this.addForm.patchValue({
-          status:2
-        })
-
     this.payrollParameterDetailsService.add(this.addForm.value).subscribe((result) => {
       if (result) {
         this.toastr.showSuccessMessage('Employee Payroll Parameter Details Successfully Send For Approval');
