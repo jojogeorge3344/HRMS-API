@@ -18,5 +18,6 @@ namespace Chef.HRMS.Models
         public decimal BasicPay { get; set; }
         public decimal ExchangeRate { get; set; }
         public string Currency { get; set; }
+        public DateTime PayrollProcessDate { get; set; }
     }
 }

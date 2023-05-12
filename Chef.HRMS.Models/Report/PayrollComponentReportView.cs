@@ -16,6 +16,8 @@ namespace Chef.HRMS.Models
        public decimal DeductionAmt { get; set; }
        public int PayHeadBaseUnitType { get; set; }
        public decimal MinimumLimit { get; set; }
-        public decimal MaximumLimit { get; set; }
+       public decimal MaximumLimit { get; set; }
+       public DateTime PayrollProcessDate { get; set; }
+
     }
 }
