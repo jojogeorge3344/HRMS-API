@@ -103,8 +103,9 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     this.editForm.patchValue({
           status:2
         })
-
-    this.payrollParameterDetailsService.update(this.editForm.value).subscribe((result) => {
+        let apiData=this.editForm.value;  
+        apiData.employeeId=apiData.employeeId.id;
+    this.payrollParameterDetailsService.update(apiData).subscribe((result) => {
       if (result) {
         this.toastr.showSuccessMessage('Employee Payroll Parameter Details Successfully Send For Approval');
         this.router.navigate(['/employee-payroll-parameter-details']);
@@ -134,8 +135,9 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     this.editForm.patchValue({
       id: this.payrollParameterDetailsItem.id
     });
-
-    this.payrollParameterDetailsService.update(this.editForm.value).subscribe((result) => {
+let apiData=this.editForm.value;  
+apiData.employeeId=apiData.employeeId.id;
+    this.payrollParameterDetailsService.update(apiData).subscribe((result) => {
       if (result) {
         this.toastr.showSuccessMessage('Employee Payroll Parameter Details updated Successfully');
         this.router.navigate(['/employee-payroll-parameter-details']);
@@ -167,15 +169,22 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     })
     }
 
-    this.editForm.patchValue(this.payrollParameterDetailsItem);
+    this.editForm.patchValue({
+      id:this.payrollParameterDetailsItem.id,
+      employeeId:this.payrollParameterDetailsItem.employeeId,
+      userVariableId:this.payrollParameterDetailsItem.userVariableId,
+      variableTypeName: UserVariableType[this.payrollParameterDetailsItem.type],
+      transDate:new Date(this.payrollParameterDetailsItem.transDate),
+      transValue:this.payrollParameterDetailsItem.transValue,
+      type:this.payrollParameterDetailsItem.type,
+      status:this.payrollParameterDetailsItem.status,
+      remarks:this.payrollParameterDetailsItem.remarks
+    });
     const details = this.employeeList.filter((emp) =>( this.payrollParameterDetailsItem.employeeId ==emp.id) );
     debugger
-    this.selectedDatasource = details.firstName
+    // this.selectedDatasource = details.firstName
     let id = this.editForm.get("userVariableId").value
     debugger
-    this.editForm.patchValue({
-      variableTypeName: UserVariableType[this.payrollParameterDetailsItem.type]
-    });
     this.editForm.patchValue({  transDate:new Date(this.payrollParameterDetailsItem.transDate)})
     debugger
     },
