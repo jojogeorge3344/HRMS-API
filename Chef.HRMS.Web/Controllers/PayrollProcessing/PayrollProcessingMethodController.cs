@@ -1,4 +1,5 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Authentication;
+using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
@@ -158,14 +159,15 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(noGroupEmployee);
         }
 
-        [HttpGet("GetPayrollSalarySummary/{paygroupid}")]
-        public async Task<ActionResult<List<PayrollSummary>>> GetPayrollComponentSummary(int paygroupid)
+        [AllowAnonymous]
+        [HttpGet("GetPayrollSalarySummary/{payrollprocessid}")]
+        public async Task<ActionResult<List<PayrollSummary>>> GetPayrollComponentSummary(int payrollprocessid)
         {
-            var noGroupEmployee = await payrollProcessingMethodService.GetEmployeeDetails(employeeid, paygroupid);
-            List<PayrollSummary> pSummary = new List<PayrollSummary>();
+            var pSummary = await payrollProcessingMethodService.GetPayrollComponentsSummary(payrollprocessid);
             return Ok(pSummary);
         }
 
+        [AllowAnonymous]
         [HttpPost("InsertPayrollFixedComponentDetails/{paygroupid}/{payrollprocessid}/{payrollprocessdate}")]
         public async Task<ActionResult<int>> InsertPayrollFixedComponentDetails(int paygroupid, int payrollprocessid, DateTime payrollprocessdate)
         {

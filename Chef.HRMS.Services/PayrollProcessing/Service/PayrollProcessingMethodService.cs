@@ -1,10 +1,13 @@
-﻿using Chef.Common.Core.Services;
+﻿using Castle.Core;
+using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Repositories;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
@@ -96,10 +99,21 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<PayrollSummary>> GetPayrollComponentsSummary(int payrollprocessid)
         {
             List<PayrollSummary> payrollSummaries = new List<PayrollSummary>();
-
             var payrollComponentDetails = await payrollProcessingMethodRepository.GetPayrollComponentsSummary(payrollprocessid);
-           
-            return 
+            var empList = payrollComponentDetails.Select(e => e.EmployeeId).Distinct();
+            foreach (var emp in empList)
+            {
+                PayrollSummary payrollSummary = new PayrollSummary();
+
+                payrollSummary.PayrollComponentDetails = payrollComponentDetails.Where(x => x.EmployeeId == emp).ToList();
+                payrollSummary.TotalDeductions = payrollSummary.PayrollComponentDetails.Sum(c=>c.DeductionAmt);
+                payrollSummary.EmployeeName = payrollSummary.PayrollComponentDetails.First().EmployeeName;
+                payrollSummary.EmployeeId = emp;
+                payrollSummary.TotalEarnings = payrollSummary.PayrollComponentDetails.Sum(c => c.EarningsAmt);
+                payrollSummary.NetSalaryAmount = payrollSummary.TotalEarnings - payrollSummary.TotalDeductions;
+                payrollSummaries.Add(payrollSummary);
+            }
+            return payrollSummaries; 
         }
     }
 }
