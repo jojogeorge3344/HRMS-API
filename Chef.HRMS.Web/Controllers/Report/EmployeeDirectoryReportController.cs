@@ -24,14 +24,15 @@ public class EmployeeDirectoryReportController : ReportViewerController
     private readonly IEmployeeSalaryConfigurationService employeeSalaryConfigurationService;
     private readonly IEmployeeBonusService employeeBonusService;
     private readonly IWPSUserService wPSUserService;
+    private readonly IReligionService religionService;
     private readonly IAddressService addressService;
-    private readonly IBaseService baseService;
+    //private readonly IBaseService baseService;
 
 
     public EmployeeDirectoryReportController(
            IMemoryCache memoryCache,
            IWebHostEnvironment hostingEnvironment,
-           IBranchService branchService,
+         //  IBranchService branchService,
            IEmployeeService employeeService,
            IJobDetailsService jobDetailsService,
            IJobFilingService jobFilingService,
@@ -39,9 +40,10 @@ public class EmployeeDirectoryReportController : ReportViewerController
            IEmployeeBonusService employeeBonusService,
            IWPSUserService wPSUserService,
            IAddressService addressService,
-           IBaseService baseService
+           IReligionService religionService//,
+          // IBaseService baseService
            )
-      : base(memoryCache, hostingEnvironment, branchService)
+      : base(memoryCache, hostingEnvironment)
     {
         this.employeeService = employeeService;
         this.jobDetailsService = jobDetailsService;
@@ -50,7 +52,8 @@ public class EmployeeDirectoryReportController : ReportViewerController
         this.employeeBonusService = employeeBonusService;
         this.employeeSalaryConfigurationService = employeeSalaryConfigurationService;
         this.wPSUserService= wPSUserService;
-        this.baseService= baseService;
+        this.religionService = religionService;
+        //this.baseService= baseService;
         this.ReportPath = @"Reports\EmployeeDetailsFormatNewDesign.rdlc";
     }
     public override void OnInitReportOptions(ReportViewerOptions reportOption)
@@ -69,14 +72,16 @@ public class EmployeeDirectoryReportController : ReportViewerController
             string id = CustomData["id"].ToString();
 
             var employeeBasic = employeeService.GetAsync(Convert.ToInt32(id)).Result;
+            var relegionDetail = religionService.GetAsync(Convert.ToInt32(employeeBasic.ReligionId)).Result;
             var jobDetail = jobDetailsService.GetByEmployeeId(Convert.ToInt32(id)).Result;
             var jobFilling = jobFilingService.GetByEmployeeId(Convert.ToInt32(id)).Result;
             var addressDetails = addressService.GetAllByEmployeeId(Convert.ToInt32(id)).Result;
             var employeeBonusDetails = employeeBonusService.GetAllBonusByEmployeeId(Convert.ToInt32(id)).Result;
             var employeeSalaryConfigDetails = employeeSalaryConfigurationService.GetSalaryConfigurationByEmployeeId(Convert.ToInt32(id)).Result;
             var wpsDetail = wPSUserService.GetAllByemployeeId(Convert.ToInt32(id)).Result;
-
+            
             List<HRMSEmployee> employee = new() { employeeBasic };
+            employee.ForEach(x => x.ReligionName=relegionDetail.Name);
             List<JobDetails> jobDetails = new() { jobDetail };
             List<JobFiling> jobFiling = new() { jobFilling };
 

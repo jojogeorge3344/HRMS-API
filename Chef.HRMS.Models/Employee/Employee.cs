@@ -76,6 +76,10 @@ namespace Chef.HRMS.Models
 
         public string LanguageKnown { get; set; }
         public int ReligionId { get; set; }
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string ReligionName { get; set; }
 
         public string Remarks { get; set; }
 

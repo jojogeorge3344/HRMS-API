@@ -2155,7 +2155,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox73">
+                        <Textbox Name="TextBox20">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
@@ -2177,7 +2177,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ReligionId.Value</Value>
+                                  <Value>=Fields!ReligionName.Value</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>8.49975pt</FontSize>
@@ -6974,6 +6974,10 @@
         </Field>
         <Field Name="RefNum">
           <DataField>RefNum</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReligionName">
+          <DataField>ReligionName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
