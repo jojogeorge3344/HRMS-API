@@ -30,7 +30,7 @@ namespace Chef.HRMS.Services
             List<PayrollComponentDetails> payrollComponent = payrollLeaveDetails.Select(x => new PayrollComponentDetails()
             {
                 PayrollProcessId = x.PayrollProcessId,
-                PayrollProcessedDate = x.PayrollProcessDate,
+                PayrollProcessDate = x.PayrollProcessDate,
                 ProcessStatus = x.ProcessStatus,
                 CrAccount = "",
                 DrAccount = "",
