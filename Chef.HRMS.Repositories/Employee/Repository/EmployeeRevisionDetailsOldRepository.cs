@@ -15,6 +15,13 @@ namespace Chef.HRMS.Repositories
         {
         }
 
+        public async Task<int> InsertAsync(IEnumerable<EmployeeRevisionDetailsOld> employeeRevisionDetailsOld)
+        {
+            var sql = new QueryBuilder<EmployeeRevisionDetailsOld>().GenerateInsertQuery();
+
+            return await Connection.ExecuteAsync(sql, employeeRevisionDetailsOld);
+        }
+
         public async Task<IEnumerable<EmployeeRevisionDetailsOld>> GetOldEmployeeRevisionSalaryDetail(int employeeRevisionId)
         {
             var sql = @"SELECT erdo.*,pc.name FROM hrms.employeerevisiondetailsold erdo

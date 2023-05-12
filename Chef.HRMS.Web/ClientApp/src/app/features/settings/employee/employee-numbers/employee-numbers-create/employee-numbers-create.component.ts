@@ -106,7 +106,7 @@ export class EmployeeNumbersCreateComponent implements OnInit {
         Validators.required,
         Validators.maxLength(8)
       ]],
-      suffix: [null, [
+      suffix: ['', [
         Validators.maxLength(8)
       ]],
       digitInNumber: [null, [
