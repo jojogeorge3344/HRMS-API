@@ -120,6 +120,7 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
       return
     }
    
+    this.addForm.value.employeeId=parseInt(this.addForm.value.employeeId)
     // let apiData=this.addForm.value;
     // delete apiData
     this.payrollParameterDetailsService.add(this.addForm.value).subscribe((result) => {

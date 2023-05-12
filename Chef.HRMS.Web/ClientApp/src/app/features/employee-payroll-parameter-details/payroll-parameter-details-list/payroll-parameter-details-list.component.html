@@ -20,7 +20,7 @@
             <thead class="thead-themed">
                 <tr>
                     <th>Sl No.</th>
-                    <th>User Variables</th>
+                    <th>User Variable Name</th>
                     <th>Variable Type</th>
                     <th>Date</th>
                     <th>Values</th>
@@ -31,7 +31,7 @@
             <tbody>
                 <tr *ngFor="let detail of payrollParameterDetailsList; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ detail.userVariableId }}</td>
+                    <td>{{ detail.name }}</td>
                     <td>{{ UserVariableType[detail.type] }}</td>
                     <td>{{ detail.transDate |date}}</td>
                     <td>{{ detail.transValue }}</td>
@@ -44,8 +44,8 @@
                             </button>
                             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
                                 aria-labelledby="button-basic">
-                                 <li role="menuitem" (click)="openProcess()"><a class="dropdown-item">process</a></li>
-                                <li role="menuitem" (click)="openView()"><a class="dropdown-item">View</a></li>
+                                 <li role="menuitem" (click)="openProcess(detail)"><a class="dropdown-item">process</a></li>
+                                <li role="menuitem" (click)="openView(detail.id)"><a class="dropdown-item">View</a></li>
                                 <li role="menuitem" (click)="openEdit(detail.id)"><a class="dropdown-item">Edit</a></li>
                                 <li role="menuitem" (click)="delete(detail)"><a class="dropdown-item">Delete</a></li>
                             </ul>

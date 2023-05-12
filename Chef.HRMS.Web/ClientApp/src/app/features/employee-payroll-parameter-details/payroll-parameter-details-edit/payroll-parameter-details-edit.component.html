@@ -7,7 +7,6 @@
     </h1>
   </div> 
 <form [formGroup]="editForm" id="payrollParameterDetailsForm" (validSubmit)="onSubmit()">
-    {{editForm.value | json}}
     <div class="card p-3" id="addEmployee">
     <div class="p-3"> 
         <div class="row align-items-baseline">
@@ -48,7 +47,7 @@
                 <input class="form-control w-75" name="newDate" formControlName="transDate"
                     [minDate]="{year: 1900, month: 1, day: 1}" ngbDatepicker #dob="ngbDatepicker">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"
+                    <button disabled class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"
                         type="button"></button>
                 </div>
             </div>

@@ -67,10 +67,43 @@ export class PayrollParameterDetailsListComponent implements OnInit {
     ], { relativeTo: this.route.parent });
   }
 
-  openView() {
+  openView(id) {
+    this.router.navigate([
+
+      "./" +
+
+      id +
+
+      "/view/"
+
+    ], { relativeTo: this.route.parent });
+
   }
 
-  openProcess() { }
+  openProcess(details) {
+    if(details.status==2){
+      details.status = 3;
+      this.payrollParameterDetailsService.update(details).subscribe((result) => {
+        if (result) {
+          this.toastr.showSuccessMessage('Employee Payroll Parameter Details Successfully Send For Processing');
+          this.router.navigate(['/employee-payroll-parameter-details']);
+        }
+      },
+        );
+    }else if(details.status==3){
+      this.toastr.showErrorMessage('Employee Payroll Parameter Details already processed');
+    }else{
+      details.status = 3;
+      this.payrollParameterDetailsService.update(details).subscribe((result) => {
+        if (result) {
+          this.toastr.showSuccessMessage('Employee Payroll Parameter Details Successfully Send For Processing');
+          this.router.navigate(['/employee-payroll-parameter-details']);
+        }
+      },
+        );
+    }
+   
+   }
 
   delete(details) {
     const modalRef = this.modalService.open(ConfirmModalComponent,

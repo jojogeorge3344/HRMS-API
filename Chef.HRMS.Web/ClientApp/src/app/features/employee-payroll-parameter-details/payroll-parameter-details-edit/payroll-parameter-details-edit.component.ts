@@ -22,7 +22,16 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
   editForm: FormGroup;
   employeeList;
-  config;
+  config={
+    displayKey: "firstName",
+    search: true,
+    limitTo: 0,
+    placeholder: "Select Employee",
+    noResultsFound: "No results found!",
+    searchPlaceholder: "Search",
+    searchOnKey: "firstName",
+    clearOnSelection: false,
+  };;
   userVariableDetails;
   UserVariableType = UserVariableType;
   reqId: any;
@@ -46,8 +55,7 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     this.route.params.subscribe((params: any) => {
       this.reqId = params['id'];
     });
-    this.getEmployeeList()
-    this.getItemById()
+    this.getEmployeeList();
     this.getUserVariables()
     debugger
   //   this.selectedDatasource=this.employeeList.filter((item)=>{
@@ -86,7 +94,8 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
   getEmployeeList() {
     this.employeeService.getAll()
       .subscribe((result) => {
-        this.employeeList = result
+        this.employeeList = result;
+        this.getItemById();
       })
   }
   getUserVariables() {
@@ -115,7 +124,6 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
   }
   onSubmit() {
-    debugger
     if (this.editForm.get('statusName').value == 'pending') {
       this.editForm.patchValue({
         status: 1
@@ -131,7 +139,6 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
     }
     // let apiData=this.addForm.value;
     // delete apiData
-    debugger
     this.editForm.patchValue({
       id: this.payrollParameterDetailsItem.id
     });
@@ -168,10 +175,10 @@ apiData.employeeId=apiData.employeeId.id;
         statusName:'processed',
     })
     }
-
+console.log('VALUE',this.payrollParameterDetailsItem)
     this.editForm.patchValue({
       id:this.payrollParameterDetailsItem.id,
-      employeeId:this.payrollParameterDetailsItem.employeeId,
+      // employeeId:this.payrollParameterDetailsItem.employeeId,
       userVariableId:this.payrollParameterDetailsItem.userVariableId,
       variableTypeName: UserVariableType[this.payrollParameterDetailsItem.type],
       transDate:new Date(this.payrollParameterDetailsItem.transDate),
@@ -180,13 +187,15 @@ apiData.employeeId=apiData.employeeId.id;
       status:this.payrollParameterDetailsItem.status,
       remarks:this.payrollParameterDetailsItem.remarks
     });
-    const details = this.employeeList.filter((emp) =>( this.payrollParameterDetailsItem.employeeId ==emp.id) );
-    debugger
-    // this.selectedDatasource = details.firstName
-    let id = this.editForm.get("userVariableId").value
-    debugger
+    let details:any =null;
+    this.employeeList.forEach((emp) =>{
+      if(( result.employeeId ==emp.id)){
+         details=emp;
+      }
+     });
+ 
+    this.editForm.patchValue({employeeId:details});
     this.editForm.patchValue({  transDate:new Date(this.payrollParameterDetailsItem.transDate)})
-    debugger
     },
     
      error => {
