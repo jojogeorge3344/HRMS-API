@@ -11,20 +11,26 @@ using System.Threading.Tasks;
 using static Humanizer.In;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Chef.HRMS.Models
+namespace Chef.HRMS.Models.PayrollProcessing
 {
-	public class PayrollComponentDetails:Model
-	{
-		public int PayrollProcessid { get; set; }
-		public DateTime PayrollProcessdate { get; set; }
-		public int Employeeid { get; set; }
-		public int PayrollComponentid { get; set; }
-		public decimal EarningsAmt { get; set; }
-		public decimal DeductionAmt { get; set; }
-		public int ProcessStatus { get; set; }
+    public class PayrollComponentDetails : Model
+    {
+        public int PayrollProcessId { get; set; }
+        public DateTime PayrollProcessedDate { get; set; }
+        public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public int PayrollComponentId { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string PayrollComponentName { get; set; }
+        public decimal EarningsAmt { get; set; }
+        public decimal DeductionAmt { get; set; }
+        public int ProcessStatus { get; set; }
 		public string DrAccount { get; set; }
 		public string CrAccount { get; set; }
 		public string DocNum { get; set; }
-		public int StepNo { get; set; }
-	}
+        public int StepNo { get; set; }
+    }
 }

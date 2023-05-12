@@ -1,8 +1,10 @@
 ﻿using Chef.Common.Authentication;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -157,6 +159,7 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+
         [HttpGet("GetEmployeeDetails/{employeeid}/{paygroupid}")]
         public async Task<ActionResult<IEnumerable<PayrollProcessingMethod>>> GetEmployeeDetails(int employeeid, int paygroupid)
         {
@@ -175,6 +178,22 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             return Ok(payrollProcessingMonth);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetPayrollSalarySummary/{payrollprocessid}")]
+        public async Task<ActionResult<List<PayrollSummary>>> GetPayrollComponentSummary(int payrollprocessid)
+        {
+            var pSummary = await payrollProcessingMethodService.GetPayrollComponentsSummary(payrollprocessid);
+            return Ok(pSummary);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("InsertPayrollFixedComponentDetails/{paygroupid}/{payrollprocessid}/{payrollprocessdate}")]
+        public async Task<ActionResult<int>> InsertPayrollFixedComponentDetails(int paygroupid, int payrollprocessid, DateTime payrollprocessdate)
+        {
+            var result = await payrollProcessingMethodService.InsertPayrollFixedComponentDetaisl(payrollprocessid, payrollprocessdate,paygroupid);
+            return Ok(result);
         }
     }
 }
