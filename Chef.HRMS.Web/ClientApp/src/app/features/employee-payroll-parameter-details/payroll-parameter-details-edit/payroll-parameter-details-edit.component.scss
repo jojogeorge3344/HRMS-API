@@ -1,0 +1,11 @@
+::ng-deep .ngx-dropdown-container .ngx-dropdown-button {
+    width: 100%;
+    min-height: 37px !important;
+    padding: 5px 10px;
+    background-color: #fff;
+}
+::ng-deep.ddclass{ 
+    .ngx-dropdown-button{
+        border: 1px solid #fd3995 !important; 
+    }
+}
