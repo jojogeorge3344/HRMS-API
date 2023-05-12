@@ -24,7 +24,7 @@ namespace Chef.HRMS.Repositories
         }
         public new async Task<IEnumerable<UserVariableValues>> GetAllAsync()
         {
-            var sql = @"SELECT * FROM hrms.uservariablevalues uvv
+            var sql = @"SELECT uvv.*,uv.code,uv.name FROM hrms.uservariablevalues uvv
                         INNER JOIN hrms.uservariable uv
                         ON uv.ID = uvv.uservariableid where uvv.isarchived = false";
             return await Connection.QueryAsync<UserVariableValues>(sql);
