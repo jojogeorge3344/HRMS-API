@@ -163,8 +163,8 @@ export class LeaveConfigurationGeneralComponent implements OnChanges {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       annualLeaveQuota: [0, [
-        Validators.required,
-        Validators.min(1),
+        // Validators.required,
+        Validators.min(0),
         Validators.max(365)
       ]],
       maxConsecutiveDays: [0, [
