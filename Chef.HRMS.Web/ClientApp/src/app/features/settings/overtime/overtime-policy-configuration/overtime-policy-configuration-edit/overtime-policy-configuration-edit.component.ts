@@ -17,6 +17,7 @@ import { OverTimeSlabService } from '@settings/overtime/overtime-slab/overtime-s
 import { OvertimeSlabCreateComponent } from '@settings/overtime/overtime-slab/overtime-slab-create/overtime-slab-create.component';
 import { OvertimeSlabEditComponent } from '@settings/overtime/overtime-slab/overtime-slab-edit/overtime-slab-edit.component';
 import { OvertimeSlabViewComponent } from '@settings/overtime/overtime-slab/overtime-slab-view/overtime-slab-view.component';
+import { OvertimeType } from 'src/app/models/common/types/overtimeType';
 
 @Component({
   selector: 'hrms-overtime-policy-configuration-edit',
@@ -42,7 +43,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   isSaveDisable: boolean = false;
   activeTab: string = "configuration";
   overtimeFlagCheck: boolean=false;
-
+  overtimetype=OvertimeType;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -176,7 +177,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     console.log(this.editForm.value)
     this.overtimePolicyConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Overtime Policy configured successfully!');
-      
       this.isSaveDisable = true;
       if(this.overtimeFlagCheck==true){
       this.isDisabled = false;

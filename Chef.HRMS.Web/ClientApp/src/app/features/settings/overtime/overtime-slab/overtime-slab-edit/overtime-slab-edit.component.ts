@@ -5,6 +5,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EosService } from '@settings/eos/eos.service';
 import { OverTimeSlabGroup } from '../overtime-slab-model';
 import { OverTimeSlabService } from '../overtime-slab-service';
+import { OvertimeType } from 'src/app/models/common/types/overtimeType';
 
 
 @Component({
@@ -15,6 +16,8 @@ import { OverTimeSlabService } from '../overtime-slab-service';
 export class OvertimeSlabEditComponent implements OnInit {
   addForm: FormGroup;
   BfDetails: any
+  overtimetype=OvertimeType;
+  overtimetypekeys: number[];
   @Input() code
   @Input() relDetails: OverTimeSlabGroup;
   @Input() id
@@ -30,6 +33,9 @@ export class OvertimeSlabEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
+    this.overtimetypekeys = Object.keys(this.overtimetype)
+    .filter(Number)
+    .map(Number);
     this.addForm.patchValue({
       // bfCode:this.relDetails.bfCode,
       overTimePolicyCode:this.code,
@@ -37,7 +43,8 @@ export class OvertimeSlabEditComponent implements OnInit {
       lowerLimit:this.relDetails.lowerLimit,
       upperLimit:this.relDetails.upperLimit,
       valueVariable:this.relDetails.valueVariable,
-      valueType:this.relDetails.valueType
+      valueType:this.relDetails.valueType,
+      overtimetype:this.relDetails.overTimeType
 
     });
   
@@ -96,6 +103,9 @@ export class OvertimeSlabEditComponent implements OnInit {
         Validators.required
       ]],
       overTimePolicyId: [0, ],
+      overtimetype:['', [
+        Validators.required
+      ]]
     });
   }
 

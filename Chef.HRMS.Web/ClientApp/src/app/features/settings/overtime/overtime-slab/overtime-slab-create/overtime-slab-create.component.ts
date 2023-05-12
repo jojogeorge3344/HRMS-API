@@ -32,9 +32,6 @@ export class OvertimeSlabCreateComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    debugger
-    console.log("overtimetypes",this.overtimetype)
-
     this.addForm = this.createFormGroup();
     this.overtimetypekeys = Object.keys(this.overtimetype)
     .filter(Number)
@@ -105,7 +102,9 @@ export class OvertimeSlabCreateComponent implements OnInit {
         Validators.required
       ]],
       overTimePolicyId: [0, ],
-      overtimetype:['']
+      overtimetype:['', [
+        Validators.required
+      ]]
     });
   }
 
