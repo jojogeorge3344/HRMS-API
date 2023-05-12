@@ -4,6 +4,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EosService } from '@settings/eos/eos.service';
 import { OverTimeSlabService } from '../overtime-slab-service';
+import { OvertimeType } from 'src/app/models/common/types/overtimeType';
 
 @Component({
   selector: 'hrms-overtime-slab-create',
@@ -13,7 +14,9 @@ import { OverTimeSlabService } from '../overtime-slab-service';
 export class OvertimeSlabCreateComponent implements OnInit {
 
   addForm: FormGroup;
-  BfDetails: any
+  BfDetails: any;
+  overtimetype=OvertimeType;
+  overtimetypekeys: number[];
   @Input() code
   @Input() id
 
@@ -29,8 +32,10 @@ export class OvertimeSlabCreateComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    debugger
     this.addForm = this.createFormGroup();
+    this.overtimetypekeys = Object.keys(this.overtimetype)
+    .filter(Number)
+    .map(Number);
     //this.getBfDetails()
     if(this.code){
       this.addForm.patchValue({
@@ -97,6 +102,9 @@ export class OvertimeSlabCreateComponent implements OnInit {
         Validators.required
       ]],
       overTimePolicyId: [0, ],
+      overtimetype:['', [
+        Validators.required
+      ]]
     });
   }
 
