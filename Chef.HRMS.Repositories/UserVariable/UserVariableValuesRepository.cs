@@ -26,7 +26,7 @@ namespace Chef.HRMS.Repositories
         {
             var sql = @"SELECT * FROM hrms.uservariablevalues uvv
                         INNER JOIN hrms.uservariable uv
-                        ON uv.ID = uvv.uservariableid";
+                        ON uv.ID = uvv.uservariableid where uvv.isarchived = false";
             return await Connection.QueryAsync<UserVariableValues>(sql);
         }
     }
