@@ -1,4 +1,5 @@
 ﻿using BoldReports.Web.ReportViewer;
+using Chef.Common.Core.Services;
 using Chef.Common.Data.Services;
 using Chef.Common.Models;
 using Chef.HRMS.Services;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using Chef.HRMS.Models;
 
 namespace Chef.HRMS.Web.Controllers;
 
@@ -22,11 +24,15 @@ public class EmployeeDirectoryReportController : ReportViewerController
     private readonly IEmployeeSalaryConfigurationService employeeSalaryConfigurationService;
     private readonly IEmployeeBonusService employeeBonusService;
     private readonly IWPSUserService wPSUserService;
+    private readonly IReligionService religionService;
     private readonly IAddressService addressService;
+    //private readonly IBaseService baseService;
+
 
     public EmployeeDirectoryReportController(
            IMemoryCache memoryCache,
            IWebHostEnvironment hostingEnvironment,
+         //  IBranchService branchService,
            IEmployeeService employeeService,
            IJobDetailsService jobDetailsService,
            IJobFilingService jobFilingService,
@@ -34,8 +40,8 @@ public class EmployeeDirectoryReportController : ReportViewerController
            IEmployeeBonusService employeeBonusService,
            IWPSUserService wPSUserService,
            IAddressService addressService,
-           IBranchService branchService
-           //IDMSService dMSService
+           IReligionService religionService//,
+          // IBaseService baseService
            )
       : base(memoryCache, hostingEnvironment)
     {
@@ -45,35 +51,48 @@ public class EmployeeDirectoryReportController : ReportViewerController
         this.addressService = addressService;
         this.employeeBonusService = employeeBonusService;
         this.employeeSalaryConfigurationService = employeeSalaryConfigurationService;
-        this.wPSUserService = wPSUserService;
-        this.ReportPath = @"Reports/.rdlc";
+        this.wPSUserService= wPSUserService;
+        this.religionService = religionService;
+        //this.baseService= baseService;
+        this.ReportPath = @"Reports\EmployeeDetailsFormatNewDesign.rdlc";
     }
-
+    public override void OnInitReportOptions(ReportViewerOptions reportOption)
+    {
+        AssignReportPath();
+        base.OnInitReportOptions(reportOption);
+    }
+    private void AssignReportPath()
+    {
+        this.ReportPath = @"Reports\EmployeeDetailsFormatNewDesign.rdlc";
+    }
     public override void OnReportLoaded(ReportViewerOptions reportOption)
     {
         if (CustomData != null && CustomData.Count > 0)
         {
             string id = CustomData["id"].ToString();
 
-            var employeeBasic = employeeService.GetAsync(Convert.ToInt32(id));
-            var jobDetails = jobDetailsService.GetAsync(Convert.ToInt32(id));
-            var jobFilling = jobFilingService.GetAsync(Convert.ToInt32(id));
-            var address = addressService.GetAllByEmployeeId(Convert.ToInt32(id));
-            var employeeBonus = employeeBonusService.GetAllBonusByEmployeeId(Convert.ToInt32(id));
-            var employeeSalaryConfig = employeeSalaryConfigurationService.GetSalaryConfigurationByEmployeeId(Convert.ToInt32(id));
-            var wpsDetails = wPSUserService.GetAllByemployeeId(Convert.ToInt32(id));
+            var employeeBasic = employeeService.GetAsync(Convert.ToInt32(id)).Result;
+            var relegionDetail = religionService.GetAsync(Convert.ToInt32(employeeBasic.ReligionId)).Result;
+            var jobDetail = jobDetailsService.GetByEmployeeId(Convert.ToInt32(id)).Result;
+            var jobFilling = jobFilingService.GetByEmployeeId(Convert.ToInt32(id)).Result;
+            var addressDetails = addressService.GetAllByEmployeeId(Convert.ToInt32(id)).Result;
+            var employeeBonusDetails = employeeBonusService.GetAllBonusByEmployeeId(Convert.ToInt32(id)).Result;
+            var employeeSalaryConfigDetails = employeeSalaryConfigurationService.GetSalaryConfigurationByEmployeeId(Convert.ToInt32(id)).Result;
+            var wpsDetail = wPSUserService.GetAllByemployeeId(Convert.ToInt32(id)).Result;
+            
+            List<HRMSEmployee> employee = new() { employeeBasic };
+            employee.ForEach(x => x.ReligionName=relegionDetail.Name);
+            List<JobDetails> jobDetails = new() { jobDetail };
+            List<JobFiling> jobFiling = new() { jobFilling };
 
-            reportOption.AddDataSource("EmployeeBasic", employeeBasic);
+            reportOption.AddDataSource("EmployeeBasic", employee);
             reportOption.AddDataSource("JobDetails", jobDetails);
-            reportOption.AddDataSource("JobFilling", jobFilling);
-            reportOption.AddDataSource("Address", address);
-            reportOption.AddDataSource("EmployeeBonus", employeeBonus);
-            reportOption.AddDataSource("EmployeeSalaryConfig", employeeSalaryConfig);
-            reportOption.AddDataSource("WPSDetails", wpsDetails);
+            reportOption.AddDataSource("JobFilling", jobFiling);
+            reportOption.AddDataSource("Address", addressDetails);
+            reportOption.AddDataSource("EmployeeBonus", employeeBonusDetails);
+            reportOption.AddDataSource("EmployeeSalaryConfig", employeeSalaryConfigDetails);
+            reportOption.AddDataSource("WPSDetails", wpsDetail);
         }
     }
-    public override void OnInitReportOptions(ReportViewerOptions reportOption)
-    {
-        base.OnInitReportOptions(reportOption);
-    }
+    
 }
