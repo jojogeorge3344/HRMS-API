@@ -14,11 +14,15 @@ namespace Chef.HRMS.Services
 	{
 		private readonly IPayrollLoanDetailsRepository payrollLoanDetailsRepository;
 		private readonly IPayrollComponentDetailsService payrollComponentDetailsService;
+		private readonly IPayrollComponentDetailsRepository payrollComponentDetailsRepository;
+
 		public PayrollLoanDetailsService(IPayrollLoanDetailsRepository payrollLoanDetailsRepository,
-			IPayrollComponentDetailsService payrollComponentDetailsService)
+			IPayrollComponentDetailsService payrollComponentDetailsService,
+			IPayrollComponentDetailsRepository payrollComponentDetailsRepository)
 		{
 			this.payrollLoanDetailsRepository = payrollLoanDetailsRepository;
 			this.payrollComponentDetailsService = payrollComponentDetailsService;
+			this.payrollComponentDetailsRepository = payrollComponentDetailsRepository;
 		}
 		public async Task<int> BulkInsertAsync(List<PayrollLoanDetails> payrollLoanDetails)
 		{
@@ -26,28 +30,27 @@ namespace Chef.HRMS.Services
 			int PayrollProcessID = res.PayrollProcessId;
 			int intRet = await DeleteByPayrollProcessID(PayrollProcessID);
 			intRet =await payrollComponentDetailsService.DeleteByPayrollProcessID(PayrollProcessID,2);
-			foreach (PayrollLoanDetails list in payrollLoanDetails)
+			await payrollLoanDetailsRepository.BulkInsertAsync(payrollLoanDetails);
+			List<PayrollComponentDetails> payrollComponent = payrollLoanDetails.Select(x => new PayrollComponentDetails()
 			{
-				await payrollLoanDetailsRepository.InsertAsync(list);
-				PayrollComponentDetails payrollComponent = new PayrollComponentDetails();
-				payrollComponent.PayrollProcessId = list.PayrollProcessId;
-				payrollComponent.PayrollProcessedDate = list.PayrollProcessDate;
-				payrollComponent.ProcessStatus = list.ProcessStatus;
-				payrollComponent.CrAccount = "";
-				payrollComponent.DrAccount = "";
-				payrollComponent.DeductionAmt = list.LoanAmount;
-				payrollComponent.DocNum = "";
-				payrollComponent.EarningsAmt = 0;
-				payrollComponent.EmployeeId = list.EmployeeId;
-				payrollComponent.PayrollComponentId = 0;
-				payrollComponent.CreatedBy = list.CreatedBy;
-				payrollComponent.ModifiedBy = list.ModifiedBy;
-				payrollComponent.CreatedDate = list.CreatedDate;
-				payrollComponent.ModifiedDate = list.ModifiedDate;
-				payrollComponent.IsArchived = list.IsArchived;
-				payrollComponent.StepNo = 2;
-				await payrollComponentDetailsService.InsertAsync(payrollComponent);
-			}
+				PayrollProcessid = x.PayrollProcessId,
+				PayrollProcessdate = x.PayrollProcessDate,
+				ProcessStatus = x.ProcessStatus,
+				CrAccount = "",
+				DrAccount = "",
+				DeductionAmt = x.LoanAmount,
+				DocNum = "",
+				EarningsAmt = 0,
+				Employeeid = x.EmployeeId,
+				PayrollComponentid = 0,
+				CreatedBy = x.CreatedBy,
+				ModifiedBy = x.ModifiedBy,
+				CreatedDate = x.CreatedDate,
+				ModifiedDate = x.ModifiedDate,
+				IsArchived = x.IsArchived,
+				StepNo = 2,
+		}).ToList();
+			await payrollComponentDetailsRepository.BulkInsertAsync(payrollComponent);
 			return 1;
 		}
 

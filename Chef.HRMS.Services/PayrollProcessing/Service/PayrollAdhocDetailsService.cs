@@ -14,12 +14,15 @@ namespace Chef.HRMS.Services
 	{
 		private readonly IPayrollAdhocDetailsRepository payrollAdhocDetailsRepository;
 		private readonly IPayrollComponentDetailsService payrollComponentDetailsService;
+		private readonly IPayrollComponentDetailsRepository payrollComponentDetailsRepository;
 
 		public PayrollAdhocDetailsService(IPayrollAdhocDetailsRepository payrollAdhocDetailsRepository,
-			IPayrollComponentDetailsService payrollComponentDetailsService)
+			IPayrollComponentDetailsService payrollComponentDetailsService,
+			IPayrollComponentDetailsRepository payrollComponentDetailsRepository)
 		{
 			this.payrollAdhocDetailsRepository = payrollAdhocDetailsRepository;
 			this.payrollComponentDetailsService = payrollComponentDetailsService;
+			this.payrollComponentDetailsRepository = payrollComponentDetailsRepository;
 		}
 		public async Task<int> BulkInsertAsync(List<PayrollAdhocDetails> payrollAdhocDetails)
 		{
@@ -27,28 +30,27 @@ namespace Chef.HRMS.Services
 			int payrollProcessID = res.PayrollProcessId;
 			int intRet = await DeleteByPayrollProcessID(payrollProcessID);
 			intRet = await payrollComponentDetailsService.DeleteByPayrollProcessID(payrollProcessID,2);
-			foreach (PayrollAdhocDetails list in payrollAdhocDetails)
+			await payrollAdhocDetailsRepository.BulkInsertAsync(payrollAdhocDetails);
+			List<PayrollComponentDetails> payrollComponent = payrollAdhocDetails.Select(x => new PayrollComponentDetails()
 			{
-				await payrollAdhocDetailsRepository.InsertAsync(list);
-				PayrollComponentDetails payrollComponent = new PayrollComponentDetails();
-				payrollComponent.PayrollProcessId = list.PayrollProcessId;
-				payrollComponent.PayrollProcessedDate = list.PayrollProcessDate;
-				payrollComponent.ProcessStatus = list.ProcessStatus;
-				payrollComponent.CrAccount = "";
-				payrollComponent.DrAccount = "";
-				payrollComponent.DeductionAmt = list.IsAddition==true?0: list.AdhocAmount;
-				payrollComponent.DocNum = "";
-				payrollComponent.EarningsAmt = list.IsAddition == false ? 0 : list.AdhocAmount;
-				payrollComponent.EmployeeId = list.EmployeeId;
-				payrollComponent.PayrollComponentId = 0;
-				payrollComponent.CreatedBy = list.CreatedBy;
-				payrollComponent.ModifiedBy = list.ModifiedBy;
-				payrollComponent.CreatedDate = list.CreatedDate;
-				payrollComponent.ModifiedDate = list.ModifiedDate;
-				payrollComponent.IsArchived = list.IsArchived;
-				payrollComponent.StepNo = 2;
-				await payrollComponentDetailsService.InsertAsync(payrollComponent);
-			}
+				PayrollProcessid = x.PayrollProcessId,
+				PayrollProcessdate = x.PayrollProcessDate,
+				ProcessStatus = x.ProcessStatus,
+				CrAccount = "",
+				DrAccount = "",
+				DeductionAmt = x.IsAddition==true?0: x.AdhocAmount,
+				DocNum = "",
+				EarningsAmt = x.IsAddition == false ? 0 : x.AdhocAmount,
+				Employeeid = x.EmployeeId,
+				PayrollComponentid = 0,
+				CreatedBy = x.CreatedBy,
+				ModifiedBy = x.ModifiedBy,
+				CreatedDate = x.CreatedDate,
+				ModifiedDate = x.ModifiedDate,
+				IsArchived = x.IsArchived,
+				StepNo = 2,
+			}).ToList();
+			await payrollComponentDetailsRepository.BulkInsertAsync(payrollComponent);
 			return 1;
 		}
 		public async Task<int> DeleteByPayrollProcessID(int PayrollProcessID)
