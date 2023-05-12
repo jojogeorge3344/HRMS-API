@@ -16,7 +16,7 @@ namespace Chef.HRMS.Models
     public class PayrollComponentDetails : Model
     {
         public int PayrollProcessId { get; set; }
-        public DateTime PayrollProcessDate {get; set;}
+        public DateTime PayrollProcessDate { get; set; }
 
         public int EmployeeId { get; set; }
         [Write(false)]
@@ -35,5 +35,5 @@ namespace Chef.HRMS.Models
         public string CrAccount { get; set; }
         public string DocNum { get; set; }
         public int StepNo { get; set; }
-    }
+    }	
 }

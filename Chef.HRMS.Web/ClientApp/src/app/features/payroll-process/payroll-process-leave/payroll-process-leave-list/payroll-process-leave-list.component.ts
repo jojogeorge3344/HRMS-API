@@ -257,20 +257,30 @@ export class PayrollProcessLeaveListComponent implements OnInit {
 
     }
     this.payrollProcessLeaveService.add(this.payGroupProcessLeave).subscribe(res => {
-      debugger
-      if (res) {
+      this.insertLeaveDetails();
+     
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to Insert Leave Details.');
+    });
+  }
+  }
+
+
+  insertLeaveDetails(){
+    this.payrollProcessLeaveService.InsertPayrollLeaveDetails(this.payGroupProcessLeave).subscribe(res => {
+    
         this.payrollProcessService.updateProcessedStep(this.id, 1, { id: this.id, stepNumber: 1 })
           .subscribe(() => {
             this.toastr.showSuccessMessage('Payroll Leave and Attendance Processing Completed');
-            // if (routeTo === 'continue') {
-            //   this.selectTab.emit(2);
-            // } else {
-            //   this.router.navigate(['../'], { relativeTo: this.route });
-            // }
           });
-      }
+      
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to Insert Leave Details.');
     });
-  }
   }
 
 }

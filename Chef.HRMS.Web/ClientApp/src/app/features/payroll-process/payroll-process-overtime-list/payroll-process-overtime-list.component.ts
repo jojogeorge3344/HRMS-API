@@ -40,6 +40,11 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
   }
 
   onSubmit(){
+    if(this.overTimeDetails.length > 0){
+    
+    }else {
+      this.toastr.showErrorMessage('Nothing to save.');
+    }
    
     
   }

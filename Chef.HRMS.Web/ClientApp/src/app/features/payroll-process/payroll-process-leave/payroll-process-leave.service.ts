@@ -11,10 +11,12 @@ export class PayrollProcessLeaveService {
 
   public baseUrl: string;
   public http: HttpClient;
+  public baseUrl_leaveDetails :string
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + 'api/settings/payrollprocessing/LeaveAndAttendance/';
+    this.baseUrl_leaveDetails = baseUrl + 'api/payrollleavedetails/'
   }
 
   getAll(payGroupId, fromDate, toDate) {
@@ -76,5 +78,12 @@ export class PayrollProcessLeaveService {
   getNoOfEmployees(id: number) {
     return this.http.get(this.baseUrl + 'GetNumberOfEmployeesByPaygroup/' + id).pipe(map(response => { return response; }));
   }
+
+  InsertPayrollLeaveDetails(leavedetails){
+    return this.http.post(this.baseUrl_leaveDetails + 'insert', leavedetails).pipe(map(response => response));
+  
+   }
+
+  
 
 }

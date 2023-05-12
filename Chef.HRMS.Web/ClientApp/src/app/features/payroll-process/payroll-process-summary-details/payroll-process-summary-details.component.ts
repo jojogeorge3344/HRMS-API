@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { PayrollProcessService } from '../payroll-process.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { TreeNode } from 'primeng/api';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -17,14 +18,16 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
   id:any
   paygroupId:any
   month:any
-  overTimeDetails:any=[]
+  summaryDetails:any=[]
   overTimeCutOff:any
-  treeData:any
+  treeData: any=[];
+  payrollProcessId:any
   constructor(
     private payrollProcessService: PayrollProcessService,
     private toastr: ToasterDisplayService,
     private router: Router,
     private route: ActivatedRoute,
+    private datePipe: DatePipe
   ) {
    
    }
@@ -39,46 +42,46 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
       this.paygroupId = parseInt(params.payGroup, 10);
       this.month = params.date.split('-')[0];
       this.overTimeCutOff = params.overTimeCutOff
+      this.payrollProcessId = params.processId
     });
-
-
-    this.treeData = [
-      {
-          text: "Parent-Item-1",
-          nodes: [
-              {
-                  text: "Child-Item-1",
-                  nodes: [
-                      {
-                          text: "Grandchild-Item-1"
-                      },
-                      {
-                          text: "Grandchild-Item-2"
-                      }
-                  ]
-              },
-              {
-                  text: "Child-Item-2"
-              }
-          ]
-      },
-      {
-          text: "Parent-Item-2"
-      },
-      {
-          text: "Parent-Item-3"
-      },
-      {
-          text: "Parent-Item-4"
-      },
-      {
-          text: "Parent-Item-5"
-      }
-  ];
+    this.updatePayrollSummaryDetails()
   }
 
-  
+  updatePayrollSummaryDetails(){
+    this.payrollProcessService.updatePayrollSummaryDetails(this.paygroupId,this.payrollProcessId,this.datePipe.transform(new Date(),"yyyy-MM-dd")).subscribe(res => {
+        this.getPayrollProcessingSummaryDetails()
+         
+      },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to Insert Payroll Summary Details.');
+      });
+  }
 
- 
+   getPayrollProcessingSummaryDetails(){
+    this.summaryDetails=[]
+    this.payrollProcessService.getPayrollProcessingSummaryDetails(this.payrollProcessId)
+    .subscribe(result => {
+      this.summaryDetails = result
+      console.log('summarydetails',this.summaryDetails)
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch Summary  Details.');
+      });
+   }
+
+   onSubmit(){
+    this.payrollProcessService.completePayrollProcess(this.payrollProcessId).subscribe(res => {
+        this.toastr.showSuccessMessage('Payroll Process Completed Successfully.');
+         
+      },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to Complete  Payroll Process.');
+      });
+  }
+
+   
 
 }

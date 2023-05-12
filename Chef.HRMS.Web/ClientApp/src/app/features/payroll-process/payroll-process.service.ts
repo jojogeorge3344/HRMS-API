@@ -85,6 +85,17 @@ getPayrollProcessingMonthDetails(payGrpId){
 getPayrollProcessOvertime(payGrpId,fromdate,todate){
   return this.http.get<PayrollProcess>(this.baseUrl_overtime + 'GetOvertimeByPaygroupId?paygroupId=' + payGrpId + '&fromDate=' + fromdate + '&toDate=' + todate).pipe(map(response => response));
 }
-  
+updatePayrollSummaryDetails(paygroupid,payrollprocessid,payrollprocessdate){
+  return this.http.post<PayrollProcess>(this.baseUrl + 'InsertPayrollFixedComponentDetails/' + paygroupid + '/' + payrollprocessid + '/'+  payrollprocessdate,'')
+  .pipe(map(response => response));
+}
+
+getPayrollProcessingSummaryDetails(payrollprocessingId){
+  return this.http.get<PayrollProcess>(this.baseUrl + 'GetPayrollSalarySummary/' + payrollprocessingId).pipe(map(response => response));
+}
+completePayrollProcess(id){
+  return this.http.put<PayrollProcess>(this.baseUrl + 'UpadtePayrollProcessingStep/' + id + '/5','')
+  .pipe(map(response => response));
+}
 
 }
