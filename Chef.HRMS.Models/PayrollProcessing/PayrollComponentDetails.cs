@@ -18,7 +18,15 @@ namespace Chef.HRMS.Models
 		public int PayrollProcessid { get; set; }
 		public DateTime PayrollProcessdate { get; set; }
 		public int Employeeid { get; set; }
+         [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeName { get; set; }
 		public int PayrollComponentid { get; set; }
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string PayrollComponentName { get; set; }
 		public decimal EarningsAmt { get; set; }
 		public decimal DeductionAmt { get; set; }
 		public int ProcessStatus { get; set; }
