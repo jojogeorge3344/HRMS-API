@@ -1,4 +1,5 @@
-﻿using Chef.Common.Types;
+﻿using Chef.Common.Core;
+using Chef.Common.Types;
 using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Models
 {
-    public class EmployeeRevisionBoldDto
+    public class EmployeeRevisionBoldDto : ViewModel
     {
         //Header
-        public string EmployeeName{ get; set; }
+        public string EmployeeName { get; set; }
         public DateTime EffectiveFrm { get; set; }
         public string Remark { get; set; }
         public string ReqNum { get; set; }
@@ -20,9 +21,9 @@ namespace Chef.HRMS.Models
 
         //OldValue
         public string LeaveStructure { get; set; }
-        public string Shift{ get; set; }
+        public string Shift { get; set; }
         public Chef.HRMS.Types.WeekOff WeekOff { get; set; }//enum
-        public string HolidayList{ get; set; }
+        public string HolidayList { get; set; }
         public string EOSType { get; set; }
         public string Designation { get; set; }
         public DepartmentType Department { get; set; }

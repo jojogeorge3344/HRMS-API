@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Linq;
 
 namespace Chef.HRMS.Web.Controllers
 {
@@ -45,7 +46,7 @@ namespace Chef.HRMS.Web.Controllers
 
                 int id = Convert.ToInt32(CustomData["id"].ToString());
                 var ERData = employeeRevisionBoldService.GetemployeeOldDetailsAsync(id).Result;
-                var ERNewData= employeeRevisionBoldService.GetemployeeNewDetailsAsync(id).Result;
+                var ERNewData = employeeRevisionBoldService.GetemployeeNewDetailsAsync(id).Result;
                 var SalOldData = employeeRevisionBoldService.GetSalaryOldDetailsAsync(id).Result;
                 var SalNewData = employeeRevisionBoldService.GetSalaryNewDetailsAsync(id).Result;
                 reportOption.AddDataSource("EROldPrintDataSet", ERData);

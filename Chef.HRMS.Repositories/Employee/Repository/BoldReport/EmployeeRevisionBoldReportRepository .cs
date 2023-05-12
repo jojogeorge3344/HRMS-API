@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,9 +27,8 @@ namespace Chef.HRMS.Repositories
                                           LEFT JOIN hrms.paygroup pg ON er.paygroupid=pg.id
                                          LEFT JOIN hrms.overtimepolicy otp ON er.overtimepolicyid=otp.id
                                          LEFT JOIN hrms.jobdetails jd ON er.employeeid=jd.employeeid
-                                         WHERE er.id = {0}", id);
-           
-            var result = await DatabaseSession.QueryAsync<EmployeeRevisionBoldDto>(query);
+                                         WHERE er.id =@id");
+            var result = await DatabaseSession.QueryAsync<EmployeeRevisionBoldDto>(query, new { id });
             return result;
         }
         public async Task<IEnumerable<EmployeeRevisionBoldDto>> GetemployeeNewDetailsAsync(int id)
@@ -49,8 +49,8 @@ namespace Chef.HRMS.Repositories
                                           LEFT JOIN hrms.paygroup pg ON er.paygroupid=pg.id
                                          LEFT JOIN hrms.overtimepolicy otp ON er.overtimepolicyid=otp.id
                                          LEFT JOIN hrms.jobdetails jd ON er.employeeid=jd.employeeid
-                                        WHERE er.id = {0}", id);
-            var result = await DatabaseSession.QueryAsync<EmployeeRevisionBoldDto>(query);
+                                        WHERE er.id = @id");
+            var result = await DatabaseSession.QueryAsync<EmployeeRevisionBoldDto>(query, new { id });
             return result;
         }
 
@@ -60,8 +60,8 @@ namespace Chef.HRMS.Repositories
                                             FROM hrms.employeerevisionold er
                                             LEFT JOIN hrms.payrollcomponent pr ON er.payrollstructureid=pr.id
                                             LEFT JOIN hrms.employeesalaryconfigurationdetails es ON er.payrollstructureid=es.id
-                                            WHERE er.id = {0}", id);
-            var result = await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query);
+                                            WHERE er.id = @id");
+            var result = await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query, new { id });
             return result;
         }
 
@@ -71,8 +71,8 @@ namespace Chef.HRMS.Repositories
                                             FROM hrms.employeerevision er
                                             LEFT JOIN hrms.payrollcomponent pr ON er.payrollstructureid=pr.id
                                             LEFT JOIN hrms.employeesalaryconfigurationdetails es ON er.payrollstructureid=es.id
-                                             WHERE er.id = {0}", id);
-            var result = await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query);
+                                             WHERE er.id = @id");
+            var result = await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query, new { id });
             return result;
         }
 

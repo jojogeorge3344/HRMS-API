@@ -23,10 +23,13 @@ namespace Chef.HRMS.Services
             //var result = await employeeRevisionBoldReportRepository.GetemployeeOldDetailsAsync(id);
 
             List<EmployeeRevisionBoldDto> details = (await employeeRevisionBoldReportRepository.GetemployeeOldDetailsAsync(id)).ToList();
-            var department = EnumExtensions.GetDisplayName(details.First().Department);
-            var weekoff = EnumExtensions.GetDisplayName(details.First().WeekOff);
-            var timetype = EnumExtensions.GetDisplayName(details.First().TimeType);
-            var attendancetracking = EnumExtensions.GetDisplayName(details.First().AttendanceTracking);
+            if (details.Count !=0)
+            {
+                var department = EnumExtensions.GetDisplayName(details.First().Department);
+                var weekoff = EnumExtensions.GetDisplayName(details.First().WeekOff);
+                var timetype = EnumExtensions.GetDisplayName(details.First().TimeType);
+                var attendancetracking = EnumExtensions.GetDisplayName(details.First().AttendanceTracking);
+            }
             return details;
         }
         public async Task<IEnumerable<EmployeeRevisionBoldDto>> GetemployeeNewDetailsAsync(int id)
