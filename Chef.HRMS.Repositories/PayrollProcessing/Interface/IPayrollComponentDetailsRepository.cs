@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-	public interface IPayrollComponentDetailsRepository
+	public interface IPayrollComponentDetailsRepository : IGenericRepository<PayrollComponentDetails>
 	{
 		Task<int> DeleteByPayrollProcessID(int payrollProcessID,int stepNo);
 	}
