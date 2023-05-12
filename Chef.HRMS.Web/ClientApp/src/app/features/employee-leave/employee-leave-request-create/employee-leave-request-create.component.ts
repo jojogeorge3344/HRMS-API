@@ -201,6 +201,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   subscribeToChanges() {
+    debugger
     this.addForm.valueChanges.subscribe((res) => {
       this.fromDate = this.addForm.get("fromDate").value;
       this.toDate = this.addForm.get("toDate").value;
@@ -390,6 +391,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   checkDates() {
+    debugger
     if (
       this.fromDate &&
       this.toDate &&
@@ -491,6 +493,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   validateRequest() {
+    debugger
     const selectedLeaveComponentId = this.addForm.value.leaveComponentId;
     const selectedLeaveComponent = this.leaveBalance.find(
       (leaveComponent) =>
