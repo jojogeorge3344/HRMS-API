@@ -15,11 +15,12 @@ namespace Chef.HRMS.Web.Controllers
     [ApiController]
     public class PayrollProcessingMethodController : ControllerBase
     {
-        private readonly IPayrollProcessingMethodService payrollProcessingMethodService;        
-
-        public PayrollProcessingMethodController(IPayrollProcessingMethodService payrollProcessingMethodService)
+        private readonly IPayrollProcessingMethodService payrollProcessingMethodService;
+        private readonly ISystemVariableValuesService variableValuesService;
+        public PayrollProcessingMethodController(IPayrollProcessingMethodService payrollProcessingMethodService, ISystemVariableValuesService variableValuesService)
         {
             this.payrollProcessingMethodService = payrollProcessingMethodService;
+            this.variableValuesService = variableValuesService;
         }
 
         [HttpDelete("Delete/{id}")]
@@ -75,9 +76,10 @@ namespace Chef.HRMS.Web.Controllers
             ///System Variable insert starts
             var payrollProcessingData = await payrollProcessingMethodService.GetAsync(Convert.ToInt32(result));
 
-            if (payrollProcessingData == null)
+            if (payrollProcessingData != null)
             {
-
+                int pId = Convert.ToInt32(result);
+                var dd = await variableValuesService.InsertSystemVariableDetails(payrollProcessingData.PayGroupId);//, payrollProcessingMethod);
             }
             ///System Variable insert Ends
             return Ok(result);

@@ -9,11 +9,14 @@ namespace Chef.HRMS.Repositories
 {
     public class SystemVariableValuesRepository : GenericRepository<SystemVariableValues>, ISystemVariableValuesRepository
     {
-        public SystemVariableValuesRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
+        private readonly IBulkUploadRepository bulkUploadRepository;
+
+        public SystemVariableValuesRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session, IBulkUploadRepository bulkUploadRepository) : base(httpContextAccessor, session)
         {
+            this.bulkUploadRepository = bulkUploadRepository;
         }
 
-        public async Task<IEnumerable<SystemVariableDto>> GetAllSystemVariableDetails(int PayGroupId, SystemVariableValues systemVariableValues)
+        public async Task<string> InsertSystemVariableDetails(int PayGroupId)//, PayrollProcessingMethod systemVariableValues)
         {
             var sql = @"SELECT
 						(SELECT id FROM hrms.systemvariable WHERE code='Lop_Dys_Btw_Dte' AND isarchived=false LIMIT 1)
@@ -33,19 +36,14 @@ namespace Chef.HRMS.Repositories
 						GROUP BY ld.employeeid;";
 
             var Lop_Dys_Btw_Dte = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId });
-            List<SystemVariableValues> systemVariableValues1 = new List<SystemVariableValues>();
-            foreach (var v in Lop_Dys_Btw_Dte)
+            List<SystemVariableValues> systemVariableValues = Lop_Dys_Btw_Dte.Select(x => new SystemVariableValues()
             {
-                var mm = Mapper.Map<SystemVariableValues>(v);
-                mm.SystemVariableId = v.SystemVariableId;
-                mm.TransValue = v.TransValue;
-                mm.EmployeeId = v.EmployeeId;
-                systemVariableValues1.Add(mm);
-            }
-            var sql2 = new QueryBuilder<SystemVariableValues>().GenerateInsertQuery();
-            var result = await Connection.QueryFirstOrDefaultAsync<string>(sql2, systemVariableValues1);
-
-            return Lop_Dys_Btw_Dte.ToList();
+                SystemVariableId = x.SystemVariableId,
+                TransValue = x.TransValue,
+                EmployeeId = x.EmployeeId
+            }).ToList();
+            var dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
+            return dd.ToString();
         }
     }
 }
