@@ -291,6 +291,7 @@ export class LeaveComponentCreateComponent implements OnInit {
       ]],
       showLeaveDescription: [false],
       isPaidLeave: [false],
+      isUnpaidLeave:[false],
       isSickLeave: [false],
       isStatutoryLeave: [false],
       isRestrictedToGender: [false],

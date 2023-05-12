@@ -19,6 +19,7 @@ import { toInteger, toNumber } from 'lodash';
 import { OvertimeRequest } from '../overtime-request.model';
 import { timeStamp } from 'console';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 
 @Component({
@@ -60,6 +61,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   selectEnable: boolean;
   employeeLogin: any;
   config;
+  requestTypes = RequestStatus;
 
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
 
@@ -415,6 +417,11 @@ export class OvertimeRequestCreateComponent implements OnInit {
 
   onSubmit() {
     debugger
+    if(this.addForm.invalid){
+
+      return
+         
+       }
     let addForm = this.addForm.value;
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
@@ -422,6 +429,42 @@ export class OvertimeRequestCreateComponent implements OnInit {
       toDate: new Date(addForm.toDate.setHours(12)),
       fromDate: new Date(addForm.fromDate.setHours(12))
     };
+    addForm.requestStatus=this.requestTypes.Approved
+    //this.addForm.value.specialOverTime=this.addForm.value.specialOverTime?this.addForm.value.specialOverTime:0
+  //  this.addForm.patchValue({fromDate : new Date(this.addForm.value.fromDate.setHours(12)),toDate  : new Date(this.addForm.value.toDate.setHours(12))})
+    this.overtimeRequestService.add(addForm).subscribe((result: any) => {
+      if (result.id !== -1) {
+        const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
+          overtimeId: result,
+          notifyPersonnel: notifyPerson.id
+        }));
+        this.overtimeRequestService.addNotifyPersonnel(notifyPersonnelForm).subscribe(() => {
+          this.toastr.showSuccessMessage('Overtime request submitted successfully!');
+          this.activeModal.close('submit');
+        });
+      }
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to submit the overtime request ');
+      });
+  }
+  draftSave() {
+    debugger
+    if(this.addForm.invalid){
+
+      return
+         
+       }
+    debugger
+    let addForm = this.addForm.value;
+    addForm.numberOfDays = this.numberOfDays;
+    addForm = {
+      ...addForm,
+      toDate: new Date(addForm.toDate.setHours(12)),
+      fromDate: new Date(addForm.fromDate.setHours(12))
+    };
+    addForm.requestStatus=this.requestTypes.Draft
     //this.addForm.value.specialOverTime=this.addForm.value.specialOverTime?this.addForm.value.specialOverTime:0
   //  this.addForm.patchValue({fromDate : new Date(this.addForm.value.fromDate.setHours(12)),toDate  : new Date(this.addForm.value.toDate.setHours(12))})
     this.overtimeRequestService.add(addForm).subscribe((result: any) => {
@@ -460,7 +503,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
         Validators.maxLength(250),
       ]],
       employeeId: [0],
-      requestStatus: [1],
+      requestStatus: [0],
       normalOverTime:[null],
       holidayOverTime:[null],
       specialOverTime:[null],

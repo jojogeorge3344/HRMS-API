@@ -16,6 +16,8 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 import { LeaveRequestPrintComponent } from './leave-request-print/leave-request-print.component';
 import { ReportViewerModule } from '@shared/report-viewer/report-viewer.module';
 import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
+import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit/employee-leave-request-edit.component';
+
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { BoldReportViewerModule } from '@boldreports/angular-reporting-component
     EmployeeLeaveRequestListComponent,
     EmployeeLeaveRequestCreateComponent,
     EmployeeLeaveRequestViewComponent,
-    LeaveRequestPrintComponent
+    LeaveRequestPrintComponent,
+    EmployeeLeaveRequestEditComponent
   ],
   imports: [
     CommonModule,

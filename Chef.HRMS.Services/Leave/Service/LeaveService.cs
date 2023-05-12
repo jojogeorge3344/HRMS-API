@@ -52,6 +52,11 @@ namespace Chef.HRMS.Services
             return await leaveRepository.InsertNotifyPersonnel(leaveNotifyPersonnel);
         }
 
+        public async Task<int> UpdateNotifyPersonnel(IEnumerable<LeaveNotifyPersonnel> leaveNotifyPersonnel)
+        {
+            return await leaveRepository.UpdateNotifyPersonnel(leaveNotifyPersonnel);
+        }
+
         public async Task<int> InsertUnmarkedAttendance(IEnumerable<Leave> leave)
         {
             return await leaveRepository.InsertUnmarkedAttendance(leave);

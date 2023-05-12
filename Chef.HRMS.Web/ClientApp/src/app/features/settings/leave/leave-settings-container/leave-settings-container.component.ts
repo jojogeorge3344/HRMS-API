@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './leave-settings-container.component.html'
 })
 export class LeaveSettingsContainerComponent implements OnInit {
+  activeId: string;
 
   tabs = [
     { title: 'Leave Component', fragment: 'leave-component' },
@@ -15,6 +16,7 @@ export class LeaveSettingsContainerComponent implements OnInit {
   constructor(public route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.activeId = this.route.children[0].snapshot.url[0].path;
   }
 
 }

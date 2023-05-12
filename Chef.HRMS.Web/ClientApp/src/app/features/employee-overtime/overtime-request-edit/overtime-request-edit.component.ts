@@ -14,6 +14,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { OvertimePolicyConfiguration } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: './overtime-request-edit.component.html',
@@ -37,6 +38,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   selectEnable: boolean;
   employeeLogin: any;
   notifyPersonList:any=[]
+  requestTypes = RequestStatus;
 
 
   @Input() overtimeRequest: OvertimeRequest;
@@ -170,6 +172,12 @@ export class OvertimeRequestEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.editForm.invalid){
+
+      return
+         
+       }
+    this.editForm.value.requestStatus=this.requestTypes.Approved
     this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
       if (result.id !== -1) {
         
@@ -216,7 +224,59 @@ export class OvertimeRequestEditComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to update the overtime request ');
       });
   }
+  draftSave() {
+    if(this.editForm.invalid){
 
+      return
+         
+       }
+    this.editForm.value.requestStatus=this.requestTypes.Draft
+    this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
+      if (result.id !== -1) {
+        
+        const notifyPersonnelForm = this.selectedItems.map(notifyPerson => ({
+          overtimeId: this.overtimeRequest.id,
+          notifyPersonnel: notifyPerson.id,
+          isarchived:false,
+          id:0
+        }));
+
+     
+        this.selectedItems.forEach( array1Ttem => {
+
+          this.alreadySelectedItem.forEach( array2Item => {
+    
+             if(array1Ttem.id != array2Item.id){
+              var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true,id:0}
+              notifyPersonnelForm.push(data)
+            }
+           
+    
+          })
+        })
+        
+
+
+        notifyPersonnelForm.forEach(obj1 =>{
+          this.notifyPersonList.forEach(obj2 =>{
+            if(obj1.notifyPersonnel == obj2.notifyPersonnel){
+              obj1.id = obj2.id
+            }
+          })
+        })
+        
+        
+        this.overtimeRequestService.UpdateNotifyPersonal(notifyPersonnelForm).subscribe(() => {
+          this.toastr.showSuccessMessage('Overtime request updated successfully!');
+          this.activeModal.close('submit');
+        });
+      }
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to update the overtime request ');
+      });
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [],
@@ -236,7 +296,7 @@ export class OvertimeRequestEditComponent implements OnInit {
         Validators.maxLength(128),
       ]],
       employeeId: [],
-      requestStatus: [1],
+      requestStatus: [0],
       createdDate: [],
       normalOverTime:[null],
       holidayOverTime:[null],
