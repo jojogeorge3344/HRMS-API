@@ -64,7 +64,9 @@ import "@angular/localize/init";
 import * as jquery from "jquery";
 window["jQuery"] = jquery;
 window["$"] = jquery;
-
+let windowInstance = (window as { [key: string]: any });
+windowInstance['jQuery'] = jquery;
+windowInstance['$'] = jquery;
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
