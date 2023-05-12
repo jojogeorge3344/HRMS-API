@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Authentication;
 using Chef.HRMS.Models;
+using Chef.HRMS.Repositories;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace Chef.HRMS.Web.Controllers
     [ApiController]
     public class PayrollProcessingMethodController : ControllerBase
     {
-        private readonly IPayrollProcessingMethodService payrollProcessingMethodService;
+        private readonly IPayrollProcessingMethodService payrollProcessingMethodService;        
 
         public PayrollProcessingMethodController(IPayrollProcessingMethodService payrollProcessingMethodService)
         {
@@ -71,14 +72,14 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<string>> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
         {
             var result = await payrollProcessingMethodService.InsertOrAlreadyExist(payrollProcessingMethod);
-            ///
+            ///System Variable insert starts
             var payrollProcessingData = await payrollProcessingMethodService.GetAsync(Convert.ToInt32(result));
 
             if (payrollProcessingData == null)
             {
 
             }
-            ///
+            ///System Variable insert Ends
             return Ok(result);
         }
 
