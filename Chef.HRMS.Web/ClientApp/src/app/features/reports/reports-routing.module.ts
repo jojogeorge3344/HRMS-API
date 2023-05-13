@@ -6,6 +6,7 @@ import { ProcessedSalaryReportComponent } from './processed-salary-report/proces
 import { AttendanceReportComponent } from './attendance-report/attendance-report/attendance-report.component';
 import { LeaveReportComponent } from './leave-report/leave-report/leave-report.component';
 import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/employee-payslip-print-filter/employee-payslip-print-filter.component';
+import { EmployeePayslipPrintComponent } from './employee-payslip-report/employee-payslip-print/employee-payslip-print.component';
 
 
 const routes: Routes = [
@@ -32,7 +33,12 @@ const routes: Routes = [
   {
     path: 'leavelist', component: LeaveReportComponent,
     data: { breadcrumbs: ['Leave Report List', 'LeaveReportComponent'], name: 'report-leavereport' }
+  },
+  {
+    path: 'print', component: EmployeePayslipPrintComponent,
+    data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
   }
+
 ];
 
 @NgModule({

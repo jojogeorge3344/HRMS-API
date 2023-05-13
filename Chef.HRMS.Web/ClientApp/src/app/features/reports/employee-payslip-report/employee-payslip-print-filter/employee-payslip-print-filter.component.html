@@ -1,59 +1,104 @@
 <div class="subheader">
-    <h1 class="subheader-title">
-        <div>
-            Print Employee Payslip
-        </div>
-    </h1>
-</div>
-<div id="employee-list" class="panel">
-    <div class="card p-3">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="with-input form-group col-md-1">             
-                <span class="text-nowrap"
-                  >Payslip Year</span
-                >        
-            </div>
-            <div class="form-group col-md-5">
-              <select class="form-control" formControlName="normalOverTime">
-                <option value="0" disabled>Select</option>
-                <option
-                >
-                </option>
-              </select>
-            </div>
-            <div class="col-md-3"></div>
-          </div>
-          <div class="row">
-            <div class="col-md-3"></div>
-            <div class="with-input form-group col-md-1">             
-                <span class="text-nowrap"
-                  >Payslip Period</span
-                >        
-            </div>
-            <div class="form-group col-md-5">
-                <!-- <p-multiSelect formControlName="selectedCities"></p-multiSelect> -->
-                <select class="form-control" formControlName="normalOverTime">
-                  <option value="0" disabled>Select</option>
-                  <option
-                  >
-                  </option>
-                </select>
-            </div>
-            <div class="col-md-3"></div>
-          </div>
-          <div class="row">
-            <div class="col-md-3"></div>
-            <div class="with-input form-group col-md-1">             
-                <span class="text-nowrap"
-                  >Paygroup</span
-                >        
-            </div>
-            <div class="form-group col-md-5">
-              <p-multiSelect formControlName="selectedCities"></p-multiSelect>
-            </div>
-            <div class="col-md-3"></div>
-          </div>
-
+  <h1 class="subheader-title">
+    <div>
+      Print Employee Payslip
     </div>
+  </h1>
+</div>
+<div id="employee-list" class="panel"  [formGroup]="addForm" id="leaveRequestForm">
+  {{addForm.value | json }}
+  <div class="card p-3">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="with-input form-group col-md-1">
+        <span class="text-nowrap">Payslip Year</span>
+      </div>
+      <div class="form-group col-md-5">
+        <select class="form-control" formControlName="normalOverTime">
+          <option value="0" disabled>Select</option>
+          <option>
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="with-input form-group col-md-1">
+        <span class="text-nowrap">Payslip Period</span>
+      </div>
+      <div class="form-group col-md-5">
+        <!-- <p-multiSelect formControlName="selectedCities"></p-multiSelect> -->
+        <select class="form-control" formControlName="normalOverTime">
+          <option value="0" disabled>Select</option>
+          <option>
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="with-input form-group col-md-1">
+        <span class="text-nowrap">Paygroup</span>
+      </div>
+      <div class="form-group col-md-5">
+       <ng-multiselect-dropdown 
+       [settings]="paygroupSettings"
+       [data]="payGroupDetails"
+       formControlName="paygroupId">
+    </ng-multiselect-dropdown>
+      <div class="col-md-3"></div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="with-input form-group col-md-1">
+      <span class="text-nowrap">Department</span>
+    </div>
+    <div class="form-group col-md-5">
+     <ng-multiselect-dropdown
+     [settings]="departmentSettings"
+     [data]="department"
+     formControlName="department">
+  </ng-multiselect-dropdown>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="with-input form-group col-md-1">
+    <span class="text-nowrap">Designation</span>
+  </div>
+  <div class="form-group col-md-5">
+   <ng-multiselect-dropdown
+   [settings]="designationSettings"
+   [data]="designation"
+   formControlName="designation">
+</ng-multiselect-dropdown>
+  <div class="col-md-3"></div>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="with-input form-group col-md-1">
+    <span class="text-nowrap">Employee</span>
+  </div>
+  <div class="form-group col-md-5">
+   <ng-multiselect-dropdown
+   [settings]="employeeSettings"
+   [data]="employeeList"
+   formControlName="employeeId">
+</ng-multiselect-dropdown>
+  <div class="col-md-3"></div>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-6"></div>
+  <div class="form-group col-md-3">
+    <button type="button" class="btn btn-primary ps-2 pe-2"(click)="openPrint()">Print</button>
+</div>
+<div class="col-md-3"></div>
+</div>
 </div>

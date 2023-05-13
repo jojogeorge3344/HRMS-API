@@ -19,15 +19,21 @@ import { LeaveReportComponent } from './leave-report/leave-report/leave-report.c
 import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { NumberToWordsPipe } from 'src/app/pipes/number-to-words.pipe';
 import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/employee-payslip-print-filter/employee-payslip-print-filter.component';
-import {MultiSelectModule} from 'primeng/multiselect';
-@NgModule({
+// import { NgSelectModule } from '@ng-select/ng-select'; 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { EmployeePayslipPrintComponent } from './employee-payslip-report/employee-payslip-print/employee-payslip-print.component';
+import { ReportViewerModule } from '@shared/report-viewer/report-viewer.module';
+import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
+
+ @NgModule({
   declarations: [
     EmployeeListReportComponent,
     EmployeeBasicComponentReportComponent,
     ProcessedSalaryReportComponent,
     AttendanceReportComponent,
     LeaveReportComponent,
-    EmployeePayslipPrintFilterComponent
+    EmployeePayslipPrintFilterComponent,
+    EmployeePayslipPrintComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +46,9 @@ import {MultiSelectModule} from 'primeng/multiselect';
     PipesModule,
     NgBootstrapFormValidationModule,
     BsDropdownModule,
+    ReportViewerModule,
+    BoldReportViewerModule,
+    NgMultiSelectDropDownModule
   ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
