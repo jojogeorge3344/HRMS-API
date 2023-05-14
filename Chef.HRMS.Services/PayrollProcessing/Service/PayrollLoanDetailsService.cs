@@ -38,7 +38,7 @@ namespace Chef.HRMS.Services
 				payrollComponent.DeductionAmt = list.LoanAmount;
 				payrollComponent.DocNum = "";
 				payrollComponent.EarningsAmt = 0;
-				payrollComponent.Employeeid = list.EmployeeId;
+				payrollComponent.EmployeeId = list.EmployeeId;
 				payrollComponent.PayrollComponentid = 0;
 				payrollComponent.CreatedBy = list.CreatedBy;
 				payrollComponent.ModifiedBy = list.ModifiedBy;

@@ -34,10 +34,10 @@ const routes: Routes = [
     path: 'leavelist', component: LeaveReportComponent,
     data: { breadcrumbs: ['Leave Report List', 'LeaveReportComponent'], name: 'report-leavereport' }
   },
-  {
-    path: 'print', component: EmployeePayslipPrintComponent,
-    data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
-  }
+  // {
+  //   path: 'print', component: EmployeePayslipPrintComponent,
+  //   data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
+  // }
 
 ];
 

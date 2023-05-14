@@ -39,7 +39,7 @@ namespace Chef.HRMS.Services
 				payrollComponent.DeductionAmt = list.IsAddition==true?0: list.AdhocAmount;
 				payrollComponent.DocNum = "";
 				payrollComponent.EarningsAmt = list.IsAddition == false ? 0 : list.AdhocAmount;
-				payrollComponent.Employeeid = list.EmployeeId;
+				payrollComponent.EmployeeId = list.EmployeeId;
 				payrollComponent.PayrollComponentid = 0;
 				payrollComponent.CreatedBy = list.CreatedBy;
 				payrollComponent.ModifiedBy = list.ModifiedBy;
