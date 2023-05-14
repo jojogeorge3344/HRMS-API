@@ -59,9 +59,7 @@ import { PayrollEmployeeReviewComponent } from './payroll-employee-review/payrol
 import { PayrollProcessCompletedViewComponent } from './payroll-process-completed-view/payroll-process-completed-view.component';
 import { PayrollProcessOvertimeListComponent } from './payroll-process-overtime-list/payroll-process-overtime-list.component';
 import { PayrollProcessSummaryDetailsComponent } from './payroll-process-summary-details/payroll-process-summary-details.component';
-import { TreeTableModule } from 'primeng/treetable';
-import { TableModule } from 'primeng/table';
-import { TreeModule } from 'primeng/tree';
+import { PayrollProcessEmployeeSummarydetailsComponent } from './payroll-process-employee-summarydetails/payroll-process-employee-summarydetails.component';
 
 
 
@@ -120,6 +118,7 @@ import { TreeModule } from 'primeng/tree';
     PayrollProcessCompletedViewComponent,
     PayrollProcessOvertimeListComponent,
     PayrollProcessSummaryDetailsComponent,
+    PayrollProcessEmployeeSummarydetailsComponent,
 
 
   ],
@@ -135,9 +134,7 @@ import { TreeModule } from 'primeng/tree';
     //  NgBootstrapFormValidationModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule,
-    TreeTableModule,
-    TableModule,
-    TreeModule
+    
     
     
     

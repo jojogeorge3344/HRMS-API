@@ -209,6 +209,7 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
 
     } else {
       this.payrollProcessService.updateProcess(assignPayrollProcess).subscribe(res => {
+        
         if (assignPayrollProcess.payGroupId) {
           this.router.navigate(['/payroll-processing/payroll-process-setup'],
             {
@@ -221,7 +222,7 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
                 year:this.payrollYear,
                 cutOffDay:this.payrollleaveCutOff,
                 // processId:res
-                processId:4,
+                processId:res,
                 overTimeCutOff:this.overtimeCutoff
               }
              

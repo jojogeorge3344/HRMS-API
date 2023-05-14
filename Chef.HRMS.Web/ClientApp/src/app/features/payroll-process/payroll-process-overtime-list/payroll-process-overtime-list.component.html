@@ -9,13 +9,21 @@
             <tr>
                 <th>Sl No.</th>
                 <th>Employee Code</th>
+                <th>Employee</th>
+                <th>Not Hrs</th>
+                <th>Hot Hrs</th>
+                <th>SOT Hrs</th>
                 
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let overTimeDetails of overTimeDetails; let i = index">
                 <td>{{i+1}}</td>
-                <td>test</td>
+                <td>{{overTimeDetails.employeeCode}}</td>
+                <td>{{overTimeDetails.employeeName}}</td>
+                <td>{{overTimeDetails.notHrs}}</td>
+                <td>{{overTimeDetails.hotHrs}}</td>
+                <td>{{overTimeDetails.sotHrs}}</td>
             </tr>
             <tr *ngIf="!overTimeDetails?.length">
                 <td colspan="10" class="text-center">

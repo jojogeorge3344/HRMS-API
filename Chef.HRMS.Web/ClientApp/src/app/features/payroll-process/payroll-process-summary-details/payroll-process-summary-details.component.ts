@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { PayrollProcessService } from '../payroll-process.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TreeNode } from 'primeng/api';
 import { DatePipe } from '@angular/common';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PayrollProcessEmployeeSummarydetailsComponent } from '../payroll-process-employee-summarydetails/payroll-process-employee-summarydetails.component';
 
 @Component({
   selector: 'hrms-payroll-process-summary-details',
@@ -27,7 +27,8 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
     private toastr: ToasterDisplayService,
     private router: Router,
     private route: ActivatedRoute,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public modalService: NgbModal,
   ) {
    
    }
@@ -82,6 +83,11 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
       });
   }
 
-   
+  openEmployeeSummaryDetails(data){
+    const modalRef = this.modalService.open(PayrollProcessEmployeeSummarydetailsComponent,
+      { size: 'xl', centered: true, backdrop: 'static' 
+    });
+    modalRef.componentInstance.summaryDetails= data.payrollComponentDetails;
+  }
 
 }

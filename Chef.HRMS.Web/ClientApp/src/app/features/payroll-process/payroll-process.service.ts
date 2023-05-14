@@ -14,12 +14,14 @@ export class PayrollProcessService {
   public http: HttpClient;
   public employeeDetails: BehaviorSubject<any>
   public baseUrl_overtime:any
+  baseUrl_overtimedetails:string
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.employeeDetails = <BehaviorSubject<any>>new BehaviorSubject(null);
     this.baseUrl = baseUrl + 'api/settings/payrollprocessing/PayrollProcessingMethod/';
     this.baseUrl_overtime = baseUrl + 'api/OverTime/'
+    this.baseUrl_overtimedetails =baseUrl+ 'api/settings/payrollprocessing/PayrollOTDetails/'
   }
 
   add(payrollProcess: PayrollProcess) {
@@ -97,5 +99,15 @@ completePayrollProcess(id){
   return this.http.put<PayrollProcess>(this.baseUrl + 'UpadtePayrollProcessingStep/' + id + '/5','')
   .pipe(map(response => response));
 }
+
+InsertPayrollLeaveDetails(leavedetails){
+  return this.http.post<PayrollProcess>(this.baseUrl + 'insert', leavedetails).pipe(map(response => response));
+
+ }
+ InsertPayrollOverTimeDetails(overtimedetails){
+  return this.http.post<PayrollProcess>(this.baseUrl_overtimedetails + 'insert', overtimedetails).pipe(map(response => response));
+
+ }
+
 
 }
