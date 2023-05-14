@@ -773,7 +773,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       leaveComponentId: [
         null,
         [
-          LeaveBalanceValidator(this.leaveBalance, this.numberOfDays),
+          // LeaveBalanceValidator(this.leaveBalance, this.numberOfDays),
           Validators.required,
         ],
       ],
