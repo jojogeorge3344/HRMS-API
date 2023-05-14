@@ -41,8 +41,8 @@ export class PayslipConfigurationComponent implements OnInit {
   getPayslipConfigurationFields() {
     this.payslipsService.getConfigurationFields()
       .subscribe(res => {
-        this.source = res.filter(field => field.orders === 0);
-        this.target = res.filter(field => field.orders !== 0);
+        this.source = res.filter(field => field.status === true);
+        this.target = res.filter(field => field.status !== true);
         this.target = this.target.sort((a, b) => {
           return a.orders > b.orders ? 1 : a.orders < b.orders ? -1 : 0;
         });
