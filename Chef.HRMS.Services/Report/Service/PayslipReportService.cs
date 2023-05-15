@@ -18,22 +18,22 @@ namespace Chef.HRMS.Services.Report
             this.payslipReportRepository = payslipReportRepository;
         }
 
-        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(int employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate)
         {
             return await payslipReportRepository.EmployeeComponentDetails(employeeId, fromDate, ToDate);
         }
 
-        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(int employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId, DateTime fromDate, DateTime ToDate)
         {
             return await payslipReportRepository.EmployeeHeaderDetails(employeeId, fromDate, ToDate);
         }
 
-        public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(int employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeId, DateTime fromDate, DateTime ToDate)
         {
             return await payslipReportRepository.EmployeeLoanDetails(employeeId, fromDate, ToDate);
         }
 
-        public async Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(int employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(string employeeId, DateTime fromDate, DateTime ToDate)
         {
             return await payslipReportRepository.EmployeeOverTimeDetails(employeeId, fromDate, ToDate);
         }
