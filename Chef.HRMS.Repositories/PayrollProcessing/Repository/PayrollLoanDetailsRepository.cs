@@ -13,11 +13,7 @@ namespace Chef.HRMS.Repositories
 		{
 		}
 
-		public Task<int> BulkInsertAsync(List<PayrollLoanDetails> objs)
-		{
-			throw new NotImplementedException();
-		}
-
+		
 		public Task<int> BulkUpdateAsync(List<PayrollLoanDetails> objs)
 		{
 			throw new NotImplementedException();

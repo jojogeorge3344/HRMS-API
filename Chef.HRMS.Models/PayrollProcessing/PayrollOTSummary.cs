@@ -22,5 +22,9 @@ namespace Chef.HRMS.Models
 		public decimal TotalHotAmount { get; set; }
 		public decimal TotalSotAmount { get; set; }
 		public int ProcessStatus { get; set; }
+		[Write(false)]
+		[Skip(true)]
+		[SqlKata.Ignore]
+		public List<PayrollOTDetails> PayrollOTDetails { get; set; }
 	}
 }

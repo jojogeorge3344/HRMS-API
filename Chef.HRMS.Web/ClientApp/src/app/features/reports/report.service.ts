@@ -16,10 +16,14 @@ export class ReportsService {
 
   public baseUrl: string;
   public http: HttpClient;
+  public apiUrl:string;
+
   months = Months;
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + 'api/report/';
+    this.apiUrl=baseUrl + 'api/payrollComponentDetails/'
+
   }
 
   getEmployeeList(offset) {
@@ -30,6 +34,7 @@ export class ReportsService {
     return this.http.get<LeaveReport[]>(this.baseUrl + 'LeaveReport/GetLeaveReportDetails/' + offset).pipe(map(response => response));
   }
 
+  
   getProcessedSalaryDetailsList(offset) {
     return this.http.get<ProcessedSalaryReport[]>(this.baseUrl + 'ProcessedSalaryReport/GetProcessedSalaryDetails/' + offset)
       .pipe(
@@ -46,6 +51,9 @@ export class ReportsService {
       );
   }
 
+  getPaysipYears(){
+    return this.http.get<any>( 'getPayslipYears' ).pipe(map(response => response));
+  }
   getAttendanceListDetailsList(startDate, endDate) {
     return this.http.get<AttendanceReport[]>(this.baseUrl + 'AttendanceReport/GetAll/' + startDate + '/' + endDate).pipe(map(response => response));
   }
