@@ -235,6 +235,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
       isOvertimeSlab:[false],
+      isMonthlyApplicable:[false],
       normalOverTime:[0],
       holidayOverTime:[0],
       specialOverTime:[0],
