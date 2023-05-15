@@ -27,7 +27,7 @@
         <label for="employeeName"
           >Requested By<span class="required">*</span></label
         >
-        <select class="form-control" formControlName="employeeId">
+        <select disabled class="form-control" formControlName="employeeId">
           <option [ngValue]="null" disabled>Select Employee Name</option>
           <option *ngFor="let list of employeeList" value="{{ list.id }}">
             {{ list.firstName }}

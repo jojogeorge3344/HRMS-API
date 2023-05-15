@@ -657,7 +657,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
         this.employeeLeaveService.update(addForm).subscribe((result) => {
-          this.notify(result.id);
+          this.notify(result);
         });
       } else {
         forkJoin([
@@ -758,6 +758,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   notify(leaveRequestId): void {
+    debugger
     const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
       leaveId: leaveRequestId,
       notifyPersonnel: notifyPerson.id,

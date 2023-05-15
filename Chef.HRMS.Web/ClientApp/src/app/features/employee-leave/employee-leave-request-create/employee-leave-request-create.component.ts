@@ -630,7 +630,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
         this.employeeLeaveService.add(addForm).subscribe((result) => {
-          this.notify(result.id);
+          this.notify(result);
         });
       } else {
         forkJoin([
@@ -821,5 +821,14 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       });
       console.log("leavessting", this.leaveSettings);
     });
+  }
+    getEmployeeId(event){
+    debugger
+    let a=this.employeeList.filter(x=>x.firstName==event)
+    this.addForm.patchValue({
+      employeeId:a[0].id,
+      employeeName:a[0].firstName
+
+    })
   }
 }

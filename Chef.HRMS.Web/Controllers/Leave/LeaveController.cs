@@ -194,5 +194,16 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
+        [HttpGet("GetAllLeaveDetails")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<Chef.HRMS.Models.Leave>>> GetAllLeaveDetails()
+        {
+
+            var result = await leaveService.GetAllLeaveDetails();
+
+            return Ok(result);
+        }
     }
 }

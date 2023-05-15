@@ -27,9 +27,9 @@
       <label for="employeeName"
         >Requested By<span class="required">*</span></label
       >
-      <select class="form-control" formControlName="employeeId">
+      <select class="form-control" formControlName="employeeName" (change)="getEmployeeId($event.target.value)">
         <option [ngValue]="null" disabled>Select Employee Name</option>
-        <option *ngFor="let list of employeeList" value="{{ list.id }}">
+        <option *ngFor="let list of employeeList" value="{{ list.firstName }}">
           {{ list.firstName }}
         </option>
       </select>

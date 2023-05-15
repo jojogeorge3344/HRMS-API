@@ -20,5 +20,7 @@ namespace Chef.HRMS.Repositories
 
         Task<IEnumerable<LeaveSettingsViewModel>> GetAllLeaveSettingsById(int employeeId);
         Task<IEnumerable<Leave>> GetAllLeaveInfoByEmployeeId(int employeeId);
+        Task<IEnumerable<Leave>> GetAllLeaveDetails();
+
     }
 }
