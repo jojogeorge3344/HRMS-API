@@ -82,7 +82,9 @@ export class PayrollEmployeeLeaveComponent implements OnInit {
               unapprovedLeaves: res.UnApprovedleave,
               unmarkedAttendance: (res.totalworkingdays - res.holidaycount) - (res.appliedleave + res.workeddays),
               payrollProcessDate:new Date(),
-              payrollProcessId:0
+              payrollProcessingMethodId:0,
+              payGroupId:0,
+              status:1
 
             };
           });

@@ -14,5 +14,9 @@ export interface PayrollLeaveAndAttandanceViewModel extends Model {
   unmarkedAttendance: number;
   numberOfHolidays: number;
   payrollProcessDate:Date
-  payrollProcessId:number
+  payrollProcessingMethodId:number
+  payGroupId:number
+  status:any
+  leaveId?:number
+
 }

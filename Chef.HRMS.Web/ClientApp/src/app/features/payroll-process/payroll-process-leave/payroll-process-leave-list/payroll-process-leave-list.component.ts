@@ -42,6 +42,7 @@ export class PayrollProcessLeaveListComponent implements OnInit {
   payrollyear:any
   payrollcutoff:any
   payrollProcessId:any
+  leaveDetails_insert:any=[]
 
   constructor(
     private payrollProcessService: PayrollProcessService,
@@ -253,8 +254,9 @@ export class PayrollProcessLeaveListComponent implements OnInit {
 
     for(let i=0;i< this.payGroupProcessLeave.length;i++){
       this.payGroupProcessLeave[i].payrollProcessDate = new Date()
-      this.payGroupProcessLeave[i].payrollProcessId = parseInt(this.payrollProcessId)
-
+      this.payGroupProcessLeave[i].payrollProcessingMethodId = parseInt(this.payrollProcessId)
+      this.payGroupProcessLeave[i].payGroupId = parseInt(this.paygroupId)
+      this.payGroupProcessLeave[i].status = 1
     }
     this.payrollProcessLeaveService.add(this.payGroupProcessLeave).subscribe(res => {
       this.insertLeaveDetails();
@@ -269,7 +271,28 @@ export class PayrollProcessLeaveListComponent implements OnInit {
 
 
   insertLeaveDetails(){
-    this.payrollProcessLeaveService.InsertPayrollLeaveDetails(this.payGroupProcessLeave).subscribe(res => {
+    for(let i=0;i<this.payGroupProcessLeave.length;i++){
+      this.leaveDetails_insert.push({id: this.payGroupProcessLeave[i].id,
+      createdDate:this.payGroupProcessLeave[i].createdDate,
+      modifiedDate: this.payGroupProcessLeave[i].modifiedDate,
+      createdBy: this.payGroupProcessLeave[i].createdBy,
+      modifiedBy: this.payGroupProcessLeave[i].modifiedBy,
+      isArchived: true,
+      payrollProcessId: this.payrollProcessId,
+      payrollProcessDate: new Date(),
+      employeeId: this.payGroupProcessLeave[i].employeeId,
+      leaveId: this.payGroupProcessLeave[i].leaveId,
+      totalNumOfWorkDays: this.payGroupProcessLeave[i].numberOfWorkedDays,
+      totalNumOfWorkingDays: this.payGroupProcessLeave[i].numberOfWorkingDays,
+      approvedLeave: this.payGroupProcessLeave[i].approvedLeaves,
+      unApprovedLeave: this.payGroupProcessLeave[i].unapprovedLeaves,
+      unMarkedAttendance: this.payGroupProcessLeave[i].unmarkedAttendance,
+      lopDays: this.payGroupProcessLeave[i].lop,
+      processStatus: 0})
+
+    }
+   
+    this.payrollProcessLeaveService.InsertPayrollLeaveDetails(this.leaveDetails_insert).subscribe(res => {
     
         this.payrollProcessService.updateProcessedStep(this.id, 1, { id: this.id, stepNumber: 1 })
           .subscribe(() => {
