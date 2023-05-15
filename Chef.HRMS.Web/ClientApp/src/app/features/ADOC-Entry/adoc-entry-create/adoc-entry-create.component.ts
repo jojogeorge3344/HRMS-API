@@ -9,6 +9,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { AdocStatusType } from 'src/app/models/common/types/adocStatusType';
 import { DocumentType } from 'src/app/models/common/types/documentType';
 import { AdocEntryService } from '../adoc-entry-service';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-adoc-entry-create',
@@ -26,6 +27,7 @@ export class AdocEntryCreateComponent implements OnInit {
   statusTypeList = AdocStatusType;
   employeeList;
   currency: any[];
+  adhoc:any[]
   statusTypes;
   benefitTypes: any[];
   employee;
@@ -45,6 +47,7 @@ export class AdocEntryCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getEmployeeList()
     this.getBenefitTypes()
+    this.getAdhocBfCode()
     this.config = {
       displayKey: "firstName",
       search: true,
@@ -67,6 +70,14 @@ export class AdocEntryCreateComponent implements OnInit {
       .subscribe((result) => {
         this.employeeList = result
       })
+  }
+
+  getAdhocBfCode()
+  {
+    this.adocEntryService.getAdhocBfCode()
+    .subscribe((result) =>{
+      this.adhoc = result;
+    })
   }
 
   getBenefitTypes() {
