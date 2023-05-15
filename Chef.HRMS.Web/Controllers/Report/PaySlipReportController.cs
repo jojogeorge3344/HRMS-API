@@ -36,7 +36,7 @@ public class PaySlipReportController : ReportViewerController
     {
         if (CustomData != null && CustomData.Count > 0)
         {
-            int employeeId = Convert.ToInt32(CustomData["employeeId"]);
+            string employeeId =(CustomData["employeeId"].ToString());
             DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
             DateTime ToDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
             string paygroupId = CustomData["paygroupId"].ToString();
