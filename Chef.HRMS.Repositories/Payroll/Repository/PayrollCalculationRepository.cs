@@ -54,7 +54,7 @@
                                             pcalc.iscomputed, 
                                             pcalc.formula, 
                                             pc.maximumlimit,
-                                            pg.currencyid AS currency
+                                            pg.currencycode AS currencycode
                             FROM   hrms.payrollstructure ps 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ps.id = jf.payrollstructureid 
@@ -72,7 +72,7 @@
                                       pc.maximumlimit, 
                                       pcalc.formula, 
                                       pcalc.id,
-                                      currency
+                                      currencycode
                             ORDER BY isfixed";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql, new { employeeId });
