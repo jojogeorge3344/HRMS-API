@@ -236,7 +236,7 @@
                       </div>
                       <div class="form-group col-md-3">
                         <select class="form-control" formControlName="normalOverTime">
-                          <option [ngValue]="null" disabled>Select</option>
+                          <option [ngValue]="0" disabled>Select</option>
                           <option
                             *ngFor="let items of normalOverTime"
                             [ngValue]="items.id"
@@ -257,7 +257,7 @@
                           formControlName="holidayOverTime"
                           [disabled]="disableholiday"
                         >
-                          <option [ngValue]="null" disabled>Select</option>
+                          <option [ngValue]="0" disabled>Select</option>
                           <option
                             *ngFor="let item of holidayOverTime"
                             [ngValue]="item.id"
@@ -274,7 +274,7 @@
                       </div>
                       <div class="form-group col-md-3">
                         <select class="form-control" formControlName="specialOverTime">
-                          <option [ngValue]="null" disabled>Select</option>
+                          <option [ngValue]="0" disabled>Select</option>
                           <option
                             *ngFor="let item of specialOverTime"
                             [ngValue]="item.id"
