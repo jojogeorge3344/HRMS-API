@@ -21,6 +21,8 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
   overTimeCutOff:any
   payrollProcessId:any
   overTimeDetails_save:any=[]
+  overTimeDetailsSort:any=[]
+  payrollOvertimeDetails:any=[]
   constructor(
     private payrollProcessService: PayrollProcessService,
     private toastr: ToasterDisplayService,
@@ -41,23 +43,7 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
       this.payrollProcessId = params.processId
     });
     this.getAllLeaveAttendancePayGroup()
-
-    const arr = [
-      {id: 1, label: "Hello"},
-      {id: 2, label: "World"},
-      {id: 3, label: "Hello"},
-      {id: 4, label: "Sunshine"},
-      {id: 5, label: "Hello"},
-      {id: 6, label: "World"}
-    ]
-    
-    const res = arr.reduce((a, itm) => {
-      var f = a.filter(e => e.label == itm.label);
-      f.length > 0 ? f[0].id += "~" + itm.id : a.push(itm)
-      return a;
-    }, [])
-    console.log(res)
-    
+   
   }
 
   onSubmit(){
@@ -67,63 +53,111 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
       return 
     }
 
-    // const arr = [
-    //   {id: 1, label: "Hello"},
-    //   {id: 2, label: "World"},
-    //   {id: 3, label: "Hello"},
-    //   {id: 4, label: "Sunshine"},
-    //   {id: 5, label: "Hello"},
-    //   {id: 6, label: "World"}
-    // ]
     
-    // const res = this.overTimeDetails.reduce((a, itm) => {
-    //   var f = a.filter(e => e.employeeId == itm.employeeId);
-    //   if(f.length > 0){
-    //     f[0].id += "~" + itm.id
-    //   } 
-    //   return a;
-    // }, [])
-    // console.log(res)
-
-    
-    for(let i=0;i<this.overTimeDetails.length;i++){
+    // for(let i=0;i<this.overTimeDetails.length;i++){
          
-          this.overTimeDetails[i].payrollProcessId =  parseInt(this.payrollProcessId)
-          this.overTimeDetails[i].payrollProcessDate = new Date()
-          this.overTimeDetails[i].totalNot = this.overTimeDetails[i].notHrs
-          this.overTimeDetails[i].totalHot = this.overTimeDetails[i].hotHrs
-          this.overTimeDetails[i].totalSot = this.overTimeDetails[i].sotHrs
-          this.overTimeDetails[i].notrate = this.overTimeDetails[i].notRate
-          this.overTimeDetails[i].hotrate = this.overTimeDetails[i].hotRate
-          this.overTimeDetails[i].sotrate = this.overTimeDetails[i].sotRate
-          this.overTimeDetails[i].totalNotAmount = this.overTimeDetails[i].notAmount
-          this.overTimeDetails[i].totalHotAmount = this.overTimeDetails[i].hotAmount
-          this.overTimeDetails[i].totalSotAmount = this.overTimeDetails[i].sotAmount
-          this.overTimeDetails[i].processStatus = 0
-          this.overTimeDetails[i].payrollOTDetails = [{
+    //       this.overTimeDetails[i].payrollProcessId =  parseInt(this.payrollProcessId)
+    //       this.overTimeDetails[i].payrollProcessDate = new Date()
+    //       this.overTimeDetails[i].totalNot = this.overTimeDetails[i].notHrs
+    //       this.overTimeDetails[i].totalHot = this.overTimeDetails[i].hotHrs
+    //       this.overTimeDetails[i].totalSot = this.overTimeDetails[i].sotHrs
+    //       this.overTimeDetails[i].notrate = this.overTimeDetails[i].notRate
+    //       this.overTimeDetails[i].hotrate = this.overTimeDetails[i].hotRate
+    //       this.overTimeDetails[i].sotrate = this.overTimeDetails[i].sotRate
+    //       this.overTimeDetails[i].totalNotAmount = this.overTimeDetails[i].notAmount
+    //       this.overTimeDetails[i].totalHotAmount = this.overTimeDetails[i].hotAmount
+    //       this.overTimeDetails[i].totalSotAmount = this.overTimeDetails[i].sotAmount
+    //       this.overTimeDetails[i].processStatus = 0
+    //       this.overTimeDetails[i].payrollOTDetails = [{
             
-             id: this.overTimeDetails[i].id,
-             createdDate: this.overTimeDetails[i].createdDate,
-             modifiedDate: this.overTimeDetails[i].modifiedDate,
-             createdBy: this.overTimeDetails[i].createdBy,
-             modifiedBy:this.overTimeDetails[i].modifiedBy ,
-             isArchived: this.overTimeDetails[i].isArchived,
-             payrollOTSummaryid: 0,
-             overTimeId: this.overTimeDetails[i].overTimeId,
-             employeeId: this.overTimeDetails[i].employeeId,
-             notHrs: this.overTimeDetails[i].notHrs,
-             hotHrs: this.overTimeDetails[i].hotHrs,
-             sotHrs: this.overTimeDetails[i].sotHrs,
-             notHrsAmount: this.overTimeDetails[i].notAmount,
-             hotHrsAmount: this.overTimeDetails[i].hotAmount,
-             sotHrsAmount: this.overTimeDetails[i].sotAmount,
+    //          id: this.overTimeDetails[i].id,
+    //          createdDate: this.overTimeDetails[i].createdDate,
+    //          modifiedDate: this.overTimeDetails[i].modifiedDate,
+    //          createdBy: this.overTimeDetails[i].createdBy,
+    //          modifiedBy:this.overTimeDetails[i].modifiedBy ,
+    //          isArchived: this.overTimeDetails[i].isArchived,
+    //          payrollOTSummaryid: 0,
+    //          overTimeId: this.overTimeDetails[i].overTimeId,
+    //          employeeId: this.overTimeDetails[i].employeeId,
+    //          notHrs: this.overTimeDetails[i].notHrs,
+    //          hotHrs: this.overTimeDetails[i].hotHrs,
+    //          sotHrs: this.overTimeDetails[i].sotHrs,
+    //          notHrsAmount: this.overTimeDetails[i].notAmount,
+    //          hotHrsAmount: this.overTimeDetails[i].hotAmount,
+    //          sotHrsAmount: this.overTimeDetails[i].sotAmount,
              
-           }]
+    //        }]
 
+    // }
+    
+    const groupByCategory = this.overTimeDetails.reduce((group, product) => {
+      const { employeeId } = product;
+      group[employeeId] = group[employeeId] ?? [];
+      group[employeeId].push(product);
+      return group;
+    }, {});
+    
+    console.log(groupByCategory);
+    this.overTimeDetailsSort.push(groupByCategory)
+    console.log('arrayt',this.overTimeDetailsSort)
+    let keys = Object.keys(this.overTimeDetailsSort[0])
+    console.log('keys',keys)
+    console.log('firte',this.overTimeDetailsSort[0][111])
+
+    for(let i=0;i<keys.length;i++){
+      let key = keys[i]
+      let data= this.overTimeDetailsSort[0][key]
+      let overtimedetails =[]
+      let totalNot =0
+      let totalHot =0
+      let totalSot =0
+
+      let notrate = 0
+      let hotrate = 0
+      let sotrate =0
+
+      let totalNotAmount =0
+      let totalHotAmount =0
+      let totalSotAmount =0
+
+      let modifiedBy
+      let createdBy
+      let employee
+
+      for(let j=0;j<data.length;j++){
+        overtimedetails.push({id:data[j].id,createdDate:data[j].createdDate,modifiedDate:data[j].modifiedDate,
+          createdBy:data[j].createdBy,modifiedBy:data[j].modifiedBy,isArchived:data[j].isArchived,payrollOTSummaryid:0,
+          overTimeId:data[j].overTimeId,employeeId:data[j].employeeId,notHrs:data[j].notHrs,hotHrs:data[j].hotHrs,sotHrs:data[j].sotHrs,
+          notHrsAmount:data[j].notAmount,hotHrsAmount:data[j].hotAmount,sotHrsAmount:data[j].sotAmount})
+          totalNot = totalNot + data[j].notHrs
+          totalHot = totalHot +data[j].hotHrs
+          totalSot = totalSot + data[j].sotHrs
+          
+          notrate = notrate +data[j].notRate
+          hotrate = hotrate +data[j].hotRate
+          sotrate =sotrate + data[j].sotRate
+
+
+          totalNotAmount = totalNotAmount + data[j].notAmount
+          totalHotAmount = totalHotAmount + data[j].hotAmount
+          totalSotAmount = totalSotAmount + data[j].sotAmount
+
+          modifiedBy = data[0].modifiedBy
+          createdBy = data[0].modifiedBy
+          employee = data[0].employeeId
+          
+      }
+      this.payrollOvertimeDetails.push({
+       id:0,createdDate:new Date(),modifiedDate:new Date(),createdBy:createdBy,modifiedBy:modifiedBy,
+       isArchived:false,payrollProcessId:this.payrollProcessId,payrollProcessDate :new Date(),
+       employeeId:employee,totalNot : totalNot,totalHot:totalHot,totalSot:totalSot,notrate:notrate,hotrate:hotrate,
+       sotrate:sotrate,totalNotAmount:totalNotAmount,totalHotAmount:totalHotAmount,totalSotAmount:totalSotAmount,processStatus:0,
+       payrollOTDetails:overtimedetails
+      })
     }
 
 
-      this.payrollProcessService.InsertPayrollOverTimeDetails(this.overTimeDetails).subscribe(res => {
+      this.payrollProcessService.InsertPayrollOverTimeDetails(this.payrollOvertimeDetails).subscribe(res => {
         this.toastr.showSuccessMessage('Over Time Details Saved Successfully.');
        
       },
@@ -147,83 +181,9 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
     this.payrollProcessService.getPayrollProcessOvertime(this.paygroupId, this.datePipe.transform(previous,"yyyy-MM-dd"), this.datePipe.transform(todate,"yyyy-MM-dd"))
       .subscribe(result => {
         this.overTimeDetails = result
-        this.overTimeDetails = [
-            {
-            "id": 0,
-            "createdDate": "2023-05-15T05:10:47.483Z",
-            "modifiedDate": "2023-05-15T05:10:47.483Z",
-            "createdBy": "Lester",
-            "modifiedBy": "Lester",
-            "isArchived": true,
-            "notHrs": 0,
-            "hotHrs": 0,
-            "sotHrs": 0,
-            "employeeId": 1,
-            "employeeCode": "Lester",
-            "employeeName": "Lester",
-            "notRate": 0,
-            "hotRate": 0,
-            "sotRate": 0,
-            "notComponentId": 0,
-            "hotComponentId": 0,
-            "sotComponentId": 0,
-            "notAmount": 0,
-            "hotAmount": 0,
-            "sotAmount": 0,
-            "overTimeId": 0
-            },
-            {
-            "id": 0,
-            "createdDate": "2023-05-15T05:10:47.483Z",
-            "modifiedDate": "2023-05-15T05:10:47.483Z",
-            "createdBy": "Lester",
-            "modifiedBy": "Lester",
-            "isArchived": true,
-            "notHrs": 0,
-            "hotHrs": 0,
-            "sotHrs": 0,
-            "employeeId": 1,
-            "employeeCode": "Lester",
-            "employeeName": "Lester",
-            "notRate": 0,
-            "hotRate": 0,
-            "sotRate": 0,
-            "notComponentId": 0,
-            "hotComponentId": 0,
-            "sotComponentId": 0,
-            "notAmount": 0,
-            "hotAmount": 0,
-            "sotAmount": 0,
-            "overTimeId": 0
-            },
-           {
-            "id": 0,
-            "createdDate": "2023-05-15T05:10:47.483Z",
-            "modifiedDate": "2023-05-15T05:10:47.483Z",
-            "createdBy": "Lester",
-            "modifiedBy": "Lester",
-            "isArchived": true,
-            "notHrs": 0,
-            "hotHrs": 0,
-            "sotHrs": 0,
-            "employeeId": 2,
-            "employeeCode": "Lester",
-            "employeeName": "Lester",
-            "notRate": 0,
-            "hotRate": 0,
-            "sotRate": 0,
-            "notComponentId": 0,
-            "hotComponentId": 0,
-            "sotComponentId": 0,
-            "notAmount": 0,
-            "hotAmount": 0,
-            "sotAmount": 0,
-            "overTimeId": 0
-            }
-           ]
-
        
        
+          
       },
         error => {
           console.error(error);

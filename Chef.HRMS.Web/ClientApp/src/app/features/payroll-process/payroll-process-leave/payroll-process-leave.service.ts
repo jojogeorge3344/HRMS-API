@@ -19,8 +19,8 @@ export class PayrollProcessLeaveService {
     this.baseUrl_leaveDetails = baseUrl + 'api/payrollleavedetails/'
   }
 
-  getAll(payGroupId, fromDate, toDate) {
-    return this.http.get<PayrollLeaveAndAttandanceViewModel[]>(this.baseUrl + 'GetAllLeaveAndAttendanceByPaygroup/' + payGroupId + '/' + fromDate + '/' + toDate).pipe(map(response => { return response; }));
+  getAll(payGroupId, fromDate, toDate,payrollProcessId) {
+    return this.http.get<PayrollLeaveAndAttandanceViewModel[]>(this.baseUrl + 'GetAllLeaveAndAttendanceByPaygroup/' + payGroupId + '/' + fromDate + '/' + toDate + '/' + payrollProcessId).pipe(map(response => { return response; }));
   }
   getByEmployee(employeeId, payrollProcessId) {
     return this.http.get<PayrollLeaveAndAttandanceViewModel>(this.baseUrl + 'GetLeaveAndAttendanceByEmployeeId/' + employeeId + '/' + payrollProcessId).pipe(map(response => { return response; }));

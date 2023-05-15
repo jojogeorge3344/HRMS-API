@@ -148,6 +148,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.getEmployeeHoliday();
     //this.getAllInfoLeave(this.employeeId);
     this.formatLeaves();
+    console.log('leaveSettings',this.leaveSettings)
   }
 
   formatLeaves() {
@@ -529,6 +530,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       }
     }
     if (!this.addForm.controls.numberOfDays.errors) {
+      debugger
       if (
         this.leaveSettings.maxConsecutiveDays < this.numberOfDays ||
         !this.leaveSettings.maxConsecutiveDays
