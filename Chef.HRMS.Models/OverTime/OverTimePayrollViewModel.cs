@@ -24,6 +24,7 @@ namespace Chef.HRMS.Models
 		public decimal NotAmount { get; set; }
 		public decimal HotAmount { get; set; }
 		public decimal SotAmount { get; set; }
+		public int OverTimeId { get; set; }
 
 	}
 }

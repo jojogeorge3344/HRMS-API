@@ -101,7 +101,7 @@ namespace Chef.HRMS.Repositories
 
 		public async Task<IEnumerable<OverTimePayrollViewModel>> GetOvertimeByPaygroupId(int paygroupId,string fromDate,string toDate)
 		{
-			var sql = @"SELECT OT.normalovertime AS nothrs,0 AS hothrs,
+			var sql = @"SELECT OT.id AS OverTimeId,OT.normalovertime AS nothrs,0 AS hothrs,
                         0 AS sothrs,OT.employeeid,(OTS.valuevariable * escd.monthlyamount)/100 AS notrate,
                         0 hotrate,0 AS hotrate,
                         PC.id AS componentid,
@@ -122,7 +122,7 @@ namespace Chef.HRMS.Repositories
 						
 						UNION 
 						
-						SELECT 0 AS nothrs,OT.holidayovertime AS hothrs,
+						SELECT OT.id AS OverTimeId,0 AS nothrs,OT.holidayovertime AS hothrs,
                         0 AS sothrs,OT.employeeid,0 AS notrate,
                         (OTS.valuevariable * escd1.monthlyamount)/100 AS hotrate,0 AS hotrate,
                         PC1.id AS componentid,
@@ -143,7 +143,7 @@ namespace Chef.HRMS.Repositories
 						
 						UNION
 						
-						SELECT 0 AS nothrs,0 AS hothrs,
+						SELECT OT.id AS OverTimeId,0 AS nothrs,0 AS hothrs,
                         OT.specialovertime AS sothrs,OT.employeeid,0 AS notrate,
                         0 AS hotrate,(OTS.valuevariable * escd2.monthlyamount)/100 AS hotrate,
                         PC2.id AS componentid,
