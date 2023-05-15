@@ -46,7 +46,10 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
 
   onSubmit(){
 
-    debugger
+    if(this.overTimeDetails.length == 0){
+      this.toastr.showErrorMessage('Nothing to save.');
+      return 
+    }
     for(let i=0;i<this.overTimeDetails.length;i++){
           // this.overTimeDetails[i].id =  this.overTimeDetails[i].id
           // this.overTimeDetails[i].createdDate =  this.overTimeDetails[i].createdDate
@@ -54,7 +57,7 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
           // this.overTimeDetails[i].createdBy =  this.overTimeDetails[i].createdBy
           // this.overTimeDetails[i].modifiedBy =  this.overTimeDetails[i].modifiedBy
           // this.overTimeDetails[i].isArchived =  this.overTimeDetails[i].isArchived
-          this.overTimeDetails[i].payrollProcessId =  this.payrollProcessId
+          this.overTimeDetails[i].payrollProcessId =  parseInt(this.payrollProcessId)
           this.overTimeDetails[i].payrollProcessDate = new Date()
           // this.overTimeDetails[i].employeeId =  this.overTimeDetails[i].employeeId
           this.overTimeDetails[i].totalNot = this.overTimeDetails[i].notHrs
@@ -112,76 +115,6 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
     this.payrollProcessService.getPayrollProcessOvertime(this.paygroupId, this.datePipe.transform(previous,"yyyy-MM-dd"), this.datePipe.transform(todate,"yyyy-MM-dd"))
       .subscribe(result => {
         this.overTimeDetails = result
-
-        this.overTimeDetails =[ {
-          id: 0,
-          createdDate: "2023-05-13T16:46:42.490Z",
-          modifiedDate: "2023-05-13T16:46:42.490Z",
-          createdBy: "Lester",
-          modifiedBy: "Lester",
-          isArchived: true,
-          notHrs: 0,
-          hotHrs: 0,
-          sotHrs: 0,
-          employeeId: 0,
-          employeeCode: "Lester",
-          employeeName: "Lester",
-          notRate: 0,
-          hotRate: 0,
-          sotRate: 0,
-          notComponentId :0,
-          hotComponentId: 0,
-          sotComponentId: 0,
-          notAmount: 0,
-          hotAmount: 0,
-          sotAmount: 0
-      },
-      {
-        id: 0,
-        createdDate: "2023-05-13T16:46:42.490Z",
-        modifiedDate: "2023-05-13T16:46:42.490Z",
-        createdBy: "Lester",
-        modifiedBy: "Lester",
-        isArchived: true,
-        notHrs: 0,
-        hotHrs: 0,
-        sotHrs: 0,
-        employeeId: 0,
-        employeeCode: "Letser",
-        employeeName: "Lester",
-        notRate: 0,
-        hotRate: 0,
-        sotRate: 0,
-        notComponentId: 0,
-        hotComponentId: 0,
-        sotComponentId: 0,
-        notAmount: 0,
-        hotAmount: 0,
-        sotAmount: 0
-    },
-    {
-      id: 0,
-      createdDate: "2023-05-13T16:46:42.490Z",
-      modifiedDate: "2023-05-13T16:46:42.490Z",
-      createdBy: "Lester",
-      modifiedBy :"Lester",
-      isArchived: true,
-      notHrs: 0,
-      hotHrs: 0,
-      sotHrs: 0,
-      employeeId: 0,
-      employeeCode: "Lester",
-      employeeName: "Lester",
-      notRate: 0,
-      hotRate: 0,
-      sotRate: 0,
-      notComponentId: 0,
-      hotComponentId: 0,
-      sotComponentId: 0,
-      notAmount: 0,
-      hotAmount: 0,
-      sotAmount: 0
-  }]
        
       },
         error => {

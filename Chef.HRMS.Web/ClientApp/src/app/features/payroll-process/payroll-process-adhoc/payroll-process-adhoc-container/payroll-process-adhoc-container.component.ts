@@ -84,7 +84,7 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
     this.loandetails[i].modifiedDate = new Date()
     this.loandetails[i].createdBy =this.currentUser
     this.loandetails[i].modifiedBy = this.currentUser
-    this.loandetails[i].payrollProcessId = this.payrollProcessId
+    this.loandetails[i].payrollProcessId = parseInt(this.payrollProcessId)
     this.loandetails[i].processStatus = 0
     this.loandetails[i].payrollProcessDate = new Date()
     this.loandetails[i].loanDetailsId = this.loandetails[i].loanId
@@ -106,7 +106,7 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
        this.adhocdeductiondetails[i].createdBy = this.currentUser
        this.adhocdeductiondetails[i].modifiedBy = this.currentUser
        this.adhocdeductiondetails[i].payrollProcessDate = new Date
-       this.adhocdeductiondetails[i].payrollProcessId = this.payrollProcessId
+       this.adhocdeductiondetails[i].payrollProcessId = parseInt(this.payrollProcessId)
        this.adhocdeductiondetails[i].deductionId = this.adhocdeductiondetails[i].adhocDeductionId
        this.adhocdeductiondetails[i].processStatus = 0
        this.adhocdeductiondetails[i].adhocAmount = this.adhocdeductiondetails[i].amount

@@ -49,7 +49,7 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
   }
 
   updatePayrollSummaryDetails(){
-    this.payrollProcessService.updatePayrollSummaryDetails(this.paygroupId,this.payrollProcessId,this.datePipe.transform(new Date(),"yyyy-MM-dd")).subscribe(res => {
+    this.payrollProcessService.updatePayrollSummaryDetails(this.paygroupId,parseInt(this.payrollProcessId),this.datePipe.transform(new Date(),"yyyy-MM-dd")).subscribe(res => {
         this.getPayrollProcessingSummaryDetails()
          
       },
@@ -61,7 +61,7 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
 
    getPayrollProcessingSummaryDetails(){
     this.summaryDetails=[]
-    this.payrollProcessService.getPayrollProcessingSummaryDetails(this.payrollProcessId)
+    this.payrollProcessService.getPayrollProcessingSummaryDetails(parseInt(this.payrollProcessId))
     .subscribe(result => {
       this.summaryDetails = result
       console.log('summarydetails',this.summaryDetails)

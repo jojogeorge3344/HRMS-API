@@ -253,7 +253,7 @@ export class PayrollProcessLeaveListComponent implements OnInit {
 
     for(let i=0;i< this.payGroupProcessLeave.length;i++){
       this.payGroupProcessLeave[i].payrollProcessDate = new Date()
-      this.payGroupProcessLeave[i].payrollProcessId = this.payrollProcessId
+      this.payGroupProcessLeave[i].payrollProcessId = parseInt(this.payrollProcessId)
 
     }
     this.payrollProcessLeaveService.add(this.payGroupProcessLeave).subscribe(res => {
