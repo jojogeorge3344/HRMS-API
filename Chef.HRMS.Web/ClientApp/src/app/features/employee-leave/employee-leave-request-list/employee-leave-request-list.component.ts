@@ -131,7 +131,11 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     modalRef.componentInstance.currentUserId = this.currentUserId;
     modalRef.result.then((result) => {
       if (result == "submit") {
-        this.getAllRequestedLeave();
+        if(this.isEmployeeLeave==true){
+          this.getAllRequestedLeave();
+          }else{
+            this.getAllEmployeeDetailsLeave()
+          }
       }
     });
   }
@@ -157,9 +161,13 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == "submit") {
-        this.getAllRequestedLeave();
-        this.getLeaveBalance();
-        this.getMarkedDates("leave", this.currentUserId);
+        if(this.isEmployeeLeave==true){
+          this.getAllRequestedLeave();
+          this.getLeaveBalance();
+          this.getMarkedDates("leave", this.currentUserId);
+          }else{
+            this.getAllEmployeeDetailsLeave()
+          }
       }
     });
   }
@@ -177,8 +185,13 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
           this.toastr.showSuccessMessage(
             "Leave Request Cancelled successfully"
           );
-          this.getAllRequestedLeave();
-          this.getLeaveBalance();
+          if(this.isEmployeeLeave==true){
+            this.getAllRequestedLeave();
+            this.getLeaveBalance();
+            }
+            else{
+              this.getAllEmployeeDetailsLeave()
+            }
         });
       }
     });
