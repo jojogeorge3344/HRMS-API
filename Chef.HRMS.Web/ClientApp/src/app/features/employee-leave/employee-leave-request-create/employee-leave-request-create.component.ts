@@ -106,6 +106,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     public modalService: NgbModal
   ) {
     const current = new Date();
+    debugger
     this.minDateFrom = {
       year: current.getFullYear(),
       month: current.getMonth() + 1,
@@ -371,6 +372,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     $event.preventDefault();
     if (this.selectedItems.indexOf($event.item) === -1) {
       this.selectedItems.push($event.item);
+      console.log(this.selectedItems,'sss')
     }
     this.notifyPersonnel.nativeElement.value = "";
   }
@@ -688,9 +690,10 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
 
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
+        debugger
         this.employeeLeaveService.add(addForm).subscribe((result) => {
           console.log(result)
-          this.notify(result.id);
+          this.notify(result);
         });
       } else {
         forkJoin([
@@ -699,6 +702,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
           this.documentUploadService.upload(this.documentSave),
         ]).subscribe(
           ([leaveRequest, document]) => {
+            debugger
             this.leaveDocument = {
               leaveId: leaveRequest,
               documentId: document,
@@ -731,6 +735,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
   notify(leaveRequestId): void {
     debugger
+    console.log("leaveRequestId",leaveRequestId)
     const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
       leaveId: leaveRequestId,
       notifyPersonnel: notifyPerson.id,

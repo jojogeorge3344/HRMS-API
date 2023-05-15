@@ -42,11 +42,8 @@
           <input
             class="form-control"
             hrmsBlockPaste
-            [startDate]="currentDate"
-            [minDate]="minDateFrom"
             [dayTemplate]="customDay"
             [footerTemplate]="footerTemplate"
-            [maxDate]="maxDateFrom"
             ngbDatepicker
             [markDisabled]="markDisabled"
             #fromDate="ngbDatepicker"
@@ -109,9 +106,6 @@
           <input
             class="form-control"
             hrmsBlockPaste
-            [startDate]="currentDate"
-            [minDate]="minDateTo"
-            [maxDate]="maxDateTo"
             ngbDatepicker
             [dayTemplate]="customDay"
             [footerTemplate]="footerTemplate"
