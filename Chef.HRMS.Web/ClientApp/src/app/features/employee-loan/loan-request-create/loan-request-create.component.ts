@@ -46,7 +46,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   requestTypes = RequestStatus; 
 
   constructor(
-    private loanRequestService: LoanRequestService,
+    private loanRequestService: LoanRequestService, 
     private loanSettingsService: LoanSettingsService,
     private companyService: CompanyService,
     public activeModal: NgbActiveModal,
