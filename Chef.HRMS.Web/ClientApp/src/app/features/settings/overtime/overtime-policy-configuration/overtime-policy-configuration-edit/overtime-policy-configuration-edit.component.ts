@@ -141,8 +141,11 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     this.editForm.get('isOvertimeSlab').valueChanges.subscribe(value => {
       if (value) {
         this.overtimeFlagCheck=true
+        this.editForm.get('isMonthly').enable()
       } else {
         this.overtimeFlagCheck=false
+        this.editForm.get('isMonthly').reset()
+        this.editForm.get('isMonthly').disable()
       }
     });
 
@@ -203,6 +206,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
       isOvertimeSlab:[false],
+      isMonthly:[false],
       normalOverTime:[0],
       holidayOverTime:[0],
       specialOverTime:[0],      

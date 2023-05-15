@@ -45,6 +45,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   isSaveDisable: boolean = false;
   activeTab: string = "configuration";
   overtimeFlagCheck: boolean=false;
+  disableMonthly=true
   overtimetype=OvertimeType;
   constructor(
     private router: Router,
@@ -60,6 +61,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
+    this.addForm.get('isMonthly').disable()
     this.overtimePolicyConfigurationService.getNormalOverTime()
     .subscribe((result)=>{
       this.normalOverTime=result  
@@ -119,6 +121,17 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       } else {
         this.addForm.get('roundOffType').disable();
         this.addForm.patchValue( {roundOffType: 1, isRoundOffNearest: false, isRoundOffLowest: false} );
+      }
+    });
+    this.addForm.get('isOvertimeSlab').valueChanges.subscribe(value => {
+      debugger
+      if (value) {
+        this.overtimeFlagCheck=true
+        this.addForm.get('isMonthly').enable()
+      } else {
+        this.overtimeFlagCheck=false
+        this.addForm.get('isMonthly').reset()
+        this.addForm.get('isMonthly').disable()
       }
     });
     this.addForm.get('isOvertimeSlab').valueChanges.subscribe(value => {
@@ -235,7 +248,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
       isOvertimeSlab:[false],
-      isMonthlyApplicable:[false],
+      isMonthly:[false],
       normalOverTime:[0],
       holidayOverTime:[0],
       specialOverTime:[0],
