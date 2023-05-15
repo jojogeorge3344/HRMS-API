@@ -4,5 +4,7 @@
     {
         Task<IEnumerable<UserVariable>> GetUserVariables();
 
+        new Task<IEnumerable<UserVariableValues>> GetAllAsync();
+
     }
 }

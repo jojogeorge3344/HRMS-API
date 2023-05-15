@@ -52,6 +52,7 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.payrollcomponentconfiguration pc 
                                            ON pc.payrollcomponentid = pcalc.payrollcomponentid 
                             WHERE  es.employeeid = @employeeid
+                            AND es.isarchived = false
                             ORDER BY iscomputed";
 
                 return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { employeeId });

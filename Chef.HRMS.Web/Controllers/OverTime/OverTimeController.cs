@@ -157,5 +157,12 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
-    }
+		[HttpGet("GetOvertimeByPaygroupId/")]
+		public async Task<ActionResult<IEnumerable<OverTimePayrollViewModel>>> GetOvertimeByPaygroupId(int paygroupId, string fromDate, string toDate)
+		{
+			var overTimes = await overTimeService.GetOvertimeByPaygroupId(paygroupId, fromDate, toDate);
+
+			return Ok(overTimes);
+		}
+	}
 }
