@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers;
 
@@ -19,24 +20,29 @@ public class PaySlipReportController : ReportViewerController
 {
     private readonly IEmployeeService employeeService;
     private readonly IPayslipReportService payslipReportService;
+    readonly IMasterDataService masterDataService;
+    private object currencyData;
+    private object companyData;
 
     public PaySlipReportController( IPayslipReportService payslipReportService,
            IMemoryCache memoryCache,
            IWebHostEnvironment hostingEnvironment,
-           IEmployeeService employeeService
+           IEmployeeService employeeService,
+           IMasterDataService masterDataService
            )
       : base(memoryCache, hostingEnvironment)
     {
         this.employeeService = employeeService;
         this.payslipReportService = payslipReportService;
-        this.ReportPath = @"Reports/PayAdviceReport.rdlc";
+        this.masterDataService = masterDataService;
+        this.ReportPath = @"Reports/.rdlc";
     }
 
     public override void OnReportLoaded(ReportViewerOptions reportOption)
     {
         if (CustomData != null && CustomData.Count > 0)
         {
-            int employeeId = 45;
+            string employeeId = (CustomData["employeeId"].ToString());
             DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
             DateTime ToDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
             string paygroupId = CustomData["paygroupId"].ToString();
@@ -57,5 +63,16 @@ public class PaySlipReportController : ReportViewerController
     public override void OnInitReportOptions(ReportViewerOptions reportOption)
     {
         base.OnInitReportOptions(reportOption);
+    }
+
+    private async Task<Currency> GetByCurrency(string inr)
+    {
+        currencyData = await masterDataService.GetByCurrency(inr);
+        return (Currency)currencyData;
+    }
+    private async Task<Company> GetCompany()
+    {
+        companyData = await this.masterDataService.GetBaseCompany();
+        return (Company)companyData;
     }
 }
