@@ -15,14 +15,14 @@ namespace Chef.HRMS.Models
 {
 	public class PayrollComponentDetails : Model
 	{
-		public int PayrollProcessid { get; set; }
-		public DateTime PayrollProcessdate { get; set; }
+		public int PayrollProcessId { get; set; }
+		public DateTime PayrollProcessDate { get; set; }
 		public int EmployeeId { get; set; }
          [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
         public string EmployeeName { get; set; }
-		public int PayrollComponentid { get; set; }
+		public int PayrollComponentId { get; set; }
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]

@@ -10,5 +10,7 @@ namespace Chef.HRMS.Repositories
 	public interface IPayrollComponentDetailsRepository : IGenericRepository<PayrollComponentDetails>
 	{
 		Task<int> DeleteByPayrollProcessID(int payrollProcessID,int stepNo);
-	}
+		Task<IEnumerable<PayrollComponentDetails>> GetPayslipYears();
+
+    }
 }

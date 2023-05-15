@@ -81,6 +81,7 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
     this.departmentSettings = {
       idField: 'id',
       textField: 'name',
+      allowSearchFilter: true
     }; 
 
     this.monthList=[
@@ -120,6 +121,7 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
       this.paygroupSettings = {
         idField: 'id',
         textField: 'name',
+        allowSearchFilter: true
       };      
     })
   }
@@ -136,6 +138,7 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
         this.employeeSettings = {
           idField: 'id',
           textField: 'firstName',
+          allowSearchFilter: true
         }; 
       })
   }
@@ -150,6 +153,7 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
       this.designationSettings = {
         idField: 'id',
         textField: 'name',
+        allowSearchFilter: true
       };  
     })
   }
