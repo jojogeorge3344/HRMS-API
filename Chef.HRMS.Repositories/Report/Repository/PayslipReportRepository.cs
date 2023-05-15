@@ -13,7 +13,7 @@ namespace Chef.HRMS.Repositories.Report
         {
         }
 
-        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(int employeeId, DateTime fromDate, DateTime ToDate)
         {
             var sql = @"select pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
                         pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate
@@ -28,7 +28,7 @@ namespace Chef.HRMS.Repositories.Report
 
         }
 
-        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(int employeeId, DateTime fromDate, DateTime ToDate)
         {
             var sql = @"SELECT e.firstname,e.middlename,e.lastname,jd.employeenumber AS employeecode,a.currentcountry AS countryid,
                         c.name AS countryname,pcd.payrollprocessdate FROM hrms.payrollcomponentdetails pcd
@@ -47,7 +47,7 @@ namespace Chef.HRMS.Repositories.Report
             return await Connection.QueryAsync<PayrollHeaderView>(sql, new { employeeId, fromDate, ToDate });
         }
 
-        public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(int employeeId, DateTime fromDate, DateTime ToDate)
         {
             var sql = @"SELECT lr.loanamount,lrd.repaymentamount FROM hrms.payrollcomponentdetails pcd
                         INNER JOIN hrms.loanrequest lr
@@ -62,7 +62,7 @@ namespace Chef.HRMS.Repositories.Report
 
         }
 
-        public async Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(int employeeId, DateTime fromDate, DateTime ToDate)
         {
             var sql = @"SELECT OT.normalovertime AS normalovertimehrs,OT.holidayovertime AS holidayovertimehrs,
                         OT.specialovertime AS specialovertimehrs,OT.employeeid,(OTS.valuevariable * escd.monthlyamount)/100 AS normalovertimerate,

@@ -29,24 +29,24 @@ public class PaySlipReportController : ReportViewerController
     {
         this.employeeService = employeeService;
         this.payslipReportService = payslipReportService;
-        this.ReportPath = @"Reports/.rdlc";
+        this.ReportPath = @"Reports/PayAdviceReport.rdlc";
     }
 
     public override void OnReportLoaded(ReportViewerOptions reportOption)
     {
         if (CustomData != null && CustomData.Count > 0)
         {
-            string employeeId =(CustomData["employeeId"].ToString());
+            int employeeId = 45;
             DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
             DateTime ToDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
             string paygroupId = CustomData["paygroupId"].ToString();
             string department = CustomData["department"].ToString();
             string designation = CustomData["designation"].ToString();
 
-            var header = payslipReportService.EmployeeHeaderDetails(employeeId, fromDate, ToDate);
-            var componentDetails = payslipReportService.EmployeeComponentDetails(employeeId, fromDate, ToDate);
-            var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeId, fromDate, ToDate);
-            var loanDetails = payslipReportService.EmployeeLoanDetails(employeeId, fromDate, ToDate);
+            var header = payslipReportService.EmployeeHeaderDetails(employeeId, fromDate, ToDate).Result;
+            var componentDetails = payslipReportService.EmployeeComponentDetails(employeeId, fromDate, ToDate).Result;
+            var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeId, fromDate, ToDate).Result;
+            var loanDetails = payslipReportService.EmployeeLoanDetails(employeeId, fromDate, ToDate).Result;
 
             reportOption.AddDataSource("EmployeeHeader", header);
             reportOption.AddDataSource("ComponentDetails", componentDetails);
