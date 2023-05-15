@@ -159,6 +159,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     this.getEmployeeHoliday();
     //this.getAllInfoLeave(this.employeeId);
     this.formatLeaves();
+    // this.getAttachmentDetails()
     
   }
 
@@ -765,7 +766,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       .invokeConnection(leaveRequestId)
       .then(() => console.log("invoked"))
       .catch((err) => console.log("Error while invoking connection: " + err));
-    this.employeeLeaveService.addNotifyPersonnel(notifyPersonnelForm).subscribe(
+    this.employeeLeaveService.updateNotifyPersonnel(notifyPersonnelForm).subscribe(
       () => {
         this.getLeaveBalance();
         this.toastr.showSuccessMessage("Leave Request submitted successfully");
@@ -842,7 +843,23 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       console.log("leavessting", this.leaveSettings);
     });
   }
+  // getAttachmentDetails() {
+  //   this.identityDetailsService
+  //     .getAllByEmployeeId(
+  //       this.identityDetails.employeeId,
+  //       this.identityDetails.documentId
+  //     )
+  //     .subscribe((result) => {
+  //       console.log("result", result);
 
+  //       this.identityDetails = result[0];
+  //       if (this.identityDetails && this.identityDetails.fileName.length > 40) {
+  //         this.fileName = this.identityDetails.fileName.substr(0, 40) + "...";
+  //       } else {
+  //         this.fileName = this.identityDetails.fileName;
+  //       }
+  //     });
+  // }
 }
 
 

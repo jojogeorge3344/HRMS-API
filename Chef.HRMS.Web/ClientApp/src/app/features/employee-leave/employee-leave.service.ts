@@ -88,5 +88,8 @@ export class EmployeeLeaveService {
   getAllNotifyPersonnalsIndividual(leaveRequestId) {
     return this.http.get<any[]>(this.baseUrl + 'GetAllNotifyPersonnelById/' + leaveRequestId).pipe(map(response => response));
   }
+  updateNotifyPersonnel(notifyPersonnel) {
+    return this.http.post(this.baseUrl + 'UpdateNotifyPersonnel/', notifyPersonnel).pipe(map(response => response));
+  }
 
 }

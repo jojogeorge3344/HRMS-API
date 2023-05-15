@@ -689,6 +689,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
         this.employeeLeaveService.add(addForm).subscribe((result) => {
+          console.log(result)
           this.notify(result.id);
         });
       } else {
@@ -709,6 +710,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
               .add(this.leaveDocument)
               .subscribe(
                 (result: any) => {
+                  debugger
                   this.notify(leaveRequest.id);
                 },
                 (error) => {
@@ -737,6 +739,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       .invokeConnection(leaveRequestId)
       .then(() => console.log("invoked"))
       .catch((err) => console.log("Error while invoking connection: " + err));
+      debugger
     this.employeeLeaveService.addNotifyPersonnel(notifyPersonnelForm).subscribe(
       () => {
         this.getLeaveBalance();
