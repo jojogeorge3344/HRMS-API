@@ -19,8 +19,8 @@ namespace Chef.HRMS.Web.Controllers.BoldReport
     {
         private readonly ILoanPrintBoldReportService loanPrintBoldReportService;
         private readonly ICommonDataService commonDataService;
-        public LoanPrintBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService,
-              ILoanPrintBoldReportService loanPrintBoldReportService) : base(memoryCache, hostingEnvironment, branchService)
+        public LoanPrintBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment,
+              ILoanPrintBoldReportService loanPrintBoldReportService) : base(memoryCache, hostingEnvironment)
         {
             this.ReportPath = @"Reports\LoanPrintReport.rdlc";
             this.loanPrintBoldReportService = loanPrintBoldReportService;
