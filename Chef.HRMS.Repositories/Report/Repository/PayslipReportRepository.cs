@@ -13,22 +13,22 @@ namespace Chef.HRMS.Repositories.Report
         {
         }
 
-        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(int employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate)
         {
             var sql = @"select pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
                         pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate
                         FROM hrms.payrollcomponentdetails pcd
                         INNER JOIN hrms.payrollcomponent pc
                         ON pcd.payrollcomponentid = pc.id
-                        WHERE pcd.employeeid = @employeeId
-                        AND pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
+                        WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
+                         AND pcd.employeeid IN (@employeeId) 
                         AND pcd.isarchived = false";
 
             return await Connection.QueryAsync<PayrollComponentReportView>(sql, new { employeeId, fromDate, ToDate });
 
         }
 
-        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(int employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId, DateTime fromDate, DateTime ToDate)
         {
             var sql = @"SELECT e.firstname,e.middlename,e.lastname,jd.employeenumber AS employeecode,a.currentcountry AS countryid,
                         c.name AS countryname,pcd.payrollprocessdate FROM hrms.payrollcomponentdetails pcd
@@ -40,29 +40,29 @@ namespace Chef.HRMS.Repositories.Report
                         ON a.employeeid = e.id
                         INNER JOIN hrms.country c
                         ON c.id = a.currentcountry
-                        WHERE pcd.id = @employeeId
+                        WHERE pcd.id IN (@employeeId) 
                         AND pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
                         AND pcd.isarchived = false";
 
             return await Connection.QueryAsync<PayrollHeaderView>(sql, new { employeeId, fromDate, ToDate });
         }
 
-        public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(int employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeId, DateTime fromDate, DateTime ToDate)
         {
             var sql = @"SELECT lr.loanamount,lrd.repaymentamount FROM hrms.payrollcomponentdetails pcd
                         INNER JOIN hrms.loanrequest lr
                         ON lr.employeeid = pcd.employeeid
                         INNER JOIN hrms.loanrequestdetail lrd
                         ON lr.id = lrd.loanrequestid
-                        WHERE pcd.employeeid = @employeeId
-                        AND pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
+                        WHERE pcd.employeeid IN (@employeeId) 
+                        AND (To_Date(cast(coalesce(pcd.payrollprocessdate) as TEXT),'YYYY MM DD') BETWEEN @fromDate AND @ToDate)
                         AND pcd.isarchived = false";
 
             return await Connection.QueryAsync<LoanDetailsReportView>(sql, new { employeeId, fromDate, ToDate });
 
         }
 
-        public async Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(int employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(string employeeId, DateTime fromDate, DateTime ToDate)
         {
             var sql = @"SELECT OT.normalovertime AS normalovertimehrs,OT.holidayovertime AS holidayovertimehrs,
                         OT.specialovertime AS specialovertimehrs,OT.employeeid,(OTS.valuevariable * escd.monthlyamount)/100 AS normalovertimerate,
@@ -84,6 +84,7 @@ namespace Chef.HRMS.Repositories.Report
                         INNER JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
                         WHERE (To_Date(cast(coalesce(OT.fromdate) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromDate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
                         AND  (To_Date(cast(coalesce(OT.todate) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromDate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
+                        AND jf.employeeid IN (@employeeId) 
                         AND OT.isarchived=false";
 
             return await Connection.QueryAsync<OvertimeDetailReportView>(sql, new { employeeId, fromDate, ToDate });
