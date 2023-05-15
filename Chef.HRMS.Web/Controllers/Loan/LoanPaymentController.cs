@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using System.Data;
+using System;
 
 namespace Chef.HRMS.Web.Controllers
 {
@@ -61,10 +63,10 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(loanPayments);
         }
-        [HttpGet("GetAllLoanPaymentByPayrollProcessingMethodId/{payrollProcessingMethodId}")]
-        public async Task<ActionResult<IEnumerable<EmployeeLoanView>>> GetAllLoanPaymentByPayrollProcessingMethodId(int payrollProcessingMethodId)
+        [HttpGet("GetAllLoanPaymentByPayrollProcessingMethodId/")]
+        public async Task<ActionResult<IEnumerable<EmployeeLoanView>>> GetAllLoanPaymentByPayrollProcessingMethodId(int payGroupId, int year, string month)
         {
-            var loanPayments = await loanPaymentServices.GetAllLoanPaymentByPayrollProcessingMethodId(payrollProcessingMethodId);
+            var loanPayments = await loanPaymentServices.GetAllLoanPaymentByPayrollProcessingMethodId(payGroupId,year,month);
 
             return Ok(loanPayments);
         }

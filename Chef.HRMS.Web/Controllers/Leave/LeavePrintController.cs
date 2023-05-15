@@ -11,7 +11,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
 
-namespace Chef.HRMS.Web.Controllers.Leave
+namespace Chef.HRMS.Web.Controllers
 {
     [Route("api/settings/[controller]/[action]")]
     [ApiController]
@@ -20,7 +20,7 @@ namespace Chef.HRMS.Web.Controllers.Leave
         private readonly ILeavePrintBoldReportService leavePrintBoldReportService;
         private readonly ICommonDataService commonDataService;
         public LeavePrintController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService,
-            ILeavePrintBoldReportService leavePrintBoldReportService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment, branchService)
+            ILeavePrintBoldReportService leavePrintBoldReportService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment)
         {
             this.ReportPath = @"Reports\LeavePrintReport.rdlc";
             this.leavePrintBoldReportService = leavePrintBoldReportService;
@@ -46,13 +46,13 @@ namespace Chef.HRMS.Web.Controllers.Leave
                 int id = Convert.ToInt32(CustomData["id"].ToString());
                 var LRData = leavePrintBoldReportService.GetLeaveRequestDetailsAsync(id).Result;
 
-                var leaves =LRData.
+                var leaves = LRData.
                            Select(x => new LeaveRequestPrintBoldReport
                            {
                                FromDate = x.FromDate,
                                ToDate = x.ToDate,
-                               RequestedOn=x.RequestedOn,
-                               RejoinDate=x.RejoinDate
+                               RequestedOn = x.RequestedOn,
+                               RejoinDate = x.RejoinDate
                            }).FirstOrDefault();
 
                 if (leaves.FromDate == DateTime.MinValue)

@@ -9,6 +9,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { EmployeeLeaveRequestCreateComponent } from "../employee-leave-request-create/employee-leave-request-create.component";
 import { TeamAttendanceService } from "@features/team-attendance/team-attendance.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { Router, ActivatedRoute } from "@angular/router";
 import { EmployeeLeaveRequestEditComponent } from "../employee-leave-request-edit/employee-leave-request-edit.component";
 
 @Component({
@@ -37,7 +38,9 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     private employeeLeaveService: EmployeeLeaveService,
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
-    private teamAttendanceService: TeamAttendanceService
+    private teamAttendanceService: TeamAttendanceService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -111,6 +114,12 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
       }
     });
   }
+  openPrint(leaveRequest: EmployeeLeaveRequest) {
+    debugger
+    this.router.navigate(["./print/" + leaveRequest.id ], {
+      relativeTo: this.route.parent,
+  })
+    }
   openEdit(leaveRequest: EmployeeLeaveRequest) {
     const modalRef = this.modalService.open(
       EmployeeLeaveRequestEditComponent,

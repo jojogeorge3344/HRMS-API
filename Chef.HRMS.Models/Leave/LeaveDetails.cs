@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.Common.Models;
 using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;

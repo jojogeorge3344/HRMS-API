@@ -1,16 +1,21 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using System;
 
 namespace Chef.HRMS.Services
 {
     public class LeaveService : AsyncService<Leave>, ILeaveService
     {
         private readonly ILeaveRepository leaveRepository;
+        private readonly ILeaveDetailsRepository leaveDetailsRepository;
 
-        public LeaveService(ILeaveRepository leaveRepository)
+        public LeaveService(ILeaveRepository leaveRepository,
+            ILeaveDetailsRepository leaveDetailsRepository)
         {
             this.leaveRepository = leaveRepository;
-        }
+            this.leaveDetailsRepository = leaveDetailsRepository;
+
+		}
 
         public async Task<int> DeleteAsync(int id)
         {
@@ -34,7 +39,41 @@ namespace Chef.HRMS.Services
 
         public async Task<int> InsertAsync(Leave leave)
         {
-            return await leaveRepository.InsertAsync(leave);
+            int MaxDay = Convert.ToInt32(leave.NumberOfDays);
+
+			int leaveId = await leaveRepository.InsertAsync(leave);
+            DateTime startDate = leave.FromDate;
+            for (int i = 1; i <= MaxDay; i++)
+            {
+                LeaveDetails leaveDetails = new LeaveDetails();
+
+                leaveDetails.EmployeeId = leave.EmployeeId;
+                leaveDetails.LeaveId = leaveId;
+                leaveDetails.LeaveComponentId = leave.LeaveComponentId;
+                if (i == 1)
+                {
+                    if (leave.IsFirstDayFirstHalf || leave.IsFirstDaySecondHalf)
+                        leaveDetails.LeaveType = 2;
+                    else
+                        leaveDetails.LeaveType = 1;
+                }
+                else if (i == MaxDay)
+                {
+                    if (leave.IsSecondDayFirstHalf || leave.IsSecondDaySecondHalf)
+                        leaveDetails.LeaveType = 2;
+                    else
+                        leaveDetails.LeaveType = 1;
+                }
+                else
+                { 
+                    leaveDetails.LeaveType = 1;
+                }
+				leaveDetails.LeaveDate = startDate.AddDays(i-1);
+                leaveDetails.LeaveStatus = leave.LeaveStatus;
+                await leaveDetailsRepository.InsertAsync(leaveDetails);
+
+			}
+            return leaveId;
         }
 
         public async Task<IEnumerable<LeaveComponentLeaveBalanceViewModel>> GetAllLeaveBalanceById(int appliedById)

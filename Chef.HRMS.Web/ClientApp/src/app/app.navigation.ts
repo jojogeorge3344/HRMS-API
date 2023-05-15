@@ -214,7 +214,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/adoc-earnings-and-deduction'
       },
-    
+      {
+        title: 'Employee Payroll Parameter Details',
+        tags: 'settings-expense',
+        routerLink: '/employee-payroll-parameter-details'
+      },
       {
         title: 'Employee Overtime',
         tags: 'me-overtime',

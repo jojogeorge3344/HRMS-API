@@ -43,5 +43,13 @@ export class LeaveRequestPrintComponent implements OnInit {
     this.reportViewerService.loadReportOnInit = this.loadReportOnInit;
     this.reportViewerService.customData.id = this.id;
   }
+//   myFunction() {
+//     window.print();
+// }
 
+print(divName){
+  var printContents = document.getElementById(divName).innerHTML;
+  document.getElementById("leaveRequest-view").innerHTML = printContents;
+  window.print();
+}
 }

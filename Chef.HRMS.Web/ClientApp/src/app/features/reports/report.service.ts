@@ -30,6 +30,7 @@ export class ReportsService {
     return this.http.get<LeaveReport[]>(this.baseUrl + 'LeaveReport/GetLeaveReportDetails/' + offset).pipe(map(response => response));
   }
 
+  
   getProcessedSalaryDetailsList(offset) {
     return this.http.get<ProcessedSalaryReport[]>(this.baseUrl + 'ProcessedSalaryReport/GetProcessedSalaryDetails/' + offset)
       .pipe(
