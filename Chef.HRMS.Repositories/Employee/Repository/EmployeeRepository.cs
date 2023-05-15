@@ -75,7 +75,8 @@ namespace Chef.HRMS.Repositories
 									jf.holidaycategoryid              AS holidaycategoryid,
 									jf.expensepolicyid                AS expensepolicyid,
 									jf.payrollstructureid             AS payrollstructureid,
-									jf.overtimepolicyid               AS overtimepolicyid
+									jf.overtimepolicyid               AS overtimepolicyid,
+                                    jd.dateofjoin                     AS dateofjoin									
                             FROM hrms.HRMSEmployee AS e 
                             LEFT JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid

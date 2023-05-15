@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using System;
 
 namespace Chef.HRMS.Models
 {
@@ -85,6 +86,7 @@ namespace Chef.HRMS.Models
         public int OverTimePolicyId { get; set; }
         public int PayGroupId { get; set; }
         public int PaymentMethodeId { get; set; }
-        
+        public DateTime DateOfJoin { get; set; }
+
     }
 }
