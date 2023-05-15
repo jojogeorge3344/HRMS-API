@@ -73,44 +73,44 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
     this.departmentTypeKeys = Object.keys(this.departmentType).filter(Number).map(Number);
 
     this.departmentKeys = [
-      { id: 1, name: 'Engineering' },
-      { id: 2, name: 'HumanResource' },
-      { id: 3, name: 'Marketing' },
+      { id:1, name: 'Engineering' },
+      { id:2, name: 'HumanResource' },
+      { id:3, name: 'Marketing' },
     ];
 
     this.departmentSettings = {
-      idField: 'id',
-      textField: 'name',
+      idField:'id',
+      textField:'name',
       allowSearchFilter: true
     }; 
 
     this.monthList=[
-      { id: 1, name: 'January' },
-      { id: 2, name: 'February' },
-      { id: 3, name: 'March' },
-      { id: 4, name: 'April' },
-      { id: 5, name: 'May' },
-      { id: 6, name: 'June' },
-      { id: 7, name: 'July' },
-      { id: 8, name: 'August' },
-      { id: 9, name: 'September' },
-      { id: 10, name: 'October' },
-      { id: 11, name: 'November' },
-      { id: 12, name: 'December' },
+      { id:1, name: 'January' },
+      { id:2, name: 'February' },
+      { id:3, name: 'March' },
+      { id:4, name: 'April' },
+      { id:5, name: 'May' },
+      { id:6, name: 'June' },
+      { id:7, name: 'July' },
+      { id:8, name: 'August' },
+      { id:9, name: 'September' },
+      { id:10, name: 'October' },
+      { id:11, name: 'November' },
+      { id:12, name: 'December' },
     ];
     this.yearList=[
-      { id: 1, name: '2023' },
-      { id: 2, name: '2022' },
-      { id: 3, name: '2021' },
-      { id: 4, name: '2020' },
-      { id: 5, name: '2019' },
-      { id: 6, name: '2018' },
-      { id: 7, name: '2017' },
-      { id: 8, name: '2016' },
-      { id: 9, name: '2015' },
-      { id: 10, name: '2014' },
-      { id: 11, name: '2013' },
-      { id: 12, name: '2012' },
+      { id:1, name:'2023' },
+      { id:2, name:'2022' },
+      { id:3, name: '2021' },
+      { id:4, name: '2020' },
+      { id:5, name: '2019' },
+      { id:6, name: '2018' },
+      { id:7, name: '2017' },
+      { id:8, name: '2016' },
+      { id:9, name: '2015' },
+      { id:10, name: '2014' },
+      { id:11, name: '2013' },
+      { id:12, name: '2012' },
     ];
   }
 
@@ -119,8 +119,8 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
       this.payGroupDetails = result;
       
       this.paygroupSettings = {
-        idField: 'id',
-        textField: 'name',
+        idField:'id',
+        textField:'name',
         allowSearchFilter: true
       };      
     })
@@ -136,8 +136,8 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
       .subscribe((result) => {
         this.employeeList = result
         this.employeeSettings = {
-          idField: 'id',
-          textField: 'firstName',
+          idField:'id',
+          textField:'firstName',
           allowSearchFilter: true
         }; 
       })
@@ -151,8 +151,8 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
     this.employeeJobTitleService.getAll().subscribe(result => {
       this.designationDetails = result;
       this.designationSettings = {
-        idField: 'id',
-        textField: 'name',
+        idField:'id',
+        textField:'name',
         allowSearchFilter: true
       };  
     })
@@ -163,13 +163,13 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
   openPrint() {
     debugger
     let selectedIds=this.selectedPaygroups
-    this.paygroupId = selectedIds.map(({ id }) => id);
+    this.paygroupId = selectedIds.map(({id}) =>id);
     let departments=this.selectedDepartment
-    this.department=departments.map(({ id }) => id);
+    this.department=departments.map(({id}) =>id);
     let designations=this.selectedDesignation
-    this.designation=designations.map(({ id }) => id);
+    this.designation=designations.map(({id}) =>id);
     let employees=this.selectedEmployee
-    this.employeeId=employees.map(({ id }) => id);
+    this.employeeId=employees.map(({id}) =>id);
     this.noOfCalendarDays = new Date(this.addForm.get('year').value, this.addForm.get('month').value, 0).getDate();
    this.fromDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value > 9 ? this.addForm.get('month').value : 0 + this.addForm.get('month').value}-01`
    this.ToDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value}-${this.noOfCalendarDays}`
