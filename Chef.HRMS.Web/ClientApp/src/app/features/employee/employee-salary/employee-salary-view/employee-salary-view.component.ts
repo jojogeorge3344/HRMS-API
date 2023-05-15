@@ -41,6 +41,7 @@ export class EmployeeSalaryViewComponent implements OnInit {
     if (!this.salary) {
       this.employeeSalaryConfigurationService.getSalaryConfigurationByEmployee(this.employeeId).subscribe((salary) => {
         this.salary = salary;
+        //  this.currency = this.salaryStructure[0].currencycode;
         if (this.salary.length) {
           this.effectiveDate = this.salary[0].effectiveDate;
         }
