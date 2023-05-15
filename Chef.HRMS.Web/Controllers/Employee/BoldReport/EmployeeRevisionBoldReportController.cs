@@ -22,7 +22,7 @@ namespace Chef.HRMS.Web.Controllers
         private readonly IBaseService baseService;
 
         public EmployeeRevisionBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment, IBranchService branchService,
-              IEmployeeRevisionBoldService employeeRevisionBoldService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment, branchService)
+              IEmployeeRevisionBoldService employeeRevisionBoldService, ICommonDataService commonDataService) : base(memoryCache, hostingEnvironment)
         {
             this.ReportPath = @"Reports\EmployeeRevisionPrint.rdlc";
             this.employeeRevisionBoldService = employeeRevisionBoldService;
