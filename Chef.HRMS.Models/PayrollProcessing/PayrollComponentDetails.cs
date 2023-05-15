@@ -13,12 +13,12 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Chef.HRMS.Models
 {
-	public class PayrollComponentDetails:Model
+	public class PayrollComponentDetails : Model
 	{
 		public int PayrollProcessId { get; set; }
 		public DateTime PayrollProcessDate { get; set; }
 		public int EmployeeId { get; set; }
-        [Write(false)]
+         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
         public string EmployeeName { get; set; }
@@ -27,14 +27,12 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public string PayrollComponentName { get; set; }
-        public decimal EarningsAmt { get; set; }
-        public decimal DeductionAmt { get; set; }
-        public int ProcessStatus { get; set; }
-        public int StepNo { get; set; }
-
-		public string CrAccount { get; set; }
+		public decimal EarningsAmt { get; set; }
+		public decimal DeductionAmt { get; set; }
+		public int ProcessStatus { get; set; }
 		public string DrAccount { get; set; }
+		public string CrAccount { get; set; }
 		public string DocNum { get; set; }
-
+		public int StepNo { get; set; }
 	}
 }

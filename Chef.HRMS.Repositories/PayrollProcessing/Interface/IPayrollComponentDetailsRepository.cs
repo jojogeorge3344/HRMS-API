@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chef.Common.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,7 @@ namespace Chef.HRMS.Repositories
 	public interface IPayrollComponentDetailsRepository : IGenericRepository<PayrollComponentDetails>
 	{
 		Task<int> DeleteByPayrollProcessID(int payrollProcessID,int stepNo);
-	}
+		Task<IEnumerable<PayrollComponentDetails>> GetPayslipYears();
+
+    }
 }

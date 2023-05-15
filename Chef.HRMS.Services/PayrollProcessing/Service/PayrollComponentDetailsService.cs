@@ -19,5 +19,10 @@ namespace Chef.HRMS.Services
 		{
 			return await payrollComponentDetailsRepository.DeleteByPayrollProcessID(payrollProcessID,stepNo);
 		}
-	}
+
+        public async Task<IEnumerable<PayrollComponentDetails>> GetPayslipYears()
+        {
+			return await payrollComponentDetailsRepository.GetPayslipYears();
+        }
+    }
 }
