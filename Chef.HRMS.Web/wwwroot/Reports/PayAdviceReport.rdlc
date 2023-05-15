@@ -2598,7 +2598,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Sum(Fields!LoanAmount.Value-Fields!RepaymentAmount.Value)</Value>
+                                      <Value>=Fields!LoanAmount.Value-Fields!RepaymentAmount.Value</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <FontWeight>Light</FontWeight>
