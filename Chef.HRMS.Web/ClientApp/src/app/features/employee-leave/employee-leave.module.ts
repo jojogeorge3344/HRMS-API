@@ -19,7 +19,6 @@ import { BoldReportViewerModule } from '@boldreports/angular-reporting-component
 import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit/employee-leave-request-edit.component';
 
 
-
 @NgModule({
   declarations: [
     EmployeeLeaveContainerComponent,
@@ -44,6 +43,9 @@ import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
     DirectivesModule,
+    ReportViewerModule,
+    BoldReportViewerModule
+    
   ],
   providers: [{
 

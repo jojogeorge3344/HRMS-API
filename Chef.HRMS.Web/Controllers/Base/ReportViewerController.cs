@@ -19,22 +19,22 @@ namespace Chef.HRMS.Web.Controllers
         readonly IWebHostEnvironment hostingEnvironment;
 
         public Dictionary<string, object> CustomData = null;
-        private IMemoryCache memoryCache;
+        private Microsoft.Extensions.Caching.Memory.IMemoryCache memoryCache;
 
 
         // Post action to process the report from server based json parameters and send the result back to the client.
         public ReportViewerController(Microsoft.Extensions.Caching.Memory.IMemoryCache memoryCache,
-            IWebHostEnvironment hostingEnvironment, IBranchService branchService)
+            IWebHostEnvironment hostingEnvironment)
         {
             cache = memoryCache;
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        protected ReportViewerController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment)
-        {
-            this.memoryCache = memoryCache;
-            this.hostingEnvironment = hostingEnvironment;
-        }
+        //protected ReportViewerController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment)
+        //{
+        //    this.memoryCache = memoryCache;
+        //    this.hostingEnvironment = hostingEnvironment;
+        //}
 
         // Post action to process the report from server based json parameters and send the result back to the client.
         [HttpPost]
