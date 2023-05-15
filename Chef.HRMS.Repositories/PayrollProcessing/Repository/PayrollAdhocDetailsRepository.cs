@@ -25,10 +25,6 @@ namespace Chef.HRMS.Repositories
 
 		}
 
-		public Task<int> BulkInsertAsync(List<PayrollAdhocDetails> objs)
-		{
-			throw new NotImplementedException();
-		}
 
 		public Task<int> BulkUpdateAsync(List<PayrollAdhocDetails> objs)
 		{

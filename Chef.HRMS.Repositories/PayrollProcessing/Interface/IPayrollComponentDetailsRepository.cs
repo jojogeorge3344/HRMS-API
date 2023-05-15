@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Repositories
 {
-	public interface IPayrollComponentDetailsRepository : IAsyncService<PayrollComponentDetails>
-    {
-        Task<int> BulkInsertAsync(List<PayrollComponentDetails> payrollComponent);
-        Task<int> DeleteByPayrollProcessID(int payrollProcessID,int stepNo);
-        Task<IEnumerable<PayrollComponentDetails>> GetPayslipYears();
-
-    }
+	public interface IPayrollComponentDetailsRepository : IGenericRepository<PayrollComponentDetails>
+	{
+		Task<int> DeleteByPayrollProcessID(int payrollProcessID,int stepNo);
+	}
 }
