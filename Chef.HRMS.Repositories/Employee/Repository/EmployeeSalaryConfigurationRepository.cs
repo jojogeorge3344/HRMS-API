@@ -50,7 +50,7 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
                                    INNER JOIN hrms.payrollcomponentconfiguration pc 
-                                           ON pc.payrollcomponentid = pcalc.payrollcomponentid 
+                                           ON pc.payrollcomponentid = esd.payrollcomponentid 
                             WHERE  es.employeeid = @employeeid
                             AND es.isarchived = false
                             ORDER BY iscomputed";

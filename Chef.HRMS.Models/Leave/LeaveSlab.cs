@@ -11,7 +11,7 @@ namespace Chef.HRMS.Models
     {
         public int LowerLimit { get; set; }
         public int UpperLimit { get; set; }
-        public int ValueVariable { get; set; }
+        public decimal ValueVariable { get; set; }
         public Chef.HRMS.Types.ValueType ValueType { get; set; }
         public int LeaveComponentId { get; set; }
         public string LeaveComponentName { get; set; }

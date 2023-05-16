@@ -38,7 +38,7 @@ namespace Chef.HRMS.Services
                 DocNum = "",
                 EarningsAmt = 0,
                 EmployeeId = x.EmployeeId,
-                PayrollComponentId = 0,
+                PayrollComponentId = x.LeaveComponentId,
                 CreatedBy = x.CreatedBy,
                 ModifiedBy = x.ModifiedBy,
                 CreatedDate = x.CreatedDate,
