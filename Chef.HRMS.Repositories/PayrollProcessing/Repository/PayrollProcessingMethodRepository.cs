@@ -359,6 +359,15 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
         }
 
+        public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
+        {
+            var sql = @"SELECT ppm.month,ppm.year, pgc.processingday, pg.timesheetcutoff, pg.leavecutoff
+	                    FROM hrms.payrollprocessingmethod ppm
+	                    LEFT JOIN hrms.paygroup pg ON ppm.paygroupid = pg.id
+	                    LEFT JOIN hrms.payrollcalendar pgc ON pg.payrollcalendarid = pgc.id
+	                    WHERE ppm.paygroupid=@paygroupId ORDER BY ppm.year DESC, ppm.month DESC LIMIT 1";
+            return await Connection.QueryAsync<PayrollMonth>(sql, new { paygroupId });
+        }
         public async Task<IEnumerable<PayrollComponentDetails>> GetPayrollComponentsSummary(int payrollprocessid)
         {
             var sql = @"select pcd.payrollprocessid,pcd.payrollprocessdate,pcd.employeeid, emp.displayname as employeename,
@@ -408,16 +417,6 @@ namespace Chef.HRMS.Repositories
 
 
             return await Connection.ExecuteAsync(sql, new { payrollProcessId });
-        }
-
-        public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
-        {
-            var sql = @"SELECT ppm.month,ppm.year, pgc.processingday, pg.timesheetcutoff, pg.leavecutoff
-	                    FROM hrms.payrollprocessingmethod ppm
-	                    LEFT JOIN hrms.paygroup pg ON ppm.paygroupid = pg.id
-	                    LEFT JOIN hrms.payrollcalendar pgc ON pg.payrollcalendarid = pgc.id
-	                    WHERE ppm.paygroupid=@paygroupId ORDER BY ppm.year DESC, ppm.month DESC LIMIT 1";
-            return await Connection.QueryAsync<PayrollMonth>(sql, new { paygroupId });
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Chef.Common.Authentication;
 using Chef.HRMS.Models;
+using Chef.HRMS.Repositories;
+=========
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
@@ -16,10 +18,11 @@ namespace Chef.HRMS.Web.Controllers
     public class PayrollProcessingMethodController : ControllerBase
     {
         private readonly IPayrollProcessingMethodService payrollProcessingMethodService;
-
-        public PayrollProcessingMethodController(IPayrollProcessingMethodService payrollProcessingMethodService)
+        private readonly ISystemVariableValuesService variableValuesService;
+        public PayrollProcessingMethodController(IPayrollProcessingMethodService payrollProcessingMethodService, ISystemVariableValuesService variableValuesService)
         {
             this.payrollProcessingMethodService = payrollProcessingMethodService;
+            this.variableValuesService = variableValuesService;
         }
 
         [HttpDelete("Delete/{id}")]
@@ -72,7 +75,15 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<string>> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
         {
             var result = await payrollProcessingMethodService.InsertOrAlreadyExist(payrollProcessingMethod);
+            ///System Variable insert starts
+            var payrollProcessingData = await payrollProcessingMethodService.GetAsync(Convert.ToInt32(result));
 
+            if (payrollProcessingData != null)
+            {
+                int ppMId = Convert.ToInt32(result);
+                var dd = await variableValuesService.InsertSystemVariableDetails(payrollProcessingData.PayGroupId, ppMId);//, payrollProcessingMethod);
+            }
+            ///System Variable insert Ends
             return Ok(result);
         }
 

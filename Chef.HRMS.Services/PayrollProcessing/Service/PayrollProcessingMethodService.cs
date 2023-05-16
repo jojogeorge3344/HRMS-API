@@ -1,6 +1,6 @@
-﻿using Castle.Core;
-using Chef.Common.Core.Services;
+﻿using Chef.Common.Core.Services;
 using Chef.Common.Models;
+﻿using Castle.Core;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
