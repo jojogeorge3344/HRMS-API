@@ -181,6 +181,49 @@ namespace Chef.HRMS.Repositories
 			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
 			#endregion
 
+			//
+			sql += @"SELECT
+			(SELECT id FROM hrms.systemvariable WHERE code='Wkd_Dys_Cldr_Mth' AND isarchived=false LIMIT 1)
+			AS systemvariableid , JF.employeeid AS employeeid,
+			(@calMonthDays -Count(HM.date) - (SELECT 
+			COUNT(ld.leavedate) 
+			FROM hrms.leave l
+			LEFT JOIN hrms.leavecomponent lc ON l.leavecomponentid=lc.id
+			LEFT JOIN hrms.leavedetails ld ON l.id = ld.leaveid
+			WHERE  lc.isunpaidleave=true AND l.isarchived=false AND lc.isarchived=false AND l.employeeid = JF.employeeid 
+			AND To_date(Cast(ld.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @leaveStartDate AND @leaveEndDate )) AS transvalue
+			FROM hrms.holiday HM
+			LEFT JOIN hrms.Jobfiling JF ON JF.holidaycategoryid = HM.holidaycategoryid
+			WHERE  JF.isarchived = false AND HM.isarchived = false   AND JF.employeeid 
+			IN
+			(
+				SELECT hm.id FROM hrms.hrmsemployee hm
+				LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+				LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+				WHERE pg.id=@PayGroupId AND 
+				hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+			)
+			AND To_date(Cast(HM.date AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
+			GROUP BY JF.employeeid";
+
+			var Wkd_Dys_Cldr_Mth = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				timeSheetStartDate,
+				timeSheetEndDate,
+				calMonthDays,
+				leaveStartDate,
+				leaveEndDate
+			});
+			List<SystemVariableValues> systemVariableValues_Wkd_days = Wkd_Dys_Cldr_Mth.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
+
 			return dd.ToString();
         }
     }

@@ -28,6 +28,10 @@ namespace Chef.HRMS.Models
 		[Skip(true)]
 		[SqlKata.Ignore]
 		public decimal SotHrsAmount { get; set; }
+		[Write(false)]
+		[Skip(true)]
+		[SqlKata.Ignore]
+		public int ComponentId { get; set; }
 
 	}
 }

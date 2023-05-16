@@ -32,5 +32,6 @@ namespace Chef.HRMS.Models
         public int Gender { get; set; }
 
         public int MaritalStatus { get; set; }
+        public bool IsUnPaidLeave { get; set; }
     }
 }

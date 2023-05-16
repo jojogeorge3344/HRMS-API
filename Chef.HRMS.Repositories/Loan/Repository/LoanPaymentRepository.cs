@@ -87,7 +87,8 @@ namespace Chef.HRMS.Repositories
                                                            ( ( lr.loanamount + ( lr.loanamount * ls.standardinterestrate ) / 100 ) 
                                                              - ( Sum( 
                                                              COALESCE((Select lp.emiamount where lp.loanid=lr.id), 0)) ) )             AS balanceamount, 
-                                                           ( lr.repaymentterm - Count((Select lp.tenurenumber where lp.loanid=lr.id)) ) AS remainingtenure 
+                                                           ( lr.repaymentterm - Count((Select lp.tenurenumber where lp.loanid=lr.id)) ) AS remainingtenure ,
+                                                            ls.loanrepaymenttype AS ComponentId
                                                     FROM   hrms.HRMSEmployee e 
                                                            INNER JOIN hrms.jobdetails jd 
                                                                    ON e.id = jd.employeeid 
@@ -126,7 +127,7 @@ namespace Chef.HRMS.Repositories
                                                               ls.standardinterestrate, 
                                                               lr.repaymentterm, 
                                                               lp.loanamount, 
-                                                              lp.tenurenumber";
+                                                              lp.tenurenumber,ls.loanrepaymenttype";
 
                 return await Connection.QueryAsync<EmployeeLoanView>(sql, new { month,year,payGroupId });
         }
