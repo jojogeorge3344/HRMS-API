@@ -1,0 +1,106 @@
+<div class="subheader">
+  <h1 class="subheader-title">
+    <div>
+      Print Employee Payslip
+    </div>
+  </h1>
+</div>
+<div id="employee-list" class="panel"  [formGroup]="addForm" id="leaveRequestForm">
+  <div class="card p-3">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="with-input form-group col-md-1">
+        <span class="text-nowrap">Payslip Year<span class="required">*</span></span>
+      </div>
+      <div class="form-group col-md-5">
+        <select class="form-control" formControlName="year" >
+          <option [ngValue]="null" disabled>Select Payslip Year</option>
+          <option [ngValue]='year.name' *ngFor="let year of yearList">
+            {{year.name}}
+          </option>
+        
+        </select>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="with-input form-group col-md-1">
+        <span class="text-nowrap">Payslip Period<span class="required">*</span></span>
+      </div>
+      <div class="form-group col-md-5">
+        <!-- <p-multiSelect formControlName="selectedCities"></p-multiSelect> -->
+        <select class="form-control" formControlName="month">
+          <option [ngValue]="null" disabled>Select Payslip Period</option>
+          <option [ngValue]='month.id' *ngFor="let month of monthList">
+            {{month.name}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="with-input form-group col-md-1">
+        <span class="text-nowrap">Paygroup<span class="required">*</span></span>
+      </div>
+      <div class="form-group col-md-5">
+       <ng-multiselect-dropdown [(ngModel)]="selectedPaygroups" [placeholder]="'Select Paygroup'"
+       [settings]="paygroupSettings"
+       [data]="payGroupDetails"
+       formControlName="paygroupId">
+    </ng-multiselect-dropdown>
+      <div class="col-md-3"></div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="with-input form-group col-md-1">
+      <span class="text-nowrap">Department<span class="required">*</span></span>
+    </div>
+    <div class="form-group col-md-5">
+     <ng-multiselect-dropdown [(ngModel)]="selectedDepartment" [placeholder]="'Select Department'"
+     [settings]="departmentSettings"
+     [data]="departmentKeys"
+     formControlName="department">
+  </ng-multiselect-dropdown>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="with-input form-group col-md-1">
+    <span class="text-nowrap">Designation<span class="required">*</span></span>
+  </div>
+  <div class="form-group col-md-5">
+   <ng-multiselect-dropdown [placeholder]="'Select Designation'"
+   [settings]="designationSettings" [(ngModel)]="selectedDesignation"
+   [data]="designationDetails"
+   formControlName="designation">
+</ng-multiselect-dropdown>
+  <div class="col-md-3"></div>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="with-input form-group col-md-1">
+    <span class="text-nowrap">Employee<span class="required">*</span></span>
+  </div>
+  <div class="form-group col-md-5">
+   <ng-multiselect-dropdown [(ngModel)]="selectedEmployee" [placeholder]="'Select Employee'"
+   [settings]="employeeSettings" 
+   [data]="employeeList"
+   formControlName="employeeId">
+</ng-multiselect-dropdown>
+  <div class="col-md-3"></div>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-6"></div>
+  <div class="form-group col-md-3">
+    <button type="button" class="btn btn-primary ps-2 pe-2"(click)="openPrint()">Print</button>
+</div>
+<div class="col-md-3"></div>
+</div>
+</div>

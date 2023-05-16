@@ -5,9 +5,15 @@ import { EmployeeBasicComponentReportComponent } from './employee-basic-componen
 import { ProcessedSalaryReportComponent } from './processed-salary-report/processed-salary-report/processed-salary-report.component';
 import { AttendanceReportComponent } from './attendance-report/attendance-report/attendance-report.component';
 import { LeaveReportComponent } from './leave-report/leave-report/leave-report.component';
+import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/employee-payslip-print-filter/employee-payslip-print-filter.component';
+import { EmployeePayslipPrintComponent } from './employee-payslip-report/employee-payslip-print/employee-payslip-print.component';
 
 
 const routes: Routes = [
+  {
+    path: 'employeepayslip', component: EmployeePayslipPrintFilterComponent,
+    data: { breadcrumbs: ['Employee Report List', 'Employee Payslip'], name: 'report-employeelist' }
+  },
   {
     path: 'employeeList', component: EmployeeListReportComponent,
     data: { breadcrumbs: ['Employee Report List', 'EmployeeList'], name: 'report-employeelist' }
@@ -27,7 +33,12 @@ const routes: Routes = [
   {
     path: 'leavelist', component: LeaveReportComponent,
     data: { breadcrumbs: ['Leave Report List', 'LeaveReportComponent'], name: 'report-leavereport' }
-  }
+  },
+  // {
+  //   path: 'print', component: EmployeePayslipPrintComponent,
+  //   data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
+  // }
+
 ];
 
 @NgModule({
