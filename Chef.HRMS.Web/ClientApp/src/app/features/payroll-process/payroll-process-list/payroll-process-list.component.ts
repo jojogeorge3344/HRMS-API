@@ -16,6 +16,12 @@ export class PayrollProcessListComponent implements OnInit {
   payrollProcess: PayrollProcess[] = [];
   modeOfPayrollProcessType = ModeOfPayrollProcessType;
   paygroup: any;
+  payrollProcessMonthDetails:any=[]
+  isDisabled:boolean=true
+  payrollSelectedMonth:any
+  payrollleaveCutOff:any
+  payrollYear:any
+  overtimeCutoff:any
 
   constructor(
     private toastr: ToasterDisplayService,
@@ -49,15 +55,74 @@ export class PayrollProcessListComponent implements OnInit {
   }
 
   processSetup(process) {
-    const month = process.name.split(' - ')[0];
-    const year = process.name.split(' - ')[1].substring(0, 4);
-    if (process.payGroupId) {
+    
+    this.payrollProcessService.getPayrollProcessingMonthDetails(process.payGroupId).subscribe(res => {
+      this.payrollProcessMonthDetails = res
+
+      this.payrollSelectedMonth = this.payrollProcessMonthDetails[0].month
+      this.payrollleaveCutOff = this.payrollProcessMonthDetails[0].leaveCutOff
+      this.payrollYear = this.payrollProcessMonthDetails[0].year
+      this.overtimeCutoff = this.payrollProcessMonthDetails[0].timeSheetCutOff
+
+      const month = process.name.split(' - ')[0];
+      const year = process.name.split(' - ')[1].substring(0, 4);
+      if (process.payGroupId) {
       this.router.navigate(['/payroll-processing/payroll-process-setup'],
-        { queryParams: { date: `${month}-${year}`, payGroup: process.payGroupId, id: process.id } });
+        { 
+          queryParams: { 
+            date: `${month}-${year}`, 
+            payGroup: process.payGroupId, 
+            id: process.employeeId,
+            month: this.payrollSelectedMonth,
+            year:this.payrollYear,
+            cutOffDay:this.payrollleaveCutOff,
+            //processId:res
+            processId:process.id,
+            overTimeCutOff:this.overtimeCutoff
+
+          } 
+        });
     } else {
       this.router.navigate(['/payroll-processing/payroll-process-employee'],
         { queryParams: { date: `${month}-${year}`, id: process.id, employee: process.employeeId } });
     }
+
+
+  });
+
+    // const month = process.name.split(' - ')[0];
+    // const year = process.name.split(' - ')[1].substring(0, 4);
+    // if (process.payGroupId) {
+    //   this.router.navigate(['/payroll-processing/payroll-process-setup'],
+    //     { 
+    //       queryParams: { 
+    //         date: `${month}-${year}`, 
+    //         payGroup: process.payGroupId, 
+    //         id: process.employeeId,
+    //         month: this.payrollSelectedMonth,
+    //         year:this.payrollYear,
+    //         cutOffDay:this.payrollleaveCutOff,
+    //         //processId:res
+    //         processId:process.id,
+    //         overTimeCutOff:this.overtimeCutoff
+
+    //       } 
+    //     });
+    // } else {
+    //   this.router.navigate(['/payroll-processing/payroll-process-employee'],
+    //     { queryParams: { date: `${month}-${year}`, id: process.id, employee: process.employeeId } });
+    // }
   }
+
+  getpayrollProcessDetails(paygroupid){
+    this.payrollProcessService.getPayrollProcessingMonthDetails(paygroupid).subscribe(res => {
+      this.payrollProcessMonthDetails = res
+
+      this.payrollSelectedMonth = this.payrollProcessMonthDetails[0].month
+      this.payrollleaveCutOff = this.payrollProcessMonthDetails[0].leaveCutOff
+      this.payrollYear = this.payrollProcessMonthDetails[0].year
+      this.overtimeCutoff = this.payrollProcessMonthDetails[0].timeSheetCutOff
+  });
+}
 
 }
