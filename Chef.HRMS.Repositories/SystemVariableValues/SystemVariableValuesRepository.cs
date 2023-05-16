@@ -182,7 +182,7 @@ namespace Chef.HRMS.Repositories
 			#endregion
 
 			//
-			sql += @"SELECT
+			sql = @"SELECT
 			(SELECT id FROM hrms.systemvariable WHERE code='Wkd_Dys_Cldr_Mth' AND isarchived=false LIMIT 1)
 			AS systemvariableid , JF.employeeid AS employeeid,
 			(@calMonthDays -Count(HM.date) - (SELECT 
