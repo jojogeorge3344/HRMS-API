@@ -104,7 +104,6 @@ export class EmployeeListComponent implements OnInit {
   }
 
   openPrint(employee: Employee) {
-    debugger
     this.router.navigate(["./" + employee.id + "/print"], {
       relativeTo: this.route.parent,
     });

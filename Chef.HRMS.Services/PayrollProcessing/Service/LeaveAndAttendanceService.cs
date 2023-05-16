@@ -18,7 +18,7 @@ namespace Chef.HRMS.Services
             this.leaveAndAttendanceRepository = leaveAndAttendanceRepository;
         }
 
-        public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate)
+        public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate, int payrollProcessId)
         {
             return await leaveAndAttendanceRepository.GetAllLeaveAndAttendanceByPaygroup(paygroupId, fromDate, toDate);
         }

@@ -44,7 +44,7 @@
         <div class="p-3">
             <div class="header-button-wrapper">
                 <div class="content-header">
-                    {{salaryStructureName}}
+                    {{salaryStructureName}}&nbsp;&nbsp;-&nbsp;&nbsp;{{employeename}}({{employeecode}})
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
 
                 <div [ngbNavOutlet]="nav"></div>
 
-                <div class="header-button-wrapper">
+                <!-- <div class="header-button-wrapper">
                     <div class="content-subheader">
                         Bonus/Perks
                     </div>
@@ -61,7 +61,7 @@
                         <i class="fa fal fa-plus mr-1"></i>Add Bonus/Perks</button>
                 </div>
 
-                <hrms-employee-bonus-list #bonus [showRemarks]="activeId==2"></hrms-employee-bonus-list>
+                <hrms-employee-bonus-list #bonus [showRemarks]="activeId==2"></hrms-employee-bonus-list> -->
                 <div class="align-items-end flex-row-reverse header-button-wrapper">
                     <div class="" *ngIf="activeId==2">
                         <button (click)="goBack()" class=" btn btn-secondary mr-2"> Back</button>
