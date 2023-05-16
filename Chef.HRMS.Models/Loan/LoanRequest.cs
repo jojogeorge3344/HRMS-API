@@ -88,5 +88,6 @@ namespace Chef.HRMS.Models
         /// </summary>
         public RequestStatusType IsApproved { get; set; }
         public int ExtendedMonth { get; set; }
+        public int RequestedBy { get; set; }
     }
 }
