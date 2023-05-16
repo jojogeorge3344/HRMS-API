@@ -78,8 +78,8 @@ namespace Chef.HRMS.Web.Controllers
 
             if (payrollProcessingData != null)
             {
-                int pId = Convert.ToInt32(result);
-                var dd = await variableValuesService.InsertSystemVariableDetails(payrollProcessingData.PayGroupId);//, payrollProcessingMethod);
+                int ppMId = Convert.ToInt32(result);
+                var dd = await variableValuesService.InsertSystemVariableDetails(payrollProcessingData.PayGroupId, ppMId);//, payrollProcessingMethod);
             }
             ///System Variable insert Ends
             return Ok(result);

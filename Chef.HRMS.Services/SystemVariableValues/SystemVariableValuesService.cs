@@ -19,9 +19,9 @@ namespace Chef.HRMS.Services
             this.bulkUploadRepository = bulkUploadRepository;
         }
 
-        public async Task<string> InsertSystemVariableDetails(int PayGroupId)//, PayrollProcessingMethod systemVariableValues)
+        public async Task<string> InsertSystemVariableDetails(int PayGroupId, int ppMId)//, PayrollProcessingMethod systemVariableValues)
         {
-            return await systemVariableValuesRepository.InsertSystemVariableDetails(PayGroupId);//, systemVariableValues);
+            return await systemVariableValuesRepository.InsertSystemVariableDetails(PayGroupId, ppMId);//, systemVariableValues);
             //bulkUploadRepository.BulkInsertSystemVariableValues()
             //List<SystemVariableValues> dd = new List<SystemVariableValues>();
             //var dvd = bulkUploadRepository.BulkInsertSystemVariableValues(dd);
