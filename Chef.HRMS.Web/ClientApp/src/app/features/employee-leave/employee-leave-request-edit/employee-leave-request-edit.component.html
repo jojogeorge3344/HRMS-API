@@ -1,6 +1,6 @@
 <form [formGroup]="addForm" id="leaveRequestForm">
     <div class="modal-header">
-      <h4 class="modal-title">Leave Request{{ isEmployeeLeave }}</h4>
+      <h4 class="modal-title">Leave Request</h4>
       <button
         type="button"
         class="close"
@@ -27,7 +27,7 @@
         <label for="employeeName"
           >Requested By<span class="required">*</span></label
         >
-        <select class="form-control" formControlName="employeeId">
+        <select disabled class="form-control" formControlName="employeeId">
           <option [ngValue]="null" disabled>Select Employee Name</option>
           <option *ngFor="let list of employeeList" value="{{ list.id }}">
             {{ list.firstName }}
@@ -42,11 +42,8 @@
           <input
             class="form-control"
             hrmsBlockPaste
-            [startDate]="currentDate"
-            [minDate]="minDateFrom"
             [dayTemplate]="customDay"
             [footerTemplate]="footerTemplate"
-            [maxDate]="maxDateFrom"
             ngbDatepicker
             [markDisabled]="markDisabled"
             #fromDate="ngbDatepicker"
@@ -109,9 +106,6 @@
           <input
             class="form-control"
             hrmsBlockPaste
-            [startDate]="currentDate"
-            [minDate]="minDateTo"
-            [maxDate]="maxDateTo"
             ngbDatepicker
             [dayTemplate]="customDay"
             [footerTemplate]="footerTemplate"
@@ -263,9 +257,6 @@
           <input
             class="form-control"
             hrmsBlockPaste
-            [startDate]="currentDate"
-            [minDate]="maxDateFrom"
-            [maxDate]="maxDateTo"
             ngbDatepicker
             [dayTemplate]="customDay"
             [footerTemplate]="footerTemplate"
@@ -314,7 +305,7 @@
             <input type="text" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 px-0"
          id="notifyPersonnel" name="notifyPersonnel" [ngbTypeahead]="search" (selectItem)="selected($event)" 
          #notifyPersonnel [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]='false' placeholder="Notify">             
-    </div> 
+      </div> 
       <div class="form-group">
         <label for="description">Note<span class="required">*</span></label>
         <textarea
