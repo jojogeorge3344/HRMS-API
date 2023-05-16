@@ -9,6 +9,10 @@ import { LeaveReportComponent } from './leave-report/leave-report/leave-report.c
 
 const routes: Routes = [
   {
+    path: 'employeePayslip', component: EmployeeListReportComponent,
+    data: { breadcrumbs: ['Employee Report List', 'EmployeePayslip'], name: 'report-employeePayslip' }
+  },
+  {
     path: 'employeeList', component: EmployeeListReportComponent,
     data: { breadcrumbs: ['Employee Report List', 'EmployeeList'], name: 'report-employeelist' }
   },
