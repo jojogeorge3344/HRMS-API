@@ -31,7 +31,7 @@ namespace Chef.HRMS.Repositories
                                             ad.modifieddate                          AS modifieddate, 
                                             ad.createdby                             AS createdby, 
                                             ad.modifiedby                            AS modifiedby,
-                                            ad.isaddition
+                                            ad.isaddition,ad.payrollcomponentid AS ComponentId
                             FROM   hrms.adhocdeduction ad 
                                    INNER JOIN hrms.HRMSEmployee e 
                                            ON ad.employeeid = e.id 

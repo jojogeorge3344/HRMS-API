@@ -44,8 +44,9 @@ namespace Chef.HRMS.Repositories
                                    lc.isrestrictedtomaritalstatus, 
                                    lc.restrictedtomaritalstatus, 
                                    lc.isshowleavedescription, 
+                                   lc.isunpaidleave,
                                    e.gender, 
-                                   e.maritalstatus 
+                                   e.maritalstatus
                             FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
@@ -75,7 +76,8 @@ namespace Chef.HRMS.Repositories
                                       lc.isrestrictedtogender, 
                                       lc.restrictedtogender, 
                                       lc.isrestrictedtomaritalstatus, 
-                                      lc.restrictedtomaritalstatus, 
+                                      lc.restrictedtomaritalstatus,
+                                      lc.isunpaidleave,
                                       lc.isshowleavedescription, 
                                       e.gender, 
                                       e.maritalstatus 
