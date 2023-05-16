@@ -35,12 +35,12 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   leaveInfo: EmployeeLeaveRequest[];
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private employeeLeaveService: EmployeeLeaveService,
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
-    private teamAttendanceService: TeamAttendanceService
+    private teamAttendanceService: TeamAttendanceService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
