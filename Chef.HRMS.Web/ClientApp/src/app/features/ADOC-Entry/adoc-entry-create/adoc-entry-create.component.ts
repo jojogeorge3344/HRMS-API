@@ -88,7 +88,6 @@ export class AdocEntryCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
     if (this.addForm.invalid) {
       return
     }
@@ -110,15 +109,18 @@ export class AdocEntryCreateComponent implements OnInit {
       employeeName:this.employee.firstName,
       employeeCode:this.employee.employeeNumber
      })
-      if(this.addForm.value.adhocBFCode=='SE'){
+
+
+     let filterdata= this.adhoc.filter(x=>x.id==this.addForm.value.adhocBFCode)
+      if(filterdata[0].code=='SE'){
         this.addForm.patchValue({
           isAddition:true,
-          payrollComponentId:17
+          payrollComponentId:this.addForm.value.adhocBFCode
         })
       }else{
         this.addForm.patchValue({
           isAddition:false,
-          payrollComponentId:25
+          payrollComponentId:this.addForm.value.adhocBFCode
         })
       }
       this.adocEntryService.add(this.addForm.value).subscribe((result) => {
@@ -160,5 +162,8 @@ export class AdocEntryCreateComponent implements OnInit {
       ]],
     });
   }
-
+  changeadhoc(event){
+    debugger
+    console.log("event",event)
+  }
 }
