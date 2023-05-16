@@ -42,7 +42,7 @@ namespace Chef.HRMS.Services
 				DocNum = "",
 				EarningsAmt = 0,
 				EmployeeId = x.EmployeeId,
-				PayrollComponentId = 0,
+				PayrollComponentId = x.ComponentId,
 				CreatedBy = x.CreatedBy,
 				ModifiedBy = x.ModifiedBy,
 				CreatedDate = x.CreatedDate,

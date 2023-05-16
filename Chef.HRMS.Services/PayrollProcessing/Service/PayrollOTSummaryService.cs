@@ -51,7 +51,7 @@ namespace Chef.HRMS.Services
 					DocNum = "",
 					EarningsAmt = x.NotHrsAmount+x.SotHrsAmount+x.HotHrsAmount,
 					EmployeeId = x.EmployeeId,
-					PayrollComponentId = 0,
+					PayrollComponentId = x.ComponentId,
 					CreatedBy = x.CreatedBy,
 					ModifiedBy = x.ModifiedBy,
 					CreatedDate = x.CreatedDate,
