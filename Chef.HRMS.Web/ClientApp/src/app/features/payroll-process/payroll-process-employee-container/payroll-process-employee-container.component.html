@@ -21,7 +21,7 @@
         </hrms-payroll-employee-leave>
       </ng-template>
     </li>
-    <li [ngbNavItem]="2">
+    <!-- <li [ngbNavItem]="2">
       <a ngbNavLink>Salary Components<span  [ngClass]="(payrollProcessById?.processedStep>='2')?'bg-primary-500':'bg-fusion-200'"
         class="bg-primary-500 border-circle ml-2 px-2">2</span></a>
       <ng-template ngbNavContent>
@@ -36,21 +36,37 @@
         <hrms-payroll-employee-bonus-container [employee]="employee" (selectTab)="activateTab($event)">
         </hrms-payroll-employee-bonus-container>
       </ng-template>
-    </li>
-    <li [ngbNavItem]="4">
-      <a ngbNavLink>Adhoc Deductions<span  [ngClass]="(payrollProcessById?.processedStep>='4')?'bg-primary-500':'bg-fusion-200'"
-        class="bg-primary-500 border-circle ml-2 px-2">4</span></a>
+    </li> -->
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Adhoc Deductions<span  [ngClass]="(payrollProcessById?.processedStep>='2')?'bg-primary-500':'bg-fusion-200'"
+        class="bg-primary-500 border-circle ml-2 px-2">2</span></a>
       <ng-template ngbNavContent>
         <hrms-payroll-adhoc-container [employee]="employee" (selectTab)="activateTab($event)">
         </hrms-payroll-adhoc-container>
       </ng-template>
     </li>
-    <li [ngbNavItem]="5">
+    <!-- <li [ngbNavItem]="5">
       <a ngbNavLink>Review<span  [ngClass]="(payrollProcessById?.processedStep>='5')?'bg-primary-500':'bg-fusion-200'"
         class="bg-primary-500 border-circle ml-2 px-2">5</span></a>
       <ng-template ngbNavContent>
         <hrms-payroll-employee-review [employee]="employee" (selectTab)="activateTab($event)">
         </hrms-payroll-employee-review>
+      </ng-template>
+    </li> -->
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Over Time Details<span  [ngClass]="(payrollProcessById?.processedStep>='3')?'bg-primary-500':'bg-fusion-200'"
+        class="bg-primary-500 border-circle ml-2 px-2">3</span></a>
+      <ng-template ngbNavContent>
+        <hrms-payroll-process-overtime-list [employee]="employee" (selectTab)="activateTab($event)">
+        </hrms-payroll-process-overtime-list>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <a ngbNavLink>Over Time Details<span  [ngClass]="(payrollProcessById?.processedStep>='4')?'bg-primary-500':'bg-fusion-200'"
+        class="bg-primary-500 border-circle ml-2 px-2">4</span></a>
+      <ng-template ngbNavContent>
+        <hrms-payroll-process-summary-details [employee]="employee" (selectTab)="activateTab($event)">
+        </hrms-payroll-process-summary-details>
       </ng-template>
     </li>
   </ul>

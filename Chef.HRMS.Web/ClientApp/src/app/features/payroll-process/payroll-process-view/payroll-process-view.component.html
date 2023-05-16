@@ -27,7 +27,7 @@
             </div>
             <div class="form-group col-lg-4 col-md-4 col-sm-6" *ngIf="addForm.controls.modeOfProcessing.value ==1">
                 <label for="name">Pay Group Name</label>
-                <select class="form-control" formControlName="payGroupId">
+                <select (change)="getMonthForPayRollProcess()" class="form-control" formControlName="payGroupId">
                     <option [ngValue]="0">Select PayGroup Name</option>
                     <option *ngFor="let type of paygroup" value='{{type.id}}'>
                         {{type.name}}
@@ -40,15 +40,24 @@
     <div class="row h-100" style="min-height: 310px;" *ngIf="addForm.controls.payGroupId.value || addForm.controls.employeeId.value">
         <div class="col-sm-2 border-right">
             <ul class="list-group" style="box-sizing: border-box;">
-                <li *ngFor="let previousMonth of previousMonths" class="list-group-item link list-link"
+                <!-- <li  *ngFor="let previousMonth of previousMonths" class="list-group-item link list-link"
                     [ngStyle]="{'border-right': getBorders(previousMonth),'padding-right':getPadding(previousMonth)}"
                     (click)="payrollMonths(previousMonth)">
-                    <div class="m-1">
+                    <div  class="m-1">
                         {{months[previousMonth.month]}}
                         <i *ngIf="previousMonth.processed" class="bg-success-400 border-circle fa fa-check fal float-right fs-xl text-white"></i>
                         <i *ngIf="!previousMonth.processed" class="bg-warning-400 border-circle fa fa-exclamation-circle fal float-right fs-xl text-white"></i>
                     </div>
-                </li>
+                </li> -->
+                <li disabled  *ngFor="let previousMonth of previousMonths" class="list-group-item link list-link"
+                [ngStyle]="{'border-right': previousMonth.month == payrollSelectedMonth ? '4px solid #4679cc' :'1px solid rgba(0, 0, 0, 0.08)','padding-right':getPadding(previousMonth)}"
+                (click)="previousMonth.month == payrollSelectedMonth ? payrollMonths(previousMonth) : ''">
+                <div  class="m-1">
+                    {{months[previousMonth.month]}}
+                    <i *ngIf="previousMonth.processed" class="bg-success-400 border-circle fa fa-check fal float-right fs-xl text-white"></i>
+                    <i *ngIf="!previousMonth.processed" class="bg-warning-400 border-circle fa fa-exclamation-circle fal float-right fs-xl text-white"></i>
+                </div>
+            </li>
             </ul>
         </div>
         <div class="col-sm-10 ">

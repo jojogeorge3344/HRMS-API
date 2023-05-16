@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -57,6 +57,10 @@ import { PayrollAdhocListComponent } from './payroll-employee-adhoc/payroll-adho
 import { PayrollLoanAdvanceListComponent } from './payroll-employee-adhoc/payroll-loan-advance-list/payroll-loan-advance-list.component';
 import { PayrollEmployeeReviewComponent } from './payroll-employee-review/payroll-employee-review.component';
 import { PayrollProcessCompletedViewComponent } from './payroll-process-completed-view/payroll-process-completed-view.component';
+import { PayrollProcessOvertimeListComponent } from './payroll-process-overtime-list/payroll-process-overtime-list.component';
+import { PayrollProcessSummaryDetailsComponent } from './payroll-process-summary-details/payroll-process-summary-details.component';
+import { PayrollProcessEmployeeSummarydetailsComponent } from './payroll-process-employee-summarydetails/payroll-process-employee-summarydetails.component';
+
 
 
 
@@ -112,6 +116,9 @@ import { PayrollProcessCompletedViewComponent } from './payroll-process-complete
     PayrollLoanAdvanceListComponent,
     PayrollEmployeeReviewComponent,
     PayrollProcessCompletedViewComponent,
+    PayrollProcessOvertimeListComponent,
+    PayrollProcessSummaryDetailsComponent,
+    PayrollProcessEmployeeSummarydetailsComponent,
 
 
   ],
@@ -126,9 +133,15 @@ import { PayrollProcessCompletedViewComponent } from './payroll-process-complete
     PipesModule,
     //  NgBootstrapFormValidationModule,
     NgBootstrapFormValidationModule.forRoot(),
-    BsDropdownModule
+    BsDropdownModule,
+    
+    
+    
+    
   ],
-  providers: [{
+ 
+  providers: [DatePipe,{
+
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: customErrorMessages,
     multi: true

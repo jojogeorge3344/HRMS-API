@@ -33,8 +33,8 @@ namespace Chef.HRMS.Services
 			await payrollLoanDetailsRepository.BulkInsertAsync(payrollLoanDetails);
 			List<PayrollComponentDetails> payrollComponent = payrollLoanDetails.Select(x => new PayrollComponentDetails()
 			{
-				PayrollProcessId = x.PayrollProcessId,
-				PayrollProcessDate = x.PayrollProcessDate,
+                PayrollProcessId = x.PayrollProcessId,
+                PayrollProcessDate = x.PayrollProcessDate,
 				ProcessStatus = x.ProcessStatus,
 				CrAccount = "",
 				DrAccount = "",
