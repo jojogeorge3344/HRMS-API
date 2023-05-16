@@ -169,6 +169,7 @@ export function LeaveBalanceValidator(
           o.leaveBalance > noOfDays && o.leaveComponentName != "Loss Of Pay"
       ).length == 0
     ) {
+      debugger
       return { leaveBalance: true };
     }
     return null;

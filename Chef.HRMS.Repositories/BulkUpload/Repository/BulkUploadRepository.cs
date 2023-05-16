@@ -24,37 +24,37 @@ namespace Chef.HRMS.Repositories
 
         public async Task<int> BulkInsertLeave(IEnumerable<Leave> leave)
         {
-                var sql = new QueryBuilder<Leave>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+            var sql = new QueryBuilder<Leave>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
 
-                return await Connection.ExecuteAsync(sql, leave);
+            return await Connection.ExecuteAsync(sql, leave);
         }
 
         public async Task<int> BulkInsertOnduty(IEnumerable<OnDuty> onDuty)
         {
 
-                var sql = new QueryBuilder<OnDuty>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+            var sql = new QueryBuilder<OnDuty>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
 
-                return await Connection.ExecuteAsync(sql, onDuty);
+            return await Connection.ExecuteAsync(sql, onDuty);
         }
 
         public async Task<int> BulkInsertRegularLogin(IEnumerable<RegularLogin> regularLogin)
         {
 
-                var sql = new QueryBuilder<RegularLogin>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+            var sql = new QueryBuilder<RegularLogin>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
 
-                return await Connection.ExecuteAsync(sql, regularLogin);
+            return await Connection.ExecuteAsync(sql, regularLogin);
         }
 
         public async Task<int> BulkInsertWorkFromHome(IEnumerable<WorkFromHome> workFromHome)
         {
 
-                var sql = new QueryBuilder<WorkFromHome>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+            var sql = new QueryBuilder<WorkFromHome>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
 
-                return await Connection.ExecuteAsync(sql, workFromHome);
+            return await Connection.ExecuteAsync(sql, workFromHome);
 
         }
 
@@ -70,6 +70,14 @@ namespace Chef.HRMS.Repositories
             }
 
             return false;
+        }
+
+        public async Task<int> BulkInsertSystemVariableValues(IEnumerable<SystemVariableValues> systemVariableValues)
+        {
+            var sql = new QueryBuilder<SystemVariableValues>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+
+            return await Connection.ExecuteAsync(sql, systemVariableValues);
         }
     }
 }

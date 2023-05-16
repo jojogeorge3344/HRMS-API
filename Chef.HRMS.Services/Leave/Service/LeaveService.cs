@@ -1,4 +1,5 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Models;
+using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
 
@@ -124,6 +125,11 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<Leave>> GetAllLeaveInfoByEmployeeId(int employeeId)
         {
             return await leaveRepository.GetAllLeaveInfoByEmployeeId(employeeId);
+        }
+
+        public async Task<IEnumerable<Leave>> GetAllLeaveDetails()
+        {
+            return await leaveRepository.GetAllLeaveDetails();
         }
     }
 }

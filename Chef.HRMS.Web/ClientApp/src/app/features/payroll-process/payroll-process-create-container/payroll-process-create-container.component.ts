@@ -25,7 +25,6 @@ export class PayrollProcessCreateContainerComponent implements OnInit {
   payrollProcessById: PayrollProcess;
   noOfEmployees: any;
 
-
   constructor(
     private route: ActivatedRoute,
     private payrollProcessService: PayrollProcessService,

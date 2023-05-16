@@ -41,9 +41,9 @@
             </div>
             <div class="form-group  col-6">
                 <label class="col-form-label" for="adhocBFCode">ADOC BF Code<span class="required">*</span></label>
-                <select class="form-control" formControlName="adhocBFCode">
+                <select class="form-control" formControlName="adhocBFCode" (change)="changeadhoc($event.target)">
                     <option [ngValue]=null disabled>Select ADOC BF Code</option>
-                    <option *ngFor="let list of benefitTypes" [ngValue]='list.code'>{{list.name}}</option>
+                    <option *ngFor="let list of adhoc" [ngValue]='list.id'>{{list.name}}</option>
                 </select>
             </div>
             <div class="form-group  col-6">

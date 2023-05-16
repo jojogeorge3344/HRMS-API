@@ -82,5 +82,19 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
+
+        public async Task<IEnumerable<BenefitTypes>> GetAdhocBfCode()
+        {
+                string sql = @"SELECT pc.id,
+                                       pc.NAME,
+                                       bf.code
+                                FROM   hrms.payrollcomponent pc
+                                       INNER JOIN hrms.benefittypes bf
+                                               ON pc.payrollcomponenttype = bf.id
+                                WHERE  bf.NAME IN ( 'Sundry earnings', 'Sundry deductions' )
+                                       AND bf.isarchived = false
+                                       AND pc.isarchived = false;";
+            return await Connection.QueryAsync<BenefitTypes>(sql);
+        }
     }
 }

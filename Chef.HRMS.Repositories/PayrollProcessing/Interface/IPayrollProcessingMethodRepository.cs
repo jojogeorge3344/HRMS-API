@@ -17,5 +17,7 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<PayrollProcessingMethod>> GetEmployeeDetails(int employeeid, int paygroupid);
         Task<int> InsertPayrollFixedComponentDetails(int payrollProcessId, DateTime payrollprocessdate, int paygroupId);
         Task<IEnumerable<PayrollComponentDetails>> GetPayrollComponentsSummary(int payrollprocessid);
+        Task<IEnumerable<PayrollProcessingMethod>> GetDetailsByPaygroupId(int paygroupid, int prevmonth, int prevyear);
+        Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId);
     }
 }

@@ -69,8 +69,8 @@ namespace Chef.HRMS.Web.Controllers
         //Get action for getting resources from the report
         [ActionName("GetResource")]
         [AcceptVerbs("GET")]
-        // Method will be called from Report Viewer client to get the image src for Image report item.
-        public virtual object GetResource([FromQuery] ReportResource resource)
+        // Method will be called from Report Viewer client to get the image src for Image report item.
+        public virtual object GetResource([FromQuery] ReportResource resource)
         {
             return ReportHelper.GetResource(resource, this, cache);
         }
