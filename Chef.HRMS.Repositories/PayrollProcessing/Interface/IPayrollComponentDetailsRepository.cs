@@ -11,5 +11,6 @@ namespace Chef.HRMS.Repositories
     {
         Task<int> BulkInsertAsync(List<PayrollComponentDetails> payrollComponent);
         Task<int> DeleteByPayrollProcessID(int payrollProcessID,int stepNo);
-	}
+        Task<IEnumerable<PayrollComponentDetails>> GetPayslipYears();
+    }
 }
