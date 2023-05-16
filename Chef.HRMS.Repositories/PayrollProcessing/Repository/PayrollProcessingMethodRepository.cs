@@ -353,12 +353,13 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<PayrollComponentDetails>> GetPayrollComponentsSummary(int payrollprocessid)
         {
             var sql = @"select pcd.payrollprocessid,pcd.payrollprocessdate,pcd.employeeid, emp.displayname as employeename,
-                        pcd.earningsamt, pcd.deductionamt, 
+                        pcd.earningsamt, pcd.deductionamt, jd.employeenumber as employeecode,
                         pcd.payrollcomponentid,pc.name as payrollcomponentname
                         from hrms.payrollcomponentdetails pcd 
                         left join hrms.hrmsemployee emp 
                         on emp.id = pcd.employeeid 
                         join hrms.payrollcomponent pc on pc.id = pcd.payrollcomponentid
+                        left join hrms.jobdetails jd on jd.employeeid = pcd.employeeid
                         where payrollprocessid = @payrollprocessid";
 
             return await Connection.QueryAsync<PayrollComponentDetails>(sql, new { payrollprocessid });

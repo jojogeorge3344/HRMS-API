@@ -101,14 +101,15 @@ namespace Chef.HRMS.Services
             List<PayrollSummary> payrollSummaries = new List<PayrollSummary>();
             var payrollComponentDetails = await payrollProcessingMethodRepository.GetPayrollComponentsSummary(payrollprocessid);
             var empList = payrollComponentDetails.Select(e => e.EmployeeId).Distinct();
-            foreach (var emp in empList)
+            foreach (var empId in empList)
             {
                 PayrollSummary payrollSummary = new PayrollSummary();
 
-                payrollSummary.PayrollComponentDetails = payrollComponentDetails.Where(x => x.EmployeeId == emp).ToList();
+                payrollSummary.PayrollComponentDetails = payrollComponentDetails.Where(x => x.EmployeeId == empId).ToList();
                 payrollSummary.TotalDeductions = payrollSummary.PayrollComponentDetails.Sum(c=>c.DeductionAmt);
                 payrollSummary.EmployeeName = payrollSummary.PayrollComponentDetails.First().EmployeeName;
-                payrollSummary.EmployeeId = emp;
+                payrollSummary.EmployeeCode = payrollSummary.PayrollComponentDetails.First().EmployeeCode;
+                payrollSummary.EmployeeId = empId;
                 payrollSummary.TotalEarnings = payrollSummary.PayrollComponentDetails.Sum(c => c.EarningsAmt);
                 payrollSummary.NetSalaryAmount = payrollSummary.TotalEarnings - payrollSummary.TotalDeductions;
                 payrollSummaries.Add(payrollSummary);
