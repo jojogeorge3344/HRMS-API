@@ -128,7 +128,9 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
         overtimedetails.push({id:data[j].id,createdDate:data[j].createdDate,modifiedDate:data[j].modifiedDate,
           createdBy:data[j].createdBy,modifiedBy:data[j].modifiedBy,isArchived:data[j].isArchived,payrollOTSummaryid:0,
           overTimeId:data[j].overTimeId,employeeId:data[j].employeeId,notHrs:data[j].notHrs,hotHrs:data[j].hotHrs,sotHrs:data[j].sotHrs,
-          notHrsAmount:data[j].notAmount,hotHrsAmount:data[j].hotAmount,sotHrsAmount:data[j].sotAmount})
+          notHrsAmount:data[j].notAmount,hotHrsAmount:data[j].hotAmount,sotHrsAmount:data[j].sotAmount,
+          ComponentId:data[j].notComponentId > 0 ? data[j].notComponentId : data[j].hotComponentId > 0 ? data[j].hotComponentId : data[j].sotComponentId})
+
           totalNot = totalNot + data[j].notHrs
           totalHot = totalHot +data[j].hotHrs
           totalSot = totalSot + data[j].sotHrs
