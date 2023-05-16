@@ -76,7 +76,7 @@ namespace Chef.HRMS.Repositories
                                               GROUP  BY jf.employeeid)Q2 
                                           ON Q1.employeeid = Q2.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
-                                                     Count(*)applied,l.id AS leaveid 
+                                                     Count(*)applied,l.id AS leaveid,l.leavecomponentid 
                                               FROM   hrms.jobfiling jf 
                                                      LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
@@ -89,7 +89,7 @@ namespace Chef.HRMS.Repositories
 													         ON svv.systemvariableid = sv.id
 															 AND sv.code = 'Lop_Dys_Btw_Dte'
                                               WHERE  svv.payrollprocessid = @payrollProcessId
-                                              GROUP  BY jf.employeeid,l.id)Q3 
+                                              GROUP  BY jf.employeeid,l.id,l.leavecomponentid)Q3 
                                           ON Q1.employeeid = Q3.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*)lop 
