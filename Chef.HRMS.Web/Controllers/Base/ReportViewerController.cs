@@ -30,7 +30,7 @@ namespace Chef.HRMS.Web.Controllers
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        //protected ReportViewerController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment)
+        //protected ReportViewerController(Microsoft.Extensions.Caching.Memory.IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment)
         //{
         //    this.memoryCache = memoryCache;
         //    this.hostingEnvironment = hostingEnvironment;

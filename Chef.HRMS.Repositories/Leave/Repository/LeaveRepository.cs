@@ -199,5 +199,19 @@ namespace Chef.HRMS.Repositories
                                     WHERE employeeid = @employeeid";
             return await Connection.QueryAsync<Leave>(sql, new { employeeId });
         }
+
+        public async Task<IEnumerable<Leave>> GetAllLeaveDetails()
+        {
+            var sql = @"SELECT le.*,em.firstname AS employeename,jd.employeenumber AS employeecode
+                        FROM hrms.leave le
+                        INNER JOIN hrms.hrmsemployee em
+                        ON em.id = le.employeeid
+                        INNER JOIN hrms.jobdetails jd
+                        ON le.employeeid = jd.employeeid
+                        WHERE le.isarchived = false 
+                        ORDER BY id DESC";
+
+            return await Connection.QueryAsync<Leave>(sql);
+        }
     }
 }

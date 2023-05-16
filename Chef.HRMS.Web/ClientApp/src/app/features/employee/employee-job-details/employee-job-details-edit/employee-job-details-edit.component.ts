@@ -137,6 +137,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.employeeJobDetailsService.get(this.jobDetailsId).subscribe(result => {
       this.getEmployeeList();
       result.dateOfJoin = new Date(result.dateOfJoin);
+      localStorage.setItem('doj',JSON.stringify(result.dateOfJoin))
       this.reportingManager = result.reportingManager;
       this.editForm.patchValue(result);
     },
