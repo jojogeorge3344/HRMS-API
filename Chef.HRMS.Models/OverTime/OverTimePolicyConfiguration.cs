@@ -131,5 +131,6 @@ namespace Chef.HRMS.Models
         public bool Status { get; set; }
         [Required]
         public bool IsOvertimeSlab { get; set; }
+        public bool IsMonthly { get; set; }
     }
 }
