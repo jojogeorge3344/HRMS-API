@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate)
+        public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate,int payrollProcessId)
         {
                 var sql = @"SELECT Q1.*, 
                                    Q2.total    numberofworkeddays, 
@@ -73,11 +73,15 @@ namespace Chef.HRMS.Repositories
                                               FROM   hrms.jobfiling jf 
                                                      LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
+                                                               AND jf.paygroupid = @paygroupId
                                                      INNER JOIN hrms.leavecomponent lc 
-                                                             ON l.leavecomponentid = lc.id 
-                                              WHERE  l.fromdate >= @fromDate 
-                                                     AND l.todate <= @toDate 
+                                                             ON l.leavecomponentid = lc.id
+												     INNER JOIN hrms.systemvariablevalues svv
+                                                             ON l.employeeid = svv.employeeid
+													 INNER JOIN hrms.systemvariable sv
+													         ON svv.systemvariableid = sv.id
+															 AND sv.code = 'Lop_Dys_Btw_Dte'
+                                              WHERE  svv.payrollprocessid = @payrollProcessId
                                               GROUP  BY jf.employeeid)Q3 
                                           ON Q1.employeeid = Q3.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
@@ -120,7 +124,7 @@ namespace Chef.HRMS.Repositories
                                               GROUP  BY jf.employeeid)Q6 
                                           ON Q1.employeeid = Q6.employeeid ";
 
-                return await Connection.QueryAsync<LeaveAndAttendanceViewModel>(sql, new { paygroupId, fromDate, toDate });
+                return await Connection.QueryAsync<LeaveAndAttendanceViewModel>(sql, new { paygroupId, fromDate, toDate, payrollProcessId });
         }
 
         public async Task<IEnumerable<LeaveDetailsViewModel>> GetAllApprovedLeaveDetailsByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
