@@ -106,7 +106,7 @@ export class PayrollProcessLeaveListComponent implements OnInit {
     previous.setMonth(previous.getMonth() - 1);
 
     
-    this.payrollProcessLeaveService.getAll(this.paygroupId, this.datePipe.transform(previous,"yyyy-MM-dd"), this.datePipe.transform(todate,"yyyy-MM-dd"),this.payrollProcessId)
+    this.payrollProcessLeaveService.getAll(this.paygroupId, this.datePipe.transform(previous,"yyyy-MM-dd"), this.datePipe.transform(todate,"yyyy-MM-dd"),parseInt(this.payrollProcessId))
       .subscribe(result => {
         this.payGroupProcessLeave = result
         const noOfWeekOffs = getNoOfWeekoffsInMonth(this.selectedMonth, this.selectedYear, [0, 6]);
@@ -278,7 +278,7 @@ export class PayrollProcessLeaveListComponent implements OnInit {
       createdBy: this.payGroupProcessLeave[i].createdBy,
       modifiedBy: this.payGroupProcessLeave[i].modifiedBy,
       isArchived: true,
-      payrollProcessId: this.payrollProcessId,
+      payrollProcessId: parseInt(this.payrollProcessId),
       payrollProcessDate: new Date(),
       employeeId: this.payGroupProcessLeave[i].employeeId,
       leaveId: this.payGroupProcessLeave[i].leaveId,
