@@ -13,6 +13,7 @@ namespace Chef.HRMS.Repositories
         Task<int> BulkInsertRegularLogin(IEnumerable<RegularLogin> regularLogin);
         Task<int> RegularLoginBulkInsert(IEnumerable<RegularLogin> regularLogins);
         Task<bool> GetEmployeeCodeExist(string employeeCode);
+        Task<int> BulkInsertSystemVariableValues(IEnumerable<SystemVariableValues> systemVariableValues); 
 
     }
 }

@@ -1,5 +1,6 @@
+﻿using Chef.Common.Core.Services;
+using Chef.Common.Models;
 ﻿using Castle.Core;
-using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
@@ -46,14 +47,19 @@ namespace Chef.HRMS.Services
             return await payrollProcessingMethodRepository.GetAsync(id);
         }
 
-        public async Task<int> GetDetailsById(int employeeid,  int month, int year)
+        public async Task<int> GetDetailsById(int employeeid, int month, int year)
         {
             return await payrollProcessingMethodRepository.GetDetailsById(employeeid, month, year);
         }
 
+        public async Task<IEnumerable<PayrollProcessingMethod>> GetDetailsByPaygroupId(int paygroupid, int prevmonth, int prevyear)
+        {
+            return await payrollProcessingMethodRepository.GetDetailsByPaygroupId(paygroupid, prevmonth, prevyear);
+        }
+
         public async Task<IEnumerable<PayrollProcessingMethod>> GetEmployeeDetails(int employeeid, int paygroupid)
         {
-            return await payrollProcessingMethodRepository.GetEmployeeDetails( employeeid, paygroupid);
+            return await payrollProcessingMethodRepository.GetEmployeeDetails(employeeid, paygroupid);
         }
 
         public async Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails()
@@ -64,6 +70,11 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<PayrollReviewBreakup>> GetPayBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId)
         {
             return await payrollProcessingMethodRepository.GetPayBreakUpByEmployeeId(employeeId, payrollProcessingMethodId);
+        }
+
+        public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
+        {
+            return await payrollProcessingMethodRepository.GetPayrollProcessingMonth(paygroupId);
         }
 
         public async Task<int> InsertAsync(PayrollProcessingMethod payrollProcessingMethod)
