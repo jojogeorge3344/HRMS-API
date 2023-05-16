@@ -11,14 +11,16 @@ export class PayrollProcessLeaveService {
 
   public baseUrl: string;
   public http: HttpClient;
+  public baseUrl_leaveDetails :string
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + 'api/settings/payrollprocessing/LeaveAndAttendance/';
+    this.baseUrl_leaveDetails = baseUrl + 'api/payrollleavedetails/'
   }
 
-  getAll(payGroupId, fromDate, toDate) {
-    return this.http.get<PayrollLeaveAndAttandanceViewModel[]>(this.baseUrl + 'GetAllLeaveAndAttendanceByPaygroup/' + payGroupId + '/' + fromDate + '/' + toDate).pipe(map(response => { return response; }));
+  getAll(payGroupId, fromDate, toDate,payrollProcessId) {
+    return this.http.get<PayrollLeaveAndAttandanceViewModel[]>(this.baseUrl + 'GetAllLeaveAndAttendanceByPaygroup/' + payGroupId + '/' + fromDate + '/' + toDate + '/' + payrollProcessId).pipe(map(response => { return response; }));
   }
   getByEmployee(employeeId, payrollProcessId) {
     return this.http.get<PayrollLeaveAndAttandanceViewModel>(this.baseUrl + 'GetLeaveAndAttendanceByEmployeeId/' + employeeId + '/' + payrollProcessId).pipe(map(response => { return response; }));
@@ -61,7 +63,7 @@ export class PayrollProcessLeaveService {
     }));
   }
 
-  add(PayrollLeaveAndAttandance: PayrollLeaveAndAttandance[]) {
+  add(PayrollLeaveAndAttandance) {
     return this.http.post<PayrollLeaveAndAttandance[]>(this.baseUrl + 'InsertLeaveAndAttendanceDetails', PayrollLeaveAndAttandance).pipe(map(response => { return response; }));
   }
 
@@ -76,5 +78,12 @@ export class PayrollProcessLeaveService {
   getNoOfEmployees(id: number) {
     return this.http.get(this.baseUrl + 'GetNumberOfEmployeesByPaygroup/' + id).pipe(map(response => { return response; }));
   }
+
+  InsertPayrollLeaveDetails(leavedetails){
+    return this.http.post(this.baseUrl_leaveDetails + 'insert', leavedetails).pipe(map(response => response));
+  
+   }
+
+  
 
 }

@@ -101,7 +101,7 @@ export class EmployeeRevisionManagementListComponent implements OnInit {
 
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.EmployeeRevisionManagementService.delete(id).subscribe(() => {
+        this.EmployeeRevisionManagementService.process(id).subscribe(() => {
           this.toastr.showSuccessMessage('The Employee Revision request is processed successfully!');
            this.getRevisionRequest()
           

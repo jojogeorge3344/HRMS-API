@@ -1,0 +1,41 @@
+<div class="header-button-wrapper">
+    <div class="content-header">
+        {{month}} {{payrollyear}} - Payroll Summary Details
+    </div>
+</div>
+<div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>Sl No.</th>
+                <th>Employee Code</th>
+                <th>Name</th>
+                <th>Total Earnings</th>
+                <th>Total Deduction</th>
+                <th>Net Salary Amount</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="cursor: pointer;" *ngFor="let summaryDetails of summaryDetails; let i = index" (click)="openEmployeeSummaryDetails(summaryDetails)">
+                <td>{{i+1}}</td>
+                <td>{{summaryDetails.employeeCode}}</td>
+                <td>{{summaryDetails.employeeName}}</td>
+                <td>{{summaryDetails.totalEarnings}}</td>
+                <td>{{summaryDetails.totalDeductions}}</td>
+                <td>{{summaryDetails.netSalaryAmount}}</td>
+            </tr>
+            <tr *ngIf="!summaryDetails?.length">
+                <td colspan="10" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="button-right-wrapper mt-3 ">
+  
+    <button class="btn btn-primary" (click)="onSubmit()">
+        Complete The Payroll Process
+    </button>
+</div>

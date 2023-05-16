@@ -41,6 +41,7 @@ export class PayrollAdhocContainerComponent implements OnInit {
     });
   }
   onSubmit(routeTo) {
+    debugger
     const loans = this.loanList.payGroupLoans.map(loan => {
       return {
         payrollProcessingMethodId: loan.payrollProcessingMethodId,
