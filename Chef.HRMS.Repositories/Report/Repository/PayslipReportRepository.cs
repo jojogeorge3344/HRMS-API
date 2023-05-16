@@ -21,7 +21,7 @@ namespace Chef.HRMS.Repositories.Report
                         INNER JOIN hrms.payrollcomponent pc
                         ON pcd.payrollcomponentid = pc.id
                         WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
-                         AND pcd.employeeid IN (@employeeId) 
+                         AND pcd.employeeid IN ("+employeeId+@") 
                         AND pcd.isarchived = false";
 
             return await Connection.QueryAsync<PayrollComponentReportView>(sql, new { employeeId, fromDate, ToDate });
@@ -40,7 +40,7 @@ namespace Chef.HRMS.Repositories.Report
                         ON a.employeeid = e.id
                         INNER JOIN hrms.country c
                         ON c.id = a.currentcountry
-                        WHERE pcd.id IN (@employeeId) 
+                        WHERE pcd.id IN ("+employeeId+@") 
                         AND pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
                         AND pcd.isarchived = false";
 
@@ -54,7 +54,7 @@ namespace Chef.HRMS.Repositories.Report
                         ON lr.employeeid = pcd.employeeid
                         INNER JOIN hrms.loanrequestdetail lrd
                         ON lr.id = lrd.loanrequestid
-                        WHERE pcd.employeeid IN (@employeeId) 
+                        WHERE pcd.employeeid IN ("+employeeId+@") 
                         AND (To_Date(cast(coalesce(pcd.payrollprocessdate) as TEXT),'YYYY MM DD') BETWEEN @fromDate AND @ToDate)
                         AND pcd.isarchived = false";
 
@@ -84,7 +84,7 @@ namespace Chef.HRMS.Repositories.Report
                         INNER JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
                         WHERE (To_Date(cast(coalesce(OT.fromdate) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromDate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
                         AND  (To_Date(cast(coalesce(OT.todate) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromDate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
-                        AND jf.employeeid IN (@employeeId) 
+                        AND jf.employeeid IN ("+employeeId+@") 
                         AND OT.isarchived=false";
 
             return await Connection.QueryAsync<OvertimeDetailReportView>(sql, new { employeeId, fromDate, ToDate });
