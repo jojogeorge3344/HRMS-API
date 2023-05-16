@@ -276,6 +276,14 @@ const routes: Routes = [
         //canActivateChild: [AuthGuard]
       },
       {
+        path: "asset-employee-leave",
+        loadChildren: () =>
+          import("./features/employee-leave/employee-leave.module").then(
+            (m) => m.EmployeeLeaveModule
+          ),
+        canActivateChild: [AuthGuard],
+      },
+      {
         path: "asset-employee-overtimewise",
         loadChildren: () =>
           import("./features/employee-overtime/employee-overtime.module").then(
@@ -283,10 +291,10 @@ const routes: Routes = [
           ),
         canActivateChild: [AuthGuard],
           },
-      {
-        path: 'asset-employee-overtimewise',
-        loadChildren: () => import('./features/employee-overtime/employee-overtime.module').then(m => m.EmployeeOvertimeModule),
-      },
+      // {
+      //   path: 'asset-employee-overtimewise',
+      //   loadChildren: () => import('./features/employee-overtime/employee-overtime.module').then(m => m.EmployeeOvertimeModule),
+      // },
       {
         path: 'employee-revision-management',
         loadChildren: () => import('./features/employee-revision-management/employee-revision-management.module').then(m => m.EmployeeRevisionManagementModule),
