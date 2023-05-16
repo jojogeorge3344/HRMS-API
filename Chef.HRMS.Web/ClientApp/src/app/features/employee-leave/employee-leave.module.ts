@@ -49,7 +49,7 @@ import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit
     BsDropdownModule.forRoot(),
     DirectivesModule,
     ReportViewerModule,
-    BoldReportViewerModule
+    BoldReportViewerModule 
     
   ],
   providers: [{
