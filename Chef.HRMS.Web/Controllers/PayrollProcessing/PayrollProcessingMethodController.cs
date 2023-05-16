@@ -188,6 +188,7 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             return Ok(payrollProcessingMonth);
+        }
 
         [AllowAnonymous]
         [HttpGet("GetPayrollSalarySummary/{payrollprocessid}")]
