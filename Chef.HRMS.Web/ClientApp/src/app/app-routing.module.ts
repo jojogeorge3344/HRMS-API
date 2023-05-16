@@ -260,6 +260,14 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
       },
       {
+        path: "employee-loan",
+        loadChildren: () =>
+          import("./features/employee-loan/employee-loan.module").then(
+            (m) => m.EmployeeLoanModule
+          ),
+        canActivateChild: [AuthGuard],
+      },
+      {
         path: "payroll-processing",
         loadChildren: () =>
           import("./features/payroll-process/payroll-process.module").then(
