@@ -267,16 +267,16 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
     this.payrollProcessService.getPayrollProcessingMonthDetails(this.addForm.value.payGroupId).subscribe(res => {
       this.payrollProcessMonthDetails = res
 
-      // this.payrollSelectedMonth = this.payrollProcessMonthDetails[0].month
-      // this.payrollleaveCutOff = this.payrollProcessMonthDetails[0].leaveCutOff
-      // this.payrollYear = this.payrollProcessMonthDetails[0].year
-      // this.overtimeCutoff = this.payrollProcessMonthDetails[0].timeSheetCutOff
+      this.payrollSelectedMonth = this.payrollProcessMonthDetails[0].month
+      this.payrollleaveCutOff = this.payrollProcessMonthDetails[0].leaveCutOff
+      this.payrollYear = this.payrollProcessMonthDetails[0].year
+      this.overtimeCutoff = this.payrollProcessMonthDetails[0].timeSheetCutOff
 
 
-      this.payrollSelectedMonth = 5
-      this.payrollleaveCutOff = 25
-      this.payrollYear = 2023
-      this.overtimeCutoff = 25 
+      // this.payrollSelectedMonth = 5
+      // this.payrollleaveCutOff = 25
+      // this.payrollYear = 2023
+      // this.overtimeCutoff = 25 
      // this.getPayrollMonths();
 
      const today = new Date();
