@@ -22,6 +22,11 @@ namespace Chef.HRMS.Services
             return await adhocDeductionRepository.DeleteAsync(id);
         }
 
+        public async Task<IEnumerable<BenefitTypes>> GetAdhocBfCode()
+        {
+            return await adhocDeductionRepository.GetAdhocBfCode();
+        }
+
         public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate, string toDate)
         {
             return await adhocDeductionRepository.GetAllAdhocDeductionByPayrollProcessingMethodId( payGroupId,  fromDate,  toDate);
