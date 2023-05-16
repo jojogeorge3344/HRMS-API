@@ -22,7 +22,7 @@ namespace Chef.HRMS.Models
         public EmployeeRevisionStatus RevStatus { get; set; }
 
         public int JobTitleId { get; set; }
-
+       
         public int DepartmentId { get; set; }
 
         public int WorkerType { get; set; }
