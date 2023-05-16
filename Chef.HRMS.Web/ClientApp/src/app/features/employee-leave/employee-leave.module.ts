@@ -36,6 +36,11 @@ import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit
         path: '', component: EmployeeLeaveContainerComponent,
         data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
       },
+      {
+        path: 'print/:id', component: LeaveRequestPrintComponent,
+        data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
+        
+      }
     ]),
     NgbModule,
     FormsModule,
