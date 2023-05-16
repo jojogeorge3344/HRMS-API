@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers;
 
@@ -19,34 +20,39 @@ public class PaySlipReportController : ReportViewerController
 {
     private readonly IEmployeeService employeeService;
     private readonly IPayslipReportService payslipReportService;
+    readonly IMasterDataService masterDataService;
+    private object currencyData;
+    private object companyData;
 
     public PaySlipReportController( IPayslipReportService payslipReportService,
            IMemoryCache memoryCache,
            IWebHostEnvironment hostingEnvironment,
-           IEmployeeService employeeService
+           IEmployeeService employeeService,
+           IMasterDataService masterDataService
            )
       : base(memoryCache, hostingEnvironment)
     {
         this.employeeService = employeeService;
         this.payslipReportService = payslipReportService;
-        this.ReportPath = @"Reports/.rdlc";
+        this.masterDataService = masterDataService;
+        this.ReportPath = @"Reports/PayAdviceReport.rdlc";
     }
 
     public override void OnReportLoaded(ReportViewerOptions reportOption)
     {
         if (CustomData != null && CustomData.Count > 0)
         {
-            string employeeId =(CustomData["employeeId"].ToString());
+            string employeeId = (CustomData["employeeId"].ToString());
             DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
             DateTime ToDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
             string paygroupId = CustomData["paygroupId"].ToString();
             string department = CustomData["department"].ToString();
             string designation = CustomData["designation"].ToString();
 
-            var header = payslipReportService.EmployeeHeaderDetails(employeeId, fromDate, ToDate);
-            var componentDetails = payslipReportService.EmployeeComponentDetails(employeeId, fromDate, ToDate);
-            var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeId, fromDate, ToDate);
-            var loanDetails = payslipReportService.EmployeeLoanDetails(employeeId, fromDate, ToDate);
+            var header = payslipReportService.EmployeeHeaderDetails(employeeId, fromDate, ToDate).Result;
+            var componentDetails = payslipReportService.EmployeeComponentDetails(employeeId, fromDate, ToDate).Result;
+            var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeId, fromDate, ToDate).Result;
+            var loanDetails = payslipReportService.EmployeeLoanDetails(employeeId, fromDate, ToDate).Result;
 
             reportOption.AddDataSource("EmployeeHeader", header);
             reportOption.AddDataSource("ComponentDetails", componentDetails);
@@ -57,5 +63,16 @@ public class PaySlipReportController : ReportViewerController
     public override void OnInitReportOptions(ReportViewerOptions reportOption)
     {
         base.OnInitReportOptions(reportOption);
+    }
+
+    private async Task<Currency> GetByCurrency(string inr)
+    {
+        currencyData = await masterDataService.GetByCurrency(inr);
+        return (Currency)currencyData;
+    }
+    private async Task<Company> GetCompany()
+    {
+        companyData = await this.masterDataService.GetBaseCompany();
+        return (Company)companyData;
     }
 }

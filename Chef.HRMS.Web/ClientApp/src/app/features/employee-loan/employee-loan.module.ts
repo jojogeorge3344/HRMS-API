@@ -14,6 +14,7 @@ import { LoanRequestViewComponent } from './loan-request-view/loan-request-view.
 import { LoanRequestPrintComponent } from './loan-request-print/loan-request-print.component';
 import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
 
+import { SelectDropDownModule } from "ngx-select-dropdown";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
     NgBootstrapFormValidationModule,
     BsDropdownModule.forRoot(),
     DirectivesModule,
-    ReportViewerModule
+    ReportViewerModule,
+    SelectDropDownModule
   ]
 })
 export class EmployeeLoanModule { }
