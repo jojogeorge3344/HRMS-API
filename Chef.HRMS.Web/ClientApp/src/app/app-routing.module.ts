@@ -260,6 +260,14 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
       },
       {
+        path: "employee-loan",
+        loadChildren: () =>
+          import("./features/employee-loan/employee-loan.module").then(
+            (m) => m.EmployeeLoanModule
+          ),
+        canActivateChild: [AuthGuard],
+      },
+      {
         path: "payroll-processing",
         loadChildren: () =>
           import("./features/payroll-process/payroll-process.module").then(
@@ -276,6 +284,14 @@ const routes: Routes = [
         //canActivateChild: [AuthGuard]
       },
       {
+        path: "asset-employee-leave",
+        loadChildren: () =>
+          import("./features/employee-leave/employee-leave.module").then(
+            (m) => m.EmployeeLeaveModule
+          ),
+        canActivateChild: [AuthGuard],
+      },
+      {
         path: "asset-employee-overtimewise",
         loadChildren: () =>
           import("./features/employee-overtime/employee-overtime.module").then(
@@ -283,14 +299,18 @@ const routes: Routes = [
           ),
         canActivateChild: [AuthGuard],
           },
-      {
-        path: 'asset-employee-overtimewise',
-        loadChildren: () => import('./features/employee-overtime/employee-overtime.module').then(m => m.EmployeeOvertimeModule),
-      },
+      // {
+      //   path: 'asset-employee-overtimewise',
+      //   loadChildren: () => import('./features/employee-overtime/employee-overtime.module').then(m => m.EmployeeOvertimeModule),
+      // },
       {
         path: 'employee-revision-management',
         loadChildren: () => import('./features/employee-revision-management/employee-revision-management.module').then(m => m.EmployeeRevisionManagementModule),
         canActivateChild: [AuthGuard]
+      },
+      {
+        path: 'employee-payroll-parameter-details',
+        loadChildren: () => import('./features/employee-payroll-parameter-details/payroll-parameter-details.module').then(m => m.PayrollParameterDetailsModule),
       },
       {
         path: 'adoc-earnings-and-deduction',

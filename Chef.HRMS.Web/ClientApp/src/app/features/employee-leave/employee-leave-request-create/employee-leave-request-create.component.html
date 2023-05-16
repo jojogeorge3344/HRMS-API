@@ -1,6 +1,6 @@
 <form [formGroup]="addForm" id="leaveRequestForm">
   <div class="modal-header">
-    <h4 class="modal-title">Leave Request{{ isEmployeeLeave }}</h4>
+    <h4 class="modal-title">Leave Request</h4>
     <button
       type="button"
       class="close"
@@ -27,9 +27,9 @@
       <label for="employeeName"
         >Requested By<span class="required">*</span></label
       >
-      <select class="form-control" formControlName="employeeId">
+      <select class="form-control" formControlName="employeeName" (change)="getEmployeeId($event.target.value)">
         <option [ngValue]="null" disabled>Select Employee Name</option>
-        <option *ngFor="let list of employeeList" value="{{ list.id }}">
+        <option *ngFor="let list of employeeList" value="{{ list.firstName }}">
           {{ list.firstName }}
         </option>
       </select>
@@ -42,11 +42,8 @@
         <input
           class="form-control"
           hrmsBlockPaste
-          [startDate]="currentDate"
-          [minDate]="minDateFrom"
           [dayTemplate]="customDay"
           [footerTemplate]="footerTemplate"
-          [maxDate]="maxDateFrom"
           ngbDatepicker
           [markDisabled]="markDisabled"
           #fromDate="ngbDatepicker"
@@ -109,9 +106,6 @@
         <input
           class="form-control"
           hrmsBlockPaste
-          [startDate]="currentDate"
-          [minDate]="minDateTo"
-          [maxDate]="maxDateTo"
           ngbDatepicker
           [dayTemplate]="customDay"
           [footerTemplate]="footerTemplate"

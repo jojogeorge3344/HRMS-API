@@ -10,5 +10,7 @@ export interface AdhocDeductionView extends Model {
     amount: number; 
     payrollProcessingMethodId: number; 
     currency: string;
+    payrollProcessDate:Date
+    payrollProcessId:number
   }
   

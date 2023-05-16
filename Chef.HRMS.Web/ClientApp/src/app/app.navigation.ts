@@ -195,6 +195,11 @@ export const NavigationItems = [
         routerLink: "/employee-leave",
       },
       {
+        title: "Employee Loan",
+        tags: "settings-expense",
+        routerLink: "/employee-loan",
+      },
+      {
         title: "Payroll Processing",
         tags: "organization-PayrollProcessing",
         routerLink: "/payroll-processing",
@@ -203,6 +208,11 @@ export const NavigationItems = [
         title: "Employee Wise Asset",
         tags: "settings-expense",
         routerLink: "/asset-employee-wise",
+      },
+      {
+        title: "Employee Leave",
+        tags: "me-leave",
+        routerLink: "/asset-employee-leave",
       },
       {
         title: "Employee Overtime",
@@ -214,12 +224,16 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/adoc-earnings-and-deduction'
       },
-    
       {
-        title: 'Employee Overtime',
-        tags: 'me-overtime',
-        routerLink: '/asset-employee-overtimewise'
+        title: 'Employee Payroll Parameter Details',
+        tags: 'settings-expense',
+        routerLink: '/employee-payroll-parameter-details'
       },
+      // {
+      //   title: 'Employee Overtime',
+      //   tags: 'me-overtime',
+      //   routerLink: '/asset-employee-overtimewise'
+      // },
       {
         title: 'Employee Revision Management',
         tags: 'settings-expense',
@@ -232,6 +246,11 @@ export const NavigationItems = [
     tags: "report",
     icon: "fal fa-download",
     items: [
+      {
+        title: "Employee Payslip",
+        tags: "report-employeelist",
+        routerLink: "/reports/employeepayslip",
+      },
       {
         title: "Employee Register",
         tags: "report-employeelist",

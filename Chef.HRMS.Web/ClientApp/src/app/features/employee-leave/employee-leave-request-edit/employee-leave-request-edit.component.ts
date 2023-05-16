@@ -35,6 +35,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.service";
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   selector: 'hrms-employee-leave-request-edit',
@@ -91,6 +92,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   directoryName = "c:";
   documentSave;
   leaveDocument: any;
+  requestTypes = RequestStatus;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -157,6 +159,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     this.getEmployeeHoliday();
     //this.getAllInfoLeave(this.employeeId);
     this.formatLeaves();
+    // this.getAttachmentDetails()
     
   }
 
@@ -344,6 +347,25 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         console.error(error);
       }
     );
+    this.getLeaveRequestNotifyPersonnel()
+  }
+  getLeaveRequestNotifyPersonnel(){
+    debugger
+    this.employeeLeaveService.getAllNotifyPersonnalsIndividual(this.leaveRequest.id).subscribe((res:any) =>{
+      this.selectedItems = this.employeeList?.filter(({ id: id1 }) => 
+      
+      res.some(({ notifyPersonnel: id2 }) => id2 === id1)
+      
+      );
+      console.log(this.selectedItems )
+      // this.alreadySelectedItem = [...this.selectedItems]
+      // this.notifyPersonList = res
+      
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the Notify personnel');
+      });
   }
 
   isAlreadyApplied(date) {
@@ -621,6 +643,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
          
        }
     let addForm = this.addForm.value;
+    addForm.leaveStatus=this.requestTypes.Approved
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -633,13 +656,13 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
 
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
-        this.employeeLeaveService.add(addForm).subscribe((result) => {
-          this.notify(result.id);
+        this.employeeLeaveService.update(addForm).subscribe((result) => {
+          this.notify(result);
         });
       } else {
         forkJoin([
-          this.employeeLeaveService.add(this.addForm.value),
-          this.documentService.add(this.addForm.value.document),
+          this.employeeLeaveService.update(this.addForm.value),
+          this.documentService.update(this.addForm.value.document),
           this.documentUploadService.upload(this.documentSave),
         ]).subscribe(
           ([leaveRequest, document]) => {
@@ -651,7 +674,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
             console.log("document", document);
 
             this.employeeLeaveDocumentsService
-              .add(this.leaveDocument)
+              .update(this.leaveDocument)
               .subscribe(
                 (result: any) => {
                   this.notify(leaveRequest.id);
@@ -681,6 +704,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
          
        }
     let addForm = this.addForm.value;
+    addForm.leaveStatus=this.requestTypes.Draft
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -693,13 +717,13 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
 
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
-        this.employeeLeaveService.add(addForm).subscribe((result) => {
-          this.notify(result.id);
+        this.employeeLeaveService.update(addForm).subscribe((result) => {
+          this.notify(result);
         });
       } else {
         forkJoin([
-          this.employeeLeaveService.add(this.addForm.value),
-          this.documentService.add(this.addForm.value.document),
+          this.employeeLeaveService.update(this.addForm.value),
+          this.documentService.update(this.addForm.value.document),
           this.documentUploadService.upload(this.documentSave),
         ]).subscribe(
           ([leaveRequest, document]) => {
@@ -711,7 +735,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
             console.log("document", document);
 
             this.employeeLeaveDocumentsService
-              .add(this.leaveDocument)
+              .update(this.leaveDocument)
               .subscribe(
                 (result: any) => {
                   this.notify(leaveRequest.id);
@@ -734,6 +758,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   notify(leaveRequestId): void {
+    debugger
     const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
       leaveId: leaveRequestId,
       notifyPersonnel: notifyPerson.id,
@@ -742,7 +767,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       .invokeConnection(leaveRequestId)
       .then(() => console.log("invoked"))
       .catch((err) => console.log("Error while invoking connection: " + err));
-    this.employeeLeaveService.addNotifyPersonnel(notifyPersonnelForm).subscribe(
+    this.employeeLeaveService.updateNotifyPersonnel(notifyPersonnelForm).subscribe(
       () => {
         this.getLeaveBalance();
         this.toastr.showSuccessMessage("Leave Request submitted successfully");
@@ -778,7 +803,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       leaveComponentId: [
         null,
         [
-          LeaveBalanceValidator(this.leaveBalance, this.numberOfDays),
+          // LeaveBalanceValidator(this.leaveBalance, this.numberOfDays),
           Validators.required,
         ],
       ],
@@ -819,7 +844,23 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       console.log("leavessting", this.leaveSettings);
     });
   }
+  // getAttachmentDetails() {
+  //   this.identityDetailsService
+  //     .getAllByEmployeeId(
+  //       this.identityDetails.employeeId,
+  //       this.identityDetails.documentId
+  //     )
+  //     .subscribe((result) => {
+  //       console.log("result", result);
 
+  //       this.identityDetails = result[0];
+  //       if (this.identityDetails && this.identityDetails.fileName.length > 40) {
+  //         this.fileName = this.identityDetails.fileName.substr(0, 40) + "...";
+  //       } else {
+  //         this.fileName = this.identityDetails.fileName;
+  //       }
+  //     });
+  // }
 }
 
 

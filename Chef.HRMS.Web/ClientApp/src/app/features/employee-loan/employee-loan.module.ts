@@ -11,7 +11,10 @@ import { LoanRequestListComponent } from './loan-request-list/loan-request-list.
 import { LoanRequestCreateComponent } from './loan-request-create/loan-request-create.component';
 import { LoanRequestEditComponent } from './loan-request-edit/loan-request-edit.component';
 import { LoanRequestViewComponent } from './loan-request-view/loan-request-view.component';
+import { LoanRequestPrintComponent } from './loan-request-print/loan-request-print.component';
+import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
 
+import { SelectDropDownModule } from "ngx-select-dropdown";
 
 
 @NgModule({
@@ -19,13 +22,18 @@ import { LoanRequestViewComponent } from './loan-request-view/loan-request-view.
     LoanRequestListComponent,
     LoanRequestCreateComponent,
     LoanRequestEditComponent,
-    LoanRequestViewComponent
+    LoanRequestViewComponent,
+    LoanRequestPrintComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '', component: LoanRequestListComponent,
+        data: { breadcrumbs: ['Me', 'Loan'], name: 'me-loan' }
+      },
+      {
+        path: 'print/:id', component: LoanRequestPrintComponent,
         data: { breadcrumbs: ['Me', 'Loan'], name: 'me-loan' }
       }
     ]),
@@ -34,7 +42,9 @@ import { LoanRequestViewComponent } from './loan-request-view/loan-request-view.
     ReactiveFormsModule,
     NgBootstrapFormValidationModule,
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    ReportViewerModule,
+    SelectDropDownModule
   ]
 })
 export class EmployeeLoanModule { }

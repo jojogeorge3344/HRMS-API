@@ -6,6 +6,7 @@ import { LoanSettingsService } from '@settings/loan/loan-settings.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { LoanRequest } from '../loan-request.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeService } from '@features/employee/employee.service';
 
 @Component({
   templateUrl: './loan-request-view.component.html',
@@ -24,13 +25,16 @@ export class LoanRequestViewComponent implements OnInit {
   currentUserId: number;
   loanSettingId: number;
   minDate = undefined;
-
+  config;
+  employeeList;
+  requestedBy;
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
   @Input() loanId: any;
   @Input() loanRequest: LoanRequest;
 
   constructor(
+    private employeeService: EmployeeService,
     private loanRequestService: LoanRequestService,
     private loanSettingsService: LoanSettingsService,
     public activeModal: NgbActiveModal,
@@ -53,7 +57,16 @@ export class LoanRequestViewComponent implements OnInit {
     this.viewForm = this.createFormGroup();
     this.loanTypeKeys = Object.keys(this.loanTypes).filter(Number).map(Number);
     this.paymentTypeKeys = Object.keys(this.paymentTypes).filter(Number).map(Number);
-
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Employee",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: false,
+    };
     this.loanRequestService.get(this.loanId).subscribe(result => {
       result.requestedDate = new Date(result.requestedDate);
       result.expectedOn = new Date(result.expectedOn);
@@ -84,6 +97,38 @@ export class LoanRequestViewComponent implements OnInit {
       this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
       this.viewForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
     });
+    this.getEmpDetails()
+  }
+  selectionChanged(args) {
+    // this.viewForm.get("requestedBy").patchValue(args.value.id);
+  }
+  getEmployeeList() {
+    this.employeeService.getAll()
+      .subscribe((result) => {
+        this.employeeList = result
+        let details: any = null;
+        debugger
+        details = this.employeeList.find((item) => item.id == this.requestedBy)
+        //this.viewForm.patchValue({ requestedBy: null });
+        this.viewForm.get('requestedBy').updateValueAndValidity()
+        this.viewForm.patchValue({ requestedBy: details.firstName });
+        this.viewForm.get('requestedBy').updateValueAndValidity()
+        // this.employeeList.forEach((emp) =>{
+        //   if((this.requestedBy ==emp.id)){
+        //      details=emp.firstName;
+        //      this.editForm.patchValue({employeeId:details});
+        //   }
+        //  });
+
+      }
+      )
+  }
+  getEmpDetails(){
+    this.loanRequestService.get(this.loanId).subscribe(result => {
+      this.requestedBy = result.requestedBy
+      this.getEmployeeList()
+    }
+    );
   }
 
   onSubmit() {
@@ -112,7 +157,7 @@ export class LoanRequestViewComponent implements OnInit {
         (keyCode >= 96 && keyCode <= 105) ||
         excludedKeys.includes(keyCode)
       )
-    ){
+    ) {
       ev.preventDefault();
     }
   }
@@ -124,17 +169,17 @@ export class LoanRequestViewComponent implements OnInit {
       loanAmount: [''],
       paymentType: [null],
       expectedOn: [new Date(Date.now()), [
-        Validators.required,
       ]],
       emiStartsFromYear: [null],
       emiStartsFromMonth: [null],
       repaymentTerm: [''],
       comments: [''],
       employeeID: [this.currentUserId],
+      requestedBy: [null],
       loanSettingId: [this.loanSettingId],
 
       createdDate: [],
-      extendedMonth:[0]
+      extendedMonth: [0]
 
     });
   }

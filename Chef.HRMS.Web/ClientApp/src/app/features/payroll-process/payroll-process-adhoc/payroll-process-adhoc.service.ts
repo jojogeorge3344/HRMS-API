@@ -17,8 +17,12 @@ export class PayrollProcessAdhocService {
     this.baseUrl = baseUrl + "api/Deduction/AdhocDeduction/";
   }
 
-  getAllAdhocDeduction(id, month, year) {
-    return this.http.get<AdhocDeductionView[]>(this.baseUrl + 'GetAllAdhocDeductionByPayrollProcessingMethodId/' + id + '/' + year + '/' + month)
+  // getAllAdhocDeduction(id, month, year) {
+  //   return this.http.get<AdhocDeductionView[]>(this.baseUrl + 'GetAllAdhocDeductionByPayrollProcessingMethodId/' + id + '/' + year + '/' + month)
+  //     .pipe(map(response => { return response; }));
+  // }
+  getAllAdhocDeduction(id, from, to) {
+    return this.http.get<AdhocDeductionView[]>(this.baseUrl + 'GetAllAdhocDeductionByPayrollProcessingMethodId?payGroupId=' + id + '&fromDate=' + from + '&toDate=' + to)
       .pipe(map(response => { return response; }));
   }
   getEmployeeAllAdhocDeduction(id)

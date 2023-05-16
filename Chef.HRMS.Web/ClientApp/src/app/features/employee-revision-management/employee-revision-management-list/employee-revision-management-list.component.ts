@@ -75,6 +75,12 @@ export class EmployeeRevisionManagementListComponent implements OnInit {
     //     }
     //   });
   }
+  openPrint(id){
+        this.router.navigate(["./print/" + id ], {
+        relativeTo: this.route.parent,
+      
+      });
+  }
 
   delete(id) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
@@ -101,7 +107,7 @@ export class EmployeeRevisionManagementListComponent implements OnInit {
 
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.EmployeeRevisionManagementService.delete(id).subscribe(() => {
+        this.EmployeeRevisionManagementService.process(id).subscribe(() => {
           this.toastr.showSuccessMessage('The Employee Revision request is processed successfully!');
            this.getRevisionRequest()
           

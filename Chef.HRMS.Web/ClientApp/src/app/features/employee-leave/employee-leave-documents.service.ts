@@ -35,6 +35,15 @@ export class EmployeeLeaveDocumentsService {
       );
   }
 
+  update(educationDocument: EmployeeLeaveDocument) {
+    return this.http
+      .post<EmployeeLeaveDocument>(this.baseUrl + "update", educationDocument)
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  }
   delete(id: number) {
     return this.http
       .delete<EmployeeLeaveDocument>(this.baseUrl + "delete/" + id)

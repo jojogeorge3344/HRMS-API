@@ -39,5 +39,9 @@ export class AdocEntryService {
   get(id) {
     return this.http.get<AdocEntry>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
   }
+  getAdhocBfCode()
+  {
+    return this.http.get<any>(this.baseUrl + 'GetAdhocBfCode').pipe(map(response => { return response; }));
+  }
 
 }

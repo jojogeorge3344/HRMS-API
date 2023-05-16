@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class ReportViewerService {
-  public customData: { [key: string]: any; } = {};
+  public customData: {[key:string]:any;} = {};
   public serviceUrl: string;
   public toolbarSettings: any;
   public loadReportOnInit: boolean;

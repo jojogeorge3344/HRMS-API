@@ -44,8 +44,9 @@ namespace Chef.HRMS.Repositories
                                    lc.isrestrictedtomaritalstatus, 
                                    lc.restrictedtomaritalstatus, 
                                    lc.isshowleavedescription, 
+                                   lc.isunpaidleave,
                                    e.gender, 
-                                   e.maritalstatus 
+                                   e.maritalstatus
                             FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
@@ -75,7 +76,8 @@ namespace Chef.HRMS.Repositories
                                       lc.isrestrictedtogender, 
                                       lc.restrictedtogender, 
                                       lc.isrestrictedtomaritalstatus, 
-                                      lc.restrictedtomaritalstatus, 
+                                      lc.restrictedtomaritalstatus,
+                                      lc.isunpaidleave,
                                       lc.isshowleavedescription, 
                                       e.gender, 
                                       e.maritalstatus 
@@ -198,6 +200,20 @@ namespace Chef.HRMS.Repositories
                                     FROM hrms.leave
                                     WHERE employeeid = @employeeid";
             return await Connection.QueryAsync<Leave>(sql, new { employeeId });
+        }
+
+        public async Task<IEnumerable<Leave>> GetAllLeaveDetails()
+        {
+            var sql = @"SELECT le.*,em.firstname AS employeename,jd.employeenumber AS employeecode
+                        FROM hrms.leave le
+                        INNER JOIN hrms.hrmsemployee em
+                        ON em.id = le.employeeid
+                        INNER JOIN hrms.jobdetails jd
+                        ON le.employeeid = jd.employeeid
+                        WHERE le.isarchived = false 
+                        ORDER BY id DESC";
+
+            return await Connection.QueryAsync<Leave>(sql);
         }
     }
 }

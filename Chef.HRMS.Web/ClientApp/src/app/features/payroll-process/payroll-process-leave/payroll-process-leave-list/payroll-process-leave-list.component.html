@@ -38,7 +38,9 @@
                         {{leaveAttendancePaygroup.unapprovedLeaves}}</td>
                     <td [ngClass]="{'cursor-pointer': leaveAttendancePaygroup.unmarkedAttendance}" class="text-primary"
                         (click)="leaveAttendancePaygroup.unmarkedAttendance && openUnmarkedLeave(leaveAttendancePaygroup.employeeId,leaveAttendancePaygroup.employeeName)">
-                        {{leaveAttendancePaygroup?.numberOfWorkingDays-( leaveAttendancePaygroup?.numberOfWorkedDays + leaveAttendancePaygroup?.leaveApplied )}}</td>
+                        <!-- {{leaveAttendancePaygroup?.numberOfWorkingDays-( leaveAttendancePaygroup?.numberOfWorkedDays + leaveAttendancePaygroup?.leaveApplied )}} -->
+                        {{leaveAttendancePaygroup.unmarkedAttendance}}
+                    </td>
                     <td>
                         <div class="btn-group" dropdown container="main">
                             <button id="button-basic" dropdownToggle type="button"

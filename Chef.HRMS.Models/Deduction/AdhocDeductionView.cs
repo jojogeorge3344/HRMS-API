@@ -57,5 +57,7 @@ namespace Chef.HRMS.Models
         /// Holds payroll processing method id
         /// </summary>
         public int PayrollProcessingMethodId { get; set; }
+        public bool IsAddition { get; set; }
+        public int ComponentId { get; set; }
     }
 }

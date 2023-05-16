@@ -9,6 +9,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { EmployeeLeaveRequestCreateComponent } from "../employee-leave-request-create/employee-leave-request-create.component";
 import { TeamAttendanceService } from "@features/team-attendance/team-attendance.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { Router, ActivatedRoute } from "@angular/router";
 import { EmployeeLeaveRequestEditComponent } from "../employee-leave-request-edit/employee-leave-request-edit.component";
 
 @Component({
@@ -37,25 +38,48 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     private employeeLeaveService: EmployeeLeaveService,
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
-    private teamAttendanceService: TeamAttendanceService
+    private teamAttendanceService: TeamAttendanceService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
+    debugger
     this.getLeaveBalance();
     this.currentUserId = getCurrentUserId();
     this.leaveStatusKeys = Object.keys(this.leaveStatus)
       .filter(Number)
       .map(Number);
-    this.getAllRequestedLeave();
+    // this.getAllRequestedLeave();
     this.getMarkedDates("leave", this.currentUserId);
     this.getMarkedDates("onduty", this.currentUserId);
     this.getMarkedDates("workfromhome", this.currentUserId);
+    if(this.isEmployeeLeave==false){
+     this.getAllEmployeeDetailsLeave()
+    }else{
+      this.getAllRequestedLeave()
+    }
   }
 
   getLeaveBalance() {
     this.getBalance.emit("getBalance");
   }
 
+  getAllEmployeeDetailsLeave() {
+    debugger
+    this.employeeLeaveService.getAllLeaveDetails().subscribe(
+      (result) => {
+        this.leave = this.leaveLogsOnDisplay = result;
+        console.log(this.leaveLogsOnDisplay);
+      },
+      (error) => {
+        console.error(error);
+        this.toastr.showErrorMessage(
+          "Unable to fetch the Leave Request Details"
+        );
+      }
+    );
+  }
   getAllRequestedLeave() {
     this.employeeLeaveService.getAllByID(this.currentUserId).subscribe(
       (result) => {
@@ -107,10 +131,20 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     modalRef.componentInstance.currentUserId = this.currentUserId;
     modalRef.result.then((result) => {
       if (result == "submit") {
-        this.getAllRequestedLeave();
+        if(this.isEmployeeLeave==true){
+          this.getAllRequestedLeave();
+          }else{
+            this.getAllEmployeeDetailsLeave()
+          }
       }
     });
   }
+  openPrint(leaveRequest: EmployeeLeaveRequest) {
+    debugger
+    this.router.navigate(["./print/" + leaveRequest.id ], {
+      relativeTo: this.route.parent,
+  })
+    }
   openEdit(leaveRequest: EmployeeLeaveRequest) {
     const modalRef = this.modalService.open(
       EmployeeLeaveRequestEditComponent,
@@ -127,9 +161,13 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == "submit") {
-        this.getAllRequestedLeave();
-        this.getLeaveBalance();
-        this.getMarkedDates("leave", this.currentUserId);
+        if(this.isEmployeeLeave==true){
+          this.getAllRequestedLeave();
+          this.getLeaveBalance();
+          this.getMarkedDates("leave", this.currentUserId);
+          }else{
+            this.getAllEmployeeDetailsLeave()
+          }
       }
     });
   }
@@ -147,8 +185,13 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
           this.toastr.showSuccessMessage(
             "Leave Request Cancelled successfully"
           );
-          this.getAllRequestedLeave();
-          this.getLeaveBalance();
+          if(this.isEmployeeLeave==true){
+            this.getAllRequestedLeave();
+            this.getLeaveBalance();
+            }
+            else{
+              this.getAllEmployeeDetailsLeave()
+            }
         });
       }
     });
@@ -182,9 +225,14 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == "submit") {
-        this.getAllRequestedLeave();
-        this.getLeaveBalance();
-        this.getMarkedDates("leave", this.currentUserId);
+        if(this.isEmployeeLeave==true){
+          this.getAllRequestedLeave();
+          this.getLeaveBalance();
+          this.getMarkedDates("leave", this.currentUserId);
+          }else{
+            this.getAllEmployeeDetailsLeave()
+          }
+       
       }
     });
   }

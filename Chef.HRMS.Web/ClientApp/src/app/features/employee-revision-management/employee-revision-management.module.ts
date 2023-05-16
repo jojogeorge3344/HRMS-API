@@ -13,10 +13,12 @@ import { CUSTOM_ERRORS } from '@shared/utils/validators.messages';
 import { SelectDropDownModule } from "ngx-select-dropdown";
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { SharedModule } from '@shared/shared.module';
+import { EmployeeRevisionPrintComponent } from './employee-revision-print/employee-revision-print.component';
+import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
 
 
 @NgModule({
-  declarations: [EmployeeRevisionManagementListComponent, EmployeeRevisionManagementCreateComponent, EmployeeRevisionManagementViewComponent, EmployeeRevisionManagementEditComponent],
+  declarations: [EmployeeRevisionManagementListComponent, EmployeeRevisionManagementCreateComponent, EmployeeRevisionManagementViewComponent, EmployeeRevisionManagementEditComponent, EmployeeRevisionPrintComponent],
   imports: [
     
     FormsModule,
@@ -56,13 +58,19 @@ import { SharedModule } from '@shared/shared.module';
           name: 'organization-employee-revision-management'
         },
       },
+      {
+        path: 'print/:id', component: EmployeeRevisionPrintComponent,
+        data: { breadcrumbs: ['Organization', 'Employee Revision', "print"], name: 'organization-employee-revision-management' }
+        
+      }
       
     ]),
 
     NgBootstrapFormValidationModule.forRoot(),
     DirectivesModule,
     SharedModule,
-    SelectDropDownModule
+    SelectDropDownModule,
+    ReportViewerModule
   ],
   providers: [
     {

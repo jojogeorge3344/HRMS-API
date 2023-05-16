@@ -1,7 +1,7 @@
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { EmployeeSalaryFormComponent } from './../employee-salary-form/employee-salary-form.component';
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
-import { NgbModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDateAdapter, NgbDateNativeAdapter, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { PayrollCalculationService } from '@settings/payroll/payroll-calculation/payroll-calculation.service';
@@ -12,6 +12,7 @@ import { EmployeeSalaryConfigurationDetails } from '../employee-salary-configura
 import { EmployeeSalaryConfigurationDetailsService } from '../employee-salary-configuration-details.service';
 import { ToastrService } from 'ngx-toastr';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeService } from '@features/employee/employee.service';
 
 @Component({
   selector: 'hrms-employee-salary-create',
@@ -41,7 +42,8 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
 
   isDisabled = true;
   activeId = 1;
-
+  employeename: any;
+  employeecode: any;
   constructor(
     private formBuilder: FormBuilder,
     private payrollCalculationService: PayrollCalculationService,
@@ -50,14 +52,16 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private config: NgbDatepickerConfig,
+    private employeeService: EmployeeService,) {
     const date = new Date();
 
-    this.minDate = {
-      year: date.getFullYear(),
-      month: 1,
-      day: 1
-    };
+    // this.minDate = {
+    //   year: date.getFullYear(),
+    //   month: 1,
+    //   day: 1
+    // };
     this.maxDate = {
       year: date.getFullYear() + 10,
       month: 12,
@@ -73,6 +77,7 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.salaryForm = this.createFormGroup();
     this.getEmployeeSalaryConfiguration();
+    this.getEmployeedetails();
   }
 
   createFormGroup(): FormGroup {
@@ -83,7 +88,28 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
       salaryArray: new FormArray([])
     });
   }
-
+  getEmployeedetails() {
+    this.employeeService.getDetails(this.employeeId).subscribe(
+      (result) => {
+        debugger
+        this.employeename = result.firstName
+        this.employeecode = result.employeeNumber
+        let doj = new Date(result.dateOfJoin)
+        this.minDate = {
+          year: doj.getFullYear(),
+          month: doj.getMonth() +1,
+          day: doj.getDate()
+        };
+        // let doj = new Date(result.dateOfJoin)
+        this.salaryForm.patchValue({
+          effectiveDate: doj
+        })
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
   getEmployeeSalaryConfiguration() {
 
     this.payrollCalculationService.getByEmployeeId(this.employeeId).subscribe((payrollcalculation: EmployeeSalaryConfigurationView[]) => {
@@ -94,9 +120,9 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
         this.salaryStructureName = this.salaryStructure[0].payrollStructureName;
       }
     },
-    error => {
-      console.error(error);
-    });
+      error => {
+        console.error(error);
+      });
   }
 
   get effectiveDate() { return this.salaryForm.get('effectiveDate').value; }
@@ -114,7 +140,6 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
   }
 
   onSubmit() {
-    // debugger;
     this.salaryStructure = this.salaryFormComponent.salaryStructure;
     this.salaryTotalMonthly = this.salaryFormComponent.salaryTotalMonthly;
     this.salaryTotalYearly = this.salaryFormComponent.salaryTotalYearly;
@@ -126,11 +151,11 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
 
   save() {
     const employeeSalaryConfiguration: EmployeeSalaryConfiguration = {
-    employeeId: this.employeeId,
-    effectiveDate: this.effectiveDate,
-    version: 'Version 001'
-    // createdBy: this.currentUserId,
-    // modifiedBy: this.currentUserId
+      employeeId: this.employeeId,
+      effectiveDate: this.effectiveDate,
+      version: 'Version 001'
+      // createdBy: this.currentUserId,
+      // modifiedBy: this.currentUserId
     };
 
     let employeeSalaryConfigurationDetails: EmployeeSalaryConfigurationDetails[] = this.salaryStructure.map(x => {
@@ -149,7 +174,6 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
 
     this.employeeSalaryConfigurationService.insert(employeeSalaryConfiguration).subscribe((result: any) => {
       console.log(result, employeeSalaryConfigurationDetails);
-      // debugger;
       employeeSalaryConfigurationDetails = employeeSalaryConfigurationDetails.map(x => {
         return {
           ...x,
@@ -160,7 +184,7 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
       this.employeeSalaryConfigurationDetailsService.insert(employeeSalaryConfigurationDetails).subscribe(res => {
         if (res) {
           this.toastr.showSuccessMessage('The salary details saved successfully!');
-          this.router.navigate(['../../', {activeTabId: '4'}], { relativeTo: this.route });
+          this.router.navigate(['../../', { activeTabId: '4' }], { relativeTo: this.route });
 
         }
       });

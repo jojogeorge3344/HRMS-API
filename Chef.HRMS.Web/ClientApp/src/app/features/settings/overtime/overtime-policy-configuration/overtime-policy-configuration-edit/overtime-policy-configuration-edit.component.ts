@@ -17,6 +17,7 @@ import { OverTimeSlabService } from '@settings/overtime/overtime-slab/overtime-s
 import { OvertimeSlabCreateComponent } from '@settings/overtime/overtime-slab/overtime-slab-create/overtime-slab-create.component';
 import { OvertimeSlabEditComponent } from '@settings/overtime/overtime-slab/overtime-slab-edit/overtime-slab-edit.component';
 import { OvertimeSlabViewComponent } from '@settings/overtime/overtime-slab/overtime-slab-view/overtime-slab-view.component';
+import { OvertimeType } from 'src/app/models/common/types/overtimeType';
 
 @Component({
   selector: 'hrms-overtime-policy-configuration-edit',
@@ -42,7 +43,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
   isSaveDisable: boolean = false;
   activeTab: string = "configuration";
   overtimeFlagCheck: boolean=false;
-
+  overtimetype=OvertimeType;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -137,11 +138,14 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
         this.editForm.patchValue( {roundOffType: 1, isRoundOffNearest: false, isRoundOffLowest: false} );
       }
     });
-    this.editForm.get('isovertimeslab').valueChanges.subscribe(value => {
+    this.editForm.get('isOvertimeSlab').valueChanges.subscribe(value => {
       if (value) {
         this.overtimeFlagCheck=true
+        this.editForm.get('isMonthly').enable()
       } else {
         this.overtimeFlagCheck=false
+        this.editForm.get('isMonthly').reset()
+        this.editForm.get('isMonthly').disable()
       }
     });
 
@@ -176,7 +180,6 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     console.log(this.editForm.value)
     this.overtimePolicyConfigurationService.update(this.editForm.value).subscribe(() => {
       this.toastr.showSuccessMessage('Overtime Policy configured successfully!');
-      
       this.isSaveDisable = true;
       if(this.overtimeFlagCheck==true){
       this.isDisabled = false;
@@ -202,7 +205,8 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
-      isovertimeslab:[false],
+      isOvertimeSlab:[false],
+      isMonthly:[false],
       normalOverTime:[0],
       holidayOverTime:[0],
       specialOverTime:[0],      

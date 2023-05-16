@@ -12,52 +12,7 @@ export class EmployeeSalaryFormComponent implements OnInit {
 
   @Input() salaryForm: FormGroup;
   @Input()
-  salaryStructure: EmployeeSalaryConfigurationView[]; /*= [
-    {
-      id: 0,
-      payrollStructureName: "PSN",
-      payrollComponentName: "Basic Pay",
-      shortCode: "BP",
-      isFixed: true,
-      isComputed: false,
-      formula: null,
-      payrollComponentId: 5,
-      payrollStructureId: 57,
-      isCustomizedAndOverridenAtEmployeeLevel: false,
-      maximumLimit: 10000,
-      payHeadContractValueType: 0,
-      payHeadBaseUnitType: 0,
-    },
-    {
-      id: 55,
-      payrollStructureName: "PSN",
-      payrollComponentName: "Transportation Allowance",
-      shortCode: "TA",
-      isFixed: true,
-      isComputed: true,
-      formula: "[BP]*10",
-      payrollComponentId: 10,
-      payrollStructureId: 57,
-      isCustomizedAndOverridenAtEmployeeLevel: false,
-      maximumLimit: 4000,
-      payHeadContractValueType: 0,
-      payHeadBaseUnitType: 0,
-    },
-    {
-      id: 56,
-      payrollStructureName: "PSN",
-      payrollComponentName: "Leave Deduction",
-      shortCode: "LD",
-      isComputed: true,
-      formula: "[BP]-20",
-      payrollComponentId: 13,
-      payrollStructureId: 57,
-      isCustomizedAndOverridenAtEmployeeLevel: false,
-      maximumLimit: 5000,
-      payHeadContractValueType: 0,
-      payHeadBaseUnitType: 0,
-    },
-  ];*/
+  salaryStructure: EmployeeSalaryConfigurationView[]; 
   @Input() returned: boolean;
 
   valueObject = {};
@@ -167,7 +122,7 @@ export class EmployeeSalaryFormComponent implements OnInit {
       this.salaryStructure = this.salaryStructure.map((comp, i) => {
         this.valueObject[`{${comp.shortCode}}`] = comp.isComputed
           ? comp.monthlyAmount
-          : res[i].monthly;
+          : res[i]?.monthly;
         return {
           ...comp,
           monthlyAmount: this.salaryForm.getRawValue().salaryArray[i].monthly,

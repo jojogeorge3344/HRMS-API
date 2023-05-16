@@ -98,7 +98,7 @@ namespace Chef.HRMS.Models
         /// Holds a benefit code name
         /// </summary>
         [Required]
-        [StringLength(24)]
+        [StringLength(150)]
         [Description("Name of the Benefit")]
         public string Name { get; set; }
 

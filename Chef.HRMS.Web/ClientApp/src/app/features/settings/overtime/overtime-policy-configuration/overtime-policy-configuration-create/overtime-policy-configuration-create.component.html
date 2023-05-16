@@ -199,18 +199,30 @@
                       <div class="custom-control custom-checkbox custom-switch">
                         <input
                           type="checkbox"
-                          #isovertimeslab
+                          #isOvertimeSlab
                           class="custom-control-input"
-                          id="isovertimeslab"
-                          formControlName="isovertimeslab"
+                          id="isOvertimeSlab"
+                          formControlName="isOvertimeSlab"
                         />
-                        <label class="custom-control-label" for="isovertimeslab">
-                          Overtime Flag
+                        <label class="custom-control-label" for="isOvertimeSlab">
+                          Overtime Slab
                         </label>
                       </div>
-
                     </div>
-          
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox custom-switch">
+                        <input
+                          type="checkbox"
+                          #isMonthlyApplicable
+                          class="custom-control-input"
+                          id="isMonthly"
+                          formControlName="isMonthly"
+                        />
+                        <label class="custom-control-label" for="isMonthly">
+                          Is monthly applicable
+                        </label>
+                      </div>
+                    </div>
                     <div class="h6 mt-4 mb-4">Overtime Calculation</div>
                     <div class="row">
                       <div class="with-input form-group col-md-3">             
@@ -344,6 +356,7 @@
                           <tr>
                               <th>Sl No.</th>
                               <!-- <th>Benefit Code</th> -->
+                              <th>Overtime Policy Type</th>
                               <th>Overtime Policy Code</th>
                               <th>Overtime Policy Name</th>
                               <th>Lower Limit</th>
@@ -357,6 +370,7 @@
                           <tr *ngFor="let rel of overtimeSlabDetails; let i= index;">
                               <td>{{i+1}}</td>
                               <!-- <td>{{ rel.bfCode }}</td> -->
+                              <td>{{overtimetype [rel.overTimeType] }}</td>
                               <td>{{ rel.overTimePolicyCode }}</td>
                               <td>{{ rel.overTimePolicyCode }}</td>
                               <td>{{ rel.lowerLimit }}</td>

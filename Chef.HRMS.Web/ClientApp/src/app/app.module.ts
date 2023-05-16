@@ -13,6 +13,13 @@ import { PipesModule } from './pipes/pipes.module'
 import { JwtInterceptor } from './services/auth/jwt.interceptor';
 import { customErrorMessages } from './shared/utils/utils.functions';
 import { EmployeeAssetRoutingModule } from './features/employee-assets/employee-asset-routing.module';
+// Report viewer
+import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
+
+// data-visualization
+import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.bulletgraph.min';
+import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.chart.min';
+import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
 
 
 @NgModule({
@@ -31,6 +38,9 @@ import { EmployeeAssetRoutingModule } from './features/employee-assets/employee-
     PipesModule,
     NgBootstrapFormValidationModule.forRoot(),
     EmployeeAssetRoutingModule,
+    BoldReportViewerModule
+    
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

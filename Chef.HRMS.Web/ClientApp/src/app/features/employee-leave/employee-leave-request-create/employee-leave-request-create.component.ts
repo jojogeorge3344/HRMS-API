@@ -35,6 +35,7 @@ import { ConfirmModalComponent } from "@shared/dialogs/confirm-modal/confirm-mod
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.service";
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: "./employee-leave-request-create.component.html",
@@ -88,6 +89,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   directoryName = "c:";
   documentSave;
   leaveDocument: any;
+  requestTypes = RequestStatus;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -104,6 +106,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     public modalService: NgbModal
   ) {
     const current = new Date();
+    debugger
     this.minDateFrom = {
       year: current.getFullYear(),
       month: current.getMonth() + 1,
@@ -146,6 +149,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.getEmployeeHoliday();
     //this.getAllInfoLeave(this.employeeId);
     this.formatLeaves();
+    console.log('leaveSettings',this.leaveSettings)
   }
 
   formatLeaves() {
@@ -199,6 +203,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   subscribeToChanges() {
+    debugger
     this.addForm.valueChanges.subscribe((res) => {
       this.fromDate = this.addForm.get("fromDate").value;
       this.toDate = this.addForm.get("toDate").value;
@@ -368,6 +373,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     $event.preventDefault();
     if (this.selectedItems.indexOf($event.item) === -1) {
       this.selectedItems.push($event.item);
+      console.log(this.selectedItems,'sss')
     }
     this.notifyPersonnel.nativeElement.value = "";
   }
@@ -388,6 +394,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   checkDates() {
+    debugger
     if (
       this.fromDate &&
       this.toDate &&
@@ -489,6 +496,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   validateRequest() {
+    debugger
     const selectedLeaveComponentId = this.addForm.value.leaveComponentId;
     const selectedLeaveComponent = this.leaveBalance.find(
       (leaveComponent) =>
@@ -527,6 +535,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       }
     }
     if (!this.addForm.controls.numberOfDays.errors) {
+      debugger
       if (
         this.leaveSettings.maxConsecutiveDays < this.numberOfDays ||
         !this.leaveSettings.maxConsecutiveDays
@@ -601,13 +610,15 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
+    console.log(this.addForm)
     if(this.addForm.invalid){
 
       return
          
        }
     let addForm = this.addForm.value;
-    addForm.leaveStatus=4
+    addForm.leaveStatus=this.requestTypes.Approved
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -621,7 +632,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
         this.employeeLeaveService.add(addForm).subscribe((result) => {
-          this.notify(result.id);
+          this.notify(result);
         });
       } else {
         forkJoin([
@@ -660,13 +671,15 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     }
   }
   draftSave() {
+    debugger
+    console.log(this.addForm)
     if(this.addForm.invalid){
 
       return
          
        }
     let addForm = this.addForm.value;
-    addForm.leaveStatus=1
+    addForm.leaveStatus=this.requestTypes.Draft
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
       ...addForm,
@@ -679,8 +692,10 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
 
     if (this.flag !== 1) {
       if (this.addForm.get("document.name").value === null) {
+        debugger
         this.employeeLeaveService.add(addForm).subscribe((result) => {
-          this.notify(result.id);
+          console.log(result)
+          this.notify(result);
         });
       } else {
         forkJoin([
@@ -689,6 +704,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
           this.documentUploadService.upload(this.documentSave),
         ]).subscribe(
           ([leaveRequest, document]) => {
+            debugger
             this.leaveDocument = {
               leaveId: leaveRequest,
               documentId: document,
@@ -700,6 +716,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
               .add(this.leaveDocument)
               .subscribe(
                 (result: any) => {
+                  debugger
                   this.notify(leaveRequest.id);
                 },
                 (error) => {
@@ -719,6 +736,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     }
   }
   notify(leaveRequestId): void {
+    debugger
+    console.log("leaveRequestId",leaveRequestId)
     const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
       leaveId: leaveRequestId,
       notifyPersonnel: notifyPerson.id,
@@ -727,6 +746,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       .invokeConnection(leaveRequestId)
       .then(() => console.log("invoked"))
       .catch((err) => console.log("Error while invoking connection: " + err));
+      debugger
     this.employeeLeaveService.addNotifyPersonnel(notifyPersonnelForm).subscribe(
       () => {
         this.getLeaveBalance();
@@ -763,7 +783,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       leaveComponentId: [
         null,
         [
-          LeaveBalanceValidator(this.leaveBalance, this.numberOfDays),
+          // LeaveBalanceValidator(this.leaveBalance, this.numberOfDays),
           Validators.required,
         ],
       ],
@@ -803,5 +823,14 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       });
       console.log("leavessting", this.leaveSettings);
     });
+  }
+    getEmployeeId(event){
+    debugger
+    let a=this.employeeList.filter(x=>x.firstName==event)
+    this.addForm.patchValue({
+      employeeId:a[0].id,
+      employeeName:a[0].firstName
+
+    })
   }
 }

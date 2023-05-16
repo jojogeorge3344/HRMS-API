@@ -2,6 +2,7 @@
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,9 +22,14 @@ namespace Chef.HRMS.Services
             return await adhocDeductionRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId, int year, int month)
+        public async Task<IEnumerable<BenefitTypes>> GetAdhocBfCode()
         {
-            return await adhocDeductionRepository.GetAllAdhocDeductionByPayrollProcessingMethodId(payrollProcessingMethodId, year, month);
+            return await adhocDeductionRepository.GetAdhocBfCode();
+        }
+
+        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate, string toDate)
+        {
+            return await adhocDeductionRepository.GetAllAdhocDeductionByPayrollProcessingMethodId( payGroupId,  fromDate,  toDate);
         }
 
         public async Task<IEnumerable<AdhocDeduction>> GetAllAsync()

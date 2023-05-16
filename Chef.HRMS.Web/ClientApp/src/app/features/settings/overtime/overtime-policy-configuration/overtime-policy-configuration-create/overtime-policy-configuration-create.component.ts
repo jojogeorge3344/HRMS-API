@@ -20,6 +20,7 @@ import { OverTimeSlabService } from '@settings/overtime/overtime-slab/overtime-s
 import { OvertimeSlabCreateComponent } from '@settings/overtime/overtime-slab/overtime-slab-create/overtime-slab-create.component';
 import { OvertimeSlabEditComponent } from '@settings/overtime/overtime-slab/overtime-slab-edit/overtime-slab-edit.component';
 import { OvertimeSlabViewComponent } from '@settings/overtime/overtime-slab/overtime-slab-view/overtime-slab-view.component';
+import { OvertimeType } from 'src/app/models/common/types/overtimeType';
 
 @Component({
   selector: 'hrms-overtime-policy-configuration-create',
@@ -44,7 +45,8 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   isSaveDisable: boolean = false;
   activeTab: string = "configuration";
   overtimeFlagCheck: boolean=false;
-
+  disableMonthly=true
+  overtimetype=OvertimeType;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -59,6 +61,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
+    this.addForm.get('isMonthly').disable()
     this.overtimePolicyConfigurationService.getNormalOverTime()
     .subscribe((result)=>{
       this.normalOverTime=result  
@@ -120,7 +123,18 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
         this.addForm.patchValue( {roundOffType: 1, isRoundOffNearest: false, isRoundOffLowest: false} );
       }
     });
-    this.addForm.get('isovertimeslab').valueChanges.subscribe(value => {
+    this.addForm.get('isOvertimeSlab').valueChanges.subscribe(value => {
+      debugger
+      if (value) {
+        this.overtimeFlagCheck=true
+        this.addForm.get('isMonthly').enable()
+      } else {
+        this.overtimeFlagCheck=false
+        this.addForm.get('isMonthly').reset()
+        this.addForm.get('isMonthly').disable()
+      }
+    });
+    this.addForm.get('isOvertimeSlab').valueChanges.subscribe(value => {
       if (value) {
         this.overtimeFlagCheck=true
       } else {
@@ -203,7 +217,7 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       this.overtimePolicy.isConfigured = true;
       this.overtimePolicyService.update(this.overtimePolicy).subscribe(() => {
         this.toastr.showSuccessMessage('Overtime Policy configured successfully!');
-        
+        debugger
         this.isSaveDisable = true;
         if(this.overtimeFlagCheck==true){
           this.isDisabled = false;
@@ -233,7 +247,8 @@ export class OvertimePolicyConfigurationCreateComponent implements OnInit {
       isRoundOffRequired: [false],
       isRoundOffNearest: [false],
       isRoundOffLowest: [false],
-      isovertimeslab:[false],
+      isOvertimeSlab:[false],
+      isMonthly:[false],
       normalOverTime:[0],
       holidayOverTime:[0],
       specialOverTime:[0],

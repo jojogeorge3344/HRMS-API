@@ -9,6 +9,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { AdocStatusType } from 'src/app/models/common/types/adocStatusType';
 import { DocumentType } from 'src/app/models/common/types/documentType';
 import { AdocEntryService } from '../adoc-entry-service';
+import { result } from 'lodash';
 
 @Component({
   selector: 'hrms-adoc-entry-create',
@@ -26,6 +27,7 @@ export class AdocEntryCreateComponent implements OnInit {
   statusTypeList = AdocStatusType;
   employeeList;
   currency: any[];
+  adhoc:any[]
   statusTypes;
   benefitTypes: any[];
   employee;
@@ -45,6 +47,7 @@ export class AdocEntryCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getEmployeeList()
     this.getBenefitTypes()
+    this.getAdhocBfCode()
     this.config = {
       displayKey: "firstName",
       search: true,
@@ -69,6 +72,14 @@ export class AdocEntryCreateComponent implements OnInit {
       })
   }
 
+  getAdhocBfCode()
+  {
+    this.adocEntryService.getAdhocBfCode()
+    .subscribe((result) =>{
+      this.adhoc = result;
+    })
+  }
+
   getBenefitTypes() {
     this.adocEntryService.getBenefitTypes()
       .subscribe((result) => {
@@ -77,7 +88,6 @@ export class AdocEntryCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
     if (this.addForm.invalid) {
       return
     }
@@ -99,15 +109,18 @@ export class AdocEntryCreateComponent implements OnInit {
       employeeName:this.employee.firstName,
       employeeCode:this.employee.employeeNumber
      })
-      if(this.addForm.value.adhocBFCode=='SE'){
+
+
+     let filterdata= this.adhoc.filter(x=>x.id==this.addForm.value.adhocBFCode)
+      if(filterdata[0].code=='SE'){
         this.addForm.patchValue({
           isAddition:true,
-          payrollComponentId:17
+          payrollComponentId:this.addForm.value.adhocBFCode
         })
       }else{
         this.addForm.patchValue({
           isAddition:false,
-          payrollComponentId:25
+          payrollComponentId:this.addForm.value.adhocBFCode
         })
       }
       this.adocEntryService.add(this.addForm.value).subscribe((result) => {
@@ -149,5 +162,8 @@ export class AdocEntryCreateComponent implements OnInit {
       ]],
     });
   }
-
+  changeadhoc(event){
+    debugger
+    console.log("event",event)
+  }
 }

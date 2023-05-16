@@ -14,6 +14,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { OvertimePolicyConfiguration } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: './overtime-request-edit.component.html',
@@ -37,6 +38,7 @@ export class OvertimeRequestEditComponent implements OnInit {
   selectEnable: boolean;
   employeeLogin: any;
   notifyPersonList:any=[]
+  requestTypes = RequestStatus;
 
 
   @Input() overtimeRequest: OvertimeRequest;
@@ -175,7 +177,7 @@ export class OvertimeRequestEditComponent implements OnInit {
       return
          
        }
-    this.editForm.value.requestStatus=4
+    this.editForm.value.requestStatus=this.requestTypes.Approved
     this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
       if (result.id !== -1) {
         
@@ -228,7 +230,7 @@ export class OvertimeRequestEditComponent implements OnInit {
       return
          
        }
-    this.editForm.value.requestStatus=1
+    this.editForm.value.requestStatus=this.requestTypes.Draft
     this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
       if (result.id !== -1) {
         

@@ -20,10 +20,10 @@ namespace Chef.HRMS.Web.Controllers
             this.leaveAndAttendanceService = leaveAndAttendanceService;
         }
 
-        [HttpGet("GetAllLeaveAndAttendanceByPaygroup/{paygroupId}/{fromDate}/{toDate}")]
-        public async Task<ActionResult<IEnumerable<LeaveAndAttendanceViewModel>>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate)
+        [HttpGet("GetAllLeaveAndAttendanceByPaygroup/{paygroupId}/{fromDate}/{toDate}/{payrollProcessId}")]
+        public async Task<ActionResult<IEnumerable<LeaveAndAttendanceViewModel>>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate, int payrollProcessId)
         {
-            var leaveAndAttendanceList = await leaveAndAttendanceService.GetAllLeaveAndAttendanceByPaygroup(paygroupId, fromDate, toDate);
+            var leaveAndAttendanceList = await leaveAndAttendanceService.GetAllLeaveAndAttendanceByPaygroup(paygroupId, fromDate, toDate, payrollProcessId);
 
             return Ok(leaveAndAttendanceList);
         }

@@ -22,6 +22,7 @@
                 <th>Deduction Name</th>
                 <th>Amount</th>
                 <th>Description</th>
+                <th>Type</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -33,6 +34,7 @@
                 <td>{{adhocDeduction.deductionName}}</td>
                 <td>{{adhocDeduction.amount| number : '1.0-2'}}</td>
                 <td>{{adhocDeduction.description}}</td>
+                <td>{{adhocDeduction.isAddition ? 'Deduction' : 'Earning'}}</td>
                 <td>
                     <div class="btn-group" dropdown container="main">
                         <button id="button-basic" dropdownToggle type="button"

@@ -165,5 +165,9 @@ namespace Chef.HRMS.Services
         {
             throw new NotImplementedException();
         }
+        public async Task<int> BulkInsertSystemVariableValues(IEnumerable<SystemVariableValues> systemVariableValues)
+        {
+            return await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
+        }
     }
 }

@@ -10,5 +10,7 @@ export interface OverTimeSlabGroup extends Model {
       valueVariable:number,
       valueType:string,
       overTimePolicyId: number,
-      overTimePolicyCode: string
+      overTimePolicyCode: string,
+      overTimeType:number,
+
 }

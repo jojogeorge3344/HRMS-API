@@ -11,10 +11,14 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { Subscription } from 'rxjs';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import * as moment from 'moment';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
+import { EmployeeService } from '@features/employee/employee.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './loan-request-create.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  styleUrls: ['./loan-request-create.component.scss'],
 })
 export class LoanRequestCreateComponent implements OnInit, OnDestroy {
 
@@ -29,19 +33,22 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   expectedOnUpdated: any;
   currentUserId: number;
   loanSettingId: number;
-  minYear:number;
-  minMonth:number;
+  minYear: number;
+  minMonth: number;
   years: any;
   months: any;
   minDate = undefined;
-  scheduleArray:any=[]
-  showLoanSchedules:boolean=false
+  scheduleArray: any = []
+  showLoanSchedules: boolean = false
   @Input() loanTypes: any;
   @Input() paymentTypes: any;
   @Input() companyCode: string;
   @Input() nextLoanNumber: number;
   formSubscription: Subscription;
   controlSubscription: Subscription;
+  requestTypes = RequestStatus;
+  config;
+  employeeList;
 
   constructor(
     private loanRequestService: LoanRequestService,
@@ -50,15 +57,16 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     public modalService: NgbModal,
-    private toastr: ToasterDisplayService) {
-   
+    private toastr: ToasterDisplayService,
+    private employeeService: EmployeeService,
+  ) {
     this.todaysDate = new Date();
     const current = new Date();
     this.minDate = {
-    year: current.getFullYear(),
-    month: current.getMonth() + 1,
-    day: current.getDate()
-  };
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
     const start = current.getFullYear();
     const end = start + 3;
     this.years = Array.from({ length: end - start }, (x, i) => i + start);
@@ -68,8 +76,11 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+
+    console.log("ActivatedRoute", ActivatedRoute)
     this.currentUserId = getCurrentUserId();
     this.getCompanyCode();
+    this.getEmployeeList()
     this.addForm = this.createFormGroup();
     this.month = this.todaysDate.toLocaleString('default', { month: 'short' }).toUpperCase();
     this.year = this.todaysDate.toLocaleString('default', { year: '2-digit' });
@@ -91,18 +102,36 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       }
     });
     this.controlSubscription = this.addForm.controls.expectedOn.valueChanges.subscribe(res => {
-      if(typeof res == "object"){
-      const expectedOnYear = new Date(res.expectedOn).getFullYear();
-      const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
-      this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
-      this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
-    }     
+      if (typeof res == "object") {
+        const expectedOnYear = new Date(res.expectedOn).getFullYear();
+        const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
+        this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
+        this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
+      }
     });
-
+    this.config = {
+      displayKey: "firstName",
+      search: true,
+      limitTo: 0,
+      placeholder: "Select Employee",
+      noResultsFound: "No results found!",
+      searchPlaceholder: "Search",
+      searchOnKey: "firstName",
+      clearOnSelection: false,
+    };
   }
   ngOnDestroy(): void {
     this.formSubscription.unsubscribe();
     this.controlSubscription.unsubscribe();
+  }
+  selectionChanged(args) {
+    this.addForm.get("requestedBy").patchValue(args.value.id);
+  }
+  getEmployeeList() {
+    this.employeeService.getAll()
+      .subscribe((result) => {
+        this.employeeList = result
+      })
   }
 
   getCompanyCode() {
@@ -119,20 +148,20 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   setLoanNo() {
     this.loanNo = 'LN-' + this.companyCode + '-' + this.month + this.year + '/' + this.nextLoanNumber.toString().padStart(4, '0');
   }
- 
 
- 
+
+
   onSubmit() {
     debugger
-  if(this.addForm.invalid){
+    if (this.addForm.invalid) {
 
-   return
-      
+      return
+
     }
-    const addloanRequestForm = this.addForm.value;  
+    const addloanRequestForm = this.addForm.value;
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = 4;
+    addloanRequestForm.isapproved = this.requestTypes.Approved;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -156,15 +185,15 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     });
 
   }
-  draftSave(){
-    if(this.addForm.invalid){
-      return 
-       }
+  draftSave() {
+    if (this.addForm.invalid) {
+      return
+    }
     debugger
-    const addloanRequestForm = this.addForm.value;  
+    const addloanRequestForm = this.addForm.value;
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = 1;
+    addloanRequestForm.isapproved = this.requestTypes.Draft;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -196,18 +225,18 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
         (keyCode >= 96 && keyCode <= 105) ||
         excludedKeys.includes(keyCode)
       )
-    ){
+    ) {
       ev.preventDefault();
     }
   }
 
-  generateSchedule(){
-  this.scheduleArray=[]
+  generateSchedule() {
+    this.scheduleArray = []
 
-    
+
     let totalperiod = this.addForm.value.repaymentTerm
-    let amountperMonth 
-    amountperMonth =this.addForm.value.loanAmount/totalperiod
+    let amountperMonth
+    amountperMonth = this.addForm.value.loanAmount / totalperiod
     amountperMonth = parseInt(amountperMonth)
     amountperMonth = parseFloat(amountperMonth).toFixed(0)
 
@@ -215,30 +244,30 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
 
     var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
     var startYear = this.addForm.value.emiStartsFromYear
-    var startDate = new Date(startYear,  startingMonth -1);
-   
-   
+    var startDate = new Date(startYear, startingMonth - 1);
 
 
-  for(var i=1;i<= totalperiod;i++){
-    if(i == 1){
-    var month =  startDate.getMonth() + 1 
-    var year = startDate.getFullYear()
-    this.scheduleArray.push({Year : year,Month : this.months[month -1],Amount :amountperMonth,Status :'Pending'})
-    }else{
-      var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
-      var startYear = this.addForm.value.emiStartsFromYear
-      var startDate = new Date(startYear,  startingMonth -1);
-      var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i-1));
-       month =  upComingDate.getMonth() +1
-       year = upComingDate.getFullYear()
-       this.scheduleArray.push({Year : year,Month : this.months[month-1],Amount :amountperMonth,Status :'Pending'})
+
+
+    for (var i = 1; i <= totalperiod; i++) {
+      if (i == 1) {
+        var month = startDate.getMonth() + 1
+        var year = startDate.getFullYear()
+        this.scheduleArray.push({ Year: year, Month: this.months[month - 1], Amount: amountperMonth, Status: 'Pending' })
+      } else {
+        var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
+        var startYear = this.addForm.value.emiStartsFromYear
+        var startDate = new Date(startYear, startingMonth - 1);
+        var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i - 1));
+        month = upComingDate.getMonth() + 1
+        year = upComingDate.getFullYear()
+        this.scheduleArray.push({ Year: year, Month: this.months[month - 1], Amount: amountperMonth, Status: 'Pending' })
+      }
+
     }
-    
-  }
-  
 
-  this.showLoanSchedules =  true
+
+    this.showLoanSchedules = true
 
 
 
@@ -249,7 +278,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     return this.formBuilder.group({
       loanNo: this.loanNo,
       loanType: [null, [Validators.required]],
-      loanAmount: ['', [Validators.required,Validators.max(99999999)]],
+      loanAmount: ['', [Validators.required, Validators.max(99999999)]],
       paymentType: [null, [Validators.required]],
       expectedOn: [new Date(Date.now()), [
         Validators.required
@@ -257,10 +286,11 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       emiStartsFromYear: [null, [Validators.required]],
       emiStartsFromMonth: [null, [Validators.required]],
       repaymentTerm: ['', [Validators.max(36), Validators.required]],
-      comments: ['', [Validators.required,Validators.maxLength(200)]],
+      comments: ['', [Validators.required, Validators.maxLength(200)]],
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
-      extendedmonth:[0]
+      extendedmonth: [0],
+      requestedBy: [null]
     });
   }
 }
