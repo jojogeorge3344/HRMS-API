@@ -75,6 +75,12 @@ export class EmployeeRevisionManagementListComponent implements OnInit {
     //     }
     //   });
   }
+  openPrint(id){
+        this.router.navigate(["./print/" + id ], {
+        relativeTo: this.route.parent,
+      
+      });
+  }
 
   delete(id) {
     const modalRef = this.modalService.open(ConfirmModalComponent,

@@ -250,7 +250,7 @@ namespace Chef.HRMS.Repositories
             {
                 try
                 {
-                    if (leaveAndAttendances.Count() == 1)
+                    if (leaveAndAttendances.Count() == 0)
                     {
                         var employeeId = leaveAndAttendances.Select(x => x.EmployeeId).FirstOrDefault();
                         var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
@@ -264,8 +264,8 @@ namespace Chef.HRMS.Repositories
                                  laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
                                  laa.IsArchived = false;
                              });
-                            var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
-                            sql = sql.Replace("RETURNING id", "");
+                            var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery(false);
+                            //sql = sql.Replace("RETURNING id", "");
                             sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
                             sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
                             return await Connection.ExecuteAsync(sql, leaveAndAttendances);
