@@ -123,5 +123,11 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(benefitlist);
         }
+        [HttpGet("GetAdhocBfCode")]
+        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAdhocBfCode()
+        {
+            IEnumerable<BenefitTypes> details = await adhocDeductionService.GetAdhocBfCode();
+            return Ok(details);
+        }
     }
 }

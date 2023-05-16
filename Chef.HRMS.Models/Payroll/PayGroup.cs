@@ -45,7 +45,7 @@ namespace Chef.HRMS.Models
 
         public string TimeSheetCutOff { get; set; }
         public string LeaveCutOff { get; set; }
-        public int CurrencyCode { get; set; }
+        public string CurrencyCode { get; set; }
 
     }
 }
