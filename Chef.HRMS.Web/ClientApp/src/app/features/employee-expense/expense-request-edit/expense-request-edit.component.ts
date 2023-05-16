@@ -21,6 +21,7 @@ import { UnitType } from 'src/app/models/common/types/unittype';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class ExpenseRequestEditComponent implements OnInit {
   mileageUnit: string;
   maxLimit = 0;
   currentUserId: number;
+  requestTypes = RequestStatus;
 
   @Input() expenseRequest: ExpenseRequest;
   @Input() expenseConfigurationId: number;
@@ -419,7 +421,7 @@ export class ExpenseRequestEditComponent implements OnInit {
         size: [null]
       }),
       employeeId: [this.currentUserId],
-      requestStatus: [1],
+      requestStatus: [this.requestTypes.Applied],
       isReceiptAttached: [false],
       createdDate: [],
     });

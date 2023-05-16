@@ -47,7 +47,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(employeeDetails);
         }
         [HttpGet("GetEmployeeDetailsById/{id}")]
-        public async Task<ActionResult<HRMSEmployee>> GetEmployeeDetailsById(int id)
+        public async Task<ActionResult<EmployeeView>> GetEmployeeDetailsById(int id)
         {
             var employeeDetails = await employeeService.GetEmployeeDetailsById(id);
 

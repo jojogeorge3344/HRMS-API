@@ -11,6 +11,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { Subscription } from 'rxjs';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import * as moment from 'moment';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   templateUrl: './loan-request-create.component.html',
@@ -42,9 +43,10 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   @Input() nextLoanNumber: number;
   formSubscription: Subscription;
   controlSubscription: Subscription;
+  requestTypes = RequestStatus; 
 
   constructor(
-    private loanRequestService: LoanRequestService,
+    private loanRequestService: LoanRequestService, 
     private loanSettingsService: LoanSettingsService,
     private companyService: CompanyService,
     public activeModal: NgbActiveModal,
@@ -132,7 +134,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     const addloanRequestForm = this.addForm.value;  
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = 4;
+    addloanRequestForm.isapproved = this.requestTypes.Approved;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -164,7 +166,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     const addloanRequestForm = this.addForm.value;  
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = 1;
+    addloanRequestForm.isapproved = this.requestTypes.Draft;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
