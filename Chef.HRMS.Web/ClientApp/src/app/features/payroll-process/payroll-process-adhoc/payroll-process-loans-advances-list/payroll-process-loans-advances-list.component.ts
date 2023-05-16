@@ -30,6 +30,7 @@ export class PayrollProcessLoansAdvancesListComponent implements OnInit {
   payrollmonth:any
   payrollyear:any
   payrollcutoff:any
+  payrollProcessId:any
 
   constructor(
     private toastr: ToasterDisplayService,
@@ -50,6 +51,7 @@ export class PayrollProcessLoansAdvancesListComponent implements OnInit {
       this.payrollmonth =  params.month
       this.payrollyear =params.year
       this.payrollcutoff = params.cutOffDay
+      this.payrollProcessId = params.processId
     });
     this.getAllLoanByPayGroupId();
   }
