@@ -45,6 +45,10 @@ namespace Chef.HRMS.Models
 
         public string TimeSheetCutOff { get; set; }
         public string LeaveCutOff { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
         public string CurrencyCode { get; set; }
 
     }
