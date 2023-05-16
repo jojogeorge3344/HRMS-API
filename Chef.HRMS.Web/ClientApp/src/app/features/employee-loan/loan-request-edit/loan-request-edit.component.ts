@@ -8,6 +8,7 @@ import { LoanRequest } from '../loan-request.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 import { EmployeeService } from '@features/employee/employee.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './loan-request-edit.component.html',
@@ -45,6 +46,7 @@ export class LoanRequestEditComponent implements OnInit {
     private loanSettingsService: LoanSettingsService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
+    private router: Router,
     private toastr: ToasterDisplayService) {
     const current = new Date();
     this.minDate = {
@@ -129,13 +131,24 @@ export class LoanRequestEditComponent implements OnInit {
     this.employeeService.getAll()
       .subscribe((result) => {
         this.employeeList = result
-        let details: any = null;
-        debugger
-        details = this.employeeList.find((item) => item.id == this.requestedBy)
-        // this.editForm.patchValue({ requestedBy: null });
-        this.editForm.get('requestedBy').updateValueAndValidity()
-        this.editForm.patchValue({ requestedBy: details });
-        this.editForm.get('requestedBy').updateValueAndValidity()
+        if(this.router.url=='/my-loan'){
+          let details: any = null;
+          details = this.employeeList.find((item) => item.id == this.currentUserId)
+          this.editForm.get('requestedBy').updateValueAndValidity()
+          this.editForm.patchValue({ requestedBy: details.firstName });
+          this.editForm.get('requestedBy').updateValueAndValidity()
+  
+          this.editForm.get('requestedBy').disable()
+        }else{
+          let details: any = null;
+          debugger
+          details = this.employeeList.find((item) => item.id == this.requestedBy)
+          // this.editForm.patchValue({ requestedBy: null });
+          this.editForm.get('requestedBy').updateValueAndValidity()
+          this.editForm.patchValue({ requestedBy: details });
+          this.editForm.get('requestedBy').updateValueAndValidity()
+  
+        }
         // this.employeeList.forEach((emp) =>{
         //   if((this.requestedBy ==emp.id)){
         //      details=emp.firstName;
@@ -150,13 +163,14 @@ export class LoanRequestEditComponent implements OnInit {
   onSubmit() {
     debugger
     if (this.editForm.invalid) {
-
       return
-
     }
     const editloanRequestForm = this.editForm.value;
-    editloanRequestForm.requestedBy = editloanRequestForm.requestedBy.id;
-
+    if(this.router.url=='/my-loan'){
+      editloanRequestForm.requestedBy = this.currentUserId;
+    }else{
+      editloanRequestForm.requestedBy = editloanRequestForm.requestedBy
+    }
     editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId;
@@ -174,15 +188,17 @@ export class LoanRequestEditComponent implements OnInit {
       });
   }
   draftSave() {
+    debugger
     if (this.editForm.invalid) {
-
       return
-
     }
     
     const editloanRequestForm = this.editForm.value;
-    editloanRequestForm.requestedBy = editloanRequestForm.requestedBy.id;
-    editloanRequestForm.loanNo = this.loanNo;
+    if(this.router.url=='/my-loan'){
+      editloanRequestForm.requestedBy = this.currentUserId;
+    }else{
+      editloanRequestForm.requestedBy = editloanRequestForm.requestedBy.id;
+    }    editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId
     editloanRequestForm.isapproved = this.requestTypes.Draft;

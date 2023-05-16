@@ -136,9 +136,10 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
         if(this.router.url=='/my-loan'){
           let details: any = null;
           details = this.employeeList.find((item) => item.id == this.currentUserId)
-          this.addForm.patchValue({
-            requestedBy:details.firstName
-          })
+          this.addForm.get('requestedBy').updateValueAndValidity()
+          this.addForm.patchValue({ requestedBy: details.firstName });
+          this.addForm.get('requestedBy').updateValueAndValidity()
+  
           this.addForm.get('requestedBy').disable()
         }
       })
@@ -164,11 +165,17 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   onSubmit() {
     debugger
     if (this.addForm.invalid) {
-
       return
+    }
+
+    const addloanRequestForm = this.addForm.value;
+    if(this.router.url=='/my-loan'){
+      addloanRequestForm.requestedBy = this.currentUserId;
+    }else{
+      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy
 
     }
-    const addloanRequestForm = this.addForm.value;
+
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
     
@@ -202,6 +209,11 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     }
     debugger
     const addloanRequestForm = this.addForm.value;
+    if(this.router.url=='/my-loan'){
+      addloanRequestForm.requestedBy = this.currentUserId;
+    }else{
+      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy.id;
+    }
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
     addloanRequestForm.isapproved = this.requestTypes.Draft;
