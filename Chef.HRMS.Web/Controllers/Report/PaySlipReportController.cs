@@ -35,7 +35,7 @@ public class PaySlipReportController : ReportViewerController
         this.employeeService = employeeService;
         this.payslipReportService = payslipReportService;
         this.masterDataService = masterDataService;
-        this.ReportPath = @"Reports/.rdlc";
+        this.ReportPath = @"Reports/PayAdviceReport.rdlc";
     }
 
     public override void OnReportLoaded(ReportViewerOptions reportOption)
