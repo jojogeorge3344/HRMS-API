@@ -180,10 +180,7 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
     
     this.payrollProcessService.getPayrollProcessOvertime(this.paygroupId, this.datePipe.transform(previous,"yyyy-MM-dd"), this.datePipe.transform(todate,"yyyy-MM-dd"))
       .subscribe(result => {
-        this.overTimeDetails = result
-       
-       
-          
+        this.overTimeDetails = result  
       },
         error => {
           console.error(error);
