@@ -12,12 +12,12 @@
 
     <div class="py-2 bg-gray-400 d-flex justify-content-between">
         <div>
-            <span class="ml-2 font-weight-bold">Annual pay:</span>
-            Annual amount + Bonus
-            <span class="ml-2 font-weight-bold" *ngIf="salary.salary?.length">INR {{salary.yearlySum + bonus.bonusTotal
-                | number : '1.0-2'}}</span>
-            <span class="ml-2 font-weight-bold" *ngIf="!salary.salary?.length">INR {{0 + bonus.bonusTotal | number :
-                '1.0-2'}}</span>
+            <span class="ml-2 font-weight-bold">Salary Details</span>
+            <!-- Annual amount + Bonus -->
+            <!-- <span class="ml-2 font-weight-bold" *ngIf="salary.salary?.length">INR {{salary.yearlySum + bonus.bonusTotal
+                | number : '1.0-2'}}</span> -->
+            <!-- <span class="ml-2 font-weight-bold" *ngIf="!salary.salary?.length">INR {{0 + bonus.bonusTotal | number :
+                '1.0-2'}}</span> -->
         </div>
         <div class="btn-group" dropdown *ngIf="salary.salary?.length">
             <button id="button-basic" dropdownToggle type="button" class="border-0 mr-2 pr-2 dropdown-toggle btn-more"
@@ -32,7 +32,7 @@
     </div>
 
     <hrms-employee-salary-view #salary></hrms-employee-salary-view>
-
+<!-- 
     <div class="py-2 bg-gray-400 d-flex justify-content-between">
 
         <div>
@@ -51,9 +51,9 @@
                         class="dropdown-item">Delete all</a></li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
-    <hrms-employee-bonus-list #bonus></hrms-employee-bonus-list>
+    <!-- <hrms-employee-bonus-list #bonus></hrms-employee-bonus-list> -->
     <div *ngIf="salary.salary?.length">
         <div>
             Monthly Pay: <span class="ml-2 font-weight-bold">{{salary.monthlySum | number : '1.0-2'}}</span>
