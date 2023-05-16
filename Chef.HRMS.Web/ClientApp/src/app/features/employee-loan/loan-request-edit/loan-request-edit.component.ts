@@ -199,8 +199,6 @@ export class LoanRequestEditComponent implements OnInit {
   
     this.showLoanSchedules =  true
   
-  
-  
     }
 
     generateSchedule(){
