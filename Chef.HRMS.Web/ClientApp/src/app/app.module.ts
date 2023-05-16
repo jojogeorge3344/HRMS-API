@@ -21,6 +21,7 @@ import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej
 import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.chart.min';
 import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,8 @@ import { BoldReportViewerModule } from '@boldreports/angular-reporting-component
     NgBootstrapFormValidationModule.forRoot(),
     EmployeeAssetRoutingModule,
     BoldReportViewerModule
+    
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

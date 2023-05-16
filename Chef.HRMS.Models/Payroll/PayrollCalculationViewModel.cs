@@ -31,5 +31,6 @@ namespace Chef.HRMS.Models
         public float MaximumLimit { get; set; }
         public PayHeadContractValueType PayHeadContractValueType { get; set; }
         public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
+        public string CurrencyCode { get; set; }
     }
 }

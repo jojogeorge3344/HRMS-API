@@ -11,7 +11,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
 import { PayrollViewAdhocPaymentComponent } from '../payroll-view-adhoc-payment/payroll-view-adhoc-payment.component';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'hrms-payroll-process-adhoc-list',
   templateUrl: './payroll-process-adhoc-list.component.html'
@@ -31,12 +31,16 @@ export class PayrollProcessAdhocListComponent implements OnInit {
   fromDate: string;
   toDate: string;
   currentUserId: number;
+  payrollmonth:any
+  payrollyear:any
+  payrollcutoff:any
 
   constructor(
     private toastr: ToasterDisplayService,
     public modalService: NgbModal,
     private route: ActivatedRoute,
     private payrollProcessAdhocService: PayrollProcessAdhocService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -48,12 +52,37 @@ export class PayrollProcessAdhocListComponent implements OnInit {
       this.noOfCalendarDays = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
       this.paygroupId = params.payGroup;
       this.id = parseInt(params.id, 10);
+      this.payrollmonth =  params.month
+      this.payrollyear =params.year
+      this.payrollcutoff = params.cutOffDay
     });
     this.getAllAdhocDeductionByPayGroupId();
   }
 
+  // getAllAdhocDeductionByPayGroupId() {
+  //   this.payrollProcessAdhocService.getAllAdhocDeduction(this.id, this.selectedMonth, this.selectedYear).subscribe(result => {
+  //     this.payGroupProcessAdhocDeduction = result;
+  //   },
+  //     error => {
+  //       console.error(error);
+  //       this.toastr.showErrorMessage('Unable to fetch the All Adhoc Deduction by PayGroup');
+  //     });
+  // }
+
   getAllAdhocDeductionByPayGroupId() {
-    this.payrollProcessAdhocService.getAllAdhocDeduction(this.id, this.selectedMonth, this.selectedYear).subscribe(result => {
+    // var fromdate = new Date(this.payrollyear,
+    //   4-1, 25)
+    // var todate = new Date(parseInt(this.payrollyear),
+    //   parseInt(this.payrollmonth), parseInt(this.payrollcutoff))
+    var month = parseInt(this.payrollmonth)
+    var year = parseInt(this.payrollyear)
+    var day = parseInt(this.payrollcutoff)
+      var todate = new Date(year,month-1, day)
+      var previous = new Date(todate.getTime());
+      previous.setMonth(previous.getMonth() - 1);
+    //todate =  this.datePipe.transform(todate,"yyyy-MM-dd")
+      this.noOfCalendarDays = new Date(this.payrollyear, this.payrollmonth, 0).getDate();
+      this.payrollProcessAdhocService.getAllAdhocDeduction(this.paygroupId, `${this.payrollyear}-${this.payrollmonth}-01`,  `${this.payrollyear}-${this.selectedMonth}-${this.noOfCalendarDays}`).subscribe(result => {
       this.payGroupProcessAdhocDeduction = result;
     },
       error => {

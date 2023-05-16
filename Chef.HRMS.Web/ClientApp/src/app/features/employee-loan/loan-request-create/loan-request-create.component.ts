@@ -43,10 +43,10 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   @Input() nextLoanNumber: number;
   formSubscription: Subscription;
   controlSubscription: Subscription;
-  requestTypes = RequestStatus;
+  requestTypes = RequestStatus; 
 
   constructor(
-    private loanRequestService: LoanRequestService,
+    private loanRequestService: LoanRequestService, 
     private loanSettingsService: LoanSettingsService,
     private companyService: CompanyService,
     public activeModal: NgbActiveModal,

@@ -53,7 +53,8 @@
                                             END            AS isfixed, 
                                             pcalc.iscomputed, 
                                             pcalc.formula, 
-                                            pc.maximumlimit 
+                                            pc.maximumlimit,
+                                            pg.currencycode AS currencycode
                             FROM   hrms.payrollstructure ps 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ps.id = jf.payrollstructureid 
@@ -64,12 +65,14 @@
                                            ON pc.payrollcomponentid = pcmp.id 
                                    LEFT JOIN hrms.payrollcalculation pcalc 
                                           ON pcmp.id = pcalc.payrollcomponentid 
-                                          AND ps.id=pcalc.payrollstructureid  
+                                          AND ps.id=pcalc.payrollstructureid
+                                  LEFT JOIN hrms.paygroup pg on pg.id=jf.paygroupid
                             GROUP  BY ps.id, 
                                       pcmp.id, 
                                       pc.maximumlimit, 
                                       pcalc.formula, 
-                                      pcalc.id
+                                      pcalc.id,
+                                      currencycode
                             ORDER BY isfixed";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql, new { employeeId });

@@ -50,10 +50,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     this.route.params.subscribe((params: any) => {
       this.id = params['id'];
     });
-
     this.getBasicDetailsId();
-    console.log('basc detlas',this.getBasicDetailsId());
-
    this.employeeBasicDetailsService.getReligion()
    .subscribe((result)=>{    
    this.religion=result; 
@@ -63,7 +60,6 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {  
-      debugger
       this.userId=result.userId
       result.dateOfBirth = new Date(result.dateOfBirth);    
       this.editForm.patchValue(result);
@@ -85,7 +81,6 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     })
   }
   onSubmit() {
-    debugger
     var editBasicDetails = this.editForm.value;
     editBasicDetails.uidNumber = parseInt(editBasicDetails.uidNumber)
     if(!this.nameCheck){

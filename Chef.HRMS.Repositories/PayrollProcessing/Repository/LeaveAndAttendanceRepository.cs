@@ -16,7 +16,7 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate)
+        public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate,int payrollProcessId)
         {
                 var sql = @"SELECT Q1.*, 
                                    Q2.total    numberofworkeddays, 
@@ -49,23 +49,30 @@ namespace Chef.HRMS.Repositories
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*) total 
                                               FROM   hrms.jobfiling jf 
-                                              INNER JOIN hrms.systemvariablevalues svv
-                                              ON jf.employeeid = svv.employeeid 
-                                              INNER JOIN hrms.systemvariable sv
-                                              ON svv.systemvariableid = sv.id
-                                              WHERE jf.paygroupid = @paygroupId
-                                              AND sv.code = 'Wkg_Dys_Cldr_Mth'
+                                                     LEFT JOIN hrms.regularlogin rl 
+                                                            ON jf.employeeid = rl.employeeid 
+                                                               AND jf.paygroupid = @paygroupId 
+                                              WHERE  rl.checkintime BETWEEN @fromDate AND @toDate 
                                               GROUP  BY jf.employeeid 
                                               UNION 
                                               SELECT jf.employeeid, 
                                                      Count(*) total 
                                               FROM   hrms.jobfiling jf 
-                                              INNER JOIN hrms.systemvariablevalues svv
-                                              ON jf.employeeid = svv.employeeid 
-                                              INNER JOIN hrms.systemvariable sv
-                                              ON svv.systemvariableid = sv.id
-                                              WHERE jf.paygroupid = @paygroupId
-                                              AND sv.code = 'Wkd_Dys_Cldr_Mth'      
+                                                     LEFT JOIN hrms.workfromhome wfh 
+                                                            ON jf.employeeid = wfh.employeeid 
+                                                               AND jf.paygroupid = @paygroupId 
+                                              WHERE  wfh.fromdate >= @fromDate 
+                                                     AND wfh.todate <= @toDate 
+                                              GROUP  BY jf.employeeid 
+                                              UNION 
+                                              SELECT jf.employeeid, 
+                                                     Count(*) total 
+                                              FROM   hrms.jobfiling jf 
+                                                     LEFT JOIN hrms.onduty od 
+                                                            ON jf.employeeid = od.employeeid 
+                                                               AND jf.paygroupid = @paygroupId 
+                                              WHERE  od.fromdate >= @fromDate 
+                                                     AND od.todate <= @toDate 
                                               GROUP  BY jf.employeeid)Q2 
                                           ON Q1.employeeid = Q2.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
@@ -73,11 +80,15 @@ namespace Chef.HRMS.Repositories
                                               FROM   hrms.jobfiling jf 
                                                      LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
+                                                               AND jf.paygroupid = @paygroupId
                                                      INNER JOIN hrms.leavecomponent lc 
-                                                             ON l.leavecomponentid = lc.id 
-                                              WHERE  l.fromdate >= @fromDate 
-                                                     AND l.todate <= @toDate 
+                                                             ON l.leavecomponentid = lc.id
+												     INNER JOIN hrms.systemvariablevalues svv
+                                                             ON l.employeeid = svv.employeeid
+													 INNER JOIN hrms.systemvariable sv
+													         ON svv.systemvariableid = sv.id
+															 AND sv.code = 'Lop_Dys_Btw_Dte'
+                                              WHERE  svv.payrollprocessid = @payrollProcessId
                                               GROUP  BY jf.employeeid,l.id)Q3 
                                           ON Q1.employeeid = Q3.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
@@ -103,7 +114,7 @@ namespace Chef.HRMS.Repositories
                                                              ON l.leavecomponentid = lc.id 
                                               WHERE  ( l.fromdate >= @fromDate 
                                                        AND l.todate <= @toDate ) 
-                                                     AND l.leavestatus = 2 
+                                                     AND l.leavestatus = 3 
                                               GROUP  BY jf.employeeid)Q5 
                                           ON Q1.employeeid = Q5.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
@@ -120,7 +131,7 @@ namespace Chef.HRMS.Repositories
                                               GROUP  BY jf.employeeid)Q6 
                                           ON Q1.employeeid = Q6.employeeid ";
 
-                return await Connection.QueryAsync<LeaveAndAttendanceViewModel>(sql, new { paygroupId, fromDate, toDate });
+                return await Connection.QueryAsync<LeaveAndAttendanceViewModel>(sql, new { paygroupId, fromDate, toDate, payrollProcessId });
         }
 
         public async Task<IEnumerable<LeaveDetailsViewModel>> GetAllApprovedLeaveDetailsByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
@@ -239,7 +250,7 @@ namespace Chef.HRMS.Repositories
             {
                 try
                 {
-                    if (leaveAndAttendances.Count() == 1)
+                    if (leaveAndAttendances.Count() == 0)
                     {
                         var employeeId = leaveAndAttendances.Select(x => x.EmployeeId).FirstOrDefault();
                         var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
@@ -253,8 +264,8 @@ namespace Chef.HRMS.Repositories
                                  laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
                                  laa.IsArchived = false;
                              });
-                            var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
-                            sql = sql.Replace("RETURNING id", "");
+                            var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery(false);
+                            //sql = sql.Replace("RETURNING id", "");
                             sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
                             sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
                             return await Connection.ExecuteAsync(sql, leaveAndAttendances);

@@ -19,6 +19,7 @@ namespace Chef.HRMS.Web.Controllers
         readonly IWebHostEnvironment hostingEnvironment;
 
         public Dictionary<string, object> CustomData = null;
+        private Microsoft.Extensions.Caching.Memory.IMemoryCache memoryCache;
 
 
         // Post action to process the report from server based json parameters and send the result back to the client.
@@ -28,6 +29,12 @@ namespace Chef.HRMS.Web.Controllers
             cache = memoryCache;
             this.hostingEnvironment = hostingEnvironment;
         }
+
+        //protected ReportViewerController(Microsoft.Extensions.Caching.Memory.IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment)
+        //{
+        //    this.memoryCache = memoryCache;
+        //    this.hostingEnvironment = hostingEnvironment;
+        //}
 
         // Post action to process the report from server based json parameters and send the result back to the client.
         [HttpPost]
@@ -62,8 +69,8 @@ namespace Chef.HRMS.Web.Controllers
         //Get action for getting resources from the report
         [ActionName("GetResource")]
         [AcceptVerbs("GET")]
-        // Method will be called from Report Viewer client to get the image src for Image report item.
-        public virtual object GetResource([FromQuery] ReportResource resource)
+        // Method will be called from Report Viewer client to get the image src for Image report item.
+        public virtual object GetResource([FromQuery] ReportResource resource)
         {
             return ReportHelper.GetResource(resource, this, cache);
         }

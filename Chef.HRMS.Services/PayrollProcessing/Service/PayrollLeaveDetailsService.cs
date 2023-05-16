@@ -45,6 +45,7 @@ namespace Chef.HRMS.Services
                 ModifiedDate = x.ModifiedDate,
                 IsArchived = x.IsArchived,
                 StepNo = 1,
+                EmployeeName = "",
             }).ToList();
                 await payrollComponentDetailsRepository.BulkInsertAsync(payrollComponent);
 

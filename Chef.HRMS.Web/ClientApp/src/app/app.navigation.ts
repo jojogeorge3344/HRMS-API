@@ -205,6 +205,11 @@ export const NavigationItems = [
         routerLink: "/asset-employee-wise",
       },
       {
+        title: "Employee Leave",
+        tags: "me-leave",
+        routerLink: "/asset-employee-leave",
+      },
+      {
         title: "Employee Overtime",
         tags: "me-overtime",
         routerLink: "/asset-employee-overtimewise",
@@ -219,11 +224,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/employee-payroll-parameter-details'
       },
-      {
-        title: 'Employee Overtime',
-        tags: 'me-overtime',
-        routerLink: '/asset-employee-overtimewise'
-      },
+      // {
+      //   title: 'Employee Overtime',
+      //   tags: 'me-overtime',
+      //   routerLink: '/asset-employee-overtimewise'
+      // },
       {
         title: 'Employee Revision Management',
         tags: 'settings-expense',

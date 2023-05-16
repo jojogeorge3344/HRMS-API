@@ -11,6 +11,7 @@ import { EmployeeSalaryConfiguration } from '../employee-salary-configuration.mo
 import { EmployeeSalaryConfigurationDetails } from '../employee-salary-configuration-details.model';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { EmployeeService } from '@features/employee/employee.service';
 
 @Component({
   selector: 'hrms-employee-salary-edit',
@@ -40,7 +41,9 @@ export class EmployeeSalaryEditContainerComponent implements OnInit {
 
   isDisabled = true;
   activeId = 1;
-
+  employeename:any;
+  employeecode:any;
+  currency:any;
   constructor(
     private formBuilder: FormBuilder,
     private employeeSalaryConfigurationService: EmployeeSalaryConfigurationService,
@@ -48,7 +51,8 @@ export class EmployeeSalaryEditContainerComponent implements OnInit {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private employeeService: EmployeeService,) {
     const date = new Date();
 
     this.minDate = {
@@ -71,6 +75,7 @@ export class EmployeeSalaryEditContainerComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.getEmployeeSalaryConfiguration();
+    this.getEmployeedetails();
   }
 
   createFormGroup(): FormGroup {
@@ -81,14 +86,27 @@ export class EmployeeSalaryEditContainerComponent implements OnInit {
       salaryArray: new FormArray([]),
     });
   }
-
+  getEmployeedetails(){
+    this.employeeService.getDetails(this.employeeId).subscribe(
+      (result) => {
+        debugger
+        this.employeename = result.firstName
+        this.employeecode = result.employeeNumber
+        
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
   getEmployeeSalaryConfiguration() {
     this.employeeSalaryConfigurationService.getSalaryConfigurationByEmployee(this.employeeId)
       .subscribe((employeeSalaryConfiguration: EmployeeSalaryConfigurationView[]) => {
         this.salaryStructure = employeeSalaryConfiguration;
-
+//  this.currency = this.salaryStructure[0].currencycode;
         if (this.salaryStructure.length) {
           this.salaryStructureName = this.salaryStructure[0].payrollStructureName;
+          
           this.editForm.patchValue({ effectiveDate: new Date(this.salaryStructure[0].effectiveDate) });
         }
       },

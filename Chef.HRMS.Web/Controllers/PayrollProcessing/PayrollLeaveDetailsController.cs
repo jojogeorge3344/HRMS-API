@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers
 {
-    [Route("api/settings/payrollprocessing/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PayrollLeaveDetailsController : ControllerBase
     {

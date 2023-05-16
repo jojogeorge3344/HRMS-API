@@ -1,0 +1,41 @@
+<div class="header-button-wrapper">
+    <div class="content-header">
+        {{month}} {{payrollyear}} - Payroll Processing (Over Time)
+    </div>
+</div>
+<div>
+    <table class="table m-0">
+        <thead class="thead-themed">
+            <tr>
+                <th>Sl No.</th>
+                <th>Employee Code</th>
+                <th>Employee</th>
+                <th>Not Hrs</th>
+                <th>Hot Hrs</th>
+                <th>SOT Hrs</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let overTimeDetails of overTimeDetails; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{overTimeDetails.employeeCode}}</td>
+                <td>{{overTimeDetails.employeeName}}</td>
+                <td>{{overTimeDetails.notHrs}}</td>
+                <td>{{overTimeDetails.hotHrs}}</td>
+                <td>{{overTimeDetails.sotHrs}}</td>
+            </tr>
+            <tr *ngIf="!overTimeDetails?.length">
+                <td colspan="10" class="text-center">
+                    No rows found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="button-right-wrapper mt-3 ">
+  
+    <button class="btn btn-primary" (click)="onSubmit()">
+        Save and Next
+    </button>
+</div>

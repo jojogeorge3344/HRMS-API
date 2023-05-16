@@ -14,5 +14,6 @@ namespace Chef.HRMS.Services
         Task<int> BulkInsertRegularLogin(IEnumerable<RegularLogin> regularLogin);
         Task<byte[]> ExportExcelFormat();
         Task<int> RegularLoginBulkInsert(IEnumerable<RegularLogin> regularLogins);
+        Task<int> BulkInsertSystemVariableValues(IEnumerable<SystemVariableValues> systemVariableValues);
     }
 }

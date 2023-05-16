@@ -26,6 +26,7 @@ export class EmployeeLeaveContainerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    debugger
     this.isEmployeeLeave = this.router.routerState.snapshot.url === "/leave";
     if (this.isEmployeeLeave) {
     } else {

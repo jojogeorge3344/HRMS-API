@@ -43,7 +43,7 @@
         <div class="p-3">
             <div class="header-button-wrapper">
                 <div class="content-header">
-                    {{salaryStructureName}}
+                    {{salaryStructureName}}&nbsp;&nbsp;-&nbsp;&nbsp;{{employeename}}({{employeecode}})
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                 <div [ngbNavOutlet]="nav"></div>
 
 
-
+                <!-- 
                 <div class="header-button-wrapper">
                     <div class="content-subheader">
                         Bonus/Perks
@@ -62,7 +62,7 @@
                         <i class="fa fal fa-plus mr-1"></i>Add Bonus/Perks</button>
                 </div>
 
-                <hrms-employee-bonus-list #bonus [showRemarks]="activeId==2"></hrms-employee-bonus-list>
+                <hrms-employee-bonus-list #bonus [showRemarks]="activeId==2"></hrms-employee-bonus-list> -->
                 <div class="align-items-end flex-row-reverse header-button-wrapper">
                     <div class="" *ngIf="activeId==2">
                         <button (click)="goBack()" class=" btn btn-secondary mr-2"> Back</button>
@@ -76,16 +76,13 @@
                     <div class="form-group form-input-inline input-group col-4 pl-0 mb-0">
                         <label class="col-form-label px-0"> Effective Date<span class="required">*</span></label>
                         <input class="form-control w-75" [disabled]="activeId==2" formControlName="effectiveDate"
-                            name="effectiveDate" ngbDatepicker #d="ngbDatepicker">
+                            name="effectiveDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="d.toggle()"
                                 type="button"></button>
                         </div>
                     </div>
-
-
                 </div>
-
             </form>
         </div>
     </div>
