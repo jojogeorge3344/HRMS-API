@@ -20,5 +20,10 @@ namespace Chef.HRMS.Models
         public decimal UnMarkedAttendance { get; set; }
         public decimal LOPDays { get; set; }
         public int ProcessStatus { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int LeaveComponentId { get; set;}
     }
 }
