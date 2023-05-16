@@ -44,21 +44,42 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    debugger
     this.getLeaveBalance();
     this.currentUserId = getCurrentUserId();
     this.leaveStatusKeys = Object.keys(this.leaveStatus)
       .filter(Number)
       .map(Number);
-    this.getAllRequestedLeave();
+    // this.getAllRequestedLeave();
     this.getMarkedDates("leave", this.currentUserId);
     this.getMarkedDates("onduty", this.currentUserId);
     this.getMarkedDates("workfromhome", this.currentUserId);
+    if(this.isEmployeeLeave==false){
+     this.getAllEmployeeDetailsLeave()
+    }else{
+      this.getAllRequestedLeave()
+    }
   }
 
   getLeaveBalance() {
     this.getBalance.emit("getBalance");
   }
 
+  getAllEmployeeDetailsLeave() {
+    debugger
+    this.employeeLeaveService.getAllLeaveDetails().subscribe(
+      (result) => {
+        this.leave = this.leaveLogsOnDisplay = result;
+        console.log(this.leaveLogsOnDisplay);
+      },
+      (error) => {
+        console.error(error);
+        this.toastr.showErrorMessage(
+          "Unable to fetch the Leave Request Details"
+        );
+      }
+    );
+  }
   getAllRequestedLeave() {
     this.employeeLeaveService.getAllByID(this.currentUserId).subscribe(
       (result) => {
@@ -110,7 +131,11 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     modalRef.componentInstance.currentUserId = this.currentUserId;
     modalRef.result.then((result) => {
       if (result == "submit") {
-        this.getAllRequestedLeave();
+        if(this.isEmployeeLeave==true){
+          this.getAllRequestedLeave();
+          }else{
+            this.getAllEmployeeDetailsLeave()
+          }
       }
     });
   }
@@ -136,9 +161,13 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == "submit") {
-        this.getAllRequestedLeave();
-        this.getLeaveBalance();
-        this.getMarkedDates("leave", this.currentUserId);
+        if(this.isEmployeeLeave==true){
+          this.getAllRequestedLeave();
+          this.getLeaveBalance();
+          this.getMarkedDates("leave", this.currentUserId);
+          }else{
+            this.getAllEmployeeDetailsLeave()
+          }
       }
     });
   }
@@ -156,8 +185,13 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
           this.toastr.showSuccessMessage(
             "Leave Request Cancelled successfully"
           );
-          this.getAllRequestedLeave();
-          this.getLeaveBalance();
+          if(this.isEmployeeLeave==true){
+            this.getAllRequestedLeave();
+            this.getLeaveBalance();
+            }
+            else{
+              this.getAllEmployeeDetailsLeave()
+            }
         });
       }
     });
@@ -191,9 +225,14 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
 
     modalRef.result.then((result) => {
       if (result == "submit") {
-        this.getAllRequestedLeave();
-        this.getLeaveBalance();
-        this.getMarkedDates("leave", this.currentUserId);
+        if(this.isEmployeeLeave==true){
+          this.getAllRequestedLeave();
+          this.getLeaveBalance();
+          this.getMarkedDates("leave", this.currentUserId);
+          }else{
+            this.getAllEmployeeDetailsLeave()
+          }
+       
       }
     });
   }
