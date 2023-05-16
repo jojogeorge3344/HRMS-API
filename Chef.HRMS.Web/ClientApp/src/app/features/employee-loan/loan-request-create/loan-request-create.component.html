@@ -13,6 +13,22 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-sm">
+                <div class="form-group">
+                    <label for="requestedBy" style="margin-bottom: 9px">
+                        Requested By
+                    </label>
+                    <ng-template #optionTemplate let-item="item" let-config="config">
+                        <i class="fa fa-plus"></i>
+                        {{ item.firstName }}
+                        <span class="new badge"></span>
+                    </ng-template>
+                    <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" [options]="employeeList"
+                        [ngClass]="{'ddclass':this.addForm.get('requestedBy').touched && this.addForm.get('requestedBy').invalid}"></ngx-select-dropdown>
+                    <label class="col-12 col-form-label px-0" style="display:none;" for="employeeID">Employee<span
+                            class="required">*</span></label>
+                    <input class="form-control w-75" name="newDate" style="display:none;" formControlName="requestedBy">
+                </div>
+
                 <div class="form-group ">
                     <label for="loanType">Loan Type<span class="required">*</span></label>
                     <select class="form-control" formControlName="loanType">
@@ -35,16 +51,16 @@
                 </div>
                 <div class="form-group ">
                     <label for="loanAmount">Loan Amount<span class="required">*</span></label>
-                    <input type="number" class="form-control" id="loanAmount" name="loanAmount" (keydown)="validateNumber($event)"
-                        formControlName="loanAmount">
+                    <input type="number" class="form-control" id="loanAmount" name="loanAmount"
+                        (keydown)="validateNumber($event)" formControlName="loanAmount">
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group ">
                     <label for="expectedOn">Disbursement Expected On</label>
                     <div class="input-group">
-                        <input class="form-control" ngbDatepicker
-                            #expectedOn="ngbDatepicker" formControlName="expectedOn" [minDate]="minDate">
+                        <input class="form-control" ngbDatepicker #expectedOn="ngbDatepicker"
+                            formControlName="expectedOn" [minDate]="minDate">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="expectedOn.toggle()"
                                 type="button"></button>
@@ -58,21 +74,23 @@
                             <option [ngValue]="null" disabled>Select Month</option>
                             <option *ngFor="let month of months; let i = index" value="{{i+1}}">{{month}}</option>
                         </select>
-                        <select class="col-5 form-control" formControlName="emiStartsFromYear" >
+                        <select class="col-5 form-control" formControlName="emiStartsFromYear">
                             <option [ngValue]="null" disabled>Select Year</option>
                             <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
                         </select>
-                    </div>  
+                    </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <div *ngIf="addForm.controls.emiStartsFromMonth.errors?.emiMonth" class="invalid-feedback d-block">
+                        <div *ngIf="addForm.controls.emiStartsFromMonth.errors?.emiMonth"
+                            class="invalid-feedback d-block">
                             Select month greater than Disbursement Expected on month
                         </div>
-                    </div>                  
+                    </div>
                 </div>
                 <div class="form-group ">
                     <label for="comments">Comments<span class="required">*</span></label>
                     <textarea type="text" rows="6" class="form-control" id="comments" name="comments"
-                       placeholder="Please provide the comment for applying loan" formControlName="comments"></textarea>
+                        placeholder="Please provide the comment for applying loan"
+                        formControlName="comments"></textarea>
                 </div>
             </div>
         </div>
@@ -104,14 +122,17 @@
 
     </div>
     <div class="modal-footer">
-       
-                <button *ngIf ="addForm.controls.loanType.value ===2" (click)="generateSchedule()" type="button" class="btn btn-primary">
-                    <i class="mr-1 fal fa-arrow-down"></i> Generate Schedule</button>
-        <button  type="submit" style="color: #fff;background-color: #8d4fea;border-color: #8d4fea" class="btn" (click)="draftSave()"><i class="mr-1 fal fa-draft" ></i>Draft </button>           
-        <button type="submit" class="btn btn-success"  (click)="onSubmit()"><i class="mr-1 fal fa-save"></i>Send For Approval</button>
+
+        <button *ngIf="addForm.controls.loanType.value ===2" (click)="generateSchedule()" type="button"
+            class="btn btn-primary">
+            <i class="mr-1 fal fa-arrow-down"></i> Generate Schedule</button>
+        <button type="submit" style="color: #fff;background-color: #8d4fea;border-color: #8d4fea" class="btn"
+            (click)="draftSave()"><i class="mr-1 fal fa-draft"></i>Draft </button>
+        <button type="submit" class="btn btn-success" (click)="onSubmit()"><i class="mr-1 fal fa-save"></i>Send For
+            Approval</button>
         <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')"><i
-            class="mr-1 fal fa-window-close"></i> Cancel</button>
-      
-         
+                class="mr-1 fal fa-window-close"></i> Cancel</button>
+
+
     </div>
 </form>
