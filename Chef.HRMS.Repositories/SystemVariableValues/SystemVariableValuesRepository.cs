@@ -39,6 +39,11 @@ namespace Chef.HRMS.Repositories
 			DateTime timeSheetStartDate = new DateTime(intYear, intMonth - 1, intTimeSheetCutOff);
 			DateTime timeSheetEndDate = new DateTime(intYear, intMonth, intTimeSheetCutOff);
 
+			DateTime monthStart = new DateTime(intYear, intMonth, 1);
+			DateTime monthEnd = monthStart.AddMonths(1);
+			var varMonthDays = (monthEnd - monthStart);
+			int calMonthDays = varMonthDays.Days;
+
 
 			//LOP
 			#region lop
@@ -60,13 +65,15 @@ namespace Chef.HRMS.Repositories
 						AND To_date(Cast(ld.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @leaveStartDate AND @leaveEndDate
 						GROUP BY ld.employeeid;";
 
-            var Lop_Dys_Btw_Dte = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId,leaveStartDate,leaveEndDate });
+            var Lop_Dys_Btw_Dte = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId,leaveStartDate,leaveEndDate
+			});
             List<SystemVariableValues> systemVariableValues = Lop_Dys_Btw_Dte.Select(x => new SystemVariableValues()
             {
                 SystemVariableId = x.SystemVariableId,
                 TransValue = x.TransValue,
-                EmployeeId = x.EmployeeId
-            }).ToList();
+                EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
             var dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
 			#endregion
 
@@ -86,7 +93,7 @@ namespace Chef.HRMS.Repositories
 							WHERE pg.id=@PayGroupId AND 
 							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
 						)
-						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @OtStartDate AND @OtEndDate
+						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
 						GROUP BY OT.employeeid
 
 					UNION
@@ -105,7 +112,7 @@ namespace Chef.HRMS.Repositories
 							WHERE pg.id=@PayGroupId AND 
 							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
 						)
-						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @OtStartDate AND @OtEndDate
+						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
 						GROUP BY OT.employeeid
 
 					UNION
@@ -124,24 +131,24 @@ namespace Chef.HRMS.Repositories
 							WHERE pg.id=@PayGroupId AND 
 							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
 						)
-						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @OtStartDate AND @OtEndDate
+						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
 						GROUP BY OT.employeeid";
 
-			var Ot = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId, timeSheetStartDate, timeSheetEndDate });
+			var Ot = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId, timeSheetStartDate, timeSheetEndDate
+			});
 			List<SystemVariableValues> systemVariableValues_ot = Ot.Select(x => new SystemVariableValues()
 			{
 				SystemVariableId = x.SystemVariableId,
 				TransValue = x.TransValue,
-				EmployeeId = x.EmployeeId
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
 			}).ToList();
 			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_ot);
 			#endregion
 
 			//Wkg_Dys_Cldr_Mth
 			#region Wkg_Dys_Cldr_Mth
-			DateTime monthStart = new DateTime(intYear, intMonth, 1);
-			DateTime monthEnd = monthStart.AddMonths(1).AddDays(-1);
-			int calMonthDays = Convert.ToInt32(monthEnd - monthStart);
+			
 
 			sql = @"SELECT
 						(SELECT id FROM hrms.systemvariable WHERE code='Wkg_Dys_Cldr_Mth' AND isarchived=false LIMIT 1)
@@ -162,12 +169,14 @@ namespace Chef.HRMS.Repositories
 						GROUP BY JF.employeeid";
 
 			var Wkg_Dys_Cldr_Mth = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId, timeSheetStartDate,
-				timeSheetEndDate, calMonthDays });
+				timeSheetEndDate, calMonthDays
+			});
 			List<SystemVariableValues> systemVariableValues_Wkg_days = Wkg_Dys_Cldr_Mth.Select(x => new SystemVariableValues()
 			{
 				SystemVariableId = x.SystemVariableId,
 				TransValue = x.TransValue,
-				EmployeeId = x.EmployeeId
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
 			}).ToList();
 			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
 			#endregion
