@@ -27,6 +27,9 @@ export class PayrollProcessLoansAdvancesListComponent implements OnInit {
   fromDate: string;
   toDate: string;
   employeeId: number;
+  payrollmonth:any
+  payrollyear:any
+  payrollcutoff:any
 
   constructor(
     private toastr: ToasterDisplayService,
@@ -43,12 +46,16 @@ export class PayrollProcessLoansAdvancesListComponent implements OnInit {
       this.noOfCalendarDays = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
       this.paygroupId = params.payGroup;
       this.id = params.id;
+      this.paygroupId = params.payGroup;
+      this.payrollmonth =  params.month
+      this.payrollyear =params.year
+      this.payrollcutoff = params.cutOffDay
     });
     this.getAllLoanByPayGroupId();
   }
 
   getAllLoanByPayGroupId() {
-    this.payrollLoanAdvancesService.getLoansByProcess(this.id).subscribe(result => {
+    this.payrollLoanAdvancesService.getLoansByProcess(this.paygroupId,this.payrollyear,this.payrollmonth).subscribe(result => {
       this.payGroupLoans = result.filter(loan => loan.balanceAmount !== 0 && loan.remainingTenure !== 0);
     },
       error => {

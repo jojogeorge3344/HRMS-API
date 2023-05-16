@@ -13,11 +13,15 @@ export class PayrollProcessService {
   public baseUrl: string;
   public http: HttpClient;
   public employeeDetails: BehaviorSubject<any>
+  public baseUrl_overtime:any
+  baseUrl_overtimedetails:string
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.employeeDetails = <BehaviorSubject<any>>new BehaviorSubject(null);
     this.baseUrl = baseUrl + 'api/settings/payrollprocessing/PayrollProcessingMethod/';
+    this.baseUrl_overtime = baseUrl + 'api/OverTime/'
+    this.baseUrl_overtimedetails =baseUrl+ 'api/settings/payrollprocessing/PayrollOTDetails/'
   }
 
   add(payrollProcess: PayrollProcess) {
@@ -75,5 +79,35 @@ export class PayrollProcessService {
     return this.employeeDetails.asObservable()
 
   }
+
+getPayrollProcessingMonthDetails(payGrpId){
+  return this.http.get<PayrollProcess>(this.baseUrl + 'GetPayrollProcessingMonth/' + payGrpId).pipe(map(response => response));
+}
+
+getPayrollProcessOvertime(payGrpId,fromdate,todate){
+  return this.http.get<PayrollProcess>(this.baseUrl_overtime + 'GetOvertimeByPaygroupId?paygroupId=' + payGrpId + '&fromDate=' + fromdate + '&toDate=' + todate).pipe(map(response => response));
+}
+updatePayrollSummaryDetails(paygroupid,payrollprocessid,payrollprocessdate){
+  return this.http.post<PayrollProcess>(this.baseUrl + 'InsertPayrollFixedComponentDetails/' + paygroupid + '/' + payrollprocessid + '/'+  payrollprocessdate,'')
+  .pipe(map(response => response));
+}
+
+getPayrollProcessingSummaryDetails(payrollprocessingId){
+  return this.http.get<PayrollProcess>(this.baseUrl + 'GetPayrollSalarySummary/' + payrollprocessingId).pipe(map(response => response));
+}
+completePayrollProcess(id){
+  return this.http.put<PayrollProcess>(this.baseUrl + 'UpadtePayrollProcessingStep/' + id + '/5','')
+  .pipe(map(response => response));
+}
+
+InsertPayrollLeaveDetails(leavedetails){
+  return this.http.post<PayrollProcess>(this.baseUrl + 'insert', leavedetails).pipe(map(response => response));
+
+ }
+ InsertPayrollOverTimeDetails(overtimedetails){
+  return this.http.post<PayrollProcess>(this.baseUrl_overtimedetails + 'insert', overtimedetails).pipe(map(response => response));
+
+ }
+
 
 }

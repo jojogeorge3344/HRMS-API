@@ -27,5 +27,6 @@ namespace Chef.HRMS.Models
         public int NumberOfHolidays { get; set; }
 
         public int weekoff { get; set; }
+        public int LeaveId { get; set; }
     }
 }
