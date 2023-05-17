@@ -17,6 +17,7 @@ namespace Chef.HRMS.Models
         public string Comments { get; set; }
         public LoanType LoanType { get; set; }
         public int EMIStartsFromMonth { get; set; }
+        public string Status { get; set; }
 
         public string Year { get; set; }
         public string Month { get; set; }
