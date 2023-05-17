@@ -20,7 +20,7 @@ namespace Chef.HRMS.Repositories
                                             ad.employeeid                            AS employeeId, 
                                             ( Concat(e.firstname, ' ', e.lastname) ) AS name, 
                                             ad.employeecode                          AS employeeCode, 
-                                            ad.deductionname                         AS deductionName, 
+                                            PC.name                          AS deductionName, 
                                             ad.description                           AS description, 
                                             jf.paygroupid                            AS paygroupId, 
                                             ad.payrollprocessingmethodid             AS 
@@ -37,6 +37,7 @@ namespace Chef.HRMS.Repositories
                                            ON ad.employeeid = e.id 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ad.employeeid = jf.employeeid 
+                                    LEFT JOIN hrms.payrollcomponent PC ON PC.id = ad.payrollcomponentid	
                             --WHERE  (ad.payrollprocessingmethodid = @payrollProcessingMethodId 
                                           -- AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
                                             --WHERE  (ppm.month =@month AND  ppm.year=@year)))

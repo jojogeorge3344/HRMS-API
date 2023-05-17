@@ -28,5 +28,10 @@ namespace Chef.HRMS.Models
 
         public int weekoff { get; set; }
         public int LeaveId { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int LeaveComponentId { get; set; }
     }
 }

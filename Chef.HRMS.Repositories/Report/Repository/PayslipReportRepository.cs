@@ -21,8 +21,10 @@ namespace Chef.HRMS.Repositories.Report
                         INNER JOIN hrms.payrollcomponent pc
                         ON pcd.payrollcomponentid = pc.id
                         WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
-                         AND pcd.employeeid IN ("+employeeId+@") 
-                        AND pcd.isarchived = false";
+                        AND pcd.employeeid IN ("+employeeId+ @") 
+                        AND pcd.isarchived = false
+                        GROUP BY pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
+                        pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate";
 
             return await Connection.QueryAsync<PayrollComponentReportView>(sql, new { employeeId, fromDate, ToDate });
 

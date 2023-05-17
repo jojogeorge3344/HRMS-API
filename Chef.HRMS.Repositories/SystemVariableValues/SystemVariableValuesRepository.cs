@@ -44,6 +44,8 @@ namespace Chef.HRMS.Repositories
 			var varMonthDays = (monthEnd - monthStart);
 			int calMonthDays = varMonthDays.Days;
 
+			DateTime yearStart = new DateTime(intYear, 1, 1);
+			DateTime yearEnd = yearStart.AddYears(1);
 
 			//LOP
 			#region lop
@@ -178,10 +180,10 @@ namespace Chef.HRMS.Repositories
 				EmployeeId = x.EmployeeId,
 				TransDate = monthEnd
 			}).ToList();
-			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_days);
 			#endregion
 
-			//
+			//Worked days
 			sql = @"SELECT
 			(SELECT id FROM hrms.systemvariable WHERE code='Wkd_Dys_Cldr_Mth' AND isarchived=false LIMIT 1)
 			AS systemvariableid , JF.employeeid AS employeeid,
@@ -222,7 +224,121 @@ namespace Chef.HRMS.Repositories
 				EmployeeId = x.EmployeeId,
 				TransDate = monthEnd
 			}).ToList();
-			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkd_days);
+
+
+			//Wkg_Dys_Cldr_Mth
+			#region Plc_Hd_Cndl_Mth
+
+			sql = @"SELECT
+						(SELECT id FROM hrms.systemvariable WHERE code='Plc_Hd_Cndl_Mth' AND isarchived=false LIMIT 1)
+						AS systemvariableid , JF.employeeid AS employeeid,
+						Count(HM.date) AS transvalue
+						FROM hrms.holiday HM
+						LEFT JOIN hrms.Jobfiling JF ON JF.holidaycategoryid = HM.holidaycategoryid
+						WHERE  JF.isarchived = false AND HM.isarchived = false   AND JF.employeeid 
+						IN
+						(
+							SELECT hm.id FROM hrms.hrmsemployee hm
+							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+							WHERE pg.id=@PayGroupId AND 
+							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+						)
+						AND To_date(Cast(HM.date AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
+						GROUP BY JF.employeeid";
+
+			var Plc_Hd_Cndl_Mth = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				timeSheetStartDate,
+				timeSheetEndDate,
+				calMonthDays
+			});
+			List<SystemVariableValues> systemVariableValues_plc_Hd = Plc_Hd_Cndl_Mth.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_plc_Hd);
+			#endregion
+
+
+			//Wkg_Dys_Cldr_Mth
+			#region No_Of_Dys_Btw_Dte_Rge
+
+			sql = @"SELECT
+						(SELECT id FROM hrms.systemvariable WHERE code='No_Of_Dys_Btw_Dte_Rge' AND isarchived=false LIMIT 1)
+						AS systemvariableid , JF.employeeid AS employeeid,
+						@calMonthDays AS transvalue
+						FROM hrms.Jobfiling JF 
+						WHERE  JF.isarchived = false  AND JF.employeeid 
+						IN
+						(
+							SELECT hm.id FROM hrms.hrmsemployee hm
+							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+							WHERE pg.id=@PayGroupId AND 
+							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+						)
+						GROUP BY JF.employeeid";
+
+			var No_Of_Dys_Btw_Dte_Rge = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				timeSheetStartDate,
+				timeSheetEndDate,
+				calMonthDays
+			});
+			List<SystemVariableValues> systemVariableValues_No_Of_Dys_Btw_Dte_Rge = No_Of_Dys_Btw_Dte_Rge.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_No_Of_Dys_Btw_Dte_Rge);
+			#endregion
+
+			//Wkg_Dys_Cldr_Mth
+			#region Pbc_Hds_Cldr_yer
+
+			sql = @"SELECT
+						(SELECT id FROM hrms.systemvariable WHERE code='Pbc_Hds_Cldr_yer' AND isarchived=false LIMIT 1)
+						AS systemvariableid , JF.employeeid AS employeeid,
+						Count(HM.date) AS transvalue
+						FROM hrms.holiday HM
+						LEFT JOIN hrms.Jobfiling JF ON JF.holidaycategoryid = HM.holidaycategoryid
+						WHERE  JF.isarchived = false AND HM.isarchived = false   AND JF.employeeid 
+						IN
+						(
+							SELECT hm.id FROM hrms.hrmsemployee hm
+							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+							WHERE pg.id=@PayGroupId AND 
+							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+						)
+						AND To_date(Cast(HM.date AS TEXT), 'YYYY-MM-DD') BETWEEN @yearStart AND @yearEnd
+						GROUP BY JF.employeeid";
+
+			var Pbc_Hds_Cldr_yer = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				yearStart,
+				yearEnd,
+				calMonthDays
+			});
+			List<SystemVariableValues> systemVariableValues_Pbc_Hds_Cldr_yer= Pbc_Hds_Cldr_yer.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Pbc_Hds_Cldr_yer);
+			#endregion
 
 			return dd.ToString();
         }
