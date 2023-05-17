@@ -23,7 +23,7 @@ namespace Chef.HRMS.Repositories.Report
                         WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
                         AND pcd.employeeid IN ("+employeeId+ @") 
                         AND pcd.isarchived = false
-                        Group BY pc.shortcode,pc.name,pcd.payrollcomponentid,
+                        GROUP BY pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
                         pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate";
 
             return await Connection.QueryAsync<PayrollComponentReportView>(sql, new { employeeId, fromDate, ToDate });
