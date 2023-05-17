@@ -13,7 +13,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import * as moment from 'moment';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 import { EmployeeService } from '@features/employee/employee.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   templateUrl: './loan-request-create.component.html',
@@ -59,6 +59,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
     private employeeService: EmployeeService,
+    private router: Router
   ) {
     this.todaysDate = new Date();
     const current = new Date();
@@ -77,7 +78,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    console.log("ActivatedRoute", ActivatedRoute)
+    console.log("ActivatedRoute", this.router.url)
+    debugger
     this.currentUserId = getCurrentUserId();
     this.getCompanyCode();
     this.getEmployeeList()
@@ -125,12 +127,21 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     this.controlSubscription.unsubscribe();
   }
   selectionChanged(args) {
-    this.addForm.get("requestedBy").patchValue(args.value.id);
+    this.addForm.get("requestedBy").patchValue(args.value);
   }
   getEmployeeList() {
     this.employeeService.getAll()
       .subscribe((result) => {
         this.employeeList = result
+        if(this.router.url=='/my-loan'){
+          let details: any = null;
+          details = this.employeeList.find((item) => item.id == this.currentUserId)
+          this.addForm.get('requestedBy').updateValueAndValidity()
+          this.addForm.patchValue({ requestedBy: details.firstName });
+          this.addForm.get('requestedBy').updateValueAndValidity()
+  
+          this.addForm.get('requestedBy').disable()
+        }
       })
   }
 
@@ -154,13 +165,20 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   onSubmit() {
     debugger
     if (this.addForm.invalid) {
-
       return
+    }
+
+    const addloanRequestForm = this.addForm.value;
+    if(this.router.url=='/my-loan'){
+      addloanRequestForm.requestedBy = this.currentUserId;
+    }else{
+      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy.id
 
     }
-    const addloanRequestForm = this.addForm.value;
+
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
+    
     addloanRequestForm.isapproved = this.requestTypes.Approved;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
@@ -191,6 +209,11 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     }
     debugger
     const addloanRequestForm = this.addForm.value;
+    if(this.router.url=='/my-loan'){
+      addloanRequestForm.requestedBy = this.currentUserId;
+    }else{
+      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy.id;
+    }
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
     addloanRequestForm.isapproved = this.requestTypes.Draft;
@@ -232,22 +255,15 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
 
   generateSchedule() {
     this.scheduleArray = []
-
-
     let totalperiod = this.addForm.value.repaymentTerm
     let amountperMonth
     amountperMonth = this.addForm.value.loanAmount / totalperiod
     amountperMonth = parseInt(amountperMonth)
     amountperMonth = parseFloat(amountperMonth).toFixed(0)
 
-
-
     var startingMonth = parseInt(this.addForm.value.emiStartsFromMonth)
     var startYear = this.addForm.value.emiStartsFromYear
     var startDate = new Date(startYear, startingMonth - 1);
-
-
-
 
     for (var i = 1; i <= totalperiod; i++) {
       if (i == 1) {
@@ -265,14 +281,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       }
 
     }
-
-
     this.showLoanSchedules = true
-
-
-
   }
-
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

@@ -21,9 +21,9 @@
                 <td>{{i+1}}</td>
                 <td>{{summaryDetails.employeeCode}}</td>
                 <td>{{summaryDetails.employeeName}}</td>
-                <td>{{summaryDetails.totalEarnings}}</td>
-                <td>{{summaryDetails.totalDeductions}}</td>
-                <td>{{summaryDetails.netSalaryAmount}}</td>
+                <td>{{summaryDetails.totalEarnings | number : '1.0-2'}}</td>
+                <td>{{summaryDetails.totalDeductions | number : '1.0-2'}}</td>
+                <td>{{summaryDetails.netSalaryAmount | number : '1.0-2'}}</td>
             </tr>
             <tr *ngIf="!summaryDetails?.length">
                 <td colspan="10" class="text-center">

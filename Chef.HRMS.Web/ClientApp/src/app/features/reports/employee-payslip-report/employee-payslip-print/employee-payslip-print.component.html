@@ -1,21 +1,14 @@
-<div class="modal-header">
-        <h1 class="subheader-title">
+   <div class="subheader">
+    <h1 class="subheader-title">
       <div>Print Employee Payslip Report</div>
     </h1>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
+      <span aria-hidden="true">&times;</span>
+  </button>
   </div>
-<div class="card p-3" id="printEmployeePayslip">
-
-  <div>
   
-  
-   </div>
-    <div style=" display: flex; justify-content: center; align-items: center;" class=" pb-5 "  id="componentID">
-      <div  style="height: 600px;">
+  <div class="card p-3" id="printEmployeePayslip">
+    <div style="height: 100vh" class="pt-6">
       <app-reportviewer  id="employee-payslip-view"> </app-reportviewer>
-      </div>
+    </div>
   </div>
- 
-  
