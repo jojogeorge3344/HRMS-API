@@ -15,6 +15,14 @@ namespace Chef.HRMS.Repositories
         {
         }
 
+        public async Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno)
+        {
+            var sql = @"SELECT * FROM hrms.payrollprocessingmethod
+                        WHERE processedstep >=@stepno @ and isarchived = false
+                        ORDER BY id ASC ";
+            return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { stepno });
+        }
+
         public async Task<IEnumerable<PayrollReview>> GetAllPayrollReviewByProcessingMethodId(int payrollProcessingMethodId)
         {
             var sql = @"SELECT Q1.*, 
@@ -382,7 +390,6 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<PayrollComponentDetails>(sql, new { payrollprocessid });
         }
-
 
         public async Task<int> InsertPayrollFixedComponentDetails(int payrollProcessId, DateTime payrollprocessDate, int paygroupId)
         {

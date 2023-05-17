@@ -9,7 +9,6 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<HRMSEmployee>> GetAllUnProcessedEmployees(int year, int month);
         Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails();
         Task<IEnumerable<PayrollReviewBreakup>> GetPayBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId);
-
         Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep);
         Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod);
         Task<int> InsertLOPDeduction(IEnumerable<LOPDeduction> lopDeduction);
@@ -19,5 +18,6 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<PayrollComponentDetails>> GetPayrollComponentsSummary(int payrollprocessid);
         Task<IEnumerable<PayrollProcessingMethod>> GetDetailsByPaygroupId(int paygroupid, int prevmonth, int prevyear);
         Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId);
+        Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno);
     }
 }
