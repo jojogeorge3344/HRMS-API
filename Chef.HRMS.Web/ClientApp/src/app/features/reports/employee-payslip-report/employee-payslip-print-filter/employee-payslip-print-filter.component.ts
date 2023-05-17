@@ -181,7 +181,7 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
    this.ToDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value}-${this.noOfCalendarDays}`
 
    const modalRef = this.modalService.open(EmployeePayslipPrintComponent,
-    { size: 'lg', centered: true, backdrop: 'static' });
+    { size: 'xl', centered: true, backdrop: 'static' });
   modalRef.componentInstance.paygroupId = this.paygroupId;
   modalRef.componentInstance.department = this.department;
   modalRef.componentInstance.designation = this.designation;
