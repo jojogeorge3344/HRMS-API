@@ -21,7 +21,7 @@ namespace Chef.HRMS.Models
         public string Year { get; set; }
         public string Month { get; set; }
         public decimal RepaymentAmount { get; set; }
-        public string IsApproved { get; set; }
+        public Boolean IsApproved { get; set; }
 
     }
 }
