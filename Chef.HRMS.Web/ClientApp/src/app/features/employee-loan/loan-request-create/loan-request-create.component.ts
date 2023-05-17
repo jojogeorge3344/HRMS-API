@@ -172,7 +172,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     if(this.router.url=='/my-loan'){
       addloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy
+      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy.id
 
     }
 

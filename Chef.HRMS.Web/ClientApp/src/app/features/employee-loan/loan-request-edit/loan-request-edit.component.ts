@@ -169,7 +169,7 @@ export class LoanRequestEditComponent implements OnInit {
     if(this.router.url=='/my-loan'){
       editloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      editloanRequestForm.requestedBy = editloanRequestForm.requestedBy
+      editloanRequestForm.requestedBy = editloanRequestForm.requestedBy.id
     }
     editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
