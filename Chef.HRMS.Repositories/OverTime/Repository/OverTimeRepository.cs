@@ -109,15 +109,21 @@ namespace Chef.HRMS.Repositories
                         0 AS hotamount,
                         0 AS sotamount,EM.firstname AS EmployeeName,JD.employeenumber AS EmployeeCode
                         FROM hrms.overtime OT
-                        LEFT JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
-                        LEFT JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
-                        LEFT JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
-                        LEFT JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
-						LEFT JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
-                        LEFT JOIN hrms.hrmsemployee EM ON EM.id = OT.employeeid
-                        LEFT JOIN hrms.jobdetails JD ON JD.employeeid = OT.employeeid
+                        INNER JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
+                        INNER JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
+                        INNER JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
+                        INNER JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
+						AND escd.employeeid = OT.employeeid
+						INNER JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
+						AND OTS.overtimetype=1 AND OTS.isarchived = false
+                        INNER JOIN hrms.hrmsemployee EM ON EM.id = OT.employeeid
+                        INNER JOIN hrms.jobdetails JD ON JD.employeeid = OT.employeeid
                         WHERE (To_Date(cast(coalesce(OT.todate) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromdate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
-                        AND OT.isarchived=false AND jf.paygroupid = @payGroupId
+                        AND OT.isarchived=false AND jf.paygroupid = @payGroupId  AND OT.normalovertime>0
+					    GROUP BY OT.EmployeeID,OT.Id,ots.valuevariable,
+					    escd.monthlyamount,
+					    pc.id,em.firstname,
+					    jd.employeenumber
 						
 						UNION 
 						
@@ -129,15 +135,21 @@ namespace Chef.HRMS.Repositories
                         ((OTS.valuevariable * escd1.monthlyamount)/100)*OT.holidayovertime AS hotamount,
                         0 AS sotamount,EM.firstname AS EmployeeName,JD.employeenumber AS EmployeeCode
                         FROM hrms.overtime OT
-                        LEFT JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
-                        LEFT JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
-                        LEFT JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.holidayovertime
-                        LEFT JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
-                        LEFT JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
-                        LEFT JOIN hrms.hrmsemployee EM ON EM.id = OT.employeeid
-                        LEFT JOIN hrms.jobdetails JD ON JD.employeeid = OT.employeeid
+                        INNER JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
+                        INNER JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
+                        INNER JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.holidayovertime
+                        INNER JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
+						AND escd1.employeeid = OT.employeeid
+                        INNER JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
+						AND OTS.overtimetype=1 AND OTS.isarchived = false
+                        INNER JOIN hrms.hrmsemployee EM ON EM.id = OT.employeeid
+                        INNER JOIN hrms.jobdetails JD ON JD.employeeid = OT.employeeid
                         WHERE (To_Date(cast(coalesce(OT.todate) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromdate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
-                        AND OT.isarchived=false AND jf.paygroupid = @payGroupId
+                        AND OT.isarchived=false AND jf.paygroupid = @payGroupId AND OT.specialovertime>0
+						GROUP BY OT.EmployeeID,OT.Id,ots.valuevariable,
+					    escd1.monthlyamount,
+					    pc1.id,em.firstname,
+					    jd.employeenumber
 						
 						UNION
 						
@@ -150,15 +162,21 @@ namespace Chef.HRMS.Repositories
                         ((OTS.valuevariable * escd2.monthlyamount)/100 )*OT.specialovertime AS sotamount,
                         EM.firstname AS EmployeeName,JD.employeenumber AS EmployeeCode
                         FROM hrms.overtime OT
-                        LEFT JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
-                        LEFT JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
-                        LEFT JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.specialovertime
-                        LEFT JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
-                        LEFT JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
-                        LEFT JOIN hrms.hrmsemployee EM ON EM.id = OT.employeeid
-                        LEFT JOIN hrms.jobdetails JD ON JD.employeeid = OT.employeeid
+                        INNER JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
+                        INNER JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
+                        INNER JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.specialovertime
+                        INNER JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
+						AND escd2.employeeid = OT.employeeid
+                        INNER JOIN hrms.overtimeslab OTS ON OTS.overtimepolicyid = jf.overtimepolicyid
+						AND OTS.overtimetype=1 AND OTS.isarchived = false
+                        INNER JOIN hrms.hrmsemployee EM ON EM.id = OT.employeeid
+                        INNER JOIN hrms.jobdetails JD ON JD.employeeid = OT.employeeid
                         WHERE (To_Date(cast(coalesce(OT.todate) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromdate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@ToDate) as TEXT),'YYYY MM DD')) 
-                        AND OT.isarchived=false AND jf.paygroupid = @payGroupId";
+                        AND OT.isarchived=false AND jf.paygroupid = @payGroupId AND OT.specialovertime>0
+						GROUP BY OT.EmployeeID,OT.Id,ots.valuevariable,
+					    escd2.monthlyamount,
+					    pc2.id,em.firstname,
+					    jd.employeenumber";
 
 			return await Connection.QueryAsync<OverTimePayrollViewModel>(sql, new { paygroupId, fromDate, toDate });
 		}

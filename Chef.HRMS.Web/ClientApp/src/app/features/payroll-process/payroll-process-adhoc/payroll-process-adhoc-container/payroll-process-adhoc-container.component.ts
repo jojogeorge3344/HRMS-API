@@ -126,12 +126,13 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
     this.loandetails = this.child.payGroupLoans
     this.adhocdeductiondetails = this.adhoc.payGroupProcessAdhocDeduction
 
-    if(this.loandetails.length > 0){
-     this.saveAdhocloanDetails()
-    }
+   
     if(this.adhocdeductiondetails.length > 0){
      this.saveAdhocDeductionDetails()
     }
+    if(this.loandetails.length > 0){
+      this.saveAdhocloanDetails()
+     }
   }
 
 }
