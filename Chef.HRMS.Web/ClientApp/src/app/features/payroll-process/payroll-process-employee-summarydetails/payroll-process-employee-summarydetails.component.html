@@ -20,8 +20,8 @@
             <tr style="cursor: pointer;" *ngFor="let summaryDetails of summaryDetails; let i = index">
                 <td>{{i+1}}</td>
                 <td>{{summaryDetails.payrollComponentName}}</td>
-                <td>{{summaryDetails.earningsAmt}}</td>
-                <td>{{summaryDetails.deductionAmt}}</td>
+                <td>{{summaryDetails.earningsAmt | number : '1.0-2'}}</td>
+                <td>{{summaryDetails.deductionAmt | number : '1.0-2'}}</td>
               
             </tr>
             <tr *ngIf="!summaryDetails?.length">
