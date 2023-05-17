@@ -136,6 +136,6 @@ export class PayslipConfigurationComponent implements OnInit {
 
       });
 
-  }
+  } 
 
 }
