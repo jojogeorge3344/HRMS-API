@@ -35,12 +35,12 @@ export class EmployeeNumbersCreateComponent implements OnInit {
 
   onChanges(): void {
     this.addForm.valueChanges.subscribe(form => {
-      if (form.prefix && form.suffix && form.digitInNumber <= 12 && form.digitInNumber >= 1 && form.nextNumber) {
+      if (form.prefix && form.digitInNumber <= 12 && form.digitInNumber >= 1 && form.nextNumber) {
 
         this.setNextNumberValidation(form.digitInNumber);
 
         this.addForm.patchValue({
-          preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix}`
+          preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix=form.suffix ? form.suffix :''}`
         }, {emitEvent: false});
       } else {
         this.addForm.patchValue({ preview: '' }, {emitEvent: false});
