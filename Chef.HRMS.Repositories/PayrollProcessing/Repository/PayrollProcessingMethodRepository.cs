@@ -398,7 +398,7 @@ namespace Chef.HRMS.Repositories
             left join hrms.payrollcomponent pc on escd.payrollcomponentid = pc.id
             left join hrms.jobfiling jf on esc.employeeid = jf.employeeid
             left join hrms.paygroup pg on jf.paygroupid = pg.id
-            where esc.isarchived = false and pg.id = @paygroupId and pc.isfixed = true)";
+            where esc.isarchived = false and pg.id = @paygroupId and pc.payheadtype = 1)";
 
             return await Connection.ExecuteAsync(sql, new { currentDate, payrollProcessId, paygroupId, payrollprocessDate });
         }
@@ -414,7 +414,7 @@ namespace Chef.HRMS.Repositories
             left join hrms.payrollcomponent pc on escd.payrollcomponentid = pc.id
             left join hrms.jobfiling jf on esc.employeeid = jf.employeeid
             left join hrms.paygroup pg on jf.paygroupid = pg.id
-            where esc.isarchived = false and pg.id = @paygroupId and pc.isfixed = true and pcd.isarchived=false and pcd.stepno = 0))";
+            where esc.isarchived = false and pg.id = @paygroupId and pc.payheadtype = 1 and pcd.isarchived=false and pcd.stepno = 0))";
 
 
             return await Connection.ExecuteAsync(sql, new { paygroupId });
