@@ -58,8 +58,11 @@ export class LeaveConfigurationContainerComponent implements OnInit {
   }
 
   getLeaveComponents(leaveStructureId) {
+    debugger
     this.leaveComponentService.getAllByLeaveStructure(leaveStructureId).subscribe((result:LeaveComponent[]) => {
       this.assignedLeaveComponents = result.filter(v => v.code.toLowerCase() !== "lop");
+      console.log('comp',this.assignedLeaveComponents);
+      
       this.setComponetList()
       this.selectLeaveComponent(0);
     },
@@ -71,7 +74,10 @@ export class LeaveConfigurationContainerComponent implements OnInit {
 
   getLeaveConfigurations(leaveStructureId) {
     this.leaveConfigurationService.getAll(leaveStructureId).subscribe((result:LeaveConfiguration[]) => {
+      debugger
       this.assignedLeaveConfigurations = result;
+      console.log('conf',this.assignedLeaveConfigurations);
+      
     },
     error => {
       console.error(error);

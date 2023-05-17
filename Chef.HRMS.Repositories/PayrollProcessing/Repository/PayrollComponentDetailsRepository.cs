@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Chef.Common.Repositories;
+using Chef.Common.Core.Extensions;
 
 namespace Chef.HRMS.Repositories
 {
@@ -22,5 +23,13 @@ namespace Chef.HRMS.Repositories
 			return await Connection.ExecuteAsync(sql, new { payrollProcessID, stepNo });
 
 		}
-	}
+
+        public async Task<IEnumerable<PayrollComponentDetails>> GetPayslipYears()
+        {
+            return await QueryFactory
+            .Query<PayrollComponentDetails>()
+            .WhereNotArchived()
+            .GetAsync<PayrollComponentDetails>();
+        }
+    }
 }

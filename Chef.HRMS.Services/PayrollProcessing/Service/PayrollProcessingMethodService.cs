@@ -119,6 +119,7 @@ namespace Chef.HRMS.Services
                 payrollSummary.PayrollComponentDetails = payrollComponentDetails.Where(x => x.EmployeeId == empId).ToList();
                 payrollSummary.TotalDeductions = payrollSummary.PayrollComponentDetails.Sum(c=>c.DeductionAmt);
                 payrollSummary.EmployeeName = payrollSummary.PayrollComponentDetails.First().EmployeeName;
+                payrollSummary.EmployeeCode = payrollSummary.PayrollComponentDetails.First().EmployeeCode;
                 payrollSummary.EmployeeId = empId;
                 payrollSummary.TotalEarnings = payrollSummary.PayrollComponentDetails.Sum(c => c.EarningsAmt);
                 payrollSummary.NetSalaryAmount = payrollSummary.TotalEarnings - payrollSummary.TotalDeductions;

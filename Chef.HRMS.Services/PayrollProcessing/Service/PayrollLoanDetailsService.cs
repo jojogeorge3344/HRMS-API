@@ -29,7 +29,7 @@ namespace Chef.HRMS.Services
 			var res = payrollLoanDetails.Where(x=>x.PayrollProcessId>0).FirstOrDefault();
 			int PayrollProcessID = res.PayrollProcessId;
 			int intRet = await DeleteByPayrollProcessID(PayrollProcessID);
-			intRet =await payrollComponentDetailsService.DeleteByPayrollProcessID(PayrollProcessID,2);
+			//intRet =await payrollComponentDetailsService.DeleteByPayrollProcessID(PayrollProcessID,2);
 			await payrollLoanDetailsRepository.BulkInsertAsync(payrollLoanDetails);
 			List<PayrollComponentDetails> payrollComponent = payrollLoanDetails.Select(x => new PayrollComponentDetails()
 			{
@@ -42,7 +42,7 @@ namespace Chef.HRMS.Services
 				DocNum = "",
 				EarningsAmt = 0,
 				EmployeeId = x.EmployeeId,
-				PayrollComponentId = 0,
+				PayrollComponentId = x.ComponentId,
 				CreatedBy = x.CreatedBy,
 				ModifiedBy = x.ModifiedBy,
 				CreatedDate = x.CreatedDate,

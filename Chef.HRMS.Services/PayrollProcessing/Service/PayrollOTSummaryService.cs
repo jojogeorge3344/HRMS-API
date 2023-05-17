@@ -33,7 +33,7 @@ namespace Chef.HRMS.Services
 			var res = payrollOTSummary.Where(x => x.PayrollProcessId > 0).FirstOrDefault();
 			int PayrollProcessID = res.PayrollProcessId;
 			int intRet = await DeleteByPayrollProcessID(PayrollProcessID);
-			intRet = await payrollComponentDetailsService.DeleteByPayrollProcessID(PayrollProcessID, 2);
+			intRet = await payrollComponentDetailsService.DeleteByPayrollProcessID(PayrollProcessID, 3);
 			
 			foreach (PayrollOTSummary oTSummary in payrollOTSummary)
 			{
@@ -51,13 +51,13 @@ namespace Chef.HRMS.Services
 					DocNum = "",
 					EarningsAmt = x.NotHrsAmount+x.SotHrsAmount+x.HotHrsAmount,
 					EmployeeId = x.EmployeeId,
-					PayrollComponentId = 0,
+					PayrollComponentId = x.ComponentId,
 					CreatedBy = x.CreatedBy,
 					ModifiedBy = x.ModifiedBy,
 					CreatedDate = x.CreatedDate,
 					ModifiedDate = x.ModifiedDate,
 					IsArchived = x.IsArchived,
-					StepNo = 2,
+					StepNo = 3,
 				}).ToList();
 				await payrollComponentDetailsRepository.BulkInsertAsync(payrollComponent);
 			}

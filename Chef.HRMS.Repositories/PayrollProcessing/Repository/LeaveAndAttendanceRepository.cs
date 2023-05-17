@@ -76,7 +76,7 @@ namespace Chef.HRMS.Repositories
                                               GROUP  BY jf.employeeid)Q2 
                                           ON Q1.employeeid = Q2.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
-                                                     Count(*)applied,l.id AS leaveid 
+                                                     Count(*)applied,l.id AS leaveid,l.leavecomponentid 
                                               FROM   hrms.jobfiling jf 
                                                      LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
@@ -89,7 +89,7 @@ namespace Chef.HRMS.Repositories
 													         ON svv.systemvariableid = sv.id
 															 AND sv.code = 'Lop_Dys_Btw_Dte'
                                               WHERE  svv.payrollprocessid = @payrollProcessId
-                                              GROUP  BY jf.employeeid,l.id)Q3 
+                                              GROUP  BY jf.employeeid,l.id,l.leavecomponentid)Q3 
                                           ON Q1.employeeid = Q3.employeeid 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*)lop 
@@ -127,7 +127,7 @@ namespace Chef.HRMS.Repositories
                                                              ON l.leavecomponentid = lc.id 
                                               WHERE  ( l.fromdate >= @fromDate 
                                                        AND l.todate <= @toDate ) 
-                                                     AND l.leavestatus = 3 
+                                                     AND l.leavestatus = 4 
                                               GROUP  BY jf.employeeid)Q6 
                                           ON Q1.employeeid = Q6.employeeid ";
 
@@ -250,7 +250,7 @@ namespace Chef.HRMS.Repositories
             {
                 try
                 {
-                    if (leaveAndAttendances.Count() == 1)
+                    if (leaveAndAttendances.Count() == 0)
                     {
                         var employeeId = leaveAndAttendances.Select(x => x.EmployeeId).FirstOrDefault();
                         var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
@@ -264,8 +264,8 @@ namespace Chef.HRMS.Repositories
                                  laa.CreatedDate = laa.ModifiedDate = DateTime.UtcNow;
                                  laa.IsArchived = false;
                              });
-                            var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery();
-                            sql = sql.Replace("RETURNING id", "");
+                            var sql = new QueryBuilder<LeaveAndAttendance>().GenerateInsertQuery(false);
+                            //sql = sql.Replace("RETURNING id", "");
                             sql += " ON CONFLICT ON CONSTRAINT leaveandattendance_ukey_empid_pid_ppid DO ";
                             sql += new QueryBuilder<LeaveAndAttendance>().GenerateUpdateQueryOnConflict();
                             return await Connection.ExecuteAsync(sql, leaveAndAttendances);

@@ -83,5 +83,6 @@ namespace Chef.HRMS.Models
         /// Holds loan setting id
         /// </summary>
         public int LoanSettingId { get; set; }
+        public int ComponentId { get; set; }
     }
 }

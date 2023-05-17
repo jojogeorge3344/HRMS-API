@@ -195,6 +195,11 @@ export const NavigationItems = [
         routerLink: "/employee-leave",
       },
       {
+        title: "Employee Loan",
+        tags: "settings-expense",
+        routerLink: "/employee-loan",
+      },
+      {
         title: "Payroll Processing",
         tags: "organization-PayrollProcessing",
         routerLink: "/payroll-processing",
@@ -241,6 +246,11 @@ export const NavigationItems = [
     tags: "report",
     icon: "fal fa-download",
     items: [
+      {
+        title: "Employee Payslip",
+        tags: "report-employeelist",
+        routerLink: "/reports/employeepayslip",
+      },
       {
         title: "Employee Register",
         tags: "report-employeelist",

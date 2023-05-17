@@ -18,9 +18,7 @@ namespace Chef.HRMS.Models
 		public decimal NotRate { get; set; }
 		public decimal HotRate { get; set; }
 		public decimal SotRate { get; set; }
-		public int  NotComponentId { get; set; }
-		public int HotComponentId { get; set; }
-		public int SotComponentId { get; set; }
+		public int  ComponentId { get; set; }
 		public decimal NotAmount { get; set; }
 		public decimal HotAmount { get; set; }
 		public decimal SotAmount { get; set; }
