@@ -127,7 +127,7 @@ namespace Chef.HRMS.Repositories
                                                              ON l.leavecomponentid = lc.id 
                                               WHERE  ( l.fromdate >= @fromDate 
                                                        AND l.todate <= @toDate ) 
-                                                     AND l.leavestatus = 3 
+                                                     AND l.leavestatus = 4 
                                               GROUP  BY jf.employeeid)Q6 
                                           ON Q1.employeeid = Q6.employeeid ";
 

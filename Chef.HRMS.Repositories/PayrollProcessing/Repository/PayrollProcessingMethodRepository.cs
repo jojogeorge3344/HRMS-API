@@ -369,7 +369,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
         {
-            var sql = @"SELECT ppm.month,ppm.year, pgc.processingday, pg.timesheetcutoff, pg.leavecutoff
+            var sql = @"SELECT (ppm.month)  as month ,ppm.year, pgc.processingday, pg.timesheetcutoff, pg.leavecutoff
 	                    FROM hrms.payrollprocessingmethod ppm
 	                    LEFT JOIN hrms.paygroup pg ON ppm.paygroupid = pg.id
 	                    LEFT JOIN hrms.payrollcalendar pgc ON pg.payrollcalendarid = pgc.id
@@ -405,7 +405,7 @@ namespace Chef.HRMS.Repositories
             left join hrms.payrollcomponent pc on escd.payrollcomponentid = pc.id
             left join hrms.jobfiling jf on esc.employeeid = jf.employeeid
             left join hrms.paygroup pg on jf.paygroupid = pg.id
-            where esc.isarchived = false and pg.id = @paygroupId and pc.isfixed = true)";
+            where esc.isarchived = false and pg.id = @paygroupId and pc.payheadtype = 1)";
 
             return await Connection.ExecuteAsync(sql, new { currentDate, payrollProcessId, paygroupId, payrollprocessDate });
         }
@@ -421,7 +421,7 @@ namespace Chef.HRMS.Repositories
             left join hrms.payrollcomponent pc on escd.payrollcomponentid = pc.id
             left join hrms.jobfiling jf on esc.employeeid = jf.employeeid
             left join hrms.paygroup pg on jf.paygroupid = pg.id
-            where esc.isarchived = false and pg.id = @paygroupId and pc.isfixed = true and pcd.isarchived=false and pcd.stepno = 0))";
+            where esc.isarchived = false and pg.id = @paygroupId and pc.payheadtype = 1 and pcd.isarchived=false and pcd.stepno = 0))";
 
 
             return await Connection.ExecuteAsync(sql, new { paygroupId });
