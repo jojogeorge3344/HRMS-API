@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeJobDetailsService } from '../employee-job-details.service';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { EmployeeBasicDetailsService } from '@features/employee/employee-basic-details/employee-basic-details.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
-
+import { padAtStrt } from '@shared/utils/utils.functions';
 @Component({
   selector: 'hrms-employee-job-details-edit',
   templateUrl: './employee-job-details-edit.component.html',
@@ -58,6 +58,10 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   visaDesignation:any;
   config;
   selectedDatasource:any;
+  checkFlag: boolean;
+  @Output() getEditByCreateJobId = new EventEmitter<any>();
+  @Input() jobDetailsparamsId:any
+  numberSeries: number;
 
   constructor(
     private employeeService: EmployeeService,
@@ -79,12 +83,27 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.route.params.subscribe((params: any) => {
       this.jobDetailsId = params.jobDetailsId;
       this.id = parseInt(params.id, 10);
     });
+ 
+    if(!this.jobDetailsparamsId){
+      this.route.params.subscribe((params: any) => {
+        this.jobDetailsId = params.jobDetailsId;
+        this.id = parseInt(params.id, 10);
+      });
+    }else{
+      
+      this.route.params.subscribe((params: any) => {
+        this.jobDetailsId =this.jobDetailsparamsId;
+        this.id = parseInt(params.id, 10);
+      });
+   
+    }
 
     this.businessUnitTypeKeys = Object.keys(this.businessUnitType).filter(Number).map(Number);
     this.departmentTypeKeys = Object.keys(this.departmentType).filter(Number).map(Number);
@@ -97,6 +116,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.getJobList();
     this.getEmployeeNumber();
     this.getBranches();
+    this.getEmployeeList();
 
     this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
       this.groupCategory=result;
@@ -115,6 +135,14 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       searchOnKey: "firstName",
       clearOnSelection: true,
     };
+    this.employeeJobDetailsService.getProbation().subscribe((result)=>{
+      this.editForm.patchValue({
+        probationPeriod:result[0].probationDuration,
+        periodType:result[0].periodType,
+        workerType:result[0].workerType,
+        timeType:result[0].timeType
+      })
+      })
   }
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
@@ -133,13 +161,21 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       });
   }
   getJobDetailsId() {
-   
+   debugger
     this.employeeJobDetailsService.get(this.jobDetailsId).subscribe(result => {
       this.getEmployeeList();
       result.dateOfJoin = new Date(result.dateOfJoin);
       localStorage.setItem('doj',JSON.stringify(result.dateOfJoin))
       this.reportingManager = result.reportingManager;
+      this.numberSeries=result.numberSeriesId
       this.editForm.patchValue(result);
+      if(this.editForm.value.numberSeriesId){
+        this.editForm.get('numberSeriesId').disable();
+        this.checkFlag=true
+      }else{
+        this.editForm.get('numberSeriesId').enable();
+        this.checkFlag=false
+      }
     },
       error => {
         console.error(error);
@@ -212,14 +248,31 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to fetch the branches');
       });
   }
-
+  getNumberSeries(id) {
+    debugger
+    const seriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == id);
+    const addJobDetails = this.editForm.value;
+    seriesValue.nextNumber = seriesValue.nextNumber;
+    seriesValue.digitInNumber = seriesValue.digitInNumber;
+    this.editForm.value.numberSeriesId=id
+    addJobDetails.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
+   // this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
+    //preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix}`
+    this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0).concat(seriesValue.suffix));
+  }
   onSubmit() {
+    debugger
     const editJobDetails = this.editForm.value;
+    if(this.numberSeries){
+    editJobDetails.numberSeriesId= this.numberSeries
+    }
     editJobDetails.branchId = editJobDetails.location;
     editJobDetails.companyId = this.branches.find(c => c.id == editJobDetails.branchId).companyId;
     editJobDetails.employeeId = parseInt(this.id, 10);
     editJobDetails.id = parseInt(this.jobDetailsId, 10);
+    editJobDetails.createdDate=this.editForm.value.createdDate ? this.editForm.value.createdDate : new Date()
     // editJobDetails.reportingManager = editJobDetails.reportingManager.id;
+    if(this.checkFlag==true){
     this.employeeJobDetailsService.update(editJobDetails).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Job Details updated successfully!');
     },
@@ -227,6 +280,13 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to update the Employee Job Details');
       });
+    }else{
+      this.employeeJobDetailsService.add(editJobDetails).subscribe((result)=>{
+        this.getEditByCreateJobId.emit(result)
+        this.toastr.showSuccessMessage('Employee Job details added successfully!');
+      })
+      
+    }  
   }
 
   createFormGroup(): FormGroup {
