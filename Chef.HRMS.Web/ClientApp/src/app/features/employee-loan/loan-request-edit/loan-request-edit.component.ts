@@ -174,7 +174,7 @@ export class LoanRequestEditComponent implements OnInit {
     editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId;
-    editloanRequestForm.isapproved = this.requestTypes.Approved;
+    editloanRequestForm.status = this.requestTypes.Approved;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
 
@@ -201,7 +201,7 @@ export class LoanRequestEditComponent implements OnInit {
     }    editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId
-    editloanRequestForm.isapproved = this.requestTypes.Draft;
+    editloanRequestForm.status = this.requestTypes.Draft;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
     this.loanRequestService.update(editloanRequestForm).subscribe(result => {

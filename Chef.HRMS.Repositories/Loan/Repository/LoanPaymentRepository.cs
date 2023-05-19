@@ -1,5 +1,7 @@
 ﻿using Chef.Common.Repositories;
+using Chef.Common.Types;
 using Chef.HRMS.Models;
+using Chef.HRMS.Types;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -114,6 +116,7 @@ namespace Chef.HRMS.Repositories
                                                             INNER JOIN hrms.loansetting ls 
                                                                    ON ls.id = lr.loansettingid  
                                                             WHERE jf.paygroupid = @payGroupId 
+                                                                AND lr.status = @status
                                                     GROUP  BY lr.loantype, 
                                                               e.id, 
                                                               lr.id, 
@@ -129,7 +132,7 @@ namespace Chef.HRMS.Repositories
                                                               lp.loanamount, 
                                                               lp.tenurenumber,ls.loanrepaymenttype";
 
-                return await Connection.QueryAsync<EmployeeLoanView>(sql, new { month,year,payGroupId });
+                return await Connection.QueryAsync<EmployeeLoanView>(sql, new { month,year,payGroupId, status = RequestStatusType.Approved });
         }
 
         public async Task<int> InsertAsync(IEnumerable<LoanPayment> loanPayment)

@@ -179,7 +179,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
     
-    addloanRequestForm.isapproved = this.requestTypes.Approved;
+    addloanRequestForm.status = this.requestTypes.Approved;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -216,7 +216,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     }
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.isapproved = this.requestTypes.Draft;
+    addloanRequestForm.status = this.requestTypes.Draft;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
