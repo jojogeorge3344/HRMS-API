@@ -10,5 +10,7 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<Notification>> GetAllNotificationById(int employeeId);
         Task<bool> IsNameExist(string name);
         Task<LoginEmployeeView> GetLoginEmployee(int employeeId);
+        Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByemployeeId(int employeeId);
+
     }
 }

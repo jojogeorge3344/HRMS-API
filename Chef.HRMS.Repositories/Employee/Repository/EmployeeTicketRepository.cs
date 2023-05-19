@@ -13,6 +13,14 @@ namespace Chef.HRMS.Repositories
         public EmployeeTicketRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
         {
         }
-  
+
+        public async Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByemployeeId(int employeeId)
+        {
+            return await QueryFactory
+            .Query<EmployeeTicket>()
+            .Where("employeeid", @employeeId)
+            .WhereNotArchived()
+            .GetAsync<EmployeeTicket>();
+        }
     }
 }
