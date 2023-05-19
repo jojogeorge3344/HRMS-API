@@ -36,6 +36,11 @@ namespace Chef.HRMS.Services
             return await EmployeeTicketRepository.GetAsync(id);
         }
 
+        public async Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByemployeeId(int employeeId)
+        {
+            return await EmployeeTicketRepository.GetTicketDetailsByemployeeId(employeeId);
+        }
+
         public new async Task<int> InsertAsync(EmployeeTicket EmployeeTicket)
         {
             return await EmployeeTicketRepository.InsertAsync(EmployeeTicket);
