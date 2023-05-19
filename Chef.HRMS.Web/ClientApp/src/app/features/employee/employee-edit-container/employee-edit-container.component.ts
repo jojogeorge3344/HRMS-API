@@ -8,6 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 export class EmployeeEditContainerComponent implements OnInit {
 
   activeTabId: number;
+  jobDetailsId: any;
+  jobFilingId:any
 
   constructor(private route: ActivatedRoute) { }
 
@@ -18,5 +20,12 @@ export class EmployeeEditContainerComponent implements OnInit {
         this.activeTabId = parseInt(params['activeTabId']);
     });
   }
-
+  getJobId(event){
+    debugger
+    this.jobDetailsId=event
+  }
+  getEditByCreateJobFilingId(event){
+    debugger
+   this.jobFilingId=event
+  }
 }

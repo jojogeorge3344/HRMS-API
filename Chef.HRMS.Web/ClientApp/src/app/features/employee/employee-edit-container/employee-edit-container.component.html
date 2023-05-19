@@ -27,13 +27,13 @@
     <li [ngbNavItem]="2">
       <a ngbNavLink>Job Details</a>
       <ng-template ngbNavContent>
-        <hrms-employee-job-details-edit></hrms-employee-job-details-edit>
+        <hrms-employee-job-details-edit (getEditByCreateJobId)="getJobId($event)" [jobDetailsparamsId]="jobDetailsId"></hrms-employee-job-details-edit>
       </ng-template>
     </li>
     <li [ngbNavItem]="3">
       <a ngbNavLink>Job Filings</a>
       <ng-template ngbNavContent>
-        <hrms-employee-job-filing-edit></hrms-employee-job-filing-edit>
+        <hrms-employee-job-filing-edit (EditByCreateJobFilingId)="getEditByCreateJobFilingId($event)" [jobFilingparamsId]="jobFilingId"></hrms-employee-job-filing-edit>
       </ng-template>
     </li>
     <li [ngbNavItem]="4">
