@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Chef.HRMS.Services
 {
@@ -32,6 +33,10 @@ namespace Chef.HRMS.Services
             return await payrollProcessingMethodRepository.GetAllAsync();
         }
 
+        public async Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno)
+        {
+            return await payrollProcessingMethodRepository.GetAllByProcessignStep(stepno);
+        }
         public async Task<IEnumerable<PayrollReview>> GetAllPayrollReviewByProcessingMethodId(int payrollProcessingMethodId)
         {
             return await payrollProcessingMethodRepository.GetAllPayrollReviewByProcessingMethodId(payrollProcessingMethodId);

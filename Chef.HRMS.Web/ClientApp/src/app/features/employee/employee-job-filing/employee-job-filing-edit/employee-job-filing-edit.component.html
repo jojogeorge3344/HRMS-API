@@ -76,7 +76,7 @@
                         {{attendanceCaptureSchemeType[key]}}</option>
                 </select>
             </div>
-            <div class="form-group form-input-line col-sm">
+            <div *ngIf="checkFlag" class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="payrollStructureId">Payroll Structure<span class="required">*</span></label>
                 <select class="form-control" formControlName="payrollStructureId">
                     <option value="" disabled>Select Payroll Structure</option>
@@ -85,7 +85,7 @@
                     </option>
                 </select>
             </div>
-            <div class="form-group form-input-line col-sm">
+            <div *ngIf="checkFlag" class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="payGroupId">Pay Group<span class="required">*</span></label>
                 <select class="form-control" formControlName="payGroupId">
                     <option value="" disabled>Select Pay Group</option>
@@ -96,7 +96,7 @@
             </div>
         </div>
         <div class="row align-items-baseline">
-            <div class="form-group form-input-line col-sm-4">
+            <div *ngIf="checkFlag" class="form-group form-input-line col-sm-4">
                 <label class="col-form-label" for="overTimePolicyId">Over Time Policy<span class="required">*</span></label>
                 <select class="form-control" formControlName="overTimePolicyId">
                     <option value="" disabled>Select Over Time Policy</option>
@@ -105,7 +105,7 @@
                     </option>
                 </select>
             </div>
-            <div class="form-group form-input-line col-sm">
+            <div *ngIf="checkFlag" class="form-group form-input-line col-sm">
                 <label class="col-form-label" class="col-form-label">Please select the mode of salary transfer for employee<span class="required">*</span></label>
                 <div class="col-sm-7 py-2">
                     <div class="form-check-inline" payment>

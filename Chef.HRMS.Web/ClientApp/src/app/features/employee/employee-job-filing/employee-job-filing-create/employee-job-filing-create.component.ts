@@ -15,6 +15,8 @@ import { LeaveStructure } from '@settings/leave/leave-structure/leave-structure.
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EosService } from '@settings/eos/eos.service';
+import { EmployeeJobFilingService } from '../employee-job-filing.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hrms-employee-job-filing-create',
@@ -43,6 +45,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
   eosTypes;
   @Output() jobFilingsForm = new EventEmitter<boolean>();
   @Input() jobFilings: any;
+  @Input() passEmployeeId:any
 
   constructor(
     private leaveStructureService: LeaveStructureService,
@@ -52,6 +55,8 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
     private eosService: EosService,
+    private employeeJobFilingService: EmployeeJobFilingService,
+    private router: Router,
 
   ) { }
 
@@ -123,7 +128,12 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
 
   onSubmit() {
     const addJobFilings = this.addForm.value;
+    addJobFilings.employeeId = this.passEmployeeId;
+    this.employeeJobFilingService.add(addJobFilings).subscribe((result)=>{
+      this.toastr.showSuccessMessage('Employee Job filings added successfully!');
+    })
     this.jobFilingsForm.emit(addJobFilings);
+    
   }
 
   createFormGroup(): FormGroup {

@@ -21,14 +21,14 @@
     <li [ngbNavItem]="2" [disabled]="2>disableTabFrom ">
       <a ngbNavLink>Job Details</a>
       <ng-template ngbNavContent>
-        <hrms-employee-job-details-create [jobDetails]="jobDetailsForm" [dob]="basicDetailsForm?.dateOfBirth" (jobDetailsForm)="onSubmitJobDetails($event, nav)">
+        <hrms-employee-job-details-create [jobDetails]="jobDetailsForm" [dob]="basicDetailsForm?.dateOfBirth" (jobDetailsForm)="onSubmitJobDetails($event, nav)" [passEmployeeId]="passEmployeeId">
         </hrms-employee-job-details-create>
       </ng-template>
     </li>
     <li [ngbNavItem]="3" [disabled]="3>disableTabFrom ">
       <a ngbNavLink>Job Filings</a>
       <ng-template ngbNavContent>
-        <hrms-employee-job-filing-create [jobFilings] ="jobFilingsForm" (jobFilingsForm)="onSubmitJobFilings($event)">
+        <hrms-employee-job-filing-create [jobFilings] ="jobFilingsForm" (jobFilingsForm)="onSubmitJobFilings($event)" [passEmployeeId]="passEmployeeId">
         </hrms-employee-job-filing-create>
       </ng-template>
     </li>
