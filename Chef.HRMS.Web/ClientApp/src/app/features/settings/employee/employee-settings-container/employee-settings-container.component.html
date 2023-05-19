@@ -8,7 +8,7 @@
 
 <div class="card p-3" id="employeeSetting">
       
-      <ul ngbNav #nav="ngbNav" [activeId]="route.fragment | async" class="nav-tabs-clean nav nav-tabs">
+      <ul ngbNav #nav="ngbNav" [activeId]="activeId" class="nav-tabs-clean nav nav-tabs">
         <li [ngbNavItem]="tab.fragment" *ngFor="let tab of tabs">
           <a ngbNavLink [routerLink]="tab.fragment">{{ tab.title }}</a>          
         </li>               
