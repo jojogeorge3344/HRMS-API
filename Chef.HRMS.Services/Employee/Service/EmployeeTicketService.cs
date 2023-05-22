@@ -46,6 +46,11 @@ namespace Chef.HRMS.Services
             return await EmployeeTicketRepository.InsertAsync(EmployeeTicket);
         }
 
+        public async Task<bool> IsTravelFromExist(string fromPlace)
+        {
+            return await EmployeeTicketRepository.IsTravelFromExist(fromPlace);
+        }
+
         public async Task<int> UpdateAsync(EmployeeTicket EmployeeTicket)
         {
             return await EmployeeTicketRepository.UpdateAsync(EmployeeTicket);
