@@ -37,6 +37,7 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
   }
 
   getEducationalDetails() {
+    this.educationDetails=[]
     this.employeeEducationalDetailsService
       .getByEmployeeId(this.employeeId)
       .subscribe(

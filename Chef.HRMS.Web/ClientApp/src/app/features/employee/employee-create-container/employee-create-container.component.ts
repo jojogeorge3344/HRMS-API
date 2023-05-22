@@ -26,6 +26,9 @@ export class EmployeeCreateContainerComponent implements OnInit {
   numberSeriesId: any;
   disableTabFrom = 1;
   passEmployeeId:any;
+  wpsDetailsForm: any;
+  addressDetailsForm: any;
+  documentsDetailsForm: any;
   
 
   constructor(
@@ -130,9 +133,13 @@ debugger
     const numberSeriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == this.jobDetailsForm.numberSeriesId);
       numberSeriesValue.nextNumber = numberSeriesValue.nextNumber + 1;
       this.employeeNumbersService.update(numberSeriesValue).subscribe(() => {
-        this.router.navigateByUrl('/employee');
+        // this.router.navigateByUrl('/employee');
       });
+
+    this.jobFilingsForm = jobFilingsForm;
+    this.activeId = this.disableTabFrom = 4;
   }
 
+ 
 
 }
