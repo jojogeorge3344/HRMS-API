@@ -45,6 +45,17 @@ li#reportViewer_toolbar_li_pagesetup {
   font-size: 15px;
 } */
 
+.pngCustomClass .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item{
+  padding: 0px !important;
+  color: 'red' !important
+}
+.dd-values{
+  padding: 0.429em 0.857em;
+  cursor: pointer;
+}
+.ui-dropdown{
+  border-color: #E5E5E5 !important;
+}
 .edit,
 .delete {
   font-size: 15px;

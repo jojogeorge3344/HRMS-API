@@ -32,6 +32,7 @@ import { EmployeeExperienceDocumentsViewComponent } from "./employee-document-se
 
 import { EmployeeOfficialDocumentsListComponent } from "./employee-document-section/employee-official-documents/employee-official-documents-list/employee-official-documents-list.component";
 import {DropdownModule} from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
 @NgModule({
   declarations: [
     DocumentViewModalComponent,
@@ -59,7 +60,8 @@ import {DropdownModule} from 'primeng/dropdown';
     NgBootstrapFormValidationModule,
     BsDropdownModule.forRoot(),
     DirectivesModule,
-    DropdownModule
+    DropdownModule,
+    ButtonModule
   ],
   exports: [
     EmployeeDocumentsContainerComponent,

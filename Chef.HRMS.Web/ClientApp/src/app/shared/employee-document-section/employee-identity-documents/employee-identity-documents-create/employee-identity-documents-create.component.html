@@ -1,4 +1,5 @@
 <form [formGroup]="addForm" id="identityDetailsForm" (submit)="onSubmit()">
+  {{addForm.value | json}}
   <div class="modal-header">
     <h4 class="modal-title">Add Identity Documents</h4>
     <button
@@ -7,9 +8,10 @@
       aria-label="Close"
       (click)="activeModal.dismiss('Cross click')"
     >
+
       <span aria-hidden="true">&times;</span>
     </button>
-  </div>
+  </div>  
   <div class="modal-body">
     <div class="d-flex flex-wrap align-items-baseline">
       <div class="form-group col-6">
@@ -35,7 +37,17 @@
           </option>
         </select> -->
         <div class="input-group">
-        <p-dropdown [options]="documentTypeKeys"   optionLabel="name" dataKey="id"></p-dropdown>
+        <p-dropdown class="pngCustomClass" [options]="documentTypeKeys" [style]="{'min-width':'355.2px'} " optionValue="id"
+        formControlName="documentTypeMasterId" optionLabel="name" placeholder="Select Document Type" dataKey="id" name="documentTypeMasterId">
+          <ng-template let-item pTemplate="item" > 
+            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+              {{item?.value.name}} 
+            </div> 
+           <div class="dd-values"  *ngIf="item?.value?.isLastRow" (click)="reloadDocTypes($event)">
+              <a class="link">Refresh</a>
+           </div>
+        </ng-template>
+        </p-dropdown>
       </div>
       </div>
       <div class="form-group col-6">

@@ -65,14 +65,24 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
     // this.documentTypeKeys = Object.keys(this.documentType)
     //   .filter(Number)
     //   .map(Number);
-
      this.identityDetailsService.getAllActiveDocumentsTypes()
-    .subscribe((item)=>(
-      this.documentTypeKeys=item
-    ))
+    .subscribe((item)=>{
+      let temp={id:0,name:'test',isLastRow:true}
+      // lastrow
+      this.documentTypeKeys=[...item,temp];
+    })
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Education\\${this.currentUserId}\\`;
   }
-
+  reloadDocTypes(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.identityDetailsService.getAllActiveDocumentsTypes()
+    .subscribe((item)=>{
+      let temp={id:0,name:'test',isLastRow:true}
+      // lastrow
+      this.documentTypeKeys=[...item,temp];
+    })
+  }
   removeFile() {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true,
@@ -109,6 +119,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     console.log("doc save", this.documentSave);
     const identityDetailsForm = this.addForm.value;
     this.identityDetailsForm.emit(identityDetailsForm);
