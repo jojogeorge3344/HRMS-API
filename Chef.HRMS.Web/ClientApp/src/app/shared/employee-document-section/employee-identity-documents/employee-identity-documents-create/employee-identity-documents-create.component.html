@@ -28,12 +28,15 @@
         <label class="col-form-label" for="documentTypeMasterId"
           >Document Type<span class="required">*</span></label
         >
-        <select class="form-control" formControlName="documentTypeMasterId">
+        <!-- <select class="form-control" formControlName="documentTypeMasterId">
           <option Value="" disabled>Select Document Type</option>
           <option *ngFor="let key of documentTypeKeys" [ngValue]="key.id">
             {{key.name }}
           </option>
-        </select>
+        </select> -->
+        <div class="input-group">
+        <p-dropdown [options]="documentTypeKeys"   optionLabel="name" dataKey="id"></p-dropdown>
+      </div>
       </div>
       <div class="form-group col-6">
         <label for="issueDate">Date of Issue<span class="required">*</span></label>
