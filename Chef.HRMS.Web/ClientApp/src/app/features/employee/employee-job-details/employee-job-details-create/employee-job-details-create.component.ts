@@ -63,6 +63,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   @Output() jobDetailsForm = new EventEmitter<boolean>();
   @Input() dob: any;
   @Input() jobDetails: any;
+  @Input() passEmployeeId:any
   constructor(
     private employeeService: EmployeeService,
     private employeeJobTitleService: EmployeeJobTitleService,
@@ -221,6 +222,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   }
 
   getBranches() {
+    debugger
     this.branchService.getAll().subscribe(result => {
       this.location = result;
     },
@@ -233,12 +235,20 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   onSubmit() {
     const addJobDetails = this.addForm.getRawValue();
     // addJobDetails.reportingManager = addJobDetails.reportingManager.id;
+  
+    addJobDetails.employeeId = this.passEmployeeId;
+    addJobDetails.branchId = addJobDetails.location;
+    addJobDetails.companyId = this.location.find(c => c.id == addJobDetails.branchId).companyId;
+    // addJobDetails.numberSeriesId = parseInt(addJobDetails.numberSeriesId, 10);
+    this.employeeJobDetailsService.add(addJobDetails).subscribe((result)=>{
+      this.toastr.showSuccessMessage('Employee Job details added successfully!');
+    })
     this.jobDetailsForm.emit(addJobDetails);
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      employeeId: this.id,
+      employeeId: 0,
       dateOfJoin: ['', [
         Validators.required
       ]],

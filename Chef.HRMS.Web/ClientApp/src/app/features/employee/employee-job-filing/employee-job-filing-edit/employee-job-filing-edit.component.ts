@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeJobFilingService } from '../employee-job-filing.service';
 import { LeaveStructureService } from '@settings/leave/leave-structure/leave-structure.service';
@@ -55,6 +55,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   paymentMode = PaymentMode;
   paymentModeKeys: number[];
   eosTypes:any[]=[];
+  checkFlag:boolean=false
+  @Output() EditByCreateJobFilingId= new EventEmitter<any>();
+  @Input() jobFilingparamsId:any
 
   constructor(
     private employeeJobFilingService: EmployeeJobFilingService,
@@ -83,10 +86,19 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     this.weekOffTypeKeys = Object.keys(this.weekOffType).filter(Number).map(Number);
     this.attendanceTrackingTypeKeys = Object.keys(this.attendanceTrackingType).filter(Number).map(Number);
     this.attendanceCaptureSchemeTypeKeys = Object.keys(this.attendanceCaptureSchemeType).filter(Number).map(Number);
-    this.route.params.subscribe((params: any) => {
-      this.jobFilingId = params['jobFilingId'];
-      this.id = params['id'];
-    });
+    if(!this.jobFilingparamsId){
+      this.route.params.subscribe((params: any) => {
+        this.jobFilingId = params['jobFilingId'];
+        this.id = params['id'];
+      });
+    }else{
+      this.route.params.subscribe((params: any) => {
+        this.jobFilingId = this.jobFilingparamsId
+        this.id = params['id'];
+      })
+    }
+ 
+  
     this.getJobFilingID();
     this.getLeaveStructure();
     this.getHolidayList();
@@ -102,6 +114,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
         console.log('eos type', this.eosTypes);
 
       })
+   
   }
   onOptionsSelected(){
     debugger
@@ -113,8 +126,22 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   getJobFilingID() {
+    debugger
     this.employeeJobFilingService.get(this.jobFilingId).subscribe(result => {
       this.editForm.patchValue(result);
+      if(result){
+        this.checkFlag=true
+        this.editForm.get("payrollStructureId").setValidators(null)
+        this.editForm.get("payGroupId").setValidators(null)
+        this.editForm.get("overTimePolicyId").setValidators(null)
+        this.editForm.get("paymentMode").setValidators(null)
+      }else{
+        this.checkFlag=false
+        this.editForm.get("payrollStructureId").setValidators([Validators.required])
+        this.editForm.get("payGroupId").setValidators([Validators.required])
+        this.editForm.get("overTimePolicyId").setValidators([Validators.required])
+        this.editForm.get("paymentMode").setValidators([Validators.required])
+      }
     },
       error => {
         console.error(error);
@@ -197,9 +224,16 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     const editJobFilings = this.editForm.value;
     editJobFilings.employeeId = parseInt(this.id, 10);
     editJobFilings.id = parseInt(this.jobFilingId, 10);
+    if(!this.checkFlag==true){
+      this.employeeJobFilingService.add(editJobFilings).subscribe((result)=>{
+        this.toastr.showSuccessMessage('Employee Job filings added successfully!');
+        this.EditByCreateJobFilingId.emit(result)
+      })
+    }else{
     this.employeeJobFilingService.update(editJobFilings).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Job Fillings Details updated successfully!');
       // this.router.navigateByUrl('/employee');
@@ -208,7 +242,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to update the Employee Job Fillings Details');
       });
-
+    }
   }
 
   createFormGroup(): FormGroup {
@@ -234,17 +268,16 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       attendanceCaptureScheme: ['', [
         Validators.required
       ]],
-      payrollStructureId: ['', [
-        Validators.required
+      payrollStructureId: [0, 
+     ],
+      overTimePolicyId: [0, [
+        
       ]],
-      overTimePolicyId: ['', [
-        Validators.required
+      payGroupId: [0, [
+      
       ]],
-      payGroupId: ['', [
-        Validators.required
-      ]],
-      paymentMode: ['', [
-        Validators.required
+      paymentMode: [0, [
+        
       ]],
       eosId: [0],
       bfCode: [null],
@@ -254,3 +287,5 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
 }
+
+

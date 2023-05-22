@@ -115,6 +115,13 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(payrollProcessingMethodList);
         }
 
+        [HttpGet("GetAllByProcessignStep/{stepno}")]
+        public async Task<ActionResult<IEnumerable<PayrollProcessingMethod>>> GetAllByProcessignStep(int stepno)
+        {
+            var payrollProcessingList = await payrollProcessingMethodService.GetAllByProcessignStep(stepno);
+            return Ok(payrollProcessingList);
+        }
+
         [HttpGet("GetAllPayrollReviewByProcessingMethodId/{payrollProcessingMethodId}")]
         public async Task<ActionResult<IEnumerable<PayrollReview>>> GetAllPayrollReviewByProcessingMethodId(int payrollProcessingMethodId)
         {

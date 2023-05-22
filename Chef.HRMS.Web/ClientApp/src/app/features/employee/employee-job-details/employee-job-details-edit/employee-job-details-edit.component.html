@@ -6,17 +6,18 @@
         
         <div class="row align-items-baseline flex-row-reverse">
             <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="employeeNumber">Employee Code</label>
+                <input readonly class="form-control" id="employeeNumber" name="employeeNumber" [(ngModel)]="employeeNumber" value="" formControlName="employeeNumber">
+            </div>
+            <div  class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="numberSeriesId">Number Series<span class="required">*</span></label>
-                <select class="form-control" formControlName="numberSeriesId" disabled>
+                <select class="form-control" formControlName="numberSeriesId"
+                (change)="getNumberSeries($event.target.value)">
                     <option value="" disabled>Select Number Series</option>
-                    <option *ngFor="let type of numberSeriesId" [ngValue]='type.id'>
+                    <option *ngFor="let type of numberSeriesId" value='{{type.id}}'>
                         {{type.name}}
                     </option>
                 </select>
-            </div>
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="employeeNumber">Employee Code</label>
-                <input readonly class="form-control" id="employeeNumber" name="employeeNumber" [(ngModel)]="employeeNumber" value="" formControlName="employeeNumber">
             </div>
             <div class="form-group form-input-inline input-group col">
                 <label class="col-12 col-form-label px-0" for="dateOfJoin">Date of Joining<span class="required">*</span></label>

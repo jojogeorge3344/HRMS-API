@@ -25,6 +25,8 @@ export class EmployeeCreateContainerComponent implements OnInit {
   branches: Branch[];
   numberSeriesId: any;
   disableTabFrom = 1;
+  passEmployeeId:any;
+  
 
   constructor(
     private employeeBasicDetailsService: EmployeeBasicDetailsService,
@@ -67,6 +69,7 @@ export class EmployeeCreateContainerComponent implements OnInit {
     debugger
     this.basicDetailsForm = basicDetailsForm;
     this.activeId = this.disableTabFrom = 2;
+    this.passEmployeeId=this.basicDetailsForm.switchResult
     console.log('jobdtslsform1',this.basicDetailsForm);
 
   }
@@ -80,48 +83,54 @@ export class EmployeeCreateContainerComponent implements OnInit {
 
   onSubmitJobFilings(jobFilingsForm) {
 debugger
-    this.jobFilingsForm = jobFilingsForm;
-    this.basicDetailsForm.uidNumber = parseInt(this.basicDetailsForm.uidNumber)
-    this.employeeBasicDetailsService.add(this.basicDetailsForm).subscribe((result) => {
+    // this.jobFilingsForm = jobFilingsForm;
+    // this.basicDetailsForm.uidNumber = parseInt(this.basicDetailsForm.uidNumber)
+    // this.employeeBasicDetailsService.add(this.basicDetailsForm).subscribe((result) => {
 
 
      
-      this.jobDetailsForm.employeeId = result;
-      if (this.jobDetailsForm.employeeId == 0){
-        this.toastr.showErrorMessage('Employee added Failed!');
-        return
-      }else{
+    //   this.jobDetailsForm.employeeId = result;
+    //   if (this.jobDetailsForm.employeeId == 0){
+    //     this.toastr.showErrorMessage('Employee added Failed!');
+    //     return
+    //   }else{
 
     
-      this.jobDetailsForm.branchId = this.jobDetailsForm.location;
-      this.jobDetailsForm.companyId = this.branches.find(c => c.id == this.jobDetailsForm.branchId).companyId;
+    //   this.jobDetailsForm.branchId = this.jobDetailsForm.location;
+    //   this.jobDetailsForm.companyId = this.branches.find(c => c.id == this.jobDetailsForm.branchId).companyId;
  
-      this.jobFilingsForm.employeeId = result;
-      console.log(this.jobFilingsForm.employeeId)
-      this.jobDetailsForm.numberSeriesId = parseInt(this.jobDetailsForm.numberSeriesId, 10);
-      const numberSeriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == this.jobDetailsForm.numberSeriesId);
-      numberSeriesValue.nextNumber = numberSeriesValue.nextNumber + 1;
+    //   this.jobFilingsForm.employeeId = result;
+    //   console.log(this.jobFilingsForm.employeeId)
+    //   this.jobDetailsForm.numberSeriesId = parseInt(this.jobDetailsForm.numberSeriesId, 10);
+    //   const numberSeriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == this.jobDetailsForm.numberSeriesId);
+    //   numberSeriesValue.nextNumber = numberSeriesValue.nextNumber + 1;
 
-      forkJoin([this.employeeJobDetailsService.add(this.jobDetailsForm), this.employeeJobFilingService.add(this.jobFilingsForm)])
-        .subscribe(([details, filing]) => {
-          this.employeeNumbersService.update(numberSeriesValue).subscribe(() => {
-          });
-          // const newUserCredentails = {
-          //   email: this.basicDetailsForm.email,
-          //   password: 'test',
-          //   token: 'testtoken',
-          //   employeeId: this.jobDetailsForm.employeeId
-          // };
-          // this.authService.insertNewUser(newUserCredentails).subscribe(() => {
-          // });
-          this.toastr.showSuccessMessage('Employee added successfully!');
-          this.router.navigateByUrl('/employee');
-        });
-      }
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the form lists');
+    //   forkJoin([this.employeeJobDetailsService.add(this.jobDetailsForm), this.employeeJobFilingService.add(this.jobFilingsForm)])
+    //     .subscribe(([details, filing]) => {
+    //       this.employeeNumbersService.update(numberSeriesValue).subscribe(() => {
+    //       });
+    //       // const newUserCredentails = {
+    //       //   email: this.basicDetailsForm.email,
+    //       //   password: 'test',
+    //       //   token: 'testtoken',
+    //       //   employeeId: this.jobDetailsForm.employeeId
+    //       // };
+    //       // this.authService.insertNewUser(newUserCredentails).subscribe(() => {
+    //       // });
+    //       this.toastr.showSuccessMessage('Employee added successfully!');
+    //       this.router.navigateByUrl('/employee');
+    //     });
+    //   }
+    // },
+    //   error => {
+    //     console.error(error);
+    //     this.toastr.showErrorMessage('Unable to fetch the form lists');
+    //   });
+
+    const numberSeriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == this.jobDetailsForm.numberSeriesId);
+      numberSeriesValue.nextNumber = numberSeriesValue.nextNumber + 1;
+      this.employeeNumbersService.update(numberSeriesValue).subscribe(() => {
+        this.router.navigateByUrl('/employee');
       });
   }
 

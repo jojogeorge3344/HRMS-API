@@ -12,10 +12,12 @@ export class EmployeeSettingsContainerComponent implements OnInit {
     { title: 'Employee Defaults', fragment: 'employee-defaults' },
     { title: 'Employee Numbers', fragment: 'employee-numbers' }
   ];
-  
+  activeId: string;
+
   constructor(public route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.activeId = this.route.children[0].snapshot.url[0].path;
   }
 
 }
