@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
@@ -24,6 +24,7 @@ export class EmployeeTicketListComponent implements OnInit {
   findEmployeeId: number;
   ticketBaseKeys: number[];
   ticketBaseOf = TicketBase;
+  @Input() passEmployeeId:any
 
   constructor(
     public modalService: NgbModal,
@@ -34,9 +35,13 @@ export class EmployeeTicketListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeeTicketSlablist()
+    if(this.passEmployeeId){
+      this.findEmployeeId=this.passEmployeeId
+    }else{
     this.route.params.subscribe((params: any) => {
       this.findEmployeeId = parseInt(params.id, 10);
     });
+  }
     this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
   }
 
