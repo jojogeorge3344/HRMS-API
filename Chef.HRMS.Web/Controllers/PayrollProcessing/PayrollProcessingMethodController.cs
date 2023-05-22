@@ -118,7 +118,7 @@ namespace Chef.HRMS.Web.Controllers
         [HttpGet("GetAllByProcessignStep/{stepno}")]
         public async Task<ActionResult<IEnumerable<PayrollProcessingMethod>>> GetAllByProcessignStep(int stepno)
         {
-            var payrollProcessingList = await payrollProcessingMethodService.GetAllByProcessignStep(stepno)
+            var payrollProcessingList = await payrollProcessingMethodService.GetAllByProcessignStep(stepno);
             return Ok(payrollProcessingList);
         }
 

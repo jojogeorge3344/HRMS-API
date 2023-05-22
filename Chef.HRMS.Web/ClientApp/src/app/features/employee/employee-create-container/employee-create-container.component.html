@@ -21,15 +21,50 @@
     <li [ngbNavItem]="2" [disabled]="2>disableTabFrom ">
       <a ngbNavLink>Job Details</a>
       <ng-template ngbNavContent>
-        <hrms-employee-job-details-create [jobDetails]="jobDetailsForm" [dob]="basicDetailsForm?.dateOfBirth" (jobDetailsForm)="onSubmitJobDetails($event, nav)">
+        <hrms-employee-job-details-create [jobDetails]="jobDetailsForm" [dob]="basicDetailsForm?.dateOfBirth" (jobDetailsForm)="onSubmitJobDetails($event, nav)" [passEmployeeId]="passEmployeeId">
         </hrms-employee-job-details-create>
       </ng-template>
     </li>
     <li [ngbNavItem]="3" [disabled]="3>disableTabFrom ">
       <a ngbNavLink>Job Filings</a>
       <ng-template ngbNavContent>
-        <hrms-employee-job-filing-create [jobFilings] ="jobFilingsForm" (jobFilingsForm)="onSubmitJobFilings($event)">
+        <hrms-employee-job-filing-create [jobFilings] ="jobFilingsForm" (jobFilingsForm)="onSubmitJobFilings($event)" [passEmployeeId]="passEmployeeId">
         </hrms-employee-job-filing-create>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4" [disabled]="4>disableTabFrom ">
+      <a ngbNavLink>Salary Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-salary-container  [passEmployeeId]="passEmployeeId">
+        </hrms-employee-salary-container>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="5" [disabled]="4>disableTabFrom ">
+      <a ngbNavLink>WPS Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-wps-details-create   [passEmployeeId]="passEmployeeId">
+        </hrms-employee-wps-details-create>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="6" [disabled]="4>disableTabFrom ">
+      <a ngbNavLink>Documents</a>
+      <ng-template ngbNavContent>
+        <employee-documents-container [isView]="false"  [passEmployeeId]="passEmployeeId">
+        </employee-documents-container>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="7" [disabled]="4>disableTabFrom ">
+      <a ngbNavLink>Address</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-address-create   [passEmployeeId]="passEmployeeId">
+        </hrms-employee-address-create>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="8" [disabled]="4>disableTabFrom ">
+      <a ngbNavLink>Ticket Details</a>
+      <ng-template ngbNavContent>
+        <hrms-employee-ticket-list  [passEmployeeId]="passEmployeeId">
+        </hrms-employee-ticket-list>
       </ng-template>
     </li>
   </ul>

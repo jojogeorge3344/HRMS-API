@@ -83,7 +83,13 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       if(res){
         this.toastr.showWarningMessage("User Name is already exist")
       }else{
-        this.basicDetailsForm.emit(addBasicDetails);
+        this.employeeBasicDetailsService.add(addBasicDetails).subscribe((result)=>{
+          addBasicDetails.switchResult=result
+          this.basicDetailsForm.emit(addBasicDetails);
+          this.toastr.showSuccessMessage('Employee Basic details added successfully!');
+        })
+         
+        
       }
 
     })

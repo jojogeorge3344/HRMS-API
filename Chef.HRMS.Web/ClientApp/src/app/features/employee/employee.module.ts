@@ -51,6 +51,8 @@ import { EmployeeTicketViewContainerComponent } from "./employee-ticket-view-con
 import { EmployeePrintComponent } from "./employee-print/employee-print.component";
 import { BoldReportViewerModule } from "@boldreports/angular-reporting-components";
 import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
+import { EmployeeWpsDetailsCreateComponent } from './employee-wps/employee-wps-details-create/employee-wps-details-create.component';
+import { EmployeeAddressCreateComponent } from './employee-address-create/employee-address-create.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +90,8 @@ import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
     EmployeeTicketViewComponent,
     EmployeeTicketViewContainerComponent,
     EmployeePrintComponent,
+    EmployeeWpsDetailsCreateComponent,
+    EmployeeAddressCreateComponent,
   ],
   imports: [
     CommonModule,
@@ -105,6 +109,22 @@ import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
         component: EmployeeCreateContainerComponent,
         data: {
           breadcrumbs: ["Organization", "Employee", "Add"],
+          name: "organization-employeedirectory ",
+        },
+      },
+      {
+        path: "create/salary-details/create",
+        component: EmployeeSalaryCreateContainerComponent,
+        data: {
+          breadcrumbs: ["Organization", "Employee", "Salary", "Create"],
+          name: "organization-employeedirectory ",
+        },
+      },
+      {
+        path: "create/salary-details/edit",
+        component: EmployeeSalaryEditContainerComponent,
+        data: {
+          breadcrumbs: ["Organization", "Employee", "Salary", "Edit"],
           name: "organization-employeedirectory ",
         },
       },
