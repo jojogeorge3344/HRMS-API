@@ -37,6 +37,7 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
   }
 
   getPreviousEmployment() {
+    this.previousEmployment=[]
     this.previousEmploymentService.get(this.employeeId).subscribe(
       (result: any) => {
         if (result.length) {
