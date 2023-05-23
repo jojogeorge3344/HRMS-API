@@ -118,6 +118,11 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
       });
   }
 
+  selectDocType(args){
+    this.addForm.patchValue({
+      documentTypeMasterId:args.value.id
+    })
+  }
   onSubmit() {
     debugger
     console.log("doc save", this.documentSave);
