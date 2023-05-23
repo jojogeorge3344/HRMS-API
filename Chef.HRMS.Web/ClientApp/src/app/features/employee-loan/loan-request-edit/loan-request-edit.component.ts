@@ -110,7 +110,7 @@ export class LoanRequestEditComponent implements OnInit {
       const expectedOnYear = new Date(res.expectedOn).getFullYear();
       const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
       this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
-      this.editForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
+      //this.editForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
     });
     this.getEmpDetails()
     //this.GetLoanRequestDetails()
@@ -174,7 +174,7 @@ export class LoanRequestEditComponent implements OnInit {
     editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId;
-    editloanRequestForm.isapproved = this.requestTypes.Approved;
+    editloanRequestForm.status = this.requestTypes.Approved;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
 
@@ -201,7 +201,7 @@ export class LoanRequestEditComponent implements OnInit {
     }    editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId
-    editloanRequestForm.isapproved = this.requestTypes.Draft;
+    editloanRequestForm.status = this.requestTypes.Draft;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
     this.loanRequestService.update(editloanRequestForm).subscribe(result => {

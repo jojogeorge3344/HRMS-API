@@ -127,7 +127,7 @@ export class LoanRequestListComponent implements OnInit {
    });
   }
   isDisabled(request) {
-   if(request.isApproved == true){
+   if(request.status == 4){
      return true;
    }  
   }

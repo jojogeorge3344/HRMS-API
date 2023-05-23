@@ -35,8 +35,8 @@ namespace Chef.HRMS.Models
         public decimal EarningsAmt { get; set; }
         public decimal DeductionAmt { get; set; }
         public int ProcessStatus { get; set; }
-        public string DrAccount { get; set; }
-        public string CrAccount { get; set; }
+        public int DrAccount { get; set; }
+        public int CrAccount { get; set; }
         public string DocNum { get; set; }
         public int StepNo { get; set; }
 
