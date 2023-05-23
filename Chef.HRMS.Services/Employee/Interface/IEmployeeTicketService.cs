@@ -8,6 +8,5 @@ namespace Chef.HRMS.Services
     public interface IEmployeeTicketService : IAsyncService<EmployeeTicket>
     {
         Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByemployeeId(int employeeId);
-
     }
 }
