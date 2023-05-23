@@ -55,7 +55,7 @@ li#reportViewer_toolbar_li_pagesetup {
 
 .dd-values {
   padding: 0.429em 0.857em;
-  cursor: auto;
+  cursor: default;
 }
 
 .dd-values-refresh {
