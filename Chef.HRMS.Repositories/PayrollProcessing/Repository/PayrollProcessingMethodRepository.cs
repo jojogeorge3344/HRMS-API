@@ -369,11 +369,11 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsByPayGroupId(int paygroupid)
         {
-            var sql = @"SELECT ppm.employeeid, le.*
+            var sql = @"SELECT distinct ppm.employeeid,le.*
                         FROM hrms.payrollprocessingmethod ppm
                         Left Join  hrms.jobfiling jf on jf.employeeid = ppm.employeeid
-                        Left Join hrms.leavestructureleavecomponent lslc on lslc.leavestructureid = jf.leavestructureid
-                        Left Join hrms.leaveeligibility le on le.leavecomponentid = lslc.leavecomponentid
+                        Join hrms.leavestructureleavecomponent lslc on lslc.leavestructureid = jf.leavestructureid
+                        Join hrms.leaveeligibility le on le.leavecomponentid = lslc.leavecomponentid
                         WHERE ppm.paygroupid = @paygroupid and le.leavetype = 1";
 
             return await Connection.QueryAsync<LeaveEligibility>(sql, new { paygroupid });

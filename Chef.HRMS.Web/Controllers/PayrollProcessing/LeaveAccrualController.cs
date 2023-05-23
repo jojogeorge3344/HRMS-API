@@ -1,4 +1,5 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Authentication;
+using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Chef.HRMS.Services.PayrollProcessing.Interface;
 using Microsoft.AspNetCore.Http;
@@ -21,9 +22,22 @@ namespace Chef.HRMS.Web.Controllers
             this.leaveAccrualService = leaveAccrualService;
         }
 
-
+        [AllowAnonymous]
         [HttpPost("GenerateLeaveAccruals/{paygroupid}/{isavail}")]
         public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid, bool isavail)
+        {
+            var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid, isavail);
+
+            if (leaveAccrualList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(leaveAccrualList);
+        }
+
+        [HttpPost("GenerateLeaveAccrualsAvailed/{paygroupid}/{isavail}")]
+        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccrualsAvailed(int paygroupid, bool isavail)
         {
             var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid, isavail);
 

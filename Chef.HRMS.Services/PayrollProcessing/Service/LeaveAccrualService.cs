@@ -22,51 +22,77 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
         private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
         private readonly ISystemVariableValuesRepository systemVariableValuesRepository;
 
-        public LeaveAccrualService(ILeaveAccrualRepository leaveAccrualRepository)
+        public LeaveAccrualService(ILeaveAccrualRepository leaveAccrualRepository, IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
+            ILeaveAccrualSummaryRepository leaveAccrualSummaryRepository, ISystemVariableValuesRepository systemVariableValuesRepository)
         {
             this.leaveAccrualRepository = leaveAccrualRepository;
+            this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
+            this.leaveAccrualSummaryRepository = leaveAccrualSummaryRepository;
+            this.systemVariableValuesRepository = systemVariableValuesRepository;
         }
 
         public async Task<IEnumerable<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid, bool isavail)
         {
-
-            //Check for leavetype also - 1 - Accrued
             List<LeaveAccrual> leaveAccruals = new List<LeaveAccrual>();
-            List<LeaveAccrualSummary> leaveAccrualSummaries = new List<LeaveAccrualSummary>();  
-            var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
-            foreach (var eligibleEmployee in employeeLeaveEligibilityDetails)
+            List<LeaveAccrualSummary> leaveAccrualSummaries = new List<LeaveAccrualSummary>();
+            if (isavail)
             {
-                LeaveAccrual leaveAccrualEmployee = new LeaveAccrual();
-                leaveAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
-                leaveAccrualEmployee.AccrualStatus = 0; //Pending
+                //Reduce the availed days from the accrued days from the summary table
 
-                var now = DateTime.Now; 
-                int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
-                leaveAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth);
-                leaveAccrualEmployee.IsArchived = false;
-                leaveAccrualEmployee.AvailAmount = 0;
-                leaveAccrualEmployee.AvailDays = 0;
-                var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
-                if(systemVariableValues != null)
+                //Make an entry in the leave accrual table with value in availdays and availamount 
+            }
+            else
+            {
+                //Check for leavetype also - 1 - Accrued
+
+                var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
+                foreach (var eligibleEmployee in employeeLeaveEligibilityDetails)
                 {
-                    decimal workingdaysInCalMonth = systemVariableValues.FirstOrDefault(x=>x.code == "Wkg_Dys_Cldr_Mth").TransValue;
-                    decimal workeddaysInCalMonth = systemVariableValues.FirstOrDefault(x=>x.code == "Wkd_Dys_Cldr_Mth").TransValue;
+                    LeaveAccrual leaveAccrualEmployee = new LeaveAccrual();
+                    leaveAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
+                    leaveAccrualEmployee.AccrualStatus = 0; //Pending
 
-                    if (eligibleEmployee.IsIncludeLOPDays)
+                    var now = DateTime.Now;
+                    int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
+                    leaveAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth);
+                    leaveAccrualEmployee.IsArchived = false;
+                    leaveAccrualEmployee.AvailAmount = 0;
+                    leaveAccrualEmployee.AvailDays = 0;
+                    leaveAccrualEmployee.LeaveId = 0; //// Check with Sherin
+                    var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
+                    if (systemVariableValues != null)
                     {
-                        leaveAccrualEmployee.AccrualDays = (eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase) * (workeddaysInCalMonth);
+                        decimal workingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
+                        decimal workeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;
+                        decimal eligibilityPerDay = (decimal)eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase;
+                        if (eligibleEmployee.IsIncludeLOPDays)
+                        {
+                            leaveAccrualEmployee.AccrualDays = eligibilityPerDay * (workeddaysInCalMonth);
+                        }
+                        else
+                        {
+                            leaveAccrualEmployee.AccrualDays = (eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase) * (workingdaysInCalMonth);
+                        }
+                        leaveAccrualEmployee.AccrualAmount = (1 / eligibleEmployee.EligibleDays) * leaveAccrualEmployee.AccrualDays;
+                        //eligibleEmployee.
+                        //Annual Accrual BF Code from Leave Component Amont from Salary structure 
+
                     }
-                    else
-                    {
-                        leaveAccrualEmployee.AccrualDays = (eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase) * (workingdaysInCalMonth);                       
-                    }
-                    leaveAccrualEmployee.AccrualAmount = (1 / eligibleEmployee.EligibleDays )*leaveAccrualEmployee.AccrualDays;
-                    //Annual Accrual BF Code from Leave Component Amont from Salary structure 
+                    leaveAccruals.Add(leaveAccrualEmployee);
+                    //Insert into Accrual summary table 
+                    LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
+                    leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
+                    var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1);
+                    leaveAccrualSummary.AccrualDate = firstDayNextMonth;
+                    leaveAccrualSummary.AccrualDays = 0;
+                    leaveAccrualSummary.AccrualAmount = 0;
+                    leaveAccrualSummary.LeaveId = 0; // Check with Sherin
+
                 }
 
             }
-            await leaveAccrualSummaryRepository.BulkInsertAsync(leaveAccrualSummaries);
-            await leaveAccrualRepository.BulkInsertAsync(leaveAccruals);
+            var result = await leaveAccrualSummaryRepository.BulkInsertAsync(leaveAccrualSummaries);
+            result = await leaveAccrualRepository.BulkInsertAsync(leaveAccruals);
             return leaveAccruals;
         }
 

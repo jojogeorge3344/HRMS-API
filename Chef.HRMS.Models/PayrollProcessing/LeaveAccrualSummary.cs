@@ -9,7 +9,6 @@ namespace Chef.HRMS.Models
 {
     public class LeaveAccrualSummary : Model
     {
-        public int Id { get; set; }
         public int EmployeeId { get; set; }
         public DateTime AccrualDate { get; set; }
         public int LeaveId { get; set; }
