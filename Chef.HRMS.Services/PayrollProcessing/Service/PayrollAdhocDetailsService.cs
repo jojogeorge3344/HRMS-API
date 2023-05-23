@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
-using Chef.Common.Repositories;
 
 namespace Chef.HRMS.Services
 {
@@ -36,8 +35,8 @@ namespace Chef.HRMS.Services
                 PayrollProcessId = x.PayrollProcessId,
                 PayrollProcessDate = x.PayrollProcessDate,
 				ProcessStatus = x.ProcessStatus,
-				CrAccount = "",
-				DrAccount = "",
+				CrAccount = 0,
+				DrAccount = 0,
 				DeductionAmt = x.IsAddition==true?0: x.AdhocAmount,
 				DocNum = "",
 				EarningsAmt = x.IsAddition == false ? 0 : x.AdhocAmount,
