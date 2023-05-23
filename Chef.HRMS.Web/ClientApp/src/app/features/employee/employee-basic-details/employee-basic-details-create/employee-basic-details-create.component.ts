@@ -10,6 +10,7 @@ import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmployeeBasicDetailsService } from '../employee-basic-details.service';
 import { result } from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
     private employeeService: EmployeeService,
     private employeeBasicDetailsService:EmployeeBasicDetailsService,
     private toastr: ToasterDisplayService,
-
+    private route: ActivatedRoute,
   ) {
 
     const current = new Date();
@@ -55,6 +56,17 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
     if (this.basicDetails != null) {
       this.addForm.patchValue(this.basicDetails);
     }
+    this.route.params.subscribe((params: any) => {
+      if(params.empId){
+        this.employeeBasicDetailsService.get(params.empId).subscribe(result => {     
+          this.addForm.patchValue(result);
+          this.addForm.patchValue({
+            dateOfBirth:result.dateOfBirth
+          })
+        },)
+      }
+      
+    });
     this.genderTypeKeys = Object.keys(this.genderType).filter(Number).map(Number);
 
    this.employeeBasicDetailsService.getReligion()

@@ -14,13 +14,23 @@ export class EmployeeDocumentsContainerComponent implements OnInit {
 
   ngOnInit(): void {
     const currentUserId = getCurrentUserId();
-    if(this.passEmployeeId){
-      this.employeeId=parseInt(this.passEmployeeId,10)
-    }else{
-      this.route.params.subscribe((params: any) => {
+    // if(this.passEmployeeId){
+    //   this.employeeId=parseInt(this.passEmployeeId,10)
+    // }else{
+    //   this.route.params.subscribe((params: any) => {
+    //     this.employeeId = params.id ? parseInt(params.id, 10) : currentUserId;
+    //   });
+    // }
+    
+    this.route.params.subscribe((params: any) => {
+      if(params.empId){
+        this.employeeId = parseInt(params.empId, 10);
+      }else if(params.id){
         this.employeeId = params.id ? parseInt(params.id, 10) : currentUserId;
-      });
-    }
-  
+      }else{
+        this.employeeId=parseInt(this.passEmployeeId, 10);
+      }
+          
+        });
   }
 }

@@ -64,18 +64,62 @@
                     <option [ngValue]="null" disabled>Select Attendance Capture Scheme</option>
                     <option *ngFor="let key of attendanceCaptureSchemeTypeKeys" [ngValue]='key'>{{attendanceCaptureSchemeType[key]}}</option>
                 </select>
+            </div>
+            <div  class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="payrollStructureId">Payroll Structure<span class="required">*</span></label>
+                <select class="form-control" formControlName="payrollStructureId">
+                    <option value="" disabled>Select Payroll Structure</option>
+                    <option *ngFor="let type of payrollStructureId" [ngValue]='type.id'>
+                        {{type.name}}
+                    </option>
+                </select>
+            </div>
+            <div  class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="payGroupId">Pay Group<span class="required">*</span></label>
+                <select class="form-control" formControlName="payGroupId">
+                    <option value="" disabled>Select Pay Group</option>
+                    <option *ngFor="let type of payGroupId" [ngValue]='type.id'>
+                        {{type.name}}
+                    </option>
+                </select>
+            </div>
+            
         </div>
-        <div class="form-group form-input-line col-4">
-            <label class="col-form-label" for="">EOS Type</label>
-            <select class="form-control" formControlName="eosId"  (change)='onOptionsSelected()'>
-                <option value="0">Select EOS Type</option>
-                <option *ngFor="let items of eosTypes" [ngValue]='items.id'>
-                 {{items.bfName}}
-                </option>
-            </select>
+
+        <div class="row align-items-baseline">
+            <div  class="form-group form-input-line col-sm-4">
+                <label class="col-form-label" for="overTimePolicyId">Over Time Policy<span class="required">*</span></label>
+                <select class="form-control" formControlName="overTimePolicyId">
+                    <option value="" disabled>Select Over Time Policy</option>
+                    <option *ngFor="let type of overTimePolicyId" [ngValue]='type.id'>
+                        {{type.name}}
+                    </option>
+                </select>
+            </div>
+            <div  class="form-group form-input-line col-sm">
+        <label class="col-form-label" class="col-form-label">Please select the mode of salary transfer for employee<span class="required">*</span></label>
+        <div class="col-sm-7 py-2">
+            <div class="form-check-inline" payment>
+                <div *ngFor="let key of paymentModeKeys" payment="key"
+                    class="custom-control custom-radio custom-control-inline " (click)="selectPayment(key)" >
+                    <input type="radio" class="custom-control-input" name="paymentMode" id="payment{{key}}"
+                        formControlName="paymentMode" [value]="key">
+                    <label class="col-form-label" for="payment{{key}} " class="custom-control-label">{{paymentMode[key]}}
+                    </label>
+                </div>
+            </div>
         </div>
-        <div class="col-4"></div>
-    </div>
+            </div>
+            <div class="form-group form-input-line col-sm-4">
+             <label class="col-form-label" for="">EOS Type</label>
+             <select class="form-control" formControlName="eosId"  (change)='onOptionsSelected()'>
+              <option value="0">Select EOS Type</option>
+              <option *ngFor="let items of eosTypes" [ngValue]='items.id'>
+             {{items.bfName}}
+               </option>
+             </select>
+            </div>
+        </div>
     </div>
     <div class="modal-footer" style="margin-top: -50px;">
         <button type="submit" class="btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
