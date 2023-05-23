@@ -12,8 +12,8 @@ namespace Chef.HRMS.Models.PayrollProcessing
         public int Id { get; set; }
         public int TicketAccrualId { get; set; }        
         public decimal TicketAccrualAmount { get; set; }
-        public int DrAccount { get; set; }
-        public int CrAccount { get; set; }
+        public decimal DrAccount { get; set; }
+        public decimal CrAccount { get; set; }
         public string Docnum { get; set; }
     }
 }

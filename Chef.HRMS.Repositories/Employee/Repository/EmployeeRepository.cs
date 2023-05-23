@@ -76,12 +76,20 @@ namespace Chef.HRMS.Repositories
 									jf.expensepolicyid                AS expensepolicyid,
 									jf.payrollstructureid             AS payrollstructureid,
 									jf.overtimepolicyid               AS overtimepolicyid,
-                                    jd.dateofjoin                     AS dateofjoin									
+                                    jd.dateofjoin                     AS dateofjoin,
+									d.name                            AS documentname,
+									d.path                            AS documentpath									
                             FROM hrms.HRMSEmployee AS e 
                             LEFT JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
                             LEFT JOIN hrms.jobfiling AS jf 
                                     ON e.id = jf.employeeid
+                            INNER JOIN hrms.leave l
+							        ON l.employeeid = e.id
+							INNER JOIN hrms.leavedocument ld
+							        ON ld.leaveid = l.id
+							INNER JOIN hrms.document d
+							        ON ld.documentid = d.id
                             WHERE   e.id=@employeeId
                             ORDER BY e.id";
 
