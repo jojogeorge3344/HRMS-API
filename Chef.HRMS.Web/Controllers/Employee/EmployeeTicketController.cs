@@ -94,5 +94,10 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(jobTicket);
         }
+        [HttpGet("IsTravelFromExist/{fromPlace}")]
+        public async Task<bool> IsTravelFromExist(string fromPlace)
+        {
+            return await EmployeeTicketService.IsTravelFromExist(fromPlace);
+        }
     }
 }

@@ -87,6 +87,7 @@ namespace Chef.HRMS.Models
         public int PayGroupId { get; set; }
         public int PaymentMethodeId { get; set; }
         public DateTime DateOfJoin { get; set; }
-
+        public string DocumentName { get; set; }
+        public string DocumentPath { get; set; }
     }
 }
