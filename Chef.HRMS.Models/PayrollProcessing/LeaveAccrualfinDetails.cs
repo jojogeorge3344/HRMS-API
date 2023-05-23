@@ -15,8 +15,8 @@ namespace Chef.HRMS.Models.PayrollProcessing
         
         public decimal LeaveAccrualAmount { get; set; }
 
-        public decimal DrAccount { get; set; }
+        public int DrAccount { get; set; }
 
-        public decimal CrAccount { get; set; }
+        public int CrAccount { get; set; }
     }
 }
