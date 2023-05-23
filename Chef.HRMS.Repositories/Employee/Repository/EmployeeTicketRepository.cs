@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
@@ -21,6 +22,16 @@ namespace Chef.HRMS.Repositories
             .Where("employeeid", @employeeId)
             .WhereNotArchived()
             .GetAsync<EmployeeTicket>();
+        }
+
+        public async Task<bool> IsTravelFromExist(string fromPlace)
+        {
+            if (await QueryFactory
+            .Query<EmployeeTicket>()
+           .Where("travelfrom", fromPlace)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
         }
     }
 }
