@@ -110,7 +110,7 @@ export class LoanRequestEditComponent implements OnInit {
       const expectedOnYear = new Date(res.expectedOn).getFullYear();
       const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
       this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
-      this.editForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
+      //this.editForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
     });
     this.getEmpDetails()
     //this.GetLoanRequestDetails()

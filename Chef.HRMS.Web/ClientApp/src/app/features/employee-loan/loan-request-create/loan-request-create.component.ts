@@ -108,7 +108,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
         const expectedOnYear = new Date(res.expectedOn).getFullYear();
         const expectedOnMonth = new Date(res.expectedOn).getMonth() + 1;
         this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
-        this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
+       // this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
       }
     });
     this.config = {
@@ -179,7 +179,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
     
-    addloanRequestForm.status = this.requestTypes.Approved;
+    //addloanRequestForm.isapproved = this.requestTypes.Approved;
+    addloanRequestForm.status =this.requestTypes.Approved;;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
@@ -216,7 +217,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     }
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
-    addloanRequestForm.status = this.requestTypes.Draft;
+    //addloanRequestForm.isapproved = this.requestTypes.Draft;
+    addloanRequestForm.status =this.requestTypes.Draft;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
