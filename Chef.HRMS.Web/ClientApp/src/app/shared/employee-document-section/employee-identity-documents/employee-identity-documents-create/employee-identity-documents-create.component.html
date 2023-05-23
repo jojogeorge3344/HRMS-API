@@ -29,21 +29,16 @@
         <label class="col-form-label" for="documentTypeMasterId"
           >Document Type<span class="required">*</span></label
         >
-        <!-- <select class="form-control" formControlName="documentTypeMasterId">
-          <option Value="" disabled>Select Document Type</option>
-          <option *ngFor="let key of documentTypeKeys" [ngValue]="key.id">
-            {{key.name }}
-          </option>
-        </select> -->
         <div class="input-group">
         <p-dropdown class="pngCustomClass" [options]="documentTypeKeys" [style]="{'min-width':'355.2px'} "  optionValue="id" (onChange)="selectDocType($event)" optionLabel="name" placeholder="Select document type" dataKey="id" name="documentTypeMasterId">
           <ng-template let-item pTemplate="item" > 
-            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="reloadDocTypes($event)">
-              <a class="link-primary ref">Refresh</a>
-           </div>
+            
             <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
               {{item?.value.name}} 
             </div> 
+            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="reloadDocTypes($event)">
+              <a class="link-primary ref">Refresh</a>
+           </div>
         </ng-template>
         </p-dropdown>
       </div>  

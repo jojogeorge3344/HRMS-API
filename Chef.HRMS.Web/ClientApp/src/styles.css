@@ -51,22 +51,22 @@ li#reportViewer_toolbar_li_pagesetup {
 
 .pngCustomClass .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item {
   padding: 0px !important;
-  color: 'red' !important
 }
 
 .dd-values {
   padding: 0.429em 0.857em;
+  cursor: auto;
 }
 
 .dd-values-refresh {
   padding: 0.429em 0.857em;
-  /* cursor: pointer; */
-  /* position: fixed;
-  top: 180px; */
   cursor: pointer;
-    /* position: fixed;  */
-    /* position: sticky; */
-    /* top: 170px; */
+  position: fixed;
+  bottom: 0px;
+  width: 100%; 
+}
+.pngCustomClass .ui-dropdown .ui-dropdown-panel {
+  padding-bottom: 37px !important;
 }
  .ui-dropdown {
   border-color: #E5E5E5 !important;
