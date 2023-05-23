@@ -23,6 +23,15 @@ namespace Chef.HRMS.Repositories
 			this.payGroupRepository = payGroupRepository;
 		}
 
+		public async Task<IEnumerable<SystemVariableValues>> GetSystemVariableValuesByEmployeeId(int employeeId)
+		{
+            var sql = @"select sv.code,svv.transvalue from hrms.systemvariable sv
+						join hrms.systemvariablevalues svv 
+						on sv.id = svv.systemvariableid
+					    where  svv.employeeid = @employeeId";
+            //sv.code = 'Wkg_Dys_Cldr_Mth'or sv.code = 'Wkd_Dys_Cldr_Mth'  and
+            return await Connection.QueryAsync<SystemVariableValues>(sql, new { employeeId });
+        }
         public async Task<string> InsertSystemVariableDetails(int PayGroupId, int ppMId)//, PayrollProcessingMethod systemVariableValues)
         {
 			var processingMethod = await payrollProcessingMethodRepository.GetAsync(ppMId);

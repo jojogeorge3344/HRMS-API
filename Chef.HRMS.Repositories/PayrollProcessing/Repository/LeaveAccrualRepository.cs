@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models.PayrollProcessing;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,11 @@ namespace Chef.HRMS.Repositories.PayrollProcessing.Repository
         {
         }
 
-        public async Task<LeaveAccrual> GenerateLeaveAccruals(int employeeId, DateTime fromDate, DateTime toDate)
-        {
-            var sql = @"";
+        //public async Task<LeaveAccrual> GenerateLeaveAccruals(int employeeId, DateTime fromDate, DateTime toDate)
+        //{
+        //    var sql = @"";
 
-            return await Connection.<LeaveAccrual>(sql, new { employeeId, fromDate, toDate });
-        }
+        //    return await Connection.ExecuteAsync<LeaveAccrual>(sql, new { employeeId, fromDate, toDate });
+        //}
     }
 }

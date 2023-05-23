@@ -367,6 +367,18 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
         }
 
+        public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsByPayGroupId(int paygroupid)
+        {
+            var sql = @"SELECT ppm.employeeid, le.*
+                        FROM hrms.payrollprocessingmethod ppm
+                        Left Join  hrms.jobfiling jf on jf.employeeid = ppm.employeeid
+                        Left Join hrms.leavestructureleavecomponent lslc on lslc.leavestructureid = jf.leavestructureid
+                        Left Join hrms.leaveeligibility le on le.leavecomponentid = lslc.leavecomponentid
+                        WHERE ppm.paygroupid = @paygroupid and le.leavetype = 1";
+
+            return await Connection.QueryAsync<LeaveEligibility>(sql, new { paygroupid });
+        }
+
         public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
         {
             var sql = @"SELECT (ppm.month)  as month ,ppm.year, pgc.processingday, pg.timesheetcutoff, pg.leavecutoff

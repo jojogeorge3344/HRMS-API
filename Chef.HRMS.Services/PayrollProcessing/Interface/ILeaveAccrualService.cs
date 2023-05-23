@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services.PayrollProcessing.Interface
 {
-    public class ILeaveAccrualService : IAsyncService<LeaveAccrual>
+    public interface ILeaveAccrualService : IAsyncService<LeaveAccrual>
     {
+        Task<IEnumerable<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid, bool isavail);
     }
 }

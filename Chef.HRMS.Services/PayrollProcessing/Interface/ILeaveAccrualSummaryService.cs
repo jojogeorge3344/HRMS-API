@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services.PayrollProcessing.Interface
 {
-    public class ILeaveAccrualSummaryService : IAsyncService<LeaveAccrualSummary>
+    public interface ILeaveAccrualSummaryService : IAsyncService<LeaveAccrualSummary>
     {
     }
 }

@@ -22,17 +22,17 @@ namespace Chef.HRMS.Web.Controllers
         }
 
 
-        [HttpPost("GenerateLeaveAccruals/{payrollprocessid}/{isavail}")]
-        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccruals(int payrollprocessid, bool isavail)
+        [HttpPost("GenerateLeaveAccruals/{paygroupid}/{isavail}")]
+        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid, bool isavail)
         {
-            var leaveAndAttendanceList = await leaveAccrualService.GenerateLeaveAccruals(isavail);
+            var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid, isavail);
 
-            if (leaveAndAttendanceList == null)
+            if (leaveAccrualList == null)
             {
                 return NotFound();
             }
 
-            return Ok(leaveAndAttendanceList);
+            return Ok(leaveAccrualList);
         }
     }
 }
