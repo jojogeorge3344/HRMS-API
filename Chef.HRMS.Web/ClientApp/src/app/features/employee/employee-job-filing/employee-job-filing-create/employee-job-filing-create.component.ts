@@ -57,6 +57,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
   overTimePolicyId: OvertimePolicy[];
   paymentMode = PaymentMode;
   paymentModeKeys: number[];
+  buttonDisable: boolean=false;
 
   constructor(
     private leaveStructureService: LeaveStructureService,
@@ -86,6 +87,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       if(params.jobFilingId){
         this.employeeJobFilingService.get(params.jobFilingId).subscribe(result => {     
           this.addForm.patchValue(result);
+          this.buttonDisable=true
     
         },)
       }
