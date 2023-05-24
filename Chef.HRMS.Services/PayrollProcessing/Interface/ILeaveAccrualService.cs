@@ -9,6 +9,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Interface
 {
     public interface ILeaveAccrualService : IAsyncService<LeaveAccrual>
     {
-        Task<IEnumerable<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid, bool isavail);
+        Task<IEnumerable<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid);
+        Task<int> GenerateLeaveAvailed(LeaveAccrual leaveAvailedDetails);
     }
 }
