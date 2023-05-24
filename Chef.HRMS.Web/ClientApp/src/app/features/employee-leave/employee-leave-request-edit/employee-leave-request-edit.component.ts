@@ -316,6 +316,11 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
             emitEvent: false,
           }
         );
+        if (result && result.documentName.length > 40) {
+          this.fileName = result.documentName.substr(0, 40) + "...";
+        } else {
+          this.fileName = result.documentName;
+        }
       },
       (error) => {
         console.error(error);
