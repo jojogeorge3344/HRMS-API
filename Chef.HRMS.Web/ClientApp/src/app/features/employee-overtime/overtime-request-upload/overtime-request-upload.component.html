@@ -1,0 +1,37 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        Upload Overtime
+    </h1>
+</div>
+<div id="overtimeupload" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content">
+            <div class="p-3">
+                <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+                    routerLink="/my-overtime"><i class="fal fa-arrow-left mr-2"></i> Back to
+                    Over Time Requests</button>
+                    <div class="row">
+                        <div class="form-group col-sm">
+                            <div class="text-primary">
+                                <label>
+                                    <input type="file" 
+                                    style="display: none;" (change)="addfile($event)"
+                                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                  
+                                    <i class="fal fa-paperclip"></i>
+                                    <a class="link">Add Attachment</a>
+                                </label>
+                            </div>
+                            <div class="color-fusion-300 font-weight-bold" id="file-name">
+                                {{ fileName }}
+                                <i class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl" *ngIf="fileName" (click)="removeFile()"></i> 
+                            </div>
+                            <small class="color-fusion-300 small">
+                                Max file size allowed is 2MB
+                            </small>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
