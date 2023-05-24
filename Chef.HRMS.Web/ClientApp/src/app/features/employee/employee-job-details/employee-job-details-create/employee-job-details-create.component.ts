@@ -57,6 +57,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   searchFailed: boolean;
   employeeList: Employee[];
   config;
+  reportingManager: number;
+  selectedDatasource:any;
 
   @Input() id: any;
   location: Branch[];
@@ -100,7 +102,9 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     // });
     this.route.params.subscribe((params: any) => {
       if(params.jobDetailsId){
-        this.employeeJobDetailsService.get(params.jobDetailsId).subscribe(result => {     
+        this.employeeJobDetailsService.get(params.jobDetailsId).subscribe(result => {  
+          result.dateOfJoin= new Date(result.dateOfJoin);
+          this.reportingManager=result.reportingManager  
           this.addForm.patchValue(result);
     
         },)
@@ -182,6 +186,11 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result;
+      this.employeeList = result.filter(employee => employee.id !== this.id);
+      const details = this.employeeList.find(emp => emp.id === this.reportingManager);
+      this.selectedDatasource=details.firstName
+      //this.editForm.patchValue({ reportingManager: this.selectedDatasource });
+      this.selectionChanged(details)
     },
       error => {
         console.error(error);

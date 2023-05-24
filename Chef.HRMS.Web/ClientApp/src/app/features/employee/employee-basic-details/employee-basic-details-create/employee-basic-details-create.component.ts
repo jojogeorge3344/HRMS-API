@@ -58,11 +58,9 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
     }
     this.route.params.subscribe((params: any) => {
       if(params.empId){
-        this.employeeBasicDetailsService.get(params.empId).subscribe(result => {     
+        this.employeeBasicDetailsService.get(params.empId).subscribe(result => {   
+          result.dateOfBirth = new Date(result.dateOfBirth);   
           this.addForm.patchValue(result);
-          this.addForm.patchValue({
-            dateOfBirth:result.dateOfBirth
-          })
         },)
       }
       
