@@ -40,6 +40,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 //Reduce the availed days from the accrued days from the summary table
 
                 //Make an entry in the leave accrual table with value in availdays and availamount 
+
             }
             else
             {
@@ -79,15 +80,32 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                     }
                     leaveAccruals.Add(leaveAccrualEmployee);
-                    //Insert into Accrual summary table 
+
+                    // Get previous accrual summary details for this employee
+
+                   // DateTime prevMonth = now.AddMonths(-1);
+                    var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId, 1, now.Month, now.Year);
                     LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
                     leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
+                    leaveAccrualSummary.AvailDays = 0;
+                    leaveAccrualSummary.AvailAmount = 0;
+                    leaveAccrualSummary.LeaveId = 0; // Check with Sherin
                     var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1);
                     leaveAccrualSummary.AccrualDate = firstDayNextMonth;
-                    leaveAccrualSummary.AccrualDays = 0;
-                    leaveAccrualSummary.AccrualAmount = 0;
-                    leaveAccrualSummary.LeaveId = 0; // Check with Sherin
 
+                    if (prevAccrualSummaryDetails == null)
+                    {
+                        //Insert into Accrual summary table 
+                        leaveAccrualSummary.AccrualDays = leaveAccrualEmployee.AccrualDays;
+                        leaveAccrualSummary.AccrualAmount = leaveAccrualEmployee.AccrualAmount;
+                    }
+                    else
+                    {
+                        //Add with prev accrual summary data and insert 
+                        leaveAccrualSummary.AccrualDays = prevAccrualSummaryDetails.AccrualDays + leaveAccrualEmployee.AccrualDays;
+                        leaveAccrualSummary.AccrualAmount = prevAccrualSummaryDetails.AccrualAmount + leaveAccrualEmployee.AccrualAmount;                        
+                    }
+                    leaveAccrualSummaries.Add(leaveAccrualSummary);
                 }
 
             }
