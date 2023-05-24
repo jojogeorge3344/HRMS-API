@@ -180,5 +180,13 @@ namespace Chef.HRMS.Repositories
 
 			return await Connection.QueryAsync<OverTimePayrollViewModel>(sql, new { paygroupId, fromDate, toDate });
 		}
-	}
+
+        public async Task<int> OverTimeBulkInsert(IEnumerable<OverTime> overTimes)
+        {
+            var sql = new QueryBuilder<OverTime>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+
+            return await Connection.ExecuteAsync(sql, overTimes);
+        }
+    }
 }
