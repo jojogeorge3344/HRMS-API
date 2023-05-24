@@ -164,5 +164,15 @@ namespace Chef.HRMS.Web.Controllers
 
 			return Ok(overTimes);
 		}
-	}
+        [HttpGet("OverTimeExcelTemplate")]
+        public async Task<ActionResult<byte[]>> OverTimeExcelTemplate()
+        {
+            return await overTimeService.OverTimeExcelTemplate();
+        }
+        [HttpPost("OverTimeBulkInsert")]
+        public async Task<ActionResult<int>> OverTimeBulkInsert([FromBody] IEnumerable<OverTime> overTimes)
+        {
+            return await overTimeService.OverTimeBulkInsert(overTimes);
+        }
+    }
 }
