@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { PayrollProcessService } from '../payroll-process.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { timeStamp } from 'console';
   styleUrls: ['./payroll-process-overtime-list.component.scss']
 })
 export class PayrollProcessOvertimeListComponent implements OnInit {
+  @Output() selectTab = new EventEmitter<number>();
   payrollmonth:any
   payrollyear:any
   payrollcutoff:any
@@ -161,11 +162,13 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
 
       this.payrollProcessService.InsertPayrollOverTimeDetails(this.payrollOvertimeDetails).subscribe(res => {
         this.toastr.showSuccessMessage('Over Time Details Saved Successfully.');
+        this.selectTab.emit(4);
        
       },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to Insert Over Time Details.');
+        this.selectTab.emit(3);
       });
   }
 
