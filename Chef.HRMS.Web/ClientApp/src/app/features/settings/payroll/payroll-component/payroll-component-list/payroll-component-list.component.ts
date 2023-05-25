@@ -45,6 +45,7 @@ export class PayrollComponentListComponent implements OnInit {
       (result) => {
         this.payrollComponents = result;
         // this.payrollComponents = result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
+        this.payrollComponents = result.sort((a, b) => a.orderNumber-b.orderNumber) 
         console.log("comp", this.payrollComponents);
 
         this.payrollComponentNames = this.payrollComponents.map((a) =>
