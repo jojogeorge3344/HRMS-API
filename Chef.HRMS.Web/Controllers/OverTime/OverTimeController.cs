@@ -75,7 +75,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(overTimes);
         }
 
-       
+
 
         [HttpGet("GetOvertimeNotifyPersonnelByOvertimeId/{overtimeId}")]
         public async Task<ActionResult<IEnumerable<OvertimeViewModel>>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId)
@@ -157,13 +157,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(result);
         }
-		[HttpGet("GetOvertimeByPaygroupId/")]
-		public async Task<ActionResult<IEnumerable<OverTimePayrollViewModel>>> GetOvertimeByPaygroupId(int paygroupId, string fromDate, string toDate)
-		{
-			var overTimes = await overTimeService.GetOvertimeByPaygroupId(paygroupId, fromDate, toDate);
+        [HttpGet("GetOvertimeByPaygroupId/")]
+        public async Task<ActionResult<IEnumerable<OverTimePayrollViewModel>>> GetOvertimeByPaygroupId(int paygroupId, string fromDate, string toDate)
+        {
+            var overTimes = await overTimeService.GetOvertimeByPaygroupId(paygroupId, fromDate, toDate);
 
-			return Ok(overTimes);
-		}
+            return Ok(overTimes);
+        }
         [HttpGet("OverTimeExcelTemplate")]
         public async Task<ActionResult<byte[]>> OverTimeExcelTemplate()
         {
@@ -173,6 +173,11 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<int>> OverTimeBulkInsert([FromBody] IEnumerable<OverTime> overTimes)
         {
             return await overTimeService.OverTimeBulkInsert(overTimes);
+        }
+        [HttpPost("GetOverTimeValidation")]
+        public async Task<IEnumerable<OverTimeDetailsView>> GetOverTimeValidation([FromBody] IEnumerable<OverTimeDetailsView> overTimeDetailsViews)
+        {
+            return await overTimeService.GetOverTimeValidation(overTimeDetailsViews);
         }
     }
 }
