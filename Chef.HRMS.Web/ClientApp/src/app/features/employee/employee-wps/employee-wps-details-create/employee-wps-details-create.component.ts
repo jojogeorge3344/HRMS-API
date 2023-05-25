@@ -93,7 +93,7 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
 
   getWPSBanklist() {
     this.employeeWpsBankerService.getBank().subscribe(result => {
-      this.bankList = result;
+      this.bankList = result.filter(x=>x.status=="Active")
     },
       error => {
         console.error(error);
