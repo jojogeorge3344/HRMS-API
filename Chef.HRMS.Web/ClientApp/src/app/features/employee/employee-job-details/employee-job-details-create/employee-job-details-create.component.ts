@@ -33,7 +33,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
 
   addForm: FormGroup;
   department: object;
-  jobTitleId: EmployeeJobTitle[];
+  jobTitleId;
   numberSeriesId: any;
   noticePeriod: object;
   employeeNumber = '';
@@ -57,6 +57,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   searchFailed: boolean;
   employeeList: Employee[];
   config;
+  seriesName;
+  designationName;
 
   @Input() id: any;
   location: Branch[];
@@ -151,7 +153,11 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   }
   getJobList() {
     this.employeeJobTitleService.getAll().subscribe(result => {
-      this.jobTitleId = result;
+      let temp={id:undefined,name:'test',isLastRow:true}
+      // lastrow
+        this.jobTitleId=[...result,temp]; 
+        let Item=result.find((item)=>this.addForm.get('jobTitleId').value==item.id)
+        this.designationName=Item;
     },
       error => {
         console.error(error);
@@ -161,16 +167,22 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
 
   getEmployeeNumber() {
     this.employeeNumbersService.getAllActiveNumberSeries().subscribe(result => {
-      this.numberSeriesId = result;
-      console.log('numberseries',this.numberSeriesId)
-
+      let temp={id:undefined,name:'test',isLastRow:true}
+      // lastrow
+        this.numberSeriesId=[...result,temp]; 
+        let seriesItem=result.find((item)=>this.addForm.get('numberSeriesId').value==item.id)
+        this.seriesName=seriesItem;
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the Number Series Details');
       });
   }
-
+  reloadNumberSeries(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeNumber()
+  }
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result;
@@ -209,9 +221,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   selected($event) {
     this.addForm.patchValue({ reportingManager: $event.item.id });
   }
-
-  getNumberSeries(id) {
-    const seriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == id);
+  
+  getNumberSeries(args) {
+    this.addForm.patchValue({
+      numberSeriesId:args.value.id
+    })
+    const seriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == args.value.id);
     const addJobDetails = this.addForm.value;
     seriesValue.nextNumber = seriesValue.nextNumber;
     seriesValue.digitInNumber = seriesValue.digitInNumber;
@@ -220,7 +235,16 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     //preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix}`
     this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0).concat(seriesValue.suffix));
   }
-
+  selectDesignation(args){
+    this.addForm.patchValue({
+      jobTitleId:args.value.id
+    })
+  }
+  refreshDesignation(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getJobList()
+  }
   getBranches() {
     debugger
     this.branchService.getAll().subscribe(result => {

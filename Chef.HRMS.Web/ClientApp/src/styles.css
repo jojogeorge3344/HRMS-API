@@ -48,7 +48,9 @@ li#reportViewer_toolbar_li_pagesetup {
 /* .btn {
   font-size: 15px;
 } */
-
+.pngCustomClass{
+  width: 100% !important;
+}
 .pngCustomClass .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item {
   padding: 0px !important;
 }
@@ -65,11 +67,16 @@ li#reportViewer_toolbar_li_pagesetup {
   bottom: 0px;
   width: 100%; 
 }
+:host ::ng-deep.p-dropdown {
+  width: 255px !important;
+  height: 28px !important;
+}
 .pngCustomClass .ui-dropdown .ui-dropdown-panel {
   padding-bottom: 37px !important;
 }
  .ui-dropdown {
   border-color: #E5E5E5 !important;
+  min-width: 100% !important;
 }
 
 .edit,
@@ -77,6 +84,7 @@ li#reportViewer_toolbar_li_pagesetup {
   font-size: 15px;
   cursor: pointer;
 }
+ 
 
 .link {
   cursor: pointer;

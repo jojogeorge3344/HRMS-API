@@ -30,7 +30,7 @@
           >Document Type<span class="required">*</span></label
         >
         <div class="input-group">
-        <p-dropdown class="pngCustomClass" [options]="documentTypeKeys" [style]="{'min-width':'355.2px'} "  optionValue="id" (onChange)="selectDocType($event)" optionLabel="name" placeholder="Select document type" dataKey="id" name="documentTypeMasterId">
+        <p-dropdown class="pngCustomClass" [options]="documentTypeKeys" optionValue="id" (onChange)="selectDocType($event)" optionLabel="name" placeholder="Select document type" dataKey="id" name="documentTypeMasterId">
           <ng-template let-item pTemplate="item" > 
             
             <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >

@@ -25,6 +25,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   nameCheck: any;
   userId;
+  relName;
 
   constructor(
     private employeeBasicDetailsService: EmployeeBasicDetailsService,
@@ -53,10 +54,30 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     this.getBasicDetailsId();
    this.employeeBasicDetailsService.getReligion()
    .subscribe((result)=>{    
-   this.religion=result; 
-   })
+    let temp={id:0,name:'test',isLastRow:true}
+    // lastrow
+      this.religion=[...result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
+      let relType=result.find((item)=>this.editForm.get('religionId').value==item.id)
+      this.relName=relType
+    })
+  }
+  
+  selectReligion(args){
+    this.editForm.patchValue({
+      religionId:args.value.id
+    })
   }
 
+  reloadDocTypes(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.employeeBasicDetailsService.getReligion()
+    .subscribe((item)=>{
+      let temp={id:0,name:'test',isLastRow:true}
+      // lastrow
+      this.religion=[...item.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
+    })
+  }
   
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {  
