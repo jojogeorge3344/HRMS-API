@@ -23,10 +23,10 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("GenerateLeaveAccruals/{paygroupid}/{isavail}")]
-        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid, bool isavail)
+        [HttpPost("GenerateLeaveAccruals/{paygroupid}")]
+        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid)
         {
-            var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid, isavail);
+            var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
 
             if (leaveAccrualList == null)
             {
@@ -36,10 +36,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(leaveAccrualList);
         }
 
-        [HttpPost("GenerateLeaveAccrualsAvailed/{paygroupid}/{isavail}")]
-        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccrualsAvailed(int paygroupid, bool isavail)
+        [HttpPost("GenerateLeaveAccrualsAvailed")]
+        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccrualsAvailed([FromBody]LeaveAccrual availedLeaveDetails)
         {
-            var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid, isavail);
+            var leaveAccrualList = await leaveAccrualService.GenerateLeaveAvailed(availedLeaveDetails);
 
             if (leaveAccrualList == null)
             {

@@ -96,39 +96,31 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 leaveAccrualEmployee.LeaveId = 0;
 
                 var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
+                decimal workingdaysInCalMonth = 0;
+                decimal workeddaysInCalMonth = 0;
+                decimal eligibilityPerDay = 0;
                 if (systemVariableValues != null)
                 {
-                    decimal workingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
-                    decimal workeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;
-                    decimal eligibilityPerDay = (decimal)eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase;
-                    if (eligibleEmployee.IsIncludeLOPDays)
-                    {
-                        leaveAccrualEmployee.AccrualDays = eligibilityPerDay * (workeddaysInCalMonth);
-                    }
-                    else
-                    {
-                        leaveAccrualEmployee.AccrualDays = (eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase) * (workingdaysInCalMonth);
-                    }
-                    leaveAccrualEmployee.AccrualAmount = (1 / eligibleEmployee.EligibleDays) * leaveAccrualEmployee.AccrualDays;
-                    //eligibleEmployee.
-                    //Annual Accrual BF Code from Leave Component Amont from Salary structure 
+                    eligibilityPerDay = (decimal)eligibleEmployee.EligibleDays /eligibleEmployee.EligibilityBase;
+                    workingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
+                    workeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;     
                 }
 
-                leaveAccruals.Add(leaveAccrualEmployee);
-
-                // Get previous accrual summary details for this employee
-
+                // Get previous accrual summary details for eligible employee
                 var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId, 1, now.Month, now.Year);
 
                 LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
                 leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
                 leaveAccrualSummary.AvailDays = 0;
                 leaveAccrualSummary.AvailAmount = 0;
-                leaveAccrualSummary.LeaveId = 0; // Check with Sherin
-                var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1);
+                leaveAccrualSummary.LeaveId = 0;
+                var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
                 leaveAccrualSummary.AccrualDate = firstDayNextMonth;
 
-
+                if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+                {
+                    throw new ResourceNotFoundException("Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                }
                 bool isLeaveCutOff = false;
                 if ((LeaveCutOffType.YearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
                     || (LeaveCutOffType.HalfYearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 6)
@@ -139,43 +131,51 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                     isLeaveCutOff = true;
                 }
 
-                if (prevAccrualSummaryDetails == null)
+                if (prevAccrualSummaryDetails == null || isLeaveCutOff)
                 {
+                    //No need to check cutoff or carry forward as there is no previous entry for this employee
+
+                    if (eligibleEmployee.IsIncludeLOPDays)
+                    {
+                        leaveAccrualEmployee.AccrualDays = eligibilityPerDay * workeddaysInCalMonth;
+                    }
+                    else
+                    {
+                        leaveAccrualEmployee.AccrualDays = eligibilityPerDay * workingdaysInCalMonth;
+                    }
+                    
                     //Insert into Accrual summary table 
                     leaveAccrualSummary.AccrualDays = leaveAccrualEmployee.AccrualDays;
                     leaveAccrualSummary.AccrualAmount = leaveAccrualEmployee.AccrualAmount;
                 }
-                else if (isLeaveCutOff)
+                else 
                 {
-                    if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays && eligibleEmployee.CFLimitDays > 0)
+
+                    if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays)
                     {
-                        leaveAccrualSummary.AccrualDays = eligibleEmployee.CFLimitDays;
-                        leaveAccrualSummary.AccrualAmount = 0;
-                    }
-                    else if (prevAccrualSummaryDetails.AccrualDays < eligibleEmployee.CFLimitDays && eligibleEmployee.CFLimitDays > 0)
-                    {
-                        leaveAccrualSummary.AccrualDays = leaveAccrualEmployee.AccrualDays;
-                        leaveAccrualSummary.AccrualAmount = leaveAccrualEmployee.AccrualAmount;
+                        //no entry to be made into both tables - LeaveAccrual and LeaveSummary
+                        continue;
                     }
                     else
                     {
-                        leaveAccrualSummary.AccrualDays = 0;
-                        leaveAccrualSummary.AccrualAmount = 0;
+                        decimal currentAccrual = eligibilityPerDay * workeddaysInCalMonth;
+                        decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
+
+                        if (totalAccrualDays > eligibleEmployee.CFLimitDays)
+                        {
+                            leaveAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
+                            leaveAccrualSummary.AccrualDays = eligibleEmployee.CFLimitDays;
+                        }
+                        else
+                        {
+                            leaveAccrualEmployee.AccrualDays = currentAccrual;
+                            leaveAccrualSummary.AccrualDays = totalAccrualDays;
+                        }
                     }
                 }
-                else
-                {
-                    //Add with prev accrual summary data and insert - LeaveCutOff Not Applicable and Sum of Accrual days > CFLimit
-                    
-                    leaveAccrualSummary.AccrualDays = prevAccrualSummaryDetails.AccrualDays + leaveAccrualEmployee.AccrualDays;
-                    leaveAccrualSummary.AccrualAmount = prevAccrualSummaryDetails.AccrualAmount + leaveAccrualEmployee.AccrualAmount;
-                    if (leaveAccrualSummary.AccrualDays > eligibleEmployee.CFLimitDays)
-                    {
-                        leaveAccrualSummary.AccrualDays = eligibleEmployee.CFLimitDays;
-
-                    }
-
-                }
+                leaveAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * leaveAccrualEmployee.AccrualDays;
+                leaveAccrualSummary.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibilityBase) * leaveAccrualSummary.AccrualDays;
+                leaveAccruals.Add(leaveAccrualEmployee);
                 leaveAccrualSummaries.Add(leaveAccrualSummary);
             }
 

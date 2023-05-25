@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Models;
 using Chef.HRMS.Models;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,9 @@ namespace Chef.HRMS.Repositories.PayrollProcessing.Repository
         {
             var sql = @"select * from hrms.leaveaccrualsummary 
                         where employeeid = @employeeId 
-                        and EXTRACT(DAY FROM accrualdate) = @day
-                        and EXTRACT(MONTH FROM accrualdate) = @month
-                        and EXTRACT(YEAR FROM accrualdate) = @year
-                        order by id desc";
+                        order by id desc
+                        limit 1";
+
             return await Connection.QueryFirstOrDefaultAsync<LeaveAccrualSummary>(sql, new { employeeId, day,month,year });
         }
 
