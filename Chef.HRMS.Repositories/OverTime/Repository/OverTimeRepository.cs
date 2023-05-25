@@ -180,5 +180,42 @@ namespace Chef.HRMS.Repositories
 
 			return await Connection.QueryAsync<OverTimePayrollViewModel>(sql, new { paygroupId, fromDate, toDate });
 		}
-	}
+
+        public async Task<int> OverTimeBulkInsert(IEnumerable<OverTime> overTimes)
+        {
+            var sql = new QueryBuilder<OverTime>().GenerateInsertQuery();
+            sql = sql.Replace("RETURNING id", "");
+
+            return await Connection.ExecuteAsync(sql, overTimes);
+        }
+
+        public async Task<bool> GetOverTimeDetails(string employeeNumber)
+        {
+            string sql = @"SELECT Count(1)
+                         FROM hrms.jobdetails 
+                         WHERE isarchived = false
+                         AND employeenumber = @employeeNumber;";
+            if ((await Connection.QueryFirstOrDefaultAsync<int>(sql, new { employeeNumber })) >= 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> GetOverTimeDateDetails(DateTime FromDate,int employeeId)
+        {
+            string sql = @"SELECT Count(1)
+                         FROM hrms.overtime 
+                         WHERE isarchived = false
+                         AND fromdate = @FromDate
+                         AND employeeid = @employeeId;";
+            if ((await Connection.QueryFirstOrDefaultAsync<int>(sql, new { FromDate, employeeId })) >= 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
 }
