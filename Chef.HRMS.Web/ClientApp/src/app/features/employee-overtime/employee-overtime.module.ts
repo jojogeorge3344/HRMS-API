@@ -14,8 +14,7 @@ import { OvertimeRequestViewComponent } from './overtime-request-view/overtime-r
 import { SelectDropDownModule } from "ngx-select-dropdown";
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { OvertimeRequestUploadComponent } from './overtime-request-upload/overtime-request-upload.component';
-
-
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -48,7 +47,8 @@ import { OvertimeRequestUploadComponent } from './overtime-request-upload/overti
     BsDropdownModule.forRoot(),
     DirectivesModule,
     SelectDropDownModule,
-    PipesModule
+    PipesModule,
+    TooltipModule
     
   ],
   providers:[DatePipe]

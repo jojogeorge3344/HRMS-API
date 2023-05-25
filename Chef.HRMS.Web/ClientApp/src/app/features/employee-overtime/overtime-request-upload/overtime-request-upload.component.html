@@ -14,7 +14,7 @@
                         <div class="form-group col-sm">
                             <div class="text-primary">
                                 <label>
-                                    <input type="file" 
+                                    <input type="file" #fileUploader
                                     style="display: none;" (change)="addfile($event)"
                                     accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                                   
@@ -30,6 +30,50 @@
                                 Max file size allowed is 2MB
                             </small>
                         </div>
+                    </div>
+                    <div *ngIf="overTimeValidatedData.length > 0">
+                        <table class="table m-0">
+                            <thead class="thead-themed">
+                                <tr>
+                                    <th>Sl No.</th>
+                                    <th>Employee Code</th>
+                                    <th>Employee Name</th>
+                                    <th>From Date</th>
+                                    <th>To Date</th>
+                                    <th>Normal OverTime</th>
+                                    <th>Holiday OverTime</th>
+                                    <th>Special OverTime</th>
+                                    <th>Reason</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr tooltip="{{overTimeValidatedData.errorMessage}}" 
+                                *ngFor="let overTimeValidatedData of overTimeValidatedData; let i = index"
+                                [ngStyle]="{'background': !overTimeValidatedData.isValid ? 'rgb(210 221 238)': ''}">
+                                    <td>{{i+1}}</td>
+                                    <td>{{overTimeValidatedData.employeeNumber}}</td>
+                                    <td>{{overTimeValidatedData.employeeName}}</td>
+                                    <td>{{overTimeValidatedData.fromDate | date}}</td>
+                                    <td>{{overTimeValidatedData.toDate | date}}</td>
+                                    <td>{{overTimeValidatedData.normalOverTime }}</td>
+                                    <td>{{overTimeValidatedData.holidayOverTime }}</td>
+                                    <td>{{overTimeValidatedData.specialOverTime }}</td>
+                                    <td>{{overTimeValidatedData.reason }}</td>
+                                </tr>
+                                <tr *ngIf="!overTimeValidatedData?.length">
+                                    <td colspan="10" class="text-center">
+                                        No rows found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="button-right-wrapper mt-3 " *ngIf="overTimeValidatedData?.length">
+                        <button class="btn btn-primary" (click)="saveExcelReport()">
+                            Save
+                        </button>
                     </div>
             </div>
         </div>
