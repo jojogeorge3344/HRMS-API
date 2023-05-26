@@ -33,6 +33,7 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
   detailsUpdate: any;
   @Output() wpsDetailsForm = new EventEmitter<any>();
   @Input() passEmployeeId:any
+  employeeId:any
 
   constructor(
     private route: ActivatedRoute,
@@ -48,7 +49,14 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     this.route.params.subscribe((params: any) => {
-      this.id = parseInt(params.id, 10);
+      if(params.empId){
+      this.employeeId = parseInt(params.empId, 10);
+      this.employeeWpsUserService.get(this.employeeId).subscribe(result => {
+        this.addForm.patchValue(result[0]);
+      },)
+      }else{
+        this.employeeId = parseInt(this.passEmployeeId, 10);
+      }
     });
     this.getWPSGrouplist();
     // this.getWPSUserlistById();
@@ -82,7 +90,7 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
   onSubmit() {
    debugger
       const addWpsDetails = this.addForm.value;
-      addWpsDetails.employeeId = parseInt(this.passEmployeeId, 10);
+      addWpsDetails.employeeId = parseInt(this.employeeId, 10);
       this.employeeWpsUserService.add(addWpsDetails).subscribe((result:any) => {
         this.toastr.showSuccessMessage('WPS Details added successfully!');
         // this.getWPSUserlistById();

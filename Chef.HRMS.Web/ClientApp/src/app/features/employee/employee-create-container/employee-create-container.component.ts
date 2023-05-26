@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import { EmployeeBasicDetailsService } from '../employee-basic-details/employee-basic-details.service';
@@ -21,7 +21,7 @@ export class EmployeeCreateContainerComponent implements OnInit {
   basicDetailsForm: any = null;
   jobDetailsForm: any = null;
   jobFilingsForm: any = null;
-  activeId = 1;
+  activeTabId = 1;
   branches: Branch[];
   numberSeriesId: any;
   disableTabFrom = 1;
@@ -29,6 +29,8 @@ export class EmployeeCreateContainerComponent implements OnInit {
   wpsDetailsForm: any;
   addressDetailsForm: any;
   documentsDetailsForm: any;
+  passJobDetailsId:any
+  passJobFilingId:any
   
 
   constructor(
@@ -40,11 +42,22 @@ export class EmployeeCreateContainerComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToasterDisplayService,
     private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.getBranches();
-    this.getEmployeeNumber();    
+    this.getEmployeeNumber(); 
+    this.activeTabId = 1;
+    this.route.params.subscribe((params:any) => { 
+      debugger
+      if(params['activeTabId'])
+    {
+      this.activeTabId = parseInt(params['activeTabId']);
+      this.disableTabFrom=4;
+    }
+       
+    });   
   }
 
   getBranches() {
@@ -71,15 +84,17 @@ export class EmployeeCreateContainerComponent implements OnInit {
   onSubmitBasicDetails(basicDetailsForm) {
     debugger
     this.basicDetailsForm = basicDetailsForm;
-    this.activeId = this.disableTabFrom = 2;
+    this.activeTabId = this.disableTabFrom = 2;
     this.passEmployeeId=this.basicDetailsForm.switchResult
     console.log('jobdtslsform1',this.basicDetailsForm);
 
   }
 
   onSubmitJobDetails(jobDetailsForm) {
+    debugger
     this.jobDetailsForm = jobDetailsForm;
-    this.activeId = this.disableTabFrom = 3;
+    this.activeTabId = this.disableTabFrom = 3;
+    this.passJobDetailsId=this.jobDetailsForm.switchResult
     console.log('jobdtslsform',this.jobDetailsForm);
 
   }
@@ -137,7 +152,8 @@ debugger
       });
 
     this.jobFilingsForm = jobFilingsForm;
-    this.activeId = this.disableTabFrom = 4;
+    this.activeTabId = this.disableTabFrom = 4;
+    this.passJobFilingId=this.jobFilingsForm.switchResult
   }
 
  
