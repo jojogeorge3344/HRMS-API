@@ -45,33 +45,36 @@ namespace Chef.HRMS.Repositories
         {
             //var sql = @"SELECT * FROM hrms.benefittypes
             //            WHERE isarchived=false AND id =8";
+
+            int bt = (int) Chef.HRMS.Types.BenefitType.NormalOvertime;
             var sql = @"SELECT pc.* 
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
-                        AND pc.isarchived=false AND bt.id = 8 
-                        ORDER BY pc.name";
+                        AND pc.isarchived=false AND bt.id = " + bt + " ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
         public async Task<IEnumerable<BenefitTypes>> GetHolidayOverTime()
         {
             //var sql = @"SELECT * FROM hrms.benefittypes
-            //            WHERE isarchived=false AND id =9";
+            //            WHERE isarchived=false AND id = 9";
+
+            int bt = (int) Chef.HRMS.Types.BenefitType.HolidayOvertime;
             var sql = @"SELECT pc.* 
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
-                        AND pc.isarchived=false AND bt.id = 9 
-                        ORDER BY pc.name";
+                        AND pc.isarchived=false AND bt.id = " + bt + " ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
         public async Task<IEnumerable<BenefitTypes>> GetSpecialOvertime()
         {
             //var sql = @"SELECT * FROM hrms.benefittypes
             //            WHERE isarchived=false AND id =10";
+
+            int bt1 = (int) Chef.HRMS.Types.BenefitType.SpecialOvertime;
             var sql = @"SELECT pc.* 
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
-                        AND pc.isarchived=false AND bt.id = 10 
-                        ORDER BY pc.name";
+                        AND pc.isarchived=false AND bt.id = " + bt1 + " ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
     }

@@ -71,7 +71,12 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
-      this.employeeId = parseInt(params.id, 10);
+      if(params.empId){
+        this.employeeId = parseInt(params.empId, 10);
+      }else{
+
+        this.employeeId = parseInt(params.id, 10);
+      }
     });
 
     this.currentUserId = getCurrentUserId();
