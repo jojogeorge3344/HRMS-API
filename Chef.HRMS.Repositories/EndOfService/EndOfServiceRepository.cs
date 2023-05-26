@@ -17,16 +17,22 @@ namespace Chef.HRMS.Repositories
         }
         public async Task<IEnumerable<BenefitTypes>> GetEmployeeEOSAccrualType()
         {
-            var sql = @"SELECT * FROM hrms.benefittypes
-                        WHERE isarchived=false AND id =30";
+            //var sql = @"SELECT * FROM hrms.benefittypes
+            //            WHERE isarchived=false AND id =30";
 
+            int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeEOSAccrual;
+            var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id = " + bt;
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
         public async Task<IEnumerable<BenefitTypes>> GetEmployeeEOSpaymentType()
         {
-            var sql = @"SELECT * FROM hrms.benefittypes
-                        WHERE isarchived=false AND id =13";
+            //var sql = @"SELECT * FROM hrms.benefittypes
+            //            WHERE isarchived=false AND id =13";
 
+            int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeEOSPayment;
+            var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id = " + bt;
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 
