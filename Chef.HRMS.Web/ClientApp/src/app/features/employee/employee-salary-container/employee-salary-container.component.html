@@ -1,11 +1,15 @@
 <div class="p-3">
     <div class="button-right-wrapper" *ngIf="!salary.salary?.length; else editButton">
-        <button class="btn btn-sm btn-success btn-add " routerLink="./salary-details/create">
+        <button *ngIf="passRoutingId" class="btn btn-sm btn-success btn-add " (click)="routingPartCreate()">
             <i class="fa fal fa-plus mr-1"></i>Add Salary Details</button>
+            <button *ngIf="!passRoutingId" class="btn btn-sm btn-success btn-add " routerLink="./salary-details/create">
+                <i class="fa fal fa-plus mr-1"></i>Add Salary Details</button>
     </div>
     <ng-template #editButton>
         <div class="button-right-wrapper">
-            <button class="btn btn-sm btn-success btn-add" routerLink="./salary-details/edit">
+            <button  *ngIf="passRoutingId" class="btn btn-sm btn-success btn-add" (click)="routingPartEdit()">
+                <i class="fa fal fa-edit mr-1"></i>Edit Salary Details</button>
+            <button *ngIf="!passRoutingId" class="btn btn-sm btn-success btn-add" routerLink="./salary-details/edit">
                 <i class="fa fal fa-edit mr-1"></i>Edit Salary Details</button>
         </div>
     </ng-template>

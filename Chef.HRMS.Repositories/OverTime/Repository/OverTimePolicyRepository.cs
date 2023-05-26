@@ -55,7 +55,12 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<BenefitTypes>> GetBenefitType()
         {
-            var sql = @"SELECT * FROM hrms.benefittypes WHERE id IN(8,9,10)";
+            //var sql = @"SELECT * FROM hrms.benefittypes WHERE id IN(8,9,10)";
+
+            int bt1 = (int)Chef.HRMS.Types.BenefitType.NormalOvertime;
+            int bt2 = (int)Chef.HRMS.Types.BenefitType.HolidayOvertime;
+            int bt3 = (int)Chef.HRMS.Types.BenefitType.SpecialOvertime;
+            var sql = @"SELECT * FROM hrms.benefittypes WHERE id IN( "+ bt1 +" , "+ bt2 +" , "+ bt3  +" )";
 
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
