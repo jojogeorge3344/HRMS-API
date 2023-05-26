@@ -5,6 +5,7 @@ using Dapper;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Chef.HRMS.Types;
 
 namespace Chef.HRMS.Repositories
 {
@@ -43,33 +44,36 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<BenefitTypes>> GetAccrualBenefitType()
         {
             //var sql = @"SELECT * FROM hrms.benefittypes WHERE id=15";
+
+            int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeLeaveEncashment;
             var sql = @"SELECT pc.* 
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
-                        AND pc.isarchived=false AND bt.id = 15 
-                        ORDER BY pc.name";
+                        AND pc.isarchived=false AND bt.id = " + bt +" ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 
         public async Task<IEnumerable<BenefitTypes>> GetAccrualType()
         {
             //var sql = @"SELECT * FROM hrms.benefittypes WHERE id=32";
+
+            int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeAnnualLeave;
             var sql = @"SELECT pc.* 
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
-                        AND pc.isarchived=false AND bt.id = 32 
-                        ORDER BY pc.name";
+                        AND pc.isarchived=false AND bt.id = " + bt +" ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 
         public async Task<IEnumerable<BenefitTypes>> GetDeductionType()
         {
             //var sql = @"SELECT * FROM hrms.benefittypes WHERE id=36";
+
+            int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeLossofPayLeaves;
             var sql = @"SELECT pc.* 
                         FROM hrms.benefittypes  as bt  
                         INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype 
-                        AND pc.isarchived=false AND bt.id = 36 
-                        ORDER BY pc.name";
+                        AND pc.isarchived=false AND bt.id = " + bt  +" ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
         public async Task<IEnumerable<LeaveComponent>> GetAllAsync()
@@ -83,15 +87,26 @@ namespace Chef.HRMS.Repositories
             string sql = string.Empty;
             if (categoryid == 1)
             {
-                sql = @"select*from hrms.benefittypes where id=15";
+               //sql = @"select*from hrms.benefittypes where id=15";
+
+               int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeLeaveEncashment;
+               sql = @"select * from hrms.benefittypes where id= " + bt;
             }
             else if (categoryid == 2)
             {
-                sql = @"select*from hrms.benefittypes where id=36";
+                //sql = @"select*from hrms.benefittypes where id=36";
+
+                int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeLossofPayLeaves;
+                sql = @"select * from hrms.benefittypes where id= " + bt;
+
             }
             else
             {
-                sql = @"select*from hrms.benefittypes where id=32";
+                //sql = @"select*from hrms.benefittypes where id=32";
+
+                int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeAnnualLeave;
+                sql = @"select * from hrms.benefittypes where id= " + bt;
+
             }
             var data = await Connection.QueryAsync<BenefitTypes>(sql, new { categoryid });
             return data;
