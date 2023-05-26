@@ -199,7 +199,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.editForm.get("document").value === null) {
+    if (this.editForm.get("document.name").value === null) {
       (this.editForm.get("document") as FormGroup).controls.name.setErrors({
         filename: true,
       });
