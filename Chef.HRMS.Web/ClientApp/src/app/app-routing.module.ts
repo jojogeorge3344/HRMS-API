@@ -341,6 +341,12 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
         // data: { name: 'team-approvals' }
       },
+      {
+        path: 'generate-accruals',
+        loadChildren: () => import('./features/generate-accruals/generate-accruals.module').then(m => m.GenerateAccrualsModule),
+        canActivateChild: [AuthGuard]
+      },
+     
     ],
   },
 ];

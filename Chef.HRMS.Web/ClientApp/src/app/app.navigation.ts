@@ -239,6 +239,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/employee-revision-management'
       },
+      {
+        title: 'Generate Accruals',
+        tags: 'settings-expense',
+        routerLink: '/generate-accruals'
+      },
     ]
   },
   {
