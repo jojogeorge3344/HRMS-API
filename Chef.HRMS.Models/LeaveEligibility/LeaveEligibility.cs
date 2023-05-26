@@ -30,5 +30,16 @@ namespace Chef.HRMS.Models
         public int AnnualLeave { get; set; }
         public int LeaveEncashment { get; set; }
         public int LeaveDeduction { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int EmployeeId { get; set; }
+
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int MonthlyAmount { get; set; }
     }
 }
