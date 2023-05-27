@@ -1,10 +1,8 @@
 <form [formGroup]="addForm" id="jobDetailsForm" (validSubmit)="onSubmit()">
-    {{addForm.value | json}}
     <!-- <div class="modal-header">
         <h4 class="modal-title">Add Job Fillings</h4>
     </div> -->
     <div class="p-3">
-
         <div class="row align-items-baseline flex-row-reverse">
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="employeeNumber">Employee Code</label>
@@ -21,7 +19,7 @@
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                       {{item?.value.name}} 
                     </div> 
-                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="reloadNumberSeries($event)">
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshNumberSeries($event)">
                       <a  class="link-primary ref"><u>Refresh</u></a>
                    </div>
                 </ng-template>
@@ -48,7 +46,7 @@
                   >Designation<span class="required">*</span></label
                 >
                 <p-dropdown [(ngModel)]="designationName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="jobTitleId" optionValue="id"
-                (onChange)="selectDesignation($event)" optionLabel="name" placeholder="Select designation" dataKey="id" name="jobTitleId">
+                (onChange)="selectDesignation($event)" optionLabel="name" placeholder="Select Designation" dataKey="id" name="jobTitleId">
                   <ng-template let-item pTemplate="item" >  
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                       {{item?.value.name}} 
@@ -99,39 +97,47 @@
                 </select>
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="location">Location<span class="required">*</span></label>
-                <select class="form-control" formControlName="location">
-                    <option value="" disabled>Select Location</option>
-                    <option *ngFor="let type of location" [ngValue]='type.id'>
-                        {{type.shortName}} - {{type.city}}
-                    </option>
-                </select>
-            </div>
-            <!-- <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>
-                <input type="text" class="form-control" id="reportingManager" name="reportingManager"
-                    [ngbTypeahead]="search" placeholder="Search Reporting Manager" #reportingManager
-                    formControlName="reportingManager" [inputFormatter]="formatter" [resultFormatter]="formatter"
-                    [editable]='false'>
-                <div class="form-control-feedback" style="color:red;" *ngIf="searchFailed"><small>Reporting manager does
-                        not exist.</small> </div>
-            </div> -->
-            <div class="form-group form-input-line col-sm">
-                <label for="reportingManager" style="margin-bottom: 9px">
-                    Reporting Manager<span class="required">*</span>
-                </label>
-        
-                <ng-template #optionTemplate let-item="item" let-config="config">
-                  <i class="fa fa-plus"></i>
-                  {{ item.name }}
-                  <span class="new badge"></span>
+                <label class="col-form-label" for="location"
+                  >Location<span class="required">*</span></label
+                >
+                <p-dropdown [(ngModel)]="loctaionObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="location" optionValue="id"
+                (onChange)="selectLocation($event)" optionLabel="shortName" placeholder="Select Location" dataKey="id" name="location">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                      {{item?.value.shortName}} - {{item?.value.city}} 
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshLocation($event)">
+                      <a  class="link-primary ref"><u>Refresh</u></a>
+                   </div>
                 </ng-template>
-                <ngx-select-dropdown
-                  (change)="selectionChanged($event)"
-                  [config]="config"
-                  [options]="employeeList"
-                ></ngx-select-dropdown>
-              </div>
+                </p-dropdown>
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('location').touched && this.addForm.get('location').invalid" class="invalid-feedback d-block">
+                    Location* is required
+                </div>
+            </div>
+              </div> 
+              <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="reportingManager"
+                  >Reporting Manager<span class="required">*</span></label
+                >
+                <p-dropdown [(ngModel)]="employeeObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="employeeList" optionValue="id"
+                (onChange)="selectionChanged($event)" optionLabel="firstName" filter="true" placeholder="Select Reporting Manager" dataKey="id" name="reportingManager">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                      {{item?.value.firstName}}
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRepManager($event)">
+                      <a  class="link-primary ref"><u>Refresh</u></a>
+                   </div>
+                </ng-template>
+                </p-dropdown>
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('reportingManager').touched && this.addForm.get('reportingManager').invalid" class="invalid-feedback d-block">
+                    Reporting manager* is required
+                </div>
+            </div>
+              </div> 
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
@@ -174,22 +180,66 @@
                         {{periodType[key]}}</option>
                 </select>
             </div>
-            <div class="form-group form-input-line col-sm-4">
+            <!-- <div class="form-group form-input-line col-sm-4">
                 <label class="col-form-label" for="categoryId">Employee Category Group<span class="required">*</span></label>
                 <select class="form-control" formControlName="categoryId">
                     <option value="" disabled>Select Employee Category Group</option>
                     <option *ngFor="let key of groupCategory" [ngValue]='key.id'>                    
                         {{key.name}}</option>
                 </select>
+            </div> -->
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="categoryId"
+                  >Employee Category<span class="required">*</span></label
+                >
+                <p-dropdown [(ngModel)]="categoryObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="groupCategory" optionValue="id"
+                (onChange)="selectEmpCategory($event)" optionLabel="name" placeholder="Select Employee Category" dataKey="id" name="location">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                      {{item?.value.name}} 
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshCategory($event)">
+                      <a  class="link-primary ref"><u>Refresh</u></a>
+                   </div>
+                </ng-template>
+                </p-dropdown>
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('categoryId').touched && this.addForm.get('categoryId').invalid" class="invalid-feedback d-block">
+                    Employee category* is required
+                </div>
             </div>
-            <div class="form-group form-input-line col-sm-4">
+              </div> 
+
+            <!-- <div class="form-group form-input-line col-sm-4">
                 <label class="col-form-label" for="visaDesignationId">Visa Designation<span class="required">*</span></label>
                 <select class="form-control" formControlName="visaDesignationId">
                     <option value="" disabled>Select Visa Designation</option>
                     <option *ngFor="let key of jobTitleId" [ngValue]='key.id'>           
                         {{key.name}}</option>
                 </select>
+            </div> -->
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="visaDesignationId"
+                  >Visa Designation<span class="required">*</span></label
+                >
+                <p-dropdown [(ngModel)]="visaDesignationName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="jobTitleId" optionValue="id"
+                (onChange)="selectVisaDesignation($event)" optionLabel="name" placeholder="Select Visa Designation" dataKey="id" name="visaDesignationId">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                      {{item?.value.name}} 
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshDesignation($event)">
+                      <a  class="link-primary ref"><u>Refresh</u></a>
+                   </div>
+                </ng-template>
+                </p-dropdown>
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('visaDesignationId').touched && this.addForm.get('visaDesignationId').invalid" class="invalid-feedback d-block">
+                   visa designation* is required
+                </div>
             </div>
+              </div> 
+
         </div>
     </div>
     <div class="modal-footer">

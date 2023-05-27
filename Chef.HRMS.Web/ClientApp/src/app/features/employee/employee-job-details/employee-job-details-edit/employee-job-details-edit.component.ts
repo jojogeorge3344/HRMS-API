@@ -33,7 +33,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   currentUserId: number;
   id: any;
   jobDetailsId: any;
-  jobTitleId: EmployeeJobTitle[];
+  jobTitleId:any;
   numberSeriesId: any;
   noticePeriod: object;
   employeeNumber = '';
@@ -52,13 +52,21 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   noticePeriodType = NoticePeriodType;
   maxDate;
   minDate;
-  employeeList: Employee[];
+  employeeList:any;
   reportingManager: number;
   groupCategory: any;
   visaDesignation:any;
   config;
   selectedDatasource:any;
   checkFlag: boolean;
+  seriesName;
+  categoryObj;
+  employeeObj;
+  designationName;
+  location: any;
+  loctaionObj: any;
+  visaDesignationName: any;
+
   @Output() getEditByCreateJobId = new EventEmitter<any>();
   @Input() jobDetailsparamsId:any
   numberSeries: number;
@@ -83,7 +91,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
+     
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.route.params.subscribe((params: any) => {
@@ -111,16 +119,11 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.timeTypeKeys = Object.keys(this.timeType).filter(Number).map(Number);
     this.periodTypeKeys = Object.keys(this.periodType).filter(Number).map(Number);
     this.noticePeriodTypeKeys = Object.keys(this.noticePeriodType).filter(Number).map(Number);
-    this.getBasicDetailsId();
-    this.getJobDetailsId();
+    this.getBasicDetailsId(); 
     this.getJobList();
     this.getEmployeeNumber();
     this.getBranches();
     this.getEmployeeList();
-
-    this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
-      this.groupCategory=result;
-    })
     
     this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
        this.visaDesignation=result;
@@ -144,6 +147,9 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       })
       })
   }
+  ngAfterViewInit(){
+    this.getJobDetailsId();
+  }
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
       result.dateOfBirth = new Date(result.dateOfBirth);
@@ -161,13 +167,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       });
   }
   getJobDetailsId() {
-   debugger
-    this.employeeJobDetailsService.get(this.jobDetailsId).subscribe(result => {
+     this.employeeJobDetailsService.get(this.jobDetailsId).subscribe(result => {
       this.getEmployeeList();
       result.dateOfJoin = new Date(result.dateOfJoin);
       localStorage.setItem('doj',JSON.stringify(result.dateOfJoin))
       this.reportingManager = result.reportingManager;
-      this.numberSeries=result.numberSeriesId
+      this.numberSeries=result.numberSeriesId;
       this.editForm.patchValue(result);
       if(this.editForm.value.numberSeriesId){
         this.editForm.get('numberSeriesId').disable();
@@ -176,6 +181,16 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
         this.editForm.get('numberSeriesId').enable();
         this.checkFlag=false
       }
+      let designationItem = this.jobTitleId.find((item) => this.editForm.get('jobTitleId').value == item.id)
+      let visaDesigItem = this.jobTitleId.find((item) => this.editForm.get('visaDesignationId').value == item.id)
+      this.visaDesignationName=visaDesigItem;
+      this.designationName = designationItem;
+      let seriesItem = this.numberSeriesId.find((item) => this.editForm.get('numberSeriesId').value == item.id)
+      this.seriesName = seriesItem;
+      let item = this.location.find((item) => this.editForm.get('location').value == item.id)
+      this.loctaionObj = item;
+
+
     },
       error => {
         console.error(error);
@@ -184,26 +199,83 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
 
   getJobList() {
     this.employeeJobTitleService.getAll().subscribe(result => {
-      this.jobTitleId = result;
+      let temp = { id: undefined, name: 'test', isLastRow: true };
+      // lastrow
+      this.jobTitleId = [...result, temp];
+      // let designationItem = result.find((item) => this.editForm.get('jobTitleId').value == item.id)
+      // let visaDesigItem = result.find((item) => this.editForm.get('visaDesignationId').value == item.id)
+      // this.visaDesignationName=visaDesigItem;
+      // this.designationName = designationItem;
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the Job Title Details');
       });
   }
+  getGroupCategory() {
+    this.employeeJobDetailsService.getCategory().subscribe((result: any) => {
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.groupCategory = [...result, temp];
+      let item = result.find((item) => this.editForm.get('categoryId').value == item.id)
+      this.categoryObj = item;
+
+    })
+  }
 
   getEmployeeList() {
-   debugger
     this.employeeService.getAll().subscribe(result => {
-      this.employeeList = result.filter(employee => employee.id !== this.id);
-      const details = this.employeeList.find(emp => emp.id === this.reportingManager);
-      this.selectedDatasource=details.firstName
+      let temp = { id: undefined, firstName: 'test', isLastRow: true }
+      // lastrow
+      this.employeeList = [...result, temp];
+      let item = result.find((item) => this.editForm.get('reportingManager').value == item.id)
+      this.employeeObj = item;
       //this.editForm.patchValue({ reportingManager: this.selectedDatasource });
-      this.selectionChanged(details)
     },
       error => {
         console.error(error);
       });
+  }
+  selectDesignation(args) {
+    this.editForm.patchValue({
+      jobTitleId: args.value.id
+    })
+  }
+  selectVisaDesignation(args){
+    this.editForm.patchValue({
+      visaDesignationId: args.value.id
+    })
+  }
+  selectLocation(args) {
+    this.editForm.patchValue({
+      location: args.value.id
+    })
+  }
+  selectEmpCategory(args) {
+    this.editForm.patchValue({
+      categoryId: args.value.id
+    })
+  }
+  refreshCategory(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getGroupCategory()
+  }
+  refreshLocation(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getBranches()
+  }
+
+  refreshDesignation(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getJobList()
+  }
+  refreshRepManager(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeList()
   }
 
   formatter = (employee) => employee.firstName;
@@ -224,7 +296,11 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
 
   getEmployeeNumber() {
     this.employeeNumbersService.getAllActiveNumberSeries().subscribe(result => {
-      this.numberSeriesId = result;
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.numberSeriesId = [...result, temp];
+      // let seriesItem = result.find((item) => this.editForm.get('numberSeriesId').value == item.id)
+      // this.seriesName = seriesItem;
     },
       error => {
         console.error(error);
@@ -240,28 +316,35 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   // }
 
   getBranches() {
+    debugger
     this.branchService.getAll().subscribe(result => {
-      this.branches = result;
+      let temp = { id: undefined, shortName: 'test', isLastRow: true }
+      // lastrow
+      this.location = [...result, temp];
+      // let item = result.find((item) => this.editForm.get('location').value == item.id)
+      // this.loctaionObj = item;
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the branches');
       });
   }
-  getNumberSeries(id) {
-    debugger
-    const seriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == id);
+  getNumberSeries(args) {
+    this.editForm.patchValue({
+      numberSeriesId: args.value.id
+    })
+    const seriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == args.value.id);
     const addJobDetails = this.editForm.value;
     seriesValue.nextNumber = seriesValue.nextNumber;
     seriesValue.digitInNumber = seriesValue.digitInNumber;
-    this.editForm.value.numberSeriesId=id
+    this.editForm.value.numberSeriesId=args.value.id
     addJobDetails.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
    // this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
     //preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix}`
     this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0).concat(seriesValue.suffix));
   }
   onSubmit() {
-    debugger
+     
     const editJobDetails = this.editForm.value;
     if(this.numberSeries){
     editJobDetails.numberSeriesId= this.numberSeries

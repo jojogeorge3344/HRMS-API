@@ -52,16 +52,18 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
       this.id = params['id'];
     });
     this.getBasicDetailsId();
-   this.employeeBasicDetailsService.getReligion()
-   .subscribe((result)=>{    
-    let temp={id:0,name:'test',isLastRow:true}
-    // lastrow
-      this.religion=[...result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
-      let relType=result.find((item)=>this.editForm.get('religionId').value==item.id)
-      this.relName=relType
-    })
   }
-  
+  getReligion(){
+    this.employeeBasicDetailsService.getReligion()
+   .subscribe((result)=>{
+   let temp={id:undefined,name:'test',isLastRow:true}
+   // lastrow
+     this.religion=[...result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
+     let relType=result.find((item)=>this.editForm.get('religionId').value==item.id)
+     this.relName=relType
+   })
+  }
+
   selectReligion(args){
     this.editForm.patchValue({
       religionId:args.value.id
@@ -84,7 +86,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
       this.userId=result.userId
       result.dateOfBirth = new Date(result.dateOfBirth);    
       this.editForm.patchValue(result);
-
+      this.getReligion()
     },
       error => {
         console.error(error);

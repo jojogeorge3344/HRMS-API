@@ -22,6 +22,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmployeeJobDetailsService } from '../employee-job-details.service';
+import { EmployeeJobDetails } from '../employee-job-details.model';
 
 @Component({
   selector: 'hrms-employee-job-details-create',
@@ -38,8 +39,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   noticePeriod: object;
   employeeNumber = '';
   businessUnitTypeKeys: number[];
-  groupCategory:any;
-  visaDesignation:any;
+  groupCategory;
+  visaDesignation: any;
   businessUnitType = BusinessUnitType;
   departmentTypeKeys: number[];
   departmentType = DepartmentType;
@@ -55,22 +56,25 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   maxDate;
   minDate;
   searchFailed: boolean;
-  employeeList: Employee[];
-  config;
+  employeeList: any;
+  employeeObj;
   seriesName;
   designationName;
+  location: any;
+  loctaionObj: any;
+  categoryObj: any;
+  visaDesignationName: any;
 
   @Input() id: any;
-  location: Branch[];
   @Output() jobDetailsForm = new EventEmitter<boolean>();
   @Input() dob: any;
   @Input() jobDetails: any;
-  @Input() passEmployeeId:any
+  @Input() passEmployeeId: any
   constructor(
     private employeeService: EmployeeService,
     private employeeJobTitleService: EmployeeJobTitleService,
     private employeeNumbersService: EmployeeNumbersService,
-    private employeeJobDetailsService:EmployeeJobDetailsService,
+    private employeeJobDetailsService: EmployeeJobDetailsService,
     private branchService: BranchService,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService,
@@ -100,21 +104,22 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     // this.route.params.subscribe((params: any) => {
     //   this.id = params.id;
     // });
-    
-    this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
-      this.groupCategory=result;  
-    })
 
-    this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
-       this.visaDesignation=result;
+    // this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
+    //   this.groupCategory=result;  
+    // })
+
+    this.getGroupCategory()
+    this.employeeJobDetailsService.getVisaDesignation().subscribe((result) => {
+      this.visaDesignation = result;
     })
-    this.employeeJobDetailsService.getProbation().subscribe((result)=>{
-    this.addForm.patchValue({
-      probationPeriod:result[0].probationDuration,
-      periodType:result[0].periodType,
-      workerType:result[0].workerType,
-      timeType:result[0].timeType
-    })
+    this.employeeJobDetailsService.getProbation().subscribe((result) => {
+      this.addForm.patchValue({
+        probationPeriod: result[0].probationDuration,
+        periodType: result[0].periodType,
+        workerType: result[0].workerType,
+        timeType: result[0].timeType
+      })
     })
     this.businessUnitTypeKeys = Object.keys(this.businessUnitType).filter(Number).map(Number);
     this.departmentTypeKeys = Object.keys(this.departmentType).filter(Number).map(Number);
@@ -136,28 +141,32 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
         day: dob.getDate()
       };
     }
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Reporting Manager",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: false,
-    };
-  }
 
+  }
+  getGroupCategory() {
+    this.employeeJobDetailsService.getCategory().subscribe((result: any) => {
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.groupCategory = [...result, temp];
+      let item = result.find((item) => this.addForm.get('categoryId').value == item.id)
+      this.categoryObj = item;
+
+    })
+  }
   selectionChanged(args) {
-    this.addForm.get("reportingManager").patchValue(args.value.id);
+    this.addForm.patchValue({
+      reportingManager: args.value.id
+    })
   }
   getJobList() {
     this.employeeJobTitleService.getAll().subscribe(result => {
-      let temp={id:undefined,name:'test',isLastRow:true}
+      let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
-        this.jobTitleId=[...result,temp]; 
-        let Item=result.find((item)=>this.addForm.get('jobTitleId').value==item.id)
-        this.designationName=Item;
+      this.jobTitleId = [...result, temp];
+      let designationItem = result.find((item) => this.addForm.get('jobTitleId').value == item.id)
+      let visaDesigItem = result.find((item) => this.addForm.get('visaDesignationId').value == item.id)
+      this.visaDesignationName=visaDesigItem
+      this.designationName = designationItem;
     },
       error => {
         console.error(error);
@@ -167,25 +176,29 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
 
   getEmployeeNumber() {
     this.employeeNumbersService.getAllActiveNumberSeries().subscribe(result => {
-      let temp={id:undefined,name:'test',isLastRow:true}
+      let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
-        this.numberSeriesId=[...result,temp]; 
-        let seriesItem=result.find((item)=>this.addForm.get('numberSeriesId').value==item.id)
-        this.seriesName=seriesItem;
+      this.numberSeriesId = [...result, temp];
+      let seriesItem = result.find((item) => this.addForm.get('numberSeriesId').value == item.id)
+      this.seriesName = seriesItem;
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch the Number Series Details');
       });
   }
-  reloadNumberSeries(event){
+  refreshNumberSeries(event) {
     event.stopPropagation();
     event.preventDefault();
     this.getEmployeeNumber()
   }
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
-      this.employeeList = result;
+      let temp = { id: undefined, firstName: 'test', isLastRow: true }
+      // lastrow
+      this.employeeList = [...result, temp];
+      let item = result.find((item) => this.addForm.get('reportingManager').value == item.id)
+      this.employeeObj = item;
     },
       error => {
         console.error(error);
@@ -221,34 +234,69 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   selected($event) {
     this.addForm.patchValue({ reportingManager: $event.item.id });
   }
-  
+
   getNumberSeries(args) {
     this.addForm.patchValue({
-      numberSeriesId:args.value.id
+      numberSeriesId: args.value.id
     })
     const seriesValue = this.numberSeriesId.find((employeeNumber) => employeeNumber.id == args.value.id);
     const addJobDetails = this.addForm.value;
     seriesValue.nextNumber = seriesValue.nextNumber;
     seriesValue.digitInNumber = seriesValue.digitInNumber;
     addJobDetails.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
-   // this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
+    // this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
     //preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix}`
     this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0).concat(seriesValue.suffix));
   }
-  selectDesignation(args){
+  selectDesignation(args) {
     this.addForm.patchValue({
-      jobTitleId:args.value.id
+      jobTitleId: args.value.id
     })
   }
-  refreshDesignation(event){
+  selectVisaDesignation(args){
+    this.addForm.patchValue({
+      visaDesignationId: args.value.id
+    })
+  }
+  selectLocation(args) {
+    this.addForm.patchValue({
+      location: args.value.id
+    })
+  }
+  selectEmpCategory(args) {
+    this.addForm.patchValue({
+      categoryId: args.value.id
+    })
+  }
+  refreshCategory(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getGroupCategory()
+  }
+  refreshLocation(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getBranches()
+  }
+
+  refreshDesignation(event) {
     event.stopPropagation();
     event.preventDefault();
     this.getJobList()
   }
+  refreshRepManager(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeList()
+  }
   getBranches() {
     debugger
     this.branchService.getAll().subscribe(result => {
-      this.location = result;
+      let temp = { id: undefined, shortName: 'test', isLastRow: true }
+      // lastrow
+      this.location = [...result, temp];
+      let item = result.find((item) => this.addForm.get('location').value == item.id)
+      this.loctaionObj = item;
     },
       error => {
         console.error(error);
@@ -259,12 +307,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   onSubmit() {
     const addJobDetails = this.addForm.getRawValue();
     // addJobDetails.reportingManager = addJobDetails.reportingManager.id;
-  
+
     addJobDetails.employeeId = this.passEmployeeId;
     addJobDetails.branchId = addJobDetails.location;
     addJobDetails.companyId = this.location.find(c => c.id == addJobDetails.branchId).companyId;
     // addJobDetails.numberSeriesId = parseInt(addJobDetails.numberSeriesId, 10);
-    this.employeeJobDetailsService.add(addJobDetails).subscribe((result)=>{
+    this.employeeJobDetailsService.add(addJobDetails).subscribe((result) => {
       this.toastr.showSuccessMessage('Employee Job details added successfully!');
     })
     this.jobDetailsForm.emit(addJobDetails);
@@ -283,7 +331,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       jobTitleId: ['', [
         Validators.required
       ]],
-      secondaryJobTitle: ['',[
+      secondaryJobTitle: ['', [
         //Validators.required,
         Validators.maxLength(26),
       ]],
@@ -306,7 +354,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
         Validators.required
       ]],
       probationPeriod: ['', [
-        Validators.required,Validators.max(365)
+        Validators.required, Validators.max(365)
       ]],
       periodType: [3],
       noticePeriod: ['', [
