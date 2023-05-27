@@ -217,7 +217,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.editForm.get("document").value === null) {
+    if (this.editForm.get("document.name").value === null) {
       (this.editForm.get("document") as FormGroup).controls.name.setErrors({
         filename: true,
       });
@@ -294,7 +294,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
       documentId: [0],
       docTypeName:[''],
       document: this.formBuilder.group({
-        name: [null],
+        name: [this.fileName],
         path: [""],
         extension: ["png"],
         size: [null],

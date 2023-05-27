@@ -104,6 +104,19 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     // this.route.params.subscribe((params: any) => {
     //   this.id = params.id;
     // });
+    this.route.params.subscribe((params: any) => {
+      if(params.jobDetailsId){
+        this.employeeJobDetailsService.get(params.jobDetailsId).subscribe(result => {  
+          result.dateOfJoin= new Date(result.dateOfJoin);
+          this.addForm.patchValue(result);
+    
+        },)
+      }
+      
+    });
+    this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
+      this.groupCategory=result;  
+    })
 
     // this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
     //   this.groupCategory=result;  
@@ -312,10 +325,13 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     addJobDetails.branchId = addJobDetails.location;
     addJobDetails.companyId = this.location.find(c => c.id == addJobDetails.branchId).companyId;
     // addJobDetails.numberSeriesId = parseInt(addJobDetails.numberSeriesId, 10);
-    this.employeeJobDetailsService.add(addJobDetails).subscribe((result) => {
+    this.employeeJobDetailsService.add(addJobDetails).subscribe((result)=>{
+      addJobDetails.switchResult=result
+      this.jobDetailsForm.emit(addJobDetails);
       this.toastr.showSuccessMessage('Employee Job details added successfully!');
+      
     })
-    this.jobDetailsForm.emit(addJobDetails);
+    
   }
 
   createFormGroup(): FormGroup {

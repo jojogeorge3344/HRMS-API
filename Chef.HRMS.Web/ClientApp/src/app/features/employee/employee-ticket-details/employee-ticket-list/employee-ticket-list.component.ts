@@ -35,13 +35,16 @@ export class EmployeeTicketListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeeTicketSlablist()
-    if(this.passEmployeeId){
-      this.findEmployeeId=this.passEmployeeId
-    }else{
     this.route.params.subscribe((params: any) => {
-      this.findEmployeeId = parseInt(params.id, 10);
+      if(params.empId){
+      this.findEmployeeId = parseInt(params.empId, 10);
+      }else if(params.id){
+        this.findEmployeeId = parseInt(params.id, 10);
+      }else{
+        this.findEmployeeId = parseInt(this.passEmployeeId, 10);
+      }
     });
-  }
+  
     this.ticketBaseKeys = Object.keys(this.ticketBaseOf).filter(Number).map(Number);
   }
 

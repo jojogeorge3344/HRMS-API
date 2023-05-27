@@ -29,7 +29,11 @@ export class EmployeeSalaryViewComponent implements OnInit {
     private toastr: ToasterDisplayService,
     private route: ActivatedRoute) {
     this.route.params.subscribe((params: any) => {
-      this.employeeId = parseInt(params.id, 10);
+      if(params.empId){
+      this.employeeId = parseInt(params.empId, 10);
+      }else{
+        this.employeeId = parseInt(params.id, 10);
+      }
     });
   }
 

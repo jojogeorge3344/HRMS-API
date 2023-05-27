@@ -131,16 +131,16 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       this.editForm.patchValue(result);
       if(result){
         this.checkFlag=true
-        this.editForm.get("payrollStructureId").setValidators(null)
-        this.editForm.get("payGroupId").setValidators(null)
-        this.editForm.get("overTimePolicyId").setValidators(null)
-        this.editForm.get("paymentMode").setValidators(null)
+        // this.editForm.get("payrollStructureId").setValidators(null)
+        // this.editForm.get("payGroupId").setValidators(null)
+        // this.editForm.get("overTimePolicyId").setValidators(null)
+        // this.editForm.get("paymentMode").setValidators(null)
       }else{
         this.checkFlag=false
-        this.editForm.get("payrollStructureId").setValidators([Validators.required])
-        this.editForm.get("payGroupId").setValidators([Validators.required])
-        this.editForm.get("overTimePolicyId").setValidators([Validators.required])
-        this.editForm.get("paymentMode").setValidators([Validators.required])
+        // this.editForm.get("payrollStructureId").setValidators([Validators.required])
+        // this.editForm.get("payGroupId").setValidators([Validators.required])
+        // this.editForm.get("overTimePolicyId").setValidators([Validators.required])
+        // this.editForm.get("paymentMode").setValidators([Validators.required])
       }
     },
       error => {
@@ -268,17 +268,17 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       attendanceCaptureScheme: ['', [
         Validators.required
       ]],
-      payrollStructureId: [0, 
+      payrollStructureId: [null, [Validators.required]
      ],
-      overTimePolicyId: [0, [
+      overTimePolicyId: [null, [Validators.required]
         
-      ]],
-      payGroupId: [0, [
+      ],
+      payGroupId: [null, [Validators.required]
       
-      ]],
-      paymentMode: [0, [
+      ],
+      paymentMode: [null, [Validators.required]
         
-      ]],
+      ],
       eosId: [0],
       bfCode: [null],
       bfName:[null],

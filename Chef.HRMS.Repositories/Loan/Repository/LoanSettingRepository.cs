@@ -15,26 +15,26 @@ namespace Chef.HRMS.Repositories.Loan
 
         public async Task<IEnumerable<LoanAdvanceRepaymentView>> GetLoanRepayment()
         {
+            int bt = (int)Chef.HRMS.Types.BenefitType.EmployeeLoanRepayment;
             var sql = @"SELECT pc.id AS payrollcomponentid,pc.shortcode AS payrollcomponentcode,pc.name AS payrollcomponentname,
                         pc.payrollcomponenttype,bt.code AS benefittypecode,bt.name AS benefittypename 
                         FROM hrms.payrollcomponent pc
                         INNER JOIN hrms.benefittypes bt
                         ON bt.id = pc.payrollcomponenttype
-                        WHERE pc.payrollcomponenttype = 23
-                        AND pc.isarchived = false order by pc.name";
+                        WHERE pc.payrollcomponenttype = " + bt + " AND pc.isarchived = false order by pc.name"; /*23*/
 
             return await Connection.QueryAsync<LoanAdvanceRepaymentView>(sql);
         }
 
         public async Task<IEnumerable<LoanAdvanceRepaymentView>> GetLoanAdvance()
         {
+            int bt = (int)Chef.HRMS.Types.BenefitType.EmployeeLoan;
             var sql = @"SELECT pc.id AS payrollcomponentid,pc.shortcode AS payrollcomponentcode,pc.name AS payrollcomponentname,
                         pc.payrollcomponenttype,bt.code AS benefittypecode,bt.name AS benefittypename 
                         FROM hrms.payrollcomponent pc
                         INNER JOIN hrms.benefittypes bt
                         ON bt.id = pc.payrollcomponenttype
-                        WHERE pc.payrollcomponenttype = 11
-                        AND pc.isarchived = false order by pc.name";
+                        WHERE pc.payrollcomponenttype = " + bt +" AND pc.isarchived = false order by pc.name"; /*11*/
 
             return await Connection.QueryAsync<LoanAdvanceRepaymentView>(sql);
         }
