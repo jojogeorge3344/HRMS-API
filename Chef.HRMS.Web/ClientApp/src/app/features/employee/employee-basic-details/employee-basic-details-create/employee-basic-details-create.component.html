@@ -58,7 +58,7 @@
                   >Religion<span class="required">*</span></label
                 >
                 <div class="input-group">
-                <p-dropdown [showClear]="true" [(ngModel)]="relName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="religion" optionValue="id"
+                <p-dropdown [(ngModel)]="relName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="religion" optionValue="id"
                  (onChange)="selectReligion($event)" optionLabel="name" placeholder="Select Religion" dataKey="id" name="religionId">
                   <ng-template let-item pTemplate="item" >  
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >

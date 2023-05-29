@@ -150,7 +150,6 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       this.holidayCategoryId = [...result, temp];
       let item = result.find((item) => this.addForm.get('holidayCategoryId').value == item.id)
       this.holidayListObj = item;
-
     },
       error => {
         console.error(error);

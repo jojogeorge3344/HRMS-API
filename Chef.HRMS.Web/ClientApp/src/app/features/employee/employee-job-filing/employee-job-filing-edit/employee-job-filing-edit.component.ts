@@ -307,7 +307,6 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     }) 
       let item: any = this.eosTypes.filter(el => this.editForm.get('eosId').value == el.id)
       this.editForm.patchValue({
-        eosId: args.value.id,
         bfCode: item[0].bfCode,
         bfName: item[0].bfName
       })  
