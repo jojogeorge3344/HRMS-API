@@ -4,4 +4,5 @@ export interface PayrollComponent extends Model {
   payrollComponentType: number;
   shortCode: string;
   description: string;
+  orderNumber:any
 }

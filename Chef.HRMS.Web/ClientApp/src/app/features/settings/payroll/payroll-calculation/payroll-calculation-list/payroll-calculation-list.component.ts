@@ -42,7 +42,7 @@ export class PayrollCalculationListComponent implements OnInit {
   }
 
   isDisabled(component, payrollStructureId) {
-    return !component.isFixed || this.assignedPayrollStructures.includes(payrollStructureId);
+    return !component.isFixed || this.assignedPayrollStructures.includes(payrollStructureId) || component.payHeadContractValueType!=2;
   }
 
   getPayrollCalculationDetails() {

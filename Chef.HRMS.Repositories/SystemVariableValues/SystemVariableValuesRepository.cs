@@ -33,6 +33,19 @@ namespace Chef.HRMS.Repositories
 			this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
 		}
 
+		public async Task<IEnumerable<SystemVariableValues>> GetSystemVariableValuesByEmployeeId(int employeeId)
+		{
+			DateTime nextMonth = DateTime.Now.AddMonths(1);
+			int month = nextMonth.Month;
+			int year = nextMonth.Year;
+            var sql = @"select sv.code,svv.transvalue from hrms.systemvariable sv
+						join hrms.systemvariablevalues svv 
+						on sv.id = svv.systemvariableid
+					    where  svv.employeeid = @employeeId
+						and EXTRACT(MONTH FROM svv.transdate) = @month AND EXTRACT(YEAR FROM svv.transdate) = @year";
+            //sv.code = 'Wkg_Dys_Cldr_Mth'or sv.code = 'Wkd_Dys_Cldr_Mth'  and
+            return await Connection.QueryAsync<SystemVariableValues>(sql, new { employeeId, month, year });
+        }
         public async Task<string> InsertSystemVariableDetails(int PayGroupId, int ppMId)//, PayrollProcessingMethod systemVariableValues)
         {
 			

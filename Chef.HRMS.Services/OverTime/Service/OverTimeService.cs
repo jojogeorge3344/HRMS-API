@@ -7,6 +7,8 @@ using OfficeOpenXml;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System;
+using System.Linq;
 
 namespace Chef.HRMS.Services
 {
@@ -135,6 +137,67 @@ namespace Chef.HRMS.Services
         public async Task<int> OverTimeBulkInsert(IEnumerable<OverTime> overTimes)
         {
             return await overTimeRepository.OverTimeBulkInsert(overTimes);
+        }
+
+        public async Task<IEnumerable<OverTimeDetailsView>> GetOverTimeValidation(IEnumerable<OverTimeDetailsView> overTimeDetailsViews)
+        {
+            if (overTimeDetailsViews != null)
+            {
+                List<string> errorMessage= new List<string>();
+                foreach (OverTimeDetailsView detailsView in overTimeDetailsViews)
+                {
+                    detailsView.IsValid = true;
+                    if (detailsView.EmployeeNumber != null)
+                    {
+                        bool isEmployeeNumberExist = await overTimeRepository.GetOverTimeDetails(detailsView.EmployeeNumber);
+                        if (!isEmployeeNumberExist)
+                        {
+                            errorMessage.Add("Employee Code Not Valid");
+                            detailsView.IsValid = false;
+                        }
+                    }
+
+                    if (detailsView.FromDate != null)
+                    {
+
+                        bool isOverTimeDateExist = await overTimeRepository.GetOverTimeDateDetails(detailsView.FromDate, detailsView.EmployeeId);
+                        if (isOverTimeDateExist)
+                        {
+                            errorMessage.Add("Already Applied In This Date"); 
+                            detailsView.IsValid = false;
+                        }
+                    }
+
+                    var days = detailsView.ToDate - detailsView.FromDate;
+                    int intDays = days.Days;
+                    int MaxHrs = intDays * 24;
+
+                    if (detailsView.NormalOverTime > MaxHrs)
+                    {
+                        errorMessage.Add("Per day NormalOverTime 24hrs limit exceed");
+                        detailsView.IsValid = false;
+                    }
+
+                    if (detailsView.HolidayOverTime > MaxHrs)
+                    {
+                        errorMessage.Add("Per day HolidayOverTime 24hrs limit exceed");
+                        detailsView.IsValid = false;
+                    }
+
+                    if (detailsView.SpecialOverTime > MaxHrs)
+                    {
+                        errorMessage.Add("Per day SpecialOverTime 24hrs limit exceed");
+                        detailsView.IsValid = false;
+                    }
+
+                    detailsView.ErrorMessage = string.Join(",", errorMessage.ToArray());
+                }
+            }
+            else
+            {
+                throw new Exception("Empty Data source");
+            }
+                return overTimeDetailsViews;
         }
     }
 }
