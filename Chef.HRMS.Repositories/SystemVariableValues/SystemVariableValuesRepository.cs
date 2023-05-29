@@ -1,5 +1,8 @@
 ﻿using AutoMapper.Configuration.Annotations;
+using Chef.Common.Models;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +16,25 @@ namespace Chef.HRMS.Repositories
         private readonly IBulkUploadRepository bulkUploadRepository;
 		private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
 		private readonly IPayGroupRepository payGroupRepository;
+		private readonly IOverTimePolicySlabRepository overTimePolicySlabRepository;
+		private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
 
 		public SystemVariableValuesRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session, IBulkUploadRepository bulkUploadRepository,
 			IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
-			IPayGroupRepository payGroupRepository) : base(httpContextAccessor, session)
+			IPayGroupRepository payGroupRepository, IOverTimePolicySlabRepository overTimePolicySlabRepository,
+			ITenantSimpleUnitOfWork tenantSimpleUnitOfWork
+			) : base(httpContextAccessor, session)
         {
             this.bulkUploadRepository = bulkUploadRepository;
             this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
 			this.payGroupRepository = payGroupRepository;
+			this.overTimePolicySlabRepository = overTimePolicySlabRepository;
+			this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
 		}
 
         public async Task<string> InsertSystemVariableDetails(int PayGroupId, int ppMId)//, PayrollProcessingMethod systemVariableValues)
         {
+			
 			var processingMethod = await payrollProcessingMethodRepository.GetAsync(ppMId);
 			int intMonth = processingMethod.Month;
 			var payGroupDet = await payGroupRepository.GetAsync(PayGroupId);
@@ -79,6 +89,243 @@ namespace Chef.HRMS.Repositories
             var dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
 			#endregion
 
+			//NOT
+			tenantSimpleUnitOfWork.BeginTransaction();
+			try
+			{
+				sql = @"SELECT  hm.id,jf.overtimepolicyid,OTC.isovertimeslab,OTC.ismonthly
+						FROM hrms.hrmsemployee hm
+						INNER JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+						INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = jf.overtimepolicyid
+						WHERE jf.paygroupid=@PayGroupId AND 
+						hm.isarchived=false AND jf.isarchived=false ";
+				var empList = await Connection.QueryAsync<SystemVariableEmpId>(sql, new
+				{
+					PayGroupId
+				});
+				List<SystemVariableValues> systemVariableValues_ot = new List<SystemVariableValues>();
+				foreach (SystemVariableEmpId emp in empList)
+				{
+					if (emp.IsOverTimeSlab)
+					{
+						if (emp.IsMonthly)
+						{
+							sql = @"SELECT
+							(SELECT id FROM hrms.systemvariable WHERE code='Nml_Ot_Cldr_Mth' AND isarchived=false LIMIT 1) AS Nml_SystemVariableId ,
+							(SELECT id FROM hrms.systemvariable WHERE code='Sp_Ot' AND isarchived=false LIMIT 1) AS Sp_Otsystemvariableid,
+							(SELECT id FROM hrms.systemvariable WHERE code='Hd_Ot' AND isarchived=false LIMIT 1) AS Hd_Otsystemvariableid,
+							SUM(OT.normalovertime) AS normalovertime,SUM(OT.specialovertime) AS specialovertime,
+							SUM(OT.holidayovertime) AS holidayovertime
+							FROM hrms.overtime OT
+							INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
+							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
+							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate";
+
+							var EmpSettings = await Connection.QueryAsync<SystemVariableOTDto>(sql, new
+							{
+								timeSheetStartDate,
+								timeSheetEndDate,
+								employeeid = emp.Id,
+								overtimepolicyid = emp.OverTimePolicyId
+							});
+							sql = @"SELECT MIN(lowerlimit),MAX(upperlimit),OTS.overtimetype 
+								FROM hrms.overtimeslab OTS 
+								WHERE OTS.overtimepolicyid = @overtimepolicyid
+								GROUP BY OTS.overtimetype 
+								ORDER BY OTS.overtimetype";
+							var oTSlab = await Connection.QueryAsync<OverTimeSlab>(sql, new
+							{
+								overtimepolicyid = emp.OverTimePolicyId
+							});
+							List<SystemVariableOTDto> systemVariableOTDto = (List<SystemVariableOTDto>)EmpSettings;
+							var row = systemVariableOTDto.FirstOrDefault(x=>x.NormalOverTime!=0);
+							if (row != null&& row.NormalOverTime>0)
+							{
+								decimal OTHrs = row.NormalOverTime;
+								foreach (OverTimeSlab item in oTSlab)
+								{
+									decimal lowerLimit = item.LowerLimit;
+									decimal upperLimit = item.UpperLimit;
+									if (item.OverTimeType == (int)OverTimeType.NormalOverTime)
+									{
+										if (OTHrs > lowerLimit)
+										{
+											if (OTHrs > upperLimit)
+											{
+												systemVariableValues_ot.
+												dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_ot);
+											}
+										}
+									}
+								}
+							}
+						}
+						
+					}
+					else
+					{ 
+					
+					}
+					//sql = @"SELECT OT.fromdate,OT.todate, OT.employeeid AS employeeid,
+					//	OTC.isovertimeslab , OTC.ismonthly,OTC.overtimepolicyid
+					//	FROM hrms.overtime OT
+					//	INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
+					//	WHERE  OT.requeststatus=1  AND OT.employeeid ";
+
+					//var EmpSettings = await Connection.QueryAsync<SystemVariableOTDto>(sql, new
+					//{
+					//	timeSheetStartDate,
+					//	timeSheetEndDate
+					//});
+				}
+				//sql = @"SELECT
+				//		(SELECT id FROM hrms.systemvariable WHERE code='Nml_Ot_Cldr_Mth' AND isarchived=false LIMIT 1)
+				//		AS Nmlsystemvariableid ,(SELECT id FROM hrms.systemvariable WHERE code='Sp_Ot' AND isarchived=false LIMIT 1)
+				//		AS Sp_Otsystemvariableid ,OT.fromdate,OT.todate, OT.employeeid AS employeeid,
+				//		CASE WHEN  coalesce(OTC.ismonthly,true)=true THEN SUM(OT.normalovertime) ELSE OT.normalovertime END AS  AS transvalue,
+				//		OTC.isovertimeslab , OTC.ismonthly,OTC.overtimepolicyid
+				//		FROM hrms.overtime OT
+				//		INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
+				//		WHERE  OT.requeststatus=1  AND OT.employeeid 
+				//		IN
+				//		(
+				//			SELECT hm.id FROM hrms.hrmsemployee hm
+				//			LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+				//			LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+				//			WHERE pg.id=@PayGroupId AND 
+				//			hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+				//		)
+				//		AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
+				//		GROUP BY OT.employeeid,OT.fromdate,OT.todate,OT.normalovertime,OTC.isovertimeslab, OTC.ismonthly,OTC.overtimepolicyid";
+
+				//var NOt = await Connection.QueryAsync<SystemVariableOTDto>(sql, new
+				//{
+				//	PayGroupId,
+				//	timeSheetStartDate,
+				//	timeSheetEndDate
+				//});
+				//List<SystemVariableValues> systemVariableValues_Not = new List<SystemVariableValues>();
+				//foreach (SystemVariableOTDto systemVariableOTDto in NOt)
+				//{
+				//	if (systemVariableOTDto.IsOverTimeSlab == true)
+				//	{
+				//		//if (systemVariableOTDto.IsMonthly)
+				//		//{
+				//		var overTimeSlabs = await overTimePolicySlabRepository.GetOverTimeComponentDetails(systemVariableOTDto.OverTimePolicyId);
+				//		decimal hrs = systemVariableOTDto.TransValue;
+				//		decimal lowerlimit1 = 0;
+				//		decimal lowerlimit2 = 0;
+				//		decimal upperlimit1 = 0;
+				//		decimal upperlimit2 = 0;
+				//		for (int i = 0; i < overTimeSlabs.ToList().Count; i++)
+				//		{
+				//			if (i == 0)
+				//			{
+				//				lowerlimit1 = overTimeSlabs.ToList()[i].LowerLimit;
+				//				upperlimit1 = overTimeSlabs.ToList()[i].UpperLimit;
+				//			}
+				//			else
+				//			{
+				//				if (overTimeSlabs.ToList()[i].LowerLimit > lowerlimit1 && overTimeSlabs.ToList()[i].UpperLimit > upperlimit1)
+				//				{
+				//					lowerlimit2 = overTimeSlabs.ToList()[i].LowerLimit;
+				//					upperlimit2 = overTimeSlabs.ToList()[i].UpperLimit;
+				//				}
+				//				else
+				//				{
+				//					lowerlimit2 = lowerlimit1;
+				//					upperlimit2 = upperlimit1;
+				//					lowerlimit1 = overTimeSlabs.ToList()[i].LowerLimit;
+				//					upperlimit1 = overTimeSlabs.ToList()[i].UpperLimit;
+				//				}
+				//			}
+				//		}
+				//		if (hrs > lowerlimit1)
+				//		{
+				//			if (hrs > upperlimit1)
+				//			{
+				//				systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
+				//				{
+				//					SystemVariableId = x.Nml_SystemVariableId,
+				//					TransValue = x.TransValue,
+				//					EmployeeId = x.EmployeeId,
+				//					TransDate = monthEnd
+				//				}).ToList();
+				//			}
+				//			else
+				//			{
+				//				systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
+				//				{
+				//					SystemVariableId = x.Nml_SystemVariableId,
+				//					TransValue = upperlimit1,
+				//					EmployeeId = x.EmployeeId,
+				//					TransDate = monthEnd
+				//				}).ToList();
+				//				if (hrs > upperlimit2)
+				//				{
+				//					systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
+				//					{
+				//						SystemVariableId = x.Nml_SystemVariableId,
+				//						TransValue = upperlimit2 - upperlimit1,
+				//						EmployeeId = x.EmployeeId,
+				//						TransDate = monthEnd
+				//					}).ToList();
+				//				}
+				//				else
+				//				{
+				//					systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
+				//					{
+				//						SystemVariableId = x.Nml_SystemVariableId,
+				//						TransValue = hrs - upperlimit1,
+				//						EmployeeId = x.EmployeeId,
+				//						TransDate = monthEnd
+				//					}).ToList();
+				//				}
+				//			}
+				//		}
+				//		//}
+				//		//else
+				//		//{ 
+
+				//		//}
+				//	}
+				//	else
+				//	{
+				//		systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
+				//		{
+				//			SystemVariableId = x.Nml_SystemVariableId,
+				//			TransValue = x.TransValue,
+				//			EmployeeId = x.EmployeeId,
+				//			TransDate = monthEnd
+				//		}).ToList();
+
+
+				//	}
+				//}
+				////Dictionary<int, int> overtimeSumByEmpId = new Dictionary<int, int>();
+
+				////foreach (var employee in employees)
+				////{
+				////	if (overtimeSumByEmpId.ContainsKey(employee.EmpId))
+				////	{
+				////		overtimeSumByEmpId[employee.EmpId] += employee.Overtime;
+				////	}
+				////	else
+				////	{
+				////		overtimeSumByEmpId[employee.EmpId] = employee.Overtime;
+				////	}
+				////}
+
+				//dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Not);
+				tenantSimpleUnitOfWork.Commit();
+			}
+			catch (Exception)
+			{
+				tenantSimpleUnitOfWork.Rollback();
+				throw;
+			}
+
+
 			//OT
 			#region OT
 			sql = @"SELECT
@@ -117,7 +364,7 @@ namespace Chef.HRMS.Repositories
 						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
 						GROUP BY OT.employeeid
 
-					UNION
+					/*UNION
 						
 					SELECT
 						(SELECT id FROM hrms.systemvariable WHERE code='Nml_Ot_Cldr_Mth' AND isarchived=false LIMIT 1)
@@ -134,7 +381,7 @@ namespace Chef.HRMS.Repositories
 							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
 						)
 						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
-						GROUP BY OT.employeeid";
+						GROUP BY OT.employeeid*/";
 
 			var Ot = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId, timeSheetStartDate, timeSheetEndDate
 			});
