@@ -46,10 +46,8 @@
                                 </div>
                                 <div class="col-2 py-2 pl-2">
                                     <div class="custom-control custom-checkbox">
-                                        <input disabled readonly type="checkbox" class="chkbox" name="isMandatory" for="isMandatory" (click)="updateEnable(i);"
-                                            id="isMandatory" formControlName="isMandatory"
-                                            [attr.disabled]="isDisabled(i)?true:null"
-                                            [ngClass]="{'disabled': isDisabled(i)}">
+                                        <input disabled  type="checkbox" class="chkbox" name="isMandatory" for="isMandatory" (click)="updateEnable(i);"
+                                            id="isMandatory" formControlName="isMandatory">
                                     </div>
                                 </div>
                                 <!-- <div class="col-1 pt-2">
