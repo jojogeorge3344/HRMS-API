@@ -26,7 +26,7 @@
                                    INNER JOIN hrms.payrollcomponentconfiguration pc 
                                            ON ps.id = pc.payrollstructureid AND pc.isarchived= false
                                    INNER JOIN hrms.payrollcomponent pcmp 
-                                           ON pc.payrollcomponentid = pcmp.id 
+                                           ON pc.payrollcomponentid = pcmp.id AND pcmp.isarchived = false
                                    LEFT JOIN hrms.payrollcalculation pcalc 
                                           ON pcmp.id = pcalc.payrollcomponentid 
                                           AND ps.id=pcalc.payrollstructureid  
@@ -34,7 +34,7 @@
                                       pcmp.id, 
                                       pcalc.formula,
                                       pcalc.id
-                            ORDER  BY ps.id DESC";
+                            ORDER  BY ps.id desc, pcmp.NAME";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
         }
