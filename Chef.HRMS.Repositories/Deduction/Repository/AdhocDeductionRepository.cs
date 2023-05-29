@@ -78,9 +78,13 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<BenefitTypes>> GetBenefitTypes()
         {
-            var sql = @"SELECT * FROM hrms.benefittypes
-                        WHERE isarchived=false AND id IN (17,25)";
+            //var sql = @"SELECT * FROM hrms.benefittypes
+            //            WHERE isarchived=false AND id IN (17,25)";
 
+            int bt1 = (int) Chef.HRMS.Types.BenefitType.SundryEarnings;
+            int bt2 = (int) Chef.HRMS.Types.BenefitType.SundryDeductions;
+            var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id IN (" + bt1 +" , "+ bt2 + ")";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 

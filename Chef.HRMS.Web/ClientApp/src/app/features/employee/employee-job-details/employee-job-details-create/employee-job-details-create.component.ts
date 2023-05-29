@@ -57,6 +57,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   searchFailed: boolean;
   employeeList: Employee[];
   config;
+  reportingManager: number;
+  selectedDatasource:any;
 
   @Input() id: any;
   location: Branch[];
@@ -98,7 +100,17 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     // this.route.params.subscribe((params: any) => {
     //   this.id = params.id;
     // });
+    this.route.params.subscribe((params: any) => {
+      if(params.jobDetailsId){
+        this.employeeJobDetailsService.get(params.jobDetailsId).subscribe(result => {  
+          result.dateOfJoin= new Date(result.dateOfJoin);
+          this.reportingManager=result.reportingManager  
+          this.addForm.patchValue(result);
     
+        },)
+      }
+      
+    });
     this.employeeJobDetailsService.getCategory().subscribe((result)=>{      
       this.groupCategory=result;  
     })
@@ -174,6 +186,11 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   getEmployeeList() {
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result;
+      this.employeeList = result.filter(employee => employee.id !== this.id);
+      const details = this.employeeList.find(emp => emp.id === this.reportingManager);
+      this.selectedDatasource=details.firstName
+      //this.editForm.patchValue({ reportingManager: this.selectedDatasource });
+      this.selectionChanged(details)
     },
       error => {
         console.error(error);
@@ -241,9 +258,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     addJobDetails.companyId = this.location.find(c => c.id == addJobDetails.branchId).companyId;
     // addJobDetails.numberSeriesId = parseInt(addJobDetails.numberSeriesId, 10);
     this.employeeJobDetailsService.add(addJobDetails).subscribe((result)=>{
+      addJobDetails.switchResult=result
+      this.jobDetailsForm.emit(addJobDetails);
       this.toastr.showSuccessMessage('Employee Job details added successfully!');
+      
     })
-    this.jobDetailsForm.emit(addJobDetails);
+    
   }
 
   createFormGroup(): FormGroup {
