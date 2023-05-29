@@ -50,16 +50,16 @@
                             <tbody>
                                 <tr tooltip="{{overTimeValidatedData.errorMessage}}" 
                                 *ngFor="let overTimeValidatedData of overTimeValidatedData; let i = index"
-                                [ngStyle]="{'background': !overTimeValidatedData.isValid ? 'rgb(210 221 238)': ''}">
-                                    <td>{{i+1}}</td>
-                                    <td>{{overTimeValidatedData.employeeNumber}}</td>
-                                    <td>{{overTimeValidatedData.employeeName}}</td>
-                                    <td>{{overTimeValidatedData.fromDate | date}}</td>
-                                    <td>{{overTimeValidatedData.toDate | date}}</td>
-                                    <td>{{overTimeValidatedData.normalOverTime }}</td>
-                                    <td>{{overTimeValidatedData.holidayOverTime }}</td>
-                                    <td>{{overTimeValidatedData.specialOverTime }}</td>
-                                    <td>{{overTimeValidatedData.reason }}</td>
+                                [ngStyle]="{'background': !overTimeValidatedData.isValid ? '#e7e7e7': ''}">
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{i+1}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.employeeNumber}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.employeeName}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.fromDate | date}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.toDate | date}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.normalOverTime }}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.holidayOverTime }}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.specialOverTime }}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.reason }}</td>
                                 </tr>
                                 <tr *ngIf="!overTimeValidatedData?.length">
                                     <td colspan="10" class="text-center">
