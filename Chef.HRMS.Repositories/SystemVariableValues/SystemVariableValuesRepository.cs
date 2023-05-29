@@ -3,6 +3,7 @@ using Chef.Common.Models;
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Types;
+using Duende.IdentityServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,7 +104,7 @@ namespace Chef.HRMS.Repositories
 				{
 					PayGroupId
 				});
-				List<SystemVariableValues> systemVariableValues_ot = new List<SystemVariableValues>();
+				List<SystemVariableValues> systemVariableValues_not = new List<SystemVariableValues>();
 				foreach (SystemVariableEmpId emp in empList)
 				{
 					if (emp.IsOverTimeSlab)
@@ -144,16 +145,67 @@ namespace Chef.HRMS.Repositories
 								decimal OTHrs = row.NormalOverTime;
 								foreach (OverTimeSlab item in oTSlab)
 								{
-									decimal lowerLimit = item.LowerLimit;
-									decimal upperLimit = item.UpperLimit;
+									decimal lowerLimit = 0;
+									decimal upperLimit = 0;
 									if (item.OverTimeType == (int)OverTimeType.NormalOverTime)
 									{
+										 lowerLimit = item.LowerLimit;
+										 upperLimit = item.UpperLimit;
 										if (OTHrs > lowerLimit)
 										{
+											SystemVariableOTDto empSetting = (SystemVariableOTDto)EmpSettings.Where(x => x.Nml_SystemVariableId > 0);
+
 											if (OTHrs > upperLimit)
 											{
-												systemVariableValues_ot.
-												dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_ot);
+												SystemVariableValues systemVarValues = new SystemVariableValues
+												{
+													SystemVariableId = empSetting.Nml_SystemVariableId,
+													TransValue = upperLimit,
+													EmployeeId = emp.Id,
+													TransDate = monthEnd
+												};
+												systemVariableValues_not.Add(systemVarValues);
+											}
+											else
+											{
+												SystemVariableValues systemVarValues = new SystemVariableValues
+												{
+													SystemVariableId = empSetting.Nml_SystemVariableId,
+													TransValue = OTHrs,
+													EmployeeId = emp.Id,
+													TransDate = monthEnd
+												};
+												systemVariableValues_not.Add(systemVarValues);
+											}
+										}
+									}
+									if (item.OverTimeType == (int)OverTimeType.SpecialOvertime)
+									{
+										if (OTHrs > item.LowerLimit)
+										{
+											SystemVariableOTDto empSetting = (SystemVariableOTDto)EmpSettings.Where(x => x.Nml_SystemVariableId > 0);
+
+											if (OTHrs > item.UpperLimit)
+											{
+												SystemVariableValues systemVarValues = new SystemVariableValues
+												{
+													SystemVariableId = empSetting.Sp_OtSystemVariableId,
+													TransValue = item.UpperLimit-upperLimit,
+													EmployeeId = emp.Id,
+													TransDate = monthEnd
+												};
+												systemVariableValues_not.Add(systemVarValues);
+											}
+											else
+											{
+												SystemVariableValues systemVarValues = new SystemVariableValues
+												{
+													SystemVariableId = empSetting.Sp_OtSystemVariableId,
+													TransValue = OTHrs-upperLimit,
+													EmployeeId = emp.Id,
+													TransDate = monthEnd
+												};
+												systemVariableValues_not.Add(systemVarValues);
 											}
 										}
 									}
@@ -178,6 +230,7 @@ namespace Chef.HRMS.Repositories
 					//	timeSheetEndDate
 					//});
 				}
+				dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_not);
 				//sql = @"SELECT
 				//		(SELECT id FROM hrms.systemvariable WHERE code='Nml_Ot_Cldr_Mth' AND isarchived=false LIMIT 1)
 				//		AS Nmlsystemvariableid ,(SELECT id FROM hrms.systemvariable WHERE code='Sp_Ot' AND isarchived=false LIMIT 1)
