@@ -19,8 +19,8 @@
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                       {{item?.value.name}} 
                     </div> 
-                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshNumberSeries($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
+                    <div class="dd-values-refresh" *ngIf="item?.value?.isLastRow" (click)="refreshNumberSeries($event)">
+                      Refresh
                    </div>
                 </ng-template>
                 </p-dropdown>
@@ -52,7 +52,7 @@
                       {{item?.value.name}} 
                     </div> 
                     <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshDesignation($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
+                      Refresh
                    </div>
                 </ng-template>
                 </p-dropdown>
@@ -107,7 +107,7 @@
                       {{item?.value.shortName}} - {{item?.value.city}} 
                     </div> 
                     <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshLocation($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
+                     Refresh
                    </div>
                 </ng-template>
                 </p-dropdown>
@@ -128,7 +128,7 @@
                       {{item?.value.firstName}}
                     </div> 
                     <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRepManager($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
+                     Refresh
                    </div>
                 </ng-template>
                 </p-dropdown>
@@ -193,13 +193,13 @@
                   >Employee Category<span class="required">*</span></label
                 >
                 <p-dropdown [(ngModel)]="categoryObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="groupCategory" optionValue="id"
-                (onChange)="selectEmpCategory($event)" optionLabel="name" placeholder="Select Employee Category" dataKey="id" name="location">
+                (onChange)="selectEmpCategory($event)" optionLabel="name" placeholder="Select Employee Category" dataKey="id" name="categoryId">
                   <ng-template let-item pTemplate="item" >  
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                       {{item?.value.name}} 
                     </div> 
                     <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshCategory($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
+                        Refresh
                    </div>
                 </ng-template>
                 </p-dropdown>

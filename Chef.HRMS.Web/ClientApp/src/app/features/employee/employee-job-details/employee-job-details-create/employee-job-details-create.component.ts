@@ -157,6 +157,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
 
   }
   getGroupCategory() {
+    debugger
     this.employeeJobDetailsService.getCategory().subscribe((result: any) => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
@@ -244,9 +245,6 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     );
   }
 
-  selected($event) {
-    this.addForm.patchValue({ reportingManager: $event.item.id });
-  }
 
   getNumberSeries(args) {
     this.addForm.patchValue({

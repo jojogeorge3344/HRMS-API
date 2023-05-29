@@ -124,7 +124,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.getEmployeeNumber();
     this.getBranches();
     this.getEmployeeList();
-    
+    this.getGroupCategory()
     this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
        this.visaDesignation=result;
     })
@@ -168,10 +168,8 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
   getJobDetailsId() {
      this.employeeJobDetailsService.get(this.jobDetailsId).subscribe(result => {
-      this.getEmployeeList();
       result.dateOfJoin = new Date(result.dateOfJoin);
       localStorage.setItem('doj',JSON.stringify(result.dateOfJoin))
-      this.reportingManager = result.reportingManager;
       this.numberSeries=result.numberSeriesId;
       this.editForm.patchValue(result);
       if(this.editForm.value.numberSeriesId){
@@ -189,6 +187,10 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       this.seriesName = seriesItem;
       let item = this.location.find((item) => this.editForm.get('location').value == item.id)
       this.loctaionObj = item;
+      let categoryItem = this.groupCategory.find((item) => this.editForm.get('categoryId').value == item.id)
+      this.categoryObj = categoryItem;
+      let employeeItem = this.employeeList.find((item) => this.editForm.get('reportingManager').value == item.id)
+      this.employeeObj = employeeItem;
 
 
     },
@@ -217,8 +219,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.groupCategory = [...result, temp];
-      let item = result.find((item) => this.editForm.get('categoryId').value == item.id)
-      this.categoryObj = item;
 
     })
   }
@@ -228,9 +228,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.employeeList = [...result, temp];
-      let item = result.find((item) => this.editForm.get('reportingManager').value == item.id)
-      this.employeeObj = item;
-      //this.editForm.patchValue({ reportingManager: this.selectedDatasource });
     },
       error => {
         console.error(error);
@@ -316,7 +313,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   // }
 
   getBranches() {
-    debugger
     this.branchService.getAll().subscribe(result => {
       let temp = { id: undefined, shortName: 'test', isLastRow: true }
       // lastrow
@@ -337,20 +333,17 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     const addJobDetails = this.editForm.value;
     seriesValue.nextNumber = seriesValue.nextNumber;
     seriesValue.digitInNumber = seriesValue.digitInNumber;
-    this.editForm.value.numberSeriesId=args.value.id
     addJobDetails.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
    // this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0));
     //preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix}`
     this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0).concat(seriesValue.suffix));
   }
   onSubmit() {
-     
     const editJobDetails = this.editForm.value;
-    if(this.numberSeries){
-    editJobDetails.numberSeriesId= this.numberSeries
-    }
-    editJobDetails.branchId = editJobDetails.location;
-    editJobDetails.companyId = this.branches.find(c => c.id == editJobDetails.branchId).companyId;
+    debugger
+    editJobDetails.numberSeriesId= this.editForm.get('numberSeriesId').value
+    // editJobDetails.branchId = editJobDetails.location;
+    // editJobDetails.companyId = this.branches.find(c => c.id == editJobDetails.branchId).companyId;
     editJobDetails.employeeId = parseInt(this.id, 10);
     editJobDetails.id = parseInt(this.jobDetailsId, 10);
     editJobDetails.createdDate=this.editForm.value.createdDate ? this.editForm.value.createdDate : new Date()

@@ -58,14 +58,14 @@
                   >Religion<span class="required">*</span></label
                 >
                 <div class="input-group">
-                <p-dropdown [(ngModel)]="relName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="religion" optionValue="id"
+                <p-dropdown [showClear]="true" [(ngModel)]="relName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="religion" optionValue="id"
                  (onChange)="selectReligion($event)" optionLabel="name" placeholder="Select Religion" dataKey="id" name="religionId">
                   <ng-template let-item pTemplate="item" >  
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                       {{item?.value.name}} 
                     </div> 
                     <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="reloadDocTypes($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
+                      Refresh
                    </div>
                 </ng-template>
                 </p-dropdown>

@@ -1,211 +1,240 @@
 <form [formGroup]="editForm" id="jobDetailsForm" (validSubmit)="onSubmit()">
-    <!-- <div class="modal-header">
+  <!-- <div class="modal-header">
         <h4 class="modal-title">Add Job Fillings</h4>
     </div> -->
-    <div class="p-3">
-        
-        <div class="row align-items-baseline flex-row-reverse">
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="employeeNumber">Employee Code</label>
-                <input readonly class="form-control" id="employeeNumber" name="employeeNumber" [(ngModel)]="employeeNumber" value="" formControlName="employeeNumber">
-            </div>
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="numberSeriesId"
-                  >Number Series<span class="required">*</span></label
-                >
-                <p-dropdown [(ngModel)]="seriesName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="numberSeriesId" optionValue="id"
-                (onChange)="getNumberSeries($event)" optionLabel="name" placeholder="Select Number Series" dataKey="id" name="numberSeriesId">
-                  <ng-template let-item pTemplate="item" >  
-                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
-                      {{item?.value.name}} 
-                    </div> 
-                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshNumberSeries($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
-                   </div>
-                </ng-template>
-                </p-dropdown>
-              <div class="d-flex justify-content-between align-items-center">
-                <div *ngIf="this.editForm.get('numberSeriesId').touched && this.editForm.get('numberSeriesId').invalid" class="invalid-feedback d-block">
-                    Number series* is required
-                </div>
-            </div>
-              </div> 
-            <div class="form-group form-input-inline input-group col">
-                <label class="col-12 col-form-label px-0" for="dateOfJoin">Date of Joining<span class="required">*</span></label>
-                <input class="form-control w-75" name="newDate" formControlName="dateOfJoin" [minDate]="minDate" [maxDate]="maxDate"
-                     ngbDatepicker #dob="ngbDatepicker">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"
-                        type="button"></button>
-                </div>
-            </div>
-        </div>
-        <div class="row align-items-baseline">
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="jobTitleId"
-                  >Designation<span class="required">*</span></label
-                >
-                <p-dropdown [(ngModel)]="designationName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="jobTitleId" optionValue="id"
-                (onChange)="selectDesignation($event)" optionLabel="name" placeholder="Select Designation" dataKey="id" name="jobTitleId">
-                  <ng-template let-item pTemplate="item" >  
-                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
-                      {{item?.value.name}} 
-                    </div> 
-                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshDesignation($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
-                   </div>
-                </ng-template>
-                </p-dropdown>
-              <div class="d-flex justify-content-between align-items-center">
-                <div *ngIf="this.editForm.get('jobTitleId').touched && this.editForm.get('jobTitleId').invalid" class="invalid-feedback d-block">
-                    Designation* is required
-                </div>
-            </div>
-              </div> 
-              
+  <div class="p-3">
 
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="secondaryJobTitle">Secondary Job Title</label>
-                <input autocomplete="off" type="text" class="form-control" id="secondaryJobTitle" name="secondaryJobTitle" formControlName="secondaryJobTitle">
+    <div class="row align-items-baseline flex-row-reverse">
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="employeeNumber">Employee Code</label>
+        <input readonly class="form-control" id="employeeNumber" name="employeeNumber" [(ngModel)]="employeeNumber"
+          value="" formControlName="employeeNumber">
+      </div>
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="numberSeriesId">Number Series<span class="required">*</span></label>
+        <p-dropdown [(ngModel)]="seriesName" [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+          [options]="numberSeriesId" optionValue="id" (onChange)="getNumberSeries($event)" optionLabel="name"
+          placeholder="Select Number Series" dataKey="id" name="numberSeriesId">
+          <ng-template let-item pTemplate="item">
+            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+              {{item?.value.name}}
             </div>
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="businessUnit">Business Unit<span class="required">*</span></label>
-                <select class="form-control" formControlName="businessUnit">
-                    <option value="" disabled>Select Business Unit</option>
-                    <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>                    
-                        {{businessUnitType[key]}}</option>
-                </select>
+            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshNumberSeries($event)">
+              Refresh
             </div>
+          </ng-template>
+        </p-dropdown>
+        <div class="d-flex justify-content-between align-items-center">
+          <div *ngIf="this.editForm.get('numberSeriesId').touched && this.editForm.get('numberSeriesId').invalid"
+            class="invalid-feedback d-block">
+            Number series* is required
+          </div>
         </div>
-        <div class="row align-items-baseline">
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="department">Department<span class="required">*</span></label>
-                <select class="form-control" formControlName="department">
-                    <option value="" disabled>Select Department Type</option>
-                    <option *ngFor="let key of departmentTypeKeys" [ngValue]='key'>                    
-                        {{departmentType[key]}}</option>
-                </select>
+      </div>
+      <div class="form-group form-input-inline input-group col">
+        <label class="col-12 col-form-label px-0" for="dateOfJoin">Date of Joining<span
+            class="required">*</span></label>
+        <input class="form-control w-75" name="newDate" formControlName="dateOfJoin" [minDate]="minDate"
+          [maxDate]="maxDate" ngbDatepicker #dob="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()" type="button"></button>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-baseline">
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="jobTitleId">Designation<span class="required">*</span></label>
+        <p-dropdown [(ngModel)]="designationName" [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+          [options]="jobTitleId" optionValue="id" (onChange)="selectDesignation($event)" optionLabel="name"
+          placeholder="Select Designation" dataKey="id" name="jobTitleId">
+          <ng-template let-item pTemplate="item">
+            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+              {{item?.value.name}}
             </div>
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="location"
-                  >Location<span class="required">*</span></label
-                >
-                <p-dropdown [(ngModel)]="loctaionObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="location" optionValue="id"
-                (onChange)="selectLocation($event)" optionLabel="shortName" placeholder="Select Location" dataKey="id" name="location">
-                  <ng-template let-item pTemplate="item" >  
-                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
-                      {{item?.value.shortName}} - {{item?.value.city}} 
-                    </div> 
-                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshLocation($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
-                   </div>
-                </ng-template>
-                </p-dropdown>
-              <div class="d-flex justify-content-between align-items-center">
-                <div *ngIf="this.editForm.get('location').touched && this.editForm.get('location').invalid" class="invalid-feedback d-block">
-                    Location* is required
-                </div>
+            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshDesignation($event)">
+             Refresh
             </div>
-              </div> 
-            <!-- <div class="form-group form-input-line col-sm">
+          </ng-template>
+        </p-dropdown>
+        <div class="d-flex justify-content-between align-items-center">
+          <div *ngIf="this.editForm.get('jobTitleId').touched && this.editForm.get('jobTitleId').invalid"
+            class="invalid-feedback d-block">
+            Designation* is required
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="secondaryJobTitle">Secondary Job Title</label>
+        <input autocomplete="off" type="text" class="form-control" id="secondaryJobTitle" name="secondaryJobTitle"
+          formControlName="secondaryJobTitle">
+      </div>
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="businessUnit">Business Unit<span class="required">*</span></label>
+        <select class="form-control" formControlName="businessUnit">
+          <option value="" disabled>Select Business Unit</option>
+          <option *ngFor="let key of businessUnitTypeKeys" [ngValue]='key'>
+            {{businessUnitType[key]}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row align-items-baseline">
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="department">Department<span class="required">*</span></label>
+        <select class="form-control" formControlName="department">
+          <option value="" disabled>Select Department Type</option>
+          <option *ngFor="let key of departmentTypeKeys" [ngValue]='key'>
+            {{departmentType[key]}}</option>
+        </select>
+      </div>
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="location">Location<span class="required">*</span></label>
+        <p-dropdown [(ngModel)]="loctaionObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+          [options]="location" optionValue="id" (onChange)="selectLocation($event)" optionLabel="shortName"
+          placeholder="Select Location" dataKey="id" name="location">
+          <ng-template let-item pTemplate="item">
+            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+              {{item?.value.shortName}} - {{item?.value.city}}
+            </div>
+            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshLocation($event)">
+            Refresh
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <div class="d-flex justify-content-between align-items-center">
+          <div *ngIf="this.editForm.get('location').touched && this.editForm.get('location').invalid"
+            class="invalid-feedback d-block">
+            Location* is required
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>
                 <select class="form-control" formControlName="reportingManager">
                     <option value="" disabled>Select Reporting Manager</option>
                     <option *ngFor="let item of employeeList" [ngValue]='item.id'>                    
                         {{item.firstName}}</option>
                 </select> -->
-                <!-- <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>
+      <!-- <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>
                 <input type="text" class="form-control" placeholder="Search Reporting Manager" formControlName="reportingManager"  id="reportingManager" name="reportingManager" [ngbTypeahead]="search"
              #reportingManager [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]='false'>  -->
-            <!-- </div> -->
+      <!-- </div> -->
 
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="reportingManager"
-                  >Reporting Manager<span class="required">*</span></label
-                >
-                <p-dropdown [(ngModel)]="employeeObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="employeeList" optionValue="id"
-                (onChange)="selectionChanged($event)" optionLabel="firstName" filter="true" placeholder="Select Reporting Manager" dataKey="id" name="reportingManager">
-                  <ng-template let-item pTemplate="item" >  
-                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
-                      {{item?.value.firstName}}
-                    </div> 
-                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRepManager($event)">
-                      <a  class="link-primary ref"><u>Refresh</u></a>
-                   </div>
-                </ng-template>
-                </p-dropdown>
-              <div class="d-flex justify-content-between align-items-center">
-                <div *ngIf="this.editForm.get('reportingManager').touched && this.editForm.get('reportingManager').invalid" class="invalid-feedback d-block">
-                    Reporting manager* is required
-                </div>
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="reportingManager">Reporting Manager<span class="required">*</span></label>
+        <p-dropdown [(ngModel)]="employeeObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+          [options]="employeeList" optionValue="id" (onChange)="selectionChanged($event)" optionLabel="firstName"
+          filter="true" placeholder="Select Reporting Manager" dataKey="id" name="reportingManager">
+          <ng-template let-item pTemplate="item">
+            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+              {{item?.value.firstName}}
             </div>
-              </div> 
+            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRepManager($event)">
+             Refresh
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <div class="d-flex justify-content-between align-items-center">
+          <div *ngIf="this.editForm.get('reportingManager').touched && this.editForm.get('reportingManager').invalid"
+            class="invalid-feedback d-block">
+            Reporting manager* is required
+          </div>
         </div>
-        <div class="row align-items-baseline">
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="workerType">Worker Type<span class="required">*</span></label>
-                <select class="form-control" formControlName="workerType">
-                    <option value="" disabled>Select Work Type</option>
-                    <option *ngFor="let key of workerTypeKeys" [ngValue]='key'>                    
-                        {{workerType[key]}}</option>
-                </select>                
-            </div>
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="timeType">Time Type<span class="required">*</span></label>
-                <select class="form-control" formControlName="timeType">
-                    <option value="" disabled>Select Time Type</option>
-                    <option *ngFor="let key of timeTypeKeys" [ngValue]='key'>                    
-                        {{timeType[key]}}</option>
-                </select>  
-            </div>
-            <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="noticePeriod">Notice Period<span class="required">*</span></label>
-                <select class="form-control" formControlName="noticePeriod">
-                    <option value="" disabled>Select Notice Period</option>
-                    <option *ngFor="let key of noticePeriodTypeKeys" [ngValue]='key'>                    
-                        {{noticePeriodType[key]}}</option>
-                </select>
-            </div>
-        </div>
+      </div>
+    </div>
+    <div class="row align-items-baseline">
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="workerType">Worker Type<span class="required">*</span></label>
+        <select class="form-control" formControlName="workerType">
+          <option value="" disabled>Select Work Type</option>
+          <option *ngFor="let key of workerTypeKeys" [ngValue]='key'>
+            {{workerType[key]}}</option>
+        </select>
+      </div>
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="timeType">Time Type<span class="required">*</span></label>
+        <select class="form-control" formControlName="timeType">
+          <option value="" disabled>Select Time Type</option>
+          <option *ngFor="let key of timeTypeKeys" [ngValue]='key'>
+            {{timeType[key]}}</option>
+        </select>
+      </div>
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="noticePeriod">Notice Period<span class="required">*</span></label>
+        <select class="form-control" formControlName="noticePeriod">
+          <option value="" disabled>Select Notice Period</option>
+          <option *ngFor="let key of noticePeriodTypeKeys" [ngValue]='key'>
+            {{noticePeriodType[key]}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label class="col-form-label" for="probationPeriod">Probation Period<span class="required">*</span></label>
         <div class="row">
-            <div class="form-group col-sm-4">
-                <label class="col-form-label" for="probationPeriod">Probation Period<span class="required">*</span></label>
-                <div class="row">
-                    <div class="form-group col-sm">
-                        <input type="number" class="form-control" id="probationPeriod" name="probationPeriod" formControlName="probationPeriod">
-                    </div>
-                    <div class="form-group col-sm">
-                        <select class="form-control" formControlName="periodType">
-                            <option value="" disabled>Select Period</option>
-                            <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>                    
-                                {{periodType[key]}}</option>
-                        </select> 
-                    </div>
-                </div>    
+          <div class="form-group col-sm">
+            <input type="number" class="form-control" id="probationPeriod" name="probationPeriod"
+              formControlName="probationPeriod">
+          </div>
+          <div class="form-group col-sm">
+            <select class="form-control" formControlName="periodType">
+              <option value="" disabled>Select Period</option>
+              <option *ngFor="let key of periodTypeKeys" [ngValue]='key'>
+                {{periodType[key]}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="categoryId">Employee Category<span class="required">*</span></label>
+        <p-dropdown [(ngModel)]="categoryObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+          [options]="groupCategory" optionValue="id" (onChange)="selectEmpCategory($event)" optionLabel="name"
+          placeholder="Select Employee Category" dataKey="id" name="location">
+          <ng-template let-item pTemplate="item">
+            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+              {{item?.value.name}}
             </div>
-            <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="categoryId">Employee Group<span class="required">*</span></label>
-                <select class="form-control"  formControlName="categoryId">
-                    <option value="" disabled>Select Employee Group</option>
-                    <option *ngFor="let key of groupCategory" [ngValue]='key.id'>                    
-                        {{key.name}}</option>
-                </select>
-            </div>         
-            <div class="form-group form-input-line col-sm-4">
-                <label class="col-form-label" for="visaDesignationId">Visa Designation<span class="required">*</span></label>
-                <select class="form-control" formControlName="visaDesignationId">
-                    <option value="" disabled>Select Visa Designation</option>
-                    <option *ngFor="let key of jobTitleId" [ngValue]='key.id'>                    
-                        {{key.name}}</option>
-                </select>
+            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshCategory($event)">
+              Refresh
             </div>
-        </div>   
-    </div>
-    <div class="modal-footer">
-        <button type="submit" class=" mr-1 btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
-        <a routerLink="/employee">
-            <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
-        </a>
-    </div>
-</form>
+          </ng-template>
+        </p-dropdown>
+        <div class="d-flex justify-content-between align-items-center">
+          <div *ngIf="this.editForm.get('categoryId').touched && this.editForm.get('categoryId').invalid"
+            class="invalid-feedback d-block">
+            Employee category* is required
+          </div>
+        </div>
+      </div>
 
+      <div class="form-group form-input-line col-sm">
+        <label class="col-form-label" for="visaDesignationId">Visa Designation<span class="required">*</span></label>
+        <p-dropdown [(ngModel)]="visaDesignationName" [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+          [options]="jobTitleId" optionValue="id" (onChange)="selectVisaDesignation($event)" optionLabel="name"
+          placeholder="Select Visa Designation" dataKey="id" name="visaDesignationId">
+          <ng-template let-item pTemplate="item">
+            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+              {{item?.value.name}}
+            </div>
+            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshDesignation($event)">
+             Refresh
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <div class="d-flex justify-content-between align-items-center">
+          <div *ngIf="this.editForm.get('visaDesignationId').touched && this.editForm.get('visaDesignationId').invalid"
+            class="invalid-feedback d-block">
+            visa designation* is required
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class=" mr-1 btn btn-success"><i class="mr-1 fal fa-save"></i> Save</button>
+    <a routerLink="/employee">
+      <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
+    </a>
+  </div>
+</form>
