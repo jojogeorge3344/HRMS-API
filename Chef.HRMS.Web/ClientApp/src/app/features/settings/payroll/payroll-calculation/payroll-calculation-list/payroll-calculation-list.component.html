@@ -33,7 +33,7 @@
                                 <td>{{component.payHeadContractValueType==2 ? 'Computed':'Fixed'}}</td>
                                 <td>{{payHeadBaseUnitType[component.payHeadBaseUnitType]}}</td>
                             <!-- <td>{{component.isComputed? 'Yes' : 'No'}}</td> -->
-                            <td>{{component.formula? component.formula : '--'}}</td>
+                            <td class="text-ellipsis" title="{{component.formula}}">{{component.formula? component.formula : '--'}}</td>
                             <td [ngClass]="{ 'disabled': isDisabled(component, payroll.structureId)}">
                                 <button [disabled]="isDisabled(component, payroll.structureId)"
                                     (click)="openAddCalculationOvertime(payroll.components, component.payrollComponentId,component.payrollComponentName, component.shortCode,payroll.structureId)"

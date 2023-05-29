@@ -113,7 +113,15 @@ import { EmployeeAddressCreateComponent } from './employee-address-create/employ
         },
       },
       {
-        path: "create/salary-details/create",
+        path: ":empId/create/:jobDetailsId/:jobFilingId",
+        component: EmployeeCreateContainerComponent,
+        data: {
+          breadcrumbs: ["Organization", "Employee", "Add"],
+          name: "organization-employeedirectory ",
+        },
+      },
+      {
+        path: ":empId/create/:jobDetailsId/:jobFilingId/salary-details/create",
         component: EmployeeSalaryCreateContainerComponent,
         data: {
           breadcrumbs: ["Organization", "Employee", "Salary", "Create"],
@@ -121,7 +129,7 @@ import { EmployeeAddressCreateComponent } from './employee-address-create/employ
         },
       },
       {
-        path: "create/salary-details/edit",
+        path: ":empId/create/:jobDetailsId/:jobFilingId/salary-details/edit",
         component: EmployeeSalaryEditContainerComponent,
         data: {
           breadcrumbs: ["Organization", "Employee", "Salary", "Edit"],
