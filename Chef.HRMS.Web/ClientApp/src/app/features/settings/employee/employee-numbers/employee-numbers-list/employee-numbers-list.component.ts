@@ -47,7 +47,7 @@ export class EmployeeNumbersListComponent implements OnInit {
   }
 
   isDisabled(employeeSeries) {
-    return (this.assignedNumberSeries.includes(employeeSeries.id) || employeeSeries.isActive);
+    return (this.assignedNumberSeries.includes(employeeSeries.id));
   }
 
   openCreate() {
