@@ -1,4 +1,4 @@
-import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeJobFilingService } from '../employee-job-filing.service';
 import { LeaveStructureService } from '@settings/leave/leave-structure/leave-structure.service';
@@ -42,10 +42,10 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   holidayCategoryId: any;
   expensePolicyId: any;
   shiftId: any;
-  payrollStructureId:any;
+  payrollStructureId: any;
   overTimePolicyId: any;
   payGroupId: any;
-  leaveStructureId:any;
+  leaveStructureId: any;
   weekOffTypeKeys: number[];
   weekOffType = WeekOff;
   attendanceTrackingTypeKeys: number[];
@@ -54,19 +54,19 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   attendanceCaptureSchemeType = AttendanceCaptureSchemeType;
   paymentMode = PaymentMode;
   paymentModeKeys: number[];
-  eosTypes:any;
-  checkFlag:boolean=false
+  eosTypes: any;
+  checkFlag: boolean = false
   leaveStructObj: any;
   shiftObj: any;
   holidayListObj: any;
-  expensePolicyObj:any;
-  payrollStructObj:any;
-  paygroupObj:any;
-  overTimePolicyObj:any;
+  expensePolicyObj: any;
+  payrollStructObj: any;
+  paygroupObj: any;
+  overTimePolicyObj: any;
   eosTypeObj: any;
-
-  @Output() EditByCreateJobFilingId= new EventEmitter<any>();
-  @Input() jobFilingparamsId:any
+  jobFilingDetails: any;
+  @Output() EditByCreateJobFilingId = new EventEmitter<any>();
+  @Input() jobFilingparamsId: any
 
   constructor(
     private employeeJobFilingService: EmployeeJobFilingService,
@@ -84,23 +84,23 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   ) {
     this.paymentModeKeys = Object.keys(this.paymentMode).filter(Number).map(Number);
     this.editForm = this.createFormGroup();
-    console.log('cons',this.editForm.value)
+    console.log('cons', this.editForm.value)
   }
 
   ngOnInit(): void {
     debugger
     this.currentUserId = getCurrentUserId();
     // this.editForm = this.createFormGroup();
-    console.log('INIT',this.editForm.value)
+    console.log('INIT', this.editForm.value)
     this.weekOffTypeKeys = Object.keys(this.weekOffType).filter(Number).map(Number);
     this.attendanceTrackingTypeKeys = Object.keys(this.attendanceTrackingType).filter(Number).map(Number);
     this.attendanceCaptureSchemeTypeKeys = Object.keys(this.attendanceCaptureSchemeType).filter(Number).map(Number);
-    if(!this.jobFilingparamsId){
+    if (!this.jobFilingparamsId) {
       this.route.params.subscribe((params: any) => {
         this.jobFilingId = params['jobFilingId'];
         this.id = params['id'];
       });
-    }else{
+    } else {
       this.route.params.subscribe((params: any) => {
         this.jobFilingId = this.jobFilingparamsId
         this.id = params['id'];
@@ -113,7 +113,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     this.getPayGroupList();
     this.getPayrollStructureList();
     this.getOverTimePolicyList();
-    this.getEosType()   
+    this.getEosType()
+    this.getJobFilingID();
+
   }
   // onOptionsSelected(){
   //   debugger
@@ -124,16 +126,17 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   //  })   
   // }
   ngAfterViewInit(){
-    this.getJobFilingID();
   }
 
-  getEosType(){
+  getEosType() {
     debugger
     this.eosService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, bfName: 'test', isLastRow: true }
         // lastrow
         this.eosTypes = [...result, temp];
+        let eosTypesItem = this.setValueById(this.eosTypes, this.jobFilingDetails.eosId)
+        this.eosTypeObj = eosTypesItem;
       })
   }
 
@@ -141,32 +144,16 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     debugger
     this.employeeJobFilingService.get(this.jobFilingId).subscribe(result => {
       this.editForm.patchValue(result);
-      let leaveStructureIdItem = this.leaveStructureId.find((item) => this.editForm.get('leaveStructureId').value == item.id)
-      this.leaveStructObj = leaveStructureIdItem;
-      let shiftIdItem = this.shiftId.find((item) => this.editForm.get('shiftId').value == item.id)
-      this.shiftObj = shiftIdItem;
-      let holidayCategoryIdItem = this.holidayCategoryId.find((item) => this.editForm.get('holidayCategoryId').value == item.id)
-      this.holidayListObj = holidayCategoryIdItem;
-      let expensePolicyIdItem = this.expensePolicyId.find((item) => this.editForm.get('expensePolicyId').value == item.id)
-      this.expensePolicyObj = expensePolicyIdItem;
-      let payrollStructureIdItem = this.payrollStructureId.find((item) => this.editForm.get('payrollStructureId').value == item.id)
-      this.payrollStructObj = payrollStructureIdItem;
-      let payGroupIdItem = this.payGroupId.find((item) => this.editForm.get('payGroupId').value == item.id)
-      this.paygroupObj = payGroupIdItem;
-      let overTimePolicyIdItem = this.overTimePolicyId.find((item) => this.editForm.get('overTimePolicyId').value == item.id)
-      this.overTimePolicyObj = overTimePolicyIdItem;
-      debugger
-      let eosTypesItem = this.eosTypes.find((item) => this.editForm.get('eosId').value == item.id)
-      this.eosTypeObj = eosTypesItem;
-
-      if(result){
-        this.checkFlag=true
+      this.jobFilingDetails = result
+      
+      if (result) {
+        this.checkFlag = true
         // this.editForm.get("payrollStructureId").setValidators(null)
         // this.editForm.get("payGroupId").setValidators(null)
         // this.editForm.get("overTimePolicyId").setValidators(null)
         // this.editForm.get("paymentMode").setValidators(null)
-      }else{
-        this.checkFlag=false
+      } else {
+        this.checkFlag = false
         // this.editForm.get("payrollStructureId").setValidators([Validators.required])
         // this.editForm.get("payGroupId").setValidators([Validators.required])
         // this.editForm.get("overTimePolicyId").setValidators([Validators.required])
@@ -177,6 +164,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
         console.error(error);
       });
   }
+
   selectPayment(key) {
     this.editForm.patchValue({ paymentMode: key });
   }
@@ -187,6 +175,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.leaveStructureId = [...result, temp];
+      let leaveStructureIdItem = this.setValueById(this.leaveStructureId, this.jobFilingDetails.leaveStructureId)
+      this.leaveStructObj = leaveStructureIdItem;
+
     },
       error => {
         console.error(error);
@@ -199,6 +190,8 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.holidayCategoryId = [...result, temp];
+      let holidayCategoryIdItem = this.setValueById(this.holidayCategoryId, this.jobFilingDetails.holidayCategoryId)
+      this.holidayListObj = holidayCategoryIdItem;
     },
       error => {
         console.error(error);
@@ -211,6 +204,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.shiftId = [...result, temp];
+      let shiftIdItem = this.setValueById(this.shiftId, this.jobFilingDetails.shiftId)
+      this.shiftObj = shiftIdItem;
+
     },
       error => {
         console.error(error);
@@ -223,6 +219,8 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.expensePolicyId = [...result, temp];
+      let expensePolicyIdItem = this.setValueById(this.expensePolicyId, this.jobFilingDetails.expensePolicyId)
+      this.expensePolicyObj = expensePolicyIdItem;
     },
       error => {
         console.error(error);
@@ -235,6 +233,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.payGroupId = [...result, temp];
+      let payGroupIdItem = this.setValueById(this.payGroupId, this.jobFilingDetails.payGroupId)
+      this.paygroupObj = payGroupIdItem;
+
     },
       error => {
         console.error(error);
@@ -247,6 +248,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.payrollStructureId = [...result, temp];
+      let payrollStructureIdItem = this.setValueById(this.payrollStructureId,this.jobFilingDetails.payrollStructureId)
+      this.payrollStructObj = payrollStructureIdItem;
+
     },
       error => {
         console.error(error);
@@ -259,6 +263,8 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.overTimePolicyId = [...result, temp];
+      let overTimePolicyIdItem = this.setValueById(this.overTimePolicyId,this.jobFilingDetails.overTimePolicyId)
+      this.overTimePolicyObj = overTimePolicyIdItem;
     },
       error => {
         console.error(error);
@@ -280,58 +286,58 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       holidayCategoryId: args.value.id
     })
   }
-  selectExpensePolicy(args){
+  selectExpensePolicy(args) {
     this.editForm.patchValue({
       expensePolicyId: args.value.id
     })
   }
-  selectPayrollStructure(args){
+  selectPayrollStructure(args) {
     this.editForm.patchValue({
       payrollStructureId: args.value.id
-    }) 
+    })
   }
-  selectPaygroup(args){
+  selectPaygroup(args) {
     this.editForm.patchValue({
       payGroupId: args.value.id
-    }) 
+    })
   }
-  selectOvertimePolicy(args){
+  selectOvertimePolicy(args) {
     this.editForm.patchValue({
       overTimePolicyId: args.value.id
-    })  
+    })
   }
-  selectEosType(args){
+  selectEosType(args) {
     debugger
     this.editForm.patchValue({
       eosId: args.value.id,
-    }) 
-      let item: any = this.eosTypes.filter(el => this.editForm.get('eosId').value == el.id)
-      this.editForm.patchValue({
-        bfCode: item[0].bfCode,
-        bfName: item[0].bfName
-      })  
-    }
-  refreshEosType(event){
+    })
+    let item: any = this.eosTypes.filter(el => this.editForm.get('eosId').value == el.id)
+    this.editForm.patchValue({
+      bfCode: item[0].bfCode,
+      bfName: item[0].bfName
+    })
+  }
+  refreshEosType(event) {
     event.stopPropagation();
     event.preventDefault();
-    this.getEosType()   
+    this.getEosType()
   }
-  refreshOvertimePolicy(event){
+  refreshOvertimePolicy(event) {
     event.stopPropagation();
     event.preventDefault();
-    this.getOverTimePolicyList()   
+    this.getOverTimePolicyList()
   }
-  refreshPaygroup(event){
+  refreshPaygroup(event) {
     event.stopPropagation();
     event.preventDefault();
-    this.getPayGroupList()   
+    this.getPayGroupList()
   }
-  refreshPayrollStructure(event){
+  refreshPayrollStructure(event) {
     event.stopPropagation();
     event.preventDefault();
-    this.getPayrollStructureList()  
+    this.getPayrollStructureList()
   }
-  refresExpensePolicy(event){
+  refresExpensePolicy(event) {
     event.stopPropagation();
     event.preventDefault();
     this.getExpensePolicyList()
@@ -358,20 +364,20 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     const editJobFilings = this.editForm.value;
     editJobFilings.employeeId = parseInt(this.id, 10);
     editJobFilings.id = parseInt(this.jobFilingId, 10);
-    if(!this.checkFlag==true){
-      this.employeeJobFilingService.add(editJobFilings).subscribe((result)=>{
+    if (!this.checkFlag == true) {
+      this.employeeJobFilingService.add(editJobFilings).subscribe((result) => {
         this.toastr.showSuccessMessage('Employee Job filings added successfully!');
         this.EditByCreateJobFilingId.emit(result)
       })
-    }else{
-    this.employeeJobFilingService.update(editJobFilings).subscribe((result: any) => {
-      this.toastr.showSuccessMessage('Employee Job Fillings Details updated successfully!');
-      // this.router.navigateByUrl('/employee');
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to update the Employee Job Fillings Details');
-      });
+    } else {
+      this.employeeJobFilingService.update(editJobFilings).subscribe((result: any) => {
+        this.toastr.showSuccessMessage('Employee Job Fillings Details updated successfully!');
+        // this.router.navigateByUrl('/employee');
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('Unable to update the Employee Job Fillings Details');
+        });
     }
   }
 
@@ -399,23 +405,28 @@ export class EmployeeJobFilingEditComponent implements OnInit {
         Validators.required
       ]],
       payrollStructureId: [null, [Validators.required]
-     ],
+      ],
       overTimePolicyId: [null, [Validators.required]
-        
+
       ],
       payGroupId: [null, [Validators.required]
-      
+
       ],
       paymentMode: [null, [Validators.required]
-        
+
       ],
       eosId: [0],
       bfCode: [null],
-      bfName:[null],
+      bfName: [null],
       createdDate: [new Date()]
     });
   }
 
+  setValueById(list, value) {
+    console.log("list", list, value);
+
+    return list.find((item) => value == item.id)
+  }
 }
 
 

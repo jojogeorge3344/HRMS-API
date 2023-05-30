@@ -122,7 +122,6 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     //   this.groupCategory=result;  
     // })
 
-    this.getGroupCategory()
     this.employeeJobDetailsService.getVisaDesignation().subscribe((result) => {
       this.visaDesignation = result;
     })
@@ -146,6 +145,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     this.getEmployeeNumber();
     this.getEmployeeList();
     this.getBranches();
+    this.getGroupCategory()
     if (this.dob != undefined) {
       const dob = new Date(this.dob);
       this.minDate = {
