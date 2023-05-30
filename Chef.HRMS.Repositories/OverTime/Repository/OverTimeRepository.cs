@@ -219,16 +219,15 @@ namespace Chef.HRMS.Repositories
             return false;
         }
 
-        public async Task<OverTime> GetOvertimeByEmployeeCode(string employeeCode)
+        public async Task<OverTimeDetailsView> GetOvertimeByEmployeeCode(string employeeCode)
         {
-            string sql = @"SELECT jf.overtimepolicyid
-                         FROM hrms.jobdetails jd
+            string sql = @"SELECT * FROM hrms.jobdetails jd
 						 INNER JOIN  hrms.jobfiling jf
 						 ON jf.employeeid = jd.employeeid
                          WHERE jd.employeenumber = @employeeCode
 						 AND jd.isarchived = false";
 
-            return await Connection.QueryFirstOrDefaultAsync<OverTime>(sql, new { employeeCode });
+            return await Connection.QueryFirstOrDefaultAsync<OverTimeDetailsView>(sql, new { employeeCode });
         }
     }
 }
