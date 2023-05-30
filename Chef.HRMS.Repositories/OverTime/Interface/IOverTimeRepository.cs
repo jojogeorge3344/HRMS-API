@@ -17,5 +17,6 @@ namespace Chef.HRMS.Repositories
         Task<int> OverTimeBulkInsert(IEnumerable<OverTime> overTimes);
         Task<bool> GetOverTimeDetails(string employeeNumber);
         Task<bool> GetOverTimeDateDetails(DateTime FromDate,int employeeId);
+        Task<OverTime> GetOvertimeByEmployeeCode(string employeeCode);
     }
 }
