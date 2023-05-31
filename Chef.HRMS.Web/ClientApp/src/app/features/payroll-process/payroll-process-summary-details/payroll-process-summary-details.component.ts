@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PayrollProcessEmployeeSummarydetailsComponent } from '../payroll-process-employee-summarydetails/payroll-process-employee-summarydetails.component';
+import { TreeNode } from 'primeng/api';
+
 
 @Component({
   selector: 'hrms-payroll-process-summary-details',
@@ -22,6 +24,10 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
   overTimeCutOff:any
   treeData: any=[];
   payrollProcessId:any
+  files: TreeNode[];
+  cols: { field: string; header: string; }[];
+  summaryDetailsTreeData:TreeNode[];
+  
   constructor(
     private payrollProcessService: PayrollProcessService,
     private toastr: ToasterDisplayService,
@@ -65,6 +71,40 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
     .subscribe(result => {
       this.summaryDetails = result
       console.log('summarydetails',this.summaryDetails)
+      console.log('this.files',this.files)
+      for(let i=0;i< this.summaryDetails.length;i++){
+          var data=[]
+          var child =[]
+          var childdata=[]
+          child = this.summaryDetails[i].payrollComponentDetails
+          data.push({
+            data1:this.summaryDetails[i].employeeCode == null ? '' : this.summaryDetails[i].employeeCode,
+            data2:this.summaryDetails[i].employeeName,
+            data3:this.summaryDetails[i].totalEarnings,
+            data4:this.summaryDetails[i].totalDeductions,
+            data5:this.summaryDetails[i].netSalaryAmount
+          })
+
+          for(let i=0;i<child.length;i++){
+            var node = {
+              data1:'',
+              data2:child[i].payrollComponentName,
+              data3:child[i].earningsAmt,
+              data4:child[i].deductionAmt,
+              data5:''
+
+            }
+            childdata.push({data:node})
+           
+
+          }
+      }
+      var finalData =[]
+      finalData.push({data:data[0],children:childdata})
+      
+      this.summaryDetailsTreeData = finalData
+      console.log('this.summaryDetailsTreeData',this.summaryDetailsTreeData)
+
     },
       error => {
         console.error(error);
