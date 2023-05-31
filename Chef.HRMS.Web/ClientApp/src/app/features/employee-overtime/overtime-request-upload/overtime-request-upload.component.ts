@@ -78,6 +78,7 @@ export class OvertimeRequestUploadComponent implements OnInit {
     this.overtimerequests=[]
     this.overTimeSaveData=[]
     this.fileUploader.nativeElement.value = null;
+    this.invalidRowCount =0
     }
 
 
