@@ -54,7 +54,7 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<EmployeeView>(sql);
         }
 
-        public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId)
+        public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId,int leaveId)
         {
 
                 var sql = @"SELECT  e.id, 
@@ -90,10 +90,11 @@ namespace Chef.HRMS.Repositories
 							        ON ld.leaveid = l.id
 							INNER JOIN hrms.document d
 							        ON ld.documentid = d.id
-                            WHERE   e.id=@employeeId
+                            WHERE   e.id = @employeeId
+                            AND l.id = @leaveId
                             ORDER BY e.id";
 
-                return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId });
+                return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId , leaveId });
         }
 
         public async Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId)

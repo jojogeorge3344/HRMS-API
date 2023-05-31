@@ -63,7 +63,9 @@
               formControlName="description"
             ></textarea>
           </div>
-
+          <div>
+            <label style="padding-left: 10px;padding-bottom: 10px;">Please choose atleast one Leave Category</label>
+            </div>
                     <div class="row">
                         <div class="col-sm">
                             <div class="form-group">
@@ -163,7 +165,7 @@
                     <div class="row">
                         <div class="col-12 d-flex justify-content-end" style="margin-top: 10px;">
                            
-                                <button type="submit" [disabled]="isSaveDisable" class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
+                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
                          
                             &nbsp;&nbsp;
                                 <button type="button" class="btn btn-warning p-2" (click)="activeModal.close(isSaveDisable)"><i
@@ -547,7 +549,7 @@
                     <div class="row">
                         <div class="col-12  d-flex justify-content-end" style="margin-top: 10px;">
                            
-                                <button type="submit" [disabled]="isSaveDisableConfig"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
+                                <button type="submit"  class="btn btn-success p-2"><i class="mr-1 fal fa-save"></i> Save & Next</button>
                          &nbsp;&nbsp;
                             
                                 <button type="button" class="btn btn-warning p-2" (click)="activeModal.close(isSaveDisableConfig)"><i

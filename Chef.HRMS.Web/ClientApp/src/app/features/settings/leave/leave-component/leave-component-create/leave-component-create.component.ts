@@ -81,6 +81,8 @@ export class LeaveComponentCreateComponent implements OnInit {
   isSaveDisableConfig: boolean = false;
   activeTab: string = "basic";
   isSlabdisabled: boolean=true;
+  backToBasic: any;
+  configId: any;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -169,27 +171,63 @@ export class LeaveComponentCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    this.leaveComponentService.add(this.addForm.value).subscribe(
-      (result: any) => {
-        if (result.id === -1) {
-          this.toastr.showErrorMessage("Leave component already exists!");
-        } else {
-          this.leaveComponentId = result;
-
-          this.toastr.showSuccessMessage(
-            "Basic Leave Component is created successfully!"
+    if(this.addForm.value.showLeaveDescription==true || this.addForm.value.isPaidLeave==true||this.addForm.value.isUnpaidLeave==true ||
+      this.addForm.value.isSickLeave==true || this.addForm.value.isStatutoryLeave==true ||this.addForm.value.isRestrictedToGender==true||this.addForm.value.isRestrictedToMaritalStatus==true )
+      {
+        if(this.addForm.value.id){
+          if(this.activeTab=="configure"){
+            this.activeTab = "slab";
+           }
+           
+          this.leaveComponentService.update(this.addForm.getRawValue()).subscribe(
+            (result: any) => {
+              if (result === -1) {
+                this.toastr.showErrorMessage("Leave component already exists!");
+              } else {
+                this.toastr.showSuccessMessage(
+                  "Leave component is updated successfully!"
+                );
+                this.activeTab = "configure";
+                
+              }
+            },
+            (error) => {
+              console.error(error);
+              this.toastr.showErrorMessage("Unable to update the leave component");
+            }
           );
-          this.isSaveDisable = true;
-          this.isDisabled = false;
-
-          this.activeTab = "configure";
+        }else{
+          this.leaveComponentService.add(this.addForm.value).subscribe(
+            (result: any) => {
+              console.log(result)
+              this.backToBasic=result
+              this.addForm.patchValue({
+                id:this.backToBasic,
+              })
+              if (result.id === -1) {
+                this.toastr.showErrorMessage("Leave component already exists!");
+              } else {
+                this.leaveComponentId = result;
+      
+                this.toastr.showSuccessMessage(
+                  "Basic Leave Component is created successfully!"
+                );
+                this.isSaveDisable = true;
+                this.isDisabled = false;
+      
+                this.activeTab = "configure";
+              }
+            },
+            (error) => {
+              console.error(error);
+              this.toastr.showErrorMessage("Unable to add the Basic Leave Component");
+            }
+          );
         }
-      },
-      (error) => {
-        console.error(error);
-        this.toastr.showErrorMessage("Unable to add the Basic Leave Component");
-      }
-    );
+       
+    }else{
+      this.toastr.showWarningMessage("Please choose atleast one leave category!");
+    }
   }
 
   getDetectionListType() {
@@ -273,6 +311,7 @@ export class LeaveComponentCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+      id:[0],
       name: [null, [
         Validators.required,
         Validators.maxLength(100),
@@ -303,6 +342,7 @@ export class LeaveComponentCreateComponent implements OnInit {
 
   createFormGroup2(): FormGroup {
     return this.formBuilder.group({
+      id:[0],
       eligibleDays: [null,[Validators.required]],
       eligibilityBase: [0, [Validators.required]],
       maxLeaveAtATime: [0],
@@ -325,32 +365,57 @@ export class LeaveComponentCreateComponent implements OnInit {
   }
 
   onSubmit2() {
+    debugger
+    if(this.activeTab=="slab"){
+      this.activeTab = "configure";
+     }
     this.addForm2.patchValue({
       leaveComponentId: this.leaveComponentId,
     });
-    this.leaveEligiblityService.add(this.addForm2.value).subscribe(
-      (result: any) => {
-        if (result.id === -1) {
-          this.toastr.showErrorMessage(
-            "Configure Leave component already exists!"
-          );
-        } else {
-          // this.activeModal.close(true);
-          this.activeTab = "slab";
-          this.isSlabdisabled=false
-          this.isSaveDisableConfig=true
+    if(this.addForm2.value.id){
+      this.leaveEligiblityService.update(this.addForm2.value).subscribe(
+        (result: any) => {
+         // this.activeModal.close(true);
+         this.activeTab = "slab";
+       
+        //  this.isSaveDisableConfig=true
           this.toastr.showSuccessMessage(
-            "Configure Leave Component is created successfully!"
+            "Leave component is updated successfully!"
           );
-          this.getLeaveSlablist(this.leaveComponentId)
           
+        },
+        (error) => {
+          console.error(error);
+          this.toastr.showErrorMessage("Unable to update the leave component");
         }
-      },
-      (error) => {
-        console.error(error);
-        this.toastr.showErrorMessage("Unable to add the Leave Component");
-      }
-    );
+      );
+    }else{
+      this.leaveEligiblityService.add(this.addForm2.value).subscribe(
+        (result: any) => {
+          if (result.id === -1) {
+            this.toastr.showErrorMessage(
+              "Configure Leave component already exists!"
+            );
+          } else {
+            // this.activeModal.close(true);
+            this.activeTab = "slab";
+            this.isSlabdisabled=false
+            this.isSaveDisableConfig=true
+            this.toastr.showSuccessMessage(
+              "Configure Leave Component is created successfully!"
+            );
+            this.getConfigureData()
+            this.getLeaveSlablist(this.leaveComponentId)
+            
+          }
+        },
+        (error) => {
+          console.error(error);
+          this.toastr.showErrorMessage("Unable to add the Leave Component");
+        }
+      );
+    }
+   
   }
 
   getEncashBF() {
@@ -503,5 +568,15 @@ delete(relDetails: LeaveSlabGroup) {
   //   }
 
   // }
-
+  getConfigureData() {
+    this.leaveEligiblityService.get(this.backToBasic).subscribe((res) => {
+      this.configId=res[0].id
+      if(this.configId){
+        this.addForm2.patchValue({
+          id: this.configId,
+        });
+      }
+    }
+    )
+  }
 }
