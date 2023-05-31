@@ -4,13 +4,13 @@
       Add Employee
     </div>
   </h1>
-</div>
+</div> 
 <div class="card p-3" id="addEmployee">
 
   <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right" routerLink="/employee"><i
       class="fal fa-arrow-left mr-2"></i> Back to Employee</button>
 
-  <ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav-tabs-clean nav nav-tabs" >
+  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs-clean nav nav-tabs" >
     <li [ngbNavItem]="1" [disabled]="1>disableTabFrom ">
       <a ngbNavLink>Basic Details</a>
       <ng-template ngbNavContent>
@@ -35,7 +35,7 @@
     <li [ngbNavItem]="4" [disabled]="4>disableTabFrom ">
       <a ngbNavLink>Salary Details</a>
       <ng-template ngbNavContent>
-        <hrms-employee-salary-container  [passEmployeeId]="passEmployeeId">
+        <hrms-employee-salary-container  [passEmployeeId]="passEmployeeId" [passJobDetailsId]="passJobDetailsId" [passJobFilingId]="passJobFilingId">
         </hrms-employee-salary-container>
       </ng-template>
     </li>

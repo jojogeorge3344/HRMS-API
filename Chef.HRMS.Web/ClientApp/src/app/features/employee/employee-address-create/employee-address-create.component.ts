@@ -33,6 +33,7 @@ export class EmployeeAddressCreateComponent implements OnInit {
   permanentStateValue: any;
   @Output() addressDetailsForm = new EventEmitter<any>();
   @Input() passEmployeeId:any
+  employeeId:any
 
 
   constructor(private formBuilder: FormBuilder,
@@ -55,7 +56,15 @@ export class EmployeeAddressCreateComponent implements OnInit {
     //   this.getStatesByCountry(this.address.currentCountry, 'permenant');
     // }
     this.route.params.subscribe((params: any) => {
-      this.id = parseInt(params.id, 10);
+      // this.id = parseInt(params.id, 10);
+      if(params.empId){
+        this.employeeId = parseInt(params.empId, 10);
+        this.addressService.get(this.employeeId).subscribe(res=>{
+          this.editForm.patchValue(res[0])
+        })
+        }else{
+          this.employeeId = parseInt(this.passEmployeeId, 10);
+        }
       });
       this.getStates()
      this.getCountires()
@@ -223,7 +232,7 @@ export class EmployeeAddressCreateComponent implements OnInit {
   onSubmit() {
   
     const address = this.editForm.getRawValue();
-    address.employeeId = this.passEmployeeId
+    address.employeeId = this.employeeId
     address.createdDate = new Date();
     if (this.getStateValue) {
       address.id = this.getStateValue;
