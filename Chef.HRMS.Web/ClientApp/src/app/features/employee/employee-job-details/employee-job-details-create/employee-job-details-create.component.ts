@@ -157,7 +157,6 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
 
   }
   getGroupCategory() {
-    debugger
     this.employeeJobDetailsService.getCategory().subscribe((result: any) => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
@@ -301,7 +300,6 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     this.getEmployeeList()
   }
   getBranches() {
-    debugger
     this.branchService.getAll().subscribe(result => {
       let temp = { id: undefined, shortName: 'test', isLastRow: true }
       // lastrow

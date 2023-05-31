@@ -21,6 +21,8 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 import { EmployeeBasicDetailsService } from '@features/employee/employee-basic-details/employee-basic-details.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { padAtStrt } from '@shared/utils/utils.functions';
+import { forkJoin } from 'rxjs';
+
 @Component({
   selector: 'hrms-employee-job-details-edit',
   templateUrl: './employee-job-details-edit.component.html',
@@ -56,7 +58,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   reportingManager: number;
   groupCategory: any;
   visaDesignation:any;
-  config;
   selectedDatasource:any;
   checkFlag: boolean;
   seriesName;
@@ -70,6 +71,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   @Output() getEditByCreateJobId = new EventEmitter<any>();
   @Input() jobDetailsparamsId:any
   numberSeries: number;
+  jobDetails:any;
 
   constructor(
     private employeeService: EmployeeService,
@@ -110,7 +112,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
         this.jobDetailsId =this.jobDetailsparamsId;
         this.id = parseInt(params.id, 10);
       });
-   
     }
 
     this.businessUnitTypeKeys = Object.keys(this.businessUnitType).filter(Number).map(Number);
@@ -119,25 +120,16 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.timeTypeKeys = Object.keys(this.timeType).filter(Number).map(Number);
     this.periodTypeKeys = Object.keys(this.periodType).filter(Number).map(Number);
     this.noticePeriodTypeKeys = Object.keys(this.noticePeriodType).filter(Number).map(Number);
+    this.fillDropDowns()
     this.getBasicDetailsId(); 
-    this.getJobList();
-    this.getEmployeeNumber();
-    this.getBranches();
-    this.getEmployeeList();
-    this.getGroupCategory()
+    // this.getJobList();
+    // this.getEmployeeNumber();
+    // this.getBranches();
+    // this.getEmployeeList();
+    // this.getGroupCategory()
     this.employeeJobDetailsService.getVisaDesignation().subscribe((result)=>{
        this.visaDesignation=result;
     })
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Reporting Manager",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: true,
-    };
     this.employeeJobDetailsService.getProbation().subscribe((result)=>{
       this.editForm.patchValue({
         probationPeriod:result[0].probationDuration,
@@ -146,9 +138,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
         timeType:result[0].timeType
       })
       })
-  }
-  ngAfterViewInit(){
-    this.getJobDetailsId();
   }
   getBasicDetailsId() {
     this.employeeBasicDetailsService.get(this.id).subscribe(result => {
@@ -172,6 +161,9 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       localStorage.setItem('doj',JSON.stringify(result.dateOfJoin))
       this.numberSeries=result.numberSeriesId;
       this.editForm.patchValue(result);
+      this.jobDetails=result;
+
+      
       if(this.editForm.value.numberSeriesId){
         this.editForm.get('numberSeriesId').disable();
         this.checkFlag=true
@@ -179,20 +171,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
         this.editForm.get('numberSeriesId').enable();
         this.checkFlag=false
       }
-      let designationItem = this.jobTitleId.find((item) => this.editForm.get('jobTitleId').value == item.id)
-      let visaDesigItem = this.jobTitleId.find((item) => this.editForm.get('visaDesignationId').value == item.id)
-      this.visaDesignationName=visaDesigItem;
-      this.designationName = designationItem;
-      let seriesItem = this.numberSeriesId.find((item) => this.editForm.get('numberSeriesId').value == item.id)
-      this.seriesName = seriesItem;
-      let item = this.location.find((item) => this.editForm.get('location').value == item.id)
-      this.loctaionObj = item;
-      let categoryItem = this.groupCategory.find((item) => this.editForm.get('categoryId').value == item.id)
-      this.categoryObj = categoryItem;
-      let employeeItem = this.employeeList.find((item) => this.editForm.get('reportingManager').value == item.id)
-      this.employeeObj = employeeItem;
-
-
+      this.designationName = this.setValueById( this.jobTitleId,this.jobDetails.jobTitleId)
+      this.visaDesignationName = this.setValueById( this.jobTitleId,this.jobDetails.visaDesignationId)
+      this.seriesName = this.setValueById(this.numberSeriesId,this.jobDetails.numberSeriesId)
+      this.loctaionObj = this.setValueById(this.location,this.jobDetails.location)
+      this.categoryObj = this.setValueById( this.groupCategory,this.jobDetails.categoryId)
+      this.employeeObj = this.setValueById(this.employeeList,this.jobDetails.reportingManager)
     },
       error => {
         console.error(error);
@@ -204,10 +188,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true };
       // lastrow
       this.jobTitleId = [...result, temp];
-      // let designationItem = result.find((item) => this.editForm.get('jobTitleId').value == item.id)
-      // let visaDesigItem = result.find((item) => this.editForm.get('visaDesignationId').value == item.id)
-      // this.visaDesignationName=visaDesigItem;
-      // this.designationName = designationItem;
     },
       error => {
         console.error(error);
@@ -219,7 +199,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.groupCategory = [...result, temp];
-
     })
   }
 
@@ -263,6 +242,11 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     event.preventDefault();
     this.getBranches()
   }
+  refreshNumberSeries(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeNumber()
+  }
 
   refreshDesignation(event) {
     event.stopPropagation();
@@ -296,8 +280,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.numberSeriesId = [...result, temp];
-      // let seriesItem = result.find((item) => this.editForm.get('numberSeriesId').value == item.id)
-      // this.seriesName = seriesItem;
     },
       error => {
         console.error(error);
@@ -317,8 +299,6 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       let temp = { id: undefined, shortName: 'test', isLastRow: true }
       // lastrow
       this.location = [...result, temp];
-      // let item = result.find((item) => this.editForm.get('location').value == item.id)
-      // this.loctaionObj = item;
     },
       error => {
         console.error(error);
@@ -414,6 +394,28 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       ]],
       createdDate: [],
     });
+  }
+  fillDropDowns() {
+    forkJoin([
+      this.employeeNumbersService.getAllActiveNumberSeries(),
+      this.employeeJobTitleService.getAll(),
+      this.branchService.getAll(),
+      this.employeeService.getAll(),
+      this.employeeJobDetailsService.getCategory()
+    ]).subscribe((res:any)=> {
+      let temp = { id: undefined, name: 'test',shortName:'test',firstName:'test',isLastRow: true };
+      this.numberSeriesId = [...res[0], temp];
+      this.jobTitleId = [...res[1], temp];
+      this.location = [...res[2], temp];
+      this.employeeList = [...res[3], temp];
+      this.groupCategory =[...res[4], temp];
+      this.getJobDetailsId()
+    })
+  }
+  setValueById(list: any, value) {
+    console.log("list", list, value);
+
+    return list?.find((item) => value == item.id)
   }
 
 }

@@ -134,6 +134,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       });
   }
   getEosType(){
+    debugger
     this.eosService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, bfName: 'test', isLastRow: true }
@@ -220,7 +221,8 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
     })  
   }
   selectEosType(args){
-    let item: any = this.eosTypes.filter(el => this.addForm.get('eosId').value == el.id)
+    debugger
+    let item: any = this.eosTypes.filter(el => args.value.id == el.id)
     this.addForm.patchValue({
       eosId: args.value.id,
       bfCode: item[0].bfCode,

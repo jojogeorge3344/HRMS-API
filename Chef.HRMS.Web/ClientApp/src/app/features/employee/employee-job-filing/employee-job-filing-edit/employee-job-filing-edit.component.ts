@@ -23,6 +23,7 @@ import { Shift } from '@settings/attendance/shift/shift.model';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EosService } from '@settings/eos/eos.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'hrms-employee-job-filing-edit',
@@ -106,16 +107,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
         this.id = params['id'];
       })
     }
-    this.getLeaveStructure();
-    this.getHolidayList();
-    this.getExpensePolicyList();
-    this.getShiftList();
-    this.getPayGroupList();
-    this.getPayrollStructureList();
-    this.getOverTimePolicyList();
-    this.getEosType()
-    this.getJobFilingID();
-
+    this.fillDropDowns()
   }
   // onOptionsSelected(){
   //   debugger
@@ -125,8 +117,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   //   bfName:item[0].bfName
   //  })   
   // }
-  ngAfterViewInit(){
-  }
+  // ngAfterViewInit(){
+  // // this.getJobFilingID();
+  // }
 
   getEosType() {
     debugger
@@ -135,17 +128,26 @@ export class EmployeeJobFilingEditComponent implements OnInit {
         let temp = { id: undefined, bfName: 'test', isLastRow: true }
         // lastrow
         this.eosTypes = [...result, temp];
-        let eosTypesItem = this.setValueById(this.eosTypes, this.jobFilingDetails.eosId)
-        this.eosTypeObj = eosTypesItem;
-      })
+        // this.getJobFilingID();
+      })        // let eosTypesItem = this.setValueById(this.eosTypes, this.jobFilingDetails.eosId)
+    // this.eosTypeObj = eosTypesItem;
+
   }
 
   getJobFilingID() {
-    debugger
     this.employeeJobFilingService.get(this.jobFilingId).subscribe(result => {
+      debugger
       this.editForm.patchValue(result);
       this.jobFilingDetails = result
-      
+      this.eosTypeObj = this.setValueById(this.eosTypes, this.jobFilingDetails.eosId)
+      this.leaveStructObj = this.setValueById(this.leaveStructureId, this.jobFilingDetails.leaveStructureId)
+      this.holidayListObj = this.setValueById(this.holidayCategoryId, this.jobFilingDetails.holidayCategoryId)
+      this.expensePolicyObj = this.setValueById(this.expensePolicyId, this.jobFilingDetails.expensePolicyId)
+      this.shiftObj = this.setValueById(this.shiftId, this.jobFilingDetails.shiftId)
+      this.paygroupObj = this.setValueById(this.payGroupId, this.jobFilingDetails.payGroupId)
+      this.payrollStructObj = this.setValueById(this.payrollStructureId, this.jobFilingDetails.payrollStructureId)
+      this.overTimePolicyObj = this.setValueById(this.overTimePolicyId, this.jobFilingDetails.overTimePolicyId)
+
       if (result) {
         this.checkFlag = true
         // this.editForm.get("payrollStructureId").setValidators(null)
@@ -159,6 +161,7 @@ export class EmployeeJobFilingEditComponent implements OnInit {
         // this.editForm.get("overTimePolicyId").setValidators([Validators.required])
         // this.editForm.get("paymentMode").setValidators([Validators.required])
       }
+      this.editForm.updateValueAndValidity();
     },
       error => {
         console.error(error);
@@ -175,9 +178,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.leaveStructureId = [...result, temp];
-      let leaveStructureIdItem = this.setValueById(this.leaveStructureId, this.jobFilingDetails.leaveStructureId)
-      this.leaveStructObj = leaveStructureIdItem;
-
+      // let leaveStructureIdItem = this.setValueById(this.leaveStructureId, this.jobFilingDetails.leaveStructureId)
+      // this.leaveStructObj = leaveStructureIdItem;
+      // this.getHolidayList();
     },
       error => {
         console.error(error);
@@ -190,8 +193,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.holidayCategoryId = [...result, temp];
-      let holidayCategoryIdItem = this.setValueById(this.holidayCategoryId, this.jobFilingDetails.holidayCategoryId)
-      this.holidayListObj = holidayCategoryIdItem;
+      // let holidayCategoryIdItem = this.setValueById(this.holidayCategoryId, this.jobFilingDetails.holidayCategoryId)
+      // this.holidayListObj = holidayCategoryIdItem;
+      // this.getExpensePolicyList();
     },
       error => {
         console.error(error);
@@ -204,8 +208,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.shiftId = [...result, temp];
-      let shiftIdItem = this.setValueById(this.shiftId, this.jobFilingDetails.shiftId)
-      this.shiftObj = shiftIdItem;
+      // let shiftIdItem = this.setValueById(this.shiftId, this.jobFilingDetails.shiftId)
+      // this.shiftObj = shiftIdItem;
+      // this.getPayGroupList();
 
     },
       error => {
@@ -219,8 +224,10 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.expensePolicyId = [...result, temp];
-      let expensePolicyIdItem = this.setValueById(this.expensePolicyId, this.jobFilingDetails.expensePolicyId)
-      this.expensePolicyObj = expensePolicyIdItem;
+      // let expensePolicyIdItem = this.setValueById(this.expensePolicyId, this.jobFilingDetails.expensePolicyId)
+      // this.expensePolicyObj = expensePolicyIdItem;
+      // this.getShiftList();
+
     },
       error => {
         console.error(error);
@@ -233,8 +240,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.payGroupId = [...result, temp];
-      let payGroupIdItem = this.setValueById(this.payGroupId, this.jobFilingDetails.payGroupId)
-      this.paygroupObj = payGroupIdItem;
+      // let payGroupIdItem = this.setValueById(this.payGroupId, this.jobFilingDetails.payGroupId)
+      // this.paygroupObj = payGroupIdItem;
+      // this.getPayrollStructureList();
 
     },
       error => {
@@ -248,9 +256,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.payrollStructureId = [...result, temp];
-      let payrollStructureIdItem = this.setValueById(this.payrollStructureId,this.jobFilingDetails.payrollStructureId)
-      this.payrollStructObj = payrollStructureIdItem;
-
+      // let payrollStructureIdItem = this.setValueById(this.payrollStructureId, this.jobFilingDetails.payrollStructureId)
+      // this.payrollStructObj = payrollStructureIdItem;
+      // this.getOverTimePolicyList();
     },
       error => {
         console.error(error);
@@ -263,8 +271,9 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.overTimePolicyId = [...result, temp];
-      let overTimePolicyIdItem = this.setValueById(this.overTimePolicyId,this.jobFilingDetails.overTimePolicyId)
-      this.overTimePolicyObj = overTimePolicyIdItem;
+      // let overTimePolicyIdItem = this.setValueById(this.overTimePolicyId, this.jobFilingDetails.overTimePolicyId)
+      // this.overTimePolicyObj = overTimePolicyIdItem;
+      // this.getEosType()
     },
       error => {
         console.error(error);
@@ -422,10 +431,34 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     });
   }
 
-  setValueById(list, value) {
+  setValueById(list: any, value) {
     console.log("list", list, value);
 
-    return list.find((item) => value == item.id)
+    return list?.find((item) => value == item.id)
+  }
+
+  fillDropDowns() {
+    forkJoin([
+      this.leaveStructureService.getConfiguredLeaveStructures(),
+      this.holidayCategoryService.getAll(),
+      this.expensePolicyService.getAllConfiguredExpensePolicies(),
+      this.shiftService.getAll(),
+      this.payGroupService.getAll(),
+      this.payrollStructureService.getConfiguredPayrollStructures(),
+      this.overtimePolicyService.getConfiguredOvertimePolicies(),
+      this.eosService.getAll()
+    ]).subscribe(res => {
+      let temp = { id: undefined, name: 'test', bfName: 'test', isLastRow: true };
+      this.leaveStructureId = [...res[0], temp];
+      this.holidayCategoryId = [...res[1], temp];
+      this.expensePolicyId = [...res[2], temp];
+      this.shiftId = [...res[3], temp];
+      this.payGroupId = [...res[4], temp];
+      this.payrollStructureId = [...res[5], temp];
+      this.overTimePolicyId = [...res[6], temp];
+      this.eosTypes = [...res[7], temp];
+      this.getJobFilingID();
+    })
   }
 }
 
