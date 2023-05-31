@@ -201,6 +201,9 @@ export class LeaveComponentEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.editForm.value.showLeaveDescription==true || this.editForm.value.isPaidLeave==true||this.editForm.value.isUnpaidLeave==true ||
+      this.editForm.value.isSickLeave==true || this.editForm.value.isStatutoryLeave==true ||this.editForm.value.isRestrictedToGender==true||this.editForm.value.isRestrictedToMaritalStatus==true )
+      {
     this.leaveComponentService.update(this.editForm.getRawValue()).subscribe(
       (result: any) => {
         if (result === -1) {
@@ -218,6 +221,9 @@ export class LeaveComponentEditComponent implements OnInit {
         this.toastr.showErrorMessage("Unable to update the leave component");
       }
     );
+      }else{
+        this.toastr.showWarningMessage("Please choose atleast one leave category!");
+      }
   }
 
   getDetectionListType() {
@@ -378,6 +384,9 @@ export class LeaveComponentEditComponent implements OnInit {
   }
 
   onSubmit2() {
+    if(this.activeTab=="slab"){
+      this.activeTab = "configure";
+     }
     this.editForm2.patchValue({
       leaveComponentId: this.leaveComponent.id,
       id: this.configId,

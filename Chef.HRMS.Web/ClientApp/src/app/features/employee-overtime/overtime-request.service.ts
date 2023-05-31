@@ -66,4 +66,15 @@ export class OvertimeRequestService {
   // getPayrollStatusByEmpId(checkPayrollProcessed) {
   //   return this.http.get(this.baseUrl + 'getDetailsById/', checkPayrollProcessed).pipe(map(response => { return response; }));
   // }
+
+  getExcelFormat() {
+    return this.http.get(this.baseUrl + 'OverTimeExcelTemplate').pipe(map(response => { return response; }));
+  }
+  validateExcelFile(overtimeRequest){
+    return this.http.post(this.baseUrl + 'GetOverTimeValidation', overtimeRequest).pipe(map(response => { return response; }));
+  }
+
+  saveExcelReport(overtimeRequest){
+    return this.http.post(this.baseUrl + 'OverTimeBulkInsert', overtimeRequest).pipe(map(response => { return response; }));
+  }
 }
