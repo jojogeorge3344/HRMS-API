@@ -6,12 +6,18 @@
 <div id="payrollComponent" class="panel">
     <div class="panel-container show">
         <div class="panel-content">
-            <div class="row">
+
+            <div class="row" *ngIf="employeeDetailsCheck">
+                <div class="col-md">
+                    <button (click)="openAdd()" class="btn btn-success mb-2 float-right"><i class="fa fal fa-plus fa-plus mr-1"></i>Request Overtime</button>
+                </div>
+            </div>  
+            <div class="row" *ngIf="!employeeDetailsCheck">
                 <div class="col-md-6">
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-7" >
                             <div class="row">
                                 <div class="col-md-6">
                                     <button (click)="ExcelImport()" class="btn btn-success mb-2 "><i class="fal fa-download mr-1"></i>Import Report</button>

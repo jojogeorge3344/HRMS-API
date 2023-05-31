@@ -25,10 +25,10 @@
                             <div class="color-fusion-300 font-weight-bold" id="file-name">
                                 {{ fileName }}
                                 <i class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl" *ngIf="fileName" (click)="removeFile()"></i> 
-                            </div>
-                            <small class="color-fusion-300 small">
+                            </div><br>
+                            <!-- <small class="color-fusion-300 small">
                                 Max file size allowed is 2MB
-                            </small>
+                            </small> -->
                         </div>
                     </div>
                     <div *ngIf="overTimeValidatedData.length > 0">
@@ -69,11 +69,16 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <div class="button-right-wrapper mt-3 " *ngIf="overTimeValidatedData?.length">
+             
+                    <div class="button-right-wrapper mt-3 " *ngIf="overTimeValidatedData?.length && invalidRowCount == 0">
                         <button class="btn btn-primary" (click)="saveExcelReport()">
                             Save
                         </button>
+                    </div>
+                    <div *ngIf="invalidRowCount > 0">
+                          <small class="small" style="color: #dc3545">
+                                Some values seems to be invalid. Please check and re-upload.
+                            </small>
                     </div>
             </div>
         </div>

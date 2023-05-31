@@ -17,6 +17,7 @@ export class OvertimeRequestUploadComponent implements OnInit {
   file:File;
   arrayBuffer:any;
   fileName = '';
+  invalidRowCount:number =0
   constructor(
     private datePipe: DatePipe,
     private overtimeRequestService: OvertimeRequestService,
@@ -81,16 +82,25 @@ export class OvertimeRequestUploadComponent implements OnInit {
 
 
     validateExcelFile (){
+      this.invalidRowCount =0
       this.overTimeValidatedData=[]
       this.overtimeRequestService.validateExcelFile(this.overtimerequestList)
       .subscribe(result => {
         this.overTimeValidatedData = result  
+        this.overTimeValidatedData.forEach((x) => {
+         if(!x.isValid){
+           this.invalidRowCount = this.invalidRowCount + 1
+         }
+        })
+        console.log('invalidroe',this.invalidRowCount)
       },
         error => {
           console.error(error);
           this.toastr.showErrorMessage('Unable to Validate Excel File.');
           return
         });
+
+        
     }
 
 
