@@ -1,4 +1,5 @@
-﻿using Chef.Common.Repositories;
+﻿using Chef.Common.Models;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
@@ -216,6 +217,17 @@ namespace Chef.HRMS.Repositories
             }
 
             return false;
+        }
+
+        public async Task<OverTimeDetailsView> GetOvertimeByEmployeeCode(string employeeCode)
+        {
+            string sql = @"SELECT * FROM hrms.jobdetails jd
+						 INNER JOIN  hrms.jobfiling jf
+						 ON jf.employeeid = jd.employeeid
+                         WHERE jd.employeenumber = @employeeCode
+						 AND jd.isarchived = false";
+
+            return await Connection.QueryFirstOrDefaultAsync<OverTimeDetailsView>(sql, new { employeeCode });
         }
     }
 }
