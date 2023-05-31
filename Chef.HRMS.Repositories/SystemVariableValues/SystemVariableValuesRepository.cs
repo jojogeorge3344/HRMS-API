@@ -71,6 +71,12 @@ namespace Chef.HRMS.Repositories
 			DateTime yearStart = new DateTime(intYear, 1, 1);
 			DateTime yearEnd = yearStart.AddYears(1);
 
+			DateTime leaveCutoffYearStart = new DateTime(intYear-1, 12, intleaveCutoff);
+			DateTime leaveCutoffYearEnd = new DateTime(intYear , 12, intleaveCutoff);
+
+			DateTime timeSheetCutOffYearStart = new DateTime(intYear - 1, 12, intTimeSheetCutOff);
+			DateTime timeSheetCutOffYearEnd = new DateTime(intYear, 12, intTimeSheetCutOff);
+
 			//LOP
 			#region lop
 			var sql = @"SELECT
@@ -104,6 +110,7 @@ namespace Chef.HRMS.Repositories
 			#endregion
 
 			//NOT
+			#region slabOT
 			tenantSimpleUnitOfWork.BeginTransaction();
 			try
 			{
@@ -142,7 +149,7 @@ namespace Chef.HRMS.Repositories
 								employeeid = emp.Id,
 								overtimepolicyid = emp.OverTimePolicyId
 							});
-							sql = @"SELECT MIN(lowerlimit),MAX(upperlimit),OTS.overtimetype 
+							sql = @"SELECT MIN(lowerlimit) AS lowerlimit,MAX(upperlimit) AS upperlimit,OTS.overtimetype 
 								FROM hrms.overtimeslab OTS 
 								WHERE OTS.overtimepolicyid = @overtimepolicyid
 								GROUP BY OTS.overtimetype 
@@ -152,21 +159,21 @@ namespace Chef.HRMS.Repositories
 								overtimepolicyid = emp.OverTimePolicyId
 							});
 							List<SystemVariableOTDto> systemVariableOTDto = (List<SystemVariableOTDto>)EmpSettings;
-							var row = systemVariableOTDto.FirstOrDefault(x=>x.NormalOverTime!=0);
-							if (row != null&& row.NormalOverTime>0)
+							var row = systemVariableOTDto.FirstOrDefault(x => x.NormalOverTime != 0);
+							if (row != null && row.NormalOverTime > 0)
 							{
 								decimal OTHrs = row.NormalOverTime;
+								decimal lowerLimit = 0;
+								decimal upperLimit = 0;
 								foreach (OverTimeSlab item in oTSlab)
 								{
-									decimal lowerLimit = 0;
-									decimal upperLimit = 0;
 									if (item.OverTimeType == (int)OverTimeType.NormalOverTime)
 									{
-										 lowerLimit = item.LowerLimit;
-										 upperLimit = item.UpperLimit;
+										lowerLimit = item.LowerLimit;
+										upperLimit = item.UpperLimit;
 										if (OTHrs > lowerLimit)
 										{
-											SystemVariableOTDto empSetting = (SystemVariableOTDto)EmpSettings.Where(x => x.Nml_SystemVariableId > 0);
+											SystemVariableOTDto empSetting = (SystemVariableOTDto)row;
 
 											if (OTHrs > upperLimit)
 											{
@@ -196,14 +203,14 @@ namespace Chef.HRMS.Repositories
 									{
 										if (OTHrs > item.LowerLimit)
 										{
-											SystemVariableOTDto empSetting = (SystemVariableOTDto)EmpSettings.Where(x => x.Nml_SystemVariableId > 0);
+											SystemVariableOTDto empSetting = (SystemVariableOTDto)row;
 
 											if (OTHrs > item.UpperLimit)
 											{
 												SystemVariableValues systemVarValues = new SystemVariableValues
 												{
 													SystemVariableId = empSetting.Sp_OtSystemVariableId,
-													TransValue = item.UpperLimit-upperLimit,
+													TransValue = item.UpperLimit - upperLimit,
 													EmployeeId = emp.Id,
 													TransDate = monthEnd
 												};
@@ -214,7 +221,7 @@ namespace Chef.HRMS.Repositories
 												SystemVariableValues systemVarValues = new SystemVariableValues
 												{
 													SystemVariableId = empSetting.Sp_OtSystemVariableId,
-													TransValue = OTHrs-upperLimit,
+													TransValue = OTHrs - upperLimit,
 													EmployeeId = emp.Id,
 													TransDate = monthEnd
 												};
@@ -225,164 +232,125 @@ namespace Chef.HRMS.Repositories
 								}
 							}
 						}
+						else
+						{
+							sql = @"SELECT
+							(SELECT id FROM hrms.systemvariable WHERE code='Nml_Ot_Cldr_Mth' AND isarchived=false LIMIT 1) AS Nml_SystemVariableId ,
+							(SELECT id FROM hrms.systemvariable WHERE code='Sp_Ot' AND isarchived=false LIMIT 1) AS Sp_Otsystemvariableid,
+							(SELECT id FROM hrms.systemvariable WHERE code='Hd_Ot' AND isarchived=false LIMIT 1) AS Hd_Otsystemvariableid,
+							OT.normalovertime AS normalovertime,OT.specialovertime AS specialovertime,
+							OT.holidayovertime AS holidayovertime
+							FROM hrms.overtime OT
+							INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
+							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
+							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate";
+
+							var EmpSettings = await Connection.QueryAsync<SystemVariableOTDto>(sql, new
+							{
+								timeSheetStartDate,
+								timeSheetEndDate,
+								employeeid = emp.Id,
+								overtimepolicyid = emp.OverTimePolicyId
+							});
+							foreach (SystemVariableOTDto empSett in EmpSettings)
+							{
+								sql = @"SELECT MIN(lowerlimit) AS lowerlimit,MAX(upperlimit) AS upperlimit,OTS.overtimetype 
+								FROM hrms.overtimeslab OTS 
+								WHERE OTS.overtimepolicyid = @overtimepolicyid
+								GROUP BY OTS.overtimetype 
+								ORDER BY OTS.overtimetype";
+								var oTSlab = await Connection.QueryAsync<OverTimeSlab>(sql, new
+								{
+									overtimepolicyid = emp.OverTimePolicyId
+								});
+								List<SystemVariableOTDto> systemVariableOTDto = (List<SystemVariableOTDto>)EmpSettings;
+								if (empSett != null && empSett.NormalOverTime > 0)
+								{
+									decimal OTHrs = empSett.NormalOverTime;
+									decimal lowerLimit = 0;
+									decimal upperLimit = 0;
+									foreach (OverTimeSlab item in oTSlab)
+									{
+										if (item.OverTimeType == (int)OverTimeType.NormalOverTime)
+										{
+											lowerLimit = item.LowerLimit;
+											upperLimit = item.UpperLimit;
+											if (OTHrs > lowerLimit)
+											{
+
+												if (OTHrs > upperLimit)
+												{
+													SystemVariableValues systemVarValues = new SystemVariableValues
+													{
+														SystemVariableId = empSett.Nml_SystemVariableId,
+														TransValue = upperLimit,
+														EmployeeId = emp.Id,
+														TransDate = monthEnd
+													};
+													systemVariableValues_not.Add(systemVarValues);
+												}
+												else
+												{
+													SystemVariableValues systemVarValues = new SystemVariableValues
+													{
+														SystemVariableId = empSett.Nml_SystemVariableId,
+														TransValue = OTHrs,
+														EmployeeId = emp.Id,
+														TransDate = monthEnd
+													};
+													systemVariableValues_not.Add(systemVarValues);
+												}
+											}
+										}
+										if (item.OverTimeType == (int)OverTimeType.SpecialOvertime)
+										{
+											if (OTHrs > item.LowerLimit)
+											{
+
+												if (OTHrs > item.UpperLimit)
+												{
+													SystemVariableValues systemVarValues = new SystemVariableValues
+													{
+														SystemVariableId = empSett.Sp_OtSystemVariableId,
+														TransValue = item.UpperLimit - upperLimit,
+														EmployeeId = emp.Id,
+														TransDate = monthEnd
+													};
+													systemVariableValues_not.Add(systemVarValues);
+												}
+												else
+												{
+													SystemVariableValues systemVarValues = new SystemVariableValues
+													{
+														SystemVariableId = empSett.Sp_OtSystemVariableId,
+														TransValue = OTHrs - upperLimit,
+														EmployeeId = emp.Id,
+														TransDate = monthEnd
+													};
+													systemVariableValues_not.Add(systemVarValues);
+												}
+											}
+										}
+									}
+
+								}
+							}
+							//need to find sum of daily ot
+							 systemVariableValues_not = systemVariableValues_not.GroupBy(x=>x.EmployeeId)
+								.Select( g=>new SystemVariableValues  { EmployeeId = g.Key, TransValue = g.Sum(x=>x.TransValue) })
+								.ToList();
+						}
 						
 					}
 					else
 					{ 
 					
 					}
-					//sql = @"SELECT OT.fromdate,OT.todate, OT.employeeid AS employeeid,
-					//	OTC.isovertimeslab , OTC.ismonthly,OTC.overtimepolicyid
-					//	FROM hrms.overtime OT
-					//	INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
-					//	WHERE  OT.requeststatus=1  AND OT.employeeid ";
-
-					//var EmpSettings = await Connection.QueryAsync<SystemVariableOTDto>(sql, new
-					//{
-					//	timeSheetStartDate,
-					//	timeSheetEndDate
-					//});
+					
 				}
+				//sum of system var values based on employeeid
+
 				dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_not);
-				//sql = @"SELECT
-				//		(SELECT id FROM hrms.systemvariable WHERE code='Nml_Ot_Cldr_Mth' AND isarchived=false LIMIT 1)
-				//		AS Nmlsystemvariableid ,(SELECT id FROM hrms.systemvariable WHERE code='Sp_Ot' AND isarchived=false LIMIT 1)
-				//		AS Sp_Otsystemvariableid ,OT.fromdate,OT.todate, OT.employeeid AS employeeid,
-				//		CASE WHEN  coalesce(OTC.ismonthly,true)=true THEN SUM(OT.normalovertime) ELSE OT.normalovertime END AS  AS transvalue,
-				//		OTC.isovertimeslab , OTC.ismonthly,OTC.overtimepolicyid
-				//		FROM hrms.overtime OT
-				//		INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
-				//		WHERE  OT.requeststatus=1  AND OT.employeeid 
-				//		IN
-				//		(
-				//			SELECT hm.id FROM hrms.hrmsemployee hm
-				//			LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
-				//			LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
-				//			WHERE pg.id=@PayGroupId AND 
-				//			hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
-				//		)
-				//		AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
-				//		GROUP BY OT.employeeid,OT.fromdate,OT.todate,OT.normalovertime,OTC.isovertimeslab, OTC.ismonthly,OTC.overtimepolicyid";
-
-				//var NOt = await Connection.QueryAsync<SystemVariableOTDto>(sql, new
-				//{
-				//	PayGroupId,
-				//	timeSheetStartDate,
-				//	timeSheetEndDate
-				//});
-				//List<SystemVariableValues> systemVariableValues_Not = new List<SystemVariableValues>();
-				//foreach (SystemVariableOTDto systemVariableOTDto in NOt)
-				//{
-				//	if (systemVariableOTDto.IsOverTimeSlab == true)
-				//	{
-				//		//if (systemVariableOTDto.IsMonthly)
-				//		//{
-				//		var overTimeSlabs = await overTimePolicySlabRepository.GetOverTimeComponentDetails(systemVariableOTDto.OverTimePolicyId);
-				//		decimal hrs = systemVariableOTDto.TransValue;
-				//		decimal lowerlimit1 = 0;
-				//		decimal lowerlimit2 = 0;
-				//		decimal upperlimit1 = 0;
-				//		decimal upperlimit2 = 0;
-				//		for (int i = 0; i < overTimeSlabs.ToList().Count; i++)
-				//		{
-				//			if (i == 0)
-				//			{
-				//				lowerlimit1 = overTimeSlabs.ToList()[i].LowerLimit;
-				//				upperlimit1 = overTimeSlabs.ToList()[i].UpperLimit;
-				//			}
-				//			else
-				//			{
-				//				if (overTimeSlabs.ToList()[i].LowerLimit > lowerlimit1 && overTimeSlabs.ToList()[i].UpperLimit > upperlimit1)
-				//				{
-				//					lowerlimit2 = overTimeSlabs.ToList()[i].LowerLimit;
-				//					upperlimit2 = overTimeSlabs.ToList()[i].UpperLimit;
-				//				}
-				//				else
-				//				{
-				//					lowerlimit2 = lowerlimit1;
-				//					upperlimit2 = upperlimit1;
-				//					lowerlimit1 = overTimeSlabs.ToList()[i].LowerLimit;
-				//					upperlimit1 = overTimeSlabs.ToList()[i].UpperLimit;
-				//				}
-				//			}
-				//		}
-				//		if (hrs > lowerlimit1)
-				//		{
-				//			if (hrs > upperlimit1)
-				//			{
-				//				systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
-				//				{
-				//					SystemVariableId = x.Nml_SystemVariableId,
-				//					TransValue = x.TransValue,
-				//					EmployeeId = x.EmployeeId,
-				//					TransDate = monthEnd
-				//				}).ToList();
-				//			}
-				//			else
-				//			{
-				//				systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
-				//				{
-				//					SystemVariableId = x.Nml_SystemVariableId,
-				//					TransValue = upperlimit1,
-				//					EmployeeId = x.EmployeeId,
-				//					TransDate = monthEnd
-				//				}).ToList();
-				//				if (hrs > upperlimit2)
-				//				{
-				//					systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
-				//					{
-				//						SystemVariableId = x.Nml_SystemVariableId,
-				//						TransValue = upperlimit2 - upperlimit1,
-				//						EmployeeId = x.EmployeeId,
-				//						TransDate = monthEnd
-				//					}).ToList();
-				//				}
-				//				else
-				//				{
-				//					systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
-				//					{
-				//						SystemVariableId = x.Nml_SystemVariableId,
-				//						TransValue = hrs - upperlimit1,
-				//						EmployeeId = x.EmployeeId,
-				//						TransDate = monthEnd
-				//					}).ToList();
-				//				}
-				//			}
-				//		}
-				//		//}
-				//		//else
-				//		//{ 
-
-				//		//}
-				//	}
-				//	else
-				//	{
-				//		systemVariableValues_Not = NOt.Select(x => new SystemVariableValues()
-				//		{
-				//			SystemVariableId = x.Nml_SystemVariableId,
-				//			TransValue = x.TransValue,
-				//			EmployeeId = x.EmployeeId,
-				//			TransDate = monthEnd
-				//		}).ToList();
-
-
-				//	}
-				//}
-				////Dictionary<int, int> overtimeSumByEmpId = new Dictionary<int, int>();
-
-				////foreach (var employee in employees)
-				////{
-				////	if (overtimeSumByEmpId.ContainsKey(employee.EmpId))
-				////	{
-				////		overtimeSumByEmpId[employee.EmpId] += employee.Overtime;
-				////	}
-				////	else
-				////	{
-				////		overtimeSumByEmpId[employee.EmpId] = employee.Overtime;
-				////	}
-				////}
-
-				//dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Not);
 				tenantSimpleUnitOfWork.Commit();
 			}
 			catch (Exception)
@@ -390,80 +358,80 @@ namespace Chef.HRMS.Repositories
 				tenantSimpleUnitOfWork.Rollback();
 				throw;
 			}
-
+			#endregion
 
 			//OT
 			#region OT
-			sql = @"SELECT
-						(SELECT id FROM hrms.systemvariable WHERE code='Hd_Ot' AND isarchived=false LIMIT 1)
-						AS systemvariableid , OT.employeeid AS employeeid,
-						SUM(OT.holidayovertime) AS transvalue
-						FROM hrms.overtime OT
-						WHERE  OT.requeststatus=1  AND OT.employeeid 
-						IN
-						(
-							SELECT hm.id FROM hrms.hrmsemployee hm
-							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
-							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
-							WHERE pg.id=@PayGroupId AND 
-							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
-						)
-						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
-						GROUP BY OT.employeeid
+			//sql = @"SELECT
+			//			(SELECT id FROM hrms.systemvariable WHERE code='Hd_Ot' AND isarchived=false LIMIT 1)
+			//			AS systemvariableid , OT.employeeid AS employeeid,
+			//			SUM(OT.holidayovertime) AS transvalue
+			//			FROM hrms.overtime OT
+			//			WHERE  OT.requeststatus=1  AND OT.employeeid 
+			//			IN
+			//			(
+			//				SELECT hm.id FROM hrms.hrmsemployee hm
+			//				LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+			//				LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+			//				WHERE pg.id=@PayGroupId AND 
+			//				hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+			//			)
+			//			AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
+			//			GROUP BY OT.employeeid
 
-					UNION
+			//		UNION
 
-					SELECT
-						(SELECT id FROM hrms.systemvariable WHERE code='Sp_Ot' AND isarchived=false LIMIT 1)
-						AS systemvariableid , OT.employeeid AS employeeid,
-						SUM(OT.specialovertime) AS transvalue
-						FROM hrms.overtime OT
-						WHERE  OT.requeststatus=1  AND OT.employeeid 
-						IN
-						(
-							SELECT hm.id FROM hrms.hrmsemployee hm
-							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
-							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
-							WHERE pg.id=@PayGroupId AND 
-							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
-						)
-						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
-						GROUP BY OT.employeeid
+			//		SELECT
+			//			(SELECT id FROM hrms.systemvariable WHERE code='Sp_Ot' AND isarchived=false LIMIT 1)
+			//			AS systemvariableid , OT.employeeid AS employeeid,
+			//			SUM(OT.specialovertime) AS transvalue
+			//			FROM hrms.overtime OT
+			//			WHERE  OT.requeststatus=1  AND OT.employeeid 
+			//			IN
+			//			(
+			//				SELECT hm.id FROM hrms.hrmsemployee hm
+			//				LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+			//				LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+			//				WHERE pg.id=@PayGroupId AND 
+			//				hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+			//			)
+			//			AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
+			//			GROUP BY OT.employeeid
 
-					/*UNION
-						
-					SELECT
-						(SELECT id FROM hrms.systemvariable WHERE code='Nml_Ot_Cldr_Mth' AND isarchived=false LIMIT 1)
-						AS systemvariableid , OT.employeeid AS employeeid,
-						SUM(OT.normalovertime) AS transvalue
-						FROM hrms.overtime OT
-						WHERE  OT.requeststatus=1  AND OT.employeeid 
-						IN
-						(
-							SELECT hm.id FROM hrms.hrmsemployee hm
-							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
-							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
-							WHERE pg.id=@PayGroupId AND 
-							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
-						)
-						AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
-						GROUP BY OT.employeeid*/";
+			//		/*UNION
 
-			var Ot = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId, timeSheetStartDate, timeSheetEndDate
-			});
-			List<SystemVariableValues> systemVariableValues_ot = Ot.Select(x => new SystemVariableValues()
-			{
-				SystemVariableId = x.SystemVariableId,
-				TransValue = x.TransValue,
-				EmployeeId = x.EmployeeId,
-				TransDate = monthEnd
-			}).ToList();
-			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_ot);
+			//		SELECT
+			//			(SELECT id FROM hrms.systemvariable WHERE code='Nml_Ot_Cldr_Mth' AND isarchived=false LIMIT 1)
+			//			AS systemvariableid , OT.employeeid AS employeeid,
+			//			SUM(OT.normalovertime) AS transvalue
+			//			FROM hrms.overtime OT
+			//			WHERE  OT.requeststatus=1  AND OT.employeeid 
+			//			IN
+			//			(
+			//				SELECT hm.id FROM hrms.hrmsemployee hm
+			//				LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+			//				LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+			//				WHERE pg.id=@PayGroupId AND 
+			//				hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+			//			)
+			//			AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
+			//			GROUP BY OT.employeeid*/";
+
+			//var Ot = await Connection.QueryAsync<SystemVariableDto>(sql, new { PayGroupId, timeSheetStartDate, timeSheetEndDate
+			//});
+			//List<SystemVariableValues> systemVariableValues_ot = Ot.Select(x => new SystemVariableValues()
+			//{
+			//	SystemVariableId = x.SystemVariableId,
+			//	TransValue = x.TransValue,
+			//	EmployeeId = x.EmployeeId,
+			//	TransDate = monthEnd
+			//}).ToList();
+			//dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_ot);
 			#endregion
 
 			//Wkg_Dys_Cldr_Mth
 			#region Wkg_Dys_Cldr_Mth
-			
+
 
 			sql = @"SELECT
 						(SELECT id FROM hrms.systemvariable WHERE code='Wkg_Dys_Cldr_Mth' AND isarchived=false LIMIT 1)
@@ -496,7 +464,8 @@ namespace Chef.HRMS.Repositories
 			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_days);
 			#endregion
 
-			//Worked days
+			//Worked days Wkd_Dys_Cldr_Mth
+			#region Wkd_Dys_Cldr_Mth
 			sql = @"SELECT
 			(SELECT id FROM hrms.systemvariable WHERE code='Wkd_Dys_Cldr_Mth' AND isarchived=false LIMIT 1)
 			AS systemvariableid , JF.employeeid AS employeeid,
@@ -538,9 +507,9 @@ namespace Chef.HRMS.Repositories
 				TransDate = monthEnd
 			}).ToList();
 			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkd_days);
+			#endregion
 
-
-			//Wkg_Dys_Cldr_Mth
+			//Plc_Hd_Cndl_Mth
 			#region Plc_Hd_Cndl_Mth
 
 			sql = @"SELECT
@@ -578,8 +547,7 @@ namespace Chef.HRMS.Repositories
 			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_plc_Hd);
 			#endregion
 
-
-			//Wkg_Dys_Cldr_Mth
+			//No_Of_Dys_Btw_Dte_Rge
 			#region No_Of_Dys_Btw_Dte_Rge
 
 			sql = @"SELECT
@@ -615,7 +583,7 @@ namespace Chef.HRMS.Repositories
 			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_No_Of_Dys_Btw_Dte_Rge);
 			#endregion
 
-			//Wkg_Dys_Cldr_Mth
+			//Pbc_Hds_Cldr_yer
 			#region Pbc_Hds_Cldr_yer
 
 			sql = @"SELECT
@@ -651,9 +619,287 @@ namespace Chef.HRMS.Repositories
 				TransDate = monthEnd
 			}).ToList();
 			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Pbc_Hds_Cldr_yer);
-			#endregion
 
 			return dd.ToString();
-        }
-    }
+
+			#endregion
+
+			//Lop days in cal year Lop_Dys_Cldr_yr
+			#region Lop_Dys_Cldr_yr
+			 sql = @"SELECT
+						(SELECT id FROM hrms.systemvariable WHERE code='Lop_Dys_Cldr_yr' AND isarchived=false LIMIT 1)
+						AS systemvariableid , ld.employeeid AS employeeid,
+						COUNT(ld.leavedate) AS transvalue
+						FROM hrms.leave l
+						LEFT JOIN hrms.leavecomponent lc ON l.leavecomponentid=lc.id
+						LEFT JOIN hrms.leavedetails ld ON l.id = ld.leaveid
+						WHERE  lc.isunpaidleave=true AND l.isarchived=false AND lc.isarchived=false AND l.employeeid 
+						IN
+						(
+							SELECT hm.id FROM hrms.hrmsemployee hm
+							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+							WHERE pg.id=@PayGroupId AND hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+						)
+						AND To_date(Cast(ld.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @leaveCutoffYearStart AND @leaveCutoffYearEnd
+						GROUP BY ld.employeeid;";
+
+			var Lop_Dys_Cldr_yr = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				leaveCutoffYearStart,
+				leaveCutoffYearEnd
+			});
+			List<SystemVariableValues> systemVariableValues_lop_cal = Lop_Dys_Cldr_yr.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			 dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_lop_cal);
+			#endregion
+
+			//Wkg_dys_Cldr_yer
+			#region Wkg_dys_Cldr_yer
+
+
+			sql = @"SELECT
+						(SELECT id FROM hrms.systemvariable WHERE code='Wkg_dys_Cldr_yer' AND isarchived=false LIMIT 1)
+						AS systemvariableid , JF.employeeid AS employeeid,
+						(@calMonthDays -Count(HM.date)) AS transvalue
+						FROM hrms.holiday HM
+						LEFT JOIN hrms.Jobfiling JF ON JF.holidaycategoryid = HM.holidaycategoryid
+						WHERE  JF.isarchived = false AND HM.isarchived = false   AND JF.employeeid 
+						IN
+						(
+							SELECT hm.id FROM hrms.hrmsemployee hm
+							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+							WHERE pg.id=@PayGroupId AND 
+							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+						)
+						AND To_date(Cast(HM.date AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetCutOffYearStart
+						AND @timeSheetCutOffYearEnd
+
+						GROUP BY JF.employeeid";
+
+			var Wkg_dys_Cldr_yer = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				timeSheetCutOffYearStart,
+				timeSheetCutOffYearEnd,
+				calMonthDays
+			});
+			List<SystemVariableValues> systemVariableValues_Wkg_days_year = Wkg_dys_Cldr_yer.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_days_year);
+			#endregion
+
+			//Worked days Wkd_Dys_Cldr_yer
+			#region Wkd_Dys_Cldr_yer
+			sql = @"SELECT
+			(SELECT id FROM hrms.systemvariable WHERE code='Wkd_Dys_Cldr_yer' AND isarchived=false LIMIT 1)
+			AS systemvariableid , JF.employeeid AS employeeid,
+			(@calMonthDays -Count(HM.date) - (SELECT 
+			COUNT(ld.leavedate) 
+			FROM hrms.leave l
+			LEFT JOIN hrms.leavecomponent lc ON l.leavecomponentid=lc.id
+			LEFT JOIN hrms.leavedetails ld ON l.id = ld.leaveid
+			WHERE  lc.isunpaidleave=true AND l.isarchived=false AND lc.isarchived=false AND l.employeeid = JF.employeeid 
+			AND To_date(Cast(ld.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @leaveCutoffYearStart
+			AND @leaveCutoffYearEnd )) AS transvalue
+			FROM hrms.holiday HM
+			LEFT JOIN hrms.Jobfiling JF ON JF.holidaycategoryid = HM.holidaycategoryid
+			WHERE  JF.isarchived = false AND HM.isarchived = false   AND JF.employeeid 
+			IN
+			(
+				SELECT hm.id FROM hrms.hrmsemployee hm
+				LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+				LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+				WHERE pg.id=@PayGroupId AND 
+				hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+			)
+			AND To_date(Cast(HM.date AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetCutOffYearStart AND @timeSheetCutOffYearEnd
+			GROUP BY JF.employeeid";
+
+			var Wkd_Dys_Cldr_yer = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				timeSheetCutOffYearStart,
+				timeSheetCutOffYearEnd,
+				calMonthDays,
+				leaveCutoffYearStart,
+				leaveCutoffYearEnd
+			});
+			List<SystemVariableValues> systemVariableValues_Wkd_days_year = Wkd_Dys_Cldr_yer.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkd_days_year);
+			#endregion
+
+			//Wkg_Dys_Dte_Rg
+			#region Wkg_Dys_Dte_Rg
+
+
+
+			sql = @"SELECT
+						(SELECT id FROM hrms.systemvariable WHERE code='Wkg_Dys_Dte_Rg' AND isarchived=false LIMIT 1)
+						AS systemvariableid , JF.employeeid AS employeeid,
+						(@calMonthDays -Count(HM.date)) AS transvalue
+						FROM hrms.holiday HM
+						LEFT JOIN hrms.Jobfiling JF ON JF.holidaycategoryid = HM.holidaycategoryid
+						WHERE  JF.isarchived = false AND HM.isarchived = false   AND JF.employeeid 
+						IN
+						(
+							SELECT hm.id FROM hrms.hrmsemployee hm
+							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+							WHERE pg.id=@PayGroupId AND 
+							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+						)
+						AND To_date(Cast(HM.date AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
+						GROUP BY JF.employeeid";
+
+			var Wkg_Dys_Dte_Rg = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				timeSheetStartDate,
+				timeSheetEndDate,
+				calMonthDays
+			});
+			List<SystemVariableValues> systemVariableValues_Wkg_days_Dte_rg = Wkg_Dys_Dte_Rg.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_days_Dte_rg);
+			#endregion
+
+			// Wkd_Dys_Dte_Rge
+			#region Wkd_Dys_Dte_Rge
+			sql = @"SELECT
+			(SELECT id FROM hrms.systemvariable WHERE code='Wkd_Dys_Dte_Rge' AND isarchived=false LIMIT 1)
+			AS systemvariableid , JF.employeeid AS employeeid,
+			(@calMonthDays -Count(HM.date) - (SELECT 
+			COUNT(ld.leavedate) 
+			FROM hrms.leave l
+			LEFT JOIN hrms.leavecomponent lc ON l.leavecomponentid=lc.id
+			LEFT JOIN hrms.leavedetails ld ON l.id = ld.leaveid
+			WHERE  lc.isunpaidleave=true AND l.isarchived=false AND lc.isarchived=false AND l.employeeid = JF.employeeid 
+			AND To_date(Cast(ld.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @leaveStartDate AND @leaveEndDate )) AS transvalue
+			FROM hrms.holiday HM
+			LEFT JOIN hrms.Jobfiling JF ON JF.holidaycategoryid = HM.holidaycategoryid
+			WHERE  JF.isarchived = false AND HM.isarchived = false   AND JF.employeeid 
+			IN
+			(
+				SELECT hm.id FROM hrms.hrmsemployee hm
+				LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+				LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+				WHERE pg.id=@PayGroupId AND 
+				hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+			)
+			AND To_date(Cast(HM.date AS TEXT), 'YYYY-MM-DD') BETWEEN @timeSheetStartDate AND @timeSheetEndDate
+			GROUP BY JF.employeeid";
+
+			var Wkd_Dys_Dte_Rge = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				timeSheetStartDate,
+				timeSheetEndDate,
+				calMonthDays,
+				leaveStartDate,
+				leaveEndDate
+			});
+			List<SystemVariableValues> systemVariableValues_Wkd_days_Dte_Rge = Wkd_Dys_Dte_Rge.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkd_days_Dte_Rge);
+			#endregion
+
+			// Wkg_Dys_Frm_Jng
+			#region Wkg_Dys_Frm_Jng
+			sql = @"SELECT
+						(SELECT id FROM hrms.systemvariable WHERE code='Wkg_Dys_Frm_Jng' AND isarchived=false LIMIT 1)
+						AS systemvariableid , JD.employeeid AS employeeid,
+						DATE_PART('day', @monthEnd -(JD.dateofjoin)) AS transvalue
+						FROM hrms.jobdetails JD
+						WHERE  JD.employeeid 
+						IN
+						(
+							SELECT hm.id FROM hrms.hrmsemployee hm
+							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+							WHERE pg.id=@PayGroupId AND 
+							hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+						)";
+
+			var Wkg_Dys_Frm_Jng = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				monthEnd
+			});
+			List<SystemVariableValues> systemVariableValues_Wkg_Dys_Frm_Jng = Wkg_Dys_Frm_Jng.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_Dys_Frm_Jng);
+			#endregion
+
+			// Lop_Dys_Frm_Jng
+			#region Lop_Dys_Frm_Jng
+			sql = @"SELECT
+						(SELECT id FROM hrms.systemvariable WHERE code='Lop_Dys_Frm_Jng' AND isarchived=false LIMIT 1)
+						AS systemvariableid , ld.employeeid AS employeeid,
+						COUNT(ld.leavedate) AS transvalue
+						FROM hrms.leave l
+						LEFT JOIN hrms.leavecomponent lc ON l.leavecomponentid=lc.id
+						LEFT JOIN hrms.leavedetails ld ON l.id = ld.leaveid
+						LEFT JOIN hrms.jobdetails JD ON JD.employeeid = ld.employeeid
+						WHERE  lc.isunpaidleave=true AND l.isarchived=false AND lc.isarchived=false AND l.employeeid 
+						IN
+						(
+							SELECT hm.id FROM hrms.hrmsemployee hm
+							LEFT JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
+							LEFT JOIN hrms.paygroup pg ON jf.paygroupid = pg.id
+							WHERE pg.id=@PayGroupId AND hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
+						)
+						AND To_date(Cast(ld.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN JD.dateofjoin AND @leaveEndDate
+						GROUP BY ld.employeeid";
+
+			var Lop_Dys_Frm_Jng = await Connection.QueryAsync<SystemVariableDto>(sql, new
+			{
+				PayGroupId,
+				leaveEndDate
+			});
+			List<SystemVariableValues> systemVariableValues_Lop_Dys_Frm_Jng = Lop_Dys_Frm_Jng.Select(x => new SystemVariableValues()
+			{
+				SystemVariableId = x.SystemVariableId,
+				TransValue = x.TransValue,
+				EmployeeId = x.EmployeeId,
+				TransDate = monthEnd
+			}).ToList();
+			dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Lop_Dys_Frm_Jng);
+			#endregion
+
+		}
+	}
 }
