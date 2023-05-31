@@ -95,6 +95,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     if (this.jobDetails != null) {
@@ -161,8 +162,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.groupCategory = [...result, temp];
-      let item = result.find((item) => this.addForm.get('categoryId').value == item.id)
-      this.categoryObj = item;
+      this.categoryObj = result.find((item) => this.addForm.get('categoryId').value == item.id)
 
     })
   }
@@ -176,10 +176,8 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.jobTitleId = [...result, temp];
-      let designationItem = result.find((item) => this.addForm.get('jobTitleId').value == item.id)
-      let visaDesigItem = result.find((item) => this.addForm.get('visaDesignationId').value == item.id)
-      this.visaDesignationName=visaDesigItem
-      this.designationName = designationItem;
+      this.designationName= result.find((item) => this.addForm.get('jobTitleId').value == item.id)
+      this.visaDesignationName = result.find((item) => this.addForm.get('visaDesignationId').value == item.id)
     },
       error => {
         console.error(error);
@@ -192,8 +190,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.numberSeriesId = [...result, temp];
-      let seriesItem = result.find((item) => this.addForm.get('numberSeriesId').value == item.id)
-      this.seriesName = seriesItem;
+      this.seriesName = result.find((item) => this.addForm.get('numberSeriesId').value == item.id)
     },
       error => {
         console.error(error);
@@ -206,12 +203,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     this.getEmployeeNumber()
   }
   getEmployeeList() {
+    debugger
     this.employeeService.getAll().subscribe(result => {
       let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.employeeList = [...result, temp];
-      let item = result.find((item) => this.addForm.get('reportingManager').value == item.id)
-      this.employeeObj = item;
+      this.employeeObj = result.find((item) => this.addForm.get('reportingManager').value == item.id)
     },
       error => {
         console.error(error);
@@ -304,8 +301,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
       let temp = { id: undefined, shortName: 'test', isLastRow: true }
       // lastrow
       this.location = [...result, temp];
-      let item = result.find((item) => this.addForm.get('location').value == item.id)
-      this.loctaionObj = item;
+      this.loctaionObj = result.find((item) => this.addForm.get('location').value == item.id)
     },
       error => {
         console.error(error);
