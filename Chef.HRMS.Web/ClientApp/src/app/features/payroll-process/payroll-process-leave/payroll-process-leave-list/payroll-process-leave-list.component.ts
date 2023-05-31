@@ -304,6 +304,7 @@ export class PayrollProcessLeaveListComponent implements OnInit {
     error => {
       console.error(error);
       this.toastr.showErrorMessage('Unable to Insert Leave Details.');
+      this.selectTab.emit(1);
     });
   }
 
