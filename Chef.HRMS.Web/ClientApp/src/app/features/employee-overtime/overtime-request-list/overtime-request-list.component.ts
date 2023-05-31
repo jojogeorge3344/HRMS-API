@@ -9,9 +9,11 @@ import { OvertimeRequest } from '../overtime-request.model';
 import { RequestStatus } from '../../../models/common/types/requeststatustype';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { OvertimeRequestViewComponent } from '../overtime-request-view/overtime-request-view.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
-
+import { ExcelService } from '@features/reports/excel.service';
+import { DatePipe } from '@angular/common';
+import download from 'downloadjs';
 @Component({
   templateUrl: './overtime-request-list.component.html'
 })
@@ -22,12 +24,17 @@ export class OvertimeRequestListComponent implements OnInit {
   currentUserId: number;
   overtimePolicyId: number;
   employeeDetailsCheck: boolean;
+  excel = [];
+  
 
   constructor(
     private overtimeRequestService: OvertimeRequestService,
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
     private router: Router,
+    private excelService: ExcelService,
+    private datePipe: DatePipe,
+    private route: ActivatedRoute,
 ) {
   }
 
@@ -154,5 +161,30 @@ export class OvertimeRequestListComponent implements OnInit {
      
       }
     });
+  }
+
+  ExcelImport(){
+   
+  //   this.excel.push({
+  //     Code:'',
+  //     Name:'',
+  //     'FromDate (yyyy-mm-dd)':'',
+  //     'ToDate (yyyy-mm-dd)':'',
+  //     NormalOvertime:'',
+  //     HolidayOvertime:'',
+  //     SpecialOvertime:'',
+  //     Reason:''
+  //   })
+  
+  // this.excelService.exportAsExcelFile(this.excel, 'Employee_Overtime_List');
+ 
+    this.overtimeRequestService.getExcelFormat().subscribe((res:any)=>{
+    download(atob(res), 'Employee_Overtime_List.xlsx', { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
+    })
+  
+  }
+
+  openUpload(){
+    this.router.navigate(["./upload/"], { relativeTo: this.route.parent });
   }
 }
