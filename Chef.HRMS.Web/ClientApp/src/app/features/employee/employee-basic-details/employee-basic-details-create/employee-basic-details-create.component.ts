@@ -31,6 +31,9 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   emailRegex = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
   employees: Employee[] = [];
   emails: string[];
+  relName;
+  religionInValid:boolean=false;
+
   @Output() basicDetailsForm = new EventEmitter<boolean>();
   @Input() basicDetails: any;
   constructor(
@@ -66,15 +69,21 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
       
     });
     this.genderTypeKeys = Object.keys(this.genderType).filter(Number).map(Number);
-
-   this.employeeBasicDetailsService.getReligion()
-   .subscribe((result)=>{
-   this.religion=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
-   })
+    this.getReligion()
   }
   // onChangeEmail() {
   //   this.getEmployeeDetails();
   // }
+  getReligion(){
+    this.employeeBasicDetailsService.getReligion()
+   .subscribe((result)=>{
+   let temp={id:undefined,name:'test',isLastRow:true}
+   // lastrow
+     this.religion=[...result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
+     let relType=result.find((item)=>this.addForm.get('religionId').value==item.id)
+     this.relName=relType
+   })
+  }
   getEmployeeDetails() {
     this.employeeService.getAll().subscribe(result => {
       this.emails = result.map(e => e.email);
@@ -86,20 +95,31 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to fetch the Employee Details');
       });
   }
+  selectReligion(args){
+      this.addForm.patchValue({
+        religionId:args.value.id
+      })
+  }
+  reloadDocTypes(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getReligion()
+  }
   onSubmit() {
-    debugger
+    // this.addForm.markAllAsTouched
     const addBasicDetails = this.addForm.value;
     this.employeeService.getName(addBasicDetails.firstName).subscribe((res)=>{
       if(res){
-        this.toastr.showWarningMessage("User Name is already exist")
+        this.toastr.showWarningMessage("User Name already exists")
       }else{
         this.employeeBasicDetailsService.add(addBasicDetails).subscribe((result)=>{
+          debugger
           addBasicDetails.switchResult=result
           this.basicDetailsForm.emit(addBasicDetails);
           this.toastr.showSuccessMessage('Employee Basic details added successfully!');
         })
       }
-    })
+    })   
   }
   changeToUpperCase(){
     debugger
