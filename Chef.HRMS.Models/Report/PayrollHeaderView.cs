@@ -1,4 +1,6 @@
 ﻿using Chef.Common.Core;
+using Chef.Common.Core.Extensions;
+using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
