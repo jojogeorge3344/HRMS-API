@@ -53,6 +53,7 @@ import { BoldReportViewerModule } from "@boldreports/angular-reporting-component
 import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
 import { EmployeeWpsDetailsCreateComponent } from './employee-wps/employee-wps-details-create/employee-wps-details-create.component';
 import { EmployeeAddressCreateComponent } from './employee-address-create/employee-address-create.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -187,6 +188,7 @@ import { EmployeeAddressCreateComponent } from './employee-address-create/employ
     SelectDropDownModule,
     ReportViewerModule,
     BoldReportViewerModule,
+    DropdownModule
   ],
   providers: [
     {

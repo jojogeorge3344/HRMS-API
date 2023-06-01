@@ -41,7 +41,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   documentDetails;
   identityDetails;
   isDuplicate: boolean = false;
-
+  docTypeName;
   constructor(
     private identityDetailsService: EmployeeIdentityDetailsService,
     private documentService: DocumentService,
@@ -60,12 +60,16 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     debugger
 
     this.identityDetailsService.getAllActiveDocumentsTypes()
-    .subscribe((item)=>(
-      this.documentTypeKeys=item
-    ))
-   debugger
-    this.editForm.patchValue(this.identityDetails);
+    .subscribe((item)=>{
+      let temp={id:0,name:'test',isLastRow:true}
+      // lastrow
+        this.documentTypeKeys=[...item,temp];   
+        let docType=item.find((item)=>this.editForm.get('documentTypeMasterId').value==item.id)
+        this.docTypeName=docType
+    })
 
+    this.editForm.patchValue(this.identityDetails);
+  
     this.editForm
       .get("issueDate")
       .patchValue(this.formatDate(new Date(this.identityDetails.issueDate)));
@@ -73,7 +77,21 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
       .get("expiryDate")
       .patchValue(this.formatDate(new Date(this.identityDetails.expiryDate)));
   }
-
+  reloadDocTypes(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.identityDetailsService.getAllActiveDocumentsTypes()
+    .subscribe((item)=>{
+      let temp={id:0,name:'test',isLastRow:true}
+      // lastrow
+      this.documentTypeKeys=[...item,temp];
+    })
+  } 
+  selectDocType(args){
+    this.editForm.patchValue({
+      documentTypeMasterId:args.value.id
+    })
+  }
   getAllEmployeeDetails() {
     this.identityDetailsService
       .getAllByEmployeeId(
@@ -274,6 +292,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
       active: [null,[Validators.required]],
       isApproved: [true],
       documentId: [0],
+      docTypeName:[''],
       document: this.formBuilder.group({
         name: [this.fileName],
         path: [""],

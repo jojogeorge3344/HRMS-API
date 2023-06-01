@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,7 +13,6 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
   templateUrl: './payroll-process-loans-advances-list.component.html'
 })
 export class PayrollProcessLoansAdvancesListComponent implements OnInit {
-
   months = Months;
   month = Months;
   previousMonths = [];

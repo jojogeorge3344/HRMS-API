@@ -297,12 +297,14 @@ export class PayrollProcessLeaveListComponent implements OnInit {
         this.payrollProcessService.updateProcessedStep(this.id, 1, { id: this.id, stepNumber: 1 })
           .subscribe(() => {
             this.toastr.showSuccessMessage('Payroll Leave and Attendance Processing Completed');
+            this.selectTab.emit(2);
           });
       
     },
     error => {
       console.error(error);
       this.toastr.showErrorMessage('Unable to Insert Leave Details.');
+      this.selectTab.emit(1);
     });
   }
 
