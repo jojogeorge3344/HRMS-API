@@ -399,18 +399,18 @@ export class EmployeeJobFilingEditComponent implements OnInit {
       shiftId: ['', [
         Validators.required
       ]],
-      weekOff: ['', [
+      weekOff: [null, [
         Validators.required
       ]],
       holidayCategoryId: ['', [
         Validators.required
       ]],
-      attendanceTracking: ['', [
+      attendanceTracking: [null, [
         Validators.required
       ]],
       expensePolicyId: [0, [
       ]],
-      attendanceCaptureScheme: ['', [
+      attendanceCaptureScheme: [null, [
         Validators.required
       ]],
       payrollStructureId: [null, [Validators.required]
