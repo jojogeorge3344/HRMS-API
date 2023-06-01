@@ -1,4 +1,4 @@
-<div class="header-button-wrapper">
+<!-- <div class="header-button-wrapper">
     <div class="content-header">
         {{month}} {{payrollyear}} - Payroll Summary Details
     </div>
@@ -38,4 +38,32 @@
     <button class="btn btn-primary" (click)="onSubmit()">
         Complete The Payroll Process
     </button>
+</div> -->
+
+
+<div class="card">
+    <p-treeTable [value]="summaryDetailsTreeData" [scrollable]="true" [tableStyle]="{'min-width':'50rem'}" >
+        <ng-template pTemplate="header" >
+            <tr style="background-color: #dee2e6;
+            background-image: linear-gradient(to top, #dee2e6, #f8f9fa);">
+                <th style="padding: 14px !important;">Employee Code</th>
+                <th>Name</th>
+                <th>Total Earnings</th>
+                <th>Total Deduction</th>
+                <th>Net Salary Amount</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+            <tr [ttRow]="rowNode" style="border: 1px solid rgba(0, 0, 0, 0.08);">
+                <td style="padding: 14px !important;">
+                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                    {{ rowData.data1 }}
+                </td>
+                <td>{{ rowData.data2 }}</td>
+                <td>{{ rowData.data3 }}</td>
+                <td>{{ rowData.data4 }}</td>
+                <td>{{ rowData.data5 }}</td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
 </div>
