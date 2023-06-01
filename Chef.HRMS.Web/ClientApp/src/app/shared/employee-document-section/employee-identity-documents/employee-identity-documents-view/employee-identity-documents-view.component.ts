@@ -13,6 +13,7 @@ export class EmployeeIdentityDocumentsViewComponent implements OnInit {
   fileName = "";
   documentTypeKeys;
   documentType = DocumentType;
+  docTypeName;
   @Input() identityDetails: any;
 
   constructor(
@@ -36,9 +37,11 @@ export class EmployeeIdentityDocumentsViewComponent implements OnInit {
       .patchValue(this.formatDate(new Date(this.identityDetails.expiryDate)));
 
       this.identityDetailsService.getAllActiveDocumentsTypes()
-      .subscribe((item)=>(
+      .subscribe((item)=>{
         this.documentTypeKeys=item
-      ))
+        let docType=item.find((item)=>this.viewForm.get('documentTypeMasterId').value==item.id)
+        this.docTypeName=docType
+    })
 
     if (this.identityDetails.fileName.length > 40) {
       this.fileName = this.identityDetails.fileName.substr(0, 40) + "...";
