@@ -20,4 +20,14 @@ namespace Chef.HRMS.Models
 
         public int PayrollProcessId { get; set; }
     }
+
+	public class SystemVariableOTDto : Model
+	{
+		public int Nml_SystemVariableId { get; set; }
+		public int Sp_OtSystemVariableId { get; set; }
+		public int Hd_Otsystemvariableid { get; set; }
+		public Decimal NormalOverTime { get; set; }
+		public Decimal HolidayOverTime { get; set; }
+		public Decimal SpecialOverTime { get; set; }
+	}
 }

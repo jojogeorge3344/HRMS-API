@@ -98,12 +98,8 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
           this.basicDetailsForm.emit(addBasicDetails);
           this.toastr.showSuccessMessage('Employee Basic details added successfully!');
         })
-         
-        
       }
-
     })
-    
   }
   changeToUpperCase(){
     debugger

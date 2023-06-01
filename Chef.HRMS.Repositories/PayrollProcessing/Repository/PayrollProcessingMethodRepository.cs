@@ -17,8 +17,11 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno)
         {
-            var sql = @"SELECT * FROM hrms.payrollprocessingmethod
-                        WHERE processedstep >=@stepno @ and isarchived = false
+            var sql = @"SELECT ppm.*, emp.displayname as employeename,jd.employeenumber as employeecode FROM hrms.payrollprocessingmethod ppm
+                        left join hrms.hrmsemployee emp 
+                        on emp.id = ppm.employeeid 
+                        left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
+                        WHERE processedstep >=@stepno and isarchived = false
                         ORDER BY id ASC ";
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { stepno });
         }
