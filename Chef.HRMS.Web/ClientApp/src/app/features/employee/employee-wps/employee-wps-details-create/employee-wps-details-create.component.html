@@ -1,20 +1,11 @@
 <form [formGroup]="addForm" id="wpsDetailsForm" (validSubmit)="onSubmit()">
     <div class="p-3">  
         <div class="row align-items-baseline">
-            <!-- <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="groupId">WPS Group Name<span class="required">*</span></label>
-                <select class="form-control" formControlName="groupId">
-                    <option value="" disabled>Select WPS Group</option>
-                    <option *ngFor="let type of groupId" [ngValue]='type.id'>
-                        {{type.groupName}}
-                    </option>
-                </select>
-            </div> -->
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="groupId"
                   >WPS Group Name<span class="required">*</span></label
                 >
-                <p-dropdown [(ngModel)]="wpsObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="groupId" optionValue="id"
+                <p-dropdown [(ngModel)]="wpsGroupObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="groupId" optionValue="id"
                 (onChange)="selectWpsGroup($event)" optionLabel="groupName" placeholder="Select WPS Group" dataKey="id" name="groupId">
                   <ng-template let-item pTemplate="item" >  
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
@@ -51,21 +42,12 @@
                 <label class="col-form-label"  for="salaryCardNo">Salary Card No <span class="required">*</span></label>
                 <input autocomplete="off" type="string" class="form-control" id="salaryCardNo" name="salaryCardNo" formControlName="salaryCardNo">
             </div>
-            <!-- <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="bankId">Bank Name<span class="required">*</span></label>
-                <select class="form-control" formControlName="bankId">
-                    <option value="" disabled>Select Bank Name</option>
-                    <option *ngFor="let type of bankList" [ngValue]='type.id'>
-                        {{type.name}}
-                    </option>
-                </select>
-            </div> -->
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="bankId"
                   >Bank Name<span class="required">*</span></label
                 >
                 <p-dropdown [(ngModel)]="bankObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="bankList" optionValue="id"
-                (onChange)="selectBank($event)" optionLabel="name" placeholder="Select Visa Designation" dataKey="id" name="bankId">
+                (onChange)="selectBank($event)" optionLabel="name" placeholder="Select Bank Name" dataKey="id" name="bankId">
                   <ng-template let-item pTemplate="item" >  
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                       {{item?.value.name}} 
@@ -82,6 +64,8 @@
             </div>
 
         </div>
+    </div>
+
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-6">
                 <label class="col-form-label"  for="accountNo">Account No<span class="required">*</span></label>
@@ -95,6 +79,5 @@
             <button type="button" class="btn btn-warning"><i class="mr-1 fal fa-window-close"></i> Cancel</button>
         </a>
     </div>
-</div>
 </form>
 

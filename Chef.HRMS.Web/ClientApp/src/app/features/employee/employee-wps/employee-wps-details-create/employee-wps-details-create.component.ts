@@ -62,8 +62,6 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
       }
     });
     this.getWPSGrouplist();
-    // this.getWPSUserlistById();
-    // this.getMolId(this.id)
     this.getWPSBanklist()
   }
 
@@ -165,16 +163,24 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
     });
   }
 selectWpsGroup(args){
-
+  this.addForm.patchValue({
+    groupId: args.value.id
+  })
 }
 selectBank(args){
-
+  this.addForm.patchValue({
+    bankId: args.value.id
+  })
 }
 refreshWpsGroup(event){
-
+  event.stopPropagation();
+  event.preventDefault();
+  this.getWPSGrouplist()
 }
 refreshBank(event){
-
+  event.stopPropagation();
+  event.preventDefault();
+  this.getWPSBanklist()
 }
 }
 
