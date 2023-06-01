@@ -100,6 +100,7 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to insert Loan Details.');
         this.selectTab.emit(2);
+        
         return
       });
   }
