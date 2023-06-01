@@ -372,8 +372,10 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsByPayGroupId(int paygroupid)
         {
-            var sql = @"SELECT distinct ppm.employeeid,le.*,esd.monthlyamount
+            var sql = @"SELECT distinct ppm.employeeid,le.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
                         FROM hrms.payrollprocessingmethod ppm
+                        left join hrms.hrmsemployee emp on emp.id = ppm.employeeid 
+                        left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
                         Left Join  hrms.jobfiling jf on jf.employeeid = ppm.employeeid
                         Join hrms.leavestructureleavecomponent lslc on lslc.leavestructureid = jf.leavestructureid
                         Join hrms.leaveeligibility le on le.leavecomponentid = lslc.leavecomponentid       
