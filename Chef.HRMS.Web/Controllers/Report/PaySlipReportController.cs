@@ -1,6 +1,7 @@
 ﻿using BoldReports.Web.ReportViewer;
 using Chef.Common.Data.Services;
 using Chef.Common.Models;
+using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Chef.HRMS.Services.Report;
 using Chef.HRMS.Web.Controllers;
@@ -45,12 +46,12 @@ public class PaySlipReportController : ReportViewerController
             string employeeId = (CustomData["employeeId"].ToString());
             DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
             DateTime ToDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
-            string paygroupId = CustomData["paygroupId"].ToString();
+            string paygroupId = (CustomData["paygroupId"].ToString());
             string department = CustomData["department"].ToString();
             string designation = CustomData["designation"].ToString();
 
-            var header = payslipReportService.EmployeeHeaderDetails(employeeId, fromDate, ToDate).Result;
-            var componentDetails = payslipReportService.EmployeeComponentDetails(employeeId, fromDate, ToDate).Result;
+            var header = payslipReportService.EmployeeHeaderDetails(employeeId, fromDate, ToDate, paygroupId, department, designation).Result;
+            var componentDetails = payslipReportService.EmployeeComponentDetails(employeeId, fromDate, ToDate, paygroupId, department, designation).Result;
             var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeId, fromDate, ToDate).Result;
             var loanDetails = payslipReportService.EmployeeLoanDetails(employeeId, fromDate, ToDate).Result;
 

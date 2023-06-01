@@ -4,6 +4,7 @@
     <ReportSection>
       <Body>
         <Style>
+          <FontFamily>Arial</FontFamily>
           <FontSize>10.00001pt</FontSize>
           <Border>
             <Style>None</Style>
@@ -16,6 +17,7 @@
             <Height>346.5pt</Height>
             <Width>751.95pt</Width>
             <Style>
+              <FontFamily>Arial</FontFamily>
               <Border>
                 <Style>Solid</Style>
               </Border>
@@ -47,6 +49,7 @@
                 <Height>111.6pt</Height>
                 <Width>747.6pt</Width>
                 <Style>
+                  <FontFamily>Arial</FontFamily>
                   <Border>
                     <Style>None</Style>
                   </Border>
@@ -82,6 +85,7 @@
                               <Height>18.6pt</Height>
                               <Width>751.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -123,6 +127,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Center</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -149,6 +154,7 @@
                               <Height>18.6pt</Height>
                               <Width>356.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -173,6 +179,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Center</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -192,6 +199,7 @@
                               <Height>18.6pt</Height>
                               <Width>395.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -216,6 +224,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Center</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -239,6 +248,7 @@
                               <Height>18.6pt</Height>
                               <Width>211.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -262,7 +272,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -278,6 +290,7 @@
                               <Height>18.6pt</Height>
                               <Width>66pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -302,6 +315,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Center</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -319,6 +333,7 @@
                               <Height>18.6pt</Height>
                               <Width>78.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -343,6 +358,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -360,6 +376,7 @@
                               <Height>18.6pt</Height>
                               <Width>307.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -382,7 +399,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -398,6 +417,7 @@
                               <Height>18.6pt</Height>
                               <Width>87.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -422,6 +442,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -438,12 +459,13 @@
                       <TablixCells>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox5">
+                            <Textbox Name="TextBox19">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
                               <Width>211.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -471,7 +493,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -481,12 +505,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox6">
+                            <Textbox Name="TextBox22">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
                               <Width>66pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -507,14 +532,16 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=</Value>
+                                      <Value>=Fields!PayHeadBaseUnitType.Value</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -524,12 +551,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox27">
+                            <Textbox Name="TextBox24">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
                               <Width>78.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -559,6 +587,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -570,12 +599,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox33">
+                            <Textbox Name="TextBox25">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
                               <Width>307.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -603,7 +633,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -613,12 +645,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox9">
+                            <Textbox Name="TextBox30">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
                               <Width>87.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -648,6 +681,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -670,6 +704,7 @@
                               <Height>18.6pt</Height>
                               <Width>277.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -693,6 +728,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -705,12 +741,13 @@
                         <TablixCell />
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox28">
+                            <Textbox Name="TextBox38">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
                               <Width>78.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -735,6 +772,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -752,6 +790,7 @@
                               <Height>18.6pt</Height>
                               <Width>307.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -775,6 +814,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -786,12 +826,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox20">
+                            <Textbox Name="TextBox37">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
                               <Width>87.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -816,6 +857,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -838,6 +880,7 @@
                               <Height>18.6pt</Height>
                               <Width>277.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -854,11 +897,14 @@
                                     <TextRun>
                                       <Value />
                                       <Style>
+                                        <FontFamily>Arial</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -875,6 +921,7 @@
                               <Height>18.6pt</Height>
                               <Width>78.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -891,11 +938,14 @@
                                     <TextRun>
                                       <Value />
                                       <Style>
+                                        <FontFamily>Arial</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -911,6 +961,7 @@
                               <Height>18.6pt</Height>
                               <Width>307.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -934,6 +985,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -951,6 +1003,7 @@
                               <Height>18.6pt</Height>
                               <Width>87.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -975,6 +1028,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -1026,6 +1080,7 @@
                 <Height>79.2pt</Height>
                 <Width>751.95pt</Width>
                 <Style>
+                  <FontFamily>Arial</FontFamily>
                   <Border>
                     <Style>None</Style>
                   </Border>
@@ -1058,6 +1113,7 @@
                               <Height>19.8pt</Height>
                               <Width>64.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1091,7 +1147,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1101,12 +1159,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox115">
+                            <Textbox Name="TextBox1">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
                               <Width>295.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1139,7 +1198,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1155,6 +1216,7 @@
                               <Height>19.8pt</Height>
                               <Width>77.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1188,7 +1250,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1198,12 +1262,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox116">
+                            <Textbox Name="TextBox8">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
                               <Width>314.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1229,7 +1294,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Month.Value</Value>
+                                      <Value>=Fields!PayrollProcessDate.Value</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Format>MMMM</Format>
@@ -1238,6 +1303,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Left</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -1260,6 +1326,7 @@
                               <Height>19.8pt</Height>
                               <Width>64.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1285,7 +1352,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1295,12 +1364,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox149">
+                            <Textbox Name="TextBox7">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
                               <Width>295.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1328,7 +1398,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1344,6 +1416,7 @@
                               <Height>19.8pt</Height>
                               <Width>77.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1369,7 +1442,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1379,12 +1454,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox150">
+                            <Textbox Name="TextBox11">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
                               <Width>314.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1406,7 +1482,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BasicPay.Value</Value>
+                                      <Value />
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Format>n2</Format>
@@ -1415,6 +1491,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Left</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -1437,6 +1514,7 @@
                               <Height>19.8pt</Height>
                               <Width>64.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1462,7 +1540,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1478,6 +1558,7 @@
                               <Height>19.8pt</Height>
                               <Width>295.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1505,7 +1586,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1521,6 +1604,7 @@
                               <Height>19.8pt</Height>
                               <Width>77.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1546,7 +1630,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1556,12 +1642,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox137">
+                            <Textbox Name="TextBox12">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
                               <Width>314.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1583,7 +1670,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!ExchangeRate.Value</Value>
+                                      <Value />
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Format>n2</Format>
@@ -1592,6 +1679,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Left</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -1614,6 +1702,7 @@
                               <Height>19.8pt</Height>
                               <Width>64.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1642,7 +1731,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1652,12 +1743,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox132">
+                            <Textbox Name="TextBox18">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
                               <Width>295.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1681,14 +1773,16 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CountryName.Value</Value>
+                                      <Value />
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1704,6 +1798,7 @@
                               <Height>19.8pt</Height>
                               <Width>77.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1732,7 +1827,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1742,12 +1839,13 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox133">
+                            <Textbox Name="TextBox16">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
                               <Width>314.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1772,7 +1870,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Currency.Value</Value>
+                                      <Value />
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Color>black</Color>
@@ -1780,6 +1878,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Left</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -1816,6 +1915,7 @@
                 <Height>54pt</Height>
                 <Width>293.1pt</Width>
                 <Style>
+                  <FontFamily>Arial</FontFamily>
                   <Border>
                     <Style>None</Style>
                   </Border>
@@ -1851,6 +1951,7 @@
                               <Height>18pt</Height>
                               <Width>292.8pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -1875,6 +1976,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Center</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -1901,6 +2003,7 @@
                               <Height>18pt</Height>
                               <Width>61.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1923,7 +2026,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1939,6 +2044,7 @@
                               <Height>18pt</Height>
                               <Width>72.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -1961,7 +2067,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -1977,6 +2085,7 @@
                               <Height>18pt</Height>
                               <Width>43.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -2001,6 +2110,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Center</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -2018,6 +2128,7 @@
                               <Height>18pt</Height>
                               <Width>56.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2041,6 +2152,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -2058,6 +2170,7 @@
                               <Height>18pt</Height>
                               <Width>59.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2081,6 +2194,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -2103,6 +2217,7 @@
                               <Height>18pt</Height>
                               <Width>61.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2119,11 +2234,14 @@
                                     <TextRun>
                                       <Value />
                                       <Style>
+                                        <FontFamily>Arial</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2139,6 +2257,7 @@
                               <Height>18pt</Height>
                               <Width>72.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2155,11 +2274,14 @@
                                     <TextRun>
                                       <Value />
                                       <Style>
+                                        <FontFamily>Arial</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2175,6 +2297,7 @@
                               <Height>18pt</Height>
                               <Width>43.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2191,11 +2314,14 @@
                                     <TextRun>
                                       <Value />
                                       <Style>
+                                        <FontFamily>Arial</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2211,6 +2337,7 @@
                               <Height>18pt</Height>
                               <Width>56.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2227,11 +2354,14 @@
                                     <TextRun>
                                       <Value />
                                       <Style>
+                                        <FontFamily>Arial</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2247,6 +2377,7 @@
                               <Height>18pt</Height>
                               <Width>59.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2263,11 +2394,14 @@
                                     <TextRun>
                                       <Value />
                                       <Style>
+                                        <FontFamily>Arial</FontFamily>
                                         <Color>black</Color>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2302,6 +2436,7 @@
                 <Height>36pt</Height>
                 <Width>448.35pt</Width>
                 <Style>
+                  <FontFamily>Arial</FontFamily>
                   <Border>
                     <Style>None</Style>
                   </Border>
@@ -2340,6 +2475,7 @@
                               <Height>18pt</Height>
                               <Width>448.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
@@ -2364,6 +2500,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Center</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -2391,6 +2528,7 @@
                               <Height>18pt</Height>
                               <Width>102.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2413,7 +2551,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2429,6 +2569,7 @@
                               <Height>18pt</Height>
                               <Width>68.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2453,6 +2594,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -2470,6 +2612,7 @@
                               <Height>18pt</Height>
                               <Width>75pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2492,7 +2635,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2508,6 +2653,7 @@
                               <Height>18pt</Height>
                               <Width>75.6pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2530,7 +2676,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2546,6 +2694,7 @@
                               <Height>18pt</Height>
                               <Width>49.2pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2568,7 +2717,9 @@
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
                                 </Paragraph>
                               </Paragraphs>
                             </Textbox>
@@ -2584,6 +2735,7 @@
                               <Height>18pt</Height>
                               <Width>77.4pt</Width>
                               <Style>
+                                <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
                                 <PaddingRight>2pt</PaddingRight>
                                 <PaddingTop>2pt</PaddingTop>
@@ -2608,6 +2760,7 @@
                                     </TextRun>
                                   </TextRuns>
                                   <Style>
+                                    <FontFamily>Arial</FontFamily>
                                     <TextAlign>Right</TextAlign>
                                   </Style>
                                 </Paragraph>
@@ -2644,6 +2797,7 @@
                 <Height>0pt</Height>
                 <Width>126.75pt</Width>
                 <Style>
+                  <FontFamily>Arial</FontFamily>
                   <Border>
                     <Style>Solid</Style>
                   </Border>
@@ -2655,6 +2809,7 @@
                 <Height>16.5pt</Height>
                 <Width>90.74998pt</Width>
                 <Style>
+                  <FontFamily>Arial</FontFamily>
                   <PaddingLeft>2pt</PaddingLeft>
                   <PaddingRight>2pt</PaddingRight>
                   <PaddingTop>2pt</PaddingTop>
@@ -2671,6 +2826,7 @@
                       <TextRun>
                         <Value />
                         <Style>
+                          <FontFamily>Arial</FontFamily>
                           <Color>Black</Color>
                         </Style>
                       </TextRun>
@@ -2682,7 +2838,9 @@
                         </Style>
                       </TextRun>
                     </TextRuns>
-                    <Style />
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                    </Style>
                   </Paragraph>
                 </Paragraphs>
               </Textbox>
@@ -2695,6 +2853,7 @@
             <Height>21.75pt</Height>
             <Width>124.5pt</Width>
             <Style>
+              <FontFamily>Arial</FontFamily>
               <VerticalAlign>Middle</VerticalAlign>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
@@ -2720,6 +2879,7 @@
                   </TextRun>
                 </TextRuns>
                 <Style>
+                  <FontFamily>Arial</FontFamily>
                   <TextAlign>Center</TextAlign>
                 </Style>
               </Paragraph>
@@ -2740,6 +2900,7 @@
         <BottomMargin>22.5pt</BottomMargin>
         <ColumnSpacing>36pt</ColumnSpacing>
         <Style>
+          <FontFamily>Arial</FontFamily>
           <FontSize>10.00001pt</FontSize>
           <Border>
             <Style>None</Style>
@@ -3025,6 +3186,10 @@
         <Field Name="PayrollProcessDate">
           <DataField>PayrollProcessDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="PayHeadType">
+          <DataField>PayHeadType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <Query>
