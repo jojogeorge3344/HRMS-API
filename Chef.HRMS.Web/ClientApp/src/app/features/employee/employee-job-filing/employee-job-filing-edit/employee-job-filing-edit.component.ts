@@ -296,9 +296,15 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     })
   }
   selectExpensePolicy(args) {
-    this.editForm.patchValue({
-      expensePolicyId: args.value.id
-    })
+    if(args.value && args.value.id){
+      this.editForm.patchValue({
+        expensePolicyId: args.value.id
+      })
+    }else{
+      this.editForm.patchValue({
+        expensePolicyId: 0
+      })  
+    }
   }
   selectPayrollStructure(args) {
     this.editForm.patchValue({
@@ -316,15 +322,20 @@ export class EmployeeJobFilingEditComponent implements OnInit {
     })
   }
   selectEosType(args) {
-    debugger
+    if(args.value &&  args.value.id){
     this.editForm.patchValue({
       eosId: args.value.id,
+      bfCode: args.value.bfCode,
+      bfName: args.value.bfName
     })
-    let item: any = this.eosTypes.filter(el => this.editForm.get('eosId').value == el.id)
+  }
+  else{
     this.editForm.patchValue({
-      bfCode: item[0].bfCode,
-      bfName: item[0].bfName
+      bfCode: null,
+      bfName: null,
+      eosId:0
     })
+  }
   }
   refreshEosType(event) {
     event.stopPropagation();
@@ -370,6 +381,8 @@ export class EmployeeJobFilingEditComponent implements OnInit {
 
   onSubmit() {
     debugger
+    this.editForm.get('eosId').updateValueAndValidity()
+
     const editJobFilings = this.editForm.value;
     editJobFilings.employeeId = parseInt(this.id, 10);
     editJobFilings.id = parseInt(this.jobFilingId, 10);

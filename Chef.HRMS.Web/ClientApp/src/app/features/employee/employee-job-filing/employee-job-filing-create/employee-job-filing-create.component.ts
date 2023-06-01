@@ -201,9 +201,15 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
     })
   }
   selectExpensePolicy(args){
-    this.addForm.patchValue({
-      expensePolicyId: args.value.id
-    })
+    if(args.value && args.value.id){
+      this.addForm.patchValue({
+        expensePolicyId: args.value.id
+      })
+    }else{
+      this.addForm.patchValue({
+        expensePolicyId: 0
+      })  
+    }
   }
   selectPayrollStructure(args){
     this.addForm.patchValue({
@@ -221,14 +227,21 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
     })  
   }
   selectEosType(args){
-    debugger
-    let item: any = this.eosTypes.filter(el => args.value.id == el.id)
-    this.addForm.patchValue({
-      eosId: args.value.id,
-      bfCode: item[0].bfCode,
-      bfName: item[0].bfName
-    })  
-  }
+    if(args.value &&  args.value.id){
+      this.addForm.patchValue({
+        eosId: args.value.id,
+        bfCode: args.value.bfCode,
+        bfName: args.value.bfName
+      })
+    }
+    else{
+      this.addForm.patchValue({
+        bfCode: null,
+        bfName: null,
+        eosId:0
+      })
+    }
+    }
   refreshEosType(event){
     event.stopPropagation();
     event.preventDefault();
