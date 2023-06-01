@@ -1,7 +1,7 @@
 <form [formGroup]="addForm" id="wpsDetailsForm" (validSubmit)="onSubmit()">
     <div class="p-3">  
         <div class="row align-items-baseline">
-            <div class="form-group form-input-line col-sm">
+            <!-- <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="groupId">WPS Group Name<span class="required">*</span></label>
                 <select class="form-control" formControlName="groupId">
                     <option value="" disabled>Select WPS Group</option>
@@ -9,7 +9,28 @@
                         {{type.groupName}}
                     </option>
                 </select>
+            </div> -->
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="groupId"
+                  >WPS Group Name<span class="required">*</span></label
+                >
+                <p-dropdown [(ngModel)]="visaDesignationName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="jobTitleId" optionValue="id"
+                (onChange)="selectWpsGroup($event)" optionLabel="groupName" placeholder="Select WPS Group" dataKey="id" name="groupId">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                      {{item?.value.groupName}} 
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshWpsGroup($event)">
+                      <a  class="link-primary ref"><u>Refresh</u></a>
+                   </div>
+                </ng-template>
+                </p-dropdown>
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('groupId').touched && this.addForm.get('groupId').invalid" class="invalid-feedback d-block">
+                    WPS group name* is required
+                </div>
             </div>
+              </div> 
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label"  for="wpsId">WPS ID<span class="required">*</span></label>
                 <input autocomplete="off" (keypress)="keyPressNumbers($event)" type="string" class="form-control" id="wpsId" name="wpsId" formControlName="wpsId">
@@ -27,10 +48,10 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="salaryCardNo">Salary Card No<span class="required">*</span></label>
+                <label class="col-form-label"  for="salaryCardNo">Salary Card No <span class="required">*</span></label>
                 <input autocomplete="off" type="string" class="form-control" id="salaryCardNo" name="salaryCardNo" formControlName="salaryCardNo">
             </div>
-            <div class="form-group form-input-line col-sm">
+            <!-- <div class="form-group form-input-line col-sm">
                 <label class="col-form-label"  for="bankId">Bank Name<span class="required">*</span></label>
                 <select class="form-control" formControlName="bankId">
                     <option value="" disabled>Select Bank Name</option>
@@ -38,7 +59,28 @@
                         {{type.name}}
                     </option>
                 </select>
+            </div> -->
+            <div class="form-group form-input-line col-sm">
+                <label class="col-form-label" for="bankId"
+                  >WPS Group Name<span class="required">*</span></label
+                >
+                <p-dropdown [(ngModel)]="visaDesignationName" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="jobTitleId" optionValue="id"
+                (onChange)="selectWpsGroup($event)" optionLabel="groupName" placeholder="Select Visa Designation" dataKey="id" name="bankId">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                      {{item?.value.groupName}} 
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshWpsGroup($event)">
+                      <a  class="link-primary ref"><u>Refresh</u></a>
+                   </div>
+                </ng-template>
+                </p-dropdown>
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('bankId').touched && this.addForm.get('bankId').invalid" class="invalid-feedback d-block">
+                    WPS group name* is required
+                </div>
             </div>
+
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-6">
