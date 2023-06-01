@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Models.PayrollProcessing
 {
-    public class TicketAccrualSummary : ViewModel
+    public class TicketAccrualSummary : Model
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
