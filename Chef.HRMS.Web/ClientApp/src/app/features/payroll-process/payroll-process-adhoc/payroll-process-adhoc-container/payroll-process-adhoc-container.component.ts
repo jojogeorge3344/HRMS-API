@@ -78,7 +78,7 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
 
 
   saveAdhocloanDetails(){
-    
+
    for(let i=0;i<this.loandetails.length;i++){
     this.loandetails[i].createdDate = new Date()
     this.loandetails[i].modifiedDate = new Date()
@@ -93,13 +93,21 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
    this.payrollLoanAdvancesService.saveAdhocLoan(this.loandetails).subscribe(res => {
         if (res) {
           this.toastr.showSuccessMessage('Payroll Loan Details Completed');
+          this.selectTab.emit(3);
         }
+      },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to insert Loan Details.');
+        this.selectTab.emit(2);
+        
+        return
       });
   }
 
 
   saveAdhocDeductionDetails(){
-   
+    
     for(let i=0;i<this.adhocdeductiondetails.length;i++){
        this.adhocdeductiondetails[i].createdDate = new Date
        this.adhocdeductiondetails[i].modifiedDate = new Date
@@ -114,7 +122,19 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
     this.payrollLoanAdvancesService.saveAdhocdeduction(this.adhocdeductiondetails).subscribe(res => {
       if (res) {
         this.toastr.showSuccessMessage('Payroll Adhoc  Details Completed');
+        if(this.loandetails.length > 0){
+           
+        }else {
+          this.selectTab.emit(3);
+        }
+        
       }
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to insert Adhoc Details.');
+      this.selectTab.emit(2);
+      return
     });
   }
 
@@ -122,7 +142,6 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
   
 
   onSubmit(type) {
-  debugger
     this.loandetails = this.child.payGroupLoans
     this.adhocdeductiondetails = this.adhoc.payGroupProcessAdhocDeduction
 
@@ -133,6 +152,6 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
     if(this.loandetails.length > 0){
       this.saveAdhocloanDetails()
      }
+    
   }
-
 }

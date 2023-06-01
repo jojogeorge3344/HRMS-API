@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -60,7 +60,9 @@ import { PayrollProcessCompletedViewComponent } from './payroll-process-complete
 import { PayrollProcessOvertimeListComponent } from './payroll-process-overtime-list/payroll-process-overtime-list.component';
 import { PayrollProcessSummaryDetailsComponent } from './payroll-process-summary-details/payroll-process-summary-details.component';
 import { PayrollProcessEmployeeSummarydetailsComponent } from './payroll-process-employee-summarydetails/payroll-process-employee-summarydetails.component';
-
+import { TreeModule } from 'primeng/tree';
+import { TreeTableModule } from 'primeng/treetable';
+import { TableModule } from 'primeng/table';
 
 
 
@@ -134,7 +136,9 @@ import { PayrollProcessEmployeeSummarydetailsComponent } from './payroll-process
     //  NgBootstrapFormValidationModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule,
-    
+    TreeModule,
+    TreeTableModule,
+    TableModule
     
     
     
@@ -146,6 +150,7 @@ import { PayrollProcessEmployeeSummarydetailsComponent } from './payroll-process
     useValue: customErrorMessages,
     multi: true
   }],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })
 export class PayrollProcessModule { }
