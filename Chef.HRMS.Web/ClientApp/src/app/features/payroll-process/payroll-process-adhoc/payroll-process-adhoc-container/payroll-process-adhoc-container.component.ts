@@ -121,7 +121,12 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
     this.payrollLoanAdvancesService.saveAdhocdeduction(this.adhocdeductiondetails).subscribe(res => {
       if (res) {
         this.toastr.showSuccessMessage('Payroll Adhoc  Details Completed');
-        this.selectTab.emit(3);
+        if(this.loandetails.length > 0){
+           
+        }else {
+          this.selectTab.emit(3);
+        }
+        
       }
     },
     error => {
