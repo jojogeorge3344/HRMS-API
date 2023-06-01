@@ -1,0 +1,86 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        Upload Overtime
+    </h1>
+</div>
+<div id="overtimeupload" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content">
+            <div class="p-3">
+                <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+                    routerLink="/my-overtime"><i class="fal fa-arrow-left mr-2"></i> Back to
+                    Over Time Requests</button>
+                    <div class="row">
+                        <div class="form-group col-sm">
+                            <div class="text-primary">
+                                <label>
+                                    <input type="file" #fileUploader
+                                    style="display: none;" (change)="addfile($event)"
+                                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                  
+                                    <i class="fal fa-paperclip"></i>
+                                    <a class="link">Add Attachment</a>
+                                </label>
+                            </div>
+                            <div class="color-fusion-300 font-weight-bold" id="file-name">
+                                {{ fileName }}
+                                <i class="fal fa-trash mx-1 cursor-pointer text-danger fs-xl" *ngIf="fileName" (click)="removeFile()"></i> 
+                            </div><br>
+                            <!-- <small class="color-fusion-300 small">
+                                Max file size allowed is 2MB
+                            </small> -->
+                        </div>
+                    </div>
+                    <div *ngIf="overTimeValidatedData.length > 0">
+                        <table class="table m-0">
+                            <thead class="thead-themed">
+                                <tr>
+                                    <th>Sl No.</th>
+                                    <th>Employee Code</th>
+                                    <th>Employee Name</th>
+                                    <th>From Date</th>
+                                    <th>To Date</th>
+                                    <th>Normal OverTime</th>
+                                    <th>Holiday OverTime</th>
+                                    <th>Special OverTime</th>
+                                    <th>Reason</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr tooltip="{{overTimeValidatedData.errorMessage}}" 
+                                *ngFor="let overTimeValidatedData of overTimeValidatedData; let i = index"
+                                [ngStyle]="{'background': !overTimeValidatedData.isValid ? '#e7e7e7': ''}">
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{i+1}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.employeeNumber}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.employeeName}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.fromDate | date}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.toDate | date}}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.normalOverTime }}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.holidayOverTime }}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.specialOverTime }}</td>
+                                    <td [ngStyle]="{'color': !overTimeValidatedData.isValid ? '#8a8a8a': ''}">{{overTimeValidatedData.reason }}</td>
+                                </tr>
+                                <tr *ngIf="!overTimeValidatedData?.length">
+                                    <td colspan="10" class="text-center">
+                                        No rows found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+             
+                    <div class="button-right-wrapper mt-3 " *ngIf="overTimeValidatedData?.length && invalidRowCount == 0">
+                        <button class="btn btn-primary" (click)="saveExcelReport()">
+                            Save
+                        </button>
+                    </div>
+                    <div *ngIf="invalidRowCount > 0">
+                          <small class="small" style="color: #dc3545">
+                                Some values seems to be invalid. Please check and re-upload.
+                            </small>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

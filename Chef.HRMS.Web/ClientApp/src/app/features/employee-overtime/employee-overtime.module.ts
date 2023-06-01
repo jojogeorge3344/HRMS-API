@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,15 +12,17 @@ import { OvertimeRequestCreateComponent } from './overtime-request-create/overti
 import { OvertimeRequestEditComponent } from './overtime-request-edit/overtime-request-edit.component';
 import { OvertimeRequestViewComponent } from './overtime-request-view/overtime-request-view.component';
 import { SelectDropDownModule } from "ngx-select-dropdown";
-
-
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { OvertimeRequestUploadComponent } from './overtime-request-upload/overtime-request-upload.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
     OvertimeRequestListComponent,
     OvertimeRequestCreateComponent,
     OvertimeRequestEditComponent,
-    OvertimeRequestViewComponent
+    OvertimeRequestViewComponent,
+    OvertimeRequestUploadComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,14 @@ import { SelectDropDownModule } from "ngx-select-dropdown";
       {
         path: '', component: OvertimeRequestListComponent,
         data: { breadcrumbs: ['Me', 'Overtime'], name: 'me-overtime' }
+      },
+      {
+        path: "upload",
+        component: OvertimeRequestUploadComponent,
+        data: {
+          breadcrumbs: ['Me', 'Overtime'], name: 'me-overtime',
+        
+        },
       }
     ]),
     NgbModule,
@@ -36,7 +46,12 @@ import { SelectDropDownModule } from "ngx-select-dropdown";
     NgBootstrapFormValidationModule,
     BsDropdownModule.forRoot(),
     DirectivesModule,
-    SelectDropDownModule
-  ]
+    SelectDropDownModule,
+    PipesModule,
+    TooltipModule
+    
+  ],
+  providers:[DatePipe]
+
 })
 export class EmployeeOvertimeModule { }
