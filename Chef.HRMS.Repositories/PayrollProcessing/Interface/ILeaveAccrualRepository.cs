@@ -9,6 +9,6 @@ namespace Chef.HRMS.Repositories
 {
     public interface ILeaveAccrualRepository : IGenericRepository<LeaveAccrual>
     {
-
+        Task<IEnumerable<LeaveAccrual>> GetProcessedLeaveAccruals(DateTime accrualDate);
     }
 }

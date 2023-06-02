@@ -15,11 +15,10 @@ namespace Chef.HRMS.Repositories.PayrollProcessing.Repository
         {
         }
 
-        //public async Task<LeaveAccrual> GenerateLeaveAccruals(int employeeId, DateTime fromDate, DateTime toDate)
-        //{
-        //    var sql = @"";
-
-        //    return await Connection.ExecuteAsync<LeaveAccrual>(sql, new { employeeId, fromDate, toDate });
-        //}
+        public async Task<IEnumerable<LeaveAccrual>> GetProcessedLeaveAccruals(DateTime accrualDate)
+        {
+            var sql = @"select * from hrms.leaveaccrual where leaveaccrual.accrualstatus = 1 and accrualdate = @accrualDate";
+            return await Connection.QueryAsync<LeaveAccrual>(sql, new {accrualDate });
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace Chef.HRMS.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost("GenerateLeaveAccruals/{paygroupid}")]
-        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid)
+        public async Task<ActionResult<IEnumerable<LeaveAccrual>>> GenerateLeaveAccruals(int paygroupid)
         {
             var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
 

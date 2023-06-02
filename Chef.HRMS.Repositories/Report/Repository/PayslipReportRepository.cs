@@ -1,4 +1,5 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Models;
+using Chef.HRMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,40 +14,83 @@ namespace Chef.HRMS.Repositories.Report
         {
         }
 
-        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId, DateTime fromDate, DateTime ToDate, string paygroupId, string department, string designation)
+        {
+            var sql = @"SELECT e.id AS employeeid,e.firstname,e.middlename,e.lastname,jd.employeenumber AS employeecode,pcd.payrollcomponentid
+                        ,pcd.earningsamt,pcd.deductionamt,pcd.payrollprocessdate,jf.paygroupid,pg.currencyid,pg,currencycode,a.currentcountry
+                         FROM hrms.hrmsemployee e
+                         LEFT JOIN hrms.jobdetails jd
+                         ON e.id = jd.employeeid
+                         LEFT JOIN hrms.jobfiling jf
+                         ON e.id = jf.employeeid
+                         LEFT JOIN hrms.paygroup pg
+						 ON jf.paygroupid = pg.id
+                         INNER JOIN hrms.address a
+	                     ON e.id = a.employeeid
+                         LEFT JOIN hrms.payrollcomponentdetails pcd
+                         ON pcd.employeeid = e.id
+                         WHERE (To_Date(cast(coalesce(pcd.payrollprocessdate) as TEXT),'YYYY MM DD') BETWEEN @fromDate AND @ToDate)
+                         AND e.id IN (" + employeeId + ")";
+            if (paygroupId != string.Empty)
+            {
+                sql += "AND jf.paygroupid IN (" + paygroupId + ")";
+            }
+            if (department != string.Empty)
+            {
+                sql += "AND jd.department IN (" + department + ")";
+            }
+            if (designation != string.Empty)
+            {
+                sql += "AND jd.jobtitleid IN (" + designation + ")";
+            }
+            sql += @"AND e.isarchived = false
+                         GROUP BY e.id,e.firstname,e.middlename,e.lastname,jd.employeenumber,pcd.payrollcomponentid,
+                         pcd.earningsamt,pcd.deductionamt,pcd.payrollprocessdate,jf.paygroupid,pg.currencyid,pg,currencycode,a.currentcountry";
+
+            return await Connection.QueryAsync<PayrollHeaderView>(sql, new { employeeId, fromDate, ToDate, paygroupId, department, designation });
+        }
+
+        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate, string paygroupId, string department, string designation)
         {
             var sql = @"select pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
-                        pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate
+                        pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate,pcd.employeeid
                         FROM hrms.payrollcomponentdetails pcd
                         INNER JOIN hrms.payrollcomponent pc
                         ON pcd.payrollcomponentid = pc.id
-                        WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
-                        AND pcd.employeeid IN ("+employeeId+ @") 
-                        AND pcd.isarchived = false
-                        GROUP BY pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
-                        pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate";
-
-            return await Connection.QueryAsync<PayrollComponentReportView>(sql, new { employeeId, fromDate, ToDate });
-
-        }
-
-        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId, DateTime fromDate, DateTime ToDate)
-        {
-            var sql = @"SELECT e.firstname,e.middlename,e.lastname,jd.employeenumber AS employeecode,a.currentcountry AS countryid,
-                        c.name AS countryname,pcd.payrollprocessdate FROM hrms.payrollcomponentdetails pcd
-                        INNER JOIN hrms.hrmsemployee e
-                        ON pcd.employeeid = e.id
                         INNER JOIN hrms.jobdetails jd
-                        ON e.id = jd.employeeid
-                        INNER JOIN hrms.address a
-                        ON a.employeeid = e.id
-                        INNER JOIN hrms.country c
-                        ON c.id = a.currentcountry
-                        WHERE pcd.id IN ("+employeeId+@") 
-                        AND pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
-                        AND pcd.isarchived = false";
+                        ON pcd.employeeid = jd.employeeid
+                        INNER JOIN hrms.jobfiling jf
+                        ON pcd.employeeid = jf.employeeid
+                        WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
+                        AND pcd.employeeid IN (" + employeeId + @")";
+            if (paygroupId != string.Empty)
+            {
+                sql += "AND jf.paygroupid IN (" + paygroupId + ")";
+            }
+            if (department != string.Empty)
+            {
+                sql += "AND jd.department IN (" + department + ")";
+            }
+            if (designation != string.Empty)
+            {
+                sql += "AND jd.jobtitleid IN (" + designation + ")";
+            }
+            sql += @"AND pcd.isarchived = false
+                        GROUP BY pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
+                        pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate,pcd.employeeid";
+            //var sql = @"select pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
+            //            pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate
+            //            FROM hrms.payrollcomponentdetails pcd
+            //            INNER JOIN hrms.payrollcomponent pc
+            //            ON pcd.payrollcomponentid = pc.id
+            //            WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
+            //            AND pcd.employeeid IN (" + employeeId + @") 
+            //            AND pcd.isarchived = false
+            //            GROUP BY pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
+            //            pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate";
 
-            return await Connection.QueryAsync<PayrollHeaderView>(sql, new { employeeId, fromDate, ToDate });
+            return await Connection.QueryAsync<PayrollComponentReportView>(sql, new { employeeId, fromDate, ToDate, paygroupId, department, designation });
+
         }
 
         public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeId, DateTime fromDate, DateTime ToDate)
@@ -73,7 +117,7 @@ namespace Chef.HRMS.Repositories.Report
                         ((OTS.valuevariable * escd.monthlyamount)/100)*OT.normalovertime AS normalovertimeamount,
                         ((OTS.valuevariable * escd1.monthlyamount)/100)*OT.holidayovertime AS holidayovertimeamount,
                         ((OTS.valuevariable * escd2.monthlyamount)/100 )*OT.specialovertime AS specialovertimeamount,
-						PC.name AS normalovertimename,PC1.name AS holidayovertimename,PC2.name AS specialovertimename
+						PC.name AS normalovertimename,PC1.name AS holidayovertimename,PC2.name AS specialovertimename,jf.employeeid
                         FROM hrms.overtime OT
                         INNER JOIN hrms.jobfiling jf ON jf.employeeid = OT.employeeid
                         INNER JOIN hrms.overtimepolicyconfiguration OTC ON jf.overtimepolicyid = OTC.overtimepolicyid
