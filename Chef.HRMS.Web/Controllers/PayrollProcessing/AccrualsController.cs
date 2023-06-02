@@ -19,18 +19,40 @@ namespace Chef.HRMS.Web.Controllers
         private readonly IEOSAccrualService eosAccrualService;
         private readonly ITicketAccrualService ticketAccrualService;
 
-        public AccrualsController(ILeaveAccrualService leaveAccrualService, IEOSAccrualService eosAccrualService, ITicketAccrualService ticketAccrualService)
+        private readonly ILeaveAccrualSummaryService leaveAccrualSummaryService;
+
+        public AccrualsController(ILeaveAccrualService leaveAccrualService,ILeaveAccrualSummaryService leaveAccrualSummaryService,
+            IEOSAccrualService eosAccrualService, ITicketAccrualService ticketAccrualService)
         {
             this.leaveAccrualService = leaveAccrualService;
             this.eosAccrualService = eosAccrualService;
             this.ticketAccrualService = ticketAccrualService;
+
+            this.leaveAccrualSummaryService = leaveAccrualSummaryService;
         }
 
         [AllowAnonymous]
         [HttpPost("SaveAccruals/{payrollprocessingId}")]
-        public async Task<ActionResult<LeaveAccrual>> SaveAccruals(int payrollprocessingmethod)
+        public async Task<ActionResult<int>> SaveAccruals(Accruals accrualsList)
         {
-            //var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
+            int result = 0;
+            result = await leaveAccrualService.InsertLeaveAccruals(accrualsList.LeaveAccruals);
+
+            if (result > 0)
+            {
+                result = await leaveAccrualSummaryService.GenerateAndInsertLeaveAccrualSummary(accrualsList.LeaveAccruals);
+            }
+
+            result = await eosAccrualService.SaveEOSAccruals(accrualsList.EOSAccruals);
+            result = await ticketAccrualService.SaveTicketAccruals(accrualsList.TicketAccruals);
+
+            return Ok(result);
+        }
+
+        [HttpPost("GenerateFinancialEntry/{payrollprocessingId}")]
+        public async Task<ActionResult<LeaveAccrual>> GenerateFinancialEntry(int payrollProcessingId)
+        {
+            //var leaveAccrualList = await leaveAccrualService.GenerateLeaveAvailed(availedLeaveDetails);
 
             //if (leaveAccrualList == null)
             //{
@@ -40,8 +62,8 @@ namespace Chef.HRMS.Web.Controllers
             return Ok();
         }
 
-        [HttpPost("GenerateFinancialEntry/{payrollprocessingId}")]
-        public async Task<ActionResult<LeaveAccrual>> GenerateFinancialEntry(int payrollProcessingId)
+        [HttpPost("GetProcessedAccruals/{paygroupId}")]
+        public async Task<ActionResult<LeaveAccrual>> GetProcessedAccruals(int paygroupId)
         {
             //var leaveAccrualList = await leaveAccrualService.GenerateLeaveAvailed(availedLeaveDetails);
 

@@ -11,5 +11,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Interface
     {
         Task<IEnumerable<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid);
         Task<int> GenerateLeaveAvailed(LeaveAccrual leaveAvailedDetails);
+        Task<int> InsertLeaveAccruals(List<LeaveAccrual> leaveAccruals);
+        Task<IEnumerable<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid, DateTime accrualDate);
     }
 }

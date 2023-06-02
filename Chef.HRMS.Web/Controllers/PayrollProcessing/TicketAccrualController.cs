@@ -25,9 +25,9 @@ namespace Chef.HRMS.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost("GenerateTicketAccruals/{paygroupid}")]
-        public async Task<ActionResult<TicketAccrual>> GenerateTicketAccruals(int paygroupid)
+        public async Task<ActionResult<IEnumerable<TicketAccrual>>> GenerateTicketAccruals(int paygroupid)
         {
-            TicketAccrual ticketAccrual = new TicketAccrual();            
+            List<TicketAccrual> ticketAccrual = new List<TicketAccrual>();            
             return Ok(ticketAccrual);
         }
     }

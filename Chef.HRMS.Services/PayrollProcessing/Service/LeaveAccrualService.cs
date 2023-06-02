@@ -78,7 +78,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
         public async Task<IEnumerable<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid)
         {
             List<LeaveAccrual> leaveAccruals = new List<LeaveAccrual>();
-            List<LeaveAccrualSummary> leaveAccrualSummaries = new List<LeaveAccrualSummary>();
+          //  List<LeaveAccrualSummary> leaveAccrualSummaries = new List<LeaveAccrualSummary>();
 
             var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
             foreach (var eligibleEmployee in employeeLeaveEligibilityDetails)
@@ -94,32 +94,34 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 leaveAccrualEmployee.AvailAmount = 0;
                 leaveAccrualEmployee.AvailDays = 0;
                 leaveAccrualEmployee.LeaveId = 0;
+                leaveAccrualEmployee.EligibilityBase = eligibleEmployee.EligibilityBase;
+                leaveAccrualEmployee.CFLimitDays = eligibleEmployee.CFLimitDays;
+                leaveAccrualEmployee.IsIncludeLOPDays = eligibleEmployee.IsIncludeLOPDays;
+                leaveAccrualEmployee.LeaveCutOffType = eligibleEmployee.LeaveCutOffType;
+                leaveAccrualEmployee.MonthlyAmount = eligibleEmployee.MonthlyAmount;
 
                 var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
-                decimal workingdaysInCalMonth = 0;
-                decimal workeddaysInCalMonth = 0;
-                decimal eligibilityPerDay = 0;
                 if (systemVariableValues != null)
                 {
-                    eligibilityPerDay = (decimal)eligibleEmployee.EligibleDays /eligibleEmployee.EligibilityBase;
-                    workingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
-                    workeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;     
+                    leaveAccrualEmployee.EligibilityPerDay = (decimal)eligibleEmployee.EligibleDays /eligibleEmployee.EligibilityBase;
+                    leaveAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
+                    leaveAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;     
                 }
 
                 // Get previous accrual summary details for eligible employee
                 var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId, 1, now.Month, now.Year);
 
-                LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
-                leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
-                leaveAccrualSummary.AvailDays = 0;
-                leaveAccrualSummary.AvailAmount = 0;
-                leaveAccrualSummary.LeaveId = 0;
+               // LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
+                //leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
+                //leaveAccrualSummary.AvailDays = 0;
+                //leaveAccrualSummary.AvailAmount = 0;
+                //leaveAccrualSummary.LeaveId = 0;
                 var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
-                leaveAccrualSummary.AccrualDate = firstDayNextMonth;
+                                                                                            // leaveAccrualSummary.AccrualDate = firstDayNextMonth;
 
                 if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
                 {
-                    throw new ResourceNotFoundException("Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                    throw new ResourceNotFoundException("Leave Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
                 }
                 bool isLeaveCutOff = false;
                 if ((LeaveCutOffType.YearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
@@ -137,16 +139,16 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                     if (eligibleEmployee.IsIncludeLOPDays)
                     {
-                        leaveAccrualEmployee.AccrualDays = eligibilityPerDay * workeddaysInCalMonth;
+                        leaveAccrualEmployee.AccrualDays = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkeddaysInCalMonth;
                     }
                     else
                     {
-                        leaveAccrualEmployee.AccrualDays = eligibilityPerDay * workingdaysInCalMonth;
+                        leaveAccrualEmployee.AccrualDays = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkingdaysInCalMonth;
                     }
                     
                     //Insert into Accrual summary table 
-                    leaveAccrualSummary.AccrualDays = leaveAccrualEmployee.AccrualDays;
-                    leaveAccrualSummary.AccrualAmount = leaveAccrualEmployee.AccrualAmount;
+                    //leaveAccrualSummary.AccrualDays = leaveAccrualEmployee.AccrualDays;
+                    //leaveAccrualSummary.AccrualAmount = leaveAccrualEmployee.AccrualAmount;
                 }
                 else 
                 {
@@ -158,30 +160,41 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                     }
                     else
                     {
-                        decimal currentAccrual = eligibilityPerDay * workeddaysInCalMonth;
+                        decimal currentAccrual = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkeddaysInCalMonth;
                         decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
 
                         if (totalAccrualDays > eligibleEmployee.CFLimitDays)
                         {
                             leaveAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
-                            leaveAccrualSummary.AccrualDays = eligibleEmployee.CFLimitDays;
+                           // leaveAccrualSummary.AccrualDays = eligibleEmployee.CFLimitDays;
                         }
                         else
                         {
                             leaveAccrualEmployee.AccrualDays = currentAccrual;
-                            leaveAccrualSummary.AccrualDays = totalAccrualDays;
+                            //leaveAccrualSummary.AccrualDays = totalAccrualDays;
                         }
                     }
                 }
                 leaveAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * leaveAccrualEmployee.AccrualDays;
-                leaveAccrualSummary.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibilityBase) * leaveAccrualSummary.AccrualDays;
+               // leaveAccrualSummary.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibilityBase) * leaveAccrualSummary.AccrualDays;
                 leaveAccruals.Add(leaveAccrualEmployee);
-                leaveAccrualSummaries.Add(leaveAccrualSummary);
+              //  leaveAccrualSummaries.Add(leaveAccrualSummary);
             }
 
-            var result = await leaveAccrualSummaryRepository.BulkInsertAsync(leaveAccrualSummaries);
-            result = await leaveAccrualRepository.BulkInsertAsync(leaveAccruals);
+           // var result = await leaveAccrualSummaryRepository.BulkInsertAsync(leaveAccrualSummaries);
+          //  result = await leaveAccrualRepository.BulkInsertAsync(leaveAccruals);
             return leaveAccruals;
+        }
+
+        public async Task<int> InsertLeaveAccruals(List<LeaveAccrual> leaveAccruals)
+        {
+            var result = await leaveAccrualRepository.BulkInsertAsync(leaveAccruals);            
+            return result;
+        }
+
+        public async Task<IEnumerable<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid, DateTime accrualDate)
+        {
+            return null;
         }
 
         public Task<int> DeleteAsync(int id)
@@ -189,17 +202,17 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<LeaveAndAttendance>> GetAllAsync()
+        public Task<IEnumerable<LeaveAccrual>> GetAllAsync()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<LeaveAndAttendance> GetAsync(int id)
+        public Task<LeaveAccrual> GetAsync(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<int> InsertAsync(LeaveAndAttendance obj)
+        public Task<int> InsertAsync(LeaveAccrual leave)
         {
             throw new System.NotImplementedException();
         }
