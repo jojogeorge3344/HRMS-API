@@ -9,6 +9,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 import { EmployeeService } from '@features/employee/employee.service';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
 @Component({
   templateUrl: './loan-request-edit.component.html',
@@ -39,8 +40,10 @@ export class LoanRequestEditComponent implements OnInit {
   @Input() isApproved: any
   requestTypes = RequestStatus;
   employeeList;
-  config;
-  constructor(
+  empObj;
+  empLoanDetails;
+  disableRequestedBy=false
+    constructor(
     private employeeService: EmployeeService,
     private loanRequestService: LoanRequestService,
     private loanSettingsService: LoanSettingsService,
@@ -73,7 +76,7 @@ export class LoanRequestEditComponent implements OnInit {
     }
     this.loanTypeKeys = Object.keys(this.loanTypes).filter(Number).map(Number);
     this.paymentTypeKeys = Object.keys(this.paymentTypes).filter(Number).map(Number);
-    this.getLoanDetails()
+    this.fillDropDowns()
     // this.loanRequestService.get(this.loanId).subscribe(result => {
     //   result.requestedDate = new Date(result.requestedDate);
     //   result.expectedOn = new Date(result.expectedOn);
@@ -107,17 +110,25 @@ export class LoanRequestEditComponent implements OnInit {
     //this.GetLoanRequestDetails()
   }
 
-  selectionChanged(args) {
-    this.editForm.get("requestedBy").patchValue(args.value);
-  }
 getLoanDetails(){
   this.loanRequestService.get(this.loanId).subscribe(result => {
     result.requestedDate = new Date(result.requestedDate);
     result.expectedOn = new Date(result.expectedOn);
     this.loanNo = result.loanNo;
+    this.empLoanDetails=result
     this.editForm.patchValue(result);
-    // this.eosTypeObj = this.setValueById(this.employeeList, result.requestedBy)
-    console.log('editform', result)
+    if(this.router.url=='/my-loan'){
+      // this.editForm.patchValue({ requestedBy: this.currentUserId });
+      // this.empObj = this.setValueById(this.employeeList, this.currentUserId)
+      // this.editForm.get('requestedBy').disable()
+      this.editForm.patchValue({ requestedBy: this.currentUserId });
+      this.empObj=this.employeeList.find((item) => item.id == this.currentUserId)
+      this.disableRequestedBy=true
+
+    }else{
+      this.editForm.patchValue({ requestedBy:this.empLoanDetails.requestedBy });
+      this.empObj = this.setValueById(this.employeeList, this.empLoanDetails.requestedBy)
+    }
   },
     error => {
       console.error(error);
@@ -132,24 +143,6 @@ getLoanDetails(){
         // lastrow
         this.employeeList = [...result, temp];
   
-        if(this.router.url=='/my-loan'){
-          let details: any = null;
-          details = this.employeeList.find((item) => item.id == this.currentUserId)
-          this.editForm.get('requestedBy').updateValueAndValidity()
-          this.editForm.patchValue({ requestedBy: details.firstName });
-          this.editForm.get('requestedBy').updateValueAndValidity()
-  
-          this.editForm.get('requestedBy').disable()
-        }else{
-          let details: any = null;
-          debugger
-          details = this.employeeList.find((item) => item.id == this.requestedBy)
-          // this.editForm.patchValue({ requestedBy: null });
-          this.editForm.get('requestedBy').updateValueAndValidity()
-          this.editForm.patchValue({ requestedBy: details });
-          this.editForm.get('requestedBy').updateValueAndValidity()
-  
-        }
         // this.employeeList.forEach((emp) =>{
         //   if((this.requestedBy ==emp.id)){
         //      details=emp.firstName;
@@ -170,7 +163,7 @@ getLoanDetails(){
     if(this.router.url=='/my-loan'){
       editloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      editloanRequestForm.requestedBy = editloanRequestForm.requestedBy.id
+      editloanRequestForm.requestedBy = editloanRequestForm.requestedBy
     }
     editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
@@ -189,16 +182,14 @@ getLoanDetails(){
       });
   }
   draftSave() {
-    debugger
     if (this.editForm.invalid) {
       return
     }
-    
     const editloanRequestForm = this.editForm.value;
     if(this.router.url=='/my-loan'){
       editloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      editloanRequestForm.requestedBy = editloanRequestForm.requestedBy.id;
+      editloanRequestForm.requestedBy = editloanRequestForm.requestedBy;
     }    editloanRequestForm.loanNo = this.loanNo;
     editloanRequestForm.loanSettingId = this.loanSettingId;
     editloanRequestForm.id = this.loanId
@@ -412,6 +403,16 @@ getLoanDetails(){
     return list?.find((item) => value == item.id)
   }
 
+  fillDropDowns() {
+    debugger
+    forkJoin([
+      this.employeeService.getAll()
+    ]).subscribe(res => {
+      let temp = { id: undefined, firstName: 'test', isLastRow: true };
+      this.employeeList = [...res[0], temp];
+      this.getLoanDetails();
+    })
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       loanNo: this.loanNo,

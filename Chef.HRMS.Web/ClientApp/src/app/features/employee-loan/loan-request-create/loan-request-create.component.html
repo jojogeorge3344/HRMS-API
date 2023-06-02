@@ -1,5 +1,4 @@
 <form [formGroup]="addForm" id="loanRequestForm">
-    {{addForm.value | json}}
     <div class="modal-header">
         <div class="col-sm">
             <h4 class="modal-title">Create Loan Request</h4>
@@ -31,7 +30,7 @@
                     <label class="col-form-label" for="requestedBy" 
                       >Requested By<span class="required">*</span></label
                     >
-                    <p-dropdown [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
+                    <p-dropdown [(ngModel)]="empObj" [disabled]="disableRequestedBy" [ngModelOptions]="{standalone: true}" [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
                     (onChange)="selectRequestedBy($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="requestedBy">
                       <ng-template let-item pTemplate="item" >  
                         <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >

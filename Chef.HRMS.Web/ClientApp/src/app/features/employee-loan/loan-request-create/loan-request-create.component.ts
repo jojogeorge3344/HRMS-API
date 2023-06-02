@@ -49,7 +49,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   requestTypes = RequestStatus;
   config;
   employeeList;
-
+  empObj;
+  disableRequestedBy=false
   constructor(
     private loanRequestService: LoanRequestService,
     private loanSettingsService: LoanSettingsService,
@@ -111,23 +112,10 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
        // this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
       }
     });
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Employee",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: false,
-    };
   }
   ngOnDestroy(): void {
     this.formSubscription.unsubscribe();
     this.controlSubscription.unsubscribe();
-  }
-  selectionChanged(args) {
-    this.addForm.get("requestedBy").patchValue(args.value);
   }
   getEmployeeList() {
     this.employeeService.getAll()
@@ -137,12 +125,9 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       this.employeeList = [...result, temp];
 
         if(this.router.url=='/my-loan'){
-          let details: any = null;
-          details = this.employeeList.find((item) => item.id == this.currentUserId)
-          this.addForm.get('requestedBy').updateValueAndValidity()
-          this.addForm.patchValue({ requestedBy: details.firstName });
-          this.addForm.get('requestedBy').updateValueAndValidity()
-          this.addForm.get('requestedBy').disable()
+          this.addForm.patchValue({ requestedBy: this.currentUserId });
+          this.empObj=this.employeeList.find((item) => item.id == this.currentUserId)
+          this.disableRequestedBy=true
         }
       })
   }
@@ -165,19 +150,15 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
-    debugger
     if (this.addForm.invalid) {
       return
     }
-
     const addloanRequestForm = this.addForm.value;
     if(this.router.url=='/my-loan'){
       addloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy.id
-
+      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy
     }
-
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
     
@@ -210,12 +191,10 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     if (this.addForm.invalid) {
       return
     }
-    debugger
     const addloanRequestForm = this.addForm.value;
     if(this.router.url=='/my-loan'){
       addloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      debugger
       addloanRequestForm.requestedBy = addloanRequestForm.requestedBy;
     }
     addloanRequestForm.loanNo = this.loanNo;
@@ -290,7 +269,6 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   }
 
   selectRequestedBy(args){
-    debugger
     this.addForm.patchValue({
       requestedBy: args.value.id
     })
