@@ -32,8 +32,8 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("SaveAccruals/{payrollprocessingId}")]
-        public async Task<ActionResult<int>> SaveAccruals(Accruals accrualsList)
+        [HttpPost("SaveAccruals")]
+        public async Task<ActionResult<int>> SaveAccruals([FromBody]Accruals accrualsList)
         {
             int result = 0;
             result = await leaveAccrualService.InsertLeaveAccruals(accrualsList.LeaveAccruals);
