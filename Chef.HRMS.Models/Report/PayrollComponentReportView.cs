@@ -16,11 +16,15 @@ namespace Chef.HRMS.Models
        public int PayrollComponentId { get; set; }
        public decimal EarningsAmt { get; set; }
        public decimal DeductionAmt { get; set; }
-        public PayHeadBaseUnitType payHeadBaseUnitType { get; set; }
-        public string PayHeadType => EnumExtension.GetDescription(payHeadBaseUnitType);
-        public decimal MinimumLimit { get; set; }
+       public PayHeadBaseUnitType payHeadBaseUnitType { get; set; }
+       public string PayHeadType => EnumExtension.GetDescription(payHeadBaseUnitType);
+       public decimal MinimumLimit { get; set; }
        public decimal MaximumLimit { get; set; }
        public DateTime PayrollProcessDate { get; set; }
-
+       public int EmployeeId { get; set; }
+       public decimal BasicPay { get; set; }
+       //public decimal NormalOverTimeHrs { get; set; }
+       //public decimal HolidayOverTimeHrs { get; set; }
+       //public decimal SpecialOverTimeHrs { get; set; }
     }
 }
