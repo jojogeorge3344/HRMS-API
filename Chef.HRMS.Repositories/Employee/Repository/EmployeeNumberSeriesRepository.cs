@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories
         {
 
                 string sql = @"SELECT * FROM hrms.employeenumberseries 
-                                        WHERE isactive=true order by id desc";
+                                        WHERE isarchived=false order by id desc";
 
                 return await Connection.QueryAsync<EmployeeNumberSeries>(sql);
 

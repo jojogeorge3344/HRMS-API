@@ -45,12 +45,13 @@ export class EmployeeNumbersEditComponent implements OnInit {
 
   onChanges(): void {
     this.editForm.valueChanges.subscribe(form => {
-      if (form.prefix && form.suffix && form.digitInNumber <= 12 && form.digitInNumber >= 1 && form.nextNumber) {
+      form=this.editForm.getRawValue();
+      if (form.prefix && form.digitInNumber <= 12 && form.digitInNumber >= 1 && form.nextNumber) {
 
         this.setNextNumberValidation(form.digitInNumber);
 
         this.editForm.patchValue({
-          preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix}`
+          preview: `${form.prefix}${padAtStrt(form.nextNumber, form.digitInNumber, 0)}${form.suffix=form.suffix ? form.suffix :''}`
         }, {emitEvent: false});
       } else {
         this.editForm.patchValue({ preview: '' }, {emitEvent: false});
@@ -97,12 +98,12 @@ export class EmployeeNumbersEditComponent implements OnInit {
   get name() { return this.editForm.get('name'); }
 
   onSubmit() {
-    this.editForm.value.suffix=this.editForm.value.suffix.trim()
-    //this.editForm.value.prefix=this.editForm.value.prefix.trim()
-    this.editForm.patchValue({
-      suffix:this.editForm.value.suffix,
-      //prefix:this.editForm.value.prefix
-    })
+    // this.editForm.value.suffix=this.editForm.value.suffix.trim()
+    // //this.editForm.value.prefix=this.editForm.value.prefix.trim()
+    // this.editForm.patchValue({
+    //   suffix:this.editForm.value.suffix,
+    //   //prefix:this.editForm.value.prefix
+    // })
     this.employeeNumbersService.update(this.editForm.getRawValue()).subscribe((result: any) => {
       if (result === -1) {
         this.toastr.showErrorMessage('Employee Series already exists!');

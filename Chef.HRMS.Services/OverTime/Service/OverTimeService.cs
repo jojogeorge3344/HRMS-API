@@ -147,6 +147,9 @@ namespace Chef.HRMS.Services
                 foreach (OverTimeDetailsView detailsView in overTimeDetailsViews)
                 {
                     detailsView.IsValid = true;
+                    var overTimeView = await overTimeRepository.GetOvertimeByEmployeeCode(detailsView.EmployeeNumber);
+                    detailsView.EmployeeId = overTimeView.EmployeeId;
+
                     if (detailsView.EmployeeNumber != null)
                     {
                         bool isEmployeeNumberExist = await overTimeRepository.GetOverTimeDetails(detailsView.EmployeeNumber);

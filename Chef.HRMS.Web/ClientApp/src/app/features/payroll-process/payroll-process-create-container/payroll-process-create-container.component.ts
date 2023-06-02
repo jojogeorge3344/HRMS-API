@@ -55,7 +55,8 @@ export class PayrollProcessCreateContainerComponent implements OnInit {
   }
 
   activateTab(tabId: number) {
-    this.payrollProcessById.processedStep = tabId - 1;
+    debugger
+   // this.payrollProcessById.processedStep = tabId - 1;
     this.activeTabId = tabId;
 
   }

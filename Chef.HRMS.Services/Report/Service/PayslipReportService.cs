@@ -1,4 +1,5 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Models;
+using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using Chef.HRMS.Repositories.Report;
 using System;
@@ -18,14 +19,14 @@ namespace Chef.HRMS.Services.Report
             this.payslipReportRepository = payslipReportRepository;
         }
 
-        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate, string paygroupId, string department, string designation)
         {
-            return await payslipReportRepository.EmployeeComponentDetails(employeeId, fromDate, ToDate);
+            return await payslipReportRepository.EmployeeComponentDetails(employeeId, fromDate, ToDate, paygroupId, department, designation);
         }
 
-        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId, DateTime fromDate, DateTime ToDate, string paygroupId,string department,string designation)
         {
-            return await payslipReportRepository.EmployeeHeaderDetails(employeeId, fromDate, ToDate);
+            return await payslipReportRepository.EmployeeHeaderDetails(employeeId, fromDate, ToDate, paygroupId, department, designation);
         }
 
         public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeId, DateTime fromDate, DateTime ToDate)
