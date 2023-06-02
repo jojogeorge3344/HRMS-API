@@ -88,6 +88,8 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                 LeaveAccrual leaveAccrualEmployee = new LeaveAccrual();
                 leaveAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
+                leaveAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
+                leaveAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
                 leaveAccrualEmployee.AccrualStatus = 0; //Pending
                 leaveAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
                 leaveAccrualEmployee.IsArchived = false;
@@ -192,9 +194,14 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             return result;
         }
 
-        public async Task<IEnumerable<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid, DateTime accrualDate)
+        public async Task<List<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid, DateTime accrualDate)
         {
-            return null;
+
+            //var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
+            //List<int> employeeIds = new List<int>();
+            //employeeIds = employeeLeaveEligibilityDetails.Select(c => c.Id).ToList();
+
+            return (List<LeaveAccrual>)await leaveAccrualRepository.GetProcessedLeaveAccruals(accrualDate);
         }
 
         public Task<int> DeleteAsync(int id)
