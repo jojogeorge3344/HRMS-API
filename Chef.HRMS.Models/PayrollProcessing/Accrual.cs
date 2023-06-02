@@ -13,6 +13,6 @@ namespace Chef.HRMS.Models
         public List<LeaveAccrual> LeaveAccruals { get; set; }
         public List<EOSAccrual> EOSAccruals { get; set; }
         public List<TicketAccrual> TicketAccruals { get; set; }
-        public int PayrollProcessingmethod { get; set; }
+        public int PaygroupId { get; set; }
     }
 }
