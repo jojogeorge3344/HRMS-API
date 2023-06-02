@@ -46,7 +46,7 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.employeesalaryconfigurationdetails esd 
                                            ON esd.employeesalaryconfigurationid = es.id 
                                    INNER JOIN hrms.payrollcalculation pcalc 
-                                           ON pcalc.id = esd.payrollcalculationid 
+                                           ON pcalc.payrollstructureid = esd.payrollstructureid 
                                    INNER JOIN hrms.payrollstructure ps 
                                            ON ps.id = pcalc.payrollstructureid 
                                    INNER JOIN hrms.payrollcomponentconfiguration pc 
