@@ -20,5 +20,15 @@ namespace Chef.HRMS.Models.PayrollProcessing
         public Decimal AccrualAmount { get; set; }
 
         public int AccrualStatus { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeCode { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeName { get; set; }
     }
 }
