@@ -82,7 +82,7 @@ public class EmployeeDirectoryReportController : ReportViewerController
             
             List<HRMSEmployee> employee = new() { employeeBasic };
             employee.ForEach(x => x.ReligionName=relegionDetail.Name);
-            List<JobDetails> jobDetails = new() { jobDetail };
+            List<JobDetailsReportView> jobDetails = new() { jobDetail };
             List<JobFiling> jobFiling = new() { jobFilling };
 
             reportOption.AddDataSource("EmployeeBasic", employee);
