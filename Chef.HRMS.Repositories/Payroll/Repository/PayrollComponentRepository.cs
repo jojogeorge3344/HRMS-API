@@ -21,6 +21,7 @@ namespace Chef.HRMS.Repositories
         {
                 var sql = @"SELECT DISTINCT payrollcomponentid 
                                     FROM hrms.payrollcomponentconfiguration
+                                    WHERE isarchived = false
                                     ORDER  BY payrollcomponentid ASC";
 
                 return await Connection.QueryAsync<int>(sql);
