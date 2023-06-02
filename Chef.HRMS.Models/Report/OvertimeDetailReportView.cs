@@ -24,5 +24,6 @@ namespace Chef.HRMS.Models
         public string NormalOverTimeName { get; set; }
         public string HolidayOverTimeName { get; set; }
         public string SpecialOverTimeName { get; set; }
+        //public int EmployeeId { get; set; }
     }
 }
