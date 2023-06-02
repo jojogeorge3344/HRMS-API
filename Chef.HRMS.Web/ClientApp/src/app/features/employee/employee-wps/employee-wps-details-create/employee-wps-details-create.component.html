@@ -2,14 +2,26 @@
     <div class="p-3">  
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label" for="groupId">WPS Group Name<span class="required">*</span></label>
-                <select class="form-control" formControlName="groupId">
-                    <option value="" disabled>Select WPS Group</option>
-                    <option *ngFor="let type of groupId" [ngValue]='type.id'>
-                        {{type.groupName}}
-                    </option>
-                </select>
+                <label class="col-form-label" for="groupId"
+                  >WPS Group Name<span class="required">*</span></label
+                >
+                <p-dropdown [(ngModel)]="wpsGroupObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="groupId" optionValue="id"
+                (onChange)="selectWpsGroup($event)" optionLabel="groupName" placeholder="Select WPS Group" dataKey="id" name="groupId">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                      {{item?.value.groupName}} 
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshWpsGroup($event)">
+                      <a  class="link-primary ref"><u>Refresh</u></a>
+                   </div>
+                </ng-template>
+                </p-dropdown>
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('groupId').touched && this.addForm.get('groupId').invalid" class="invalid-feedback d-block">
+                    wps group name* is required
+                </div>
             </div>
+              </div> 
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label"  for="wpsId">WPS ID<span class="required">*</span></label>
                 <input autocomplete="off" (keypress)="keyPressNumbers($event)" type="string" class="form-control" id="wpsId" name="wpsId" formControlName="wpsId">
@@ -27,19 +39,33 @@
         </div>
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="salaryCardNo">Salary Card No<span class="required">*</span></label>
+                <label class="col-form-label"  for="salaryCardNo">Salary Card No <span class="required">*</span></label>
                 <input autocomplete="off" type="string" class="form-control" id="salaryCardNo" name="salaryCardNo" formControlName="salaryCardNo">
             </div>
             <div class="form-group form-input-line col-sm">
-                <label class="col-form-label"  for="bankId">Bank Name<span class="required">*</span></label>
-                <select class="form-control" formControlName="bankId">
-                    <option value="" disabled>Select Bank Name</option>
-                    <option *ngFor="let type of bankList" [ngValue]='type.id'>
-                        {{type.name}}
-                    </option>
-                </select>
+                <label class="col-form-label" for="bankId"
+                  >Bank Name<span class="required">*</span></label
+                >
+                <p-dropdown [(ngModel)]="bankObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="bankList" optionValue="id"
+                (onChange)="selectBank($event)" optionLabel="name" placeholder="Select Bank Name" dataKey="id" name="bankId">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                      {{item?.value.name}} 
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshBank($event)">
+                      <a  class="link-primary ref"><u>Refresh</u></a>
+                   </div>
+                </ng-template>
+                </p-dropdown>
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('bankId').touched && this.addForm.get('bankId').invalid" class="invalid-feedback d-block">
+                    bank name* is required
+                </div>
             </div>
+
         </div>
+    </div>
+
         <div class="row align-items-baseline">
             <div class="form-group form-input-line col-sm-6">
                 <label class="col-form-label"  for="accountNo">Account No<span class="required">*</span></label>
