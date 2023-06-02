@@ -25,9 +25,9 @@ namespace Chef.HRMS.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost("GenerateEOSAccruals/{paygroupid}")]
-        public async Task<ActionResult<EOSAccrual>> GenerateEOSAccruals(int paygroupid)
+        public async Task<ActionResult<IEnumerable<EOSAccrual>>> GenerateEOSAccruals(int paygroupid)
         {
-            EOSAccrual eosAccrual = new EOSAccrual();            
+            List<EOSAccrual> eosAccrual = new List<EOSAccrual>();            
             
             // var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
 
