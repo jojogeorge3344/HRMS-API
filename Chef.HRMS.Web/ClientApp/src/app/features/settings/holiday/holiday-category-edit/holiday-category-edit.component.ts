@@ -53,7 +53,7 @@ export class HolidayCategoryEditComponent implements OnInit {
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [this.category.id, Validators.required],
-      name: [this.category.name, Validators.required],
+      name: [this.category.name,  [Validators.required, Validators.maxLength(32)]],
       year: [{ value: this.category.year, disabled: this.isDisabled }, [
         Validators.required,
       ]],
