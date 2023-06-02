@@ -36,6 +36,15 @@ namespace Chef.HRMS.Models
         [SqlKata.Ignore]
         public int EmployeeId { get; set; }
 
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeCode { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeName { get; set; }
 
         [Write(false)]
         [Skip(true)]
