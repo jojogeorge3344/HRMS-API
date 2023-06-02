@@ -7,6 +7,6 @@ namespace Chef.HRMS.Services
     {
         Task<IEnumerable<GroupCategory>> GetGroupCategory(); 
         Task<IEnumerable<EmployeeDefaults>> GetProbationDetails();
-        Task<JobDetails> GetByEmployeeId(int employeeId);
+        Task<JobDetailsReportView> GetByEmployeeId(int employeeId);
     }
 }
