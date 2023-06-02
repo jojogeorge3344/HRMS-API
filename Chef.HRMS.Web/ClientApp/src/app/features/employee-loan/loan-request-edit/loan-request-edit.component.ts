@@ -62,16 +62,7 @@ export class LoanRequestEditComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('isApproved', this.isApproved)
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Employee",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: false,
-    };
+   
     this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     if (this.isApproved == "4") {
@@ -82,17 +73,18 @@ export class LoanRequestEditComponent implements OnInit {
     }
     this.loanTypeKeys = Object.keys(this.loanTypes).filter(Number).map(Number);
     this.paymentTypeKeys = Object.keys(this.paymentTypes).filter(Number).map(Number);
-    this.loanRequestService.get(this.loanId).subscribe(result => {
-      result.requestedDate = new Date(result.requestedDate);
-      result.expectedOn = new Date(result.expectedOn);
-      this.loanNo = result.loanNo;
-      this.editForm.patchValue(result);
-      console.log('editform', result)
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to fetch the loan request');
-      });
+    this.getLoanDetails()
+    // this.loanRequestService.get(this.loanId).subscribe(result => {
+    //   result.requestedDate = new Date(result.requestedDate);
+    //   result.expectedOn = new Date(result.expectedOn);
+    //   this.loanNo = result.loanNo;
+    //   this.editForm.patchValue(result);
+    //   console.log('editform', result)
+    // },
+    //   error => {
+    //     console.error(error);
+    //     this.toastr.showErrorMessage('Unable to fetch the loan request');
+    //   });
 
     this.loanSettingsService.getLoanSettingId().subscribe(result => {
       this.loanSettingId = result;
@@ -112,25 +104,34 @@ export class LoanRequestEditComponent implements OnInit {
       this.years = Array.from({ length: 3 }, (x, i) => i + new Date(res).getFullYear());
       //this.editForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
     });
-    this.getEmpDetails()
     //this.GetLoanRequestDetails()
   }
 
   selectionChanged(args) {
     this.editForm.get("requestedBy").patchValue(args.value);
   }
-  getEmpDetails(){
-    this.loanRequestService.get(this.loanId).subscribe(result => {
-      this.requestedBy = result.requestedBy
-      this.getEmployeeList()
-    }
-    );
-  }
+getLoanDetails(){
+  this.loanRequestService.get(this.loanId).subscribe(result => {
+    result.requestedDate = new Date(result.requestedDate);
+    result.expectedOn = new Date(result.expectedOn);
+    this.loanNo = result.loanNo;
+    this.editForm.patchValue(result);
+    // this.eosTypeObj = this.setValueById(this.employeeList, result.requestedBy)
+    console.log('editform', result)
+  },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to fetch the loan request');
+    });
 
+}
   getEmployeeList() {
     this.employeeService.getAll()
       .subscribe((result) => {
-        this.employeeList = result
+        let temp = { id: undefined, firstName: 'test', isLastRow: true }
+        // lastrow
+        this.employeeList = [...result, temp];
+  
         if(this.router.url=='/my-loan'){
           let details: any = null;
           details = this.employeeList.find((item) => item.id == this.currentUserId)
@@ -392,6 +393,23 @@ export class LoanRequestEditComponent implements OnInit {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch Loan Details.');
       });
+  }
+  selectRequestedBy(args){
+    debugger
+    this.editForm.patchValue({
+      requestedBy: args.value.id
+    })
+  }
+  refreshRequestedBy(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeList()
+  }
+
+  setValueById(list: any, value) {
+    console.log("list", list, value);
+
+    return list?.find((item) => value == item.id)
   }
 
   createFormGroup(): FormGroup {

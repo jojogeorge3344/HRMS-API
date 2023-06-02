@@ -132,14 +132,16 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   getEmployeeList() {
     this.employeeService.getAll()
       .subscribe((result) => {
-        this.employeeList = result
+        let temp = { id: undefined, firstName: 'test', isLastRow: true }
+      // lastrow
+      this.employeeList = [...result, temp];
+
         if(this.router.url=='/my-loan'){
           let details: any = null;
           details = this.employeeList.find((item) => item.id == this.currentUserId)
           this.addForm.get('requestedBy').updateValueAndValidity()
           this.addForm.patchValue({ requestedBy: details.firstName });
           this.addForm.get('requestedBy').updateValueAndValidity()
-  
           this.addForm.get('requestedBy').disable()
         }
       })
@@ -213,7 +215,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     if(this.router.url=='/my-loan'){
       addloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy.id;
+      debugger
+      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy;
     }
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
@@ -284,6 +287,18 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
 
     }
     this.showLoanSchedules = true
+  }
+
+  selectRequestedBy(args){
+    debugger
+    this.addForm.patchValue({
+      requestedBy: args.value.id
+    })
+  }
+  refreshRequestedBy(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeList();
   }
 
   createFormGroup(): FormGroup {

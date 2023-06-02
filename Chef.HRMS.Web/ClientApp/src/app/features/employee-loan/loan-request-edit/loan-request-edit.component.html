@@ -14,21 +14,22 @@
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <label for="employeeId" style="margin-bottom: 9px">
-                        Requested By
-                    </label>      
-                    <ng-template #optionTemplate let-item="item" let-config="config">
-                      <i class="fa fa-plus"></i>
-                      {{ item.firstName }}
-                      <span class="new badge"></span>
+                    <label class="col-form-label" for="requestedBy" 
+                      >Requested By<span class="required">*</span></label
+                    >
+                    <p-dropdown [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
+                    (onChange)="selectRequestedBy($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="requestedBy">
+                      <ng-template let-item pTemplate="item" >  
+                        <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                          {{item?.value.firstName}} 
+                        </div> 
+                        <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRequestedBy($event)">
+                          <a  class="link-primary ref"><u>Refresh</u></a>
+                       </div>
                     </ng-template>
-                    <ngx-select-dropdown
-                      (change)="selectionChanged($event)"
-                      [config]="config"
-                      formControlName="requestedBy"
-                      [options]="employeeList" 
-                    ></ngx-select-dropdown>
-                </div>
+                    </p-dropdown>
+                  </div> 
+
                 <div class="form-group ">
                     <label for="loanType">Loan Type<span class="required">*</span></label>
                     <select class="form-control" formControlName="loanType">
