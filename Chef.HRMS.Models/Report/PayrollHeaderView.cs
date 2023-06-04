@@ -19,7 +19,10 @@ namespace Chef.HRMS.Models
         public DateTime Month { get; set; }
         public decimal BasicPay { get; set; }
         public decimal ExchangeRate { get; set; }
-        public string Currency { get; set; }
+        public string CurrencyCode { get; set; }
         public DateTime PayrollProcessDate { get; set; }
+        public int EmployeeId { get; set; }
+        public int CurrencyId { get; set; }
+        public int Currentcountry { get; set; }
     }
 }

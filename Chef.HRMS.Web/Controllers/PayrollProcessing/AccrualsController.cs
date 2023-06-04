@@ -19,25 +19,34 @@ namespace Chef.HRMS.Web.Controllers
         private readonly IEOSAccrualService eosAccrualService;
         private readonly ITicketAccrualService ticketAccrualService;
 
-        public AccrualsController(ILeaveAccrualService leaveAccrualService, IEOSAccrualService eosAccrualService, ITicketAccrualService ticketAccrualService)
+        private readonly ILeaveAccrualSummaryService leaveAccrualSummaryService;
+
+        public AccrualsController(ILeaveAccrualService leaveAccrualService,ILeaveAccrualSummaryService leaveAccrualSummaryService,
+            IEOSAccrualService eosAccrualService, ITicketAccrualService ticketAccrualService)
         {
             this.leaveAccrualService = leaveAccrualService;
             this.eosAccrualService = eosAccrualService;
             this.ticketAccrualService = ticketAccrualService;
+
+            this.leaveAccrualSummaryService = leaveAccrualSummaryService;
         }
 
         [AllowAnonymous]
-        [HttpPost("SaveAccruals/{payrollprocessingId}")]
-        public async Task<ActionResult<LeaveAccrual>> SaveAccruals(int payrollprocessingmethod)
+        [HttpPost("SaveAccruals")]
+        public async Task<ActionResult<int>> SaveAccruals([FromBody]Accruals accrualsList)
         {
-            //var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
+            int result = 0;
+            result = await leaveAccrualService.InsertLeaveAccruals(accrualsList.LeaveAccruals);
 
-            //if (leaveAccrualList == null)
-            //{
-            //    return NotFound();
-            //}
+            if (result > 0)
+            {
+                result = await leaveAccrualSummaryService.GenerateAndInsertLeaveAccrualSummary(accrualsList.LeaveAccruals);
+            }
 
-            return Ok();
+            result = await eosAccrualService.SaveEOSAccruals(accrualsList.EOSAccruals);
+            result = await ticketAccrualService.SaveTicketAccruals(accrualsList.TicketAccruals);
+
+            return Ok(result);
         }
 
         [HttpPost("GenerateFinancialEntry/{payrollprocessingId}")]
@@ -51,6 +60,19 @@ namespace Chef.HRMS.Web.Controllers
             //}
 
             return Ok();
+        }
+
+        [HttpPost("GetProcessedAccruals/{paygroupId}")]
+        public async Task<ActionResult<Accruals>> GetProcessedAccruals(int paygroupId, DateTime accrualDate)
+        {
+            Accruals accruals = new Accruals();
+            accruals.LeaveAccruals = await leaveAccrualService.GetGeneratedLeaveAccruals(paygroupId, accrualDate); 
+
+            if (accruals == null)
+            {
+                return NotFound();
+            }
+            return Ok(accruals);
         }
     }
 }

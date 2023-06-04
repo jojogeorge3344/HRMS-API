@@ -21,8 +21,10 @@ namespace Chef.HRMS.Repositories
             //            WHERE isarchived=false AND id =30";
 
             int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeEOSAccrual;
-            var sql = @"SELECT * FROM hrms.benefittypes
-                        WHERE isarchived=false AND id = " + bt;
+            var sql = @"SELECT pc.*
+                        FROM hrms.benefittypes as bt
+                        INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype
+                        AND pc.isarchived = false AND bt.id = " + bt + " ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
         public async Task<IEnumerable<BenefitTypes>> GetEmployeeEOSpaymentType()
@@ -31,8 +33,10 @@ namespace Chef.HRMS.Repositories
             //            WHERE isarchived=false AND id =13";
 
             int bt = (int) Chef.HRMS.Types.BenefitType.EmployeeEOSPayment;
-            var sql = @"SELECT * FROM hrms.benefittypes
-                        WHERE isarchived=false AND id = " + bt;
+            var sql = @"SELECT pc.*
+                        FROM hrms.benefittypes as bt
+                        INNER JOIN hrms.payrollcomponent pc ON bt.id = pc.payrollcomponenttype
+                        AND pc.isarchived = false AND bt.id = " + bt + " ORDER BY pc.name";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
 

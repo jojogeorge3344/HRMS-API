@@ -34,6 +34,11 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             this.systemVariableValuesRepository = systemVariableValuesRepository;
         }
 
+        public async Task<int> SaveEOSAccruals(List<EOSAccrual> endOfServiceAccruals)
+        {
+            return 0;
+        }
+
         public async Task<int> GenerateEOSAvailed(EOSAccrual eosAvailedDetails)
         {
             //Make an entry in the leave accrual table with value in availdays and availamount 
