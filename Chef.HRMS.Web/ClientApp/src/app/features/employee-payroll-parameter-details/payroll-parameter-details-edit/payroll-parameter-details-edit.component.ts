@@ -22,22 +22,13 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
   editForm: FormGroup;
   employeeList;
-  config={
-    displayKey: "firstName",
-    search: true,
-    limitTo: 0,
-    placeholder: "Select Employee",
-    noResultsFound: "No results found!",
-    searchPlaceholder: "Search",
-    searchOnKey: "firstName",
-    clearOnSelection: false,
-  };;
   userVariableDetails;
   UserVariableType = UserVariableType;
   reqId: any;
   selectedDatasource;
   payrollParameterDetailsItem;
-
+  empObj;
+  userVarObj;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -63,45 +54,29 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
   //   })
   // this.payrollParameterDetailsItem.transDate = new Date(this.payrollParameterDetailsItem.transDate);    
 
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Employee",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: false,
-    };
+  
 
   }
   selectionChanged(args) {
     // this.editForm.get("employeeId").patchValue(args.value.id);
   }
-  onChangeEvent(args) {
-    debugger
-    let id = this.editForm.get("userVariableId").value
-    let selectedItem = this.userVariableDetails.find((item) => item.id == id)
-    // this.variableType=UserVariableType[selectedItem.type]
-    // this.addForm.get('variableType').patchValue(UserVariableType[selectedItem.type])
-    this.editForm.patchValue({
-      type: selectedItem.type, //UserVariableType[selectedItem.type]
-      variableTypeName: UserVariableType[selectedItem.type]
-    });
-    // this.addForm.get('type').setValue(UserVariableType[selectedItem.type])
-  }
+ 
 
   getEmployeeList() {
     this.employeeService.getAll()
       .subscribe((result) => {
-        this.employeeList = result;
+        let temp = { id: undefined, firstName: 'test', isLastRow: true }
+        // lastrow
+        this.employeeList = [...result, temp];
         this.getItemById();
       })
   }
   getUserVariables() {
     this.userVariableService.getAll()
       .subscribe((result) => {
-        this.userVariableDetails = result
+        let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.userVariableDetails = [...result, temp];
       })
   }
 
@@ -204,6 +179,33 @@ console.log('VALUE',this.payrollParameterDetailsItem)
     
     });
     
+    }
+    selectUserVariables(args){
+      this.editForm.patchValue({
+        userVariableId: args.value.id,
+        type: args.value.type
+      })
+    }
+    selectEmployee(args){
+      if(args.value && args.value.id){
+        this.editForm.patchValue({
+          employeeId: args.value.id
+        })
+      }else{
+        this.editForm.patchValue({
+          employeeId: ''
+        })  
+      }
+    }
+    refreshUserVariables(event){
+      event.stopPropagation();
+      event.preventDefault();
+      this.getUserVariables();
+    }
+    refreshEmployee(event){
+      event.stopPropagation();
+      event.preventDefault();
+      this.getEmployeeList();
     }
 
   createFormGroup(): FormGroup {
