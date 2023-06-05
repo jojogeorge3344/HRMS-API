@@ -12,9 +12,14 @@ namespace Chef.HRMS.Repositories
 {
     public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance>, ILeaveAndAttendanceRepository
     {
-        public LeaveAndAttendanceRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
+		private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
+
+		public LeaveAndAttendanceRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session,
+			ITenantSimpleUnitOfWork tenantSimpleUnitOfWork) : base(httpContextAccessor, session)
         {
-        }
+            this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
+
+		}
 
         public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate,int payrollProcessId)
         {
@@ -467,5 +472,64 @@ namespace Chef.HRMS.Repositories
 
             return await Connection.QueryAsync<LOPCalculationView>(sql, new { fromDate, toDate });
         }
-    }
+
+        public async Task<IEnumerable<LOPCalculationView>> GetLOPCalculationDetail(int paygroupId, DateTime fromDate, DateTime toDate)
+        {
+			tenantSimpleUnitOfWork.BeginTransaction();
+            try
+            {
+                string sql = @"SELECT JF.employeeid,PG.leavecutoff,JF.payrollstructureid 
+                        FROM hrms.jobfiling JF
+                        INNER JOIN hrms.hrmsemployee EM ON JF.employeeid = EM.id
+                        INNER JOIN hrms.paygroup PG ON PG.id = JF.paygroupid
+                        WHERE JF.paygroupid = @paygroupId AND JF.isarchived = false 
+                        AND EM.isarchived = false AND PG.isarchived = false ";
+                var EmpList = await Connection.QueryAsync<LOPEmployee>(sql, new { paygroupId });
+
+                foreach (LOPEmployee item in EmpList)
+                {
+                    sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
+                        FROM hrms.leavedetails LD 
+                        WHERE LD.employeeid =  @employeeid
+                        AND LD.isarchived = false
+                        AND LD.leavestatus = 4
+                        GROUP BY LD.leavecomponentid AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate";
+					var LeaveDet = await Connection.QueryAsync<LOPDetails>(sql, new { employeeid = item.EmployeeId,fromDate,toDate });
+
+                    foreach (LOPDetails detail in LeaveDet)
+                    {
+                        sql = @"SELECT LS.lowerlimit,LS.upperlimit,LS.valuetype,LS.valuevariable 
+                            FROM hrms.leaveslab LS 
+                            WHERE LS.leavecomponentid = @leavecomponentid AND LS.isarchived = false";
+						var leaveSlabs = await Connection.QueryAsync<LeaveSlab>(sql, new { leavecomponentid = detail.LeaveComponentId });
+
+                        //need to find the slab
+
+                        sql = @"SELECT PC.maximumlimit 
+                                FROM hrms.leavecomponentlopdetails LCD
+                                INNER JOIN hrms.payrollcomponentconfiguration PC ON PC.payrollcomponentid = LCD.payrollcomponentid
+                                INNER JOIN hrms.payrollcomponent CM ON CM.id =  PC.payrollcomponentid
+                                WHERE LCD.leavecomponentid = @leavecomponentid AND 
+                                PC.isarchived = false AND CM.isarchived = false
+                                AND PC.payrollstructureid = @payrollstructureid";
+						var payrollComp= await Connection.QueryAsync<LOPPayrollComponent>(sql, new { leavecomponentid = detail.LeaveComponentId,item.PayrollStructureId });
+                        foreach (LOPPayrollComponent comp in payrollComp)
+                        { 
+                            
+                        }
+					}
+				}
+
+
+				tenantSimpleUnitOfWork.Commit();
+				return await Connection.QueryAsync<LOPCalculationView>(sql, new { fromDate, toDate });
+			}
+			catch (Exception)
+			{
+				tenantSimpleUnitOfWork.Rollback();
+				throw;
+			}
+		}
+
+	}
 }
