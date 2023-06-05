@@ -171,6 +171,7 @@ export class PayrollComponentCreateComponent implements OnInit {
         [
           Validators.required,
           //Validators.pattern("^([a-zA-Z0-9 ])+$"),
+          Validators.maxLength(32),
           duplicateNameValidator(this.payrollComponentNames),
         ],
       ],
