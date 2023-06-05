@@ -17,6 +17,7 @@ export class GenerateAccrualsFinanceEntryComponent implements OnInit {
   leaveAccrualsList:any=[]
   EOSAccrualsList:any=[]
   ticketAccrualsList:any=[]
+  saveAccrualsDetails:any=[]
 
   constructor(
     public modalService: NgbModal,
@@ -37,9 +38,43 @@ export class GenerateAccrualsFinanceEntryComponent implements OnInit {
   }
 
   getLeaveAccruals() {
+    debugger
     this.leaveAccrualsList =[]
     this.generateAccrualsService.getLeaveAccrualsList(this.paygroupId).subscribe(result => {
       this.leaveAccrualsList = result;
+
+      this.leaveAccrualsList = [
+        {
+          id: 0,
+          createdDate: "2023-06-02T05:55:03.057Z",
+          modifiedDate: "2023-06-02T05:55:03.057Z",
+          createdBy: "Lester",
+          modifiedBy: "Lester",
+          isArchived: true,
+          employeeId: 0,
+          accrualDate: "2023-06-02T05:55:03.057Z",
+          leaveId: 0,
+          accrualDays: 0,
+          accrualAmount: 0,
+          availDays: 0,
+          availAmount: 0,
+          accrualStatus: 0,
+          eligibilityPerDay: 0,
+          leaveCutOffType: 1,
+          isIncludeLOPDays: true,
+          workingdaysInCalMonth: 0,
+          workeddaysInCalMonth: 0,
+          cfLimitDays: 0,
+          eligibleDays: 0,
+          eligibilityBase: 0,
+          monthlyAmount: 0,
+          employeeCode: "TIC123",
+          employeeName: "Lester"
+        }
+      ]
+
+      this.leaveAccrualsList.push(this.leaveAccrualsList[0])
+      console.log('data1',this.leaveAccrualsList)
       
     },
       error => {
@@ -51,7 +86,27 @@ export class GenerateAccrualsFinanceEntryComponent implements OnInit {
   getEOSAccruals() {
     this.EOSAccrualsList =[]
     this.generateAccrualsService.getEOSAccrualList(this.paygroupId).subscribe(result => {
+      
       this.EOSAccrualsList = result;
+      this.EOSAccrualsList = [
+        {
+          createdDate: "2023-06-02T06:09:28.015Z",
+          modifiedDate: "2023-06-02T06:09:28.015Z",
+          createdBy: "Lester",
+          modifiedBy: "Lester",
+          isArchived: true,
+          id: 0,
+          employeeId: 0,
+          accrualDate: "2023-06-02T06:09:28.015Z",
+          accrualDays: 0,
+          accrualAmount: 0,
+          accrualStatus: 0,
+          employeeCode: "TIC123",
+          employeeName: "Lester"
+        }
+      ]
+
+      this.EOSAccrualsList.push(this.EOSAccrualsList[0])
       console.log('leaveaccruals',this.EOSAccrualsList)
     },
       error => {
@@ -64,12 +119,46 @@ export class GenerateAccrualsFinanceEntryComponent implements OnInit {
     this.ticketAccrualsList =[]
     this.generateAccrualsService.getticketaccrualList(this.paygroupId).subscribe(result => {
       this.ticketAccrualsList = result;
-      console.log('leaveaccruals',this.ticketAccrualsList)
+
+      this.ticketAccrualsList = [
+        {
+          createdDate: "2023-06-02T06:11:24.411Z",
+          modifiedDate: "2023-06-02T06:11:24.411Z",
+          createdBy: "Lester",
+          modifiedBy: "Lester",
+          isArchived: true,
+          id: 0,
+          employeeId: 0,
+          accrualDate: "2023-06-02T06:11:24.411Z",
+          accrualAmount: 0,
+          accrualStatus: 0,
+          employeeCode: "TIC123",
+          employeeName: "Lester"
+        }
+      ]
+      this.ticketAccrualsList.push(this.ticketAccrualsList[0])
+      console.log('ticket',this.ticketAccrualsList)
     },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to fetch Ticket Accruals.');
       });
+  }
+
+  saveAccruals(){
+     this.saveAccrualsDetails.push({
+      leaveAccruals:this.leaveAccrualsList,
+      eosAccruals:this.EOSAccrualsList,
+      ticketAccruals:this.ticketAccrualsList,
+      paygroupId:this.paygroupId
+    })
+    this.generateAccrualsService.saveAccruals(this.saveAccrualsDetails[0]).subscribe(result => {
+      this.toastr.showSuccessMessage('Accruals Saved successfully.');
+    },
+    error => {
+      console.error(error);
+      this.toastr.showErrorMessage('Unable to Save Accruals.');
+    });
   }
 
 }

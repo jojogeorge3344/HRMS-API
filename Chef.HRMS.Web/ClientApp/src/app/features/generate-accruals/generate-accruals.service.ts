@@ -12,6 +12,7 @@ export class GenerateAccrualsService {
   public getLeaveAccruals:string
   public getEOSAccrual:string
   public getticketaccrual:string
+  public saveAccrualDetails:string
  
   constructor(
     http: HttpClient, @Inject('BASE_URL') baseUrl: string
@@ -21,6 +22,8 @@ export class GenerateAccrualsService {
     this.getLeaveAccruals = baseUrl + 'api/settings/payrollprocessing/LeaveAccrual/'
     this.getEOSAccrual = baseUrl + 'api/settings/payrollprocessing/EOSAccrual/'
     this.getticketaccrual = baseUrl + 'api/settings/payrollprocessing/TicketAccrual/'
+    this.saveAccrualDetails = baseUrl + 'api/settings/payrollprocessing/Accruals/SaveAccruals'
+
 
    }
 
@@ -35,5 +38,9 @@ export class GenerateAccrualsService {
   }
   getticketaccrualList(paygroupid) {
     return this.http.post(this.getticketaccrual + 'GenerateTicketAccruals/' + paygroupid,'').pipe(map(response => { return response; }));
+  }
+
+  saveAccruals(accrualdetails){
+    return this.http.post(this.saveAccrualDetails,accrualdetails).pipe(map(response => { return response; }));
   }
 }

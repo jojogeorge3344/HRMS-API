@@ -30,8 +30,8 @@
                             <tbody>
                                 <tr  *ngFor="let item of leaveAccrualsList; let i= index;">
                                     <td>{{i+1}}</td>
-                                    <td>code</td>
-                                    <td>name</td>
+                                    <td>{{item.employeeCode}}</td>
+                                    <td>{{item.employeeName}}</td>
                                     <td>{{item.accrualDays}}</td>
                                     <td>{{item.accrualAmount}}</td>
                                    
@@ -64,8 +64,8 @@
                                 <tbody>
                                     <tr  *ngFor="let item of EOSAccrualsList; let i= index;">
                                         <td>{{i+1}}</td>
-                                        <td>code</td>
-                                        <td>name</td>
+                                        <td>{{item.employeeCode}}</td>
+                                        <td>{{item.employeeName}}</td>
                                         <td>{{item.accrualDays}}</td>
                                         <td>{{item.accrualAmount}}</td>
                                        
@@ -98,8 +98,8 @@
                                 <tbody>
                                     <tr  *ngFor="let item of ticketAccrualsList; let i= index;">
                                         <td>{{i+1}}</td>
-                                        <td>code</td>
-                                        <td>name</td>
+                                        <td>{{item.employeeCode}}</td>
+                                        <td>{{item.employeeName}}</td>
                                         <td>{{item.accrualDays}}</td>
                                         <td>{{item.accrualAmount}}</td>
                                        
@@ -111,6 +111,18 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button (click)="saveAccruals()" type="submit" class="btn btn-success">
+                                <i class="mr-1 fal fa-save"></i>Save
+                            </button>
+                            <button  type="button"
+                            class="btn btn-primary">
+                            <i class="mr-1 fal fa-arrow-down"></i> Generate Finacial Entry</button>
+                            <button type="button" class="btn btn-warning" routerLink="/generate-accruals"><i
+                                    class="mr-1 fal fa-window-close"></i> Cancel
+                            </button>
+                          
                         </div>
             </div>
         </div>

@@ -21,7 +21,7 @@ namespace Chef.HRMS.Repositories
                         left join hrms.hrmsemployee emp 
                         on emp.id = ppm.employeeid 
                         left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
-                        WHERE processedstep >=@stepno and isarchived = false
+                        WHERE processedstep >=@stepno and ppm.isarchived = false
                         ORDER BY id ASC ";
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { stepno });
         }
