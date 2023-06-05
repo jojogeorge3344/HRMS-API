@@ -23,6 +23,7 @@ export class PayrollComponentListComponent implements OnInit {
 
   payrollComponentNames: string[];
   payrollComponentCodes: string[];
+  payrollComponentTypesKey:any
 
   constructor(
     private payrollComponentService: PayrollComponentService,
@@ -37,6 +38,7 @@ export class PayrollComponentListComponent implements OnInit {
   ngOnInit(): void {
     this.getPayrollComponents();
     this.getAssignedPayrollComponents();
+    this.payrollComponentTypesKey = Object.keys(this.payrollComponentTypes).filter(Number).map(Number);
   }
 
   getPayrollComponents() {
@@ -90,7 +92,8 @@ export class PayrollComponentListComponent implements OnInit {
 
   isFixed(payrollComponent) {
     return (
-      payrollComponent.payrollComponentType == this.payrollComponentTypes.Fixed
+      // payrollComponent.payrollComponentType == this.payrollComponentTypes.Fixed
+      this.assignedPayrollComponents.includes(payrollComponent.id)
     );
   }
 
