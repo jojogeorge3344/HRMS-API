@@ -31,7 +31,7 @@ namespace Chef.HRMS.Services
             return await jobDetailsRepository.GetAsync(id);
         }
 
-        public async Task<JobDetails> GetByEmployeeId(int employeeId)
+        public async Task<JobDetailsReportView> GetByEmployeeId(int employeeId)
         {
             return await jobDetailsRepository.GetByEmployeeId(employeeId);
         }

@@ -15,6 +15,7 @@ import { LoanRequestPrintComponent } from './loan-request-print/loan-request-pri
 import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
 
 import { SelectDropDownModule } from "ngx-select-dropdown";
+import {DropdownModule} from 'primeng/dropdown';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { SelectDropDownModule } from "ngx-select-dropdown";
     BsDropdownModule.forRoot(),
     DirectivesModule,
     ReportViewerModule,
-    SelectDropDownModule
+    SelectDropDownModule,
+    DropdownModule
   ]
 })
 export class EmployeeLoanModule { }

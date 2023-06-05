@@ -13,7 +13,7 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-sm">
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="requestedBy" style="margin-bottom: 9px">
                         Requested By
                     </label>
@@ -24,8 +24,24 @@
                     </ng-template>
                     <ngx-select-dropdown (change)="selectionChanged($event)" [config]="config" [options]="employeeList" formControlName="requestedBy"
                         ></ngx-select-dropdown>
-                </div>
-
+                </div> -->
+               
+                <div class="form-group">
+                    <label class="col-form-label" for="requestedBy" 
+                      >Requested By<span class="required">*</span></label
+                    >
+                    <p-dropdown [(ngModel)]="empObj" [disabled]="disableRequestedBy" [ngModelOptions]="{standalone: true}" [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
+                    (onChange)="selectRequestedBy($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="requestedBy">
+                      <ng-template let-item pTemplate="item" >  
+                        <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                          {{item?.value.firstName}} 
+                        </div> 
+                        <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRequestedBy($event)">
+                          <a  class="link-primary ref"><u>Refresh</u></a>
+                       </div>
+                    </ng-template>
+                    </p-dropdown>
+                  </div> 
                 <div class="form-group ">
                     <label for="loanType">Loan Type<span class="required">*</span></label>
                     <select class="form-control" formControlName="loanType">
@@ -53,7 +69,7 @@
                 </div>
             </div>
             <div class="col-sm">
-                <div class="form-group ">
+                <div class="form-group" style="margin-top: 10px;">
                     <label for="expectedOn">Disbursement Expected On</label>
                     <div class="input-group">
                         <input class="form-control" ngbDatepicker #expectedOn="ngbDatepicker"
