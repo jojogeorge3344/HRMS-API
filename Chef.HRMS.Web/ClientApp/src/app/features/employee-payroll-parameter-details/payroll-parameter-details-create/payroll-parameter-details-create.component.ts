@@ -123,7 +123,6 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
       userVariableId: args.value.id,
       type:args.value.type,
       variableTypeName:UserVariableType[args.value.type]
-  
     })
   }
   selectEmployee(args){
