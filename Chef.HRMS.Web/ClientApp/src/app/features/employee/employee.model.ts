@@ -16,5 +16,6 @@ export interface Employee extends Model {
     shortCode: string;
     notifyPersonnel:number;
     dateOfJoin:Date;
-    documentName:any
+    documentName:any;
+    documentId:any
 }

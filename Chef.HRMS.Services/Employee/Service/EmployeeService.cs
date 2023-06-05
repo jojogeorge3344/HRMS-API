@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Authentication.Models;
 using Chef.Common.Authentication.Repositories;
 using Chef.Common.Core.Services;
+using Chef.Common.Models;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
@@ -77,9 +78,9 @@ namespace Chef.HRMS.Services
             return await employeeRepository.GetEmployeeDetailsByJobTile(jobTitleId);
         }
 
-        public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId, int leaveId)
+        public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId)
         {
-            return await employeeRepository.GetEmployeeDetailsById(employeeId,leaveId);
+            return await employeeRepository.GetEmployeeDetailsById(employeeId);
         }
         public async Task<IEnumerable<Notification>> GetAllNotificationById(int employeeId)
         {
@@ -94,6 +95,12 @@ namespace Chef.HRMS.Services
         public async Task<LoginEmployeeView> GetLoginEmployee(int employeeId)
         {
             return await employeeRepository.GetLoginEmployee(employeeId);
+        }
+
+        public async Task<EmployeeView> GetEmployeeEditLeaveDetails(int employeeId, int leaveId)
+        {
+            return await employeeRepository.GetEmployeeEditLeaveDetails(employeeId, leaveId);
+
         }
     }
 }
