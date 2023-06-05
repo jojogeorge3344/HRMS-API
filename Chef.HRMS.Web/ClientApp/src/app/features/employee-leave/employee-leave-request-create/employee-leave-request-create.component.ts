@@ -90,6 +90,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   documentSave;
   leaveDocument: any;
   requestTypes = RequestStatus;
+  loginUserDetail:any
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -329,6 +330,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   getEmployeeList() {
     this.employeeService.getAll().subscribe(
       (result) => {
+        this.loginUserDetail=result
         this.employeeList = result.filter(
           (employee) => employee.id !== this.requestId
         );
@@ -652,7 +654,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
               .add(this.leaveDocument)
               .subscribe(
                 (result: any) => {
-                  this.notify(leaveRequest.id);
+                  this.notify(leaveRequest);
                 },
                 (error) => {
                   console.error(error);
@@ -717,7 +719,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
               .subscribe(
                 (result: any) => {
                   debugger
-                  this.notify(leaveRequest.id);
+                  this.notify(leaveRequest);
                 },
                 (error) => {
                   console.error(error);
