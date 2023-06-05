@@ -132,7 +132,7 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
       })
     }else{
       this.addForm.patchValue({
-        employeeId: ''
+        employeeId: 0
       })  
     }
   }
@@ -149,7 +149,7 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      employeeId: [''],
+      employeeId: [0],
       userVariableId: [null, [
         Validators.required
       ]],

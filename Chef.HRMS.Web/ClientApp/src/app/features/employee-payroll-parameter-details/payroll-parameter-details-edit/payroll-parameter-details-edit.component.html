@@ -2,23 +2,15 @@
     <h1 class="subheader-title">
       <div>
        Edit Employee Payroll Parameter details
- 
     </div>
     </h1>
   </div> 
 <form [formGroup]="editForm" id="payrollParameterDetailsForm" (validSubmit)="onSubmit()">
     <div class="card p-3" id="addEmployee">
-    <div class="p-3"> 
+    <div class="p-3">
+      <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+      routerLink="/employee-payroll-parameter-details"><i class="fal fa-arrow-left mr-2"></i> Back to payroll parameter details</button> 
         <div class="row align-items-baseline">
-            <!-- <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="userVariableId">User Variables<span class="required">*</span></label>
-                <select class="form-control" formControlName="userVariableId" (change)="onChangeEvent($event)">
-                    <option [ngValue]="null" disabled>Select User Variable</option>
-                    <option *ngFor="let item of userVariableDetails" [ngValue]='item.id'>
-                        {{item.name}}
-                    </option>
-                </select>
-            </div> -->
             <div class="form-group form-input-line col-6" >
                 <label class="col-form-label" for="userVariableId"
                   >User Variables<span class="required">*</span></label
@@ -50,22 +42,6 @@
             
             </div>
             <div class="row align-items-baseline">
-                <!-- <div class="form-group form-input-line col-6">
-                    <label for="employeeId">
-                        Employee
-                    </label>      
-                    <ng-template #optionTemplate let-item="item" let-config="config">
-                      <i class="fa fa-plus"></i>
-                      {{ item.firstName }}
-                      <span class="new badge"></span>
-                    </ng-template>
-                    <ngx-select-dropdown
-                      (change)="selectionChanged($event)"
-                      [config]="config" 
-                      formControlName="employeeId"
-                      [options]="employeeList" 
-                    ></ngx-select-dropdown>
-                </div> -->
                 <div class="form-group form-input-line col-6">
                     <label class="col-form-label" for="employeeId" 
                       >Employee</label
