@@ -89,5 +89,7 @@ namespace Chef.HRMS.Models
         public DateTime DateOfJoin { get; set; }
         public string DocumentName { get; set; }
         public string DocumentPath { get; set; }
+        public int DocumentId { get; set; }
+        public int NotifyPersonnelId { get; set; }
     }
 }
