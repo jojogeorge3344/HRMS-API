@@ -34,7 +34,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   currentMonth: Number;
   currentYear: Number;
   currentDay: Number;
-  otHours: Number;
+  otHours: number;
   minDateFrom;
   maxDateFrom;
   minDateTo;
@@ -94,33 +94,21 @@ export class OvertimeRequestCreateComponent implements OnInit {
       this.employeeDetailsCheck=false  
     }
     this.getLoginEmployeeDetail()
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Employee Name",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: false,
-    };
   }
   getEmployeeList() {
+    debugger
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.currentUserId);
       if(this.employeeDetailsCheck==false){
-        this.employeeDetails=result
+        let temp = { id: undefined, firstName: 'test', isLastRow: true }
+      // lastrow
+        this.employeeDetails = [...result, temp];
         this.selectEnable=true
       }
     },
       error => {
         console.error(error);
       });
-  }
-  selectionChanged(args) {
-    debugger
-    this.addForm.get("employeeName").patchValue(args.value.firstName);
-    this.addForm.get("employeeId").patchValue(args.value.id);
   }
   // getEmployeeId(event){
   //   debugger
@@ -521,5 +509,23 @@ getLoginEmployeeDetail(){
       })
     }
   })
+}
+selectEmployee(args){
+  if(args.value && args.value.id){
+    this.addForm.patchValue({
+      employeeName:args.value.firstName,
+      employeeId:args.value.id
+      })
+  }else{
+    this.addForm.patchValue({
+      employeeName: null,
+      employeeId:0
+    })  
+  }
+}
+refreshRequestedBy(event){
+  event.stopPropagation();
+  event.preventDefault();
+  this.getEmployeeList();
 }
 }

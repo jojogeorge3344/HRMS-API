@@ -177,8 +177,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.expensePolicyId = [...result, temp];
-      let item = result.find((item) => this.addForm.get('expensePolicyId').value == item.id)
-      this.expensePolicyObj = item;
+      this.expensePolicyObj= result.find((item) => this.addForm.get('expensePolicyId').value == item.id)
     },
       error => {
         console.error(error);

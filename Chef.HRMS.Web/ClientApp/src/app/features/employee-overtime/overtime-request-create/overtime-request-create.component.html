@@ -5,8 +5,24 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-      <div *ngIf="selectEnable" style="display: flex;flex-direction: row;">
-            <label for="employeeName" style="padding-left: 20px;padding-top: 10px;">Employee Name</label>
+      <div *ngIf="selectEnable" style=" margin-left: 20px;  padding-right: 20px">
+            <label class="col-form-label" for="employeeName" 
+              >Employee Name</label
+            >
+            <p-dropdown style="margin-right: 20px;" [showClear]="true" [(ngModel)]="empObj" [disabled]="disableRequestedBy" [ngModelOptions]="{standalone: true}" [filter]="true" 
+            class="pngCustomClass" [options]="employeeDetails" optionValue="id"
+            (onChange)="selectEmployee($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="employeeName">
+              <ng-template let-item pTemplate="item" >  
+                <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                  {{item?.value.firstName}} 
+                </div> 
+                <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshEmployee($event)">
+                  <a  class="link-primary ref"><u>Refresh</u></a>
+               </div>
+            </ng-template>
+            </p-dropdown>
+
+            <!-- <label for="employeeName" style="padding-left: 20px;padding-top: 10px;">Employee Name</label> -->
             <!-- <select   class="form-control col-sm-7" style="margin-left: 50px;" formControlName="employeeName" (change)="getEmployeeId($event.target.value)">
                 <option [ngValue]="null" disabled>Select Employee Name</option>
                 <option *ngFor="let list of employeeDetails" value={{list.firstName}}>
@@ -14,7 +30,7 @@
                 </option>
             </select> -->
             
-            <ng-template #optionTemplate let-item="item" let-config="config">
+            <!-- <ng-template #optionTemplate let-item="item" let-config="config">
                 <i class="fa fa-plus"></i>
                 {{ item.name }}
                 <span class="new badge"></span>
@@ -23,7 +39,7 @@
                 (change)="selectionChanged($event)"
                 [config]="config"
                 [options]="employeeDetails"
-              ></ngx-select-dropdown>
+              ></ngx-select-dropdown> -->
             
       </div>
       <div *ngIf="!selectEnable" style="display: flex;flex-direction: row;">

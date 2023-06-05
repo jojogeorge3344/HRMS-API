@@ -387,9 +387,15 @@ getLoanDetails(){
   }
   selectRequestedBy(args){
     debugger
-    this.editForm.patchValue({
-      requestedBy: args.value.id
-    })
+    if(args.value && args.value.id){
+      this.editForm.patchValue({
+        requestedBy:args.value.id,
+        })
+    }else{
+      this.editForm.patchValue({
+        requestedBy: 0,
+      })  
+    }
   }
   refreshRequestedBy(event){
     event.stopPropagation();
@@ -430,7 +436,7 @@ getLoanDetails(){
       loanSettingId: [this.loanSettingId],
       createdDate: [],
       extendedMonth: [0],
-      requestedBy: [null],
+      requestedBy: [0],
 
     });
   }
