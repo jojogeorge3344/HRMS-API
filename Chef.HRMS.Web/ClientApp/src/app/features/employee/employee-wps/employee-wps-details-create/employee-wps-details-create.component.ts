@@ -31,6 +31,9 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
   accountNo:any
   bankList: any;
   detailsUpdate: any;
+  wpsGroupObj:any;
+  bankObj:any;
+
   @Output() wpsDetailsForm = new EventEmitter<any>();
   @Input() passEmployeeId:any
   employeeId:any
@@ -59,14 +62,15 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
       }
     });
     this.getWPSGrouplist();
-    // this.getWPSUserlistById();
-    // this.getMolId(this.id)
     this.getWPSBanklist()
   }
 
   getWPSGrouplist() {
     this.employeeWpsService.getAll().subscribe(result => {
-      this.groupId = result;
+      let temp = { id: undefined, groupName: 'test', isLastRow: true }
+      // lastrow
+      this.groupId = [...result, temp];
+      this.wpsGroupObj = result.find((item) => this.addForm.get('groupId').value == item.id)
     },
       error => {
         console.error(error);
@@ -102,6 +106,11 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
   getWPSBanklist() {
     this.employeeWpsBankerService.getBank().subscribe(result => {
       this.bankList = result.filter(x=>x.status=="Active")
+      let temp = { id: undefined,status:'Active', name: 'test', isLastRow: true }
+      // lastrow
+      this.bankList = [...result.filter(x=>x.status=="Active"), temp];
+      this.bankObj = result.find((item) => this.addForm.get('bankId').value == item.id)
+
     },
       error => {
         console.error(error);
@@ -153,8 +162,26 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
       ]],
     });
   }
-
-
+selectWpsGroup(args){
+  this.addForm.patchValue({
+    groupId: args.value.id
+  })
+}
+selectBank(args){
+  this.addForm.patchValue({
+    bankId: args.value.id
+  })
+}
+refreshWpsGroup(event){
+  event.stopPropagation();
+  event.preventDefault();
+  this.getWPSGrouplist()
+}
+refreshBank(event){
+  event.stopPropagation();
+  event.preventDefault();
+  this.getWPSBanklist()
+}
 }
 
 

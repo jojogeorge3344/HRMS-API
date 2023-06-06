@@ -9,6 +9,7 @@ import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { result } from 'lodash';
 import { EmployeeWpsBankerService } from '../employee-wps-bank.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'hrms-employee-wps-details',
@@ -17,7 +18,7 @@ import { EmployeeWpsBankerService } from '../employee-wps-bank.service';
 })
 export class EmployeeWpsDetailsComponent implements OnInit {
 
-  wpsUserDetails: WpsUser[] = [];
+  wpsUserDetails:any;
   addForm: FormGroup;
   editForm: FormGroup;
   groupId: any;
@@ -31,6 +32,8 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   accountNo:any
   bankList: any;
   detailsUpdate: any;
+  wpsGroupObj:any;
+  bankObj:any;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,15 +51,16 @@ export class EmployeeWpsDetailsComponent implements OnInit {
     this.route.params.subscribe((params: any) => {
       this.id = parseInt(params.id, 10);
     });
-    this.getWPSGrouplist();
-    this.getWPSUserlistById();
     // this.getMolId(this.id)
-    this.getWPSBanklist()
+    this.fillDropDowns()
   }
 
   getWPSGrouplist() {
     this.employeeWpsService.getAll().subscribe(result => {
       this.groupId = result;
+      let temp = { id: undefined, groupName: 'test', isLastRow: true }
+        // lastrow
+        this.groupId = [...result, temp];
     },
       error => {
         console.error(error);
@@ -65,11 +69,14 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   }
 
   getWPSUserlistById() {
+    debugger
     this.employeeWpsUserService.get(this.id).subscribe(result => {
-      this.wpsUserDetails = result;
+      this.wpsUserDetails = result[0];
       this.wpsId=result[0].wpsId;
       this.detailsUpdate=result[0].id
       this.addForm.patchValue(result[0]);
+      this.wpsGroupObj = this.setValueById(this.groupId, this.wpsUserDetails.groupId)
+      this.bankObj = this.setValueById(this.bankList, this.wpsUserDetails.bankId)
     },
       error => {
         console.error(error);
@@ -124,7 +131,10 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   // }
   getWPSBanklist() {
     this.employeeWpsBankerService.getBank().subscribe(result => {
-      this.bankList = result.filter(x=>x.status=="Active");
+      let temp = { id: undefined,status:'Active', name: 'test', isLastRow: true }
+      // lastrow
+      this.bankList = [...result.filter(x=>x.status=="Active"), temp];
+      this.bankObj = result.find((item) => this.addForm.get('bankId').value == item.id)
     },
       error => {
         console.error(error);
@@ -176,8 +186,41 @@ export class EmployeeWpsDetailsComponent implements OnInit {
       ]],
     });
   }
+  selectWpsGroup(args){
+    this.addForm.patchValue({
+      groupId: args.value.id
+    })
+  }
+  selectBank(args){
+    this.addForm.patchValue({
+      bankId: args.value.id
+    })
+  }
+  refreshWpsGroup(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getWPSGrouplist()
+  }
+  refreshBank(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getWPSBanklist()
+  }
+  setValueById(list: any, value) {
+    console.log("list", list, value);
 
-
-  
+    return list?.find((item) => value == item.id)
+  }
+  fillDropDowns() {
+    forkJoin([
+      this.employeeWpsService.getAll(),
+      this.employeeWpsBankerService.getBank()
+    ]).subscribe(res => {
+      let temp = { id: undefined,status:'Active',groupName: 'test', name: 'test', isLastRow: true };
+      this.groupId = [...res[0], temp];
+      this.bankList = [...res[1].filter(x=>x.status=="Active"), temp];
+      this.getWPSUserlistById();
+    })
+  }
 
 }

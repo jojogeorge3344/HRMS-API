@@ -49,7 +49,7 @@ export class HolidayCategoryCreateComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(32)]],
       year: [this.currentYear, [
         Validators.required,
       ]],

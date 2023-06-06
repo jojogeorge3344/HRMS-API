@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
 using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
@@ -54,7 +55,7 @@ namespace Chef.HRMS.Repositories
                 return await Connection.QueryAsync<EmployeeView>(sql);
         }
 
-        public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId,int leaveId)
+        public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId)
         {
 
                 var sql = @"SELECT  e.id, 
@@ -78,7 +79,7 @@ namespace Chef.HRMS.Repositories
 									jf.overtimepolicyid               AS overtimepolicyid,
                                     jd.dateofjoin                     AS dateofjoin,
 									d.name                            AS documentname,
-									d.path                            AS documentpath									
+									d.path                            AS documentpath
                             FROM hrms.HRMSEmployee AS e 
                             LEFT JOIN hrms.jobdetails AS jd 
                                     ON e.id = jd.employeeid
@@ -91,10 +92,9 @@ namespace Chef.HRMS.Repositories
 							INNER JOIN hrms.document d
 							        ON ld.documentid = d.id
                             WHERE   e.id = @employeeId
-                            AND l.id = @leaveId
                             ORDER BY e.id";
 
-                return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId , leaveId });
+                return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId });
         }
 
         public async Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId)
@@ -160,6 +160,50 @@ namespace Chef.HRMS.Repositories
                         AND em.isarchived = false";
 
             return await Connection.QueryFirstOrDefaultAsync<LoginEmployeeView>(sql, new { employeeId });
+        }
+
+        public async Task<EmployeeView> GetEmployeeEditLeaveDetails(int employeeId, int leaveId)
+        {
+            var sql = @"SELECT  e.id, 
+                                    e.firstname, 
+                                    e.middlename, 
+                                    e.lastname, 
+                                    e.email, 
+                                    e.filenumber,
+                                    e.uidnumber,
+                                    e.languageknown,
+                                    jd.id                             AS jobdetailsid, 
+                                    jd.department, 
+                                    jd.location, 
+                                    jd.employeenumber                 AS employeenumber,
+                                    jf.id                             AS jobfilingid,
+									jf.leavestructureid               AS leavestructureid,
+									jf.shiftid                        AS shiftid,
+									jf.holidaycategoryid              AS holidaycategoryid,
+									jf.expensepolicyid                AS expensepolicyid,
+									jf.payrollstructureid             AS payrollstructureid,
+									jf.overtimepolicyid               AS overtimepolicyid,
+                                    jd.dateofjoin                     AS dateofjoin,
+									d.name                            AS documentname,
+									d.path                            AS documentpath,
+                                    d.id                              AS documentid
+                            FROM hrms.HRMSEmployee AS e 
+                            LEFT JOIN hrms.jobdetails AS jd 
+                                    ON e.id = jd.employeeid
+                            LEFT JOIN hrms.jobfiling AS jf 
+                                    ON e.id = jf.employeeid
+                            INNER JOIN hrms.leave l
+							        ON l.employeeid = e.id
+							LEFT JOIN hrms.leavedocument ld
+							        ON ld.leaveid = l.id
+							LEFT JOIN hrms.document d
+							        ON ld.documentid = d.id
+                            WHERE   e.id = @employeeId
+                            AND l.id = @leaveId
+                            ORDER BY e.id"
+            ;
+
+            return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId, leaveId });
         }
     }
 }

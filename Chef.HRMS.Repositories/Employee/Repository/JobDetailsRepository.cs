@@ -11,13 +11,6 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<JobDetails> GetByEmployeeId(int employeeId)
-        {
-            var sql = @"SELECT * FROM hrms.jobdetails where employeeid = @employeeId";
-
-            return await Connection.QueryFirstAsync<JobDetails>(sql, new { employeeId });
-        }
-
         public async Task<IEnumerable<GroupCategory>> GetGroupCategory()
         {
             var sql = @"SELECT*FROM hrms.category WHERE isarchived=false";   
