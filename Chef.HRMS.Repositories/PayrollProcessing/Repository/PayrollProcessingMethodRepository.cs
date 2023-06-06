@@ -387,15 +387,18 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid)
         {
-            var sql = @"SELECT distinct ppm.employeeid,eos.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
-                        FROM hrms.payrollprocessingmethod ppm
-                        left join hrms.hrmsemployee emp on emp.id = ppm.employeeid 
-                        left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
-                        Left Join  hrms.jobfiling jf on jf.employeeid = ppm.employeeid 
+            var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
+                        FROM 
+                        hrms.jobfiling jf
+                        left join hrms.hrmsemployee emp on emp.id = jf.employeeid 
+                        left join hrms.jobdetails jd on jd.employeeid = jf.employeeid
 						Join hrms.endofservice eos on eos.id = jf.eosid
-                        Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
-                        WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
-            //, esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+                        Join hrms.slab slb on slb.eosid = eos.id
+                        Join hrms.employeesalaryconfigurationdetails esd on eos.id = esd.payrollcomponentid
+                        WHERE jf.paygroupid = @paygroupid and eos.employeeeosaccrualtype = 30";
+
+            //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
+            //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
             return await Connection.QueryAsync<EndOfService>(sql, new { paygroupid });
         }
 

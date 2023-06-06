@@ -66,11 +66,6 @@ namespace Chef.HRMS.Models.PayrollProcessing
         [SqlKata.Ignore]
         public decimal LopDaysInCalMonth { get; set; }
 
-        //[Write(false)]
-        //[Skip(true)]
-        //[SqlKata.Ignore]
-        //public int CFLimitDays { get; set; }
-
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
@@ -79,7 +74,7 @@ namespace Chef.HRMS.Models.PayrollProcessing
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
-        public int EligibilityBase { get; set; }
+        public decimal EligibilityBase { get; set; }
 
         [Write(false)]
         [Skip(true)]

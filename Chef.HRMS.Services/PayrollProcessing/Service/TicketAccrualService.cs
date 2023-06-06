@@ -36,7 +36,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
         public async Task<int> SaveTicketAccruals(List<TicketAccrual> ticketAccruals)
         {
-            return 0;
+            throw new System.NotImplementedException();
         }
 
         public async Task<int> GenerateTicketAvailed(TicketAccrual leaveAvailedDetails)
@@ -79,7 +79,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             //    throw new ResourceNotFoundException("Leave availed details is null.");
             //}
 
-            return 0;
+            throw new System.NotImplementedException();
 
         }
 

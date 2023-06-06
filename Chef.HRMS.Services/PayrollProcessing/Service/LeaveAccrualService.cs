@@ -53,7 +53,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                 // Get previous accrual summary details for this employee
                 DateTime now = DateTime.Now;
-                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(leaveAvailedDetails.EmployeeId, 1, now.Month, now.Year);
+                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(leaveAvailedDetails.EmployeeId);
 
                 if (prevAccrualSummaryDetails != null)
                 {
@@ -111,7 +111,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 }
 
                 // Get previous accrual summary details for eligible employee
-                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId, 1, now.Month, now.Year);
+                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId);
 
                // LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
                 //leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
