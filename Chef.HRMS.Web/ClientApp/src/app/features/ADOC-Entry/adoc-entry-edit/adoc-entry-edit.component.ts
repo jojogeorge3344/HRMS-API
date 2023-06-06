@@ -34,6 +34,7 @@ export class AdocEntryEditComponent implements OnInit {
   adhocObj;
   selectedDatasource:any;
   adhoc;
+  isLoading=false;
 
   @Input() listItem;
 
@@ -77,11 +78,13 @@ export class AdocEntryEditComponent implements OnInit {
 
 
   getEmployeeList(){
+    this.isLoading=true;
     this.employeeService.getAll()
     .subscribe((result)=>{
      let temp = { id: undefined, firstName: 'test', isLastRow: true }
      // lastrow
      this.employeeList = [...result, temp];
+     this.isLoading=false;
      this.empObj=result.find((item)=>this.editForm.get('employeeId').value==item.id)
 
     })
@@ -95,11 +98,13 @@ export class AdocEntryEditComponent implements OnInit {
   }
   getAdhocBfCode()
   {
+    this.isLoading=true;
     this.adocEntryService.getAdhocBfCode()
     .subscribe((result) =>{
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.adhoc = [...result, temp];
+      this.isLoading=false;
       this.adhocObj=result.find((item)=>this.editForm.get('adhocBFCode').value==item.id)
     })
   }

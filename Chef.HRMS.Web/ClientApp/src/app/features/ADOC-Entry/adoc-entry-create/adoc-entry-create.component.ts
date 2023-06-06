@@ -33,7 +33,7 @@ export class AdocEntryCreateComponent implements OnInit {
   employee;
   empObj;
   adhocObj;
-
+  isLoading=false;
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -53,22 +53,24 @@ export class AdocEntryCreateComponent implements OnInit {
 
 
   getEmployeeList() {
+    this.isLoading=true;
     this.employeeService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
         // lastrow
         this.employeeList = [...result, temp];
+        this.isLoading=false;
       })
   }
 
-  getAdhocBfCode()
-  {
+  getAdhocBfCode(){
+    this.isLoading=true;
     this.adocEntryService.getAdhocBfCode()
     .subscribe((result) =>{
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.adhoc = [...result, temp];
-
+      this.isLoading=false;
     })
   }
 
