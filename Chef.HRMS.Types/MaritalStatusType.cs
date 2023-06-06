@@ -6,6 +6,6 @@
     public enum MaritalStatusType
     {
         Married = 1,
-        Unmarried
+        Unmarried = 2
     }
 }
