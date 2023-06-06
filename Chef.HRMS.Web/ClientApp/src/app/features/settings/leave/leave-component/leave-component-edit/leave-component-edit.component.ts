@@ -201,8 +201,7 @@ export class LeaveComponentEditComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.editForm.value.showLeaveDescription==true || this.editForm.value.isPaidLeave==true||this.editForm.value.isUnpaidLeave==true ||
-      this.editForm.value.isSickLeave==true || this.editForm.value.isStatutoryLeave==true ||this.editForm.value.isRestrictedToGender==true||this.editForm.value.isRestrictedToMaritalStatus==true )
+    if(this.editForm.value.isPaidLeave==true || this.editForm.value.isUnpaidLeave==true || this.editForm.value.isSickLeave==true)
       {
     this.leaveComponentService.update(this.editForm.getRawValue()).subscribe(
       (result: any) => {
@@ -222,7 +221,7 @@ export class LeaveComponentEditComponent implements OnInit {
       }
     );
       }else{
-        this.toastr.showWarningMessage("Please choose atleast one leave category!");
+        this.toastr.showWarningMessage("Please choose  one leave category!");
       }
   }
 
@@ -562,4 +561,33 @@ delete(relDetails: LeaveSlabGroup) {
   //   }
 
   // }
+
+  paidLeaveChecked(event){
+    if(event=='on'){
+      this.editForm.patchValue({
+        isUnpaidLeave:false,
+        isSickLeave:false
+      })
+     
+    }
+
+  }
+  unpaidLeaveChecked(event){
+    if(event=='on'){
+      this.editForm.patchValue({
+        isPaidLeave:false,
+        isSickLeave:false
+      })
+    }
+
+  }
+  sickLeaveChecked(event){
+    if(event=='on'){
+      this.editForm.patchValue({
+        isUnpaidLeave:false,
+        isPaidLeave:false
+      })
+    }
+
+  }
 }
