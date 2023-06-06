@@ -68,4 +68,11 @@ export class EmployeeService {
   getLoginEmployee(id){
     return this.http.get<Employee[]>(this.baseUrl + 'GetLoginEmployee/' + id).pipe(map(response => { return response; }));
   }
+  getDetailsByFile(id,leaveRowId) {
+    return this.http.get<Employee>(this.baseUrl + 'GetEmployeeEditLeaveDetails/' + id + "/" + leaveRowId)
+      .pipe
+      (map(response => {
+        return response
+      }));
+  }
 }
