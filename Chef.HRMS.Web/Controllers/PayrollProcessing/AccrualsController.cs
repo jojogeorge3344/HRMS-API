@@ -49,9 +49,11 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpPost("GenerateFinancialEntry/{payrollprocessingId}")]
-        public async Task<ActionResult<LeaveAccrual>> GenerateFinancialEntry(int payrollProcessingId)
+        [HttpPost("GenerateFinancialEntry/{paygroupId}")]
+        public async Task<ActionResult<int>> GenerateFinancialEntry(int paygroupId)
         {
+
+            int i = 0;
             //var leaveAccrualList = await leaveAccrualService.GenerateLeaveAvailed(availedLeaveDetails);
 
             //if (leaveAccrualList == null)
@@ -59,7 +61,7 @@ namespace Chef.HRMS.Web.Controllers
             //    return NotFound();
             //}
 
-            return Ok();
+            return Ok(i);
         }
 
         [HttpPost("GetProcessedAccruals/{paygroupId}")]

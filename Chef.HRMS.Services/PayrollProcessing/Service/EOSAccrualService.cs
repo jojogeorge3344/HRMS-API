@@ -96,16 +96,16 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 eosAccrualEmployee.IsArchived = false;
                 eosAccrualEmployee.AvailAmount = 0;
                 eosAccrualEmployee.AvailDays = 0;
-                eosAccrualEmployee.EligibilityBase = eligibleEmployee.EligibilityBase; //Need to check 
-                eosAccrualEmployee.CFLimitDays = eligibleEmployee.CFLimitDays;
-                eosAccrualEmployee.IsIncludeLOPDays = eligibleEmployee.IncludeLOPDays;
-                eosAccrualEmployee.LeaveCutOffType = eligibleEmployee.LeaveCutOffType;
+                //eosAccrualEmployee.EligibilityBase = eligibleEmployee.EligibilityBase; //Need to check 
+                //eosAccrualEmployee.CFLimitDays = eligibleEmployee.CFLimitDays;
+                //eosAccrualEmployee.IsIncludeLOPDays = eligibleEmployee.IncludeLOPDays;
+                //eosAccrualEmployee.LeaveCutOffType = eligibleEmployee.LeaveCutOffType;
                 eosAccrualEmployee.MonthlyAmount = eligibleEmployee.MonthlyAmount;
 
                 var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
                 if (systemVariableValues != null)
                 {
-                    eosAccrualEmployee.EligibilityPerDay = (decimal)eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase;
+                   // eosAccrualEmployee.EligibilityPerDay = (decimal)eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase;
                     eosAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
                     eosAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;
                     eosAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Lop_Dys_Cldr_mth").TransValue;
@@ -147,27 +147,27 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 else
                 {
 
-                    if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays)
-                    {
-                        //no entry to be made into both tables - LeaveAccrual and LeaveSummary
-                        continue;
-                    }
-                    else
-                    {
+                    //if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays)
+                    //{
+                    //    //no entry to be made into both tables - LeaveAccrual and LeaveSummary
+                    //    continue;
+                    //}
+                    //else
+                    //{
                         decimal currentAccrual = eosAccrualEmployee.EligibilityPerDay * eosAccrualEmployee.WorkeddaysInCalMonth;
                         decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
 
-                        if (totalAccrualDays > eligibleEmployee.CFLimitDays)
-                        {
-                            eosAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
-                        }
-                        else
-                        {
-                            eosAccrualEmployee.AccrualDays = currentAccrual;
-                        }
-                    }
+                        //if (totalAccrualDays > eligibleEmployee.CFLimitDays)
+                        //{
+                        //    eosAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
+                        //}
+                        //else
+                        //{
+                        //    eosAccrualEmployee.AccrualDays = currentAccrual;
+                        //}
+                   // }
                 }
-                eosAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * eosAccrualEmployee.AccrualDays;
+              //  eosAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * eosAccrualEmployee.AccrualDays;
                 eosAccruals.Add(eosAccrualEmployee);
             }
             return eosAccruals;
