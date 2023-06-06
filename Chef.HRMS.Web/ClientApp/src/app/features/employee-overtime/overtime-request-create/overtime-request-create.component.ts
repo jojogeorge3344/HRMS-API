@@ -62,7 +62,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   employeeLogin: any;
   config;
   requestTypes = RequestStatus;
-
+  isLoading=false;
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
 
   constructor(
@@ -96,13 +96,14 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.getLoginEmployeeDetail()
   }
   getEmployeeList() {
-    debugger
+    this.isLoading=true;
     this.employeeService.getAll().subscribe(result => {
       this.employeeList = result.filter(employee => employee.id !== this.currentUserId);
       if(this.employeeDetailsCheck==false){
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
         this.employeeDetails = [...result, temp];
+        this.isLoading=false
         this.selectEnable=true
       }
     },
@@ -511,6 +512,7 @@ getLoginEmployeeDetail(){
   })
 }
 selectEmployee(args){
+  debugger
   if(args.value && args.value.id){
     this.addForm.patchValue({
       employeeName:args.value.firstName,
@@ -523,7 +525,8 @@ selectEmployee(args){
     })  
   }
 }
-refreshRequestedBy(event){
+refreshEmployee(event){
+  debugger
   event.stopPropagation();
   event.preventDefault();
   this.getEmployeeList();

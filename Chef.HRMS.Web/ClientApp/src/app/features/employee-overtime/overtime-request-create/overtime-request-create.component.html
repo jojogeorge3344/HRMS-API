@@ -11,13 +11,15 @@
             >
             <p-dropdown style="margin-right: 20px;" [showClear]="true" [(ngModel)]="empObj" [disabled]="disableRequestedBy" [ngModelOptions]="{standalone: true}" [filter]="true" 
             class="pngCustomClass" [options]="employeeDetails" optionValue="id"
-            (onChange)="selectEmployee($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="employeeName">
+            (onChange)="!(item?.value?.isLastRow) ? selectEmployee($event) : ''" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="employeeName">
               <ng-template let-item pTemplate="item" >  
                 <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                   {{item?.value.firstName}} 
                 </div> 
                 <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshEmployee($event)">
                   <a  class="link-primary ref"><u>Refresh</u></a>
+                  <div *ngIf="isLoading==true" class="spinner-border ml-1">
+              </div>
                </div>
             </ng-template>
             </p-dropdown>
