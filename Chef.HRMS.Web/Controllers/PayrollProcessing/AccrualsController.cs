@@ -43,8 +43,8 @@ namespace Chef.HRMS.Web.Controllers
                 result = await leaveAccrualSummaryService.GenerateAndInsertLeaveAccrualSummary(accrualsList.LeaveAccruals);
             }
 
-            result = await eosAccrualService.SaveEOSAccruals(accrualsList.EOSAccruals);
-            result = await ticketAccrualService.SaveTicketAccruals(accrualsList.TicketAccruals);
+           // result = await eosAccrualService.SaveEOSAccruals(accrualsList.EOSAccruals);
+           // result = await ticketAccrualService.SaveTicketAccruals(accrualsList.TicketAccruals);
 
             return Ok(result);
         }

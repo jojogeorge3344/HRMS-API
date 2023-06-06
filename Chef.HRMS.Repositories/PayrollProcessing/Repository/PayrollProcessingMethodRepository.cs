@@ -370,7 +370,7 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
         }
 
-        public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsByPayGroupId(int paygroupid)
+        public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid)
         {
             var sql = @"SELECT distinct ppm.employeeid,le.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
                         FROM hrms.payrollprocessingmethod ppm
@@ -383,6 +383,20 @@ namespace Chef.HRMS.Repositories
                         WHERE ppm.paygroupid = @paygroupid and le.leavetype = 1";
             //, esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
             return await Connection.QueryAsync<LeaveEligibility>(sql, new { paygroupid });
+        }
+
+        public async Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid)
+        {
+            var sql = @"SELECT distinct ppm.employeeid,eos.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
+                        FROM hrms.payrollprocessingmethod ppm
+                        left join hrms.hrmsemployee emp on emp.id = ppm.employeeid 
+                        left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
+                        Left Join  hrms.jobfiling jf on jf.employeeid = ppm.employeeid 
+						Join hrms.endofservice eos on eos.id = jf.eosid
+                        Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+                        WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
+            //, esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+            return await Connection.QueryAsync<EndOfService>(sql, new { paygroupid });
         }
 
         public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)

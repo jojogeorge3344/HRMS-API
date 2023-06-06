@@ -10,8 +10,8 @@ namespace Chef.HRMS.Services.PayrollProcessing.Interface
 {
     public interface IEOSAccrualService : IAsyncService<EOSAccrual>
     {
-        Task<IEnumerable<EOSAccrual>> GenerateEOSAccruals(int paygroupid);
-        Task<int> GenerateEOSAvailed(EOSAccrual eosAvailedDetails);
-        Task<int> SaveEOSAccruals(List<EOSAccrual> endOfServiceAccruals);
+        Task<IEnumerable<EOSAccrual>> GenerateEndOfServiceAccruals(int paygroupid);
+        Task<int> GenerateEndOfServiceAvailed(EOSAccrual eosAvailedDetails);
+        Task<int> SaveEndOfServiceAccruals(List<EOSAccrual> endOfServiceAccruals);
     }
 }

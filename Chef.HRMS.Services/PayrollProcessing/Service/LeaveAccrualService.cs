@@ -80,7 +80,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             List<LeaveAccrual> leaveAccruals = new List<LeaveAccrual>();
           //  List<LeaveAccrualSummary> leaveAccrualSummaries = new List<LeaveAccrualSummary>();
 
-            var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
+            var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForLeaveAccrual(paygroupid);
             foreach (var eligibleEmployee in employeeLeaveEligibilityDetails)
             {
                 var now = DateTime.Now;

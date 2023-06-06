@@ -15,6 +15,7 @@ using System.Drawing;
 using Chef.HRMS.Types;
 using Chef.Common.Exceptions;
 using Chef.HRMS.Models.PayrollProcessing;
+using Chef.HRMS.Repositories.PayrollProcessing.Repository;
 
 namespace Chef.HRMS.Services.PayrollProcessing.Service
 {
@@ -34,163 +35,160 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             this.systemVariableValuesRepository = systemVariableValuesRepository;
         }
 
-        public async Task<int> SaveEOSAccruals(List<EOSAccrual> endOfServiceAccruals)
+        public async Task<int> GenerateEndOfServiceAvailed(EOSAccrual endOfServiceAvailed)
         {
+            //Make an entry in the eos accrual table with value in availdays and availamount 
+            //Make an entry in the eos accrual summary table - reducing the availdays from the accrueddays for specific employee
+            //AvailAmount to be sent in the eos availed details 
+
+            //EOSAccrual employeeEOSAccrual = new EOSAccrual();
+            //EOSAccrualSummary eosAccrualSummary = new EOSAccrualSummary();
+
+            //if (endOfServiceAvailed != null)
+            //{
+            //    employeeEOSAccrual.EmployeeId = endOfServiceAvailed.EmployeeId;
+            //    employeeEOSAccrual.AccrualStatus = 0; //Pending
+            //    employeeEOSAccrual.IsArchived = false;
+            //    employeeEOSAccrual.AvailAmount = 0;
+            //    employeeEOSAccrual.AvailDays = endOfServiceAvailed.AvailDays;
+            //    //employeeEOSAccrual.LeaveId = endOfServiceAvailed.LeaveId;
+
+            //    // Get previous accrual summary details for this employee
+            //    DateTime now = DateTime.Now;
+            //    var prevEOSAccrualSummaryDetails = await eosAccrualSummaryRepository.GetPreviousEOSAccrualSummary(endOfServiceAvailed.EmployeeId);
+
+            //    if (prevEOSAccrualSummaryDetails != null)
+            //    {
+            //        employeeEOSAccrual.EmployeeId = endOfServiceAvailed.EmployeeId;
+            //        employeeEOSAccrual.AvailDays = endOfServiceAvailed.AvailDays;
+            //        employeeEOSAccrual.AvailAmount = endOfServiceAvailed.AvailAmount;
+            //        //employeeEOSAccrual.LeaveId = endOfServiceAvailed.LeaveId;
+            //        employeeEOSAccrual.AccrualDate = endOfServiceAvailed.AccrualDate;
+            //        employeeEOSAccrual.AccrualDays = (decimal)prevEOSAccrualSummaryDetails.AccrualDays - endOfServiceAvailed.AvailDays;
+            //        employeeEOSAccrual.AccrualAmount = prevEOSAccrualSummaryDetails.AccrualAmount - endOfServiceAvailed.AvailAmount;
+            //    }
+            //    var result = await leaveAccrualRepository.InsertAsync(employeeLeaveAccrual);
+            //    return await leaveAccrualSummaryRepository.InsertAsync(leaveAccrualSummary);
+            //}
+            //else
+            //{
+            //    throw new ResourceNotFoundException("Leave availed details is null.");
+            //}
             return 0;
         }
 
-        public async Task<int> GenerateEOSAvailed(EOSAccrual eosAvailedDetails)
+        public async Task<IEnumerable<EOSAccrual>> GenerateEndOfServiceAccruals(int paygroupid)
         {
-            //Make an entry in the leave accrual table with value in availdays and availamount 
-            //Make an entry in the leave accrual summary table - reducing the availdays from the accrueddays for specific employee
-            //AvailAmount to be sent in the leaveAvailedDetails 
+            List<EOSAccrual> eosAccruals = new List<EOSAccrual>();
 
-            EOSAccrual eosLeaveAccrual = new EOSAccrual();
-            EOSAccrualSummary eosAccrualSummary = new EOSAccrualSummary();
-
-            if (eosAvailedDetails != null)
+            var employeeEOSEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForEOSAccrual(paygroupid);
+            foreach (var eligibleEmployee in employeeEOSEligibilityDetails)
             {
-                //   ticketLeaveAccrual.EmployeeId = leaveAvailedDetails.EmployeeId;
-                //   ticketLeaveAccrual.AccrualStatus = 0; //Pending
-                //   ticketLeaveAccrual.IsArchived = false;
-                // //  ticketLeaveAccrual.AvailAmount = 0;
-                // //  employeeLeaveAccrual.AvailDays = leaveAvailedDetails.AvailDays;
-                ////   employeeLeaveAccrual.LeaveId = leaveAvailedDetails.LeaveId;
+                var now = DateTime.Now;
+                int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
 
-                //   // Get previous accrual summary details for this employee
-                //   DateTime now = DateTime.Now;
-                //   var prevAccrualSummaryDetails = await ticketAccrualSummaryRepository.GetPreviousAccrualSummary(leaveAvailedDetails.EmployeeId, 1, now.Month, now.Year);
+                EOSAccrual eosAccrualEmployee = new EOSAccrual();
+                eosAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
+                eosAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
+                eosAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
+                eosAccrualEmployee.AccrualStatus = 0; //Pending
+                eosAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
+                eosAccrualEmployee.IsArchived = false;
+                eosAccrualEmployee.AvailAmount = 0;
+                eosAccrualEmployee.AvailDays = 0;
+                eosAccrualEmployee.EligibilityBase = eligibleEmployee.EligibilityBase; //Need to check 
+                eosAccrualEmployee.CFLimitDays = eligibleEmployee.CFLimitDays;
+                eosAccrualEmployee.IsIncludeLOPDays = eligibleEmployee.IncludeLOPDays;
+                eosAccrualEmployee.LeaveCutOffType = eligibleEmployee.LeaveCutOffType;
+                eosAccrualEmployee.MonthlyAmount = eligibleEmployee.MonthlyAmount;
 
-                //   if (prevAccrualSummaryDetails != null)
-                //   {
-                //       ticketLeaveAccrual.EmployeeId = leaveAvailedDetails.EmployeeId;
-                //       //leaveAccrualSummary.AvailDays = leaveAvailedDetails.AvailDays;
-                //       //leaveAccrualSummary.AvailAmount = leaveAvailedDetails.AvailAmount;
-                //       //leaveAccrualSummary.LeaveId = leaveAvailedDetails.LeaveId;
-                //       ticketLeaveAccrual.AccrualDate = leaveAvailedDetails.AccrualDate;
-                //       //leaveAccrualSummary.AccrualDays = prevAccrualSummaryDetails.AccrualDays - leaveAvailedDetails.AvailDays;
-                //       //leaveAccrualSummary.AccrualAmount = prevAccrualSummaryDetails.AccrualAmount - leaveAvailedDetails.AvailAmount;
-                //   }
-                //   var result = await ticketAccrualRepository.InsertAsync(ticketLeaveAccrual);
-                //   return await ticketAccrualSummaryRepository.InsertAsync(ticketAccrualSummary);
-                return 1;
+                var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
+                if (systemVariableValues != null)
+                {
+                    eosAccrualEmployee.EligibilityPerDay = (decimal)eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase;
+                    eosAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
+                    eosAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;
+                    eosAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Lop_Dys_Cldr_mth").TransValue;
+                }
+
+                // Get previous accrual summary details for eligible employee
+                var prevAccrualSummaryDetails = await eosAccrualSummaryRepository.GetPreviousEOSAccrualSummary(eligibleEmployee.EmployeeId);
+                var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
+                // leaveAccrualSummary.AccrualDate = firstDayNextMonth;
+
+                if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+                {
+                    throw new ResourceNotFoundException("EOS Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                }
+
+                //bool isLeaveCutOff = false;
+                //if ((LeaveCutOffType.YearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
+                //    || (LeaveCutOffType.HalfYearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 6)
+                //    || (LeaveCutOffType.QuarterEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 3)
+                //    || (LeaveCutOffType.MonthEnd == eligibleEmployee.LeaveCutOffType)
+                //    )
+                //{
+                //    isLeaveCutOff = true;
+                //}
+
+                if (prevAccrualSummaryDetails == null) // || isLeaveCutOff
+                {
+                    //No need to check cutoff or carry forward as there is no previous entry for this employee
+                    //Need to check on the LOP days logic 
+                    if (eligibleEmployee.IncludeLOPDays)
+                    {
+                        eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * eosAccrualEmployee.WorkeddaysInCalMonth;
+                    }
+                    else
+                    {
+                        eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * eosAccrualEmployee.WorkingdaysInCalMonth;
+                    }
+                }
+                else
+                {
+
+                    if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays)
+                    {
+                        //no entry to be made into both tables - LeaveAccrual and LeaveSummary
+                        continue;
+                    }
+                    else
+                    {
+                        decimal currentAccrual = eosAccrualEmployee.EligibilityPerDay * eosAccrualEmployee.WorkeddaysInCalMonth;
+                        decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
+
+                        if (totalAccrualDays > eligibleEmployee.CFLimitDays)
+                        {
+                            eosAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
+                        }
+                        else
+                        {
+                            eosAccrualEmployee.AccrualDays = currentAccrual;
+                        }
+                    }
+                }
+                eosAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * eosAccrualEmployee.AccrualDays;
+                eosAccruals.Add(eosAccrualEmployee);
             }
-            else
-            {
-                throw new ResourceNotFoundException("Leave availed details is null.");
-            }
-
+            return eosAccruals;
         }
 
-        public async Task<IEnumerable<EOSAccrual>> GenerateEOSAccruals(int paygroupid)
+        public async Task<int> SaveEndOfServiceAccruals(List<EOSAccrual> endOfServiceAccruals)
         {
-            List<EOSAccrual> ticketAccruals = new List<EOSAccrual>();
-            List<EOSAccrualSummary> ticketAccrualSummaries = new List<EOSAccrualSummary>();
-            return ticketAccruals;
-            //var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
-            //foreach (var eligibleEmployee in employeeLeaveEligibilityDetails)
-            //{
-            //    var now = DateTime.Now;
-            //    int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
-
-            //    LeaveAccrual leaveAccrualEmployee = new LeaveAccrual();
-            //    leaveAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
-            //    leaveAccrualEmployee.AccrualStatus = 0; //Pending
-            //    leaveAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
-            //    leaveAccrualEmployee.IsArchived = false;
-            //    leaveAccrualEmployee.AvailAmount = 0;
-            //    leaveAccrualEmployee.AvailDays = 0;
-            //    leaveAccrualEmployee.LeaveId = 0;
-
-            //    var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
-            //    decimal workingdaysInCalMonth = 0;
-            //    decimal workeddaysInCalMonth = 0;
-            //    decimal eligibilityPerDay = 0;
-            //    if (systemVariableValues != null)
-            //    {
-            //        eligibilityPerDay = (decimal)eligibleEmployee.EligibleDays /eligibleEmployee.EligibilityBase;
-            //        workingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
-            //        workeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;     
-            //    }
-
-            //    // Get previous accrual summary details for eligible employee
-            //    var prevAccrualSummaryDetails = await ticketAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId, 1, now.Month, now.Year);
-
-            //    LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
-            //    leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
-            //    leaveAccrualSummary.AvailDays = 0;
-            //    leaveAccrualSummary.AvailAmount = 0;
-            //    leaveAccrualSummary.LeaveId = 0;
-            //    var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
-            //    leaveAccrualSummary.AccrualDate = firstDayNextMonth;
-
-            //    if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
-            //    {
-            //        throw new ResourceNotFoundException("Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-            //    }
-            //    bool isLeaveCutOff = false;
-            //    if ((LeaveCutOffType.YearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
-            //        || (LeaveCutOffType.HalfYearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 6)
-            //        || (LeaveCutOffType.QuarterEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 3)
-            //        || (LeaveCutOffType.MonthEnd == eligibleEmployee.LeaveCutOffType)
-            //        )
-            //    {
-            //        isLeaveCutOff = true;
-            //    }
-
-            //    if (prevAccrualSummaryDetails == null || isLeaveCutOff)
-            //    {
-            //        //No need to check cutoff or carry forward as there is no previous entry for this employee
-
-            //        if (eligibleEmployee.IsIncludeLOPDays)
-            //        {
-            //            leaveAccrualEmployee.AccrualDays = eligibilityPerDay * workeddaysInCalMonth;
-            //        }
-            //        else
-            //        {
-            //            leaveAccrualEmployee.AccrualDays = eligibilityPerDay * workingdaysInCalMonth;
-            //        }
-                    
-            //        //Insert into Accrual summary table 
-            //        leaveAccrualSummary.AccrualDays = leaveAccrualEmployee.AccrualDays;
-            //        leaveAccrualSummary.AccrualAmount = leaveAccrualEmployee.AccrualAmount;
-            //    }
-            //    else 
-            //    {
-
-            //        if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays)
-            //        {
-            //            //no entry to be made into both tables - LeaveAccrual and LeaveSummary
-            //            continue;
-            //        }
-            //        else
-            //        {
-            //            decimal currentAccrual = eligibilityPerDay * workeddaysInCalMonth;
-            //            decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
-
-            //            if (totalAccrualDays > eligibleEmployee.CFLimitDays)
-            //            {
-            //                leaveAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
-            //                leaveAccrualSummary.AccrualDays = eligibleEmployee.CFLimitDays;
-            //            }
-            //            else
-            //            {
-            //                leaveAccrualEmployee.AccrualDays = currentAccrual;
-            //                leaveAccrualSummary.AccrualDays = totalAccrualDays;
-            //            }
-            //        }
-            //    }
-            //    leaveAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * leaveAccrualEmployee.AccrualDays;
-            //    leaveAccrualSummary.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibilityBase) * leaveAccrualSummary.AccrualDays;
-            //    leaveAccruals.Add(leaveAccrualEmployee);
-            //    leaveAccrualSummaries.Add(leaveAccrualSummary);
-            //}
-
-            //var result = await leaveAccrualSummaryRepository.BulkInsertAsync(leaveAccrualSummaries);
-            //result = await leaveAccrualRepository.BulkInsertAsync(leaveAccruals);
-            //return leaveAccruals;
+            var result = await eosAccrualRepository.BulkInsertAsync(endOfServiceAccruals);
+            //return result;
+            return 0;
         }
 
+        public async Task<List<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid, DateTime accrualDate)
+        {
+
+            var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForEOSAccrual(paygroupid);
+            List<int> employeeIds = new List<int>();
+            employeeIds = employeeLeaveEligibilityDetails.Select(c => c.Id).ToList();
+
+            return (List<LeaveAccrual>)await eosAccrualRepository.GetProcessedEOSAccruals(accrualDate);
+        }
         public Task<int> DeleteAsync(int id)
         {
             throw new System.NotImplementedException();
