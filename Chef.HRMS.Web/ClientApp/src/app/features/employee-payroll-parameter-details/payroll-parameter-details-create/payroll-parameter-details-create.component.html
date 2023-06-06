@@ -34,6 +34,8 @@
                     </div> 
                     <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshUserVariables($event)">
                       Refresh
+                      <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                      </div>
                    </div>
                 </ng-template>
                 </p-dropdown>
@@ -82,6 +84,8 @@
                         </div> 
                         <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshEmployee($event)">
                           <a  class="link-primary ref"><u>Refresh</u></a>
+                          <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                          </div>
                        </div>
                     </ng-template>
                     </p-dropdown>

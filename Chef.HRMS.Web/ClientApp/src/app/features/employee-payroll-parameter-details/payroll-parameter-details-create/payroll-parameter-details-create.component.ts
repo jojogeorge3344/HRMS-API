@@ -27,7 +27,7 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
   UserVariableType=UserVariableType;
   userVarObj;
   empObj;
-
+  isLoading=false;
   constructor(   
     private router: Router,
      private route: ActivatedRoute,
@@ -48,20 +48,23 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
   }
  
   getEmployeeList() {
-    debugger
+    this.isLoading=true
     this.employeeService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
         // lastrow
         this.employeeList = [...result, temp];
+        this.isLoading=false;
       })
   }
   getUserVariables() {
+    this.isLoading=true
     this.userVariableService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.userVariableDetails = [...result, temp];
+      this.isLoading=false;
       })
   }
 

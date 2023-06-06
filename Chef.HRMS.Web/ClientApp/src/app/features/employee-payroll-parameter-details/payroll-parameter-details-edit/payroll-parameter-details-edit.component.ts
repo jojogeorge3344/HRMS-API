@@ -30,6 +30,8 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
   payrollParameterDetailsItem;
   empObj;
   userVarObj;
+  isLoading=false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -58,19 +60,23 @@ export class PayrollParameterDetailsEditComponent implements OnInit {
 
 
   getEmployeeList() {
+    this.isLoading=true;
     this.employeeService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
         // lastrow
         this.employeeList = [...result, temp];
+        this.isLoading=false;
       })
   }
   getUserVariables() {
+    this.isLoading=true;
     this.userVariableService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, name: 'test', isLastRow: true }
         // lastrow
         this.userVariableDetails = [...result, temp];
+        this.isLoading=false;
       })
   }
 
