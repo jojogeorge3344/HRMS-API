@@ -64,7 +64,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(i);
         }
 
-        [HttpPost("GetProcessedAccruals/{paygroupId}")]
+        [HttpPost("GetProcessedAccruals/{paygroupId}/{accrualDate}")]
         public async Task<ActionResult<Accruals>> GetProcessedAccruals(int paygroupId, DateTime accrualDate)
         {
             Accruals accruals = new Accruals();
