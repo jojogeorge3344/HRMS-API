@@ -17,6 +17,7 @@ import { LeaveRequestPrintComponent } from './leave-request-print/leave-request-
 import { ReportViewerModule } from '@shared/report-viewer/report-viewer.module';
 import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
 import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit/employee-leave-request-edit.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { EmployeeLeaveRequestEditComponent } from './employee-leave-request-edit
     BsDropdownModule.forRoot(),
     DirectivesModule,
     ReportViewerModule,
-    BoldReportViewerModule 
+    BoldReportViewerModule ,
+    DropdownModule
     
   ],
   providers: [{
