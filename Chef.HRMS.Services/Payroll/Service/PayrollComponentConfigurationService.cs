@@ -31,7 +31,7 @@ namespace Chef.HRMS.Services
            int delete = await payrollComponentConfigurationRepository.DeletePermanentAsync(id);
             if(delete != 0)
             {
-                var payrollConfigDetail = await logPayrollComponentConfigurationRepository.GetPayrollComponentConfigLogDetailsBy(id);
+                var payrollConfigDetail = await logPayrollComponentConfigurationRepository.GetPayrollComponentConfigLogDetails(id);
               deleteValue =  await logPayrollComponentConfigurationRepository.DeleteAsync(payrollConfigDetail.Id);
             }
             return deleteValue;
