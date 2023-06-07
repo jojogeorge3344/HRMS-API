@@ -1,8 +1,10 @@
-﻿using Chef.Common.Core.Services;
+﻿using Chef.Common.Core.Repositories;
+using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,12 +14,18 @@ namespace Chef.HRMS.Services
     {
         private readonly ILeaveComponentRepository leaveComponentRepository;
         private readonly ILeaveEligibilityRepository leaveEligibilityRepository;
+		private readonly ILeaveComponentLopDetailsRepository leaveComponentLopDetails;
+		private readonly ITenantConnectionFactory tenantConnectionFactory;
 
-        public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository,ILeaveEligibilityRepository leaveEligibilityRepository)
+		public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository,ILeaveEligibilityRepository leaveEligibilityRepository,
+			ILeaveComponentLopDetailsRepository leaveComponentLopDetails,
+            ITenantConnectionFactory tenantConnectionFactory)
         {
             this.leaveComponentRepository = leaveComponentRepository;
             this.leaveEligibilityRepository = leaveEligibilityRepository;
-        }
+            this.leaveComponentLopDetails = leaveComponentLopDetails;
+            this.tenantConnectionFactory = tenantConnectionFactory;
+		}
 
         public async Task<int> DeleteAsync(int id)
         {
@@ -42,7 +50,30 @@ namespace Chef.HRMS.Services
 
         public async Task<int> InsertAsync(LeaveComponent leaveComponent)
         {
-            return await leaveComponentRepository.InsertAsync(leaveComponent);
+            try
+            {
+                tenantConnectionFactory.Connection.BeginTransaction();
+
+                int id = await leaveComponentRepository.InsertAsync(leaveComponent);
+                if (id > 0)
+                {
+                    if (leaveComponent.LeaveComponentLopDetails != null && leaveComponent.LeaveComponentLopDetails.Count > 0)
+                    {
+                        leaveComponent.LeaveComponentLopDetails.ForEach(x => x.LeaveComponentId = id);
+                    }
+                    await leaveComponentLopDetails.BulkInsertAsync(leaveComponent.LeaveComponentLopDetails);
+
+                }
+                tenantConnectionFactory.Transaction.Commit();
+
+                return id;
+            }
+            catch (Exception)
+            {
+                tenantConnectionFactory.Transaction.Rollback();
+
+				throw;
+            }
         }
         public async Task<IEnumerable<int>> GetAllAssignedLeaveComponents()
         {
@@ -51,7 +82,29 @@ namespace Chef.HRMS.Services
 
         public async Task<int> UpdateAsync(LeaveComponent leaveComponent)
         {
-            return await leaveComponentRepository.UpdateAsync(leaveComponent);
+            try
+            {
+                tenantConnectionFactory.Connection.BeginTransaction();
+                int intreturn;
+                intreturn = await leaveComponentRepository.UpdateAsync(leaveComponent);
+                if (leaveComponent.Id > 0)
+                {
+                    if (leaveComponent.LeaveComponentLopDetails != null && leaveComponent.LeaveComponentLopDetails.Count > 0)
+                    {
+                        leaveComponent.LeaveComponentLopDetails.ForEach(x => x.LeaveComponentId = leaveComponent.Id);
+                    }
+                    await leaveComponentLopDetails.BulkInsertAsync(leaveComponent.LeaveComponentLopDetails);
+
+                }
+                tenantConnectionFactory.Transaction.Commit();
+                return intreturn;
+            }
+            catch (Exception)
+            {
+                tenantConnectionFactory.Transaction.Rollback();
+
+                throw;
+            }
         }
 
         public async Task<IEnumerable<BenefitCategory>> GetBenefitCategory()
