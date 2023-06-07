@@ -12,6 +12,7 @@ import { PayrollParameterDetailsEditComponent } from './payroll-parameter-detail
 import { PayrollParameterDetailsListComponent } from './payroll-parameter-details-list/payroll-parameter-details-list.component';
 import { PayrollParameterDetailsViewComponent } from './payroll-parameter-details-view/payroll-parameter-details-view.component';
 import { SelectDropDownModule } from "ngx-select-dropdown";
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { SelectDropDownModule } from "ngx-select-dropdown";
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
     DirectivesModule,
-    SelectDropDownModule
+    SelectDropDownModule,
+    DropdownModule
   ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,

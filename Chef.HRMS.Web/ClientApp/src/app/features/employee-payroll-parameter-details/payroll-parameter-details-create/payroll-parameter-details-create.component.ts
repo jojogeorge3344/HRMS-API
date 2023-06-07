@@ -23,9 +23,11 @@ import { Router } from '@angular/router';
 export class PayrollParameterDetailsCreateComponent implements OnInit {
   addForm: FormGroup;
   employeeList;
-  config;
   userVariableDetails:any[]
   UserVariableType=UserVariableType;
+  userVarObj;
+  empObj;
+  isLoading=false;
   constructor(   
     private router: Router,
      private route: ActivatedRoute,
@@ -42,45 +44,27 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
     this.addForm = this.createFormGroup();
     this.getEmployeeList()
     this.getUserVariables()
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Employee",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: false,
-    };
 
   }
-  selectionChanged(args) {
-    this.addForm.get("employeeId").patchValue(args.value.id);
-  }
-  onChangeEvent(args){ debugger
-    let id=this.addForm.get("userVariableId").value
-   let selectedItem= this.userVariableDetails.find((item)=>item.id==id)
-  // this.variableType=UserVariableType[selectedItem.type]
-  // this.addForm.get('variableType').patchValue(UserVariableType[selectedItem.type])
-  this.addForm.patchValue({
-    type:selectedItem.type, //UserVariableType[selectedItem.type]
-    variableTypeName:UserVariableType[selectedItem.type]
-  });
-  // this.addForm.get('variableType').setValue(UserVariableType[selectedItem.type])
-  }
-
+ 
   getEmployeeList() {
-    debugger
+    this.isLoading=true
     this.employeeService.getAll()
       .subscribe((result) => {
-        this.employeeList = result
+        let temp = { id: undefined, firstName: 'test', isLastRow: true }
+        // lastrow
+        this.employeeList = [...result, temp];
+        this.isLoading=false;
       })
   }
   getUserVariables() {
-    debugger
+    this.isLoading=true
     this.userVariableService.getAll()
       .subscribe((result) => {
-        this.userVariableDetails = result
+        let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.userVariableDetails = [...result, temp];
+      this.isLoading=false;
       })
   }
 
@@ -137,11 +121,38 @@ export class PayrollParameterDetailsCreateComponent implements OnInit {
 
   }
 
-
+  selectUserVariables(args){
+    this.addForm.patchValue({
+      userVariableId: args.value.id,
+      type:args.value.type,
+      variableTypeName:UserVariableType[args.value.type]
+    })
+  }
+  selectEmployee(args){
+    if(args.value && args.value.id){
+      this.addForm.patchValue({
+        employeeId: args.value.id
+      })
+    }else{
+      this.addForm.patchValue({
+        employeeId: 0
+      })  
+    }
+  }
+  refreshUserVariables(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getUserVariables();
+  }
+  refreshEmployee(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeList();
+  }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      employeeId: [''],
+      employeeId: [0],
       userVariableId: [null, [
         Validators.required
       ]],
