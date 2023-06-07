@@ -269,9 +269,15 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   }
 
   selectRequestedBy(args){
-    this.addForm.patchValue({
-      requestedBy: args.value.id
-    })
+    if(args.value && args.value.id){
+      this.addForm.patchValue({
+        requestedBy:args.value.id,
+        })
+    }else{
+      this.addForm.patchValue({
+        requestedBy: 0,
+      })  
+    }
   }
   refreshRequestedBy(event){
     event.stopPropagation();
@@ -295,7 +301,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
       extendedmonth: [0],
-      requestedBy: [null]
+      requestedBy: [0]
     });
   }
 }

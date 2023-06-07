@@ -142,14 +142,6 @@ getLoanDetails(){
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
         // lastrow
         this.employeeList = [...result, temp];
-  
-        // this.employeeList.forEach((emp) =>{
-        //   if((this.requestedBy ==emp.id)){
-        //      details=emp.firstName;
-        //      this.editForm.patchValue({employeeId:details});
-        //   }
-        //  });
-
       }
       )
   }
@@ -387,9 +379,15 @@ getLoanDetails(){
   }
   selectRequestedBy(args){
     debugger
-    this.editForm.patchValue({
-      requestedBy: args.value.id
-    })
+    if(args.value && args.value.id){
+      this.editForm.patchValue({
+        requestedBy:args.value.id,
+        })
+    }else{
+      this.editForm.patchValue({
+        requestedBy: 0,
+      })  
+    }
   }
   refreshRequestedBy(event){
     event.stopPropagation();
@@ -430,7 +428,7 @@ getLoanDetails(){
       loanSettingId: [this.loanSettingId],
       createdDate: [],
       extendedMonth: [0],
-      requestedBy: [null],
+      requestedBy: [0],
 
     });
   }

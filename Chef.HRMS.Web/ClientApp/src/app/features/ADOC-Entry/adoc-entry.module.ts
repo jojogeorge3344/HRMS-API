@@ -16,6 +16,7 @@ import { AdocEntryCreateComponent } from './adoc-entry-create/adoc-entry-create.
 import { AdocEntryEditComponent } from './adoc-entry-edit/adoc-entry-edit.component';
 import { AdocEntryViewComponent } from './adoc-entry-view/adoc-entry-view.component';
 import { SelectDropDownModule } from "ngx-select-dropdown";
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -37,8 +38,8 @@ AdocEntryViewComponent
     //  NgBootstrapFormValidationModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule,
-    SelectDropDownModule
-
+    SelectDropDownModule,
+    DropdownModule
   ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
