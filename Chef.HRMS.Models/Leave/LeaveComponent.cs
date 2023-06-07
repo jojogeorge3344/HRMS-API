@@ -2,6 +2,7 @@
 using Chef.Common.Models;
 using Chef.Common.Types;
 using Chef.HRMS.Types;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Chef.HRMS.Models
@@ -86,5 +87,9 @@ namespace Chef.HRMS.Models
         public int BenefitCategoryId { get; set; }
         public int LeaveEligibilityId { get; set; }
         public bool IsUnpaidLeave { get; set; }
-    }
+        [SqlKata.Ignore]
+		[Write(false)]
+		[Skip(true)]
+		public List<LeaveComponentLopDetails> LeaveComponentLopDetails { get; set; }
+	}
 }
