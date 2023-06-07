@@ -80,6 +80,7 @@ export class LeaveComponentEditComponent implements OnInit {
   valueSlabOffType = valueTypeOff;
   leaveComponentsList: any
   activeTab: string = "basic";
+  isSlabdisabled: boolean=false;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -126,6 +127,9 @@ export class LeaveComponentEditComponent implements OnInit {
     this.editForm.patchValue(this.leaveComponent);
     this.getLeaveSlablist(this.leaveComponent.id)
     this.getLeaveType();
+    if(this.editForm.value.isUnpaidLeave==true){
+    this.isSlabdisabled=true;
+    }
   }
 
   getDeductionType() {
@@ -393,8 +397,13 @@ export class LeaveComponentEditComponent implements OnInit {
     this.leaveEligiblityService.update(this.editForm2.getRawValue()).subscribe(
       (result: any) => {
        // this.activeModal.close(true);
-       this.activeTab = "slab";
-       this.isSaveDisableConfig=true
+       if(this.editForm.value.isPaidLeave==true || this.editForm.value.isSickLeave==true){
+        this.isSlabdisabled=false
+        this.activeTab = "slab";
+        this.isSaveDisableConfig=true
+      }else{
+        this.activeModal.close(true);
+      }
         this.toastr.showSuccessMessage(
           "Leave component is updated successfully!"
         );
