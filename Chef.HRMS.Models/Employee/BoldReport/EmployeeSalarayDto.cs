@@ -8,8 +8,7 @@ namespace Chef.HRMS.Models
 {
     public class EmployeeSalarayDto
     {
-        public string Name { get; set; }
-        public int MonthlyAmount { get; set; }
-
+        public string PayrollComponentName { get; set; }
+        public decimal Amount { get; set; }
     }
 }
