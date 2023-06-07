@@ -34,7 +34,7 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   detailsUpdate: any;
   wpsGroupObj:any;
   bankObj:any;
-
+  isLoading=false;
   constructor(
     private route: ActivatedRoute,
     private employeeWpsUserService: EmployeeWpsUserService,
@@ -56,11 +56,13 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   }
 
   getWPSGrouplist() {
+    this.isLoading=true;
     this.employeeWpsService.getAll().subscribe(result => {
       this.groupId = result;
       let temp = { id: undefined, groupName: 'test', isLastRow: true }
         // lastrow
         this.groupId = [...result, temp];
+        this.isLoading=false;
     },
       error => {
         console.error(error);
@@ -130,10 +132,12 @@ export class EmployeeWpsDetailsComponent implements OnInit {
   //     });
   // }
   getWPSBanklist() {
+    this.isLoading=true;
     this.employeeWpsBankerService.getBank().subscribe(result => {
       let temp = { id: undefined,status:'Active', name: 'test', isLastRow: true }
       // lastrow
       this.bankList = [...result.filter(x=>x.status=="Active"), temp];
+      this.isLoading=false;
       this.bankObj = result.find((item) => this.addForm.get('bankId').value == item.id)
     },
       error => {
