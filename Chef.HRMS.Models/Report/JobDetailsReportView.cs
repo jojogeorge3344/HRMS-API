@@ -62,5 +62,6 @@ namespace Chef.HRMS.Models
         public string JobTitleName { get; set; }
 
         public string ReportingManagerName { get; set; }
+        public string CategoryName { get; set; }
     }
 }
