@@ -33,6 +33,7 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
   detailsUpdate: any;
   wpsGroupObj:any;
   bankObj:any;
+  isLoading=false;
 
   @Output() wpsDetailsForm = new EventEmitter<any>();
   @Input() passEmployeeId:any
@@ -66,10 +67,12 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
   }
 
   getWPSGrouplist() {
+    this.isLoading=true;
     this.employeeWpsService.getAll().subscribe(result => {
       let temp = { id: undefined, groupName: 'test', isLastRow: true }
       // lastrow
       this.groupId = [...result, temp];
+      this.isLoading=false;
       this.wpsGroupObj = result.find((item) => this.addForm.get('groupId').value == item.id)
     },
       error => {
@@ -104,11 +107,13 @@ export class EmployeeWpsDetailsCreateComponent implements OnInit {
   }
 
   getWPSBanklist() {
+    this.isLoading=true;
     this.employeeWpsBankerService.getBank().subscribe(result => {
       this.bankList = result.filter(x=>x.status=="Active")
       let temp = { id: undefined,status:'Active', name: 'test', isLastRow: true }
       // lastrow
       this.bankList = [...result.filter(x=>x.status=="Active"), temp];
+      this.isLoading=false;
       this.bankObj = result.find((item) => this.addForm.get('bankId').value == item.id)
 
     },

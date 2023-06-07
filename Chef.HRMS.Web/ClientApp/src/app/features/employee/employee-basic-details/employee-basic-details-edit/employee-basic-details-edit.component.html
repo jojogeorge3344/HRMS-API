@@ -57,7 +57,7 @@
                   <ng-template let-item pTemplate="item" >  
                     <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                     </div> 
-                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="reloadDocTypes($event)">
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshReligion($event)">
                      Refresh
                      <div *ngIf="isLoading==true" class="spinner-border ml-1">
                     </div>

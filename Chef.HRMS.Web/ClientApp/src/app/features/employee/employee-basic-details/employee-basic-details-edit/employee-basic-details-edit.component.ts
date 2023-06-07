@@ -26,7 +26,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   nameCheck: any;
   userId;
   relName;
-  isLoading: boolean;
+  isLoading=false;
 
   constructor(
     private employeeBasicDetailsService: EmployeeBasicDetailsService,
@@ -61,6 +61,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
    let temp={id:undefined,name:'test',isLastRow:true}
    // lastrow
      this.religion=[...result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
+     this.isLoading=false;
      this.relName=result.find((item)=>this.editForm.get('religionId').value==item.id)
    })
   }
@@ -71,15 +72,11 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     })
   }
 
-  reloadDocTypes(event){
+  refreshReligion(event){
+    debugger
     event.stopPropagation();
     event.preventDefault();
-    this.employeeBasicDetailsService.getReligion()
-    .subscribe((item)=>{
-      let temp={id:0,name:'test',isLastRow:true}
-      // lastrow
-      this.religion=[...item.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
-    })
+    this.getReligion()
   }
   
   getBasicDetailsId() {
