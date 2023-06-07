@@ -3,6 +3,7 @@ using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,17 @@ namespace Chef.HRMS.Repositories
     public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance>, ILeaveAndAttendanceRepository
     {
 		private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
+		private readonly ILeaveEligibilityRepository leaveEligibility;
+		private readonly IPayrollComponentDetailsRepository payrollComponentDetailsRepository;
 
 		public LeaveAndAttendanceRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session,
-			ITenantSimpleUnitOfWork tenantSimpleUnitOfWork) : base(httpContextAccessor, session)
+			ITenantSimpleUnitOfWork tenantSimpleUnitOfWork,
+			ILeaveEligibilityRepository leaveEligibility,
+            IPayrollComponentDetailsRepository payrollComponentDetailsRepository) : base(httpContextAccessor, session)
         {
             this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
-
+            this.leaveEligibility = leaveEligibility;
+            this.payrollComponentDetailsRepository = payrollComponentDetailsRepository;
 		}
 
         public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate,int payrollProcessId)
@@ -473,60 +479,238 @@ namespace Chef.HRMS.Repositories
             return await Connection.QueryAsync<LOPCalculationView>(sql, new { fromDate, toDate });
         }
 
-        public async Task<IEnumerable<LOPCalculationView>> GetLOPCalculationDetail(int paygroupId, DateTime fromDate, DateTime toDate)
+        public async Task<IEnumerable<LOPCalculationView>> GetLOPCalculationDetail(int payGroupId, DateTime fromDate, DateTime toDate)
         {
-			tenantSimpleUnitOfWork.BeginTransaction();
             try
             {
+                List<LOPCalculationView> lOPCalculationView = new List<LOPCalculationView>();
                 string sql = @"SELECT JF.employeeid,PG.leavecutoff,JF.payrollstructureid 
                         FROM hrms.jobfiling JF
                         INNER JOIN hrms.hrmsemployee EM ON JF.employeeid = EM.id
                         INNER JOIN hrms.paygroup PG ON PG.id = JF.paygroupid
                         WHERE JF.paygroupid = @paygroupId AND JF.isarchived = false 
                         AND EM.isarchived = false AND PG.isarchived = false ";
-                var EmpList = await Connection.QueryAsync<LOPEmployee>(sql, new { paygroupId });
+                var EmpList = await Connection.QueryAsync<LOPEmployee>(sql, new { payGroupId });
 
-                foreach (LOPEmployee item in EmpList)
+                if (EmpList != null && EmpList.ToList().Count > 0)
                 {
-                    sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
+                    foreach (LOPEmployee item in EmpList)
+                    {
+                        sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
                         FROM hrms.leavedetails LD 
                         WHERE LD.employeeid =  @employeeid
                         AND LD.isarchived = false
-                        AND LD.leavestatus = 4
-                        GROUP BY LD.leavecomponentid AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate";
-					var LeaveDet = await Connection.QueryAsync<LOPDetails>(sql, new { employeeid = item.EmployeeId,fromDate,toDate });
+                        AND LD.leavestatus = 4 AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate
+                        GROUP BY LD.leavecomponentid ";
+                        var LeaveDet = await Connection.QueryAsync<LOPDetails>(sql, new { employeeid = item.EmployeeId, fromDate, toDate });
+                        if (LeaveDet != null && LeaveDet.ToList().Count > 0)
+                        {
+                            foreach (LOPDetails detail in LeaveDet)
+                            {
+                                //need to find leave cut off type based on leave component -- from leaveeligiblity -- entry not properly going on update
+                                var leaveCutOff = await leaveEligibility.GetLeaveConfiguration(detail.LeaveComponentId);
+                                int lCutOff = (int)leaveCutOff.Select(x => x.LeaveCutOffType).ToList().FirstOrDefault();
+                                //yearEnd = 1,MonthEnd = 2,QuarterEnd = 3,HalfYearEnd = 4,NotApplicable = 5
 
-                    foreach (LOPDetails detail in LeaveDet)
-                    {
-                        sql = @"SELECT LS.lowerlimit,LS.upperlimit,LS.valuetype,LS.valuevariable 
-                            FROM hrms.leaveslab LS 
-                            WHERE LS.leavecomponentid = @leavecomponentid AND LS.isarchived = false";
-						var leaveSlabs = await Connection.QueryAsync<LeaveSlab>(sql, new { leavecomponentid = detail.LeaveComponentId });
+                                //need to find tot leaves based on leave cut off 
 
-                        //need to find the slab
+                                int Year = toDate.Year;
+                                int Month = toDate.Month;
+                                int Date = toDate.Day;
 
-                        sql = @"SELECT PC.maximumlimit 
+                                DateTime YearStart = new DateTime(Year - 1, 12, Date);
+                                DateTime QStart = new DateTime(Year - 1,12, Date);
+								DateTime QEnd = new DateTime(Year , 3, Date);
+								switch (Month)
+                                {
+                                    case 1:
+                                    case 2:
+                                    case 3:
+                                        QStart = new DateTime(Year - 1, 12, Date);
+										QEnd = new DateTime(Year, 3, Date);
+										break;
+                                    case 4:
+                                    case 5:
+                                    case 6:
+                                        QStart = new DateTime(Year, 3, Date);
+										QEnd = new DateTime(Year, 6, Date);
+										break;
+                                    case 7:
+                                    case 8:
+                                    case 9:
+                                        QStart = new DateTime(Year, 6, Date);
+										QEnd = new DateTime(Year, 9, Date);
+										break;
+                                    case 10:
+                                    case 11:
+                                    case 12:
+                                        QStart = new DateTime(Year, 9, Date);
+										QEnd = new DateTime(Year, 12, Date);
+										break;
+                                }
+
+								DateTime HStart = new DateTime(Year - 1, 12, Date);
+								DateTime HEnd = new DateTime(Year, 6, Date);
+								switch (Month)
+								{
+									case 1:
+									case 2:
+									case 3:
+									case 4:
+									case 5:
+									case 6:
+										QStart = new DateTime(Year - 1, 12, Date);
+										QEnd = new DateTime(Year, 6, Date);
+										break;
+									case 7:
+									case 8:
+									case 9:
+									case 10:
+									case 11:
+									case 12:
+										QStart = new DateTime(Year, 6, Date);
+										QEnd = new DateTime(Year, 12, Date);
+										break;
+								}
+
+								switch (lCutOff)
+                                {
+                                    case 1:
+                                        sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
+                                        FROM hrms.leavedetails LD 
+                                        WHERE LD.employeeid =  @employeeid
+                                        AND LD.isarchived = false
+                                        AND LD.leavestatus = 4
+						                AND LD.leaveComponentid = @leaveComponentid 
+                                        AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @YearStart AND @toDate
+                                        GROUP BY LD.leavecomponentid ";
+                                        break;
+									case 2:
+										sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
+                                        FROM hrms.leavedetails LD 
+                                        WHERE LD.employeeid =  @employeeid
+                                        AND LD.isarchived = false
+                                        AND LD.leavestatus = 4
+						                AND LD.leaveComponentid = @leaveComponentid 
+                                        AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate
+                                        GROUP BY LD.leavecomponentid ";
+										break;
+									case 3:
+										sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
+                                        FROM hrms.leavedetails LD 
+                                        WHERE LD.employeeid =  @employeeid
+                                        AND LD.isarchived = false
+                                        AND LD.leavestatus = 4
+						                AND LD.leaveComponentid = @leaveComponentid 
+                                        AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @QStart AND @QEnd
+                                        GROUP BY LD.leavecomponentid ";
+										break;
+									case 4:
+										sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
+                                        FROM hrms.leavedetails LD 
+                                        WHERE LD.employeeid =  @employeeid
+                                        AND LD.isarchived = false
+                                        AND LD.leavestatus = 4
+						                AND LD.leaveComponentid = @leaveComponentid 
+                                        AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @HStart AND @HEnd
+                                        GROUP BY LD.leavecomponentid ";
+										break;
+									case 5:
+										sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
+                                        FROM hrms.leavedetails LD 
+                                        WHERE LD.employeeid =  @employeeid
+                                        AND LD.isarchived = false
+                                        AND LD.leavestatus = 4
+						                AND LD.leaveComponentid = @leaveComponentid 
+                                        AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @YearStart AND @toDate
+                                        GROUP BY LD.leavecomponentid ";
+										break;
+										//To do month wise,quarter, half year
+								}
+                                var LeaveTypeDet = await Connection.QueryAsync<LOPDetails>(sql, new
+                                {
+                                    employeeid = item.EmployeeId,
+                                    fromDate,
+                                    toDate,
+                                    QStart, QEnd,HStart, HEnd,
+                                    leaveComponentid = detail.LeaveComponentId,
+                                    YearStart
+                                });
+
+                                decimal TotLeaveCount = LeaveTypeDet.ToList().Select(x => x.Days).FirstOrDefault();
+                                decimal CurrentLeaves = detail.Days;
+                                decimal SlabStart = TotLeaveCount - CurrentLeaves + 1;
+
+
+                                sql = @"SELECT PC.maximumlimit ,PC.payrollcomponentid
                                 FROM hrms.leavecomponentlopdetails LCD
                                 INNER JOIN hrms.payrollcomponentconfiguration PC ON PC.payrollcomponentid = LCD.payrollcomponentid
                                 INNER JOIN hrms.payrollcomponent CM ON CM.id =  PC.payrollcomponentid
                                 WHERE LCD.leavecomponentid = @leavecomponentid AND 
                                 PC.isarchived = false AND CM.isarchived = false
                                 AND PC.payrollstructureid = @payrollstructureid";
-						var payrollComp= await Connection.QueryAsync<LOPPayrollComponent>(sql, new { leavecomponentid = detail.LeaveComponentId,item.PayrollStructureId });
-                        foreach (LOPPayrollComponent comp in payrollComp)
-                        { 
-                            
+                                var payrollComp = await Connection.QueryAsync<LOPPayrollComponent>(sql, new { leavecomponentid = detail.LeaveComponentId, item.PayrollStructureId });
+                                if (payrollComp != null && payrollComp.ToList().Count > 0)
+                                {
+                                    decimal DedAmt = 0;
+                                    foreach (LOPPayrollComponent comp in payrollComp)
+                                    {
+                                        //need to find the slab on the current month
+                                        sql = @"SELECT LS.lowerlimit,LS.upperlimit,LS.valuetype,LS.valuevariable 
+                                                FROM hrms.leaveslab LS 
+                                                WHERE LS.leavecomponentid = @leavecomponentid AND LS.isarchived = false";
+                                        var leaveSlabs = await Connection.QueryAsync<LeaveSlab>(sql, new { leavecomponentid = detail.LeaveComponentId });
+                                        if (leaveSlabs != null && leaveSlabs.ToList().Count > 0)
+                                        {
+                                            foreach (LeaveSlab slab in leaveSlabs)
+                                            {
+                                                if (SlabStart >= slab.LowerLimit)
+                                                {
+                                                    if (TotLeaveCount > slab.UpperLimit)
+                                                    {
+                                                        SlabStart = slab.UpperLimit + 1;
+                                                        Decimal SlabCount = slab.UpperLimit - SlabStart + 1;
+                                                        DedAmt += (SlabCount * slab.ValueVariable * comp.MaximumLimit) / 100;
+                                                    }
+                                                    else
+                                                    {
+                                                        Decimal SlabCount = SlabStart - slab.LowerLimit - 1;
+                                                        DedAmt += (SlabCount * slab.ValueVariable * comp.MaximumLimit) / 100;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            DedAmt += (CurrentLeaves * comp.MaximumLimit);
+
+										}
+                                        LOPCalculationView details = new LOPCalculationView
+                                        {
+
+                                            LOPCount = (int)CurrentLeaves,
+                                            EmployeeId = item.EmployeeId,
+                                            PayGroupId = payGroupId,
+                                            MonthlyAmount = (double)comp.MaximumLimit,
+                                            PayrollComponentId = comp.PayrollComponentId,
+                                            LeaveId = detail.LeaveComponentId,
+                                            TotalAmount = (double)DedAmt
+                                        };
+                                        lOPCalculationView.Add(details);
+                                    }
+                                }
+                                else
+                                {
+                                    throw new Exception("Leave component not set up for the leave type!");
+                                }
+                            }
                         }
-					}
-				}
-
-
-				tenantSimpleUnitOfWork.Commit();
-				return await Connection.QueryAsync<LOPCalculationView>(sql, new { fromDate, toDate });
+                    }
+                }
+                return lOPCalculationView;
 			}
 			catch (Exception)
 			{
-				tenantSimpleUnitOfWork.Rollback();
 				throw;
 			}
 		}
