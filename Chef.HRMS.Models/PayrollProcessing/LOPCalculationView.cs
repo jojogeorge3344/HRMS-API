@@ -9,7 +9,7 @@ namespace Chef.HRMS.Models
 {
     public class LOPCalculationView : ViewModel
     {
-        public int LOPCount { get; set; }
+        public decimal LOPCount { get; set; }
         public int EmployeeId { get; set; }
         public int PayGroupId { get; set; }
         public double MonthlyAmount { get; set; }
