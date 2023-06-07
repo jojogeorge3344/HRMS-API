@@ -1,4 +1,4 @@
-<form [formGroup]="addForm"  (submit)="onSubmit()">
+<form [formGroup]="addForm" (submit)="onSubmit()">
     <div class="modal-header">
         <h4 class="modal-title">Add ADOC Earnings & Deductions</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -8,24 +8,30 @@
     <div class="modal-body">
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group  col-6">
-                <label for="employeeId" style="margin-bottom: 9px">
-                    Employee
-                    <span class="required">*</span>
-                </label>      
-                <ng-template #optionTemplate let-item="item" let-config="config">
-                  <i class="fa fa-plus"></i>
-                  {{ item.firstName }}
-                  <span class="new badge"></span>
-                </ng-template>
-                <ngx-select-dropdown
-                  (change)="selectionChanged($event)"
-                  [config]="config"
-                  [options]="employeeList" 
-                  [ngClass]="{'ddclass':this.addForm.get('employeeId').touched && this.addForm.get('employeeId').invalid}"
-                ></ngx-select-dropdown>
-                <label class="col-12 col-form-label px-0" style="display:none;" for="employeeId">Employee<span class="required">*</span></label>
-                <input class="form-control w-75" name="newDate" style="display:none;" formControlName="employeeId">
+                <label class="col-form-label" for="employeeId">Employee<span class="required">*</span></label>
+                <p-dropdown [(ngModel)]="empObj" [ngModelOptions]="{standalone: true}" [filter]="true"
+                    class="pngCustomClass" [options]="employeeList" optionValue="id" (onChange)="selectEmployee($event)"
+                    optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="employeeId">
+                    <ng-template let-item pTemplate="item">
+                        <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                            {{item?.value.firstName}}
+                        </div>
+                        <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                            (click)="refreshEmployee($event)">
+                            <a class="link-primary ref"><u>Refresh</u></a>
+                            <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div *ngIf="this.addForm.get('employeeId').touched && this.addForm.get('employeeId').invalid"
+                        class="invalid-feedback d-block">
+                        Employee* is required
+                    </div>
+                </div>
             </div>
+
             <div class="form-group form-input-inline input-group col-6">
                 <label class="col-12 col-form-label px-0" for="date">Date<span class="required">*</span></label>
                 <input class="form-control w-75" name="newDate" formControlName="date"
@@ -39,13 +45,38 @@
                 <label class="col-form-label" for="status">Status<span class="required">*</span></label>
                 <input type="text" class="form-control" value="pending" formControlName="status" disabled>
             </div>
-            <div class="form-group  col-6">
+            <!-- <div class="form-group  col-6">
                 <label class="col-form-label" for="adhocBFCode">ADOC BF Code<span class="required">*</span></label>
                 <select class="form-control" formControlName="adhocBFCode" (change)="changeadhoc($event.target)">
                     <option [ngValue]=null disabled>Select ADOC BF Code</option>
                     <option *ngFor="let list of adhoc" [ngValue]='list.id'>{{list.name}}</option>
                 </select>
+            </div> -->
+            <div class="form-group  col-6">
+            <label class="col-form-label" for="adhocBFCode">ADOC BF Code<span class="required">*</span></label>
+            <p-dropdown [(ngModel)]="adhocObj" [ngModelOptions]="{standalone: true}" [filter]="true"
+                class="pngCustomClass" [options]="adhoc" optionValue="id" (onChange)="selectAhoc($event)"
+                optionLabel="name" placeholder="Select ADOC BF Code" dataKey="id" name="adhocBFCode">
+                <ng-template let-item pTemplate="item">
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                        {{item?.value.name}}
+                    </div>
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                        (click)="refreshAdhoc($event)">
+                        <a class="link-primary ref"><u>Refresh</u></a>
+                        <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('adhocBFCode').touched && this.addForm.get('adhocBFCode').invalid"
+                    class="invalid-feedback d-block">
+                    adoc bf code* is required
+                </div>
             </div>
+
             <div class="form-group  col-6">
                 <label for="amount">Amount<span class="required">*</span></label>
                 <input type="text" class="form-control" formControlName="amount">

@@ -59,8 +59,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
    let temp={id:undefined,name:'test',isLastRow:true}
    // lastrow
      this.religion=[...result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
-     let relType=result.find((item)=>this.editForm.get('religionId').value==item.id)
-     this.relName=relType
+     this.relName=result.find((item)=>this.editForm.get('religionId').value==item.id)
    })
   }
 
