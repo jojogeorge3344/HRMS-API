@@ -64,7 +64,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   loctaionObj: any;
   categoryObj: any;
   visaDesignationName: any;
-
+  isLoading=false;
   @Input() id: any;
   @Output() jobDetailsForm = new EventEmitter<boolean>();
   @Input() dob: any;
@@ -158,10 +158,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
 
   }
   getGroupCategory() {
+    this.isLoading=true;
     this.employeeJobDetailsService.getCategory().subscribe((result: any) => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.groupCategory = [...result, temp];
+      this.isLoading=false;
       this.categoryObj = result.find((item) => this.addForm.get('categoryId').value == item.id)
 
     })
@@ -172,10 +174,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     })
   }
   getJobList() {
+    this.isLoading=true;
     this.employeeJobTitleService.getAll().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.jobTitleId = [...result, temp];
+      this.isLoading=false;
       this.designationName= result.find((item) => this.addForm.get('jobTitleId').value == item.id)
       this.visaDesignationName = result.find((item) => this.addForm.get('visaDesignationId').value == item.id)
     },
@@ -186,10 +190,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   }
 
   getEmployeeNumber() {
+    this.isLoading=true;
     this.employeeNumbersService.getAllActiveNumberSeries().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.numberSeriesId = [...result, temp];
+      this.isLoading=false;
       this.seriesName = result.find((item) => this.addForm.get('numberSeriesId').value == item.id)
     },
       error => {
@@ -203,11 +209,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     this.getEmployeeNumber()
   }
   getEmployeeList() {
-    debugger
+    this.isLoading=true;
     this.employeeService.getAll().subscribe(result => {
       let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.employeeList = [...result, temp];
+      this.isLoading=false;
       this.employeeObj = result.find((item) => this.addForm.get('reportingManager').value == item.id)
     },
       error => {
@@ -297,10 +304,12 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     this.getEmployeeList()
   }
   getBranches() {
+    this.isLoading=true;
     this.branchService.getAll().subscribe(result => {
       let temp = { id: undefined, shortName: 'test', isLastRow: true }
       // lastrow
       this.location = [...result, temp];
+      this.isLoading=false;
       this.loctaionObj = result.find((item) => this.addForm.get('location').value == item.id)
     },
       error => {
@@ -310,6 +319,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     const addJobDetails = this.addForm.getRawValue();
     // addJobDetails.reportingManager = addJobDetails.reportingManager.id;
 
