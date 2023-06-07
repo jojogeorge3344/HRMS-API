@@ -319,11 +319,11 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
     this.employeeNumber = (seriesValue.prefix).concat(padAtStrt(seriesValue.nextNumber, seriesValue.digitInNumber, 0).concat(seriesValue.suffix));
   }
   onSubmit() {
-    const editJobDetails = this.editForm.value;
     debugger
+    const editJobDetails = this.editForm.value;
     editJobDetails.numberSeriesId= this.editForm.get('numberSeriesId').value
-    // editJobDetails.branchId = editJobDetails.location;
-    // editJobDetails.companyId = this.branches.find(c => c.id == editJobDetails.branchId).companyId;
+    editJobDetails.branchId = editJobDetails.location;
+    editJobDetails.companyId = this.location.find(c => c.id == editJobDetails.branchId).companyId;
     editJobDetails.employeeId = parseInt(this.id, 10);
     editJobDetails.id = parseInt(this.jobDetailsId, 10);
     editJobDetails.createdDate=this.editForm.value.createdDate ? this.editForm.value.createdDate : new Date()

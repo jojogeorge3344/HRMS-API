@@ -375,9 +375,15 @@ export class LeaveComponentCreateComponent implements OnInit {
       this.leaveEligiblityService.update(this.addForm2.value).subscribe(
         (result: any) => {
          // this.activeModal.close(true);
-         this.activeTab = "slab";
        
         //  this.isSaveDisableConfig=true
+        if(this.addForm.value.isPaidLeave==true || this.addForm.value.isSickLeave==true){
+          this.isSlabdisabled=false
+          this.activeTab = "slab";
+          this.isSaveDisableConfig=true
+        }else{
+          this.activeModal.close(true);
+        }
           this.toastr.showSuccessMessage(
             "Leave component is updated successfully!"
           );
@@ -397,9 +403,14 @@ export class LeaveComponentCreateComponent implements OnInit {
             );
           } else {
             // this.activeModal.close(true);
-            this.activeTab = "slab";
+            
+          if(this.addForm.value.isPaidLeave==true || this.addForm.value.isSickLeave==true){
             this.isSlabdisabled=false
+            this.activeTab = "slab";
             this.isSaveDisableConfig=true
+          }else{
+            this.activeModal.close(true);
+          } 
             this.toastr.showSuccessMessage(
               "Configure Leave Component is created successfully!"
             );
