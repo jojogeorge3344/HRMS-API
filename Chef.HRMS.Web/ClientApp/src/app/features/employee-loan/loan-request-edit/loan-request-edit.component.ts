@@ -142,14 +142,6 @@ getLoanDetails(){
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
         // lastrow
         this.employeeList = [...result, temp];
-  
-        // this.employeeList.forEach((emp) =>{
-        //   if((this.requestedBy ==emp.id)){
-        //      details=emp.firstName;
-        //      this.editForm.patchValue({employeeId:details});
-        //   }
-        //  });
-
       }
       )
   }
