@@ -66,7 +66,7 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
   paygroupObj:any;
   overTimePolicyObj:any;
   eosTypeObj: any;
-
+  isLoading=false;
   constructor(
     private leaveStructureService: LeaveStructureService,
     private holidayCategoryService: HolidayCategoryService,
@@ -121,10 +121,12 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
     })
   }
   getLeaveStructure() {
+    this.isLoading=true;
     this.leaveStructureService.getConfiguredLeaveStructures().subscribe(result => {
       let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.leaveStructureId = [...result, temp];
+      this.isLoading=false;
       let item = result.find((item) => this.addForm.get('leaveStructureId').value == item.id)
       this.leaveStructObj = item;
     },
@@ -134,21 +136,24 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       });
   }
   getEosType(){
-    debugger
+    this.isLoading=true;
     this.eosService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, bfName: 'test', isLastRow: true }
         // lastrow
         this.eosTypes = [...result, temp];
+        this.isLoading=false;
         let item = result.find((item) => this.addForm.get('eosId').value == item.id)
         this.eosTypeObj = item;
       })
   }
   getHolidayList() {
+    this.isLoading=true;
     this.holidayCategoryService.getAll().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.holidayCategoryId = [...result, temp];
+      this.isLoading=false;
       let item = result.find((item) => this.addForm.get('holidayCategoryId').value == item.id)
       this.holidayListObj = item;
     },
@@ -159,10 +164,12 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
   }
 
   getShiftList() {
+    this.isLoading=true;
     this.shiftService.getAll().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.shiftId = [...result, temp];
+      this.isLoading=false;
       let item = result.find((item) => this.addForm.get('shiftId').value == item.id)
       this.shiftObj = item;
     },
@@ -173,10 +180,12 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
   }
 
   getExpensePolicyList() {
+    this.isLoading=true;
     this.expensePolicyService.getAllConfiguredExpensePolicies().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.expensePolicyId = [...result, temp];
+      this.isLoading=false;
       this.expensePolicyObj= result.find((item) => this.addForm.get('expensePolicyId').value == item.id)
     },
       error => {
@@ -333,10 +342,12 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
     });
   }
   getPayrollStructureList() {
+    this.isLoading=true;
     this.payrollStructureService.getConfiguredPayrollStructures().subscribe(result => {
       let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.payrollStructureId = [...result, temp];
+      this.isLoading=false;
       let item = result.find((item) => this.addForm.get('payrollStructureId').value == item.id)
       this.payrollStructObj = item;
     },
@@ -346,10 +357,12 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       });
   }
   getPayGroupList() {
+    this.isLoading=true;
     this.payGroupService.getAll().subscribe(result => {
       let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.payGroupId = [...result, temp];
+      this.isLoading=false;
       let item = result.find((item) => this.addForm.get('payGroupId').value == item.id)
       this.paygroupObj = item;
 
@@ -360,10 +373,12 @@ export class EmployeeJobFilingCreateComponent implements OnInit {
       });
   }
   getOverTimePolicyList() {
+    this.isLoading=true;
     this.overtimePolicyService.getConfiguredOvertimePolicies().subscribe(result => {
       let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.overTimePolicyId = [...result, temp];
+      this.isLoading=false;
       let item = result.find((item) => this.addForm.get('overTimePolicyId').value == item.id)
       this.overTimePolicyObj = item;
     },
