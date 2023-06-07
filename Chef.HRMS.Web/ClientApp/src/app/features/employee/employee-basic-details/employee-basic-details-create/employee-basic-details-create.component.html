@@ -66,6 +66,8 @@
                     </div> 
                     <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="reloadDocTypes($event)">
                       Refresh
+                      <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                    </div>
                    </div>
                 </ng-template>
                 </p-dropdown>

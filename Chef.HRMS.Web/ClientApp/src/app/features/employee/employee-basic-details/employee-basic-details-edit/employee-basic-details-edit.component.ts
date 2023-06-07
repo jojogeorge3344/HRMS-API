@@ -26,6 +26,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
   nameCheck: any;
   userId;
   relName;
+  isLoading: boolean;
 
   constructor(
     private employeeBasicDetailsService: EmployeeBasicDetailsService,
@@ -54,6 +55,7 @@ export class EmployeeBasicDetailsEditComponent implements OnInit {
     this.getBasicDetailsId();
   }
   getReligion(){
+    this.isLoading=true;
     this.employeeBasicDetailsService.getReligion()
    .subscribe((result)=>{
    let temp={id:undefined,name:'test',isLastRow:true}
