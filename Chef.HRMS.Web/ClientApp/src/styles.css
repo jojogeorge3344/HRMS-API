@@ -59,7 +59,10 @@ li#reportViewer_toolbar_li_pagesetup {
   padding: 0.429em 0.857em;
   cursor: default;
 }
-
+.spinner-border{
+  width: 13px;
+  height: 13px;
+}
 .dd-values-refresh {
   padding: 0.429em 0.857em;
   cursor: pointer;

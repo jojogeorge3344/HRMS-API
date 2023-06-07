@@ -70,7 +70,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   fulldayLeaves = [];
   firsthalfLeaves: string[] = [];
   secondhalfLeaves = [];
-
+  leaveObj;
   employeeList: Employee[];
   selectedItems = [];
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
@@ -95,6 +95,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   requestTypes = RequestStatus;
   fileId: any;
   loginUserDetail:any
+  isLoading=false;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -335,13 +336,18 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         console.error(error);
       }
     );
+    this.getLeaveRequestNotifyPersonnel()
   }
 
   getLeaveBalance() {
+    this.isLoading=true;
     this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(
       (result) => {
-        this.leaveBalance = result;
-        console.log("avilable leave tyep", this.leaveBalance);
+        let temp = { id: undefined, leaveComponentName: 'test', isLastRow: true }
+        // lastrow
+        this.leaveBalance = [...result, temp]; 
+        this.isLoading=false;
+        this.leaveObj=this.leaveBalance.find((item) => item.leaveComponentId == this.leaveRequest.leaveComponentId)
       },
       (error) => {
         console.error(error);
@@ -439,6 +445,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   remove(item) {
+    debugger
     this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
   }
 
@@ -911,6 +918,16 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         console.error(error);
       }
     );
+  }
+  selectAvailLeave(args){
+    this.addForm.patchValue({
+      leaveComponentId:args.value.leaveComponentId,
+    })
+  }
+  refreshAvailLeave(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getLeaveBalance();
   }
   getFileDetailsByGroup(){
     this.employeeService.getDetailsByFile(this.leaveRequest.employeeId,this.leaveRequest.id).subscribe(

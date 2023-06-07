@@ -63,11 +63,11 @@
             ></textarea>
           </div>
    <div>
-   <label style="padding-left: 10px;padding-bottom: 10px;">Please choose atleast one Leave Category</label>
+   <label style="padding-left: 10px;padding-bottom: 10px;">Please choose  one Leave Category</label>
    </div>
           <div class="row">
             <div class="col-sm">
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <div class="col-12">
                   <div class="custom-control custom-checkbox">
                     <input
@@ -83,7 +83,7 @@
                     >
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="form-group">
                 <div class="col-12">
                   <div class="custom-control custom-checkbox">
@@ -92,6 +92,7 @@
                       class="custom-control-input"
                       id="isPaidLeave"
                       formControlName="isPaidLeave"
+                      (change)="paidLeaveChecked($event.target.value)"
                     />
                     <label class="custom-control-label" for="isPaidLeave"
                       >Paid leave</label
@@ -107,6 +108,7 @@
                       class="custom-control-input"
                       id="isUnpaidLeave"
                       formControlName="isUnpaidLeave"
+                      (change)="unpaidLeaveChecked($event.target.value)"
                     />
                     <label class="custom-control-label" for="isUnpaidLeave"
                       >UnPaid leave</label
@@ -114,6 +116,43 @@
                   </div>
                 </div>
               </div>
+
+              <div class="form-group">
+                <div class="col-12">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="isSickLeave"
+                      formControlName="isSickLeave"
+                      (change)="sickLeaveChecked($event.target.value)"
+                    />
+                    <label class="custom-control-label" for="isSickLeave"
+                      >Sick leave</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              
+            </div>
+            <div class="col-sm">
+              <!-- <div class="form-group">
+                <div class="col-12">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="isStatutoryLeave"
+                      formControlName="isStatutoryLeave"
+                    />
+                    <label class="custom-control-label" for="isStatutoryLeave"
+                      >Statuatory leave</label
+                    >
+                  </div>
+                </div>
+              </div> -->
+            
               <div class="form-group">
                 <div class="col-12">
                   <div class="custom-control custom-checkbox">
@@ -147,38 +186,7 @@
                   </option>
                 </select>
               </div>
-            </div>
-            <div class="col-sm">
-              <div class="form-group">
-                <div class="col-12">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="isStatutoryLeave"
-                      formControlName="isStatutoryLeave"
-                    />
-                    <label class="custom-control-label" for="isStatutoryLeave"
-                      >Statuatory leave</label
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-12">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="isSickLeave"
-                      formControlName="isSickLeave"
-                    />
-                    <label class="custom-control-label" for="isSickLeave"
-                      >Sick leave</label
-                    >
-                  </div>
-                </div>
-              </div>
+
               <div class="form-group">
                 <div class="col-12">
                   <div class="custom-control custom-checkbox">
@@ -202,7 +210,7 @@
               </div>
               <div
                 *ngIf="isRestrictedToMaritalStatus.checked"
-                class="form-group"
+                class="form-group col-12"
               >
                 <select
                   class="form-control"
