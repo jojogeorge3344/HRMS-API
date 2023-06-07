@@ -310,6 +310,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     const addJobDetails = this.addForm.getRawValue();
     // addJobDetails.reportingManager = addJobDetails.reportingManager.id;
 

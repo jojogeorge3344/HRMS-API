@@ -1,4 +1,5 @@
 <form [formGroup]="editForm" id="jobDetailsForm" (validSubmit)="onSubmit()">
+  {{editForm.value | json}}
   <!-- <div class="modal-header">
         <h4 class="modal-title">Add Job Fillings</h4>
     </div> -->

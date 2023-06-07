@@ -28,9 +28,9 @@
                
                 <div class="form-group">
                     <label class="col-form-label" for="requestedBy" 
-                      >Requested By<span class="required">*</span></label
+                      >Requested By</label
                     >
-                    <p-dropdown [(ngModel)]="empObj" [disabled]="disableRequestedBy" [ngModelOptions]="{standalone: true}" [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
+                    <p-dropdown showClear="true" [(ngModel)]="empObj" [disabled]="disableRequestedBy" [ngModelOptions]="{standalone: true}" [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
                     (onChange)="selectRequestedBy($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="requestedBy">
                       <ng-template let-item pTemplate="item" >  
                         <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
