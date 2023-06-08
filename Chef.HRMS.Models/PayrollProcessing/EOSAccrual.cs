@@ -2,6 +2,7 @@
 using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,5 +81,6 @@ namespace Chef.HRMS.Models.PayrollProcessing
         [Skip(true)]
         [SqlKata.Ignore]
         public int MonthlyAmount { get; set; }
+
     }
 }
