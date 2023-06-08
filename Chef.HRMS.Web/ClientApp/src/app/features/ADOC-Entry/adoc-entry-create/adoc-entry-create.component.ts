@@ -100,18 +100,16 @@ export class AdocEntryCreateComponent implements OnInit {
         })
       }     
 
-     let filterdata= this.adhoc.filter(x=>x.id==this.addForm.value.adhocBFCode)
-      if(filterdata[0].code=='SE'){
-        this.addForm.patchValue({
-          isAddition:true,
-          payrollComponentId:this.addForm.value.adhocBFCode
-        })
-      }else{
-        this.addForm.patchValue({
-          isAddition:false,
-          payrollComponentId:this.addForm.value.adhocBFCode
-        })
-      }
+     let filterdata= this.adhoc.filter(x=>x.id==this.addForm.value.payrollComponentId)
+     if(filterdata[0].code=='SE'){
+      this.addForm.patchValue({
+        isAddition:true,
+      })
+    }else{
+      this.addForm.patchValue({
+        isAddition:false,
+      })
+    }
       this.adocEntryService.add(this.addForm.value).subscribe((result) => {
         if (result) {
           this.toastr.showSuccessMessage('ADOC Entry added successfully!');
@@ -138,7 +136,7 @@ export class AdocEntryCreateComponent implements OnInit {
 
 selectAhoc(args){
   this.addForm.patchValue({
-    adhocBFCode: args.value.id,
+    payrollComponentId: args.value.id,
   })
 
 }
@@ -153,15 +151,14 @@ refreshAdhoc(event){
       employeeId: [null, [
         Validators.required,
       ]],
-      payrollComponentId: [null],
+      payrollComponentId: [null, [
+        Validators.required,
+      ]],
 
       date: [null, [
         Validators.required,
       ]],
       status: ['pending', [
-      ]],
-      adhocBFCode: [null, [
-        Validators.required,
       ]],
       amount: [null, [
         Validators.required
