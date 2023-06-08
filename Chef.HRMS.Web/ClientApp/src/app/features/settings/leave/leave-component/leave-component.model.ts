@@ -13,4 +13,5 @@ export interface LeaveComponent extends Model {
     restrictedToGender: number;
     isRestrictedToMaritalStatus: boolean;
     restrictedToMaritalStatus: number;
+    leaveComponentLopDetails:any
   }
