@@ -16,14 +16,14 @@ namespace Chef.HRMS.Repositories.PayrollProcessing.Repository
         {
         }
 
-        public async Task<LeaveAccrualSummary> GetPreviousAccrualSummary(int employeeId, int day, int month, int year)
+        public async Task<LeaveAccrualSummary> GetPreviousAccrualSummary(int employeeId)
         {
             var sql = @"select * from hrms.leaveaccrualsummary 
                         where employeeid = @employeeId 
                         order by id desc
                         limit 1";
 
-            return await Connection.QueryFirstOrDefaultAsync<LeaveAccrualSummary>(sql, new { employeeId, day,month,year });
+            return await Connection.QueryFirstOrDefaultAsync<LeaveAccrualSummary>(sql, new { employeeId});
         }
 
     }

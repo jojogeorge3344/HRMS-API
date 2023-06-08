@@ -53,7 +53,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                 // Get previous accrual summary details for this employee
                 DateTime now = DateTime.Now;
-                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(leaveAvailedDetails.EmployeeId, 1, now.Month, now.Year);
+                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(leaveAvailedDetails.EmployeeId);
 
                 if (prevAccrualSummaryDetails != null)
                 {
@@ -80,7 +80,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             List<LeaveAccrual> leaveAccruals = new List<LeaveAccrual>();
           //  List<LeaveAccrualSummary> leaveAccrualSummaries = new List<LeaveAccrualSummary>();
 
-            var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
+            var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForLeaveAccrual(paygroupid);
             foreach (var eligibleEmployee in employeeLeaveEligibilityDetails)
             {
                 var now = DateTime.Now;
@@ -111,7 +111,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 }
 
                 // Get previous accrual summary details for eligible employee
-                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId, 1, now.Month, now.Year);
+                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId);
 
                // LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
                 //leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
@@ -121,10 +121,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
                                                                                             // leaveAccrualSummary.AccrualDate = firstDayNextMonth;
 
-                if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
-                {
-                    throw new ResourceNotFoundException("Leave Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-                }
+
                 bool isLeaveCutOff = false;
                 if ((LeaveCutOffType.YearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
                     || (LeaveCutOffType.HalfYearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 6)
@@ -154,7 +151,10 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 }
                 else 
                 {
-
+                    if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+                    {
+                        throw new ResourceNotFoundException("Leave Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                    }
                     if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays)
                     {
                         //no entry to be made into both tables - LeaveAccrual and LeaveSummary
