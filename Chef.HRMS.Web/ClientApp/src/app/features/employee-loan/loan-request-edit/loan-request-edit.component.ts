@@ -43,6 +43,7 @@ export class LoanRequestEditComponent implements OnInit {
   empObj;
   empLoanDetails;
   disableRequestedBy=false
+  isLoading=false;
     constructor(
     private employeeService: EmployeeService,
     private loanRequestService: LoanRequestService,
@@ -137,11 +138,13 @@ getLoanDetails(){
 
 }
   getEmployeeList() {
+    this.isLoading=true
     this.employeeService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
         // lastrow
         this.employeeList = [...result, temp];
+        this.isLoading=false;
       }
       )
   }

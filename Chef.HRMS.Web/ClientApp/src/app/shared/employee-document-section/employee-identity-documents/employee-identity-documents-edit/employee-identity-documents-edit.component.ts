@@ -42,6 +42,8 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
   identityDetails;
   isDuplicate: boolean = false;
   docTypeName;
+  isLoading=false;
+
   constructor(
     private identityDetailsService: EmployeeIdentityDetailsService,
     private documentService: DocumentService,
@@ -63,7 +65,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
     .subscribe((item)=>{
       let temp={id:0,name:'test',isLastRow:true}
       // lastrow
-        this.documentTypeKeys=[...item,temp];   
+        this.documentTypeKeys=[...item,temp];  
         let docType=item.find((item)=>this.editForm.get('documentTypeMasterId').value==item.id)
         this.docTypeName=docType
     })
@@ -78,6 +80,7 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
       .patchValue(this.formatDate(new Date(this.identityDetails.expiryDate)));
   }
   reloadDocTypes(event){
+    this.isLoading=true;
     event.stopPropagation();
     event.preventDefault();
     this.identityDetailsService.getAllActiveDocumentsTypes()
@@ -85,6 +88,8 @@ export class EmployeeIdentityDocumentsEditComponent implements OnInit {
       let temp={id:0,name:'test',isLastRow:true}
       // lastrow
       this.documentTypeKeys=[...item,temp];
+      this.isLoading=false;
+
     })
   } 
   selectDocType(args){

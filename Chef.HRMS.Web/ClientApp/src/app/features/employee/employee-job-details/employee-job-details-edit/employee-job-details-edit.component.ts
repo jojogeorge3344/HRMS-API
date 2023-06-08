@@ -67,6 +67,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   location: any;
   loctaionObj: any;
   visaDesignationName: any;
+  isLoading=false;
 
   @Output() getEditByCreateJobId = new EventEmitter<any>();
   @Input() jobDetailsparamsId:any
@@ -184,10 +185,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   getJobList() {
+    this.isLoading=true;
     this.employeeJobTitleService.getAll().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true };
       // lastrow
       this.jobTitleId = [...result, temp];
+      this.isLoading=false;
     },
       error => {
         console.error(error);
@@ -195,18 +198,22 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       });
   }
   getGroupCategory() {
+    this.isLoading=true;
     this.employeeJobDetailsService.getCategory().subscribe((result: any) => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.groupCategory = [...result, temp];
+      this.isLoading=false;
     })
   }
 
   getEmployeeList() {
+    this.isLoading=true;
     this.employeeService.getAll().subscribe(result => {
       let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.employeeList = [...result, temp];
+      this.isLoading=false;
     },
       error => {
         console.error(error);
@@ -276,10 +283,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   getEmployeeNumber() {
+    this.isLoading=true;
     this.employeeNumbersService.getAllActiveNumberSeries().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.numberSeriesId = [...result, temp];
+      this.isLoading=false;
     },
       error => {
         console.error(error);
@@ -295,10 +304,12 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   // }
 
   getBranches() {
+    this.isLoading=true;
     this.branchService.getAll().subscribe(result => {
       let temp = { id: undefined, shortName: 'test', isLastRow: true }
       // lastrow
       this.location = [...result, temp];
+      this.isLoading=false;
     },
       error => {
         console.error(error);
