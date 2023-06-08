@@ -943,7 +943,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         console.error(error);
       }
     );
-  }
+  } 
 }
 
 
