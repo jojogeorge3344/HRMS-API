@@ -19,6 +19,8 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<PayrollProcessingMethod>> GetDetailsByPaygroupId(int paygroupid, int prevmonth, int prevyear);
         Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId);
         Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno);
-        Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsByPayGroupId(int paygroupid);
+        Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid);
+        Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid);
+
     }
 }

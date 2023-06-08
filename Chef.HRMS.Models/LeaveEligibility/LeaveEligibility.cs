@@ -50,5 +50,10 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public int MonthlyAmount { get; set; }
+
+        [SqlKata.Ignore]
+        [Write(false)]
+        [Skip(true)]
+        public List<LeaveComponentLopDetails> LeaveComponentLopDetails { get; set; }
     }
 }
