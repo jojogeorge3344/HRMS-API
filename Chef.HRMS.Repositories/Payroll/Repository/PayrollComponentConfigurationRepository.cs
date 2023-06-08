@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Chef.HRMS.Repositories;
 using Dapper;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -11,8 +12,12 @@ namespace Chef.HRMS.Repositories
 {
     public class PayrollComponentConfigurationRepository : GenericRepository<PayrollComponentConfiguration>, IPayrollComponentConfigurationRepository
     {
-        public PayrollComponentConfigurationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
+        private readonly ILogPayrollComponentConfigurationRepository logPayrollComponentConfigurationRepository;
+
+        public PayrollComponentConfigurationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session,
+            ILogPayrollComponentConfigurationRepository logPayrollComponentConfigurationRepository) : base(httpContextAccessor, session)
         {
+            this.logPayrollComponentConfigurationRepository = logPayrollComponentConfigurationRepository;
         }
 
         public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollStuctureId(int payrollStructureId)
@@ -34,6 +39,7 @@ namespace Chef.HRMS.Repositories
             {
                 try
                 {
+                    int payrollStructure = payrollComponentConfiguration.Select(x => x.PayrollStructureId).ToList().FirstOrDefault();
                     if (payrollComponentConfiguration.Count() > 0)
                     {
                         (from pbc in payrollComponentConfiguration
@@ -47,6 +53,42 @@ namespace Chef.HRMS.Repositories
                         sql += " ON CONFLICT ON CONSTRAINT payrollcomponentconfiguration_ukey_payrollcomponentid_payrollst DO NOTHING";
 
                          result = await Connection.ExecuteAsync(sql, payrollComponentConfiguration);
+
+                        var payroll = this.GetDetailsByPayrollStuctureId(payrollStructure).Result;
+
+                        List<LogPayrollComponentConfiguration> payrollComponentConfigurationlist = new List<LogPayrollComponentConfiguration>();
+                         foreach(PayrollComponentConfiguration item in payroll)
+                        {
+                            LogPayrollComponentConfiguration logPayrollComponentConfiguration = new LogPayrollComponentConfiguration
+                            {
+                                PayrollComponentId = item.PayrollComponentId,
+                                ClaimFrequency = (Common.Types.ClaimFrequencyType)item.ClaimFrequency,
+                                ClaimLimit = item.ClaimLimit,
+                                Description = item.Description,
+                                IsCustomizedAndOverridenAtEmployeeLevel = item.IsCustomizedAndOverridenAtEmployeeLevel,
+                                IsDifferenceAmountAdjustable = item.IsDifferenceAmountAdjustable,
+                                IsLossOfPayAffected = item.IsLossOfPayAffected,
+                                IsPaidSeparately = item.IsPaidSeparately,
+                                IsPartOfArrearCalculation = item.IsPartOfArrearCalculation,
+                                IsPartOfEarningsAndDeductions = item.IsPartOfEarningsAndDeductions,
+                                IsPartOfLossOfPayCalculation = item.IsPartOfLossOfPayCalculation,
+                                IsProofRequired = item.IsProofRequired,
+                                IsRecurring = item.IsRecurring,
+                                IsVisibleInPayslip = item.IsVisibleInPayslip,
+                                MaximumLimit = item.MaximumLimit,
+                                Name = item.Name,
+                                PayoutPattern = (Common.Types.PayoutPattern)item.PayoutPattern,
+                                PayrollComponentType = item.PayrollComponentType,
+                                PayrollStructureId = item.PayrollStructureId,
+                                ShortCode = item.ShortCode,
+                                IsConfigured = item.IsConfigured,
+                                CategoryId = item.CategoryId,
+                                PayrollComponentConfigurationId = item.Id,
+                            };
+                            payrollComponentConfigurationlist.Add(logPayrollComponentConfiguration);
+                        }
+                         await logPayrollComponentConfigurationRepository.BulkInsertAsync(payrollComponentConfigurationlist);
+
                         if (result != 0)
                         {
                             var payrollStructureId = payrollComponentConfiguration.Select(x => x.PayrollStructureId).FirstOrDefault();
@@ -117,6 +159,15 @@ namespace Chef.HRMS.Repositories
                         AND pcc.isarchived = false ORDER BY pcc.name ASC";
 
             return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollComponentId });
+        }
+
+        public async Task<IEnumerable<PayrollComponentConfiguration>> GetDetailsByPayrollStuctureId(int payrollStructureId)
+        {
+            var sql = @"SELECT * FROM hrms.payrollcomponentconfiguration 
+                        WHERE payrollstructureid = @payrollStructureId
+                        AND isarchived = false";
+
+            return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollStructureId });
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Chef.HRMS.Web.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult<int>> Delete(int id)
         {
-            var result = await payrollComponentConfigurationService.DeleteAsync(id);
+            var result = await payrollComponentConfigurationService.DeletePayrollComponent(id);
 
             return Ok(result);
         }

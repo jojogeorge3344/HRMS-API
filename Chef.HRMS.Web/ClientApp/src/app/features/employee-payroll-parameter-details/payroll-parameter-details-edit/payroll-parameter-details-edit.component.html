@@ -2,23 +2,41 @@
     <h1 class="subheader-title">
       <div>
        Edit Employee Payroll Parameter details
- 
     </div>
     </h1>
   </div> 
 <form [formGroup]="editForm" id="payrollParameterDetailsForm" (validSubmit)="onSubmit()">
     <div class="card p-3" id="addEmployee">
-    <div class="p-3"> 
+    <div class="p-3">
+      <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+      routerLink="/employee-payroll-parameter-details"><i class="fal fa-arrow-left mr-2"></i> Back to payroll parameter details</button> 
         <div class="row align-items-baseline">
-            <div class="form-group form-input-line col-6">
-                <label class="col-form-label" for="userVariableId">User Variables<span class="required">*</span></label>
-                <select class="form-control" formControlName="userVariableId" (change)="onChangeEvent($event)">
-                    <option [ngValue]="null" disabled>Select User Variable</option>
-                    <option *ngFor="let item of userVariableDetails" [ngValue]='item.id'>
-                        {{item.name}}
-                    </option>
-                </select>
+            <div class="form-group form-input-line col-6" >
+                <label class="col-form-label" for="userVariableId"
+                  >User Variables<span class="required">*</span></label
+                >
+                <div class="input-group">
+                <p-dropdown [(ngModel)]="userVarObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass" [options]="userVariableDetails" optionValue="id"
+                 (onChange)="selectUserVariables($event)" optionLabel="name" placeholder="Select User Variable" dataKey="id" name="religionId">
+                  <ng-template let-item pTemplate="item" >  
+                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                      {{item?.value.name}} 
+                    </div> 
+                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshUserVariables($event)">
+                      Refresh
+                      <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                      </div>
+                   </div>
+                </ng-template>
+                </p-dropdown>
+              </div>  
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.editForm.get('userVariableId').touched && this.editForm.get('userVariableId').invalid" class="invalid-feedback d-block">
+                    user variables* is required
+                </div>
             </div>
+              </div> 
+
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label"  for="variableTypeName">Variable Type<span class="required">*</span></label>
                 <input  readonly   autocomplete="off" type="string" class="form-control" id="type" name="variableTypeName" formControlName="variableTypeName">
@@ -27,21 +45,23 @@
             </div>
             <div class="row align-items-baseline">
                 <div class="form-group form-input-line col-6">
-                    <label for="employeeId">
-                        Employee
-                    </label>      
-                    <ng-template #optionTemplate let-item="item" let-config="config">
-                      <i class="fa fa-plus"></i>
-                      {{ item.firstName }}
-                      <span class="new badge"></span>
+                    <label class="col-form-label" for="employeeId" 
+                      >Employee</label
+                    >
+                    <p-dropdown [showClear]="true" [(ngModel)]="empObj" [ngModelOptions]="{standalone: true}" [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
+                    (onChange)="selectEmployee($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="employeeId">
+                      <ng-template let-item pTemplate="item" >  
+                        <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                          {{item?.value.firstName}} 
+                        </div> 
+                        <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshEmployee($event)">
+                          <a  class="link-primary ref"><u>Refresh</u></a>
+                          <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                          </div>
+                       </div>
                     </ng-template>
-                    <ngx-select-dropdown
-                      (change)="selectionChanged($event)"
-                      [config]="config" 
-                      formControlName="employeeId"
-                      [options]="employeeList" 
-                    ></ngx-select-dropdown>
-                </div>
+                    </p-dropdown>
+                  </div> 
             <div class="form-group form-input-inline input-group col-6">
                 <label class="col-12 col-form-label px-0" for="transDate">Date<span class="required">*</span></label>
                 <input class="form-control w-75" name="newDate" formControlName="transDate"
