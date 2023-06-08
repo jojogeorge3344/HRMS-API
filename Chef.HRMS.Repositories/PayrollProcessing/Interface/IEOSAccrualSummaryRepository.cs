@@ -10,6 +10,6 @@ namespace Chef.HRMS.Repositories
 {
     public interface IEOSAccrualSummaryRepository : IGenericRepository<EOSAccrualSummary>
     {
-        Task<EOSAccrualSummary> GetPreviousAccrualSummary(int employeeId, int day, int month, int year);
+        Task<EOSAccrualSummary> GetPreviousEOSAccrualSummary(int employeeId);
     }
 }

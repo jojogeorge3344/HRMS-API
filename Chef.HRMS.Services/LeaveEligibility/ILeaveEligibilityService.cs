@@ -11,6 +11,8 @@ namespace Chef.HRMS.Services
     {
         Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id);
         Task<IEnumerable<BenefitTypes>> GetBenefitType();
+        new Task<int> InsertAsync(LeaveEligibility leaveEligibility);
+        new Task<int> UpdateAsync(LeaveEligibility leaveEligibility);
 
     }
 }
