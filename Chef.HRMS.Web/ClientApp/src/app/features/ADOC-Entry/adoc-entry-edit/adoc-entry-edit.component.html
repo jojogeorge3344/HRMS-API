@@ -60,7 +60,14 @@
                     optionLabel="name" placeholder="Select ADOC BF Code" dataKey="id" name="adhocBFCode">
                     <ng-template let-item pTemplate="item">
                         <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
-                            {{item?.value.name}}
+                            <span style=" min-width: 150px;
+                        max-width: 150px;
+                        text-overflow: ellipsis;
+                        display: inline-block;
+                        overflow: hidden;">  {{item?.value.code}} </span>  
+                        <span  style=" 
+                        display: inline-block;
+                        overflow: hidden;">  {{item?.value.name}} </span>
                         </div>
                         <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
                             (click)="refreshAdhoc($event)">
