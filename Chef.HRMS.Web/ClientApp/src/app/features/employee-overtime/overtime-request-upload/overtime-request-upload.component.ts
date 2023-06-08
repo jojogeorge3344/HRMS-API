@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import { OvertimeRequestService } from '../overtime-request.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'hrms-overtime-request-upload',
   templateUrl: './overtime-request-upload.component.html',
@@ -24,6 +25,8 @@ export class OvertimeRequestUploadComponent implements OnInit {
     private datePipe: DatePipe,
     private overtimeRequestService: OvertimeRequestService,
     private toastr: ToasterDisplayService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     
    }
@@ -133,6 +136,7 @@ export class OvertimeRequestUploadComponent implements OnInit {
       this.overtimeRequestService.saveExcelReport(this.overTimeSaveData)
       .subscribe(result => {
         this.toastr.showSuccessMessage('Excel Report Saved Successfully.');
+        this.router.navigate(["/asset-employee-overtimewise"])
       },
         error => {
           console.error(error);

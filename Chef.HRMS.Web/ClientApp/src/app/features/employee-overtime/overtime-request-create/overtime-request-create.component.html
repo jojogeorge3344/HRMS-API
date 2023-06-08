@@ -7,11 +7,24 @@
     </div>
       <div *ngIf="selectEnable" style=" margin-left: 20px;  padding-right: 20px">
             <label class="col-form-label" for="employeeName" 
-              >Employee Name</label
+              >Employee Name<span class="required">*</span></label
             >
-            <p-dropdown style="margin-right: 20px;" [showClear]="true" [(ngModel)]="empObj" [disabled]="disableRequestedBy" [ngModelOptions]="{standalone: true}" [filter]="true" 
-            class="pngCustomClass" [options]="employeeDetails" optionValue="id"
-            (onChange)="!(item?.value?.isLastRow) ? selectEmployee($event) : ''" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="employeeName">
+            <p-dropdown 
+            style="margin-right: 20px;" 
+            [showClear]="true" 
+            [(ngModel)]="empObj" 
+            [disabled]="disableRequestedBy" 
+            [ngModelOptions]="{standalone: true}" 
+            [filter]="true" 
+            class="pngCustomClass"
+            [options]="employeeDetails" 
+            optionValue="id"
+            (onChange)="!(item?.value?.isLastRow) ? selectEmployee($event) : ''" 
+            optionLabel="firstName" 
+            placeholder="Select Employee" 
+            dataKey="id" 
+            name="employeeName"
+            >
               <ng-template let-item pTemplate="item" >  
                 <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                   {{item?.value.firstName}} 
@@ -42,6 +55,12 @@
                 [config]="config"
                 [options]="employeeDetails"
               ></ngx-select-dropdown> -->
+              <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="this.addForm.get('employeeName').touched && this.addForm.get('employeeName').invalid"
+                    class="invalid-feedback d-block">
+                    Select Employee* is required
+                </div>
+            </div> 
             
       </div>
       <div *ngIf="!selectEnable" style="display: flex;flex-direction: row;">
@@ -96,6 +115,11 @@
                 </div>
             </div> 
         </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div *ngIf="!validateDate" class="invalid-feedback d-block">
+                From Date should be lesser than To Date.
+            </div>
+        </div>
         <div class="row" *ngIf="noticeDayVal" style="height: 65px;">
             <div class="form-group col-sm">
                 <div class="alert alert-info" role="alert">
@@ -146,18 +170,22 @@
         <div class="row">
             <div class="form-group col-sm-4">
               <label for="normalOverTime">Normal Overtime</label>
-              <input type="number" formControlName="normalOverTime" class="form-control" id="normalOverTime">
+              <input (keypress)="setOvertimeValidationFlag()" type="number" formControlName="normalOverTime" class="form-control" id="normalOverTime">
             </div>  
             <div class="form-group col-sm-4">
                 <label for="holidayOverTime">Holiday Overtime</label>
-                <input type="number" formControlName="holidayOverTime" class="form-control" id="holidayOverTime">
+                <input (keypress)="setOvertimeValidationFlag()" type="number" formControlName="holidayOverTime" class="form-control" id="holidayOverTime">
             </div>
             <div class="form-group col-sm-4">
                 <label for="specialOverTime">Special Overtime</label>
-                <input type="number" formControlName="specialOverTime" class="form-control" id="specialOverTime">
+                <input (keypress)="setOvertimeValidationFlag()" type="number" formControlName="specialOverTime" class="form-control" id="specialOverTime">
             </div>
         </div> 
-        
+        <div class="d-flex justify-content-between align-items-center">
+            <div *ngIf="!overtimeValidated" class="invalid-feedback d-block">
+                Enter any of the Overtime.
+            </div>
+        </div>
         <div class="form-group">            
             <span *ngFor="let item of selectedItems" class="badge border border-primary tag">{{ item.firstName }} 
                 <span class="fal fa-times ml-1 text-primary mr-1 link" (click)="remove(item)"></span>
