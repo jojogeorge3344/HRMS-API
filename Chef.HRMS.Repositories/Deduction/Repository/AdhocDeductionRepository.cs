@@ -101,5 +101,17 @@ namespace Chef.HRMS.Repositories
                                        AND pc.isarchived = false;";
             return await Connection.QueryAsync<BenefitTypes>(sql);
         }
+
+        public async Task<IEnumerable<AdhocDeduction>> GetAllAdhocDeductionList()
+        {
+            var sql = @"SELECT ad.*,
+                               pc.name AS payrollcomponentname
+                        FROM   hrms.adhocdeduction ad
+                               INNER JOIN hrms.payrollcomponent pc
+                                  ON ad.payrollcomponentid = pc.id
+                        WHERE  ad.isarchived = FALSE";
+
+            return await Connection.QueryAsync<AdhocDeduction>(sql);
+        }
     }
 }

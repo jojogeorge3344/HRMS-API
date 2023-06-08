@@ -78,7 +78,7 @@ namespace Chef.HRMS.Web.Controllers
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<AdhocDeduction>>> GetAll()
         {
-            var adhocDeduction = await adhocDeductionService.GetAllAsync();
+            var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionList();
 
             return Ok(adhocDeduction);
         }
