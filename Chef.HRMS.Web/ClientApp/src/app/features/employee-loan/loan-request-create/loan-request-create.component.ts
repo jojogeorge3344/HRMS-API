@@ -51,6 +51,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   employeeList;
   empObj;
   disableRequestedBy=false
+  isLoading=false;
   constructor(
     private loanRequestService: LoanRequestService,
     private loanSettingsService: LoanSettingsService,
@@ -118,12 +119,13 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     this.controlSubscription.unsubscribe();
   }
   getEmployeeList() {
+    this.isLoading=true
     this.employeeService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
       // lastrow
       this.employeeList = [...result, temp];
-
+      this.isLoading=false;
         if(this.router.url=='/my-loan'){
           this.addForm.patchValue({ requestedBy: this.currentUserId });
           this.empObj=this.employeeList.find((item) => item.id == this.currentUserId)
