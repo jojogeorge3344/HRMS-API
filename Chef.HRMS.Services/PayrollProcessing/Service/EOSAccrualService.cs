@@ -25,15 +25,18 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
         private readonly IEOSAccrualSummaryRepository eosAccrualSummaryRepository;
         private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
         private readonly ISystemVariableValuesRepository systemVariableValuesRepository;
+        private readonly ISlabRepository slabRepository;
+
 
         public EOSAccrualService(IEOSAccrualRepository eosAccrualRepository, IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
-            IEOSAccrualSummaryRepository eosAccrualSummaryRepository, ISystemVariableValuesRepository systemVariableValuesRepository)
+            IEOSAccrualSummaryRepository eosAccrualSummaryRepository, ISystemVariableValuesRepository systemVariableValuesRepository, ISlabRepository slabRepository)
         {
             this.eosAccrualRepository = eosAccrualRepository;
             this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
             this.eosAccrualSummaryRepository = eosAccrualSummaryRepository;
             this.systemVariableValuesRepository = systemVariableValuesRepository;
-        }
+            this.slabRepository = slabRepository;
+        }   
 
         public async Task<int> GenerateEndOfServiceAvailed(EOSAccrual endOfServiceAvailed)
         {
@@ -113,32 +116,31 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                 if (eligibleEmployee.RetrospectiveAccrual)
                 {
-                    //if salary increased, then if retrospective check prev entry
+                    //if salary increased, then if retrospective check prev entrys and find the amount difference
                 }
 
-                // Get previous accrual summary details for eligible employee
-                //var prevAccrualSummaryDetails = await eosAccrualSummaryRepository.GetPreviousEOSAccrualSummary(eligibleEmployee.EmployeeId);
-                var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
-                // leaveAccrualSummary.AccrualDate = firstDayNextMonth;
-
-                //if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
-                //{
-                //    throw new ResourceNotFoundException("EOS Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-                //}
-
                 //Check if the employee is in probation period and if includeProbationdays no - then no accrual to be generated
+                int employeeDurationInOrganization = DateTime.Now.Subtract(eligibleEmployee.DateOfJoin).Days;
+                var slab = await slabRepository.GetSlabByEOS(eligibleEmployee.eosid, employeeDurationInOrganization);
 
                 //Need to check on the LOP days logic 
                 if (eligibleEmployee.IncludeLOPDays)
                 {
-                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * (eosAccrualEmployee.WorkeddaysInCalMonth - eosAccrualEmployee.LopDaysInCalMonth);
+                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * (slab.ValueVariable - eosAccrualEmployee.LopDaysInCalMonth);
+                    //eosAccrualEmployee.WorkeddaysInCalMonth
                 }
                 else
                 {
-                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * eosAccrualEmployee.WorkingdaysInCalMonth;
+                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * slab.ValueVariable; 
+                        //eosAccrualEmployee.WorkingdaysInCalMonth;
                 }
 
-
+                DateTime empProbationEndDate = eligibleEmployee.DateOfJoin.AddDays(eligibleEmployee.ProbationPeriod); 
+                if (!eligibleEmployee.IncludeProbationDays && (DateTime.Now < empProbationEndDate))
+                {
+                    eosAccrualEmployee.AccrualAmount = 0;
+                    eosAccrualEmployee.AccrualDays = 0;
+                }
                 eosAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eosAccrualEmployee.EligibleDays) * eosAccrualEmployee.AccrualDays;
                 eosAccruals.Add(eosAccrualEmployee);
             }
