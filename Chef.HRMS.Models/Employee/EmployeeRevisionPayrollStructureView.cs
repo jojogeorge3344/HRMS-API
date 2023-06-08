@@ -12,9 +12,9 @@ namespace Chef.HRMS.Models
         public int PayrollComponentId { get; set; }
         public string ShortCode { get; set; }
         public string Name { get; set; }
-        public int Formula { get; set; }
-        public string MonthyAmount { get; set; }
-        public string PayrollCalculationId { get; set; }
-        public int MaximumLimit { get; set; }
+        public string Formula { get; set; }
+        public int MonthyAmount { get; set; }
+        public int PayrollCalculationId { get; set; }
+        public double MaximumLimit { get; set; }
     }
 }
