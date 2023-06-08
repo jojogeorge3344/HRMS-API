@@ -183,6 +183,7 @@ namespace Chef.HRMS.Repositories
 			//		    jd.employeenumber";
 			#endregion
 
+			List<OverTimePayrollViewModel> overTimePayrollViewModel = new List<OverTimePayrollViewModel>();
 			#region slabOT
 			try
 			{
@@ -198,7 +199,6 @@ namespace Chef.HRMS.Repositories
 				{
 					paygroupId
 				});
-				List<OverTimePayrollViewModel> overTimePayrollViewModel = new List<OverTimePayrollViewModel>();
 				if (empList != null && empList.ToList().Count > 0)
 				{
 					foreach (OTEmployeeDetails emp in empList)
@@ -568,7 +568,113 @@ namespace Chef.HRMS.Repositories
 						}
 						else
 						{
+							sql = @"SELECT
+							OTC.normalovertime AS NOTComponentID ,
+							OTC.specialovertime AS SOTComponentID,
+							OTC.holidayovertime AS HOTComponentID,
+							SUM(OT.normalovertime) AS normalovertime,SUM(OT.specialovertime) AS specialovertime,
+							SUM(OT.holidayovertime) AS holidayovertime,escd.monthlyamount AS notrate,escd1.monthlyamount AS sotrate,escd2.monthlyamount AS hotrate
+							FROM hrms.overtime OT
+							INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
 
+							INNER JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
+		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
+
+							INNER JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
+		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
+
+							INNER JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
+		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
+
+							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
+							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate";
+
+							var EmpSettings = await Connection.QueryAsync<OTDetails>(sql, new
+							{
+								fromDate,
+								toDate,
+								employeeid = emp.Id,
+								overtimepolicyid = emp.OverTimePolicyId
+							});
+
+							decimal NotAmt = 0,HotAmt=0, SotAmt=0; 
+							decimal NotHrs =0,HotHrs = 0, SotHrs = 0;
+							decimal NotRate = 0, HotRate = 0, SotRate = 0;
+							if (EmpSettings != null && EmpSettings.ToList().Count > 0)
+							{
+								NotHrs = EmpSettings.ToList().Select(x => x.NormalOverTime).FirstOrDefault();
+								HotHrs = EmpSettings.ToList().Select(x => x.HolidayOverTime).FirstOrDefault();
+								SotHrs = EmpSettings.ToList().Select(x => x.SpecialOverTime).FirstOrDefault();
+								NotRate = EmpSettings.ToList().Select(x => x.NOTRate).FirstOrDefault();
+								HotRate = EmpSettings.ToList().Select(x => x.HOTRate).FirstOrDefault();
+								SotRate = EmpSettings.ToList().Select(x => x.SOTRate).FirstOrDefault();
+								NotAmt = NotHrs*NotRate; 
+								HotAmt = HotHrs*HotRate;
+								SotAmt = SotHrs*SotRate;
+								if (NotHrs > 0)
+								{
+									OverTimePayrollViewModel overTimeViewModel = new OverTimePayrollViewModel
+									{
+										NotHrs = NotHrs,
+										HotHrs = 0,
+										SotHrs = 0,
+										EmployeeId = emp.Id,
+										EmployeeCode = emp.EmployeeCode,
+										EmployeeName = emp.EmployeeName,
+										NotRate = NotRate,
+										HotRate = 0,
+										SotRate = 0,
+										ComponentId = EmpSettings.ToList().Select(x => x.NOTComponentID).FirstOrDefault(),
+										NotAmount = NotAmt,
+										HotAmount = 0,
+										SotAmount = 0,
+										OverTimeId = 0,
+									};
+									overTimePayrollViewModel.Add(overTimeViewModel);
+								}
+								if (SotHrs > 0)
+								{
+									OverTimePayrollViewModel overTimeViewModel = new OverTimePayrollViewModel
+									{
+										NotHrs = SotHrs,
+										HotHrs = 0,
+										SotHrs = 0,
+										EmployeeId = emp.Id,
+										EmployeeCode = emp.EmployeeCode,
+										EmployeeName = emp.EmployeeName,
+										NotRate = SotRate,
+										HotRate = 0,
+										SotRate = 0,
+										ComponentId = EmpSettings.ToList().Select(x => x.SOTComponentID).FirstOrDefault(),
+										NotAmount = SotAmt,
+										HotAmount = 0,
+										SotAmount = 0,
+										OverTimeId = 0,
+									};
+									overTimePayrollViewModel.Add(overTimeViewModel);
+								}
+								if (HotHrs > 0)
+								{
+									OverTimePayrollViewModel overTimeViewModel = new OverTimePayrollViewModel
+									{
+										NotHrs = HotHrs,
+										HotHrs = 0,
+										SotHrs = 0,
+										EmployeeId = emp.Id,
+										EmployeeCode = emp.EmployeeCode,
+										EmployeeName = emp.EmployeeName,
+										NotRate = HotRate,
+										HotRate = 0,
+										SotRate = 0,
+										ComponentId = EmpSettings.ToList().Select(x => x.HOTComponentID).FirstOrDefault(),
+										NotAmount = HotAmt,
+										HotAmount = 0,
+										SotAmount = 0,
+										OverTimeId = 0,
+									};
+									overTimePayrollViewModel.Add(overTimeViewModel);
+								}
+							}
 						}
 
 					}
@@ -584,7 +690,7 @@ namespace Chef.HRMS.Repositories
 			#endregion
 
 
-			return await Connection.QueryAsync<OverTimePayrollViewModel>(sql, new { paygroupId, fromDate, toDate });
+			return overTimePayrollViewModel;
 		}
 
         public async Task<int> OverTimeBulkInsert(IEnumerable<OverTime> overTimes)
