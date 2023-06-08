@@ -1,8 +1,10 @@
 ﻿using Chef.Common.Models;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
+using Chef.HRMS.Models.Slab;
 using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.Http.HttpResults;
+using SqlKata;
 using System;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
@@ -388,16 +390,16 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid)
         {
             var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
-                        jd.employeenumber as employeecode, jd.dateofjoin, jd.probationperiod
+                        jd.employeenumber as employeecode, jd.dateofjoin, jd.probationperiod, jf.eosid
                         FROM 
                         hrms.jobfiling jf
                         left join hrms.hrmsemployee emp on emp.id = jf.employeeid 
                         left join hrms.jobdetails jd on jd.employeeid = jf.employeeid
 						Join hrms.endofservice eos on eos.id = jf.eosid
-                        Join hrms.slab slb on slb.eosid = eos.id
                         Join hrms.employeesalaryconfigurationdetails esd on eos.id = esd.payrollcomponentid
                         WHERE jf.paygroupid = @paygroupid and eos.employeeeosaccrualtype = 30";
-
+            //
+            //Join hrms.slab slb on slb.eosid = eos.id
             //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
             //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
             return await Connection.QueryAsync<EndOfService>(sql, new { paygroupid });

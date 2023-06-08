@@ -25,15 +25,18 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
         private readonly IEOSAccrualSummaryRepository eosAccrualSummaryRepository;
         private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
         private readonly ISystemVariableValuesRepository systemVariableValuesRepository;
+        private readonly ISlabRepository slabRepository;
+
 
         public EOSAccrualService(IEOSAccrualRepository eosAccrualRepository, IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
-            IEOSAccrualSummaryRepository eosAccrualSummaryRepository, ISystemVariableValuesRepository systemVariableValuesRepository)
+            IEOSAccrualSummaryRepository eosAccrualSummaryRepository, ISystemVariableValuesRepository systemVariableValuesRepository, ISlabRepository slabRepository)
         {
             this.eosAccrualRepository = eosAccrualRepository;
             this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
             this.eosAccrualSummaryRepository = eosAccrualSummaryRepository;
             this.systemVariableValuesRepository = systemVariableValuesRepository;
-        }
+            this.slabRepository = slabRepository;
+        }   
 
         public async Task<int> GenerateEndOfServiceAvailed(EOSAccrual endOfServiceAvailed)
         {
@@ -117,18 +120,22 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 }
 
                 //Check if the employee is in probation period and if includeProbationdays no - then no accrual to be generated
+                int employeeDurationInOrganization = DateTime.Now.Subtract(eligibleEmployee.DateOfJoin).Days;
+                var slab = await slabRepository.GetSlabByEOS(eligibleEmployee.eosid, employeeDurationInOrganization);
 
                 //Need to check on the LOP days logic 
                 if (eligibleEmployee.IncludeLOPDays)
                 {
-                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * (eosAccrualEmployee.WorkeddaysInCalMonth - eosAccrualEmployee.LopDaysInCalMonth);
+                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * (slab.ValueVariable - eosAccrualEmployee.LopDaysInCalMonth);
+                    //eosAccrualEmployee.WorkeddaysInCalMonth
                 }
                 else
                 {
-                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * eosAccrualEmployee.WorkingdaysInCalMonth;
+                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * slab.ValueVariable; 
+                        //eosAccrualEmployee.WorkingdaysInCalMonth;
                 }
 
-                DateTime empProbationEndDate = eligibleEmployee.DateOfJoin.AddDays(eligibleEmployee.ProbationPeriod);
+                DateTime empProbationEndDate = eligibleEmployee.DateOfJoin.AddDays(eligibleEmployee.ProbationPeriod); 
                 if (!eligibleEmployee.IncludeProbationDays && (DateTime.Now < empProbationEndDate))
                 {
                     eosAccrualEmployee.AccrualAmount = 0;
