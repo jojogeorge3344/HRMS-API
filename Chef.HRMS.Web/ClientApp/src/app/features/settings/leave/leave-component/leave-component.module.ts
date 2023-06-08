@@ -15,6 +15,7 @@ import { LeaveComponentViewComponent } from './leave-component-view/leave-compon
 import { LeaveSlabCreateComponent } from './leave-slab-create/leave-slab-create.component';
 import { LeaveSlabEditComponent } from './leave-slab-edit/leave-slab-edit.component';
 import { LeaveSlabViewComponent } from './leave-slab-view/leave-slab-view.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 
@@ -49,7 +50,8 @@ import { LeaveSlabViewComponent } from './leave-slab-view/leave-slab-view.compon
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    NgMultiSelectDropDownModule
   ],
 
   providers: [{

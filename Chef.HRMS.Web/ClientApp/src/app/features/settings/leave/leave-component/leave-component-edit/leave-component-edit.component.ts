@@ -23,7 +23,7 @@ import { LeaveSlabCreateComponent } from '../leave-slab-create/leave-slab-create
 import { LeaveSlabEditComponent } from '../leave-slab-edit/leave-slab-edit.component';
 import { LeaveSlabViewComponent } from '../leave-slab-view/leave-slab-view.component';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
-
+import { IDropdownSettings, } from 'ng-multiselect-dropdown';
 @Component({
   selector: "hrms-leave-component-edit",
   templateUrl: "./leave-component-edit.component.html",
@@ -81,6 +81,10 @@ export class LeaveComponentEditComponent implements OnInit {
   leaveComponentsList: any
   activeTab: string = "basic";
   isSlabdisabled: boolean=false;
+  leaveDetectionSettings:IDropdownSettings={};
+  selectedLeaveDetection:any[] = [];
+  leaveDeduction;
+  
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -145,6 +149,13 @@ export class LeaveComponentEditComponent implements OnInit {
       this.editForm2.patchValue({
         id: this.configId,
       });
+      if(result){
+        for(let i=0;i<result.leaveComponentLopDetails.length;i++){
+          this.selectedLeaveDetection.push({id:result.leaveComponentLopDetails[i].payrollComponentId,
+          name:result.leaveComponentLopDetails[i].payrollComponentName})
+        }
+      }
+ 
       this.editForm2.patchValue(result);
       if (res[0].leaveType == 1) {
         this.editForm2.get("leaveEncashment").enable();
@@ -232,6 +243,11 @@ export class LeaveComponentEditComponent implements OnInit {
   getDetectionListType() {
     this.leaveComponentService.getDetectiontype().subscribe((res) => {
       this.detectionTypeList = res;
+      this.leaveDetectionSettings = {
+        idField:'id',
+        textField:'name',
+        allowSearchFilter: true
+      };  
     });
   }
 
@@ -370,7 +386,8 @@ export class LeaveComponentEditComponent implements OnInit {
       isEncash: [false, [Validators.required]],
       // isCarryForward: [false, [Validators.required]],
       leaveComponentId: [null],
-      leaveDeduction: [0,[Validators.required]],
+      // leaveDeduction: [0,[Validators.required]],
+      leaveComponentLopDetails:[],
       leaveEncashment: [{ value: 0, disabled: this.isEncash }],
       annualLeave: [{ value: 0, disabled: this.isAnnual }],
       id: [0],
@@ -387,6 +404,17 @@ export class LeaveComponentEditComponent implements OnInit {
   }
 
   onSubmit2() {
+    debugger
+    let selectedIds=this.selectedLeaveDetection
+    let arrValue = selectedIds.map(({id}) =>id);
+    this.leaveDeduction = arrValue.join()
+    var payrollcomponet =[]
+    selectedIds.forEach((key) => {
+      payrollcomponet.push({id:0,leaveComponentId:this.leaveComponent.id,payrollComponentId : key.id})
+    });
+    this.editForm2.patchValue({
+      leaveComponentLopDetails : payrollcomponet,
+    })
     if(this.activeTab=="slab"){
       this.activeTab = "configure";
      }
