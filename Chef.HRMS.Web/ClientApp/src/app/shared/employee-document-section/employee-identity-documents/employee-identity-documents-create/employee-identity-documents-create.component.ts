@@ -43,6 +43,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
   companyName = "Company";
   branchName = "Branch";
   isDuplicate: boolean = false;
+  isLoading=false;
   @Output() identityDetailsForm = new EventEmitter<boolean>();
 
   constructor(
@@ -70,6 +71,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Education\\${this.currentUserId}\\`;
   }
   reloadDocTypes(event){
+    this.isLoading=true;
     event.stopPropagation();
     event.preventDefault();
     this.identityDetailsService.getAllActiveDocumentsTypes()
@@ -77,6 +79,7 @@ export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
       let temp={id:0,name:'test',isLastRow:true}
       // lastrow
       this.documentTypeKeys=[...item,temp];
+      this.isLoading=false;
     })
   }
   removeFile() {

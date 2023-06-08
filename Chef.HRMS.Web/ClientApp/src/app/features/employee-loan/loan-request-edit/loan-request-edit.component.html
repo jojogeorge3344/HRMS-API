@@ -17,14 +17,16 @@
                     <label class="col-form-label" for="requestedBy" 
                       >Requested By</label
                     >
-                    <p-dropdown [disabled]="disableRequestedBy" [(ngModel)]="empObj" [ngModelOptions]="{standalone: true}"  [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
+                    <p-dropdown [showClear]="true" [disabled]="disableRequestedBy" [(ngModel)]="empObj" [ngModelOptions]="{standalone: true}"  [filter]="true" class="pngCustomClass" [options]="employeeList" optionValue="id"
                     (onChange)="selectRequestedBy($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="id" name="requestedBy">
                       <ng-template let-item pTemplate="item" >  
                         <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
                           {{item?.value.firstName}} 
                         </div> 
                         <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRequestedBy($event)">
-                          <a  class="link-primary ref"><u>Refresh</u></a>
+                          <a class="link-primary ref"><u>Refresh</u></a>
+                          <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                        </div>
                        </div>
                     </ng-template>
                     </p-dropdown>
