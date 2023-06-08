@@ -122,5 +122,13 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(calculation);
         }
-    }
+
+		[HttpGet("GetLOPCalculationDetail/{payGroupId}/{fromDate}/{toDate}")]
+		public async Task<ActionResult<IEnumerable<LOPCalculationView>>> GetLOPCalculationDetail(int payGroupId, DateTime fromDate, DateTime toDate)
+		{
+			var calculation = await leaveAndAttendanceService.GetLOPCalculationDetail(payGroupId, fromDate, toDate);
+
+			return Ok(calculation);
+		}
+	}
 }

@@ -66,6 +66,8 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   overTimePolicyObj: any;
   eosTypeObj: any;
   jobFilingDetails: any;
+  isLoading=false;
+
   @Output() EditByCreateJobFilingId = new EventEmitter<any>();
   @Input() jobFilingparamsId: any
 
@@ -122,12 +124,13 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   // }
 
   getEosType() {
-    debugger
+    this.isLoading=true;
     this.eosService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, bfName: 'test', isLastRow: true }
         // lastrow
         this.eosTypes = [...result, temp];
+        this.isLoading=false;
         // this.getJobFilingID();
       })        // let eosTypesItem = this.setValueById(this.eosTypes, this.jobFilingDetails.eosId)
     // this.eosTypeObj = eosTypesItem;
@@ -173,11 +176,12 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   getLeaveStructure() {
-    debugger
+    this.isLoading=true;
     this.leaveStructureService.getConfiguredLeaveStructures().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.leaveStructureId = [...result, temp];
+      this.isLoading=false;
       // let leaveStructureIdItem = this.setValueById(this.leaveStructureId, this.jobFilingDetails.leaveStructureId)
       // this.leaveStructObj = leaveStructureIdItem;
       // this.getHolidayList();
@@ -189,10 +193,12 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   getHolidayList() {
+    this.isLoading=true;
     this.holidayCategoryService.getAll().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.holidayCategoryId = [...result, temp];
+      this.isLoading=false;
       // let holidayCategoryIdItem = this.setValueById(this.holidayCategoryId, this.jobFilingDetails.holidayCategoryId)
       // this.holidayListObj = holidayCategoryIdItem;
       // this.getExpensePolicyList();
@@ -204,10 +210,12 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   getShiftList() {
+    this.isLoading=true;
     this.shiftService.getAll().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.shiftId = [...result, temp];
+      this.isLoading=false;
       // let shiftIdItem = this.setValueById(this.shiftId, this.jobFilingDetails.shiftId)
       // this.shiftObj = shiftIdItem;
       // this.getPayGroupList();
@@ -220,10 +228,12 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   getExpensePolicyList() {
+    this.isLoading=true;
     this.expensePolicyService.getAllConfiguredExpensePolicies().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.expensePolicyId = [...result, temp];
+      this.isLoading=false;
       // let expensePolicyIdItem = this.setValueById(this.expensePolicyId, this.jobFilingDetails.expensePolicyId)
       // this.expensePolicyObj = expensePolicyIdItem;
       // this.getShiftList();
@@ -236,10 +246,12 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   getPayGroupList() {
+    this.isLoading=true;
     this.payGroupService.getAll().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.payGroupId = [...result, temp];
+      this.isLoading=false;
       // let payGroupIdItem = this.setValueById(this.payGroupId, this.jobFilingDetails.payGroupId)
       // this.paygroupObj = payGroupIdItem;
       // this.getPayrollStructureList();
@@ -252,10 +264,12 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   getPayrollStructureList() {
+    this.isLoading=true;
     this.payrollStructureService.getConfiguredPayrollStructures().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.payrollStructureId = [...result, temp];
+      this.isLoading=false;
       // let payrollStructureIdItem = this.setValueById(this.payrollStructureId, this.jobFilingDetails.payrollStructureId)
       // this.payrollStructObj = payrollStructureIdItem;
       // this.getOverTimePolicyList();
@@ -267,10 +281,12 @@ export class EmployeeJobFilingEditComponent implements OnInit {
   }
 
   getOverTimePolicyList() {
+    this.isLoading=true;
     this.overtimePolicyService.getConfiguredOvertimePolicies().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
       this.overTimePolicyId = [...result, temp];
+      this.isLoading=false;
       // let overTimePolicyIdItem = this.setValueById(this.overTimePolicyId, this.jobFilingDetails.overTimePolicyId)
       // this.overTimePolicyObj = overTimePolicyIdItem;
       // this.getEosType()

@@ -92,5 +92,9 @@ namespace Chef.HRMS.Services
         {
             return await leaveAndAttendanceRepository.GetLOPCalculation(fromDate, toDate);
         }
-    }
+        public async Task<IEnumerable<LOPCalculationView>> GetLOPCalculationDetail(int payGroupId, DateTime fromDate, DateTime toDate)
+        {
+			return await leaveAndAttendanceRepository.GetLOPCalculationDetail(payGroupId, fromDate, toDate);
+		}
+	}
 }

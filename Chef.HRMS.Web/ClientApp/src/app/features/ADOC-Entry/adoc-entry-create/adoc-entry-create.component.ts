@@ -31,8 +31,9 @@ export class AdocEntryCreateComponent implements OnInit {
   statusTypes;
   benefitTypes: any[];
   employee;
-  config;
-
+  empObj;
+  adhocObj;
+  isLoading=false;
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -48,35 +49,28 @@ export class AdocEntryCreateComponent implements OnInit {
     this.getEmployeeList()
     this.getBenefitTypes()
     this.getAdhocBfCode()
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Employee",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: false,
-    };
-
   }
 
-  selectionChanged(args) {
-    this.addForm.get("employeeId").patchValue(args.value.id);
-  }
 
   getEmployeeList() {
+    this.isLoading=true;
     this.employeeService.getAll()
       .subscribe((result) => {
-        this.employeeList = result
+        let temp = { id: undefined, firstName: 'test', isLastRow: true }
+        // lastrow
+        this.employeeList = [...result, temp];
+        this.isLoading=false;
       })
   }
 
-  getAdhocBfCode()
-  {
+  getAdhocBfCode(){
+    this.isLoading=true;
     this.adocEntryService.getAdhocBfCode()
     .subscribe((result) =>{
-      this.adhoc = result;
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.adhoc = [...result, temp];
+      this.isLoading=false;
     })
   }
 
@@ -104,12 +98,7 @@ export class AdocEntryCreateComponent implements OnInit {
         this.addForm.patchValue({
           status:3
         })
-      }     this.employee= this.employeeList.find((item)=>this.addForm.get('employeeId').value==item.id)
-     this.addForm.patchValue({
-      employeeName:this.employee.firstName,
-      employeeCode:this.employee.employeeNumber
-     })
-
+      }     
 
      let filterdata= this.adhoc.filter(x=>x.id==this.addForm.value.adhocBFCode)
       if(filterdata[0].code=='SE'){
@@ -133,6 +122,31 @@ export class AdocEntryCreateComponent implements OnInit {
 
     }
   }
+  selectEmployee(args){
+    debugger
+    this.addForm.patchValue({
+      employeeId: args.value.id,
+      employeeCode:args.value.employeeNumber,
+      employeeName:args.value.firstName
+    })
+  }
+  refreshEmployee(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeList();
+  }
+
+selectAhoc(args){
+  this.addForm.patchValue({
+    adhocBFCode: args.value.id,
+  })
+
+}
+refreshAdhoc(event){
+  event.stopPropagation();
+  event.preventDefault();
+  this.getAdhocBfCode()
+}
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
