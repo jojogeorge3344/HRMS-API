@@ -113,18 +113,8 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                 if (eligibleEmployee.RetrospectiveAccrual)
                 {
-                    //if salary increased, then if retrospective check prev entry
+                    //if salary increased, then if retrospective check prev entrys and find the amount difference
                 }
-
-                // Get previous accrual summary details for eligible employee
-                //var prevAccrualSummaryDetails = await eosAccrualSummaryRepository.GetPreviousEOSAccrualSummary(eligibleEmployee.EmployeeId);
-                var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
-                // leaveAccrualSummary.AccrualDate = firstDayNextMonth;
-
-                //if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
-                //{
-                //    throw new ResourceNotFoundException("EOS Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-                //}
 
                 //Check if the employee is in probation period and if includeProbationdays no - then no accrual to be generated
 
@@ -138,7 +128,12 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                     eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * eosAccrualEmployee.WorkingdaysInCalMonth;
                 }
 
-
+                DateTime empProbationEndDate = eligibleEmployee.DateOfJoin.AddDays(eligibleEmployee.ProbationPeriod);
+                if (!eligibleEmployee.IncludeProbationDays && (DateTime.Now < empProbationEndDate))
+                {
+                    eosAccrualEmployee.AccrualAmount = 0;
+                    eosAccrualEmployee.AccrualDays = 0;
+                }
                 eosAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eosAccrualEmployee.EligibleDays) * eosAccrualEmployee.AccrualDays;
                 eosAccruals.Add(eosAccrualEmployee);
             }

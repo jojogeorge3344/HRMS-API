@@ -387,7 +387,8 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid)
         {
-            var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
+            var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
+                        jd.employeenumber as employeecode, jd.dateofjoin, jd.probationperiod
                         FROM 
                         hrms.jobfiling jf
                         left join hrms.hrmsemployee emp on emp.id = jf.employeeid 
