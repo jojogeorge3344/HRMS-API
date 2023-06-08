@@ -109,7 +109,7 @@ namespace Chef.HRMS.Repositories
                         FROM   hrms.adhocdeduction ad
                                INNER JOIN hrms.payrollcomponent pc
                                   ON ad.payrollcomponentid = pc.id
-                        WHERE  ad.isarchived = FALSE";
+                        WHERE  ad.isarchived = false";
 
             return await Connection.QueryAsync<AdhocDeduction>(sql);
         }

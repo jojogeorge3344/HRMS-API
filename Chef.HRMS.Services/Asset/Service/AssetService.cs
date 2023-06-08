@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 //Queryable q;
 namespace Chef.HRMS.Services
 {
-    public class AssetService : AsyncService<Asset>, IAssetService
+    public class AssetService : IAsyncService<Asset>, IAssetService
     {
         private readonly IAssetRepository assetRepository;
         private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
@@ -56,32 +56,37 @@ namespace Chef.HRMS.Services
         {
             return await assetRepository.GetAllAssetList();
         }
+        //public async Task<int> InsertAsync(Asset asset)
+        //{
+        //   return await assetRepository.InsertAsync(asset);
+        //}
 
-        public  async Task<Asset> InsertAsync(Asset asset)
+        public  async Task<int> InsertAsync(Asset asset)
         {
+            int id = 0;
             try
             {
                 simpleUnitOfWork.BeginTransaction();
-               // asset.ValueId = asset.AssetName + '-' + asset.ValueId;
-                var result = await assetRepository.InsertAsync(asset);
+                // asset.ValueId = asset.AssetName + '-' + asset.ValueId;
+                 id = await assetRepository.InsertAsync(asset);
                 //result=await assetRepository.UpdateAsync(asset)
-                if (asset.AssetMetadataValues !=null)
+                if (asset.AssetMetadataValues != null)
                 {
-                    asset.AssetMetadataValues.ForEach(c => c.AssetId = result);
+                    asset.AssetMetadataValues.ForEach(c => c.AssetId = id);
                     var res = await assetRepository.BulkInsertAsync(asset.AssetMetadataValues);
                 }
-           
+
                 simpleUnitOfWork.Commit();
             }
             catch (Exception ex)
             {
                 simpleUnitOfWork.Rollback();
                 string msg = ex.Message;
-                asset.Id=0;
+                asset.Id = 0;
             }
 
 
-            return asset;
+            return id;
         }
 
         public async Task<int> UpdateAsync(Asset asset)
