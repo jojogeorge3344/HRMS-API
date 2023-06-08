@@ -36,7 +36,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
         public async Task<int> SaveTicketAccruals(List<TicketAccrual> ticketAccruals)
         {
-            return 0;
+            throw new System.NotImplementedException();
         }
 
         public async Task<int> GenerateTicketAvailed(TicketAccrual leaveAvailedDetails)
@@ -45,39 +45,41 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             //Make an entry in the leave accrual summary table - reducing the availdays from the accrueddays for specific employee
             //AvailAmount to be sent in the leaveAvailedDetails 
 
-            TicketAccrual ticketLeaveAccrual = new TicketAccrual();
-            TicketAccrualSummary ticketAccrualSummary = new TicketAccrualSummary();
+            //TicketAccrual ticketLeaveAccrual = new TicketAccrual();
+            //TicketAccrualSummary ticketAccrualSummary = new TicketAccrualSummary();
 
-            if (leaveAvailedDetails != null)
-            {
-                ticketLeaveAccrual.EmployeeId = leaveAvailedDetails.EmployeeId;
-                ticketLeaveAccrual.AccrualStatus = 0; //Pending
-                ticketLeaveAccrual.IsArchived = false;
-              //  ticketLeaveAccrual.AvailAmount = 0;
-              //  employeeLeaveAccrual.AvailDays = leaveAvailedDetails.AvailDays;
-             //   employeeLeaveAccrual.LeaveId = leaveAvailedDetails.LeaveId;
+            //if (leaveAvailedDetails != null)
+            //{
+            //    ticketLeaveAccrual.EmployeeId = leaveAvailedDetails.EmployeeId;
+            //    ticketLeaveAccrual.AccrualStatus = 0; //Pending
+            //    ticketLeaveAccrual.IsArchived = false;
+            //  //  ticketLeaveAccrual.AvailAmount = 0;
+            //  //  employeeLeaveAccrual.AvailDays = leaveAvailedDetails.AvailDays;
+            // //   employeeLeaveAccrual.LeaveId = leaveAvailedDetails.LeaveId;
 
-                // Get previous accrual summary details for this employee
-                DateTime now = DateTime.Now;
-                var prevAccrualSummaryDetails = await ticketAccrualSummaryRepository.GetPreviousAccrualSummary(leaveAvailedDetails.EmployeeId, 1, now.Month, now.Year);
+            //    // Get previous accrual summary details for this employee
+            //    DateTime now = DateTime.Now;
+            //    var prevAccrualSummaryDetails = await ticketAccrualSummaryRepository.GetPreviousAccrualSummary(leaveAvailedDetails.EmployeeId, 1, now.Month, now.Year);
 
-                if (prevAccrualSummaryDetails != null)
-                {
-                    ticketLeaveAccrual.EmployeeId = leaveAvailedDetails.EmployeeId;
-                    //leaveAccrualSummary.AvailDays = leaveAvailedDetails.AvailDays;
-                    //leaveAccrualSummary.AvailAmount = leaveAvailedDetails.AvailAmount;
-                    //leaveAccrualSummary.LeaveId = leaveAvailedDetails.LeaveId;
-                    ticketLeaveAccrual.AccrualDate = leaveAvailedDetails.AccrualDate;
-                    //leaveAccrualSummary.AccrualDays = prevAccrualSummaryDetails.AccrualDays - leaveAvailedDetails.AvailDays;
-                    //leaveAccrualSummary.AccrualAmount = prevAccrualSummaryDetails.AccrualAmount - leaveAvailedDetails.AvailAmount;
-                }
-                var result = await ticketAccrualRepository.InsertAsync(ticketLeaveAccrual);
-                return await ticketAccrualSummaryRepository.InsertAsync(ticketAccrualSummary);
-            }
-            else
-            {
-                throw new ResourceNotFoundException("Leave availed details is null.");
-            }
+            //    if (prevAccrualSummaryDetails != null)
+            //    {
+            //        ticketLeaveAccrual.EmployeeId = leaveAvailedDetails.EmployeeId;
+            //        //leaveAccrualSummary.AvailDays = leaveAvailedDetails.AvailDays;
+            //        //leaveAccrualSummary.AvailAmount = leaveAvailedDetails.AvailAmount;
+            //        //leaveAccrualSummary.LeaveId = leaveAvailedDetails.LeaveId;
+            //        ticketLeaveAccrual.AccrualDate = leaveAvailedDetails.AccrualDate;
+            //        //leaveAccrualSummary.AccrualDays = prevAccrualSummaryDetails.AccrualDays - leaveAvailedDetails.AvailDays;
+            //        //leaveAccrualSummary.AccrualAmount = prevAccrualSummaryDetails.AccrualAmount - leaveAvailedDetails.AvailAmount;
+            //    }
+            //    var result = await ticketAccrualRepository.InsertAsync(ticketLeaveAccrual);
+            //    return await ticketAccrualSummaryRepository.InsertAsync(ticketAccrualSummary);
+            //}
+            //else
+            //{
+            //    throw new ResourceNotFoundException("Leave availed details is null.");
+            //}
+
+            throw new System.NotImplementedException();
 
         }
 
