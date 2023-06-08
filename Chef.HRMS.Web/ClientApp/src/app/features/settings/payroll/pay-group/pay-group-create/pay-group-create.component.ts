@@ -8,6 +8,7 @@ import { PayrollCalendar } from '../../payroll-calendar/payroll-calendar.model';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { PayrollCalendarService } from '@settings/payroll/payroll-calendar/payroll-calendar.service';
 
 @Component({
   selector: 'hrms-pay-group-create',
@@ -17,7 +18,7 @@ export class PayGroupCreateComponent implements OnInit {
 
   addForm: FormGroup;
 
-  @Input() calenders: PayrollCalendar[];
+  // @Input() calenders: PayrollCalendar[];
   @Input() payGroupNames: string[];
   @Input() payGroupCodes: string[];
 
@@ -28,9 +29,11 @@ export class PayGroupCreateComponent implements OnInit {
   monthKeys: number[];
   isStartingMonth = false;
   currency:any[];
-
+  calenders;
+  
   constructor(
     private payGroupService: PayGroupService,
+    private payrollCalendarService: PayrollCalendarService,
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService) {
@@ -50,7 +53,12 @@ export class PayGroupCreateComponent implements OnInit {
       this.currency=result;
     })
   }
-
+  getCalendars() {
+    this.payrollCalendarService.getAll()
+      .subscribe(res => {
+        this.calenders = res;        
+      });
+    }
   onChanges(): void {
     this.addForm.get('payrollCalendarId').valueChanges.subscribe(calenderId => {
       if (this.calenders.find(calender => calenderId == calender.id).periodType == 2) {
@@ -61,6 +69,7 @@ export class PayGroupCreateComponent implements OnInit {
     });
   }
 
+ 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       name: ['', [

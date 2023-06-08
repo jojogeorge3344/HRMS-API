@@ -42,6 +42,8 @@ export class PayGroupListComponent implements OnInit {
     this.payrollCalendarService.getAll()
       .subscribe(res => {
         this.calenders = res;
+        console.log('calender',this.calenders);
+        
       });
   }
 
