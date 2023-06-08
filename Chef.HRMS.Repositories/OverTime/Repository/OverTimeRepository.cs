@@ -587,7 +587,10 @@ namespace Chef.HRMS.Repositories
 		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
 
 							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
-							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate";
+							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN To_date(Cast(@fromDate AS TEXT), 'YYYY-MM-DD') AND To_date(Cast(@toDate AS TEXT), 'YYYY-MM-DD')
+							GROUP BY OTC.normalovertime ,
+							OTC.specialovertime ,
+							OTC.holidayovertime ,escd.monthlyamount,escd1.monthlyamount ,escd2.monthlyamount ";
 
 							var EmpSettings = await Connection.QueryAsync<OTDetails>(sql, new
 							{
