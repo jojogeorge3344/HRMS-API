@@ -59,17 +59,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(payslipList);
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        [HttpDelete("DeletePayslipSetting/{id}")]
+        public async Task<ActionResult<int>> DeletePayslipSetting(int id)
         {
-            var payslipDelete = await payslipSettingService.GetAsync(id);
-
-            if (payslipDelete == null)
-            {
-                return NotFound();
-            }
-
-            var result = await payslipSettingService.DeleteAsync(id);
+            var result = await payslipSettingService.DeletePayslipSetting(id);
 
             return Ok(result);
         }
@@ -85,6 +78,33 @@ namespace Chef.HRMS.Web.Controllers
             }
 
             return Ok(payrollComponent);
+        }
+
+        [HttpGet("GetAllPayrollStructure")]
+        public async Task<ActionResult<IEnumerable<PayrollStructure>>> GetAllPayrollStructure()
+        {
+            var payrollStructure = await payslipSettingService.GetAllPayrollStructure();
+
+            if (payrollStructure == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(payrollStructure);
+        }
+
+        [HttpGet("GetPayslipSettingById/{id}")]
+        public async Task<ActionResult<IEnumerable<PayslipSettingView>>> GetPayslipSettingById(int id)
+        {
+            var payslip = await payslipSettingService.GetPayslipSettingById(id);
+
+            return Ok(payslip);
+        }
+
+        [HttpGet("IsPayslipSettingCodeExist/{code}")]
+        public async Task<bool> IsPayslipSettingCodeExist(string code)
+        {
+            return await payslipSettingService.IsPayslipSettingCodeExist(code);
         }
     }
 }
