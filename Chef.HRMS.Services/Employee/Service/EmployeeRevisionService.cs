@@ -124,6 +124,10 @@ namespace Chef.HRMS.Services
         {
             return await employeeRevisionRepository.GetPayrollComponent(payrollStructureId);
         }
+        public async Task<IEnumerable<EmployeeRevisionPayrollStructureView>> GetPayrollStructureComponent(int payrollStructureId)
+        {
+            return await employeeRevisionRepository.GetPayrollStructureComponent(payrollStructureId);
+        }
 
         public async Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status)
         {
