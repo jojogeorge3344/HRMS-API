@@ -84,6 +84,8 @@ export class LeaveComponentEditComponent implements OnInit {
   leaveDetectionSettings:IDropdownSettings={};
   selectedLeaveDetection:any[] = [];
   leaveDeduction;
+  isMandatoryAccruel:boolean
+  isAccurel:boolean=true
   
 
   constructor(
@@ -155,14 +157,21 @@ export class LeaveComponentEditComponent implements OnInit {
           name:result.leaveComponentLopDetails[i].payrollComponentName})
         }
       }
- 
       this.editForm2.patchValue(result);
       if (res[0].leaveType == 1) {
         this.editForm2.get("leaveEncashment").enable();
         this.editForm2.get("annualLeave").enable();
+        this.editForm2.get("accruedLeaveAmount").enable();
+        this.isMandatoryAccruel=true
+        this.editForm2.patchValue({
+           accruedLeaveAmount:result.accruedLeaveAmount
+          
+        })
       } else {
         this.editForm2.get("leaveEncashment").disable();
         this.editForm2.get("annualLeave").disable();
+        this.editForm2.get("accruedLeaveAmount").disable();
+        this.isMandatoryAccruel=false
       }
       if (res[0].isEncash == true) {
         this.editForm2.get("encashBFCode").enable();
@@ -280,14 +289,21 @@ export class LeaveComponentEditComponent implements OnInit {
     if (event == 1) {
       this.editForm2.get("leaveEncashment").enable();
       this.editForm2.get("annualLeave").enable();
+      this.editForm2.get("accruedLeaveAmount").enable();
+      this.isMandatoryAccruel=true
+      this.isAccurel=false
       this.isEncash = false;
       this.isAnnual = false;
     } else {
       this.editForm2.get("leaveEncashment").disable();
       this.editForm2.get("annualLeave").disable();
+      this.editForm2.get("accruedLeaveAmount").disable();
+      this.isMandatoryAccruel=false
+      this.isAccurel=true
       this.editForm2.patchValue({
         leaveEncashment: 0,
         annualLeave: 0,
+        accruedLeaveAmount:null
       });
       this.isEncash = true;
       this.isAnnual = true;
@@ -382,7 +398,7 @@ export class LeaveComponentEditComponent implements OnInit {
       isIncludeLOPDays: [null, [Validators.required]],
       leaveType: [null, [Validators.required]],
       leaveCutOffType: [null, [Validators.required]],
-      isAccruedLeaveAmount: [false, [Validators.required]],
+      accruedLeaveAmount: [{ value: null, disabled: this.isAccurel }, [Validators.required]],
       isEncash: [false, [Validators.required]],
       // isCarryForward: [false, [Validators.required]],
       leaveComponentId: [null],
