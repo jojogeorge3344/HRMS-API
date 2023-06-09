@@ -411,16 +411,19 @@
                                 </select>
                             </div>
                         </div>
-                    
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="leaveDeduction">LOP BF Code<span class="required">*</span></label>
-                                <select class="form-control" formControlName="leaveDeduction">
+                                <!-- <select class="form-control" formControlName="leaveDeduction">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of detectionTypeList" [ngValue]='key.id'>
                                         {{key.name}}
                                     </option>
-                                </select>
+                                </select> -->
+                                <ng-multiselect-dropdown [(ngModel)]="selectedLeaveDetection" [placeholder]="'Select LOP BF Code'"
+                                [settings]="leaveDetectionSettings"
+                                [data]="detectionTypeList"  [ngModelOptions]="{standalone: true}">
+                               </ng-multiselect-dropdown>
                             </div>
                         </div>
                         <!-- <div class="col-md-3">

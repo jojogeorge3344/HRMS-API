@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories.PayrollProcessing.Repository
         {
         }
 
-        public async Task<TicketAccrualSummary> GetPreviousAccrualSummary(int employeeId, int day, int month, int year)
+        public async Task<TicketAccrualSummary> GetPreviousTicketAccrualSummary(int employeeId, int day, int month, int year)
         {
             var sql = @"select * from hrms.ticketaccrualsummary 
                         where employeeid = @employeeId 
