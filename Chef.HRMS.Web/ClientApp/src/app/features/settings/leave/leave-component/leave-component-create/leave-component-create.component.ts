@@ -23,6 +23,7 @@ import { LeaveSlabGroup } from '../leave-slab.model';
 import { LeaveSlabViewComponent } from '../leave-slab-view/leave-slab-view.component';
 import { LeaveSlabEditComponent } from '../leave-slab-edit/leave-slab-edit.component';
 import { LeaveSlabCreateComponent } from '../leave-slab-create/leave-slab-create.component';
+import { IDropdownSettings, } from 'ng-multiselect-dropdown';
 
 
 @Component({
@@ -83,6 +84,9 @@ export class LeaveComponentCreateComponent implements OnInit {
   isSlabdisabled: boolean=true;
   backToBasic: any;
   configId: any;
+  leaveDetectionSettings:IDropdownSettings={};
+  selectedLeaveDetection;
+  leaveDeduction;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -232,6 +236,11 @@ export class LeaveComponentCreateComponent implements OnInit {
   getDetectionListType() {
     this.leaveComponentService.getDetectiontype().subscribe((res) => {
       this.detectionTypeList = res;
+      this.leaveDetectionSettings = {
+        idField:'id',
+        textField:'name',
+        allowSearchFilter: true
+      };  
     });
   }
 
@@ -357,14 +366,25 @@ export class LeaveComponentCreateComponent implements OnInit {
       isEncash: [false, [Validators.required]],
       // isCarryForward: [false, [Validators.required]],
       leaveComponentId: [null],
-      leaveDeduction: ['',[Validators.required]],
+      // leaveDeduction: ['',[Validators.required]],
       leaveEncashment: [{ value: 0, disabled: this.isEncash }],
       annualLeave: [{ value: 0, disabled: this.isAnnual }],
+      leaveComponentLopDetails:[]
     });
   }
 
   onSubmit2() {
     debugger
+    let selectedIds=this.selectedLeaveDetection
+    let arrValue = selectedIds.map(({id}) =>id);
+    this.leaveDeduction = arrValue.join()
+    var payrollcomponet =[]
+    selectedIds.forEach((key) => {
+      payrollcomponet.push({id:0,leaveComponentId:this.leaveComponentId,payrollComponentId : key.id})
+    });
+    this.addForm2.patchValue({
+      leaveComponentLopDetails : payrollcomponet,
+    })
     if(this.activeTab=="slab"){
       this.activeTab = "configure";
      }

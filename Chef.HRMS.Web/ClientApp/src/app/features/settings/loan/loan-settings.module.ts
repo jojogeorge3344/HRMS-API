@@ -9,6 +9,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { LoanSettingsCreateComponent } from './loan-settings-create/loan-settings-create.component';
 import { LoanSettingsEditComponent } from './loan-settings-edit/loan-settings-edit.component';
 import { LoanSettingsViewComponent } from './loan-settings-view/loan-settings-view.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 
@@ -39,7 +40,8 @@ import { LoanSettingsViewComponent } from './loan-settings-view/loan-settings-vi
     FormsModule,
     ReactiveFormsModule,
     NgBootstrapFormValidationModule,
-    DirectivesModule
+    DirectivesModule,
+    DropdownModule
   ]
 })
 export class LoanSettingsModule { }

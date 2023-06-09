@@ -303,7 +303,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
       extendedmonth: [0],
-      requestedBy: [0]
+      requestedBy: [null,[Validators.required]]
     });
   }
 }

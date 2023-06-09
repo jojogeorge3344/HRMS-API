@@ -32,6 +32,7 @@ export class LoanRequestViewComponent implements OnInit {
   @Input() paymentTypes: any;
   @Input() loanId: any;
   @Input() loanRequest: LoanRequest;
+  scheduleArray:any=[]
 
   constructor(
     private employeeService: EmployeeService,
@@ -72,7 +73,6 @@ export class LoanRequestViewComponent implements OnInit {
       result.expectedOn = new Date(result.expectedOn);
       this.loanNo = result.loanNo;
       this.viewForm.patchValue(result);
-
     },
       error => {
         console.error(error);
@@ -107,7 +107,7 @@ export class LoanRequestViewComponent implements OnInit {
       .subscribe((result) => {
         this.employeeList = result
         let details: any = null;
-        debugger
+        
         details = this.employeeList.find((item) => item.id == this.requestedBy)
         //this.viewForm.patchValue({ requestedBy: null });
         this.viewForm.get('requestedBy').updateValueAndValidity()
@@ -119,9 +119,14 @@ export class LoanRequestViewComponent implements OnInit {
         //      this.editForm.patchValue({employeeId:details});
         //   }
         //  });
-
+        if(this.viewForm.controls.loanType.value === 2){
+          this.generateSchedule()
+        }
+        
       }
       )
+
+
   }
   getEmpDetails(){
     this.loanRequestService.get(this.loanId).subscribe(result => {
@@ -161,6 +166,45 @@ export class LoanRequestViewComponent implements OnInit {
       ev.preventDefault();
     }
   }
+
+
+  generateSchedule(){
+    this.scheduleArray = []
+
+
+    let totalperiod = this.viewForm.value.repaymentTerm
+    let amountperMonth
+    amountperMonth = this.viewForm.value.loanAmount / totalperiod
+    amountperMonth = parseInt(amountperMonth)
+    amountperMonth = parseFloat(amountperMonth)
+    amountperMonth = Math.round(amountperMonth)
+
+
+
+    var startingMonth = parseInt(this.viewForm.value.emiStartsFromMonth)
+    var startYear = this.viewForm.value.emiStartsFromYear
+    var startDate = new Date(startYear, startingMonth - 1);
+
+
+
+
+    for (var i = 1; i <= totalperiod; i++) {
+      if (i == 1) {
+        var month = startDate.getMonth() + 1
+        var year = startDate.getFullYear()
+        this.scheduleArray.push({ Year: year, Month: this.months[month - 1], Amount: amountperMonth, Status: 'Pending' })
+      } else {
+        var startingMonth = parseInt(this.viewForm.value.emiStartsFromMonth)
+        var startYear = this.viewForm.value.emiStartsFromYear
+        var startDate = new Date(startYear, startingMonth - 1);
+        var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i - 1));
+        month = upComingDate.getMonth() + 1
+        year = upComingDate.getFullYear()
+        this.scheduleArray.push({ Year: year, Month: this.months[month - 1], Amount: amountperMonth, Status: 'Pending' })
+      }
+      
+    }
+}
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

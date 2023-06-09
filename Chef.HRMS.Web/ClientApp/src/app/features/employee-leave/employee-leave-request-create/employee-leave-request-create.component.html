@@ -39,9 +39,18 @@
         >Requested By<span class="required">*</span></label
       >
       <div class="input-group">
-      <p-dropdown [(ngModel)]="empObj" [disabled]="disableRequestedBy" [ngModelOptions]="{standalone: true}" [filter]="true" class="pngCustomClass"
-       [options]="employeeList" optionValue="firstName"
-      (onChange)="selectRequestedBy($event)" optionLabel="firstName" placeholder="Select Employee" dataKey="firstName" name="employeeName">
+      <p-dropdown 
+      [(ngModel)]="empObj"
+       [disabled]="disableRequestedBy"
+        [ngModelOptions]="{standalone: true}"
+         [filter]="true" class="pngCustomClass"
+       [options]="employeeList" 
+       optionValue="firstName"
+      (onChange)="selectRequestedBy($event)"
+       optionLabel="firstName"
+        placeholder="Select Employee"
+         dataKey="firstName"
+          name="employeeName">
         <ng-template let-item pTemplate="item" >  
           <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
             {{item?.value.firstName}} 

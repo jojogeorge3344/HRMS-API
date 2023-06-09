@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ReportViewerComponent } from "@shared/report-viewer/report-viewer.component";
 import { ReportViewerService } from "@shared/report-viewer/report-viewer.service";
 
@@ -21,6 +21,8 @@ export class LoanRequestPrintComponent implements OnInit {
   constructor(
     private reportViewerService: ReportViewerService,
     private route: ActivatedRoute,
+    private router: Router,
+   
   ) {
     this.reportViewerService.serviceUrl = this.serviceUrl;
   }
@@ -32,7 +34,14 @@ export class LoanRequestPrintComponent implements OnInit {
       this.updateReportViewerService();
     });
   }
-
+   backButton(){
+    debugger
+    if(this.router.url.includes('/my-loan')){
+     this.router.navigate(["/my-loan"])
+    }else {
+      this.router.navigate(["/employee-loan"])
+    }
+   }
   load() {
     this.reportViewerService.cancelRequest = false;
     this.updateReportViewerService();

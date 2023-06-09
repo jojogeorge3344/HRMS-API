@@ -6,6 +6,7 @@ import { LoanSettings } from '../loan-settings.model';
 import { InterestMethod } from "../../../../models/common/types/interestmethod";
 import { Router, ActivatedRoute } from '@angular/router';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -19,7 +20,11 @@ export class LoanSettingsEditComponent implements OnInit {
   deductionBfCodeTypes;
   loanAdvanceDetails: any;
   loanRepaymentDetails: any;
-
+  loanAdvObj;
+  isLoading = false;
+  loanDetails;
+  loanRepayObj;
+  
   constructor(private loanSettingsService: LoanSettingsService,
     private formBuilder: FormBuilder,
     private router: Router,
@@ -27,78 +32,90 @@ export class LoanSettingsEditComponent implements OnInit {
     private toastr: ToasterDisplayService) { }
 
   ngOnInit(): void {
-    this.currentUserId = getCurrentUserId();  
+    this.currentUserId = getCurrentUserId();
     this.editForm = this.createFormGroup();
     this.GetDeductionBFCode()
     this.onChanges();
-    this.getLoanSettings();
-    this.getLoanAdvanceDetails()
-    this.getLoanRepaymentDetails()
+    this.fillDropDowns()
   }
 
   onChanges(): void {
-    this.editForm.get('eligiblePeriod').valueChanges.subscribe(value=>{
-      if(value === 1) {
+    this.editForm.get('eligiblePeriod').valueChanges.subscribe(value => {
+      if (value === 1) {
         this.editForm.get('eligibleDaysFromJoining').enable();
-        this.editForm.patchValue( {isEligibleinAfterProbationPeriod: false} );
-      }         
+        this.editForm.patchValue({ isEligibleinAfterProbationPeriod: false });
+      }
       else {
         this.editForm.get('eligibleDaysFromJoining').disable();
-        this.editForm.patchValue( {isEligibleinAfterProbationPeriod: true} );
+        this.editForm.patchValue({ isEligibleinAfterProbationPeriod: true });
       }
-        
+
     });
 
-    this.editForm.get('isEligibleBasedonAnnualGrossSalary').valueChanges.subscribe(value=>{
-      if(value){
+    this.editForm.get('isEligibleBasedonAnnualGrossSalary').valueChanges.subscribe(value => {
+      if (value) {
         this.editForm.get('salaryFromRange').enable();
         this.editForm.get('salaryToRange').enable();
-      }    
+      }
       else {
-        this.editForm.get('salaryFromRange').disable();   
+        this.editForm.get('salaryFromRange').disable();
         this.editForm.get('salaryToRange').disable();
-      }        
+      }
     });
   }
 
-  GetDeductionBFCode(){
+  GetDeductionBFCode() {
     debugger
     this.loanSettingsService.getDeductionBFCode()
-    .subscribe((result)=>{
-     this.deductionBfCodeTypes=result;
-    })
+      .subscribe((result) => {
+        this.deductionBfCodeTypes = result;
+      })
   }
-  getLoanAdvanceDetails(){
-    debugger
+  getLoanAdvanceDetails() {
+    this.isLoading = true;
     this.loanSettingsService.getLoanAdvance()
-    .subscribe((result)=>{
-     this.loanAdvanceDetails=result;
-    })
+      .subscribe((result: any) => {
+        let temp = { id: undefined, payrollComponentName: 'test', isLastRow: true }
+        // lastrow
+        this.loanAdvanceDetails = [...result, temp];
+        this.isLoading = false;
+        this.loanAdvObj = this.loanAdvanceDetails.find((item) => item.payrollComponentId == this.loanDetails.loanAdvanceType)
+
+      })
 
   }
-  getLoanRepaymentDetails(){
-    debugger
+  getLoanRepaymentDetails() {
+    this.isLoading = true;
     this.loanSettingsService.getLoanRepayment()
-    .subscribe((result)=>{
-     this.loanRepaymentDetails=result;
-    })
-
+      .subscribe((result:any) => {
+        let temp = { id: undefined, payrollComponentName: 'test', isLastRow: true }
+        // lastrow
+        this.loanRepaymentDetails = [...result, temp];
+        this.isLoading = false;
+        this.loanRepayObj = this.loanRepaymentDetails.find((item) => item.payrollComponentId == this.loanDetails.loanRepaymentType)
+      })
   }
 
   getLoanSettings() {
-    this.loanSettingsService.get().subscribe((result: LoanSettings) => {      
+    this.loanSettingsService.get().subscribe((result: LoanSettings) => {
       this.editForm.patchValue(result);
-      if(result.isEligibleinAfterProbationPeriod) {
-        this.editForm.patchValue( { eligiblePeriod: 2} );
+      this.loanDetails = result
+      this.loanAdvObj = this.loanAdvanceDetails.find((item) => item.payrollComponentId == this.loanDetails.loanAdvanceType)
+      this.loanRepayObj = this.loanRepaymentDetails.find((item) => item.payrollComponentId == this.loanDetails.loanRepaymentType)
+      if (result.isEligibleinAfterProbationPeriod) {
+        this.editForm.patchValue({ eligiblePeriod: 2 });
         this.editForm.get('eligibleDaysFromJoining').disable();
       }
     });
+    console.log('loanAdvObj', this.loanAdvObj)
+    console.log('loanAdvanceDetails', this.loanAdvanceDetails)
+
   }
-  
+
   validateNumber(ev) {
     const keyCode = ev.keyCode;
     const excludedKeys = [8, 110, 190];
-   if (
+    if (
       !(
         (keyCode >= 48 && keyCode <= 57) ||
         (keyCode >= 96 && keyCode <= 105) ||
@@ -108,19 +125,66 @@ export class LoanSettingsEditComponent implements OnInit {
       ev.preventDefault();
     }
   }
-  
-  onSubmit(){  
-    this.editForm.removeControl('eligiblePeriod');  
-    this.loanSettingsService.update(this.editForm.value).subscribe((result: number)=> {
-      if(result === 1) {
+
+  onSubmit() {
+    debugger
+    this.editForm.removeControl('eligiblePeriod');
+    this.loanSettingsService.update(this.editForm.value).subscribe((result: number) => {
+      if (result === 1) {
         this.toastr.showSuccessMessage('Settings for loan updated');
         this.router.navigate(['./'], { relativeTo: this.route.parent });
       }
     },
-    error=>{
-      console.error(error);
-      this.toastr.showErrorMessage('Settings for loan updation failed');
-    });
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Settings for loan updation failed');
+      });
+  }
+
+  selectLoanAdvance(args) {
+    debugger
+    if (args.value && args.value.payrollComponentId) {
+      this.editForm.patchValue({
+        loanAdvanceType: args.value.payrollComponentId,
+      })
+    } else {
+      this.editForm.patchValue({
+        loanAdvanceType: 0,
+      })
+    }
+  }
+  refreshLoanAdvance(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getLoanAdvanceDetails();
+  }
+  selectLoanRepayment(args) {
+    debugger
+    if (args.value && args.value.payrollComponentId) {
+      this.editForm.patchValue({
+        loanRepaymentType: args.value.payrollComponentId,
+      })
+    } else {
+      this.editForm.patchValue({
+        loanRepaymentType: 0,
+      })
+    }
+  }
+  refreshLoanRepayment(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getLoanRepaymentDetails();
+  }
+  fillDropDowns() {
+    forkJoin([
+      this.loanSettingsService.getLoanAdvance(),
+      this.loanSettingsService.getLoanRepayment()
+    ]).subscribe((res: any) => {
+      let temp = { id: undefined, payrollComponentName: 'test', isLastRow: true };
+      this.loanAdvanceDetails = [...res[0], temp];
+      this.loanRepaymentDetails = [...res[1], temp];
+      this.getLoanSettings()
+    })
   }
 
   createFormGroup(): FormGroup {
@@ -130,36 +194,36 @@ export class LoanSettingsEditComponent implements OnInit {
       isEligibleinAfterProbationPeriod: [true],
       eligibleDaysFromJoining: [null, [
         Validators.required,
-        Validators.max(365) 
+        Validators.max(365)
       ]],
       isEligibleBasedonAnnualGrossSalary: [true],
       salaryFromRange: [null, [
         Validators.required,
-        Validators.min(1) ,
-        Validators.max(99999999)         
+        Validators.min(1),
+        Validators.max(99999999)
       ]],
       salaryToRange: [null, [
         Validators.required,
-        Validators.min(1) ,
-        Validators.max(99999999)         
+        Validators.min(1),
+        Validators.max(99999999)
       ]],
       isEligibleinNoticePeriod: [false],
       standardInterestRate: [null, [
         Validators.required,
-        Validators.min(0) ,
-        Validators.max(150)         
+        Validators.min(0),
+        Validators.max(150)
       ]],
       maxNumberofInstallments: [null, [
         Validators.required,
-        Validators.min(1) ,
-        Validators.max(36)         
-      ]], 
-      deductionBFCode:[0,[]]  ,
-      loanAdvanceType:[0],
-      loanRepaymentType:[0],
+        Validators.min(1),
+        Validators.max(36)
+      ]],
+      deductionBFCode: [0, []],
+      loanAdvanceType: [0],
+      loanRepaymentType: [0],
       interestCalcutationMethod: [this.interestMethod['ReductionRate']],
       createdDate: []
-    }, { validators: rangeValidator });  
+    }, { validators: rangeValidator });
   }
 }
 
