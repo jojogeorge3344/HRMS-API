@@ -494,13 +494,14 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
-                                <select class="form-control" formControlName="isAccruedLeaveAmount">
-                                    <option [ngValue]="null" disabled>Select</option>
-                                    <option [ngValue]=true>
+                                <label *ngIf="!isMandatoryAccruel" class="col-form-label" for="accruedLeaveAmount">Accrue Leave Amount</label>
+                                <label *ngIf="isMandatoryAccruel" class="col-form-label" for="accruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
+                                <select class="form-control" formControlName="accruedLeaveAmount">
+                                    <option [ngValue]=null disabled>Select</option>
+                                    <option value="true">
                                      Yes
                                     </option>
-                                    <option [ngValue]=false>
+                                    <option value="false">
                                         No
                                        </option>
                                 </select>

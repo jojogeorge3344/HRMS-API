@@ -87,6 +87,8 @@ export class LeaveComponentCreateComponent implements OnInit {
   leaveDetectionSettings:IDropdownSettings={};
   selectedLeaveDetection;
   leaveDeduction;
+  isMandatoryAccruel:boolean=false
+  isAccurel:boolean=true
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -273,11 +275,17 @@ export class LeaveComponentCreateComponent implements OnInit {
     if (this.addForm2.value.leaveType == 1) {
       this.addForm2.get("leaveEncashment").enable();
       this.addForm2.get("annualLeave").enable();
+      this.addForm2.get("accruedLeaveAmount").enable();
+      this.isMandatoryAccruel=true
+      this.isAccurel=false
       this.isEncash = false;
       this.isAnnual = false;
     } else {
       this.addForm2.get("leaveEncashment").disable();
       this.addForm2.get("annualLeave").disable();
+      this.addForm2.get("accruedLeaveAmount").disable();
+      this.isMandatoryAccruel=false
+      this.isAccurel=true
       this.isEncash = true;
       this.isAnnual = true;
       // this.addForm.controls['cfLimitDays'].reset();
@@ -362,7 +370,7 @@ export class LeaveComponentCreateComponent implements OnInit {
       isIncludeLOPDays: [null, [Validators.required]],
       leaveType: [null, [Validators.required]],
       leaveCutOffType: [null, [Validators.required]],
-      isAccruedLeaveAmount: [false, [Validators.required]],
+      accruedLeaveAmount: [{ value: null, disabled: this.isAccurel }, [Validators.required]],
       isEncash: [false, [Validators.required]],
       // isCarryForward: [false, [Validators.required]],
       leaveComponentId: [null],
@@ -391,6 +399,9 @@ export class LeaveComponentCreateComponent implements OnInit {
     this.addForm2.patchValue({
       leaveComponentId: this.leaveComponentId,
     });
+    if(this.addForm2.value.leaveType==2){
+      this.addForm2.value.accruedLeaveAmount = null
+    }
     if(this.addForm2.value.id){
       this.leaveEligiblityService.update(this.addForm2.value).subscribe(
         (result: any) => {
