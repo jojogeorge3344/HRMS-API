@@ -47,7 +47,7 @@
 
         <div class="form-group form-input-inline col-6">
           <label class="col-12 col-form-label px-0">New Asset Type<span class="required">*</span></label>
-          <select
+          <!-- <select
             id="newAssetType"
             name="newAssetType"
             class="form-control w-100"
@@ -57,7 +57,21 @@
             <option *ngFor="let dtype of dataType" [ngValue]="dtype.id">
               {{ dtype.assettypename }}
             </option>
-          </select>
+          </select> -->
+          <p-dropdown  [filter]="true" class="pngCustomClass"
+          [options]="dataTypeForNewAssetType" optionValue="id"
+         (onChange)="getUnallocatedAssets($event)" optionLabel="assettypename" placeholder="Select Asset Type" dataKey="id" name="newAssetType">
+           <ng-template let-item pTemplate="item" >  
+             <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+               {{item?.value.assettypename}} 
+             </div> 
+             <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRequestedBy($event)">
+               <a  class="link-primary ref"><u>Refresh</u></a>
+               <div *ngIf="isLoading==true" class="spinner-border ml-1">
+               </div>
+            </div>
+         </ng-template>
+         </p-dropdown>
         </div>
 
         <div class="form-group form-input-line col-6">

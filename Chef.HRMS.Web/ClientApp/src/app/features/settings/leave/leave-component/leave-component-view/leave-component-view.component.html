@@ -376,16 +376,16 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="col-form-label" for="isAccruedLeaveAmount"
+                  <label class="col-form-label" for="accruedLeaveAmount"
                     >Accrue Leave Amount<span class="required">*</span></label
                   >
                   <select disabled
                     class="form-control"
-                    formControlName="isAccruedLeaveAmount"
+                    formControlName="accruedLeaveAmount"
                   >
                     <option [ngValue]="null" disabled>Select</option>
-                    <option [ngValue]="true">Yes</option>
-                    <option [ngValue]="false">No</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
                   </select>
                 </div>
               </div>
