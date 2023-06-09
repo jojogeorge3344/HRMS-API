@@ -44,6 +44,7 @@ export class LoanRequestEditComponent implements OnInit {
   empLoanDetails;
   disableRequestedBy=false
   isLoading=false;
+  validateRequestedBy:boolean=true
     constructor(
     private employeeService: EmployeeService,
     private loanRequestService: LoanRequestService,
@@ -151,9 +152,15 @@ getLoanDetails(){
 
   onSubmit() {
     debugger
-    if (this.editForm.invalid) {
+    if (this.editForm.invalid ) {
       return
     }
+
+    this.validateRequestedBy = this.editForm.controls.requestedBy.value == 0 || this.editForm.controls.requestedBy.value == null ? false :true
+    if(!this.validateRequestedBy){
+      return
+     }
+    
     const editloanRequestForm = this.editForm.value;
     if(this.router.url=='/my-loan'){
       editloanRequestForm.requestedBy = this.currentUserId;
@@ -179,6 +186,10 @@ getLoanDetails(){
   draftSave() {
     if (this.editForm.invalid) {
       return
+    }
+    this.validateRequestedBy = this.editForm.controls.requestedBy.value == 0 || this.editForm.controls.requestedBy.value == null ? false :true
+    if(!this.validateRequestedBy){
+     return
     }
     const editloanRequestForm = this.editForm.value;
     if(this.router.url=='/my-loan'){
@@ -391,6 +402,7 @@ getLoanDetails(){
         requestedBy: 0,
       })  
     }
+    this.validateRequestedBy = true
   }
   refreshRequestedBy(event){
     event.stopPropagation();
@@ -431,7 +443,7 @@ getLoanDetails(){
       loanSettingId: [this.loanSettingId],
       createdDate: [],
       extendedMonth: [0],
-      requestedBy: [0],
+      requestedBy: [0,[Validators.required]],
 
     });
   }

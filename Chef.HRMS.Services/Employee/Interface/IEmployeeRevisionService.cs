@@ -10,6 +10,7 @@ namespace Chef.HRMS.Services
     {
         Task<EmployeeRevisionOld> GetEmployeeDetail(int employeeId);
         Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId);
+        Task<IEnumerable<EmployeeRevisionPayrollStructureView>> GetPayrollStructureComponent(int payrollStructureId);
         Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status);
         Task<int> EmployeeRevisionProcess(int employeeRevisionid);
         Task<int> InsertAsync(EmployeeRevisionDTO employeeRevisionDTO);

@@ -34,7 +34,6 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   relName;
   religionInValid:boolean=false;
   isLoading=false;
-
   @Output() basicDetailsForm = new EventEmitter<boolean>();
   @Input() basicDetails: any;
   constructor(

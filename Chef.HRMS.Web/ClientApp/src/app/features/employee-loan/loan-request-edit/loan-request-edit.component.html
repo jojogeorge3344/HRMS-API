@@ -30,6 +30,10 @@
                        </div>
                     </ng-template>
                     </p-dropdown>
+                    <div *ngIf="!validateRequestedBy"
+                    class="invalid-feedback d-block">
+                    Select Requested By* is required
+                </div>
                   </div> 
 
                 <div class="form-group ">
