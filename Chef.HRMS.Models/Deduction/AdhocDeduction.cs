@@ -75,6 +75,12 @@ namespace Chef.HRMS.Models
         public int PayrollProcessYear { get; set; }
 
         public int PayrollProcessMonth { get; set; }
+
         public string EmployeeName { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string PayrollComponentName { get; set; }
     }
 }
