@@ -20,5 +20,14 @@ namespace Chef.HRMS.Repositories
             .Where("payslipsettingid", payslipSettingId)
             .DeleteAsync();
         }
+
+        public async Task<IEnumerable<PayslipSettingDetails>> GetPayslipSettingsDetailsByPayslipSettingsId(int id)
+        {
+            return await QueryFactory
+            .Query<PayslipSettingDetails>()
+            .Where("payslipsettingid", id)
+            .WhereNotArchived()
+            .GetAsync<PayslipSettingDetails>();
+        }
     }
 }
