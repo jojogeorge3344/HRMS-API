@@ -17,6 +17,10 @@ export class EosCreateComponent implements OnInit {
   addForm: FormGroup;
   EOSAccrualTypeDetails: any;
   EOSPaymentTypeDetails: any
+  settlementBfCode;
+  isLoading;
+  eosPaymentBfCodeObj;
+
   // componentType: any;
   // employeeEOSAccrualType: object;
   // employeeEOSAccrualTypeKeys: number[];
@@ -44,13 +48,22 @@ export class EosCreateComponent implements OnInit {
     // this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
   }
   getEmployeeEOSAccrualTypeDetail(){
+    this.isLoading=true;
     this.eosService.getEmployeeEOSAccrual().subscribe(res=>{
-      this.EOSAccrualTypeDetails=res
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+        this.EOSAccrualTypeDetails = [...res, temp];
+        this.isLoading=false
     })
   }
   getEmployeeEOSpaymentTypeDetail(){
+    this.isLoading=true;
     this.eosService.getEmployeeEOSpaymentType().subscribe(res=>{
-      this.EOSPaymentTypeDetails=res
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+        this.EOSPaymentTypeDetails = [...res, temp];
+        this.isLoading=false
+
     })
   }
   onSubmit() {
@@ -133,7 +146,26 @@ export class EosCreateComponent implements OnInit {
       
     });
   }
-
+  selectSettlementCode(args){
+    this.addForm.patchValue({
+      employeeEOSAccrualType:args.value.id,
+    })
+  }
+  selectPaymentBfCode(args){
+    this.addForm.patchValue({
+      employeeEOSpaymentType:args.value.id,
+    })
+  }
+  refreshBfCode(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeEOSAccrualTypeDetail();
+  }
+  refreshPaymentBfCode(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeEOSAccrualTypeDetail();
+  }
 }
 
 
