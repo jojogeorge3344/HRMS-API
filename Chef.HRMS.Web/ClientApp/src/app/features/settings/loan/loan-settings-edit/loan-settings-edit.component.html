@@ -8,7 +8,6 @@
         <div class="col-sm">
             <div class="ml-2">
                 <form [formGroup]="editForm" (validSubmit)="onSubmit()">
-
                     <div class="header-button-wrapper mt-3">
                         <div class="content-header ">Loan Eligibility</div>
                     </div>
@@ -92,56 +91,69 @@
                               >Normal Overtime BF Code</span
                             >        
                         </div>
+                        <div class="col-md-7"></div>
+                    </div> -->
+                    <div class="row mt-5">
+                        <div class="with-input form-group col-md-2">
+                            <span class="text-nowrap">Loan Advance</span>
+                        </div>
                         <div class="form-group col-md-3">
-                          <select class="form-control" formControlName="deductionBFCode">
-                            <option [ngValue]="null" disabled>Select</option>
-                            <option
-                              [ngValue]="deductionBfCodeTypes.id"
-                            >
-                              {{ deductionBfCodeTypes.name }}
-                            </option>
-                          </select>
+                            <p-dropdown [showClear]="true" [(ngModel)]="loanAdvObj"
+                                [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+                                [options]="loanAdvanceDetails" optionValue="payrollComponentId"
+                                (onChange)="selectLoanAdvance($event)" optionLabel="payrollComponentName"
+                                placeholder="Select Loan Advance" dataKey="payrollComponentId" name="loanAdvanceType">
+                                <ng-template let-item pTemplate="item">
+                                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                                        {{item?.value.payrollComponentName}}
+                                    </div>
+                                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                                        (click)="refreshLoanAdvance($event)">
+                                        <a class="link-primary ref"><u>Refresh</u></a>
+                                        <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-5">
+                        <div class="with-input form-group col-md-2">
+                            <span class="text-nowrap">Loan Repayment</span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select class="form-control" formControlName="loanRepaymentType">
+                                <option [ngValue]="null" disabled>Select</option>
+                                <option *ngFor="let list of loanRepaymentDetails" [ngValue]="list.payrollComponentId">
+                                    {{ list.payrollComponentName }}
+                                </option>
+                            </select>
                         </div>
                         <div class="col-md-7"></div>
                     </div> -->
-
-                    <div class="row mt-5">
-                        <div class="with-input form-group col-md-2">             
-                            <span class="text-nowrap"
-                              >Loan Advance</span
-                            >        
+                    <div class="row mt-1">
+                        <div class="with-input form-group col-md-2">
+                            <span class="text-nowrap">Loan Repayment</span>
                         </div>
                         <div class="form-group col-md-3">
-                          <select class="form-control" formControlName="loanAdvanceType">
-                            <option [ngValue]="null" disabled>Select</option>
-                            <option *ngFor="let list of loanAdvanceDetails" 
-                              [ngValue]="list.payrollComponentId"
-                              
-                            >
-                              {{ list.payrollComponentName }}
-                            </option>
-                          </select>
+                            <p-dropdown [showClear]="true" [(ngModel)]="loanRepayObj"
+                                [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+                                [options]="loanRepaymentDetails" optionValue="payrollComponentId"
+                                (onChange)="selectLoanRepayment($event)" optionLabel="payrollComponentName"
+                                placeholder="Select Loan Repayment" dataKey="payrollComponentId" name="loanRepaymentType">
+                                <ng-template let-item pTemplate="item">
+                                    <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                                        {{item?.value.payrollComponentName}}
+                                    </div>
+                                    <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                                        (click)="refreshLoanRepayment($event)">
+                                        <a class="link-primary ref"><u>Refresh</u></a>
+                                        <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-dropdown>
                         </div>
-                        <div class="col-md-7"></div>
-                    </div>
-
-                    <div class="row mt-5">
-                        <div class="with-input form-group col-md-2">             
-                            <span class="text-nowrap"
-                              >Loan Repayment</span
-                            >        
-                        </div>
-                        <div class="form-group col-md-3">
-                          <select class="form-control" formControlName="loanRepaymentType">
-                            <option [ngValue]="null" disabled>Select</option>
-                            <option *ngFor="let list of loanRepaymentDetails" 
-                              [ngValue]="list.payrollComponentId"
-                            >
-                              {{ list.payrollComponentName }}
-                            </option>
-                          </select>
-                        </div>
-                        <div class="col-md-7"></div>
                     </div>
 
 

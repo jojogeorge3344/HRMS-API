@@ -105,7 +105,7 @@ export class AdocEntryEditComponent implements OnInit {
       // lastrow
       this.adhoc = [...result, temp];
       this.isLoading=false;
-      this.adhocObj=result.find((item)=>this.editForm.get('adhocBFCode').value==item.id)
+      this.adhocObj=result.find((item)=>this.editForm.get('payrollComponentId').value==item.id)
     })
   }
   onSubmit(){
@@ -137,14 +137,13 @@ export class AdocEntryEditComponent implements OnInit {
       if(this.editForm.value.adhocBFCode=='SE'){
         this.editForm.patchValue({
           isAddition:true,
-          payrollComponentId:17
         })
       }else{
         this.editForm.patchValue({
           isAddition:false,
-          payrollComponentId:25
         })
       }
+      
       this.adocEntryService.update(this.editForm.value).subscribe((result)=>{
         if(result){
           this.toastr.showSuccessMessage('The ADOC Entry added successfully!');         
@@ -171,7 +170,7 @@ export class AdocEntryEditComponent implements OnInit {
 
 selectAhoc(args){
   this.editForm.patchValue({
-    adhocBFCode: args.value.id,
+    payrollComponentId: args.value.id,
   })
 
 }
@@ -191,14 +190,12 @@ refreshAdhoc(event){
       employeeCode: [null, [
       ]],
       payrollComponentId: [null, [
+        Validators.required
       ]],
       date: [null, [
         Validators.required,
       ]],
       status:['pending', [
-      ]],
-      adhocBFCode: [null, [
-        Validators.required,
       ]],
       isAddition: [null, [
         Validators.required,

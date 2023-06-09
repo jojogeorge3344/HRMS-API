@@ -6,6 +6,7 @@ namespace Chef.HRMS.Repositories
     {
         Task<EmployeeRevisionOld> GetEmployeeDetail(int employeeId);
         Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId);
+        Task<IEnumerable<EmployeeRevisionPayrollStructureView>> GetPayrollStructureComponent(int payrollStructureId);
         Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status);
         Task<bool> IsEmployeeRevisionApproved(int employeeRevisionId);
     }

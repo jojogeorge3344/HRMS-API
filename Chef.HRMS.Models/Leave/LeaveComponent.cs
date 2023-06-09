@@ -80,7 +80,7 @@ namespace Chef.HRMS.Models
         public bool IsIncludeLOPDays { get; set; }
         public LeaveType LeaveType { get; set; }
         public LeaveCutOffType LeaveCutOffType { get; set; }
-        public bool IsAccruedLeaveAmount { get; set; }
+        public string AccruedLeaveAmount { get; set; }
         public bool IsEncash { get; set; }
         public bool IsCarryForward { get; set; }
         public int BenefitTypeId { get; set; }
