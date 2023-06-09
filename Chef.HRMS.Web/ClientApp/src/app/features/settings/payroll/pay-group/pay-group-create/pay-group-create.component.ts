@@ -18,7 +18,7 @@ export class PayGroupCreateComponent implements OnInit {
 
   addForm: FormGroup;
 
-  // @Input() calenders: PayrollCalendar[];
+  @Input() calenders: any;
   @Input() payGroupNames: string[];
   @Input() payGroupCodes: string[];
 
@@ -28,8 +28,10 @@ export class PayGroupCreateComponent implements OnInit {
   months = Months;
   monthKeys: number[];
   isStartingMonth = false;
-  currency:any[];
-  calenders;
+  currency: any[];
+  calenderbj;
+  isLoading = false;
+  currencyObj;
   
   constructor(
     private payGroupService: PayGroupService,
@@ -47,19 +49,34 @@ export class PayGroupCreateComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     this.onChanges();
-    this.calenders=this.calenders.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    this.calenders = this.calenders.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    this.getCurrency()
+    this.getCalendars()
+  }
+  getCurrency(){
+    this.isLoading = true;
     this.payGroupService.getCurrencies()
-    .subscribe((result)=>{
-      this.currency=result;
-    })
+      .subscribe((result) => {
+        let temp = { id: undefined, code: 'test', isLastRow: true }
+        // lastrow
+        this.currency = [...result, temp];
+        this.isLoading = false;
+        this.currencyObj = result.find((item) => this.addForm.get('currencyId').value == item.id)
+      })
   }
   getCalendars() {
+    this.isLoading = true;
     this.payrollCalendarService.getAll()
-      .subscribe(res => {
-        this.calenders = res;        
+      .subscribe((res) => {
+        let temp = { id: undefined, name: 'test', isLastRow: true }
+        // lastrow
+        this.calenders = [...res, temp];
+        this.isLoading = false;
+        this.calenderbj = res.find((item) => this.addForm.get('payrollCalendarId').value == item.id)
       });
-    }
+  }
   onChanges(): void {
+
     this.addForm.get('payrollCalendarId').valueChanges.subscribe(calenderId => {
       if (this.calenders.find(calender => calenderId == calender.id).periodType == 2) {
         this.isStartingMonth = true;
@@ -69,7 +86,7 @@ export class PayGroupCreateComponent implements OnInit {
     });
   }
 
- 
+
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       name: ['', [
@@ -92,8 +109,8 @@ export class PayGroupCreateComponent implements OnInit {
       ]],
       startingMonth: [0, []],
       currencyId: [null, []],
-      TimeSheetCutOff: [null, [Validators.max(31),Validators.min(1)]],
-      LeaveCutOff: [null, [Validators.max(31),Validators.min(1)]],
+      TimeSheetCutOff: [null, [Validators.max(31), Validators.min(1)]],
+      LeaveCutOff: [null, [Validators.max(31), Validators.min(1)]],
 
       startingWeek: [0, []],
     });
@@ -105,6 +122,7 @@ export class PayGroupCreateComponent implements OnInit {
 
   onSubmit() {
     const payGroup = this.addForm.value;
+    
     if (this.isStartingMonth) {
       delete payGroup['startingWeek'];
     } else {
@@ -112,17 +130,42 @@ export class PayGroupCreateComponent implements OnInit {
     }
 
     this.payGroupService.add(this.addForm.value).subscribe((result: any) => {
-        if (result.id === -1) {
-          this.toastr.showErrorMessage('Pay Group already exists!');
-        } else {
-          this.activeModal.close('submit');
-          this.toastr.showSuccessMessage('Pay Group is created successfully!');
-        }
-      },
+      if (result.id === -1) {
+        this.toastr.showErrorMessage('Pay Group already exists!');
+      } else {
+        this.activeModal.close('submit');
+        this.toastr.showSuccessMessage('Pay Group is created successfully!');
+      }
+    },
       error => {
         console.error(error);
         this.toastr.showErrorMessage('Unable to add the Pay Group');
       });
   }
-
+  selectCalender(args) {
+      this.addForm.patchValue({
+        payrollCalendarId: args.value.id
+      })
+  }
+  selectCurrency(args) {
+    if (args.value && args.value.id) {
+      this.addForm.patchValue({
+        currencyId: args.value.id
+      })
+    } else {
+      this.addForm.patchValue({
+        currencyId: null
+      })
+    }
+  }
+  refreshCalender(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getCalendars()
+  }
+  refreshCurrency(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getCurrency()
+  }
 }
