@@ -56,12 +56,19 @@
             <div class="form-group form-input-line col-sm">
                 <label class="col-form-label" for="adhocBFCode">ADOC BF Code<span class="required">*</span></label>
                 <div class="input-group">
-                <p-dropdown [(ngModel)]="adhocObj" [ngModelOptions]="{standalone: true}" [filter]="true"
+                <p-dropdown [(ngModel)]="adhocObj" [ngModelOptions]="{standalone: true}"
                     class="pngCustomClass" [options]="adhoc" optionValue="id" (onChange)="selectAhoc($event)"
                     optionLabel="name" placeholder="Select ADOC BF Code" dataKey="id" name="payrollComponentId">
                     <ng-template let-item pTemplate="item">
                         <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
-                            {{item?.value.name}}
+                            <span style=" min-width: 150px;
+                        max-width: 150px;
+                        text-overflow: ellipsis;
+                        display: inline-block;
+                        overflow: hidden;">  {{item?.value.code}} </span>  
+                        <span  style=" 
+                        display: inline-block;
+                        overflow: hidden;">  {{item?.value.name}} </span>
                         </div>
                         <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
                             (click)="refreshAdhoc($event)">

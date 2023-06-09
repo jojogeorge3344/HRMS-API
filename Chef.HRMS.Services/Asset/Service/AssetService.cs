@@ -82,7 +82,9 @@ namespace Chef.HRMS.Services
             {
                 simpleUnitOfWork.Rollback();
                 string msg = ex.Message;
+                
                 asset.Id = 0;
+                throw;
             }
 
 
@@ -110,8 +112,10 @@ namespace Chef.HRMS.Services
             catch (Exception ex)
             {
                 simpleUnitOfWork.Rollback();
-                string msg = ex.Message;
+                //string msg = ex.Message;
                 asset.Id = 0;
+                throw;
+
             }
 
 
