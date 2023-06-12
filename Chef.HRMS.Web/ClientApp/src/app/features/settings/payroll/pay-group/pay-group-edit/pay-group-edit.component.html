@@ -18,14 +18,29 @@
                 <input type="text" class="form-control" formControlName="name">   
             </div>
             <div class="col-6 form-group form-input-line">
-                <label class=" col-form-label" for="payrollCalendarId">Payroll Calendar<span class="required">*</span></label>
-                <select class="form-control" formControlName="payrollCalendarId">
-                    <option [ngValue]="null">Select a Payroll Calendar</option>
-                    <option *ngFor="let calender of calenders" [ngValue]="calender.id">
-                        {{calender.name}}
-                    </option>
-                </select>
+                <label class="col-form-label" for="requestedBy">Payroll Calendar<span class="required">*</span></label>
+                <p-dropdown [(ngModel)]="calenderbj" [ngModelOptions]="{standalone: true}"
+                    [filter]="true" class="pngCustomClass" [options]="calenders" optionValue="id"
+                    (onChange)="selectCalender($event)" optionLabel="name" placeholder="Select Payroll Calender"
+                    dataKey="id" name="payrollCalendarId">
+                    <ng-template let-item pTemplate="item">
+                        <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                            {{item?.value.name}}
+                        </div>
+                        <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                            (click)="refreshCalender($event)">
+                            <a class="link-primary ref"><u>Refresh</u></a>
+                            <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <div *ngIf="this.editForm.get('payrollCalendarId').touched && this.editForm.get('payrollCalendarId').invalid"
+                    class="invalid-feedback d-block">
+                    payroll calender* is required
+                </div>
             </div>
+
             <div class="col-6 form-group form-input-line">
                 <label class=" col-form-label" for="startingYear">Starting year<span class="required">*</span></label>
                 <select class="form-control" formControlName="startingYear">
@@ -58,15 +73,23 @@
                 </select>
             </div>
             <div class="col-6 form-group form-input-line">
-                <label class=" col-form-label" for="currencyId">
-                    Currency
-                </label>
-                <select class="form-control" formControlName="currencyId">
-                    <option value="0" >Select Currency</option>
-                    <option *ngFor="let key of currency" [ngValue]="key.id">
-                        {{key.code}}
-                    </option>
-                </select>
+                <label class="col-form-label" for="currencyId">Currency</label>
+                <p-dropdown showClear="true" [(ngModel)]="currencyObj" [ngModelOptions]="{standalone: true}"
+                    [filter]="true" class="pngCustomClass" [options]="currency" optionValue="id"
+                    (onChange)="selectCurrency($event)" optionLabel="code" placeholder="Select Currency"
+                    dataKey="id" name="currencyId">
+                    <ng-template let-item pTemplate="item">
+                        <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                            {{item?.value.code}}
+                        </div>
+                        <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                            (click)="refreshCurrency($event)">
+                            <a class="link-primary ref"><u>Refresh</u></a>
+                            <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
             </div>
             <div class="col-6 form-group form-input-line">
                 <label class=" col-form-label" for="timeSheetCutOff">Timesheet cut off day</label>

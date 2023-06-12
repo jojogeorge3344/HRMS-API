@@ -39,6 +39,9 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   unallocatedAssets:any;
   newTypeId:number;
   newAssetId:number;
+  isLoading=false;
+  dataTypeForNewAssetType: any[];
+  newAssetType;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -64,7 +67,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
 
     let allValues= {...this.employeeassetchangeForm.getRawValue(),
         // status:1,
-        assetMetadataValueId:this.newMdataTypeKeys.map(key => {
+        assetMetadataValueId:this.newMdataTypeKeys?.map(key => {
         return{
           assettypeMetadataId:this.newMdataTypeMap.get(key)
         }
@@ -186,20 +189,30 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
   }
 
   getAssetType(){
-    this.assetTypeService.getAll().subscribe(result => {
-      this.dataType=result;
-      console.log("assettype",this.dataType);    
+    this.isLoading=true;
+    this.assetTypeService.getAll().subscribe(result => { 
+      this.dataType=result
+      let temp = { id: undefined, assettypename: 'test', isLastRow: true }
+      // lastrow
+      this.dataTypeForNewAssetType = [...result, temp];  
+      this.isLoading=false;
     })
   }
-  
+  refreshRequestedBy(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getAssetType();
+  }
   getUnallocatedAssets(ev){
     console.log(ev);
-    
-    console.log(ev.target.value, this.employeeassetchangeForm.controls.newAssetType.value);
-    const evevalue =  this.employeeassetchangeForm.controls.newAssetType.value;
-    console.log(evevalue);
-    
-    this.employeAssetService.getUnallocatedAssets(evevalue).subscribe(res => {
+    this.employeeassetchangeForm.patchValue({
+      newAssetType: ev.value.id
+    })
+
+    // console.log(ev.target.value, this.employeeassetchangeForm.controls.newAssetType.value);
+    // const evevalue =  this.employeeassetchangeForm.controls.newAssetType.value;
+      //  console.log(evevalue);
+    this.employeAssetService.getUnallocatedAssets(ev.value.id).subscribe(res => {
       this.unallocatedAssets=res;
       console.log("unallocated",this.unallocatedAssets);
       
