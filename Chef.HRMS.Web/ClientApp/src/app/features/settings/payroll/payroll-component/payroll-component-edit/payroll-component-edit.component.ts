@@ -36,8 +36,9 @@ export class PayrollComponentEditComponent implements OnInit {
   roundingTypeKeys: number[];
   config;
   selectedDatasource;
-
-
+  isLoading;
+  payrollCompObj;
+  
   @Input() payrollComponentTypes: PayrollComponentType;
   @Input() payrollComponent: PayrollComponent;
   @Input() isDisabled: boolean;
@@ -70,36 +71,28 @@ debugger
     this.roundingTypeKeys = Object.keys(this.roundingTypes)
       .filter(Number)
       .map(Number);
-    this.payrollComponentService
-      .getAllPayrollComponentByType()
-      .subscribe((result) => {
-        this.payrollComponentTypeKeys = result.sort((a, b) => a.categoryId - b.categoryId);
-
-        const details = result.find(item => item.id === this.payrollComponent.payrollComponentType);
-        this.selectedDatasource=details.name
-        //this.editForm.patchValue({ payrollComponentType: this.selectedDatasource });
-        this.selectionChanged(details)
-        this.editForm.get("payrollComponentType").patchValue(details.id);
-  
-      });
-
-
     this.editForm.patchValue(this.payrollComponent);
-    this.config = {
-      displayKey: "name",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select a Payroll Component Type",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "name",
-      clearOnSelection: false,
-    };
+    this.getPayrollComponetTypes()
   }
-
-  selectionChanged(args) {
-    debugger
+  getPayrollComponetTypes(){
+    this.isLoading = true;
+    this.payrollComponentService
+    .getAllPayrollComponentByType()
+    .subscribe((result) => {        
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.payrollComponentTypeKeys = [...result.sort((a, b) => a.categoryId - b.categoryId), temp];
+      this.isLoading = false;
+      this.payrollCompObj = result.find((item) => this.editForm.get('payrollComponentType').value == item.id)
+    });
+  }
+  selectPayrollComponentType(args) {
     this.editForm.get("payrollComponentType").patchValue(args.value.id);
+  }
+  refreshPayrollComponentType(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getPayrollComponetTypes()
   }
 
   get name() {

@@ -15,11 +15,15 @@ import { OvertimePolicyCalculationComponent } from '@settings/overtime/overtime-
 })
 export class EosEditComponent implements OnInit {
 
-  addForm: FormGroup;
+  editForm: FormGroup;
   @Input() relDetails: EosGroup;
   codeExistCheck:boolean=false
   EOSAccrualTypeDetails: any;
-  EOSPaymentTypeDetails: any
+  EOSPaymentTypeDetails: any;
+  settlementBfCode;
+  isLoading;
+  eosPaymentBfCodeObj;
+
   // employeeEOSAccrualType: object;
   // employeeEOSAccrualTypeKeys: number[];
   // employeeEOSAccrual = EmployeeEOSAccrualType;
@@ -35,74 +39,86 @@ export class EosEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addForm = this.createFormGroup();
-    this.addForm.patchValue(this.relDetails);
+    this.editForm = this.createFormGroup();
+    debugger
+    this.editForm.patchValue(this.relDetails);
     this.getEmployeeEOSAccrualTypeDetail()
     this.getEmployeeEOSpaymentTypeDetail()
     // this.employeeEOSAccrualTypeKeys = Object.keys(this.employeeEOSAccrual).filter(Number).map(Number);
     // this.employeeEOSpaymentTypeKeys = Object.keys(this.employeeEOSpayment).filter(Number).map(Number);
-    if(this.addForm.value.retrospectiveAccrual==true){
-      this.addForm.patchValue({
+    if(this.editForm.value.retrospectiveAccrual==true){
+      this.editForm.patchValue({
         retrospectiveAccrual:"Yes",
       })
       
       }else{
-        this.addForm.patchValue({
+        this.editForm.patchValue({
           retrospectiveAccrual:"No",
         })
       }
-      if(this.addForm.value.includeLOPDays==true){
-        this.addForm.patchValue({
+      if(this.editForm.value.includeLOPDays==true){
+        this.editForm.patchValue({
           includeLOPDays:"Yes",
         })
         
         }else{
-          this.addForm.patchValue({
+          this.editForm.patchValue({
             includeLOPDays:"No",
           })
         }
-        if(this.addForm.value.includeProbationDays==true){
-          this.addForm.patchValue({
+        if(this.editForm.value.includeProbationDays==true){
+          this.editForm.patchValue({
             includeProbationDays:"Yes",
           })
           
           }else{
-            this.addForm.patchValue({
+            this.editForm.patchValue({
               includeProbationDays:"No",
             })
           }
   }
   getEmployeeEOSAccrualTypeDetail(){
+    this.isLoading=true;
     this.eosService.getEmployeeEOSAccrual().subscribe(res=>{
-      this.EOSAccrualTypeDetails=res
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+        this.EOSAccrualTypeDetails = [...res, temp];
+        this.settlementBfCode=this.EOSAccrualTypeDetails.find((item) => item.id == this.relDetails.employeeEOSAccrualType)
+        this.isLoading=false
     })
   }
   getEmployeeEOSpaymentTypeDetail(){
+    debugger
+    this.isLoading=true;
     this.eosService.getEmployeeEOSpaymentType().subscribe(res=>{
-      this.EOSPaymentTypeDetails=res
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+        this.EOSPaymentTypeDetails = [...res, temp];
+        this.eosPaymentBfCodeObj=this.EOSPaymentTypeDetails.find((item) => item.id == this.relDetails.employeeEOSpaymentType)
+        this.isLoading=false
     })
   }
   onSubmit() {
-    this.addForm.value.id=this.relDetails.id
-    if(this.addForm.value.retrospectiveAccrual=="Yes"){
-      this.addForm.value.retrospectiveAccrual=true
+    this.editForm.value.id=this.relDetails.id
+    if(this.editForm.value.retrospectiveAccrual=="Yes"){
+      this.editForm.value.retrospectiveAccrual=true
       }
       else{
-        this.addForm.value.retrospectiveAccrual=false
+        this.editForm.value.retrospectiveAccrual=false
       }
-      if(this.addForm.value.includeLOPDays=="Yes"){
-        this.addForm.value.includeLOPDays=true
+      if(this.editForm.value.includeLOPDays=="Yes"){
+        this.editForm.value.includeLOPDays=true
         }
         else{
-          this.addForm.value.includeLOPDays=false
+          this.editForm.value.includeLOPDays=false
         }
-        if(this.addForm.value.includeProbationDays=="Yes"){
-          this.addForm.value.includeProbationDays=true
+        if(this.editForm.value.includeProbationDays=="Yes"){
+          this.editForm.value.includeProbationDays=true
           }
           else{
-            this.addForm.value.includeProbationDays=false
+            this.editForm.value.includeProbationDays=false
           }
-    const eosForm = this.addForm.value;
+    const eosForm = this.editForm.value;
     if(!this.codeExistCheck){
       this.eosService.update(eosForm).subscribe(result => {
         this.toastr.showSuccessMessage('The Eos updated successfully!');
@@ -122,11 +138,11 @@ export class EosEditComponent implements OnInit {
       { size: 'lg', centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.formulaType = type;
-    modalRef.componentInstance.formula = this.addForm.value.includedBenefits;
+    modalRef.componentInstance.formula = this.editForm.value.includedBenefits;
 
     modalRef.result.then((result) => { console.log(result);
                                        if (result !== 'Close click') {
-        this.addForm.get(type).patchValue(result);
+        this.editForm.get(type).patchValue(result);
       }
     });
   }
@@ -168,6 +184,26 @@ export class EosEditComponent implements OnInit {
       // ]],
       
     });
+  }
+  selectSettlementCode(args){
+    this.editForm.patchValue({
+      employeeEOSAccrualType:args.value.id,
+    })
+  }
+  selectPaymentBfCode(args){
+    this.editForm.patchValue({
+      employeeEOSpaymentType:args.value.id,
+    })
+  }
+  refreshBfCode(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeEOSAccrualTypeDetail();
+  }
+  refreshPaymentBfCode(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeEOSAccrualTypeDetail();
   }
 
 }

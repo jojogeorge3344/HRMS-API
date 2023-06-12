@@ -46,7 +46,6 @@ export class PayGroupService {
     return this.http.delete(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
   }
   getCurrencies() {
-    return this.http.get<number[]>(this.currencyUrl + 'getCurrencies').pipe(map(response => { return response; }));
+    return this.http.get<any[]>(this.currencyUrl + 'getCurrencies').pipe(map(response => { return response; }));
   }
-
 }
