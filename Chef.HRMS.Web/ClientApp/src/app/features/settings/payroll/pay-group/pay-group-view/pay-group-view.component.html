@@ -55,7 +55,7 @@
             </div>
             <div class="col-6 form-group form-input-line" *ngIf="payGroup.currencyId" >
                 <label class=" col-form-label" for="currency">Currency</label>
-                <input type="text" class="form-control" value="{{currency[0].name}}" readonly>
+                <input type="text" class="form-control" value="{{currency[0].code}}" readonly>
             </div>
             <div class="col-6 form-group form-input-line" *ngIf="payGroup.timeSheetCutOff">
                 <label class=" col-form-label" for="timesheetCutOff">Timesheet cut off day</label>

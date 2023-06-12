@@ -34,23 +34,36 @@
           </option>
         </select>
       </div> -->
-      <div class="form-group col-6">
-        <label for="payrollComponentType">
-          Payroll Component Type<span class="required">*</span>
-        </label>
+      <div class="col-6 form-group form-input-line">
+        <label class="col-form-label"
+         for="payrollComponentType">Payroll Component Type<span class="required">*</span></label>
+        <p-dropdown 
+         [(ngModel)]="payrollCompObj"
+          [ngModelOptions]="{standalone: true}"
+          [filter]="true"
+          class="pngCustomClass"
+           [options]="payrollComponentTypeKeys"
+            optionValue="id"
+            (onChange)="selectPayrollComponentType($event)" optionLabel="name" placeholder="Select Payroll ComponentType"
+            dataKey="id" name="payrollComponentType">
+            <ng-template let-item pTemplate="item">
+                <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                    {{item?.value.name}}
+                </div>
+                <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                    (click)="refreshPayrollComponentType($event)">
+                    <a class="link-primary ref"><u>Refresh</u></a>
+                    <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                    </div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+        <div *ngIf="this.editForm.get('payrollComponentType').touched && this.editForm.get('payrollComponentType').invalid"
+            class="invalid-feedback d-block">
+            payroll component type* is required
+        </div>
+    </div>
 
-        <ng-template #optionTemplate let-item="item" let-config="config">
-          <i class="fa fa-plus"></i>
-          {{ item.name }}
-          <span class="new badge"></span>
-        </ng-template>
-        <ngx-select-dropdown
-          (change)="selectionChanged($event)"
-          [config]="config"
-          [options]="payrollComponentTypeKeys"
-          [_value]="selectedDatasource"
-        ></ngx-select-dropdown>
-      </div>
 
       <div class="form-group col-6">
         <label for="payHeadType">Pay Head Type<span class="required">*</span></label>
