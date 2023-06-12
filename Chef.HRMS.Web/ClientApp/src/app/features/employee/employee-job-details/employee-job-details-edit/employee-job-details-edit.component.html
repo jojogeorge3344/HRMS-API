@@ -21,6 +21,8 @@
             </div>
             <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshNumberSeries($event)">
               Refresh
+              <div *ngIf="isLoading==true" class="spinner-border ml-1">
+              </div>
             </div>
           </ng-template>
         </p-dropdown>
@@ -53,6 +55,8 @@
             </div>
             <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshDesignation($event)">
              Refresh
+             <div *ngIf="isLoading==true" class="spinner-border ml-1">
+            </div>
             </div>
           </ng-template>
         </p-dropdown>
@@ -99,6 +103,8 @@
             </div>
             <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshLocation($event)">
             Refresh
+            <div *ngIf="isLoading==true" class="spinner-border ml-1">
+            </div>
             </div>
           </ng-template>
         </p-dropdown>
@@ -132,6 +138,8 @@
             </div>
             <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRepManager($event)">
              Refresh
+             <div *ngIf="isLoading==true" class="spinner-border ml-1">
+            </div>
             </div>
           </ng-template>
         </p-dropdown>
@@ -197,6 +205,8 @@
             </div>
             <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshCategory($event)">
               Refresh
+              <div *ngIf="isLoading==true" class="spinner-border ml-1">
+              </div>
             </div>
           </ng-template>
         </p-dropdown>
@@ -219,6 +229,8 @@
             </div>
             <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshDesignation($event)">
              Refresh
+             <div *ngIf="isLoading==true" class="spinner-border ml-1">
+            </div>
             </div>
           </ng-template>
         </p-dropdown>

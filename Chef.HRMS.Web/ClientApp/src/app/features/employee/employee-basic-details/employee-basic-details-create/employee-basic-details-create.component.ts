@@ -33,7 +33,7 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   emails: string[];
   relName;
   religionInValid:boolean=false;
-
+  isLoading=false;
   @Output() basicDetailsForm = new EventEmitter<boolean>();
   @Input() basicDetails: any;
   constructor(
@@ -75,11 +75,13 @@ export class EmployeeBasicDetailsCreateComponent implements OnInit {
   //   this.getEmployeeDetails();
   // }
   getReligion(){
+    this.isLoading=true;
     this.employeeBasicDetailsService.getReligion()
    .subscribe((result)=>{
    let temp={id:undefined,name:'test',isLastRow:true}
    // lastrow
      this.religion=[...result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())),temp]; 
+     this.isLoading=false;
      let relType=result.find((item)=>this.addForm.get('religionId').value==item.id)
      this.relName=relType
    })

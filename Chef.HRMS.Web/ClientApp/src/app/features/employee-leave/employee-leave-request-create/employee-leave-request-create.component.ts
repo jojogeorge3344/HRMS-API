@@ -66,8 +66,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   fulldayLeaves = [];
   firsthalfLeaves: string[] = [];
   secondhalfLeaves = [];
-
-  employeeList: Employee[];
+  employeeList: any;
   selectedItems = [];
   @ViewChild("notifyPersonnel")
   notifyPersonnel: ElementRef;
@@ -90,6 +89,9 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   documentSave;
   leaveDocument: any;
   requestTypes = RequestStatus;
+  loginUserDetail:any
+  leaveObj;
+  isLoading=false;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -138,6 +140,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     debugger
     console.log(this.leaves)
     this.currentUserId = getCurrentUserId();
+
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
 
     this.employeeId = this.requestId;
@@ -314,10 +317,13 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   getLeaveBalance() {
+    this.isLoading=true;
     this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(
       (result) => {
-        this.leaveBalance = result;
-        console.log("avilable leave tyep", this.leaveBalance);
+        let temp = { id: undefined, leaveComponentName: 'test', isLastRow: true }
+        // lastrow
+        this.leaveBalance = [...result, temp]; 
+        this.isLoading=false;
       },
       (error) => {
         console.error(error);
@@ -327,11 +333,17 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   getEmployeeList() {
+    this.isLoading=true;
     this.employeeService.getAll().subscribe(
       (result) => {
-        this.employeeList = result.filter(
-          (employee) => employee.id !== this.requestId
-        );
+        let temp = { id: undefined, firstName: 'test', isLastRow: true }
+        // lastrow
+        this.employeeList = [...result, temp]; 
+        this.isLoading=false;
+        // this.employeeList = result.filter(
+        //   (employee) => employee.id !== this.requestId
+        // );
+
       },
       (error) => {
         console.error(error);
@@ -652,7 +664,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
               .add(this.leaveDocument)
               .subscribe(
                 (result: any) => {
-                  this.notify(leaveRequest.id);
+                  this.notify(leaveRequest);
                 },
                 (error) => {
                   console.error(error);
@@ -717,7 +729,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
               .subscribe(
                 (result: any) => {
                   debugger
-                  this.notify(leaveRequest.id);
+                  this.notify(leaveRequest);
                 },
                 (error) => {
                   console.error(error);
@@ -789,7 +801,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       ],
       leaveStructureId: [],
       employeeId: [this.requestId, [Validators.required]],
-      employeeName: [""],
+      employeeName: ["",[Validators.required]],
       // approvedBy: [1],
       // approvedDate: [new Date(Date.now())],
       description: ["", [Validators.required, Validators.maxLength(128)]],
@@ -824,13 +836,34 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       console.log("leavessting", this.leaveSettings);
     });
   }
-    getEmployeeId(event){
-    debugger
-    let a=this.employeeList.filter(x=>x.firstName==event)
+  //   getEmployeeId(event){
+  //   let a=this.employeeList.filter(x=>x.firstName==event)
+  //   this.addForm.patchValue({
+  //     employeeId:a[0].id,
+  //     employeeName:a[0].firstName
+
+  //   })
+  // }
+  selectRequestedBy(args){
     this.addForm.patchValue({
-      employeeId:a[0].id,
-      employeeName:a[0].firstName
+      employeeId:args.value.id,
+      employeeName:args.value.firstName
 
     })
+  }
+  refreshRequestedBy(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeList();
+  }
+  selectAvailLeave(args){
+    this.addForm.patchValue({
+      leaveComponentId:args.value.leaveComponentId,
+    })
+  }
+  refreshAvailLeave(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getLeaveBalance();
   }
 }

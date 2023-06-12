@@ -70,7 +70,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   fulldayLeaves = [];
   firsthalfLeaves: string[] = [];
   secondhalfLeaves = [];
-
+  leaveObj;
   employeeList: Employee[];
   selectedItems = [];
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
@@ -93,6 +93,9 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   documentSave;
   leaveDocument: any;
   requestTypes = RequestStatus;
+  fileId: any;
+  loginUserDetail:any
+  isLoading=false;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -142,14 +145,15 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.documentPath = `${this.directoryName}\\${this.companyName}\\${this.branchName}\\Leave\\${this.currentUserId}\\`;
 
-    this.employeeId = this.requestId;
+    // this.employeeId = this.requestId;
     this.addForm = this.createFormGroup();
     this.addForm.patchValue(this.leaveRequest)
     this.addForm.patchValue({
       fromDate: new Date(this.leaveRequest.fromDate),
       toDate: new Date(this.leaveRequest.toDate),
       rejoinDate:new Date(this.leaveRequest.rejoinDate),
-      leaveComponentId:this.leaveRequest.leaveComponentId
+      leaveComponentId:this.leaveRequest.leaveComponentId,
+      id:this.leaveRequest.id
     });
     console.log(this.addForm)
     this.getLeaveBalance();
@@ -160,6 +164,12 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     //this.getAllInfoLeave(this.employeeId);
     this.formatLeaves();
     // this.getAttachmentDetails()
+    if(!this.isEmployeeLeave){
+      this.getFileDetailsByGroup()
+    }else{
+      this.getFileDetailsByIndividual()
+    }
+    
     
   }
 
@@ -310,24 +320,34 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         this.addForm.patchValue(
           {
             leaveStructureId: this.employeeDetails.leaveStructureId,
-            employeeName: this.employeeDetails.fullName,
+            // employeeName: this.employeeDetails.fullName,
           },
           {
             emitEvent: false,
           }
         );
+        // if (result && result.documentName.length > 40) {
+        //   this.fileName = result.documentName.substr(0, 40) + "...";
+        // } else {
+        //   this.fileName = result.documentName;
+        // }
       },
       (error) => {
         console.error(error);
       }
     );
+    this.getLeaveRequestNotifyPersonnel()
   }
 
   getLeaveBalance() {
+    this.isLoading=true;
     this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(
       (result) => {
-        this.leaveBalance = result;
-        console.log("avilable leave tyep", this.leaveBalance);
+        let temp = { id: undefined, leaveComponentName: 'test', isLastRow: true }
+        // lastrow
+        this.leaveBalance = [...result, temp]; 
+        this.isLoading=false;
+        this.leaveObj=this.leaveBalance.find((item) => item.leaveComponentId == this.leaveRequest.leaveComponentId)
       },
       (error) => {
         console.error(error);
@@ -339,15 +359,33 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   getEmployeeList() {
     this.employeeService.getAll().subscribe(
       (result) => {
+        this.loginUserDetail=result
         this.employeeList = result.filter(
           (employee) => employee.id !== this.requestId
         );
+        console.log(this.employeeList)
+        if(!this.isEmployeeLeave){
+          let a= result.filter(x=>x.id==this.leaveRequest.employeeId)
+          this.addForm.patchValue({
+            employeeName:a[0].firstName,
+          });
+        }
+      
       },
       (error) => {
         console.error(error);
       }
     );
     this.getLeaveRequestNotifyPersonnel()
+  }
+  getEmployeeId(event){
+    debugger
+    let a=this.employeeList.filter(x=>x.firstName==event)
+    this.addForm.patchValue({
+      employeeId:a[0].id,
+      employeeName:a[0].firstName
+
+    })
   }
   getLeaveRequestNotifyPersonnel(){
     debugger
@@ -407,6 +445,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   remove(item) {
+    debugger
     this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
   }
 
@@ -642,6 +681,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       return
          
        }
+    this.addForm.value.document.id=this.fileId
     let addForm = this.addForm.value;
     addForm.leaveStatus=this.requestTypes.Approved
     addForm.numberOfDays = this.numberOfDays;
@@ -677,7 +717,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
               .update(this.leaveDocument)
               .subscribe(
                 (result: any) => {
-                  this.notify(leaveRequest.id);
+                  this.notify(leaveRequest);
                 },
                 (error) => {
                   console.error(error);
@@ -703,6 +743,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       return
          
        }
+    this.addForm.value.document.id=this.fileId
     let addForm = this.addForm.value;
     addForm.leaveStatus=this.requestTypes.Draft
     addForm.numberOfDays = this.numberOfDays;
@@ -738,7 +779,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
               .update(this.leaveDocument)
               .subscribe(
                 (result: any) => {
-                  this.notify(leaveRequest.id);
+                  this.notify(leaveRequest);
                 },
                 (error) => {
                   console.error(error);
@@ -800,6 +841,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+      id:[null],
       leaveComponentId: [
         null,
         [
@@ -808,7 +850,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         ],
       ],
       leaveStructureId: [],
-      employeeId: [this.requestId, [Validators.required]],
+      employeeId: ['', [Validators.required]],
       employeeName: [""],
       // approvedBy: [1],
       // approvedDate: [new Date(Date.now())],
@@ -831,6 +873,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
         path: [],
         extension: [],
         size: [null],
+        id: [null],
       }),
     });
   }
@@ -861,6 +904,46 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   //       }
   //     });
   // }
+  getFileDetailsByIndividual() {
+    this.employeeService.getDetailsByFile(this.requestId,this.leaveRequest.id).subscribe(
+      (result) => {
+        this.fileId=result.documentId
+        if (result && result.documentName.length > 40) {
+          this.fileName = result.documentName.substr(0, 40) + "...";
+        } else {
+          this.fileName = result.documentName;
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+  selectAvailLeave(args){
+    this.addForm.patchValue({
+      leaveComponentId:args.value.leaveComponentId,
+    })
+  }
+  refreshAvailLeave(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getLeaveBalance();
+  }
+  getFileDetailsByGroup(){
+    this.employeeService.getDetailsByFile(this.leaveRequest.employeeId,this.leaveRequest.id).subscribe(
+      (result) => {
+        this.fileId=result.documentId
+        if (result && result.documentName.length > 40) {
+          this.fileName = result.documentName.substr(0, 40) + "...";
+        } else {
+          this.fileName = result.documentName;
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  } 
 }
 
 

@@ -56,7 +56,7 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(EmployeeRevisions);
         }
 
-  
+
 
         [HttpPost("Insert")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -101,6 +101,14 @@ namespace Chef.HRMS.Web.Controllers
         public async Task<ActionResult<IEnumerable<EmployeeRevisionStructureView>>> GetPayrollComponent(int payrollStructureId)
         {
             var componentlist = await employeeRevisionService.GetPayrollComponent(payrollStructureId);
+
+            return Ok(componentlist);
+        }
+
+        [HttpGet("GetPayrollStructureComponent/{payrollStructureId}")]
+        public async Task<ActionResult<IEnumerable<EmployeeRevisionPayrollStructureView>>> GetPayrollStructureComponent(int payrollStructureId)
+        {
+            var componentlist = await employeeRevisionService.GetPayrollStructureComponent(payrollStructureId);
 
             return Ok(componentlist);
         }

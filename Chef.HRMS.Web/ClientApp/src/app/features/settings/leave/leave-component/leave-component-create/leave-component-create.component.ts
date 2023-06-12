@@ -23,6 +23,7 @@ import { LeaveSlabGroup } from '../leave-slab.model';
 import { LeaveSlabViewComponent } from '../leave-slab-view/leave-slab-view.component';
 import { LeaveSlabEditComponent } from '../leave-slab-edit/leave-slab-edit.component';
 import { LeaveSlabCreateComponent } from '../leave-slab-create/leave-slab-create.component';
+import { IDropdownSettings, } from 'ng-multiselect-dropdown';
 
 
 @Component({
@@ -83,6 +84,11 @@ export class LeaveComponentCreateComponent implements OnInit {
   isSlabdisabled: boolean=true;
   backToBasic: any;
   configId: any;
+  leaveDetectionSettings:IDropdownSettings={};
+  selectedLeaveDetection;
+  leaveDeduction;
+  isMandatoryAccruel:boolean=false
+  isAccurel:boolean=true
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -171,8 +177,7 @@ export class LeaveComponentCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.addForm.value.showLeaveDescription==true || this.addForm.value.isPaidLeave==true||this.addForm.value.isUnpaidLeave==true ||
-      this.addForm.value.isSickLeave==true || this.addForm.value.isStatutoryLeave==true ||this.addForm.value.isRestrictedToGender==true||this.addForm.value.isRestrictedToMaritalStatus==true )
+    if(this.addForm.value.isPaidLeave==true || this.addForm.value.isUnpaidLeave==true || this.addForm.value.isSickLeave==true)
       {
         if(this.addForm.value.id){
           if(this.activeTab=="configure"){
@@ -226,13 +231,18 @@ export class LeaveComponentCreateComponent implements OnInit {
         }
        
     }else{
-      this.toastr.showWarningMessage("Please choose atleast one leave category!");
+      this.toastr.showWarningMessage("Please choose  one leave category!");
     }
   }
 
   getDetectionListType() {
     this.leaveComponentService.getDetectiontype().subscribe((res) => {
       this.detectionTypeList = res;
+      this.leaveDetectionSettings = {
+        idField:'id',
+        textField:'name',
+        allowSearchFilter: true
+      };  
     });
   }
 
@@ -265,11 +275,17 @@ export class LeaveComponentCreateComponent implements OnInit {
     if (this.addForm2.value.leaveType == 1) {
       this.addForm2.get("leaveEncashment").enable();
       this.addForm2.get("annualLeave").enable();
+      this.addForm2.get("accruedLeaveAmount").enable();
+      this.isMandatoryAccruel=true
+      this.isAccurel=false
       this.isEncash = false;
       this.isAnnual = false;
     } else {
       this.addForm2.get("leaveEncashment").disable();
       this.addForm2.get("annualLeave").disable();
+      this.addForm2.get("accruedLeaveAmount").disable();
+      this.isMandatoryAccruel=false
+      this.isAccurel=true
       this.isEncash = true;
       this.isAnnual = true;
       // this.addForm.controls['cfLimitDays'].reset();
@@ -354,31 +370,51 @@ export class LeaveComponentCreateComponent implements OnInit {
       isIncludeLOPDays: [null, [Validators.required]],
       leaveType: [null, [Validators.required]],
       leaveCutOffType: [null, [Validators.required]],
-      isAccruedLeaveAmount: [false, [Validators.required]],
+      accruedLeaveAmount: [{ value: null, disabled: this.isAccurel }, [Validators.required]],
       isEncash: [false, [Validators.required]],
       // isCarryForward: [false, [Validators.required]],
       leaveComponentId: [null],
-      leaveDeduction: ['',[Validators.required]],
+      // leaveDeduction: ['',[Validators.required]],
       leaveEncashment: [{ value: 0, disabled: this.isEncash }],
       annualLeave: [{ value: 0, disabled: this.isAnnual }],
+      leaveComponentLopDetails:[]
     });
   }
 
   onSubmit2() {
     debugger
+    let selectedIds=this.selectedLeaveDetection
+    let arrValue = selectedIds.map(({id}) =>id);
+    this.leaveDeduction = arrValue.join()
+    var payrollcomponet =[]
+    selectedIds.forEach((key) => {
+      payrollcomponet.push({id:0,leaveComponentId:this.leaveComponentId,payrollComponentId : key.id})
+    });
+    this.addForm2.patchValue({
+      leaveComponentLopDetails : payrollcomponet,
+    })
     if(this.activeTab=="slab"){
       this.activeTab = "configure";
      }
     this.addForm2.patchValue({
       leaveComponentId: this.leaveComponentId,
     });
+    if(this.addForm2.value.leaveType==2){
+      this.addForm2.value.accruedLeaveAmount = null
+    }
     if(this.addForm2.value.id){
       this.leaveEligiblityService.update(this.addForm2.value).subscribe(
         (result: any) => {
          // this.activeModal.close(true);
-         this.activeTab = "slab";
        
         //  this.isSaveDisableConfig=true
+        if(this.addForm.value.isPaidLeave==true || this.addForm.value.isSickLeave==true){
+          this.isSlabdisabled=false
+          this.activeTab = "slab";
+          this.isSaveDisableConfig=true
+        }else{
+          this.activeModal.close(true);
+        }
           this.toastr.showSuccessMessage(
             "Leave component is updated successfully!"
           );
@@ -398,9 +434,14 @@ export class LeaveComponentCreateComponent implements OnInit {
             );
           } else {
             // this.activeModal.close(true);
-            this.activeTab = "slab";
+            
+          if(this.addForm.value.isPaidLeave==true || this.addForm.value.isSickLeave==true){
             this.isSlabdisabled=false
+            this.activeTab = "slab";
             this.isSaveDisableConfig=true
+          }else{
+            this.activeModal.close(true);
+          } 
             this.toastr.showSuccessMessage(
               "Configure Leave Component is created successfully!"
             );
@@ -578,5 +619,33 @@ delete(relDetails: LeaveSlabGroup) {
       }
     }
     )
+  }
+  paidLeaveChecked(event){
+    if(event=='on'){
+      this.addForm.patchValue({
+        isUnpaidLeave:false,
+        isSickLeave:false
+      })
+     
+    }
+
+  }
+  unpaidLeaveChecked(event){
+    if(event=='on'){
+      this.addForm.patchValue({
+        isPaidLeave:false,
+        isSickLeave:false
+      })
+    }
+
+  }
+  sickLeaveChecked(event){
+    if(event=='on'){
+      this.addForm.patchValue({
+        isUnpaidLeave:false,
+        isPaidLeave:false
+      })
+    }
+
   }
 }

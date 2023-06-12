@@ -22,6 +22,7 @@ export class AdocEntryViewComponent implements OnInit {
   statusTypeList=AdocStatusType;
   benefitTypes:any[];
   employee;
+  adhocObj;
   @Input() listItem;
 
   constructor(
@@ -37,7 +38,7 @@ export class AdocEntryViewComponent implements OnInit {
     this.viewForm = this.createFormGroup();
     debugger
     this.viewForm.patchValue(this.listItem);
-   
+   this.getAdhocBfCode()
     this.listItem.date = new Date(this.listItem.date);    
     this.viewForm.patchValue(this.listItem);
     if(this.listItem.status==1){
@@ -55,7 +56,13 @@ export class AdocEntryViewComponent implements OnInit {
     }
   }
 
-
+  getAdhocBfCode()
+  {
+    this.adocEntryService.getAdhocBfCode()
+    .subscribe((result) =>{
+      this.adhocObj=result.find((item)=>this.viewForm.get('adhocBFCode').value==item.id)
+    })
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       employeeId: [null, [

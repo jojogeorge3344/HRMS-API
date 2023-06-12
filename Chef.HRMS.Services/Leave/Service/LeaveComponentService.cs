@@ -1,8 +1,10 @@
-﻿using Chef.Common.Core.Services;
+﻿using Chef.Common.Core.Repositories;
+using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.BenefitCategory;
 using Chef.HRMS.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,12 +14,18 @@ namespace Chef.HRMS.Services
     {
         private readonly ILeaveComponentRepository leaveComponentRepository;
         private readonly ILeaveEligibilityRepository leaveEligibilityRepository;
+		private readonly ILeaveComponentLopDetailsRepository leaveComponentLopDetails;
+		private readonly ITenantConnectionFactory tenantConnectionFactory;
 
-        public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository,ILeaveEligibilityRepository leaveEligibilityRepository)
+		public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository,ILeaveEligibilityRepository leaveEligibilityRepository,
+			ILeaveComponentLopDetailsRepository leaveComponentLopDetails,
+            ITenantConnectionFactory tenantConnectionFactory)
         {
             this.leaveComponentRepository = leaveComponentRepository;
             this.leaveEligibilityRepository = leaveEligibilityRepository;
-        }
+            this.leaveComponentLopDetails = leaveComponentLopDetails;
+            this.tenantConnectionFactory = tenantConnectionFactory;
+		}
 
         public async Task<int> DeleteAsync(int id)
         {
@@ -51,7 +59,8 @@ namespace Chef.HRMS.Services
 
         public async Task<int> UpdateAsync(LeaveComponent leaveComponent)
         {
-            return await leaveComponentRepository.UpdateAsync(leaveComponent);
+            
+                return await leaveComponentRepository.UpdateAsync(leaveComponent);
         }
 
         public async Task<IEnumerable<BenefitCategory>> GetBenefitCategory()

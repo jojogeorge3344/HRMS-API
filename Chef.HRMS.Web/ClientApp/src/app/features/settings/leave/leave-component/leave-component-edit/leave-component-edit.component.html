@@ -64,11 +64,11 @@
             ></textarea>
           </div>
           <div>
-            <label style="padding-left: 10px;padding-bottom: 10px;">Please choose atleast one Leave Category</label>
+            <label style="padding-left: 10px;padding-bottom: 10px;">Please choose one Leave Category</label>
             </div>
                     <div class="row">
                         <div class="col-sm">
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <div class="col-12">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="showLeaveDescription"
@@ -77,12 +77,12 @@
                                             description</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <div class="col-12">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="isPaidLeave"
-                                            formControlName="isPaidLeave">
+                                            formControlName="isPaidLeave" (change)="paidLeaveChecked($event.target.value)">
                                         <label class="custom-control-label" for="isPaidLeave">Paid leave</label>
                                     </div>
                                 </div>
@@ -91,11 +91,34 @@
                                 <div class="col-12">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="isUnpaidLeave"
-                                            formControlName="isUnpaidLeave">
+                                            formControlName="isUnpaidLeave" (change)="unpaidLeaveChecked($event.target.value)">
                                         <label class="custom-control-label" for="isUnpaidLeave">UnPaid leave</label>
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="isSickLeave"
+                                            formControlName="isSickLeave"  (change)="sickLeaveChecked($event.target.value)">
+                                        <label class="custom-control-label" for="isSickLeave">Sick leave</label>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="col-sm">
+                            <!-- <div class="form-group">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="isStatutoryLeave"
+                                            formControlName="isStatutoryLeave">
+                                        <label class="custom-control-label" for="isStatutoryLeave">Statuatory
+                                            leave</label>
+                                    </div>
+                                </div>
+                            </div> -->
+                      
                             <div class="form-group">
                                 <div class="col-12">
                                     <div class="custom-control custom-checkbox">
@@ -116,27 +139,7 @@
                                     </option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="isStatutoryLeave"
-                                            formControlName="isStatutoryLeave">
-                                        <label class="custom-control-label" for="isStatutoryLeave">Statuatory
-                                            leave</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="isSickLeave"
-                                            formControlName="isSickLeave">
-                                        <label class="custom-control-label" for="isSickLeave">Sick leave</label>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="form-group">
                                 <div class="col-12">
                                     <div class="custom-control custom-checkbox">
@@ -408,16 +411,19 @@
                                 </select>
                             </div>
                         </div>
-                    
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="leaveDeduction">LOP BF Code<span class="required">*</span></label>
-                                <select class="form-control" formControlName="leaveDeduction">
+                                <!-- <select class="form-control" formControlName="leaveDeduction">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option *ngFor="let key of detectionTypeList" [ngValue]='key.id'>
                                         {{key.name}}
                                     </option>
-                                </select>
+                                </select> -->
+                                <ng-multiselect-dropdown [(ngModel)]="selectedLeaveDetection" [placeholder]="'Select LOP BF Code'"
+                                [settings]="leaveDetectionSettings"
+                                [data]="detectionTypeList"  [ngModelOptions]="{standalone: true}">
+                               </ng-multiselect-dropdown>
                             </div>
                         </div>
                         <!-- <div class="col-md-3">
@@ -488,13 +494,14 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="col-form-label" for="isAccruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
-                                <select class="form-control" formControlName="isAccruedLeaveAmount">
-                                    <option [ngValue]="null" disabled>Select</option>
-                                    <option [ngValue]=true>
+                                <label *ngIf="!isMandatoryAccruel" class="col-form-label" for="accruedLeaveAmount">Accrue Leave Amount</label>
+                                <label *ngIf="isMandatoryAccruel" class="col-form-label" for="accruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
+                                <select class="form-control" formControlName="accruedLeaveAmount">
+                                    <option [ngValue]=null disabled>Select</option>
+                                    <option value="true">
                                      Yes
                                     </option>
-                                    <option [ngValue]=false>
+                                    <option value="false">
                                         No
                                        </option>
                                 </select>
@@ -563,7 +570,7 @@
             </ng-template>
         </ngb-tab>
 
-        <ngb-tab title="Slab" id="slab">
+        <ngb-tab title="Slab" id="slab" [disabled]="isSlabdisabled">
 
             <ng-template ngbTabContent>
                 <!-- <form [formGroup]="editForm3" (validSubmit)="onSubmit3()">

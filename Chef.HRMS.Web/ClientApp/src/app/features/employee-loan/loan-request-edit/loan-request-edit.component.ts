@@ -43,6 +43,8 @@ export class LoanRequestEditComponent implements OnInit {
   empObj;
   empLoanDetails;
   disableRequestedBy=false
+  isLoading=false;
+  validateRequestedBy:boolean=true
     constructor(
     private employeeService: EmployeeService,
     private loanRequestService: LoanRequestService,
@@ -137,28 +139,28 @@ getLoanDetails(){
 
 }
   getEmployeeList() {
+    this.isLoading=true
     this.employeeService.getAll()
       .subscribe((result) => {
         let temp = { id: undefined, firstName: 'test', isLastRow: true }
         // lastrow
         this.employeeList = [...result, temp];
-  
-        // this.employeeList.forEach((emp) =>{
-        //   if((this.requestedBy ==emp.id)){
-        //      details=emp.firstName;
-        //      this.editForm.patchValue({employeeId:details});
-        //   }
-        //  });
-
+        this.isLoading=false;
       }
       )
   }
 
   onSubmit() {
     debugger
-    if (this.editForm.invalid) {
+    if (this.editForm.invalid ) {
       return
     }
+
+    this.validateRequestedBy = this.editForm.controls.requestedBy.value == 0 || this.editForm.controls.requestedBy.value == null ? false :true
+    if(!this.validateRequestedBy){
+      return
+     }
+    
     const editloanRequestForm = this.editForm.value;
     if(this.router.url=='/my-loan'){
       editloanRequestForm.requestedBy = this.currentUserId;
@@ -184,6 +186,10 @@ getLoanDetails(){
   draftSave() {
     if (this.editForm.invalid) {
       return
+    }
+    this.validateRequestedBy = this.editForm.controls.requestedBy.value == 0 || this.editForm.controls.requestedBy.value == null ? false :true
+    if(!this.validateRequestedBy){
+     return
     }
     const editloanRequestForm = this.editForm.value;
     if(this.router.url=='/my-loan'){
@@ -387,9 +393,16 @@ getLoanDetails(){
   }
   selectRequestedBy(args){
     debugger
-    this.editForm.patchValue({
-      requestedBy: args.value.id
-    })
+    if(args.value && args.value.id){
+      this.editForm.patchValue({
+        requestedBy:args.value.id,
+        })
+    }else{
+      this.editForm.patchValue({
+        requestedBy: 0,
+      })  
+    }
+    this.validateRequestedBy = true
   }
   refreshRequestedBy(event){
     event.stopPropagation();
@@ -430,7 +443,7 @@ getLoanDetails(){
       loanSettingId: [this.loanSettingId],
       createdDate: [],
       extendedMonth: [0],
-      requestedBy: [null],
+      requestedBy: [0,[Validators.required]],
 
     });
   }

@@ -64,7 +64,7 @@
 			                            assettypemetadataid,
 			                            valueid,
 			                            status,
-			                            CONCAT(assetname,'-',valueid) AS assetname 
+			                            assetname 
 		                            FROM hrms.asset WHERE status=5  
                                                     AND assettypeid=@assettypeid";
 
