@@ -147,11 +147,10 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             return eosAccruals;
         }
 
-        public async Task<int> SaveEndOfServiceAccruals(List<EOSAccrual> endOfServiceAccruals)
+        public async Task<int> InsertEOSAccruals(List<EOSAccrual> endOfServiceAccruals)
         {
             var result = await eosAccrualRepository.BulkInsertAsync(endOfServiceAccruals);
-            //return result;
-            return 0;
+            return result;
         }
 
         public async Task<List<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid, DateTime accrualDate)
