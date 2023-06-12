@@ -229,7 +229,7 @@
                                 <tbody>
                                     <tr  *ngFor="let employee of employeePayrollStructure; let i= index;">
                                        <td>{{employee.name}}</td>
-                                       <td><input disabled value="{{employee.monthlyAmount}}" type="text" class="form-control"
+                                       <td><input disabled value="{{employee.monthlyAmount | number : '1.0-2'}}" type="text" class="form-control"
                                         /></td>
                                     </tr>
                                 </tbody>
@@ -249,8 +249,14 @@
                                 <tbody>
                                     <tr  *ngFor="let employee of employeePayrollStructure_rev; let i= index;">
                                        <td>{{employee.name}}</td>
-                                       <td><input  value="{{employee.monthlyAmount}}" type="text" class="form-control"
-                                        /></td>
+                                       <td *ngIf="!employee.isComputed"><input (blur)="calculateComponentValues(employee,i)" [ngModelOptions]="{standalone: true}"  [(ngModel)]="employee.monthlyAmount" type="text" class="form-control"
+                                        />
+                                        <div class="invalid-feedback d-block" *ngIf="employee.monthlyAmount > employee.maximumLimit">
+                                           Maximum Limit is {{employee.maximumLimit}}
+                                        </div>
+                                    </td>
+                                        <td *ngIf="employee.isComputed"><input disabled  value="{{employee.monthlyAmount | number : '1.0-2'}}" type="text" class="form-control"
+                                            /></td>
                                     </tr>
                                 </tbody>
                             </table>

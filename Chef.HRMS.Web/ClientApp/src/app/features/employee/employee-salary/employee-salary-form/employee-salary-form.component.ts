@@ -22,6 +22,8 @@ export class EmployeeSalaryFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+
+    console.log('salaryForm',this.salaryForm)
     if (!this.returned) {
       this.setupForm();
     }
@@ -30,6 +32,7 @@ export class EmployeeSalaryFormComponent implements OnInit {
   }
 
   setupForm() {
+    debugger
     this.salaryStructure.map((x: any) => {
       this.valueObject[`{${x.shortCode}}`] = x.monthlyAmount;
       (this.salaryForm.controls.salaryArray as FormArray).push(
@@ -116,6 +119,7 @@ export class EmployeeSalaryFormComponent implements OnInit {
   }
 
   setupControls() {
+    debugger
     this.salaryForm.controls.salaryArray.valueChanges.subscribe((res) => {
       let monthly = 0;
       let yearly = 0;
@@ -164,6 +168,7 @@ export class EmployeeSalaryFormComponent implements OnInit {
   }
 
   getCalculatedValues() {
+    debugger
     this.salaryStructure.map((res, i) => {
       const keys = Object.keys(this.valueObject);
       if (res.formula) {

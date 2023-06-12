@@ -66,7 +66,7 @@ export class EmployeeRevisionManagementService {
   }
 
   getpayrollComponents(id){
-    return this.http.get(this.baseUrl + 'GetPayrollComponent/' + id ).pipe(map(response => { return response; }));
+    return this.http.get(this.baseUrl + 'GetPayrollStructureComponent/' + id ).pipe(map(response => { return response; }));
   }
 
 
