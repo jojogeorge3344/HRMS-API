@@ -355,17 +355,32 @@
                                 </select>
                             </div>
                         </div> -->
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="col-form-label" for="annualLeave">Annual Accrual BF Code</label>
-                                <select class="form-control" formControlName="annualLeave" >
-                                    <option value="0">Select</option>
-                                    <option *ngFor="let key of accuralList" [ngValue]='key.id'>
-                                        {{key.name}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
+                       
+                      <div class="col-md-3">
+                          <label class="col-form-label" for="annualLeave" 
+                            >Annual Accrual BF Code</label
+                          >
+                          <p-dropdown
+                           [disabled]="disableAccrualBfCode" 
+                           [showClear]="true" 
+                           [(ngModel)]="AnnualAccrualBfObj"
+                            [ngModelOptions]="{standalone: true}"
+                             class="pngCustomClass" 
+                             [options]="accrualList" 
+                             optionValue="id"
+                          (onChange)="selectAccrualBfCode($event)" optionLabel="name" placeholder="Select" dataKey="id" name="annualLeave">
+                            <ng-template let-item pTemplate="item" >  
+                              <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                                {{item?.value.name}} 
+                              </div> 
+                              <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshAccrualBfCode($event)">
+                                <a  class="link-primary ref"><u>Refresh</u></a>
+                                <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                                </div>
+                             </div>
+                          </ng-template>
+                          </p-dropdown>
+                        </div> 
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-form-label" for="leaveCutOffType">Leave CutOff<span class="required">*</span></label>
@@ -397,15 +412,30 @@
                         </div>
                            
                         <div class="col-md-3">
-                            <div class="form-group form-input-line">
-                                <label class="col-form-label" for="encashBFCode">Encash BF Code</label>
-                                <select class="form-control" formControlName="encashBFCode">
-                                    <option value="0">Select</option>
-                                    <option *ngFor="let key of accuralBenefitList" [ngValue]='key.id'>
-                                        {{key.name}}
-                                    </option>
-                                </select>
-                            </div>
+                          <label class="col-form-label" for="encashBFCode" 
+                          >Encash BF Code</label
+                        >
+                        <p-dropdown
+                         [disabled]="disableEncashBfCode"
+                         [showClear]="true" 
+                         [(ngModel)]="encashBfObj" 
+                         [ngModelOptions]="{standalone: true}" 
+                          class="pngCustomClass"
+                          [options]="accuralBenefitList" 
+                          optionValue="id"
+                        (onChange)="selectEncashBfCode($event)"
+                         optionLabel="name" placeholder="Select" dataKey="id" name="encashBFCode">
+                          <ng-template let-item pTemplate="item" >  
+                            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+                              {{item?.value.name}} 
+                            </div> 
+                            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshEncashBfCode($event)">
+                              <a  class="link-primary ref"><u>Refresh</u></a>
+                              <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                              </div>
+                           </div>
+                        </ng-template>
+                        </p-dropdown>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group form-input-line">
@@ -415,8 +445,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                              <label *ngIf="!isMandatoryAccruel" class="col-form-label" for="accruedLeaveAmount">Accrue Leave Amount</label>
-                                <label *ngIf="isMandatoryAccruel" class="col-form-label" for="accruedLeaveAmount">Accrue Leave Amount<span class="required">*</span></label>
+                              <label *ngIf="!isMandatoryAccruel" class="col-form-label" for="accruedLeaveAmount">Accrual Leave Amount</label>
+                                <label *ngIf="isMandatoryAccruel" class="col-form-label" for="accruedLeaveAmount">Accrual Leave Amount<span class="required">*</span></label>
                                 <select class="form-control" formControlName="accruedLeaveAmount">
                                     <option [ngValue]="null" disabled>Select</option>
                                     <option [ngValue]=true>
