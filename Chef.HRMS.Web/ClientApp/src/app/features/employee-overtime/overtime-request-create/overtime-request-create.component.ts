@@ -459,13 +459,13 @@ export class OvertimeRequestCreateComponent implements OnInit {
       });
   }
   draftSave() {
-    debugger
+    
     if(this.addForm.invalid){
 
       return
          
        }
-    
+
        this.addForm.patchValue({
         normalOverTime: this.addForm.controls.normalOverTime.value == null ? 0 : this.addForm.controls.normalOverTime.value,
         holidayOverTime:this.addForm.controls.holidayOverTime.value == null ? 0 : this.addForm.controls.holidayOverTime.value,
@@ -476,6 +476,11 @@ export class OvertimeRequestCreateComponent implements OnInit {
       
        if(!this.overtimeValidated){
        return
+       }
+
+       if(this.addForm.controls.fromDate.value > this.addForm.controls.toDate.value){
+        this.validateDate = false
+        return
        }
     let addForm = this.addForm.value;
     addForm.numberOfDays = this.numberOfDays;
