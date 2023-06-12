@@ -194,14 +194,14 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             return result;
         }
 
-        public async Task<List<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid, DateTime accrualDate)
+        public async Task<List<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid)
         {
 
             //var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
             //List<int> employeeIds = new List<int>();
             //employeeIds = employeeLeaveEligibilityDetails.Select(c => c.Id).ToList();
-
-            return (List<LeaveAccrual>)await leaveAccrualRepository.GetProcessedLeaveAccruals(accrualDate);
+            //Temporarily set datetime.now - TODO
+            return (List<LeaveAccrual>)await leaveAccrualRepository.GetProcessedLeaveAccruals(DateTime.Now);
         }
 
         public Task<int> DeleteAsync(int id)

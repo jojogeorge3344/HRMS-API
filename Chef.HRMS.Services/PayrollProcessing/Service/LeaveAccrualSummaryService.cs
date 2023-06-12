@@ -44,10 +44,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
                 leaveAccrualSummary.AccrualDate = firstDayNextMonth;
 
-                if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
-                {
-                    throw new ResourceNotFoundException("Accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-                }
+
                 bool isLeaveCutOff = false;
                 if ((LeaveCutOffType.YearEnd == employeeLeaveAccrual.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
                     || (LeaveCutOffType.HalfYearEnd == employeeLeaveAccrual.LeaveCutOffType && firstDayNextMonth.Month > 6)
@@ -68,7 +65,10 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 }
                 else
                 {
-
+                    if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+                    {
+                        throw new ResourceNotFoundException("Accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                    }
                     if (prevAccrualSummaryDetails.AccrualDays >= employeeLeaveAccrual.CFLimitDays)
                     {
                         //no entry to be made into LeaveSummary table

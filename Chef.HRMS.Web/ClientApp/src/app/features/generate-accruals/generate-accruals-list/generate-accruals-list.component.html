@@ -30,9 +30,12 @@
                                         <i  class="fal fa-eye  fs-xl"></i>
                                       </button>
                                 </span> -->
-                                <span>In Progress
-                                    <button title="continue" class="border-0 btn btn-outline-primary btn-xs"
-                                        (click)="processSetup(item)"><i class="fal fa-long-arrow-right fs-xl"></i></button></span>
+                                <span *ngIf="item.processedStep < 5">In Progress
+                                    <button title="continue" class="border-0 btn btn-outline-primary btn-xs" (click)="processSetup(item)"><i
+                                            class="fal fa-long-arrow-right fs-xl"></i></button></span>
+                                <span *ngIf="item.processedStep ==5">Completed
+                                    <button title="continue" class="border-0 btn btn-outline-primary btn-xs" (click)="viewAccruals(item)"><i
+                                        class="fal fa-eye  fs-xl"></i></button></span>
                             </td>
                         </tr>
                         <tr *ngIf="!accrualsList?.length">

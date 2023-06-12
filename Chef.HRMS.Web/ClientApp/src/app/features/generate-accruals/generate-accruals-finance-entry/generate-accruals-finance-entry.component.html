@@ -90,7 +90,6 @@
                                         <th>Sl No.</th>
                                         <th>Employee Code</th>
                                         <th>Employee Name</th>
-                                        <th>Accrued Days</th>
                                         <th>Amount</th>
                                        
                                     </tr>
@@ -100,7 +99,6 @@
                                         <td>{{i+1}}</td>
                                         <td>{{item.employeeCode}}</td>
                                         <td>{{item.employeeName}}</td>
-                                        <td>{{item.accrualDays}}</td>
                                         <td>{{item.accrualAmount}}</td>
                                        
                                     </tr>
@@ -112,12 +110,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" *ngIf="Action == 'I'">
                             <button (click)="saveAccruals()" type="submit" class="btn btn-success">
                                 <i class="mr-1 fal fa-save"></i>Save
                             </button>
                             <button  type="button"
-                            class="btn btn-primary">
+                            class="btn btn-primary" (click)="generateFinacialEntry()">
                             <i class="mr-1 fal fa-arrow-down"></i> Generate Finacial Entry</button>
                             <button type="button" class="btn btn-warning" routerLink="/generate-accruals"><i
                                     class="mr-1 fal fa-window-close"></i> Cancel

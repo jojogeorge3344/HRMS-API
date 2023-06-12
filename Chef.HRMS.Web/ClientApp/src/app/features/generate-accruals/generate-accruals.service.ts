@@ -13,6 +13,7 @@ export class GenerateAccrualsService {
   public getEOSAccrual:string
   public getticketaccrual:string
   public saveAccrualDetails:string
+  public generateFinacialEntry:string
  
   constructor(
     http: HttpClient, @Inject('BASE_URL') baseUrl: string
@@ -23,6 +24,8 @@ export class GenerateAccrualsService {
     this.getEOSAccrual = baseUrl + 'api/settings/payrollprocessing/EOSAccrual/'
     this.getticketaccrual = baseUrl + 'api/settings/payrollprocessing/TicketAccrual/'
     this.saveAccrualDetails = baseUrl + 'api/settings/payrollprocessing/Accruals/SaveAccruals'
+    this.generateFinacialEntry = baseUrl + 'api/settings/payrollprocessing/Accruals/'
+
 
 
    }
@@ -42,5 +45,12 @@ export class GenerateAccrualsService {
 
   saveAccruals(accrualdetails){
     return this.http.post(this.saveAccrualDetails,accrualdetails).pipe(map(response => { return response; }));
+  }
+  gen_finacialEntry(paygroupid) {
+    return this.http.post(this.generateFinacialEntry + 'GenerateFinancialEntry/' + paygroupid,'').pipe(map(response => { return response; }));
+  }
+
+  get_processedAccruals(paygroupid){
+    return this.http.post(this.generateFinacialEntry + 'GetProcessedAccruals/' + paygroupid,'').pipe(map(response => { return response; }));
   }
 }

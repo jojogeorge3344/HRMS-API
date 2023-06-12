@@ -38,8 +38,17 @@ export class GenerateAccrualsListComponent implements OnInit {
   }
   processSetup(item){
     let id = item.payGroupId
+    let IorV = 'I'
     this.router.navigate([ "./" +
-    id +
+    id +'/'+ IorV +
+    "/generate/"], { relativeTo: this.route.parent });
+  }
+
+  viewAccruals(item){
+    let id = item.payGroupId
+    let IorV = 'V'
+    this.router.navigate([ "./" +
+    id + '/' + IorV +
     "/generate/"], { relativeTo: this.route.parent });
   }
 
