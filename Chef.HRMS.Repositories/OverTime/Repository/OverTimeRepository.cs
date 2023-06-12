@@ -216,17 +216,20 @@ namespace Chef.HRMS.Repositories
 							FROM hrms.overtime OT
 							INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
 
-							INNER JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
+							LEFT JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
 
-							INNER JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
+							LEFT JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
 
-							INNER JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
+							LEFT JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
 
 							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
-							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate";
+							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN To_date(Cast(@fromDate AS TEXT), 'YYYY-MM-DD') AND To_date(Cast(@toDate AS TEXT), 'YYYY-MM-DD')
+							GROUP BY OTC.normalovertime ,
+							OTC.specialovertime ,
+							OTC.holidayovertime ,escd.monthlyamount,escd1.monthlyamount ,escd2.monthlyamount ";
 
 								var EmpSettings = await Connection.QueryAsync<OTDetails>(sql, new
 								{
@@ -244,9 +247,10 @@ namespace Chef.HRMS.Repositories
 									overtimepolicyid = emp.OverTimePolicyId
 								});
 								var row = EmpSettings.ToList().FirstOrDefault(x => x.NormalOverTime != 0);
-								if (row != null && row.NormalOverTime > 0)
+								if (row != null && row.NormalOverTime > 0|| row != null && row.HolidayOverTime > 0)
 								{
 									decimal OTHrs = row.NormalOverTime;
+									decimal HOTHrs = row.HolidayOverTime;
 									decimal lowerLimit = 0;
 									decimal upperLimit = 0;
 									foreach (OverTimeSlab item in oTSlab)
@@ -378,6 +382,70 @@ namespace Chef.HRMS.Repositories
 												}
 											}
 										}
+										if (item.OverTimeType == (int)OverTimeType.HolidayOverTime)
+										{
+											lowerLimit = item.LowerLimit;
+											upperLimit = item.UpperLimit;
+											if (HOTHrs > item.LowerLimit)
+											{
+
+												if (HOTHrs > item.UpperLimit)
+												{
+													decimal Amt = 0;
+													decimal Hrs = upperLimit - lowerLimit + 1;
+													if ((int)item.ValueType == 1) //percentage
+													{
+														Amt = (Hrs * item.ValueVariable * row.HOTRate) / 100;
+													}
+													OverTimePayrollViewModel overTimeViewModel = new OverTimePayrollViewModel
+													{
+														NotHrs = 0,
+														HotHrs = Hrs,
+														SotHrs = 0,
+														EmployeeId = emp.Id,
+														EmployeeCode = emp.EmployeeCode,
+														EmployeeName = emp.EmployeeName,
+														NotRate = 0,
+														HotRate = row.HOTRate,
+														SotRate = 0,
+														ComponentId = row.HOTComponentID,
+														NotAmount = 0,
+														HotAmount = Amt,
+														SotAmount = 0,
+														OverTimeId = 0,
+													};
+													overTimePayrollViewModel.Add(overTimeViewModel);
+												}
+												else
+												{
+													decimal Amt = 0;
+													decimal Hrs = HOTHrs - lowerLimit + 1;
+													if ((int)item.ValueType == 1) //percentage
+													{
+														Amt = (Hrs * item.ValueVariable * row.HOTRate) / 100;
+													}
+													OverTimePayrollViewModel overTimeViewModel = new OverTimePayrollViewModel
+													{
+														NotHrs = 0,
+														HotHrs = Hrs,
+														SotHrs = 0,
+														EmployeeId = emp.Id,
+														EmployeeCode = emp.EmployeeCode,
+														EmployeeName = emp.EmployeeName,
+														NotRate = 0,
+														HotRate = row.HOTRate,
+														SotRate = 0,
+														ComponentId = row.HOTComponentID,
+														NotAmount = 0,
+														HotAmount = Amt,
+														SotAmount = 0,
+														OverTimeId = 0,
+													};
+													overTimePayrollViewModel.Add(overTimeViewModel);
+												}
+											}
+										}
+
 									}
 								}
 							}
@@ -393,17 +461,17 @@ namespace Chef.HRMS.Repositories
 							FROM hrms.overtime OT
 							INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
 
-							INNER JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
+							LEFT JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
 
-							INNER JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
+							LEFT JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
 
-							INNER JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
+							LEFT JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
 
 							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
-							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate";
+							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN To_date(Cast(@fromDate AS TEXT), 'YYYY-MM-DD') AND To_date(Cast(@toDate AS TEXT), 'YYYY-MM-DD')";
 
 								var EmpSettings = await Connection.QueryAsync<OTDetails>(sql, new
 								{
@@ -427,6 +495,7 @@ namespace Chef.HRMS.Repositories
 									if (empSett != null && empSett.NormalOverTime > 0)
 									{
 										decimal OTHrs = empSett.NormalOverTime;
+										decimal HOTHrs = empSett.HolidayOverTime;
 										decimal lowerLimit = 0;
 										decimal upperLimit = 0;
 										foreach (OverTimeSlab item in oTSlab)
@@ -555,6 +624,64 @@ namespace Chef.HRMS.Repositories
 													}
 												}
 											}
+											if (HOTHrs > item.LowerLimit)
+											{
+
+												if (HOTHrs > item.UpperLimit)
+												{
+													decimal Amt = 0;
+													decimal Hrs = upperLimit - lowerLimit + 1;
+													if ((int)item.ValueType == 1) //percentage
+													{
+														Amt = (Hrs * item.ValueVariable * empSett.HOTRate) / 100;
+													}
+													OverTimePayrollViewModel overTimeViewModel = new OverTimePayrollViewModel
+													{
+														NotHrs = 0,
+														HotHrs = Hrs,
+														SotHrs = 0,
+														EmployeeId = emp.Id,
+														EmployeeCode = emp.EmployeeCode,
+														EmployeeName = emp.EmployeeName,
+														NotRate = 0,
+														HotRate = empSett.HOTRate,
+														SotRate = 0,
+														ComponentId = empSett.HOTComponentID,
+														NotAmount = 0,
+														HotAmount = Amt,
+														SotAmount = 0,
+														OverTimeId = 0,
+													};
+													overTimePayrollViewModel.Add(overTimeViewModel);
+												}
+												else
+												{
+													decimal Amt = 0;
+													decimal Hrs = HOTHrs - lowerLimit + 1;
+													if ((int)item.ValueType == 1) //percentage
+													{
+														Amt = (Hrs * item.ValueVariable * empSett.HOTRate) / 100;
+													}
+													OverTimePayrollViewModel overTimeViewModel = new OverTimePayrollViewModel
+													{
+														NotHrs = 0,
+														HotHrs = Hrs,
+														SotHrs = 0,
+														EmployeeId = emp.Id,
+														EmployeeCode = emp.EmployeeCode,
+														EmployeeName = emp.EmployeeName,
+														NotRate = 0,
+														HotRate = empSett.HOTRate,
+														SotRate = 0,
+														ComponentId = empSett.HOTComponentID,
+														NotAmount = 0,
+														HotAmount = Amt,
+														SotAmount = 0,
+														OverTimeId = 0,
+													};
+													overTimePayrollViewModel.Add(overTimeViewModel);
+												}
+											}
 										}
 
 									}
@@ -577,14 +704,14 @@ namespace Chef.HRMS.Repositories
 							FROM hrms.overtime OT
 							INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
 
-							INNER JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
+							LEFT JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
 
-							INNER JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
+							LEFT JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
 
-							INNER JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
-		                    INNER JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
+							LEFT JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
 
 							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
 							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN To_date(Cast(@fromDate AS TEXT), 'YYYY-MM-DD') AND To_date(Cast(@toDate AS TEXT), 'YYYY-MM-DD')
