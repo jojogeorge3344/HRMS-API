@@ -32,12 +32,14 @@ export class PayrollComponentCreateComponent implements OnInit {
   payBaseUnitTypeKeys: number[];
   includePaySlipTypeKeys: number[];
   roundingTypeKeys: number[];
+  payrollCompObj;
 
   @Input() payrollComponentNames: string[];
   @Input() payrollComponentCodes: string[];
   payrollComponentTypeKeysSearch: any;
 
   config;
+  isLoading=false;
 
   constructor(
     private payrollComponentService: PayrollComponentService,
@@ -66,24 +68,20 @@ export class PayrollComponentCreateComponent implements OnInit {
       .filter(Number)
       .map(Number);
       debugger
-
+this.getPayrollComponetTypes()
+   
+  }
+  getPayrollComponetTypes(){
+    this.isLoading = true;
     this.payrollComponentService
-      .getAllPayrollComponentByType()
-      .subscribe((result) => {        
-        this.payrollComponentTypeKeys = result.sort((a, b) => a.categoryId - b.categoryId);
-        this.payrollComponentTypeKeysSearch = result.sort((a, b) => a.categoryId - b.categoryId);
-      });
- debugger
-    this.config = {
-      displayKey: "name",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select a Payroll Component Type",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "name",
-      clearOnSelection: false,
-    };
+    .getAllPayrollComponentByType()
+    .subscribe((result) => {        
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.payrollComponentTypeKeys = [...result.sort((a, b) => a.categoryId - b.categoryId), temp];
+      this.isLoading = false;
+      this.payrollCompObj = result.find((item) => this.addForm.get('payrollComponentType').value == item.id)
+    });
   }
   // searchPayroll(value){
   //   debugger
@@ -126,9 +124,13 @@ export class PayrollComponentCreateComponent implements OnInit {
 
   // }
 
-  selectionChanged(args) {
-    debugger
+  selectPayrollComponentType(args) {
     this.addForm.get("payrollComponentType").patchValue(args.value.id);
+  }
+  refreshPayrollComponentType(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.getPayrollComponetTypes()
   }
 
   get name() {

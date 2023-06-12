@@ -16,64 +16,97 @@
                 <input type="string" class="form-control" id="bfName" name="bfName" formControlName="bfName">
             </div>
             <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="retrospectiveAccrual">Retrospective Accrual<span class="required">*</span></label>
-                    <select class="form-control" formControlName="retrospectiveAccrual">
-                         <option [ngValue]="null" disabled>Select</option>
-                         <option value="Yes">Yes</option>
-                         <option value="No">No</option>
-                     </select>
-            </div>
-           
-           
-        </div>
-        <div class="d-flex flex-wrap align-items-baseline">
-       
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="includeLOPDays">Include Lop Days<span class="required">*</span></label>
-                    <select class="form-control" formControlName="includeLOPDays">
-                         <option [ngValue]="null" disabled>Select</option>
-                         <option value="Yes">Yes</option>
-                         <option value="No">No</option>
-                    </select>
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="includeProbationDays">Include Probation Days<span class="required">*</span></label>
-                    <select class="form-control" formControlName="includeProbationDays">
-                        <option [ngValue]="null" disabled>Select</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-            </div>
-            <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="employeeEOSAccrualType">EOS Settlement BF Code<span class="required">*</span></label>
-                <select class="form-control" formControlName="employeeEOSAccrualType">
-                    <option [ngValue]="null" disabled>Select EOS Settlement BF Code</option>
-                    <option *ngFor="let key of EOSAccrualTypeDetails" [ngValue]='key.id' >{{key.name}}</option>
+                <label class="col-form-label" for="retrospectiveAccrual">Retrospective Accrual<span
+                        class="required">*</span></label>
+                <select class="form-control" formControlName="retrospectiveAccrual">
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
                 </select>
             </div>
+
+
+        </div>
+        <div class="d-flex flex-wrap align-items-baseline">
+
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="includeLOPDays">Include Lop Days<span
+                        class="required">*</span></label>
+                <select class="form-control" formControlName="includeLOPDays">
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="includeProbationDays">Include Probation Days<span
+                        class="required">*</span></label>
+                <select class="form-control" formControlName="includeProbationDays">
+                    <option [ngValue]="null" disabled>Select</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group form-input-line col-4">
+                <label class="col-form-label" for="employeeEOSAccrualType">EOS Settlement BF Code<span
+                        class="required">*</span></label>
+                <div class="input-group">
+                    <p-dropdown [(ngModel)]="settlementBfCode" [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+                        [options]="EOSAccrualTypeDetails" optionValue="id" (onChange)="selectSettlementCode($event)"
+                        optionLabel="name" placeholder="Select EOS Settlement BF Code" dataKey="id"
+                        name="employeeEOSAccrualType">
+                        <ng-template let-item pTemplate="item">
+                            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                                {{item?.value.name}}
+                            </div>
+                            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                                (click)="refreshBfCode($event)">
+                                Refresh
+                                <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div *ngIf="this.addForm.get('employeeEOSAccrualType').touched && this.addForm.get('employeeEOSAccrualType').invalid"
+                        class="invalid-feedback d-block">
+                        eos settlement bf code* is required
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-4">
-                <label class="col-form-label" for="employeeEOSpaymentType">EOS Payment BF Code<span class="required">*</span></label>
-                <select class="form-control" formControlName="employeeEOSpaymentType">
-                    <option [ngValue]="null" disabled>Select Eos Payment BF Code </option>
-                    <option *ngFor="let key of EOSPaymentTypeDetails" [ngValue]='key.id'>{{key.name}}</option>
-                </select>
+                <label class="col-form-label" for="employeeEOSpaymentType">EOS Payment BF Code<span
+                        class="required">*</span></label>
+                <div class="input-group">
+                    <p-dropdown [(ngModel)]="eosPaymentBfCodeObj" [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+                        [options]="EOSPaymentTypeDetails" optionValue="id" (onChange)="selectPaymentBfCode($event)"
+                        optionLabel="name" placeholder="Select Eos Payment BF Code" dataKey="id"
+                        name="employeeEOSpaymentType">
+                        <ng-template let-item pTemplate="item">
+                            <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                                {{item?.value.name}}
+                            </div>
+                            <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                                (click)="refreshPaymentBfCode($event)">
+                                Refresh
+                                <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div *ngIf="this.addForm.get('employeeEOSpaymentType').touched && this.addForm.get('employeeEOSpaymentType').invalid"
+                        class="invalid-feedback d-block">
+                        eos settlement bf code* is required
+                    </div>
+                </div>
             </div>
-            <!-- <div class="form-group form-input-line col-7">
-                <label class="col-form-label" for="includedBenefits">Included Benefits<span class="required">*</span></label>
-                <input type="string" readOnly class="form-control" id="includedBenefits" name="includedBenefits" formControlName="includedBenefits"> 
-            </div> -->
-            <!-- <div class="form-group form-input-line col-1">
-                <div class="d-flex flex-wrap align-items-baseline">&nbsp;</div>
-                <label class="col-form-label">
-                    <button type="button" (click)="openFormulaEditor('includedBenefits')"
-                        class="btn btn-outline-primary btn-sm ml-3">
-                        <i class="fal fa-edit"></i>
-                    </button>
-                </label>
-            </div> -->
-          
+
         </div>
     </div>
     <div class="modal-footer">
@@ -82,5 +115,3 @@
                 class="mr-1 fal fa-window-close"></i> Cancel</button>
     </div>
 </form>
-
-
