@@ -56,12 +56,8 @@ namespace Chef.HRMS.Web.Controllers
             result = await ticketAccrualService.InsertTicketAccruals(accrualsList.TicketAccruals);
             if (result > 0)
             {
-                result = await eosAccrualSummaryService.GenerateAndInsertEOSAccrualSummary(accrualsList.EOSAccruals);
+                result = await ticketAccrualSummaryService.GenerateAndInsertTicketAccrualSummary(accrualsList.TicketAccruals);
             }
-
-            // result = await eosAccrualService.SaveEOSAccruals(accrualsList.EOSAccruals);
-            // result = await ticketAccrualService.SaveTicketAccruals(accrualsList.TicketAccruals);
-
             return Ok(result);
         }
 

@@ -28,5 +28,47 @@ namespace Chef.HRMS.Models.PayrollProcessing
         [Skip(true)]
         [SqlKata.Ignore]
         public string EmployeeName { get; set; }
+
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public decimal EligibilityPerDay { get; set; }
+
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public bool IsIncludeLOPDays { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public decimal WorkingdaysInCalMonth { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public decimal WorkeddaysInCalMonth { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public decimal LopDaysInCalMonth { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int EligibleDays { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public decimal EligibilityBase { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int MonthlyAmount { get; set; }
     }
 }
