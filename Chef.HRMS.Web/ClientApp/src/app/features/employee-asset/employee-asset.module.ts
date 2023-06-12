@@ -14,6 +14,7 @@ import { EmployeeAssetAllocationComponent } from './employee-asset-allocation/em
 import { EmployeeAssetChangereturnviewComponent } from './employee-asset-changereturnview/employee-asset-changereturnview.component';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 
@@ -25,6 +26,7 @@ import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
     CommonModule,
     ReactiveFormsModule,
     NgbModule,
+    DropdownModule,
     BsDropdownModule.forRoot(),
     NgBootstrapFormValidationModule.forRoot(),
     RouterModule.forChild([

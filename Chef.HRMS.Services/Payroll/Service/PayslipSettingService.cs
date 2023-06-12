@@ -23,9 +23,46 @@ namespace Chef.HRMS.Services
             this.payslipSettingDetailsRepository = payslipSettingDetailsRepository;
         }
 
+        public async Task<int> DeletePayslipSetting(int id)
+        {
+            tenantSimpleUnitOfWork.BeginTransaction();
+            try
+            {
+                var payslipSetting = await payslipSettingReposirory.GetAsync(id);
+
+                if (payslipSetting != null)
+                {
+                    int payslipSettingDelete = await payslipSettingReposirory.DeleteAsync(id);
+                    var payslipSettingDetails = await payslipSettingDetailsRepository.GetPayslipSettingsDetailsByPayslipSettingsId(id);
+                    
+                    foreach(PayslipSettingDetails settingDetails in payslipSettingDetails)
+                    {
+                        await payslipSettingDetailsRepository.DeleteAsync(settingDetails.Id);
+                    }
+                }
+                    tenantSimpleUnitOfWork.Commit();
+                    return 1;
+            }
+            catch (Exception ex)
+            {
+                tenantSimpleUnitOfWork.Rollback();
+                return 0;
+            }
+        }
+
+        public async Task<IEnumerable<PayrollStructure>> GetAllPayrollStructure()
+        {
+            return await payslipSettingReposirory.GetAllPayrollStructure();
+        }
+
         public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)
         {
             return await payslipSettingReposirory.GetComponentsByStructureId(structureId);
+        }
+
+        public async Task<IEnumerable<PayslipSettingView>> GetPayslipSettingById(int id)
+        {
+            return await payslipSettingReposirory.GetPayslipSettingById(id);
         }
 
         public async Task<int> InsertPayslipSetting(PayslipSetting payslipSetting)
@@ -40,7 +77,6 @@ namespace Chef.HRMS.Services
                     payslipSetting.PayslipSettingDetails.ForEach(x => x.PayslipSettingId = payslipSettingId);
                     await payslipSettingDetailsRepository.BulkInsertAsync(payslipSetting.PayslipSettingDetails);
                 }
-
                 tenantSimpleUnitOfWork.Commit();
             return payslipSettingId;
             }
@@ -52,6 +88,11 @@ namespace Chef.HRMS.Services
             }
         }
 
+        public async Task<bool> IsPayslipSettingCodeExist(string code)
+        {
+            return await payslipSettingReposirory.IsPayslipSettingCodeExist(code);
+        }
+
         public async Task<int> UpdatePayslipSetting(PayslipSetting payslipSetting)
         {
             tenantSimpleUnitOfWork.BeginTransaction();
@@ -60,6 +101,7 @@ namespace Chef.HRMS.Services
                 int payslipUpdate = await payslipSettingReposirory.UpdateAsync(payslipSetting);
 
                 await payslipSettingDetailsRepository.DeleteByPayslipSettingId(payslipSetting.Id);
+
                 if (payslipSetting.PayslipSettingDetails != null)
                 {
                     payslipSetting.PayslipSettingDetails.ForEach(x => x.PayslipSettingId = payslipSetting.Id);
@@ -68,6 +110,7 @@ namespace Chef.HRMS.Services
                 tenantSimpleUnitOfWork.Commit();
                 return payslipUpdate;
             }
+
             catch (Exception ex)
             {
                 tenantSimpleUnitOfWork.Rollback();

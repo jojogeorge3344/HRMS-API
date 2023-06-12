@@ -79,6 +79,8 @@ export class LeaveComponentViewComponent implements OnInit {
   leaveSlabDetails: any;
   valueSlabOffTypeKeys: number[];
   valueSlabOffType = valueTypeOff;
+  isMandatoryAccruel:boolean
+  isAccurel:boolean=true
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -143,9 +145,17 @@ export class LeaveComponentViewComponent implements OnInit {
       if (res[0].leaveType == 1) {
         this.ViewForm2.get("leaveEncashment").enable();
         this.ViewForm2.get("annualLeave").enable();
+        this.ViewForm2.get("accruedLeaveAmount").enable();
+        this.isMandatoryAccruel=true
+        this.ViewForm2.patchValue({
+           accruedLeaveAmount:result.accruedLeaveAmount
+          
+        })
       } else {
         this.ViewForm2.get("leaveEncashment").disable();
         this.ViewForm2.get("annualLeave").disable();
+        this.ViewForm2.get("accruedLeaveAmount").disable();
+        this.isMandatoryAccruel=false
       }
       if (res[0].isEncash == true) {
         this.ViewForm2.get("encashBFCode").enable();
@@ -233,14 +243,20 @@ export class LeaveComponentViewComponent implements OnInit {
     if (event == 1) {
       this.ViewForm2.get("leaveEncashment").enable();
       this.ViewForm2.get("annualLeave").enable();
+      this.ViewForm2.get("accruedLeaveAmount").enable();
+      this.isMandatoryAccruel=true
+      this.isAccurel=false
       this.isEncash = false;
       this.isAnnual = false;
     } else {
       this.ViewForm2.get("leaveEncashment").disable();
       this.ViewForm2.get("annualLeave").disable();
+      this.isMandatoryAccruel=false
+      this.isAccurel=true
       this.ViewForm2.patchValue({
         leaveEncashment: 0,
         annualLeave: 0,
+        accruedLeaveAmount:null
       });
       this.isEncash = true;
       this.isAnnual = true;
@@ -335,7 +351,7 @@ export class LeaveComponentViewComponent implements OnInit {
       isIncludeLOPDays: [null, [Validators.required]],
       leaveType: [null, [Validators.required]],
       leaveCutOffType: [null, [Validators.required]],
-      isAccruedLeaveAmount: [false, [Validators.required]],
+      accruedLeaveAmount: [{ value: null, disabled: this.isAccurel }, [Validators.required]],
       isEncash: [false, [Validators.required]],
       isCarryForward: [false, [Validators.required]],
       leaveComponentId: [null],

@@ -14,8 +14,8 @@ import { PayrollComponentListComponent } from "./payroll-component-list/payroll-
 import { PayrollComponentCreateComponent } from "./payroll-component-create/payroll-component-create.component";
 import { PayrollComponentEditComponent } from "./payroll-component-edit/payroll-component-edit.component";
 import { CUSTOM_ERRORS } from "@shared/utils/validators.messages";
-import { SelectDropDownModule } from "ngx-select-dropdown";
 import { PayrollComponentViewComponent } from './payroll-component-view/payroll-component-view.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -51,7 +51,7 @@ import { PayrollComponentViewComponent } from './payroll-component-view/payroll-
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
     DirectivesModule,
-    SelectDropDownModule,
+    DropdownModule
   ],
   providers: [
     {

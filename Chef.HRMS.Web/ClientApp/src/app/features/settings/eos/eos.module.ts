@@ -11,6 +11,7 @@ import { EosListComponent } from './eos-list/eos-list.component';
 import { EosCreateComponent } from './eos-create/eos-create.component';
 import { EosEditComponent } from './eos-edit/eos-edit.component';
 import { EosViewComponent } from './eos-view/eos-view.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { EosViewComponent } from './eos-view/eos-view.component';
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    DropdownModule
     ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
