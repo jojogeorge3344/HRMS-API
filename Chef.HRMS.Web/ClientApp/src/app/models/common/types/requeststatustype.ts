@@ -5,5 +5,6 @@ export enum RequestStatus {
     Approved=4,
     Cancelled=5,
     Rejected=6,
-    Processed=7
+    Processed=7,
+    Validate=0
   }
