@@ -208,7 +208,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
   getEmployeeDetails(id:number) {
     this.employeeDetails =[]
     this.EmployeeRevisionManagementService.getEmployeeDetailsById(id).subscribe(result => {
-      this.employeeDetails = result
+      this.employeeDetails =result
       this.employeeDetails_old = result
       this.employeeDetails_old.revStatus = 1
       this.employeeDetails_old.reqNum = 0
@@ -297,8 +297,9 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
     this.employeePayrollStructure=[]
     this.employeePayrollStructure_rev =[]
     this.EmployeeRevisionManagementService.getEmployeePayroll(this.addForm.value.payrollStructureId,id).subscribe((result:any) => {
-      this.employeePayrollStructure = result;
-      this.employeePayrollStructure_rev = result
+      this.employeePayrollStructure =  result;
+      let data =JSON.stringify(result);
+      this.employeePayrollStructure_rev = JSON.parse(data);
 
     },
       error => {
