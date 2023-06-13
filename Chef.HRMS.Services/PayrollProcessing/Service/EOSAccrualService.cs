@@ -94,7 +94,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 eosAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
                 eosAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
                 eosAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
-                eosAccrualEmployee.PayrollProcessingId = eligibleEmployee
+                eosAccrualEmployee.PayrollProcessingId = eligibleEmployee.payrollprocessingid;
                 eosAccrualEmployee.AccrualStatus = 0; //Pending
                 eosAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
                 eosAccrualEmployee.IsArchived = false;

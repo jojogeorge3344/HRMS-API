@@ -12,7 +12,8 @@ import { BankService } from '../bank-employee.service';
 export class BankEmployeeCreateComponent implements OnInit {
 
   addForm: FormGroup;
-
+  bankCodeCheck:boolean=false
+  bankNameCheck:boolean=false
   constructor(
     private bankService:BankService,
     public activeModal: NgbActiveModal,
@@ -31,20 +32,38 @@ export class BankEmployeeCreateComponent implements OnInit {
       //   this.addForm.value.status=false
       // }
       const BankForm = this.addForm.value;
-      this.bankService.get(BankForm.code).subscribe((result)=>{
-        if(result){
-       this.toastr.showWarningMessage("Already Code Exist")
-        }else{
-    
-    this.bankService.add(BankForm).subscribe(result => {
-          this.toastr.showSuccessMessage('The Bank added successfully!');
-          this.activeModal.close('submit');
-        },
-          error => {
-            this.toastr.showErrorMessage('Unable to add the Bank');
-          });
-        }
-      }) 
+      if(!this.bankCodeCheck && !this.bankNameCheck)
+      this.bankService.add(BankForm).subscribe(result => {
+        this.toastr.showSuccessMessage('The Bank added successfully!');
+        this.activeModal.close('submit');
+      },
+        error => {
+          this.toastr.showErrorMessage('Unable to add the Bank');
+        });
+  }
+  getBankCode(event){
+    this.bankService.get(event).subscribe((result)=>{
+      if(result){
+        this.bankCodeCheck=true
+     this.toastr.showWarningMessage("Already Code Exist")
+      }else{
+  
+        this.bankCodeCheck=false
+      }
+      
+    }) 
+  }
+  getBankName(event){
+    this.bankService.getBankName(event).subscribe((result)=>{
+      if(result){
+        this.bankNameCheck=true
+     this.toastr.showWarningMessage("Already Bank Name Exist")
+      }else{
+  
+        this.bankNameCheck=false
+      }
+      
+    }) 
   }
 
   createFormGroup(): FormGroup {
