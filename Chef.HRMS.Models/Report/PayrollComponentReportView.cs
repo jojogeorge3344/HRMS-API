@@ -16,8 +16,8 @@ namespace Chef.HRMS.Models
        public int PayrollComponentId { get; set; }
        public decimal EarningsAmt { get; set; }
        public decimal DeductionAmt { get; set; }
-       public PayHeadBaseUnitType payHeadBaseUnitType { get; set; }
-       public string PayHeadType => EnumExtension.GetDescription(payHeadBaseUnitType);
+       public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
+       public string PayHeadType => EnumExtension.GetDescription(PayHeadBaseUnitType);
        public decimal MinimumLimit { get; set; }
        public decimal MaximumLimit { get; set; }
        public DateTime PayrollProcessDate { get; set; }

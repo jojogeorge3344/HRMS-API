@@ -51,17 +51,17 @@ namespace Chef.HRMS.Web.Controllers
         {
             if (CustomData != null && CustomData.Count > 0)
             {
-                string employeeId = (CustomData["employeeId"].ToString());
+                string employeeIds = (CustomData["employeeId"].ToString());
                 DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
                 DateTime ToDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
-                string paygroupId = (CustomData["paygroupId"].ToString());
-                string department = CustomData["department"].ToString();
-                string designation = CustomData["designation"].ToString();
+                string paygroupIds = (CustomData["paygroupId"].ToString());
+                string departmentIds = CustomData["department"].ToString();
+                string designationIds = CustomData["designation"].ToString();
 
-                var header = payslipReportService.EmployeeHeaderDetails(employeeId, fromDate, ToDate, paygroupId, department, designation).Result;
-                var componentDetails = payslipReportService.EmployeeComponentDetails(employeeId, fromDate, ToDate, paygroupId, department, designation).Result;
-                var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeId, fromDate, ToDate).Result;
-                var loanDetails = payslipReportService.EmployeeLoanDetails(employeeId, fromDate, ToDate).Result;
+                var header = payslipReportService.EmployeeHeaderDetails(employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds).Result;
+                var componentDetails = payslipReportService.EmployeeComponentDetails(employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds).Result;
+                var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeIds, fromDate, ToDate).Result;
+                var loanDetails = payslipReportService.EmployeeLoanDetails(employeeIds, fromDate, ToDate).Result;
 
                 List<PayrollHeaderView> payrollHeaderView = header.ToList();
                 List<PayrollComponentReportView> payrollComponentReportView = componentDetails.ToList();
