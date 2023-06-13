@@ -23,7 +23,7 @@
         readonly
       />
     </div>
-    <div class="form-group" *ngIf="!isEmployeeLeave">
+    <!-- <div class="form-group" *ngIf="!isEmployeeLeave">
       <label for="employeeName"
         >Requested By<span class="required">*</span></label
       >
@@ -33,7 +33,43 @@
           {{ list.firstName }}
         </option>
       </select>
+    </div> -->
+   <div class="form-group" *ngIf="!isEmployeeLeave">
+      <label class="col-form-label" for="employeeName" 
+        >Requested By<span class="required">*</span></label
+      >
+      <div class="input-group">
+      <p-dropdown 
+      [(ngModel)]="empObj"
+       [disabled]="disableRequestedBy"
+        [ngModelOptions]="{standalone: true}"
+         [filter]="true" class="pngCustomClass"
+       [options]="employeeList" 
+       optionValue="firstName"
+      (onChange)="selectRequestedBy($event)"
+       optionLabel="firstName"
+        placeholder="Select Employee"
+         dataKey="firstName"
+          name="employeeName">
+        <ng-template let-item pTemplate="item" >  
+          <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
+            {{item?.value.firstName}} 
+          </div> 
+          <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow" (click)="refreshRequestedBy($event)">
+            <a  class="link-primary ref"><u>Refresh</u></a>
+            <div *ngIf="isLoading==true" class="spinner-border ml-1">
+            </div>
+         </div>
+      </ng-template>
+      </p-dropdown>
     </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div *ngIf="this.addForm.get('employeeName').touched && this.addForm.get('employeeName').invalid"
+          class="invalid-feedback d-block">
+          Requested by* is required
+      </div>
+  </div> 
+</div> 
     <div class="row align-items-baseline">
       <div class="form-group input-group form-input-inline col-sm">
         <label class="col-form-label col-12 px-0" for="fromDate"
@@ -231,7 +267,7 @@
     </div>
 
     <div class="row align-items-baseline">
-      <div class="form-group input-group form-input-inline col-sm">
+      <!-- <div class="form-group input-group form-input-inline col-sm">
         <label for="leaveComponentId"
           >Select available leave types<span class="required">*</span></label
         >
@@ -249,7 +285,40 @@
             </option>
           </ng-container>
         </select>
+      </div> -->
+      <div class="form-group input-group form-input-inline col-sm">
+        <label class="col-form-label" for="leaveComponentId" 
+          >Select available leave types<span class="required">*</span></label
+        >
+        <div class="input-group">
+        <p-dropdown [(ngModel)]="leaveObj"  [ngModelOptions]="{standalone: true}" class="pngCustomClass"
+         [options]="leaveBalance" optionValue="leaveComponentId"
+        (onChange)="selectAvailLeave($event)" optionLabel="leaveComponentName" placeholder="Select Leave Types"
+         dataKey="leaveComponentId" name="leaveComponentId">
+          <ng-template let-item pTemplate="item" >  
+            <div class="dd-values" *ngIf="!(item?.value?.isLastRow) && (item?.value.leaveBalance > 0 || item.value.shortCode == 'LOP')" >
+              {{item?.value.leaveComponentName}} 
+              <span *ngIf="item?.value.shortCode != 'LOP'"
+                >({{ item.value.leaveBalance }} days balance)</span
+              >
+            </div> 
+            <div class="dd-values-refresh "
+             *ngIf="item?.value?.isLastRow"
+               (click)="refreshAvailLeave($event)">
+              <a  class="link-primary ref"><u>Refresh</u></a>
+              <div *ngIf="isLoading==true" class="spinner-border ml-1">
+              </div>
+           </div>
+        </ng-template>
+        </p-dropdown>
       </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div *ngIf="this.addForm.get('leaveComponentId').touched && this.addForm.get('leaveComponentId').invalid"
+            class="invalid-feedback d-block">
+            Select available leave types* is required
+        </div>
+    </div> 
+  </div> 
       <div class="form-group input-group form-input-inline col-sm">
         <label class="col-form-label col-6 px-0" for="rejoinDate"
           >Rejoin Date<span class="required">*</span></label

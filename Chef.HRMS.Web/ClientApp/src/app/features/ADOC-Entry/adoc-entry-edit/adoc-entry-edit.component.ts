@@ -30,8 +30,11 @@ export class AdocEntryEditComponent implements OnInit {
   statusTypes;
   benefitTypes:any[];
   employee;
-  config;
+  empObj;
+  adhocObj;
   selectedDatasource:any;
+  adhoc;
+  isLoading=false;
 
   @Input() listItem;
 
@@ -50,7 +53,7 @@ export class AdocEntryEditComponent implements OnInit {
     this.editForm.patchValue(this.listItem);
     this.getEmployeeList()
     this.getBenefitTypes()
-   this.selectedDatasource=this.listItem.employeeName
+    this.getAdhocBfCode()
     this.listItem.date = new Date(this.listItem.date);    
     this.editForm.patchValue(this.listItem);
     if(this.listItem.status==1){
@@ -66,16 +69,6 @@ export class AdocEntryEditComponent implements OnInit {
         status:'processed'
       })
     }
-    this.config = {
-      displayKey: "firstName",
-      search: true,
-      limitTo: 0,
-      placeholder: "Select Employee",
-      noResultsFound: "No results found!",
-      searchPlaceholder: "Search",
-      searchOnKey: "firstName",
-      clearOnSelection: false,
-    };
 
   }
 
@@ -85,9 +78,15 @@ export class AdocEntryEditComponent implements OnInit {
 
 
   getEmployeeList(){
+    this.isLoading=true;
     this.employeeService.getAll()
     .subscribe((result)=>{
-     this.employeeList=result
+     let temp = { id: undefined, firstName: 'test', isLastRow: true }
+     // lastrow
+     this.employeeList = [...result, temp];
+     this.isLoading=false;
+     this.empObj=result.find((item)=>this.editForm.get('employeeId').value==item.id)
+
     })
   }
 
@@ -97,7 +96,18 @@ export class AdocEntryEditComponent implements OnInit {
   this.benefitTypes=result;
     })
   }
-
+  getAdhocBfCode()
+  {
+    this.isLoading=true;
+    this.adocEntryService.getAdhocBfCode()
+    .subscribe((result) =>{
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.adhoc = [...result, temp];
+      this.isLoading=false;
+      this.adhocObj=result.find((item)=>this.editForm.get('payrollComponentId').value==item.id)
+    })
+  }
   onSubmit(){
     debugger
     if(this.editForm.invalid){
@@ -127,14 +137,13 @@ export class AdocEntryEditComponent implements OnInit {
       if(this.editForm.value.adhocBFCode=='SE'){
         this.editForm.patchValue({
           isAddition:true,
-          payrollComponentId:17
         })
       }else{
         this.editForm.patchValue({
           isAddition:false,
-          payrollComponentId:25
         })
       }
+      
       this.adocEntryService.update(this.editForm.value).subscribe((result)=>{
         if(result){
           this.toastr.showSuccessMessage('The ADOC Entry added successfully!');         
@@ -145,7 +154,31 @@ export class AdocEntryEditComponent implements OnInit {
 
         }
   }
+  selectEmployee(args){
+    debugger
+    this.editForm.patchValue({
+      employeeId: args.value.id,
+      employeeCode:args.value.employeeNumber,
+      employeeName:args.value.firstName
+    })
+  }
+  refreshEmployee(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getEmployeeList();
+  }
 
+selectAhoc(args){
+  this.editForm.patchValue({
+    payrollComponentId: args.value.id,
+  })
+
+}
+refreshAdhoc(event){
+  event.stopPropagation();
+  event.preventDefault();
+  this.getAdhocBfCode()
+}
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       id: [this.listItem.id],
@@ -157,14 +190,12 @@ export class AdocEntryEditComponent implements OnInit {
       employeeCode: [null, [
       ]],
       payrollComponentId: [null, [
+        Validators.required
       ]],
       date: [null, [
         Validators.required,
       ]],
       status:['pending', [
-      ]],
-      adhocBFCode: [null, [
-        Validators.required,
       ]],
       isAddition: [null, [
         Validators.required,

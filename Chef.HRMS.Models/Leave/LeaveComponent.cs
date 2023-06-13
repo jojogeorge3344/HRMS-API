@@ -2,6 +2,7 @@
 using Chef.Common.Models;
 using Chef.Common.Types;
 using Chef.HRMS.Types;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Chef.HRMS.Models
@@ -79,12 +80,12 @@ namespace Chef.HRMS.Models
         public bool IsIncludeLOPDays { get; set; }
         public LeaveType LeaveType { get; set; }
         public LeaveCutOffType LeaveCutOffType { get; set; }
-        public bool IsAccruedLeaveAmount { get; set; }
+        public string AccruedLeaveAmount { get; set; }
         public bool IsEncash { get; set; }
         public bool IsCarryForward { get; set; }
         public int BenefitTypeId { get; set; }
         public int BenefitCategoryId { get; set; }
         public int LeaveEligibilityId { get; set; }
         public bool IsUnpaidLeave { get; set; }
-    }
+	}
 }

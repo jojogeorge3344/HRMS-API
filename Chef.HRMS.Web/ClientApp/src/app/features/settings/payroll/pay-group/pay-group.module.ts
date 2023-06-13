@@ -12,6 +12,7 @@ import { PayGroupCreateComponent } from './pay-group-create/pay-group-create.com
 import { PayGroupEditComponent } from './pay-group-edit/pay-group-edit.component';
 import {CUSTOM_ERRORS} from '@shared/utils/validators.messages';
 import { PayGroupViewComponent } from './pay-group-view/pay-group-view.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 
@@ -41,7 +42,8 @@ import { PayGroupViewComponent } from './pay-group-view/pay-group-view.component
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    DropdownModule
   ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,

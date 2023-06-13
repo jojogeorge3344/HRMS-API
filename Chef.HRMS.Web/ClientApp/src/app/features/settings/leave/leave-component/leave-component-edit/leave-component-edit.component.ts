@@ -23,7 +23,7 @@ import { LeaveSlabCreateComponent } from '../leave-slab-create/leave-slab-create
 import { LeaveSlabEditComponent } from '../leave-slab-edit/leave-slab-edit.component';
 import { LeaveSlabViewComponent } from '../leave-slab-view/leave-slab-view.component';
 import { ConfirmModalComponent } from '@shared/dialogs/confirm-modal/confirm-modal.component';
-
+import { IDropdownSettings, } from 'ng-multiselect-dropdown';
 @Component({
   selector: "hrms-leave-component-edit",
   templateUrl: "./leave-component-edit.component.html",
@@ -80,6 +80,13 @@ export class LeaveComponentEditComponent implements OnInit {
   valueSlabOffType = valueTypeOff;
   leaveComponentsList: any
   activeTab: string = "basic";
+  isSlabdisabled: boolean=false;
+  leaveDetectionSettings:IDropdownSettings={};
+  selectedLeaveDetection:any[] = [];
+  leaveDeduction;
+  isMandatoryAccruel:boolean
+  isAccurel:boolean=true
+  
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -126,6 +133,9 @@ export class LeaveComponentEditComponent implements OnInit {
     this.editForm.patchValue(this.leaveComponent);
     this.getLeaveSlablist(this.leaveComponent.id)
     this.getLeaveType();
+    if(this.editForm.value.isUnpaidLeave==true){
+    this.isSlabdisabled=true;
+    }
   }
 
   getDeductionType() {
@@ -141,13 +151,27 @@ export class LeaveComponentEditComponent implements OnInit {
       this.editForm2.patchValue({
         id: this.configId,
       });
+      if(result){
+        for(let i=0;i<result.leaveComponentLopDetails.length;i++){
+          this.selectedLeaveDetection.push({id:result.leaveComponentLopDetails[i].payrollComponentId,
+          name:result.leaveComponentLopDetails[i].payrollComponentName})
+        }
+      }
       this.editForm2.patchValue(result);
       if (res[0].leaveType == 1) {
         this.editForm2.get("leaveEncashment").enable();
         this.editForm2.get("annualLeave").enable();
+        this.editForm2.get("accruedLeaveAmount").enable();
+        this.isMandatoryAccruel=true
+        this.editForm2.patchValue({
+           accruedLeaveAmount:result.accruedLeaveAmount
+          
+        })
       } else {
         this.editForm2.get("leaveEncashment").disable();
         this.editForm2.get("annualLeave").disable();
+        this.editForm2.get("accruedLeaveAmount").disable();
+        this.isMandatoryAccruel=false
       }
       if (res[0].isEncash == true) {
         this.editForm2.get("encashBFCode").enable();
@@ -201,8 +225,7 @@ export class LeaveComponentEditComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.editForm.value.showLeaveDescription==true || this.editForm.value.isPaidLeave==true||this.editForm.value.isUnpaidLeave==true ||
-      this.editForm.value.isSickLeave==true || this.editForm.value.isStatutoryLeave==true ||this.editForm.value.isRestrictedToGender==true||this.editForm.value.isRestrictedToMaritalStatus==true )
+    if(this.editForm.value.isPaidLeave==true || this.editForm.value.isUnpaidLeave==true || this.editForm.value.isSickLeave==true)
       {
     this.leaveComponentService.update(this.editForm.getRawValue()).subscribe(
       (result: any) => {
@@ -222,13 +245,18 @@ export class LeaveComponentEditComponent implements OnInit {
       }
     );
       }else{
-        this.toastr.showWarningMessage("Please choose atleast one leave category!");
+        this.toastr.showWarningMessage("Please choose  one leave category!");
       }
   }
 
   getDetectionListType() {
     this.leaveComponentService.getDetectiontype().subscribe((res) => {
       this.detectionTypeList = res;
+      this.leaveDetectionSettings = {
+        idField:'id',
+        textField:'name',
+        allowSearchFilter: true
+      };  
     });
   }
 
@@ -261,14 +289,21 @@ export class LeaveComponentEditComponent implements OnInit {
     if (event == 1) {
       this.editForm2.get("leaveEncashment").enable();
       this.editForm2.get("annualLeave").enable();
+      this.editForm2.get("accruedLeaveAmount").enable();
+      this.isMandatoryAccruel=true
+      this.isAccurel=false
       this.isEncash = false;
       this.isAnnual = false;
     } else {
       this.editForm2.get("leaveEncashment").disable();
       this.editForm2.get("annualLeave").disable();
+      this.editForm2.get("accruedLeaveAmount").disable();
+      this.isMandatoryAccruel=false
+      this.isAccurel=true
       this.editForm2.patchValue({
         leaveEncashment: 0,
         annualLeave: 0,
+        accruedLeaveAmount:null
       });
       this.isEncash = true;
       this.isAnnual = true;
@@ -363,11 +398,12 @@ export class LeaveComponentEditComponent implements OnInit {
       isIncludeLOPDays: [null, [Validators.required]],
       leaveType: [null, [Validators.required]],
       leaveCutOffType: [null, [Validators.required]],
-      isAccruedLeaveAmount: [false, [Validators.required]],
+      accruedLeaveAmount: [{ value: null, disabled: this.isAccurel }, [Validators.required]],
       isEncash: [false, [Validators.required]],
       // isCarryForward: [false, [Validators.required]],
       leaveComponentId: [null],
-      leaveDeduction: [0,[Validators.required]],
+      // leaveDeduction: [0,[Validators.required]],
+      leaveComponentLopDetails:[],
       leaveEncashment: [{ value: 0, disabled: this.isEncash }],
       annualLeave: [{ value: 0, disabled: this.isAnnual }],
       id: [0],
@@ -384,6 +420,17 @@ export class LeaveComponentEditComponent implements OnInit {
   }
 
   onSubmit2() {
+    debugger
+    let selectedIds=this.selectedLeaveDetection
+    let arrValue = selectedIds.map(({id}) =>id);
+    this.leaveDeduction = arrValue.join()
+    var payrollcomponet =[]
+    selectedIds.forEach((key) => {
+      payrollcomponet.push({id:0,leaveComponentId:this.leaveComponent.id,payrollComponentId : key.id})
+    });
+    this.editForm2.patchValue({
+      leaveComponentLopDetails : payrollcomponet,
+    })
     if(this.activeTab=="slab"){
       this.activeTab = "configure";
      }
@@ -394,8 +441,13 @@ export class LeaveComponentEditComponent implements OnInit {
     this.leaveEligiblityService.update(this.editForm2.getRawValue()).subscribe(
       (result: any) => {
        // this.activeModal.close(true);
-       this.activeTab = "slab";
-       this.isSaveDisableConfig=true
+       if(this.editForm.value.isPaidLeave==true || this.editForm.value.isSickLeave==true){
+        this.isSlabdisabled=false
+        this.activeTab = "slab";
+        this.isSaveDisableConfig=true
+      }else{
+        this.activeModal.close(true);
+      }
         this.toastr.showSuccessMessage(
           "Leave component is updated successfully!"
         );
@@ -562,4 +614,33 @@ delete(relDetails: LeaveSlabGroup) {
   //   }
 
   // }
+
+  paidLeaveChecked(event){
+    if(event=='on'){
+      this.editForm.patchValue({
+        isUnpaidLeave:false,
+        isSickLeave:false
+      })
+     
+    }
+
+  }
+  unpaidLeaveChecked(event){
+    if(event=='on'){
+      this.editForm.patchValue({
+        isPaidLeave:false,
+        isSickLeave:false
+      })
+    }
+
+  }
+  sickLeaveChecked(event){
+    if(event=='on'){
+      this.editForm.patchValue({
+        isUnpaidLeave:false,
+        isPaidLeave:false
+      })
+    }
+
+  }
 }

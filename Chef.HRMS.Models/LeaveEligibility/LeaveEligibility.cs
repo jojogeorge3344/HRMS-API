@@ -23,7 +23,7 @@ namespace Chef.HRMS.Models
         public bool IsIncludeLOPDays { get; set; }
         public LeaveType LeaveType { get; set; }
         public LeaveCutOffType LeaveCutOffType { get; set; }
-        public bool IsAccruedLeaveAmount { get; set; }
+        public string AccruedLeaveAmount { get; set; }
         public bool IsEncash { get; set; }
         public bool IsCarryForward { get; set; }
         public int LeaveComponentId { get; set; }
@@ -50,5 +50,10 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public int MonthlyAmount { get; set; }
+
+        [SqlKata.Ignore]
+        [Write(false)]
+        [Skip(true)]
+        public List<LeaveComponentLopDetails> LeaveComponentLopDetails { get; set; }
     }
 }

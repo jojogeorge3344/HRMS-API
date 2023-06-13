@@ -11,5 +11,7 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId);
         Task<IEnumerable<BenefitTypes>> GetBenefitTypes();
         Task<IEnumerable<BenefitTypes>> GetAdhocBfCode();
+        Task<IEnumerable<AdhocDeduction>> GetAllAdhocDeductionList();
+
     }
 }
