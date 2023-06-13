@@ -21,7 +21,7 @@ namespace Chef.HRMS.Repositories
                         INNER JOIN hrms.payrollcomponent pc
                         ON erd.payrollcomponentid = pc.id
                         WHERE employeerevisionid = @employeeRevisionId
-                        AND erd.isarchived = false";
+                        AND erd.isarchived = false ORDER BY erd.payrollcomponentid ASC";
 
             return await Connection.QueryAsync<EmployeeRevisionDetails>(sql, new { employeeRevisionId });
         }

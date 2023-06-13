@@ -169,7 +169,9 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
    this.editForm.patchValue({
     //employeeRevisionsOldList: this.employeeDetails_old,
     revStatus:1,
-    reqNum:0
+    reqNum:0,
+    id:this.reqId
+
   });
 
     
@@ -189,12 +191,12 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
   updateReversedSalaryDetails(){
     const details = this.employeeList.find(emp => emp.id === this.currentUserId);
     for(let i=0;i<this.employeePayrollStructure_rev.length;i++){
-          this.employeePayrollStructure_rev[i].id = 0
+          // this.employeePayrollStructure_rev[i].id = 0
           this.employeePayrollStructure_rev[i].createdDate =new Date(Date.now())
           this.employeePayrollStructure_rev[i].modifiedDate = new Date(Date.now())
           this.employeePayrollStructure_rev[i].createdBy = details.firstName
           this.employeePayrollStructure_rev[i].modifiedBy =  details.firstName
-          this.employeePayrollStructure_rev[i].isArchived = true
+          this.employeePayrollStructure_rev[i].isArchived = false
           this.employeePayrollStructure_rev[i].employeeRevisionId = this.reqId
           this.employeePayrollStructure_rev[i].payrollStructureId =this.editForm.value.payrollStructureId
 
@@ -416,7 +418,8 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
       payrollStructureId:['',[Validators.required]],
       payGroupId:['',[Validators.required]],
       overTimePolicyId:['',[Validators.required]],
-      remark:['']
+      remark:[''],
+      id:[null]
     });
   }
 

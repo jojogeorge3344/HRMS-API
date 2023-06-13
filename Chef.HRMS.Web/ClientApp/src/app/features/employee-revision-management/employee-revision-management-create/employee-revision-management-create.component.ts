@@ -441,7 +441,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
     this.employeePayrollStructure_rev.map((x: any) => {
       this.valueObject[`{${x.shortCode}}`] = x.monthlyAmount;
      })
-    debugger
+    
     // this.employeePayrollStructure_rev.map((res, i) => {
     //   const keys = Object.keys(this.valueObject);
     //   if (res.formula) {
@@ -464,7 +464,8 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
         });
         formula = formula.replace("[", "");
         formula = formula.replace("]", "");
-        x.monthlyAmount = eval(formula).toFixed(2);
+        x.monthlyAmount = eval(formula).toFixed(2)
+        this.valueObject[`{${x.shortCode}}`] = x.monthlyAmount;
       }
 
     })
