@@ -55,5 +55,10 @@ namespace Chef.HRMS.Models
         [Write(false)]
         [Skip(true)]
         public List<LeaveComponentLopDetails> LeaveComponentLopDetails { get; set; }
+
+        [SqlKata.Ignore]
+        [Write(false)]
+        [Skip(true)]
+        public int PayrollProcessingId { get; set; }
     }
 }

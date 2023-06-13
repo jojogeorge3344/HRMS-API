@@ -54,5 +54,7 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public int eosid { get; set; }
+
+        public int payrollprocessingid { get; set; }
     }
 }

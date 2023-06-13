@@ -15,6 +15,7 @@ using System.Drawing;
 using Chef.HRMS.Types;
 using Chef.Common.Exceptions;
 using Chef.HRMS.Models.PayrollProcessing;
+using Chef.HRMS.Repositories.PayrollProcessing.Repository;
 
 namespace Chef.HRMS.Services.PayrollProcessing.Service
 {
@@ -191,6 +192,13 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             //result = await leaveAccrualRepository.BulkInsertAsync(leaveAccruals);
             //return leaveAccruals;
         }
+
+        public async Task<int> InsertTicketAccruals(List<TicketAccrual> ticketAccruals)
+        {
+            var result = await ticketAccrualRepository.BulkInsertAsync(ticketAccruals);
+            return result;
+        }
+
 
         public Task<int> DeleteAsync(int id)
         {
