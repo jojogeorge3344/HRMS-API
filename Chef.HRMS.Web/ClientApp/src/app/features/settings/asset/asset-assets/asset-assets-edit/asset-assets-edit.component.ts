@@ -32,6 +32,7 @@ export class AssetAssetsEditComponent implements OnInit {
   typeKeys: string[];
   route: any;
   Astvalues: AssetAssets;
+  typeKeysForLabel:any[]=[]
 
 
   constructor(
@@ -220,7 +221,7 @@ export class AssetAssetsEditComponent implements OnInit {
              // (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));
               
               // console.log(mdata);  
-         
+              this.typeKeysForLabel.push({name:mdata.metadata,isdate:mdata.assetDataType})
       })
       this.typeKeys=[...this.typeMap.keys()];
       let mdatavalue = {}
