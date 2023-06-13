@@ -19,24 +19,24 @@ namespace Chef.HRMS.Services.Report
             this.payslipReportRepository = payslipReportRepository;
         }
 
-        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate, string paygroupId, string department, string designation)
+        public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeIds, DateTime fromDate, DateTime ToDate, string paygroupIds, string departmentIds, string designationIds)
         {
-            return await payslipReportRepository.EmployeeComponentDetails(employeeId, fromDate, ToDate, paygroupId, department, designation);
+            return await payslipReportRepository.EmployeeComponentDetails(employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds);
         }
 
-        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId, DateTime fromDate, DateTime ToDate, string paygroupId,string department,string designation)
+        public async Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeIds, DateTime fromDate, DateTime ToDate, string paygroupIds,string departmentIds,string designationIds)
         {
-            return await payslipReportRepository.EmployeeHeaderDetails(employeeId, fromDate, ToDate, paygroupId, department, designation);
+            return await payslipReportRepository.EmployeeHeaderDetails(employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds);
         }
 
-        public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeIds, DateTime fromDate, DateTime ToDate)
         {
-            return await payslipReportRepository.EmployeeLoanDetails(employeeId, fromDate, ToDate);
+            return await payslipReportRepository.EmployeeLoanDetails(employeeIds, fromDate, ToDate);
         }
 
-        public async Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(string employeeId, DateTime fromDate, DateTime ToDate)
+        public async Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(string employeeIds, DateTime fromDate, DateTime ToDate)
         {
-            return await payslipReportRepository.EmployeeOverTimeDetails(employeeId, fromDate, ToDate);
+            return await payslipReportRepository.EmployeeOverTimeDetails(employeeIds, fromDate, ToDate);
         }
     }
 }
