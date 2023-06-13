@@ -17,6 +17,7 @@ export class BankEmployeeEditComponent implements OnInit {
   @Input() Code: string[];
   @Input() Name: string[];
   codeExistCheck:boolean=false
+  bankExistCheck:boolean=false
 
   constructor(
     private bankService:BankService,
@@ -47,7 +48,7 @@ export class BankEmployeeEditComponent implements OnInit {
     //     this.addForm.value.status=false
     //   }
     const bankForm = this.addForm.value;
-    if(!this.codeExistCheck){ 
+    if(!this.codeExistCheck && !this.bankExistCheck){ 
       this.bankService.update(bankForm).subscribe(result => {
       this.toastr.showSuccessMessage('The Bank updated successfully!');
       this.activeModal.close('submit');
@@ -65,6 +66,16 @@ export class BankEmployeeEditComponent implements OnInit {
      this.toastr.showWarningMessage("Already Code Exist")
       }else{
         this.codeExistCheck=false
+      }
+    })
+  }
+  checkBankEXist(event){
+    this.bankService.getBankName(event).subscribe((result)=>{
+      if(result){
+        this.bankExistCheck=true
+     this.toastr.showWarningMessage("Already Bank Name Exist")
+      }else{
+        this.bankExistCheck=false
       }
     })
   }

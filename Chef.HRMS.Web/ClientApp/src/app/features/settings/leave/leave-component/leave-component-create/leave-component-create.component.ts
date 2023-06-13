@@ -284,6 +284,9 @@ export class LeaveComponentCreateComponent implements OnInit {
       this.addForm2.get("leaveEncashment").disable();
       this.addForm2.get("annualLeave").disable();
       this.addForm2.get("accruedLeaveAmount").disable();
+      this.addForm2.patchValue({
+        accruedLeaveAmount:null
+      })
       this.isMandatoryAccruel=false
       this.isAccurel=true
       this.isEncash = true;
