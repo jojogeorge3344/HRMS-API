@@ -1,6 +1,6 @@
 ﻿using Chef.Common.Core.Services;
 using Chef.Common.Models;
-﻿using Castle.Core;
+using Castle.Core;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
@@ -11,16 +11,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Chef.HRMS.Services
 {
     public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMethod>, IPayrollProcessingMethodService
     {
         private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
+        private readonly IPayGroupRepository payGroupRepository;
 
-        public PayrollProcessingMethodService(IPayrollProcessingMethodRepository payrollProcessingMethodRepository)
+        public PayrollProcessingMethodService(IPayrollProcessingMethodRepository payrollProcessingMethodRepository, IPayGroupRepository payGroupRepository)
         {
             this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
+            this.payGroupRepository = payGroupRepository;
         }
 
         public async Task<int> DeleteAsync(int id)
@@ -79,6 +82,23 @@ namespace Chef.HRMS.Services
 
         public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
         {
+            bool count = await payrollProcessingMethodRepository.IsPaygroupExistInPayrollProcessingMethod(paygroupId);
+            List<PayrollMonth> listMonth = new List<PayrollMonth>();
+
+            if (count == false)
+            {
+                var paygroupDate = await payGroupRepository.GetAsync(paygroupId);
+                if (paygroupDate != null)
+                {
+                    PayrollMonth payrollMonth = new PayrollMonth{ 
+                    Month= paygroupDate.StartingMonth,
+                    Year= paygroupDate.StartingYear,
+                    };
+                    listMonth.Add(payrollMonth);
+                }
+                return listMonth;
+
+            }
             return await payrollProcessingMethodRepository.GetPayrollProcessingMonth(paygroupId);
         }
 
@@ -109,7 +129,7 @@ namespace Chef.HRMS.Services
 
         public async Task<int> InsertPayrollFixedComponentDetaisl(int payrollProcessId, DateTime payrollprocessdate, int paygroupid)
         {
-            return await payrollProcessingMethodRepository.InsertPayrollFixedComponentDetails(payrollProcessId,payrollprocessdate, paygroupid);
+            return await payrollProcessingMethodRepository.InsertPayrollFixedComponentDetails(payrollProcessId, payrollprocessdate, paygroupid);
         }
 
         public async Task<IEnumerable<PayrollSummary>> GetPayrollComponentsSummary(int payrollprocessid)
@@ -122,7 +142,7 @@ namespace Chef.HRMS.Services
                 PayrollSummary payrollSummary = new PayrollSummary();
 
                 payrollSummary.PayrollComponentDetails = payrollComponentDetails.Where(x => x.EmployeeId == empId).ToList();
-                payrollSummary.TotalDeductions = payrollSummary.PayrollComponentDetails.Sum(c=>c.DeductionAmt);
+                payrollSummary.TotalDeductions = payrollSummary.PayrollComponentDetails.Sum(c => c.DeductionAmt);
                 payrollSummary.EmployeeName = payrollSummary.PayrollComponentDetails.First().EmployeeName;
                 payrollSummary.EmployeeCode = payrollSummary.PayrollComponentDetails.First().EmployeeCode;
                 payrollSummary.EmployeeId = empId;
@@ -130,7 +150,7 @@ namespace Chef.HRMS.Services
                 payrollSummary.NetSalaryAmount = payrollSummary.TotalEarnings - payrollSummary.TotalDeductions;
                 payrollSummaries.Add(payrollSummary);
             }
-            return payrollSummaries; 
+            return payrollSummaries;
         }
     }
 }

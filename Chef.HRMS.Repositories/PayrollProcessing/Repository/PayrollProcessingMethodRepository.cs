@@ -1,4 +1,5 @@
-﻿using Chef.Common.Models;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Models.Slab;
@@ -463,6 +464,15 @@ namespace Chef.HRMS.Repositories
 
 
             return await Connection.ExecuteAsync(sql, new { paygroupId });
+        }
+        public async Task<bool> IsPaygroupExistInPayrollProcessingMethod(int paygroupId)
+        {
+            if (await QueryFactory
+            .Query<PayrollProcessingMethod>()
+           .Where("paygroupid", paygroupId)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
         }
     }
 }
