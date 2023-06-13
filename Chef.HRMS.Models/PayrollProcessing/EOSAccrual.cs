@@ -82,5 +82,7 @@ namespace Chef.HRMS.Models.PayrollProcessing
         [SqlKata.Ignore]
         public int MonthlyAmount { get; set; }
 
+        public int PayrollProcessingId { get; set; }
+
     }
 }

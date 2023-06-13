@@ -20,6 +20,8 @@ namespace Chef.HRMS.Web.Controllers
         private readonly ITicketAccrualService ticketAccrualService;
 
         private readonly ILeaveAccrualSummaryService leaveAccrualSummaryService;
+        private readonly IEOSAccrualSummaryService eosAccrualSummaryService;
+        private readonly ITicketAccrualSummaryService ticketAccrualSummaryService;
 
         public AccrualsController(ILeaveAccrualService leaveAccrualService,ILeaveAccrualSummaryService leaveAccrualSummaryService,
             IEOSAccrualService eosAccrualService, ITicketAccrualService ticketAccrualService)
@@ -28,6 +30,8 @@ namespace Chef.HRMS.Web.Controllers
             this.eosAccrualService = eosAccrualService;
             this.ticketAccrualService = ticketAccrualService;
 
+            this.leaveAccrualSummaryService = leaveAccrualSummaryService;
+            this.leaveAccrualSummaryService = leaveAccrualSummaryService;
             this.leaveAccrualSummaryService = leaveAccrualSummaryService;
         }
 
@@ -43,9 +47,17 @@ namespace Chef.HRMS.Web.Controllers
                 result = await leaveAccrualSummaryService.GenerateAndInsertLeaveAccrualSummary(accrualsList.LeaveAccruals);
             }
 
-           // result = await eosAccrualService.SaveEOSAccruals(accrualsList.EOSAccruals);
-           // result = await ticketAccrualService.SaveTicketAccruals(accrualsList.TicketAccruals);
+            result = await eosAccrualService.InsertEOSAccruals(accrualsList.EOSAccruals);
+            if (result > 0)
+            {
+                result = await eosAccrualSummaryService.GenerateAndInsertEOSAccrualSummary(accrualsList.EOSAccruals);
+            }
 
+            result = await ticketAccrualService.InsertTicketAccruals(accrualsList.TicketAccruals);
+            if (result > 0)
+            {
+                result = await ticketAccrualSummaryService.GenerateAndInsertTicketAccrualSummary(accrualsList.TicketAccruals);
+            }
             return Ok(result);
         }
 
