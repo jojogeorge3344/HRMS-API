@@ -29,6 +29,7 @@ export class AssetAssetsCreateComponent implements OnInit {
   maxDate: { year: number; month: number; day: number; };
   typeMap: Map<any, any>;
   typeKeys: string[];
+  typeKeysForLabel:any[]=[]
   
 
 
@@ -181,6 +182,7 @@ export class AssetAssetsCreateComponent implements OnInit {
          // (this.assetForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', []));
           // console.log(mdata);
         }        
+        this.typeKeysForLabel.push({name:mdata.metadata,isdate:mdata.assetDataType})
     })
     this.typeKeys=[...this.typeMap.keys()];
     console.log("typekey",this.typeKeys);
