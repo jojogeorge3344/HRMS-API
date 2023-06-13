@@ -90,6 +90,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 leaveAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
                 leaveAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
                 leaveAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
+                leaveAccrualEmployee.PayrollProcessingId = eligibleEmployee.PayrollProcessingId;
                 leaveAccrualEmployee.AccrualStatus = 0; //Pending
                 leaveAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
                 leaveAccrualEmployee.IsArchived = false;

@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         {
         }
 
-        public async Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByemployeeId(int employeeId)
+        public async Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByEmployeeId(int employeeId)
         {
             return await QueryFactory
             .Query<EmployeeTicket>()

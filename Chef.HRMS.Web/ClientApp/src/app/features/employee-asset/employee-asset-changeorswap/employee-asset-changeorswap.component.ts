@@ -171,7 +171,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
         
         metadatas.forEach(mdata => {
           this.currentTypeMap.set(mdata.metadata, mdata);
-          (this.employeeassetchangeForm.get('metadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
+          (this.employeeassetchangeForm.get('metadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('',));})
         this.currentTypeKeys = [...this.currentTypeMap.keys()];
         let mdatavalue = {};
         console.log("typeks",this.currentTypeKeys);
@@ -258,7 +258,7 @@ export class EmployeeAssetChangeorswapComponent implements OnInit {
 
           newMetadatas.forEach(mdata => {
             this.newTypeMap.set(mdata.metadata, mdata);
-            (this.employeeassetchangeForm.get('newMetadatas') as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required]));})
+            (this.employeeassetchangeForm.get('newMetadatas') as FormGroup).addControl(mdata['metadata'], new FormControl(''));})
           this.newTypeKeys = [...this.newTypeMap.keys()];
           let newMdatavalue = {}
           this.newTypeKeys.map(key => {

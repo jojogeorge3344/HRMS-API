@@ -39,6 +39,8 @@ export class OvertimeRequestEditComponent implements OnInit {
   employeeLogin: any;
   notifyPersonList:any=[]
   requestTypes = RequestStatus;
+  overtimeValidated:boolean=true
+  validateDate:boolean=true
 
 
   @Input() overtimeRequest: OvertimeRequest;
@@ -114,6 +116,7 @@ export class OvertimeRequestEditComponent implements OnInit {
     }
 
   getEmployeeList() {
+
     this.employeeService.getAll().subscribe(result => {
       debugger
       this.employeeList = result.filter(employee => employee.id !== this.overtimeRequest.employeeId);
@@ -160,7 +163,9 @@ export class OvertimeRequestEditComponent implements OnInit {
   }
 
   remove(item) {
+    debugger
     this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
+
   }
 
   onFromDateSelection(date) {
@@ -172,10 +177,26 @@ export class OvertimeRequestEditComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     if(this.editForm.invalid){
 
       return
          
+       }
+       this.editForm.patchValue({
+        normalOverTime: this.editForm.controls.normalOverTime.value == null ? 0 : this.editForm.controls.normalOverTime.value,
+        holidayOverTime:this.editForm.controls.holidayOverTime.value == null ? 0 : this.editForm.controls.holidayOverTime.value,
+        specialOverTime:this.editForm.controls.specialOverTime.value == null ? 0 : this.editForm.controls.specialOverTime.value
+      })
+     
+      this.overtimeValidated = this.editForm.controls.normalOverTime.value + this.editForm.controls.holidayOverTime.value + this.editForm.controls.specialOverTime.value == 0 ? false : true
+      
+       if(!this.overtimeValidated){
+       return
+       }
+       if(this.editForm.controls.fromDate.value > this.editForm.controls.toDate.value){
+        this.validateDate = false
+        return
        }
     this.editForm.value.requestStatus=this.requestTypes.Approved
     this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
@@ -187,30 +208,38 @@ export class OvertimeRequestEditComponent implements OnInit {
           isarchived:false,
           id:0
         }));
-
+        if(this.alreadySelectedItem.length > 0 && this.selectedItems.length == 0){
+          const notifyPersonalRemove = this.notifyPersonList.map(notifyPerson => ({
+          overtimeId: this.overtimeRequest.id,
+          notifyPersonnel: notifyPerson.id,
+          isarchived:true,
+          id:notifyPerson.id
+        }));
+        notifyPersonnelForm.push(notifyPersonalRemove[0])
+      }
      
-        this.selectedItems.forEach( array1Ttem => {
+        // this.selectedItems.forEach( array1Ttem => {
 
-          this.alreadySelectedItem.forEach( array2Item => {
+        //   this.alreadySelectedItem.forEach( array2Item => {
     
-             if(array1Ttem.id != array2Item.id){
-              var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true,id:0}
-              notifyPersonnelForm.push(data)
-            }
+        //      if(array1Ttem.id != array2Item.id){
+        //       var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true,id:0}
+        //       notifyPersonnelForm.push(data)
+        //     }
            
     
-          })
-        })
+        //   })
+        // })
         
 
 
-        notifyPersonnelForm.forEach(obj1 =>{
-          this.notifyPersonList.forEach(obj2 =>{
-            if(obj1.notifyPersonnel == obj2.notifyPersonnel){
-              obj1.id = obj2.id
-            }
-          })
-        })
+        // notifyPersonnelForm.forEach(obj1 =>{
+        //   this.notifyPersonList.forEach(obj2 =>{
+        //     if(obj1.notifyPersonnel == obj2.notifyPersonnel){
+        //       obj1.id = obj2.id
+        //     }
+        //   })
+        // })
         
         
         this.overtimeRequestService.UpdateNotifyPersonal(notifyPersonnelForm).subscribe(() => {
@@ -230,6 +259,22 @@ export class OvertimeRequestEditComponent implements OnInit {
       return
          
        }
+
+       this.editForm.patchValue({
+        normalOverTime: this.editForm.controls.normalOverTime.value == null ? 0 : this.editForm.controls.normalOverTime.value,
+        holidayOverTime:this.editForm.controls.holidayOverTime.value == null ? 0 : this.editForm.controls.holidayOverTime.value,
+        specialOverTime:this.editForm.controls.specialOverTime.value == null ? 0 : this.editForm.controls.specialOverTime.value
+      })
+     
+      this.overtimeValidated = this.editForm.controls.normalOverTime.value + this.editForm.controls.holidayOverTime.value + this.editForm.controls.specialOverTime.value == 0 ? false : true
+      
+       if(!this.overtimeValidated){
+       return
+       }
+       if(this.editForm.controls.fromDate.value > this.editForm.controls.toDate.value){
+        this.validateDate = false
+        return
+       }
     this.editForm.value.requestStatus=this.requestTypes.Draft
     this.overtimeRequestService.update(this.editForm.value).subscribe((result: any) => {      
       if (result.id !== -1) {
@@ -240,30 +285,73 @@ export class OvertimeRequestEditComponent implements OnInit {
           isarchived:false,
           id:0
         }));
+        if(this.alreadySelectedItem.length > 0 && this.selectedItems.length == 0){
+            const notifyPersonalRemove = this.notifyPersonList.map(notifyPerson => ({
+            overtimeId: this.overtimeRequest.id,
+            notifyPersonnel: notifyPerson.id,
+            isarchived:true,
+            id:notifyPerson.id
+          }));
+          notifyPersonnelForm.push(notifyPersonalRemove[0])
+        }
+      //   if(this.alreadySelectedItem.length > 0 || this.selectedItems.length == 0){
+      //      removedItems = this.alreadySelectedItem?.filter(function(o1){
+      //       return !this.selectedItems?.some(function(o2){
+      //           return o1.id === o2.id;  
+      //       });
+      //   })
+      //    if(removedItems.length > 0){
+      //     const notifyPersonalRemove = removedItems.map(notifyPerson => ({
+      //       overtimeId: this.overtimeRequest.id,
+      //       notifyPersonnel: notifyPerson.notifyPersonnel,
+      //       isarchived:true,
+      //       id:notifyPerson.id
+      //     }));
+      //     notifyPersonnelForm.push(notifyPersonalRemove[0])
+      //    }
+           
+      // }
+      
+        // }else if(this.alreadySelectedItem.length > 0 && this.selectedItems.length == 0){
+        //   removedItems = [...this.alreadySelectedItem]
+      
+        // }
+
+        // if(removedItems.length > 0){
+
+        //   const notifyPersonalRemove = removedItems.map(notifyPerson => ({
+        //     overtimeId: this.overtimeRequest.id,
+        //     notifyPersonnel: notifyPerson.id,
+        //     isarchived:true,
+        //     id:321
+        //   }));
+        //   notifyPersonnelForm.push(notifyPersonalRemove[0])
+        // }
+         
 
      
-        this.selectedItems.forEach( array1Ttem => {
+        // this.selectedItems.forEach( array1Ttem => {
 
-          this.alreadySelectedItem.forEach( array2Item => {
+        //   this.alreadySelectedItem.forEach( array2Item => {
     
-             if(array1Ttem.id != array2Item.id){
-              var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true,id:0}
-              notifyPersonnelForm.push(data)
-            }
+        //      if(array1Ttem.id != array2Item.id){
+        //       var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true,id:0}
+        //       notifyPersonnelForm.push(data)
+        //     }
            
     
-          })
-        })
+        //   })
+        // })
         
 
 
-        notifyPersonnelForm.forEach(obj1 =>{
-          this.notifyPersonList.forEach(obj2 =>{
-            if(obj1.notifyPersonnel == obj2.notifyPersonnel){
-              obj1.id = obj2.id
-            }
-          })
-        })
+        // notifyPersonnelForm.forEach(obj1 =>{
+        //   this.notifyPersonList.forEach(obj2 =>{
+        //     if(obj1.notifyPersonnel == obj2.notifyPersonnel){
+        //       obj1.id = obj2.id
+        //     }
+        //   })
+        // })
         
         
         this.overtimeRequestService.UpdateNotifyPersonal(notifyPersonnelForm).subscribe(() => {

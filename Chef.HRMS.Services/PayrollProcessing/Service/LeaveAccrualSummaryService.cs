@@ -44,7 +44,6 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
                 leaveAccrualSummary.AccrualDate = firstDayNextMonth;
 
-
                 bool isLeaveCutOff = false;
                 if ((LeaveCutOffType.YearEnd == employeeLeaveAccrual.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
                     || (LeaveCutOffType.HalfYearEnd == employeeLeaveAccrual.LeaveCutOffType && firstDayNextMonth.Month > 6)
