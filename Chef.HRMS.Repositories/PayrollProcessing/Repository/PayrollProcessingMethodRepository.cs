@@ -23,7 +23,7 @@ namespace Chef.HRMS.Repositories
                         left join hrms.hrmsemployee emp 
                         on emp.id = ppm.employeeid 
                         left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
-                        WHERE processedstep >=@stepno and isarchived = false
+                        WHERE processedstep >=@stepno and ppm.isarchived = false
                         ORDER BY id ASC ";
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { stepno });
         }
@@ -374,7 +374,7 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid)
         {
-            var sql = @"SELECT distinct ppm.employeeid,le.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
+            var sql = @"SELECT distinct ppm.employeeid,ppm.id as payrollprocessingid,le.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
                         FROM hrms.payrollprocessingmethod ppm
                         left join hrms.hrmsemployee emp on emp.id = ppm.employeeid 
                         left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid

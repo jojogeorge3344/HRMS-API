@@ -10,10 +10,10 @@ namespace Chef.HRMS.Services.Report
 {
     public interface IPayslipReportService : IAsyncService<PayrollComponentDetails>
     {
-        Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeId,DateTime fromDate,DateTime ToDate, string paygroupId,string department,string designation);
-        Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeId, DateTime fromDate, DateTime ToDate, string paygroupId, string department, string designation);
-        Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(string employeeId, DateTime fromDate, DateTime ToDate);
-        Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeId, DateTime fromDate, DateTime ToDate);
+        Task<IEnumerable<PayrollHeaderView>> EmployeeHeaderDetails(string employeeIds,DateTime fromDate,DateTime ToDate, string paygroupIds,string departmentIds,string designationIds);
+        Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeIds, DateTime fromDate, DateTime ToDate, string paygroupIds, string departmentIds, string designationIds);
+        Task<IEnumerable<OvertimeDetailReportView>> EmployeeOverTimeDetails(string employeeIds, DateTime fromDate, DateTime ToDate);
+        Task<IEnumerable<LoanDetailsReportView>> EmployeeLoanDetails(string employeeIds, DateTime fromDate, DateTime ToDate);
 
 
     }

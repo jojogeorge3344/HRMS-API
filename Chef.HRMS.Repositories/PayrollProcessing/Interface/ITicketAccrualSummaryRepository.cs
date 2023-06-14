@@ -10,6 +10,6 @@ namespace Chef.HRMS.Repositories
 {
     public interface ITicketAccrualSummaryRepository : IGenericRepository<TicketAccrualSummary>
     {
-        Task<TicketAccrualSummary> GetPreviousTicketAccrualSummary(int employeeId, int day, int month, int year);
+        Task<TicketAccrualSummary> GetPreviousTicketAccrualSummary(int employeeId);
     }
 }

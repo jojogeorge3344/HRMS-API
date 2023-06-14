@@ -1,0 +1,45 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+       Generate Accruals
+    </h1>
+  </div>
+  <div id="generateAccruals" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content"> 
+            <div class="frame-wrap">
+                <table class="table m-0">
+                    <thead class="thead-themed">
+                        <tr>
+                            <th>Sl No.</th>
+                            <th>Payroll Process Name</th>
+                            <th>Mode of Processing</th>
+                            <th>Payroll/Employee</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  *ngFor="let item of accrualsList; let i= index;">
+                            <td>{{i+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{modeOfPayrollProcessType[item.modeOfProcessing]}}</td>
+                            <td>{{item.payGroupOrEmployeeName}}</td>
+                            <td>
+                                <span *ngIf="item.processedStep < 5">In Progress
+                                    <button title="continue" class="border-0 btn btn-outline-primary btn-xs" (click)="processSetup(item)"><i
+                                            class="fal fa-long-arrow-right fs-xl"></i></button></span>
+                                <span *ngIf="item.processedStep ==5">Completed
+                                    <button title="continue" class="border-0 btn btn-outline-primary btn-xs" (click)="viewAccruals(item)"><i
+                                        class="fal fa-eye  fs-xl"></i></button></span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!accrualsList?.length">
+                            <td colspan="7" class="text-center">
+                                No rows found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
