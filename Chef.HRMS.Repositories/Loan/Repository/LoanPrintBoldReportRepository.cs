@@ -10,7 +10,7 @@ namespace Chef.HRMS.Repositories
     {
         public async Task<IEnumerable<LoanPrintBoldReport>> GetLoanDetailsAsync(int id)
         {
-            string query = string.Format(@"SELECT (Concat(e.firstname, ' ', e.lastname)) AS NAME,lr.loanno AS LoanNumber,
+            string query = string.Format(@"SELECT lr.id, (Concat(e.firstname, ' ', e.lastname)) AS NAME,lr.loanno AS LoanNumber,
                                           lr.emistartsfromyear AS EMIStartsFromYear,lr.emistartsfrommonth AS EMIStartsFromMonth,
                                           lr.loanamount AS LoanAmount,lr.comments,lr.loantype AS LoanType,
                                            ld.year AS Year,ld.month AS Month,ld.repaymentamount AS RepaymentAmount ,ld.status AS Status

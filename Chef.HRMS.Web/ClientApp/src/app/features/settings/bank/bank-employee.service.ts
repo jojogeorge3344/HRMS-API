@@ -32,4 +32,7 @@ export class BankService {
   get(code){
     return this.http.get<BankGroup[]>(this.baseUrl + 'IsBankCodeExist/'+ code).pipe(map(response => { return response; }));
   }
+  getBankName(bankName){
+    return this.http.get<BankGroup[]>(this.baseUrl + 'IsBankNameExist/'+ bankName).pipe(map(response => { return response; }));
+  }
 }

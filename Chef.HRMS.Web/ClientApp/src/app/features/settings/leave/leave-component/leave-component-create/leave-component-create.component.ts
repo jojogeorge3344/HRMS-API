@@ -68,9 +68,15 @@ export class LeaveComponentCreateComponent implements OnInit {
   isEncashBf: boolean = true;
   isEncashLimit: boolean = true;
   detectionTypeList: any;
-  accuralList: any;
+  accrualList: any;
   accuralBenefitList: any;
   encashBfList: any;
+  isLoading=false;
+  disableAccrualBfCode=true;
+  disableEncashBfCode=true;
+  AnnualAccrualBfObj;
+  encashBfObj;
+
   //leaveDetails: any;
   valuetype: object;
   valueSlabOffTypeKeys: number[];
@@ -89,7 +95,6 @@ export class LeaveComponentCreateComponent implements OnInit {
   leaveDeduction;
   isMandatoryAccruel:boolean=false
   isAccurel:boolean=true
-
   constructor(
     private leaveComponentService: LeaveComponentService,
     private leaveEligiblityService: LeaveEligiblityService,
@@ -247,14 +252,62 @@ export class LeaveComponentCreateComponent implements OnInit {
   }
 
   getAccrualType() {
-    this.leaveComponentService.getAccrualtype().subscribe((res) => {
-      this.accuralList = res;
+    this.isLoading=true;
+    this.leaveComponentService.getAccrualtype().subscribe((res:any) => {
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.accrualList = [...res, temp];
+      this.AnnualAccrualBfObj = res.find((item)=>this.addForm2.get('annualLeave').value==item.id)
+      this.isLoading=false;
     });
+  }
+  selectAccrualBfCode(args){
+    debugger
+    if(args.value && args.value.id){
+      this.addForm2.patchValue({
+        annualLeave:args.value.id,
+        })
+    }else{
+      this.addForm2.patchValue({
+        annualLeave: 0,
+      })  
+    }
+
+  }
+  selectEncashBfCode(args){
+    debugger
+    if(args.value && args.value.id){
+      this.addForm2.patchValue({
+        encashBFCode:args.value.id,
+        })
+     
+    }else{
+      this.addForm2.patchValue({
+        encashBFCode: 0,
+      })  
+    }
+
+  }
+
+  refreshAccrualBfCode(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getAccrualType();
+  }
+  refreshEncashBfCode(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.getAccrualBenefitType();
   }
 
   getAccrualBenefitType() {
-    this.leaveComponentService.getAccrualBenefittype().subscribe((res) => {
-      this.accuralBenefitList = res;
+    this.isLoading=true;
+    this.leaveComponentService.getAccrualBenefittype().subscribe((res:any) => {
+      let temp = { id: undefined, name: 'test', isLastRow: true }
+      // lastrow
+      this.accuralBenefitList = [...res, temp];
+      this.encashBfObj = res.find((item)=>this.addForm2.get('encashBFCode').value==item.id)
+      this.isLoading=false;
     });
   }
 
@@ -274,7 +327,8 @@ export class LeaveComponentCreateComponent implements OnInit {
     debugger;
     if (this.addForm2.value.leaveType == 1) {
       this.addForm2.get("leaveEncashment").enable();
-      this.addForm2.get("annualLeave").enable();
+      // this.addForm2.get("annualLeave").enable();
+      this.disableAccrualBfCode=false;
       this.addForm2.get("accruedLeaveAmount").enable();
       this.isMandatoryAccruel=true
       this.isAccurel=false
@@ -282,8 +336,12 @@ export class LeaveComponentCreateComponent implements OnInit {
       this.isAnnual = false;
     } else {
       this.addForm2.get("leaveEncashment").disable();
-      this.addForm2.get("annualLeave").disable();
+      // this.addForm2.get("annualLeave").disable();
+      this.disableAccrualBfCode=true;
       this.addForm2.get("accruedLeaveAmount").disable();
+      this.addForm2.patchValue({
+        accruedLeaveAmount:null
+      })
       this.isMandatoryAccruel=false
       this.isAccurel=true
       this.isEncash = true;
@@ -295,12 +353,15 @@ export class LeaveComponentCreateComponent implements OnInit {
   getCash(event) {
     debugger;
     if (event == "true") {
-      this.addForm2.get("encashBFCode").enable();
+      // this.addForm2.get("encashBFCode").enable();
+      this.disableEncashBfCode=false;
       this.addForm2.get("encashLimitDays").enable();
       this.isEncashBf = false;
       this.isEncashLimit = false;
     } else {
-      this.addForm2.get("encashBFCode").disable();
+      // this.addForm2.get("encashBFCode").disable();
+       this.disableEncashBfCode=true;
+
       this.addForm2.get("encashLimitDays").disable();
       this.isEncashBf = true;
       this.isEncashLimit = true;
@@ -363,7 +424,7 @@ export class LeaveComponentCreateComponent implements OnInit {
       eligibilityBase: [0, [Validators.required]],
       maxLeaveAtATime: [0],
       vacationSalaryFormula: [null],
-      encashBFCode: [{ value: 0, disabled: this.isEncashBf }],
+      encashBFCode: [null,{ disabled: this.isEncashBf }],
       encashLimitDays: [{ value: 0, disabled: this.isEncashLimit }],
       cfLimitDays: [{ value: 0, disabled: this.isCfLimit }],
       baseType: [null, [Validators.required]],
@@ -376,7 +437,7 @@ export class LeaveComponentCreateComponent implements OnInit {
       leaveComponentId: [null],
       // leaveDeduction: ['',[Validators.required]],
       leaveEncashment: [{ value: 0, disabled: this.isEncash }],
-      annualLeave: [{ value: 0, disabled: this.isAnnual }],
+      annualLeave: [null,{ disabled: this.isAnnual }],
       leaveComponentLopDetails:[]
     });
   }
@@ -426,6 +487,7 @@ export class LeaveComponentCreateComponent implements OnInit {
         }
       );
     }else{
+      debugger
       this.leaveEligiblityService.add(this.addForm2.value).subscribe(
         (result: any) => {
           if (result.id === -1) {

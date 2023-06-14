@@ -16,34 +16,36 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate,string toDate)
         {
 
-                var sql = @"SELECT DISTINCT ad.id                                    AS deductionId, 
-                                            ad.employeeid                            AS employeeId, 
-                                            ( Concat(e.firstname, ' ', e.lastname) ) AS name, 
-                                            ad.employeecode                          AS employeeCode, 
-                                            PC.name                          AS deductionName, 
-                                            ad.description                           AS description, 
-                                            jf.paygroupid                            AS paygroupId, 
-                                            ad.payrollprocessingmethodid             AS 
-                                            payrollProcessingMethodId, 
-                                            ad.amount                                AS amount, 
-                                            ad.currency                              AS currency, 
-                                            ad.createddate                           AS createddate, 
-                                            ad.modifieddate                          AS modifieddate, 
-                                            ad.createdby                             AS createdby, 
-                                            ad.modifiedby                            AS modifiedby,
-                                            ad.isaddition,ad.payrollcomponentid AS ComponentId
-                            FROM   hrms.adhocdeduction ad 
-                                   INNER JOIN hrms.HRMSEmployee e 
-                                           ON ad.employeeid = e.id 
-                                   INNER JOIN hrms.jobfiling jf 
-                                           ON ad.employeeid = jf.employeeid 
-                                    LEFT JOIN hrms.payrollcomponent PC ON PC.id = ad.payrollcomponentid	
+                var sql = @"SELECT DISTINCT
+                              ad.id AS deductionId,
+                              ad.employeeid AS employeeId,
+                              (Concat(e.firstname, ' ', e.lastname)) AS name,
+                              ad.employeecode AS employeeCode,
+                              PC.name AS deductionName,
+                              ad.description AS description,
+                              jf.paygroupid AS paygroupId,
+                              ad.payrollprocessingmethodid AS
+                              payrollProcessingMethodId,
+                              ad.amount AS amount,
+                              ad.currency AS currency,
+                              ad.createddate AS createddate,
+                              ad.modifieddate AS modifieddate,
+                              ad.createdby AS createdby,
+                              ad.modifiedby AS modifiedby,
+                              ad.isaddition,
+                              ad.payrollcomponentid AS ComponentId
+                            FROM hrms.adhocdeduction ad
+                            INNER JOIN hrms.HRMSEmployee e
+                              ON ad.employeeid = e.id
+                            INNER JOIN hrms.jobfiling jf
+                              ON ad.employeeid = jf.employeeid
+                            LEFT JOIN hrms.payrollcomponent PC
+                              ON PC.id = ad.payrollcomponentid
                             --WHERE  (ad.payrollprocessingmethodid = @payrollProcessingMethodId 
-                                          -- AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
-                                            --WHERE  (ppm.month =@month AND  ppm.year=@year)))
-                                   WHERE  To_Date(cast(coalesce(ad.date) as TEXT),'YYYY MM DD') BETWEEN To_Date(cast(coalesce(@fromDate) as TEXT),'YYYY MM DD') AND To_Date(cast(coalesce(@toDate) as TEXT),'YYYY MM DD')
-							AND jf.paygroupid = @payGroupId
-                                  ";
+                            -- AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
+                            --WHERE  (ppm.month =@month AND  ppm.year=@year)))
+                            WHERE To_Date(CAST(COALESCE(ad.date) AS text), 'YYYY MM DD') BETWEEN To_Date(CAST(COALESCE(@fromDate) AS text), 'YYYY MM DD') AND To_Date(CAST(COALESCE(@toDate) AS text), 'YYYY MM DD')
+                            AND jf.paygroupid = @payGroupId";
 
                 return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payGroupId, fromDate, toDate });
 
@@ -51,27 +53,28 @@ namespace Chef.HRMS.Repositories
         public async Task<IEnumerable<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId)
         {
 
-                var sql = @"SELECT DISTINCT ad.id                                    AS deductionId, 
-                                            ad.employeeid                            AS employeeId, 
-                                            ( Concat(e.firstname, ' ', e.lastname) ) AS name, 
-                                            ad.employeecode                          AS employeeCode, 
-                                            ad.deductionname                         AS deductionName, 
-                                            ad.description                           AS description, 
-                                            jf.paygroupid                            AS paygroupId, 
-                                            ad.payrollprocessingmethodid             AS 
-                                            payrollProcessingMethodId, 
-                                            ad.amount                                AS amount, 
-                                            ad.currency                              AS currency, 
-                                            ad.createddate                           AS createddate, 
-                                            ad.modifieddate                          AS modifieddate, 
-                                            ad.createdby                             AS createdby, 
-                                            ad.modifiedby                            AS modifiedby 
-                            FROM   hrms.adhocdeduction ad 
-                                   INNER JOIN hrms.HRMSEmployee e 
-                                           ON ad.employeeid = e.id 
-                                   INNER JOIN hrms.jobfiling jf 
-                                           ON ad.employeeid = jf.employeeid 
-                            WHERE  ad.payrollprocessingmethodid = @payrollProcessingMethodId";
+                var sql = @"SELECT DISTINCT
+                              ad.id AS deductionId,
+                              ad.employeeid AS employeeId,
+                              (Concat(e.firstname, ' ', e.lastname)) AS name,
+                              ad.employeecode AS employeeCode,
+                              ad.deductionname AS deductionName,
+                              ad.description AS description,
+                              jf.paygroupid AS paygroupId,
+                              ad.payrollprocessingmethodid AS
+                              payrollProcessingMethodId,
+                              ad.amount AS amount,
+                              ad.currency AS currency,
+                              ad.createddate AS createddate,
+                              ad.modifieddate AS modifieddate,
+                              ad.createdby AS createdby,
+                              ad.modifiedby AS modifiedby
+                            FROM hrms.adhocdeduction ad
+                            INNER JOIN hrms.HRMSEmployee e
+                              ON ad.employeeid = e.id
+                            INNER JOIN hrms.jobfiling jf
+                              ON ad.employeeid = jf.employeeid
+                            WHERE ad.payrollprocessingmethodid = @payrollProcessingMethodId";
 
                 return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId });
         }

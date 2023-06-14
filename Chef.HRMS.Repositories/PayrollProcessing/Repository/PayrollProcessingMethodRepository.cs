@@ -1,4 +1,5 @@
-﻿using Chef.Common.Models;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Models.Slab;
@@ -23,7 +24,7 @@ namespace Chef.HRMS.Repositories
                         left join hrms.hrmsemployee emp 
                         on emp.id = ppm.employeeid 
                         left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
-                        WHERE processedstep >=@stepno and isarchived = false
+                        WHERE processedstep >=@stepno and ppm.isarchived = false
                         ORDER BY id ASC ";
             return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { stepno });
         }
@@ -483,6 +484,15 @@ namespace Chef.HRMS.Repositories
 
 
             return await Connection.ExecuteAsync(sql, new { paygroupId });
+        }
+        public async Task<bool> IsPaygroupExistInPayrollProcessingMethod(int paygroupId)
+        {
+            if (await QueryFactory
+            .Query<PayrollProcessingMethod>()
+           .Where("paygroupid", paygroupId)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
         }
     }
 }

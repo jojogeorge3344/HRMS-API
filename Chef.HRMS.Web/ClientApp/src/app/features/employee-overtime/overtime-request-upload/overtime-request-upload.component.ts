@@ -3,6 +3,8 @@ import { Component, OnInit ,ViewChild,ElementRef} from '@angular/core';
 import * as XLSX from 'xlsx'; 
 import { OvertimeRequestService } from '../overtime-request.service';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'hrms-overtime-request-upload',
   templateUrl: './overtime-request-upload.component.html',
@@ -18,10 +20,13 @@ export class OvertimeRequestUploadComponent implements OnInit {
   arrayBuffer:any;
   fileName = '';
   invalidRowCount:number =0
+  requestTypes = RequestStatus;
   constructor(
     private datePipe: DatePipe,
     private overtimeRequestService: OvertimeRequestService,
     private toastr: ToasterDisplayService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     
    }
@@ -56,7 +61,7 @@ export class OvertimeRequestUploadComponent implements OnInit {
               toDate:new Date((this.overtimerequests[i]['To Date']-25569)*86400000),
               reason:this.overtimerequests[i].Reason,
               employeeId:0,
-              requestStatus:0,
+              requestStatus:this.requestTypes.Validate,
               normalOverTime:this.overtimerequests[i]['Normal OverTime'] ? this.overtimerequests[i]['Normal OverTime'] : 0,
               specialOverTime:this.overtimerequests[i]['Special OverTime'] ? this.overtimerequests[i]['Special OverTime'] : 0,
               holidayOverTime:this.overtimerequests[i]['Holiday OverTime'] ? this.overtimerequests[i]['Holiday OverTime'] : 0,
@@ -120,7 +125,7 @@ export class OvertimeRequestUploadComponent implements OnInit {
           numberOfHours:0,
           reason:this.overTimeValidatedData[i].reason,
           employeeId:this.overTimeValidatedData[i].employeeId,
-          requestStatus:4,
+          requestStatus:this.requestTypes.Approved,
           normalOverTime:this.overTimeValidatedData[i].normalOverTime,
           specialOverTime:this.overTimeValidatedData[i].specialOverTime,
           holidayOverTime:this.overTimeValidatedData[i].holidayOverTime,
@@ -131,6 +136,7 @@ export class OvertimeRequestUploadComponent implements OnInit {
       this.overtimeRequestService.saveExcelReport(this.overTimeSaveData)
       .subscribe(result => {
         this.toastr.showSuccessMessage('Excel Report Saved Successfully.');
+        this.router.navigate(["/asset-employee-overtimewise"])
       },
         error => {
           console.error(error);

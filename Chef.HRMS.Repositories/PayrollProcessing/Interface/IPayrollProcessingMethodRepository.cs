@@ -20,8 +20,8 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId);
         Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno);
         Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid);
-        Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid);
+        Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid); 
+        Task<bool> IsPaygroupExistInPayrollProcessingMethod(int paygroupId);
         Task<IEnumerable<EmployeeTicket>> GetProcessedEmployeeDetailsForTicketAccrual(int paygroupid);
-
     }
 }
