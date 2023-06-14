@@ -24,12 +24,6 @@
                             <td>{{modeOfPayrollProcessType[item.modeOfProcessing]}}</td>
                             <td>{{item.payGroupOrEmployeeName}}</td>
                             <td>
-                                <!-- <span *ngIf="item.processedStep ==5">Completed
-                                    <button title="view" class="border-0 btn btn-outline-primary btn-xs"
-                                    (click)="viewSummary(process)">
-                                        <i  class="fal fa-eye  fs-xl"></i>
-                                      </button>
-                                </span> -->
                                 <span *ngIf="item.processedStep < 5">In Progress
                                     <button title="continue" class="border-0 btn btn-outline-primary btn-xs" (click)="processSetup(item)"><i
                                             class="fal fa-long-arrow-right fs-xl"></i></button></span>
