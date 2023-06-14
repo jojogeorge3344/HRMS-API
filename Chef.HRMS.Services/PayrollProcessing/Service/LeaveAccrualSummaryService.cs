@@ -64,7 +64,6 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 }
                 else
                 {
-
                     if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
                     {
                         throw new ResourceNotFoundException("Accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
