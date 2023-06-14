@@ -9,6 +9,7 @@ namespace Chef.HRMS.Models
 {
     public class LoanPrintBoldReport
     {
+        public int Id { get; set; }
         public string LoanNumber { get; set; }
         public string NAME { get; set; }
         public int EmployeeID { get; set; }
