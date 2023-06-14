@@ -1,0 +1,128 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        Generate Accruals With Finance Entry
+    </h1>
+</div>
+<div id="emprevisionmanagement" class="panel">
+    <div class="panel-container show">
+        <div class="panel-content">
+            <div class="p-3">
+                <div>
+                    <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+                    routerLink="/generate-accruals"><i class="fal fa-arrow-left mr-2"></i> Back to
+                    Generate Accruals</button>
+                </div>
+                <div class="content-subheader">
+                    Leave Accruals
+                </div>
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <table class="table m-0">
+                            <thead class="thead-themed">
+                                <tr>
+                                    <th>Sl No.</th>
+                                    <th>Employee Code</th>
+                                    <th>Employee Name</th>
+                                    <th>Accrued Days</th>
+                                    <th>Amount</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr  *ngFor="let item of leaveAccrualsList; let i= index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.employeeCode}}</td>
+                                    <td>{{item.employeeName}}</td>
+                                    <td>{{item.accrualDays}}</td>
+                                    <td>{{item.accrualAmount}}</td>
+                                   
+                                </tr>
+                                <tr *ngIf="!leaveAccrualsList?.length">
+                                    <td colspan="7" class="text-center">
+                                        No rows found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="content-subheader">
+                        EOS Accruals
+                    </div>
+                        <div class="d-flex flex-wrap align-items-baseline">
+                            <table class="table m-0">
+                                <thead class="thead-themed">
+                                    <tr>
+                                        <th>Sl No.</th>
+                                        <th>Employee Code</th>
+                                        <th>Employee Name</th>
+                                        <th>Accrued Days</th>
+                                        <th>Amount</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  *ngFor="let item of EOSAccrualsList; let i= index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{item.employeeCode}}</td>
+                                        <td>{{item.employeeName}}</td>
+                                        <td>{{item.accrualDays}}</td>
+                                        <td>{{item.accrualAmount}}</td>
+                                       
+                                    </tr>
+                                    <tr *ngIf="!EOSAccrualsList?.length">
+                                        <td colspan="7" class="text-center">
+                                            No rows found
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        
+                    <div class="content-subheader">
+                        Ticket Accruals
+                    </div>
+                        <div class="d-flex flex-wrap align-items-baseline">
+                            <table class="table m-0">
+                                <thead class="thead-themed">
+                                    <tr>
+                                        <th>Sl No.</th>
+                                        <th>Employee Code</th>
+                                        <th>Employee Name</th>
+                                        <th>Amount</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  *ngFor="let item of ticketAccrualsList; let i= index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{item.employeeCode}}</td>
+                                        <td>{{item.employeeName}}</td>
+                                        <td>{{item.accrualAmount}}</td>
+                                       
+                                    </tr>
+                                    <tr *ngIf="!ticketAccrualsList?.length">
+                                        <td colspan="7" class="text-center">
+                                            No rows found
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer" *ngIf="Action == 'I'">
+                            <button (click)="saveAccruals()" type="submit" class="btn btn-success">
+                                <i class="mr-1 fal fa-save"></i>Save
+                            </button>
+                            <button  type="button"
+                            class="btn btn-primary" (click)="generateFinacialEntry()">
+                            <i class="mr-1 fal fa-arrow-down"></i> Generate Finacial Entry</button>
+                            <button type="button" class="btn btn-warning" routerLink="/generate-accruals"><i
+                                    class="mr-1 fal fa-window-close"></i> Cancel
+                            </button>
+                          
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -76,11 +76,11 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(i);
         }
 
-        [HttpPost("GetProcessedAccruals/{paygroupId}/{accrualDate}")]
-        public async Task<ActionResult<Accruals>> GetProcessedAccruals(int paygroupId, DateTime accrualDate)
+        [HttpPost("GetProcessedAccruals/{paygroupId}")]
+        public async Task<ActionResult<Accruals>> GetProcessedAccruals(int paygroupId)
         {
             Accruals accruals = new Accruals();
-            accruals.LeaveAccruals = await leaveAccrualService.GetGeneratedLeaveAccruals(paygroupId, accrualDate); 
+            accruals.LeaveAccruals = await leaveAccrualService.GetGeneratedLeaveAccruals(paygroupId); 
 
             if (accruals == null)
             {
