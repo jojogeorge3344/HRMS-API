@@ -64,6 +64,20 @@
                 <td>{{ rowData.data4 }}</td>
                 <td>{{ rowData.data5 }}</td>
             </tr>
+           
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr *ngIf="!summaryDetailsTreeData?.length">
+                <td  class="text-center">
+                    No rows found
+                </td>
+            </tr>
         </ng-template>
     </p-treeTable>
 </div>
+  <div class="button-right-wrapper mt-3 ">
+  
+        <button class="btn btn-primary" (click)="onSubmit()">
+            Complete The Payroll Process
+        </button>
+    </div>

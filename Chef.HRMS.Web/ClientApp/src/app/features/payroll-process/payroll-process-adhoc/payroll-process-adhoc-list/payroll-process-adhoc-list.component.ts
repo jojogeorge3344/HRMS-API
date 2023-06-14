@@ -78,12 +78,14 @@ export class PayrollProcessAdhocListComponent implements OnInit {
     var month = parseInt(this.payrollmonth)
     var year = parseInt(this.payrollyear)
     var day = parseInt(this.payrollcutoff)
-      var todate = new Date(year,month-1, day)
-      var previous = new Date(todate.getTime());
-      previous.setMonth(previous.getMonth() - 1);
+    var todate = new Date(year,month-1, day)
+    var previous = new Date(todate.getTime());
+    previous.setMonth(previous.getMonth() - 1);
+    var payrollprocessMonth = parseInt(this.payrollmonth)
+    var payrollmonth = payrollprocessMonth >= 10 ?  payrollprocessMonth : payrollprocessMonth < 10 ? '0' + payrollprocessMonth : 0
     //todate =  this.datePipe.transform(todate,"yyyy-MM-dd")
       this.noOfCalendarDays = new Date(this.payrollyear, this.payrollmonth, 0).getDate();
-      this.payrollProcessAdhocService.getAllAdhocDeduction(this.paygroupId, `${this.payrollyear}-${this.payrollmonth}-01`,  `${this.payrollyear}-${this.payrollmonth}-${this.noOfCalendarDays}`).subscribe(result => {
+      this.payrollProcessAdhocService.getAllAdhocDeduction(this.paygroupId, `${this.payrollyear}-${payrollmonth}-01`,  `${this.payrollyear}-${payrollmonth}-${this.noOfCalendarDays}`).subscribe(result => {
       this.payGroupProcessAdhocDeduction = result;
     },
       error => {
