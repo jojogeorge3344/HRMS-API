@@ -94,6 +94,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 eosAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
                 eosAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
                 eosAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
+                eosAccrualEmployee.PayrollProcessingId = eligibleEmployee.payrollprocessingid;
                 eosAccrualEmployee.AccrualStatus = 0; //Pending
                 eosAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
                 eosAccrualEmployee.IsArchived = false;
@@ -147,11 +148,10 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             return eosAccruals;
         }
 
-        public async Task<int> SaveEndOfServiceAccruals(List<EOSAccrual> endOfServiceAccruals)
+        public async Task<int> InsertEOSAccruals(List<EOSAccrual> endOfServiceAccruals)
         {
             var result = await eosAccrualRepository.BulkInsertAsync(endOfServiceAccruals);
-            //return result;
-            return 0;
+            return result;
         }
 
         public async Task<List<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid, DateTime accrualDate)

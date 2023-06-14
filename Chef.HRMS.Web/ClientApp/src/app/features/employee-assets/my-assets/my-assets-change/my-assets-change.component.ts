@@ -66,7 +66,7 @@ export class MyAssetsChangeComponent implements OnInit {
     this.raiseRequestData.empId = this.currentUserId;
     this.raiseRequestData.assetid = this.assetData.assetId;
     this.raiseRequestData.nameOfTeamMemberId = this.currentUserId;
-    console.log(this.raiseRequestData);
+    console.log(this.raiseRequestData,this.assetData);
     forkJoin([
       this.myAssetService.updateStatus(this.assetData),
       // this.myAssetService.insertRequest(this.raiseRequestData)

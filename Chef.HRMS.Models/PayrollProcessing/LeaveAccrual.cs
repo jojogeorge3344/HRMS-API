@@ -80,5 +80,6 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public string EmployeeName { get; set; }
+        public int PayrollProcessingId { get; set; }
     }
 }

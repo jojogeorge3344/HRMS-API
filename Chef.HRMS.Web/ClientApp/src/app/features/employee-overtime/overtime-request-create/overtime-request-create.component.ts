@@ -63,6 +63,8 @@ export class OvertimeRequestCreateComponent implements OnInit {
   config;
   requestTypes = RequestStatus;
   isLoading=false;
+  overtimeValidated:boolean=true
+  validateDate:boolean=true
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
 
   constructor(
@@ -238,12 +240,14 @@ export class OvertimeRequestCreateComponent implements OnInit {
   onFromDateSelection(date: NgbDate) {
     this.minDateTo = date;
     this.fromDate = date;
+    this.validateDate =true
     //if (this.toDate) { this.validateRequest(); }
   }
 
   onToDateSelection(date: NgbDate) {
     this.maxDateFrom = date;
     this.toDate = date;
+    this.validateDate =true
     // if (this.fromDate) { this.validateRequest(); }
   }
 
@@ -407,10 +411,26 @@ export class OvertimeRequestCreateComponent implements OnInit {
   onSubmit() {
     debugger
     if(this.addForm.invalid){
-
       return
-         
-       }
+    }
+    this.addForm.patchValue({
+      normalOverTime: this.addForm.controls.normalOverTime.value == null ? 0 : this.addForm.controls.normalOverTime.value,
+      holidayOverTime:this.addForm.controls.holidayOverTime.value == null ? 0 : this.addForm.controls.holidayOverTime.value,
+      specialOverTime:this.addForm.controls.specialOverTime.value == null ? 0 : this.addForm.controls.specialOverTime.value
+    })
+   
+    this.overtimeValidated = this.addForm.controls.normalOverTime.value + this.addForm.controls.holidayOverTime.value + this.addForm.controls.specialOverTime.value == 0 ? false : true
+    
+     if(!this.overtimeValidated){
+     return
+     }
+
+     if(this.addForm.controls.fromDate.value > this.addForm.controls.toDate.value){
+          this.validateDate = false
+          return
+     }
+
+
     let addForm = this.addForm.value;
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
@@ -439,13 +459,29 @@ export class OvertimeRequestCreateComponent implements OnInit {
       });
   }
   draftSave() {
-    debugger
+    
     if(this.addForm.invalid){
 
       return
          
        }
-    debugger
+
+       this.addForm.patchValue({
+        normalOverTime: this.addForm.controls.normalOverTime.value == null ? 0 : this.addForm.controls.normalOverTime.value,
+        holidayOverTime:this.addForm.controls.holidayOverTime.value == null ? 0 : this.addForm.controls.holidayOverTime.value,
+        specialOverTime:this.addForm.controls.specialOverTime.value == null ? 0 : this.addForm.controls.specialOverTime.value
+      })
+     
+      this.overtimeValidated = this.addForm.controls.normalOverTime.value + this.addForm.controls.holidayOverTime.value + this.addForm.controls.specialOverTime.value == 0 ? false : true
+      
+       if(!this.overtimeValidated){
+       return
+       }
+
+       if(this.addForm.controls.fromDate.value > this.addForm.controls.toDate.value){
+        this.validateDate = false
+        return
+       }
     let addForm = this.addForm.value;
     addForm.numberOfDays = this.numberOfDays;
     addForm = {
@@ -491,12 +527,12 @@ export class OvertimeRequestCreateComponent implements OnInit {
       reason: ['', [
         Validators.maxLength(250),
       ]],
-      employeeId: [0],
+      employeeId: [0,[Validators.required]],
       requestStatus: [0],
       normalOverTime:[null],
       holidayOverTime:[null],
       specialOverTime:[null],
-      employeeName:[null]
+      employeeName:[null,[Validators.required]]
     });
   }
 getLoginEmployeeDetail(){
@@ -530,5 +566,10 @@ refreshEmployee(event){
   event.stopPropagation();
   event.preventDefault();
   this.getEmployeeList();
+}
+
+setOvertimeValidationFlag(){
+  debugger
+  this.overtimeValidated = true;
 }
 }

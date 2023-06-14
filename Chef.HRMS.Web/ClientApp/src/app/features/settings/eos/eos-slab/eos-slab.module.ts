@@ -11,6 +11,7 @@ import { EosSlabListComponent } from './eos-slab-list/eos-slab-list.component';
 import { EosSlabCreateComponent } from './eos-slab-create/eos-slab-create.component';
 import { EosSlabEditComponent } from './eos-slab-edit/eos-slab-edit.component';
 import { EosSlabViewComponent } from './eos-slab-view/eos-slab-view.component';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 
@@ -41,7 +42,8 @@ import { EosSlabViewComponent } from './eos-slab-view/eos-slab-view.component';
     ReactiveFormsModule,
     NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule.forRoot(),
-    DirectivesModule
+    DirectivesModule,
+    DropdownModule
     ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
