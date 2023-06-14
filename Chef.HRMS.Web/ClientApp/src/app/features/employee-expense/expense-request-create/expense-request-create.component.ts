@@ -83,7 +83,6 @@ export class ExpenseRequestCreateComponent implements OnInit {
 
   initialize() {
     this.selectedExpenseType = null;
-
     this.companyName = 'Company';
     this.branchName = 'Branch';
     this.directoryName = 'c:';
