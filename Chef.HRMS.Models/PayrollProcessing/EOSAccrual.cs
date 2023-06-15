@@ -70,7 +70,7 @@ namespace Chef.HRMS.Models.PayrollProcessing
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
-        public int EligibleDays { get; set; }
+        public decimal EligibleDays { get; set; }
 
         [Write(false)]
         [Skip(true)]
@@ -83,6 +83,11 @@ namespace Chef.HRMS.Models.PayrollProcessing
         public int MonthlyAmount { get; set; }
 
         public int PayrollProcessingId { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public bool IsRetrospectiveAccrual { get; set; }
 
     }
 }

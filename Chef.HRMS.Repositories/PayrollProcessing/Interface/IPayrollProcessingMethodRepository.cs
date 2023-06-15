@@ -22,5 +22,6 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid);
         Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid); 
         Task<bool> IsPaygroupExistInPayrollProcessingMethod(int paygroupId);
+        Task<IEnumerable<EmployeeTicket>> GetProcessedEmployeeDetailsForTicketAccrual(int paygroupid);
     }
 }

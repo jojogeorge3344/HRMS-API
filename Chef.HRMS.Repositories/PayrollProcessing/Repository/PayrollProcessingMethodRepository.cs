@@ -398,12 +398,32 @@ namespace Chef.HRMS.Repositories
                         left join hrms.jobdetails jd on jd.employeeid = jf.employeeid
 						Join hrms.endofservice eos on eos.id = jf.eosid
                         Join hrms.employeesalaryconfigurationdetails esd on eos.id = esd.payrollcomponentid
-                        WHERE jf.paygroupid = @paygroupid and eos.employeeeosaccrualtype = 30";
-            //
+                        WHERE jf.paygroupid = @paygroupid";
+            // and eos.employeeeosaccrualtype = jf.eosid
             //Join hrms.slab slb on slb.eosid = eos.id
             //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
             //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
             return await Connection.QueryAsync<EndOfService>(sql, new { paygroupid });
+        }
+
+        public async Task<IEnumerable<EmployeeTicket>> GetProcessedEmployeeDetailsForTicketAccrual(int paygroupid)
+        {
+            var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
+                        jd.employeenumber as employeecode, jd.dateofjoin, le.eligibledays, le.eligibilitybase, le.isincludelopdays
+                        FROM 
+                        hrms.jobfiling jf
+                        left join hrms.hrmsemployee emp on emp.id = jf.employeeid 
+                        left join hrms.jobdetails jd on jd.employeeid = jf.employeeid
+                        Join hrms.leavestructureleavecomponent lslc on lslc.leavestructureid = jf.leavestructureid
+                        Join hrms.leaveeligibility le on le.leavecomponentid = lslc.leavecomponentid       
+                        Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+						Join hrms.employeeticket et on et.id = jf.employeeid
+                        WHERE jf.paygroupid = @paygroupid and le.leavetype = 1";
+            //
+            //Join hrms.slab slb on slb.eosid = eos.id
+            //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
+            //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+            return await Connection.QueryAsync<EmployeeTicket>(sql, new { paygroupid });
         }
 
         public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
