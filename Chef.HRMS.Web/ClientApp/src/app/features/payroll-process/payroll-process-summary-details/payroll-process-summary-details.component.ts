@@ -100,7 +100,10 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
           }
       }
       var finalData =[]
-      finalData.push({data:data[0],children:childdata})
+      if(data){
+        finalData.push({data:data[0],children:childdata})
+      }
+      
       
       this.summaryDetailsTreeData = finalData
       console.log('this.summaryDetailsTreeData',this.summaryDetailsTreeData)

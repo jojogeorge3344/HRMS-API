@@ -35,20 +35,16 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                 TicketAccrualSummary ticketAccrualSummary = new TicketAccrualSummary();
                 ticketAccrualSummary.EmployeeId = employeeTicketAccrual.EmployeeId;
-                //ticketAccrualSummary.AvaillDays = 0;
-                //ticketAccrualSummary.AvailAmount = 0;
                 var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - EOSSUmmary entered for next month
                 ticketAccrualSummary.AccrualDate = firstDayNextMonth;
 
                 if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
                 {
-                    throw new ResourceNotFoundException("Accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                    throw new ResourceNotFoundException("Ticket accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
                 }
 
-                if (prevAccrualSummaryDetails == null) //|| isLeaveCutOff
+                if (prevAccrualSummaryDetails == null) 
                 {
-                    //No need to check cutoff or carry forward as there is no previous entry for this employee
-
                     //Insert into Accrual summary table 
                     ticketAccrualSummary.AccrualDays = employeeTicketAccrual.AccrualDays;
                     ticketAccrualSummary.AccrualAmount = employeeTicketAccrual.AccrualAmount;
@@ -56,29 +52,11 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 else
                 {
 
-                    //if (prevAccrualSummaryDetails.AccrualDays >= employeeEOSAccrual.CFLimitDays)
-                    //{
-                    //    //no entry to be made into LeaveSummary table
-                    //    continue;
-                    //}
-                    //else
-                    //{
                     decimal currentAccrual = employeeTicketAccrual.EligibilityPerDay * employeeTicketAccrual.WorkeddaysInCalMonth;
                     decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
-
-                    //if (totalAccrualDays > employeeEOSAccrual.CFLimitDays)
-                    //{
-                    //    //leaveAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
-                    //    leaveAccrualSummary.AccrualDays = employeeLeaveAccrual.CFLimitDays;
-                    //}
-                    //else
-                    //{
-                    //    // leaveAccrualEmployee.AccrualDays = currentAccrual;
-                    //    leaveAccrualSummary.AccrualDays = totalAccrualDays;
-                    //}
-                    //}
-                }
-                ticketAccrualSummary.AccrualAmount = ((decimal)employeeTicketAccrual.MonthlyAmount / employeeTicketAccrual.EligibilityBase) * employeeTicketAccrual.AccrualDays;
+                    ticketAccrualSummary.AccrualDays = totalAccrualDays;
+                    ticketAccrualSummary.AccrualAmount = ((decimal)employeeTicketAccrual.MonthlyAmount / employeeTicketAccrual.EligibilityBase) * employeeTicketAccrual.AccrualDays;
+                }                
                 ticketAccrualSummaries.Add(ticketAccrualSummary);
             }
 

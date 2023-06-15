@@ -16,7 +16,8 @@ namespace Chef.HRMS.Models.PayrollProcessing
         public DateTime AccrualDate { get; set; }
         public decimal AccrualDays { get; set; }
         public decimal AccrualAmount { get; set; }
-
+        public decimal AvailDays { get; set; }
+        public decimal AvailAmount { get; set; }
         public int AccrualStatus { get; set; }
 
         [Write(false)]

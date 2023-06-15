@@ -277,7 +277,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
         })
     }else{
       this.addForm.patchValue({
-        requestedBy: 0,
+        requestedBy: null,
       })  
     }
   }
