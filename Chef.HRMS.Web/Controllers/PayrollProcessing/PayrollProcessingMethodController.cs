@@ -71,14 +71,14 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPost("InsertOrAlreadyExist")]
-        public async Task<ActionResult<string>> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod,string strPpMId,bool IsNew)
+        public async Task<ActionResult<string>> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)//,string strPpMId,bool IsNew)
         {
             var result ="";
-            if (IsNew)
-            {
+            //if (IsNew)
+            //{
                 result = await payrollProcessingMethodService.InsertOrAlreadyExist(payrollProcessingMethod);
-            }
-            result = strPpMId;
+            //}
+            //result = strPpMId;
             ///System Variable insert starts
             var payrollProcessingData = await payrollProcessingMethodService.GetAsync(Convert.ToInt32(result));
 

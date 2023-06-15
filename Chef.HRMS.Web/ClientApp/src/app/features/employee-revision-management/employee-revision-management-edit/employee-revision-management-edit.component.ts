@@ -146,7 +146,7 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
   }
 
   onSubmit(){
-    debugger
+
     if(this.editForm.invalid){
       return
     }
@@ -169,7 +169,6 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
    this.editForm.patchValue({
     //employeeRevisionsOldList: this.employeeDetails_old,
     revStatus:1,
-    reqNum:0,
     id:this.reqId
 
   });
@@ -205,6 +204,7 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
     //this.employeePayrollStructure_rev = {...this.employeePayrollStructure_rev}
     this.EmployeeRevisionManagementService.update_ReversedSalaryDetails(this.employeePayrollStructure_rev).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Revision  Request Updated Successfully.');
+      this.router.navigate(["/employee-revision-management"])
     },
       error => {
         console.error(error);

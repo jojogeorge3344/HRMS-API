@@ -55,12 +55,12 @@
                         <div class="form-group form-input-line col-4">
                             <label class="col-form-label" for="employeeId">Employee<span
                                     class="required">*</span></label>
-                            <ng-template #optionTemplate let-item="item" let-config="config_emp">
+                            <ng-template   #optionTemplate let-item="item" let-config="config_emp">
                                 <i class="fa fa-plus"></i>
                                 {{ item.name }}
                                 <span class="new badge"></span>
                             </ng-template>
-                            <ngx-select-dropdown (change)="selectionChanged_Employee($event)" [config]="config_emp"
+                            <ngx-select-dropdown [disabled]="true"  (change)="selectionChanged_Employee($event)" [config]="config_emp"
                                 [options]="employeeList" [_value]="selectedDatasource"></ngx-select-dropdown>
                         </div>
 

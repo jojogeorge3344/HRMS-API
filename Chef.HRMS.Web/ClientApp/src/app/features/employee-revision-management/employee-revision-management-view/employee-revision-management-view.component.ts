@@ -161,6 +161,7 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
   }
 
   getLeaveStructure() {
+    debugger
     this.leaveStructureService.getConfiguredLeaveStructures().subscribe(result => {
       this.leaveStructureId = result;
       const details = this.leaveStructureId.find(leav => leav.id === this.revisionRequest.leavesStructureId);

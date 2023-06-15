@@ -30,6 +30,7 @@ import { OvertimePolicy } from '@settings/overtime/overtime-policy/overtime-poli
 import { EmployeeRevisionManagementService } from '../employee-revision-management.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { PayrollCalculationService } from '@settings/payroll/payroll-calculation/payroll-calculation.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'hrms-employee-revision-management-create',
   templateUrl: './employee-revision-management-create.component.html',
@@ -87,6 +88,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
     private EmployeeRevisionManagementService:EmployeeRevisionManagementService,
     public modalService: NgbModal,
     private payrollCalculationService: PayrollCalculationService,
+    private router: Router,
   ) {
     const current = new Date();
     this.minDate = {
@@ -395,6 +397,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
      //this.employeePayrollStructure = {...this.employeePayrollStructure}
     this.EmployeeRevisionManagementService.save_oldSalaryDetails(this.employeePayrollStructure).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Salary Revision  Request Submitted Successfully.');
+      this.router.navigate(["/employee-revision-management"])
     },
       error => {
         console.error(error);
@@ -431,13 +434,13 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
 
   calculateComponentValues(item,index){
 
-    if(item.monthlyAmount > item.maximumLimit){
-      this.employeePayrollStructure_rev.forEach((x)=>{
-        x.monthlyAmount = ''
-      })
+    // if(item.monthlyAmount > item.maximumLimit){
+    //   this.employeePayrollStructure_rev.forEach((x)=>{
+    //     x.monthlyAmount = ''
+    //   })
      
-      return
-    }
+    //   return
+    // }
     this.employeePayrollStructure_rev.map((x: any) => {
       this.valueObject[`{${x.shortCode}}`] = x.monthlyAmount;
      })
