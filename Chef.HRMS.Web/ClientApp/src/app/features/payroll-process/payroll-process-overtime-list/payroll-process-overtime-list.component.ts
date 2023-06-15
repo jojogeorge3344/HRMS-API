@@ -49,10 +49,10 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
 
   onSubmit(){
 
-    if(this.overTimeDetails.length == 0){
-      this.toastr.showErrorMessage('Nothing to save.');
-      return 
-    }
+    // if(this.overTimeDetails.length == 0){
+    //   this.toastr.showErrorMessage('Nothing to save.');
+    //   return 
+    // }
 
     
     // for(let i=0;i<this.overTimeDetails.length;i++){
@@ -90,7 +90,7 @@ export class PayrollProcessOvertimeListComponent implements OnInit {
     //        }]
 
     // }
-    
+    this.payrollOvertimeDetails=[]
     const groupByCategory = this.overTimeDetails.reduce((group, product) => {
       const { employeeId } = product;
       group[employeeId] = group[employeeId] ?? [];

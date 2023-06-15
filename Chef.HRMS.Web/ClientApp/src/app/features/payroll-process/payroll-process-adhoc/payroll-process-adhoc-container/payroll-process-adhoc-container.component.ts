@@ -91,14 +91,14 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
     this.loandetails[i].loanAmount = this.loandetails[i].amount
    }
    this.payrollLoanAdvancesService.saveAdhocLoan(this.loandetails).subscribe(res => {
-        if (res) {
-          this.toastr.showSuccessMessage('Payroll Loan Details Completed');
+       
+          this.toastr.showSuccessMessage('Payroll adhoc deduction and loan details saved successfully.');
           this.selectTab.emit(3);
-        }
+        
       },
       error => {
         console.error(error);
-        this.toastr.showErrorMessage('Unable to insert Loan Details.');
+        this.toastr.showErrorMessage('Unable to save adhoc deduction and loan details.');
         this.selectTab.emit(2);
         
         return
@@ -120,15 +120,16 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
        this.adhocdeductiondetails[i].adhocAmount = this.adhocdeductiondetails[i].amount
     }
     this.payrollLoanAdvancesService.saveAdhocdeduction(this.adhocdeductiondetails).subscribe(res => {
-      if (res) {
-        this.toastr.showSuccessMessage('Payroll Adhoc  Details Completed');
-        if(this.loandetails.length > 0){
+     
+        this.saveAdhocloanDetails()
+       // this.toastr.showSuccessMessage('Payroll Adhoc  Details Completed');
+        // if(this.loandetails.length > 0){
            
-        }else {
-          this.selectTab.emit(3);
-        }
+        // }else {
+        //   this.selectTab.emit(3);
+        // }
         
-      }
+      
     },
     error => {
       console.error(error);
@@ -142,16 +143,17 @@ export class PayrollProcessAdhocContainerComponent implements OnInit {
   
 
   onSubmit(type) {
+    debugger
     this.loandetails = this.child.payGroupLoans
     this.adhocdeductiondetails = this.adhoc.payGroupProcessAdhocDeduction
 
-   
-    if(this.adhocdeductiondetails.length > 0){
-     this.saveAdhocDeductionDetails()
-    }
-    if(this.loandetails.length > 0){
-      this.saveAdhocloanDetails()
-     }
+    this.saveAdhocDeductionDetails()
+    // if(this.adhocdeductiondetails.length > 0){
+    //  this.saveAdhocDeductionDetails()
+    // }
+    // if(this.loandetails.length > 0){
+    //   this.saveAdhocloanDetails()
+    //  }
     
   }
 }
