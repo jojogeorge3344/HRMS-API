@@ -14,7 +14,7 @@ export class EosSlabCreateComponent implements OnInit {
 
   addForm: FormGroup;
   BfDetails: any
-  
+  checkLimitValue:boolean=false
 
 
   constructor( 
@@ -37,13 +37,24 @@ export class EosSlabCreateComponent implements OnInit {
   onSubmit() {
     this.addForm.value.valuetype = parseInt(this.addForm.value.valuetype)
     const eosForm = this.addForm.value;
-    this.eosSlabService.add(eosForm).subscribe(result => {
-          this.toastr.showSuccessMessage('The EosSlab added successfully!');
-          this.activeModal.close('submit');
-        },
-          error => {
-            this.toastr.showErrorMessage('Unable to add the EosSlab');
-    });
+    if(this.addForm.value.upperLimit>this.addForm.value.lowerLimit){
+      this.checkLimitValue=true
+     }else{
+       this.checkLimitValue=false
+     }
+
+     if(this.checkLimitValue){
+      this.eosSlabService.add(eosForm).subscribe(result => {
+        this.toastr.showSuccessMessage('The EosSlab added successfully!');
+        this.activeModal.close('submit');
+      },
+        error => {
+          this.toastr.showErrorMessage('Unable to add the EosSlab');
+     });
+    }else{
+      this.toastr.showWarningMessage("The Upper Limit Should not be less than Lower Limit ")
+    }
+
     
   
   }
