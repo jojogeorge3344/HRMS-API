@@ -29,5 +29,42 @@ namespace Chef.HRMS.Models
 
         [Required]
         public int EmployeeId { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeCode { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeName { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int MonthlyAmount { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public DateTime DateOfJoin { get; set; }
+
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int EligibleDays { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public int EligibilityBase { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public bool IncludeLOPDays { get; set; }
+        public int PayrollProcessingId { get; set; }
     }
 }

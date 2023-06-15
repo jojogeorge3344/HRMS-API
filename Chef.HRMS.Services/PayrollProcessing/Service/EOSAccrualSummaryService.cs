@@ -41,55 +41,32 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - EOSSUmmary entered for next month
                 eosAccrualSummary.AccrualDate = firstDayNextMonth;
 
-                if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+                if (prevAccrualSummaryDetails == null) 
                 {
-                    throw new ResourceNotFoundException("Accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-                }
-
-                //bool isLeaveCutOff = false;
-                //if ((LeaveCutOffType.YearEnd == employeeLeaveAccrual.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
-                //    || (LeaveCutOffType.HalfYearEnd == employeeLeaveAccrual.LeaveCutOffType && firstDayNextMonth.Month > 6)
-                //    || (LeaveCutOffType.QuarterEnd == employeeLeaveAccrual.LeaveCutOffType && firstDayNextMonth.Month > 3)
-                //    || (LeaveCutOffType.MonthEnd == employeeLeaveAccrual.LeaveCutOffType)
-                //    )
-                //{
-                //    isLeaveCutOff = true;
-                //}
-
-                if (prevAccrualSummaryDetails == null) //|| isLeaveCutOff
-                {
-                    //No need to check cutoff or carry forward as there is no previous entry for this employee
-
+                    if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+                    {
+                        throw new ResourceNotFoundException("Accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                    }
                     //Insert into Accrual summary table 
                     eosAccrualSummary.AccrualDays = employeeEOSAccrual.AccrualDays;
                     eosAccrualSummary.AccrualAmount = employeeEOSAccrual.AccrualAmount;
                 }
                 else
                 {
-
-                    //if (prevAccrualSummaryDetails.AccrualDays >= employeeEOSAccrual.CFLimitDays)
-                    //{
-                    //    //no entry to be made into LeaveSummary table
-                    //    continue;
-                    //}
-                    //else
-                    //{
-                        decimal currentAccrual = employeeEOSAccrual.EligibilityPerDay * employeeEOSAccrual.WorkeddaysInCalMonth;
-                        decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
-
-                        //if (totalAccrualDays > employeeEOSAccrual.CFLimitDays)
-                        //{
-                        //    //leaveAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
-                        //    leaveAccrualSummary.AccrualDays = employeeLeaveAccrual.CFLimitDays;
-                        //}
-                        //else
-                        //{
-                        //    // leaveAccrualEmployee.AccrualDays = currentAccrual;
-                        //    leaveAccrualSummary.AccrualDays = totalAccrualDays;
-                        //}
-                    //}
+                    //decimal currentAccrual = employeeEOSAccrual.EligibilityPerDay * employeeEOSAccrual.WorkeddaysInCalMonth;
+                    //decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + employeeEOSAccrual.AccrualDays;
+                    eosAccrualSummary.AccrualDays = employeeEOSAccrual.AccrualDays + prevAccrualSummaryDetails.AccrualDays;
+                    eosAccrualSummary.AccrualAmount = employeeEOSAccrual.AccrualAmount;
                 }
-                eosAccrualSummary.AccrualAmount = ((decimal)employeeEOSAccrual.MonthlyAmount / employeeEOSAccrual.EligibilityBase) * employeeEOSAccrual.AccrualDays;
+                if (employeeEOSAccrual.IsRetrospectiveAccrual)
+                {
+                    eosAccrualSummary.AccrualAmount = (((decimal)employeeEOSAccrual.MonthlyAmount / employeeEOSAccrual.EligibleDays)
+                                * (employeeEOSAccrual.AccrualDays + prevAccrualSummaryDetails.AccrualDays)) - prevAccrualSummaryDetails.AccrualAmount;
+                }
+                else
+                {
+                    eosAccrualSummary.AccrualAmount = ((decimal)employeeEOSAccrual.MonthlyAmount / employeeEOSAccrual.EligibilityBase) * eosAccrualSummary.AccrualDays;
+                }
                 eosAccrualSummaries.Add(eosAccrualSummary);
             }
 
