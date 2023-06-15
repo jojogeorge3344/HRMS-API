@@ -16,6 +16,7 @@ export class EosSlabEditComponent implements OnInit {
   addForm: FormGroup;
   BfDetails: any
   @Input() relDetails: EosSlabGroup;
+  checkLimitValue:boolean=false
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -62,14 +63,24 @@ export class EosSlabEditComponent implements OnInit {
     this.addForm.value.id=this.relDetails.id
     this.addForm.value.valueType = parseInt(this.addForm.value.valueType)
     const eosForm = this.addForm.value;
-    this.eosSlabService.update(eosForm).subscribe(result => {
-    this.toastr.showSuccessMessage('The EosSlab updated successfully!');
-    this.activeModal.close('submit');
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the EosSlab');
-      });
+    if(this.addForm.value.upperLimit>this.addForm.value.lowerLimit){
+      this.checkLimitValue=true
+    }else{
+       this.checkLimitValue=false
+    }
+
+    if(this.checkLimitValue){
+      this.eosSlabService.update(eosForm).subscribe(result => {
+        this.toastr.showSuccessMessage('The EosSlab updated successfully!');
+        this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to add the EosSlab');
+          });
+    }else{
+      this.toastr.showWarningMessage("The Upper Limit Should not be less than Lower Limit ")
+    }
     
   }
   createFormGroup(): FormGroup {

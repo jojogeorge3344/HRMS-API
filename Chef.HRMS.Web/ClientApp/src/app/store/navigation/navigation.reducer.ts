@@ -140,7 +140,7 @@ function detectActiveItems(navItems: NavigationItem[], activeUrl: string): Navig
 // recursevly check if item is active by url
 // if any of item children is active item considered as active
 function itemIsActive(item: NavigationItem, activeUrl: string) {
-  if (item.routerLink === activeUrl || activeUrl.startsWith(item.routerLink)) {
+  if (item.routerLink === activeUrl) { //|| activeUrl.startsWith(item.routerLink)
     return true;
   } else if (item.items) {
     return item.items.some(_ => itemIsActive(_, activeUrl));
