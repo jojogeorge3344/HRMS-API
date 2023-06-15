@@ -23,9 +23,10 @@ namespace Chef.HRMS.Repositories.Report
                           pg.name AS paygroupname,
                           jt.name AS designationname,
                           pcd.payrollprocessdate,
+                          pc.id AS payrollcomponentid,
                           pc.name AS payrollcomponentname,
-                          pcd.earningsamt,
-                          pcd.deductionamt
+                          SUM(pcd.earningsamt) AS earningsamt,
+                          SUM(pcd.deductionamt) AS deductionamt
                         FROM hrms.hrmsemployee e
                         LEFT JOIN hrms.jobdetails jd
                           ON e.id = jd.employeeid
@@ -59,18 +60,27 @@ namespace Chef.HRMS.Repositories.Report
             {
                 sql += "AND e.id IN (" + employeeIds + ")";
             }
-                  sql+= @"AND e.isarchived = FALSE
+            sql += @"AND e.isarchived = FALSE
+                     AND pcd.isarchived = FALSE
                         GROUP BY jd.employeenumber,
                             CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),
                             ps.name,
                             pg.name,
                             jt.name,
                             pcd.payrollprocessdate,
-                            pc.name,
-                            pcd.earningsamt,
-                            pcd.deductionamt";
+                            pc.id,
+                            pc.name";
 
             return await Connection.QueryAsync<PayrollStructureReportView>(sql, new { fromDate, ToDate, payrollStructureIds, paygroupIds, designationIds, employeeIds });
+        }
+
+        public async Task<IEnumerable<PayrollComponentConfiguration>> GetHeaderPayrollComponentNameByStructureId(string payrollStructureIds)
+        {
+            var sql = @"SELECT * FROM hrms.payrollcomponentconfiguration 
+                        WHERE payrollstructureid IN ("+ payrollStructureIds +@")
+                        AND isarchived = false";
+
+            return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollStructureIds });
         }
     }
 }
