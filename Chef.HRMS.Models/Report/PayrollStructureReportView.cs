@@ -14,9 +14,10 @@ namespace Chef.HRMS.Models.Report
         public string SalaryStructureName { get; set; }
         public string PaygroupName { get; set; }
         public string DesignationName { get; set; }
-        public string PayrollProcessDate { get; set; }
+        public DateTime PayrollProcessDate { get; set; }
+        public int PayrollComponentId { get; set; }
         public string PayrollComponentName { get; set; }
-        public decimal EarningsAmtn { get; set; }
+        public decimal EarningsAmt { get; set; }
         public decimal DeductionAmt { get; set; }
     }
 }
