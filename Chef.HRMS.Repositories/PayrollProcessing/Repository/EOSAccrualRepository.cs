@@ -22,5 +22,14 @@ namespace Chef.HRMS.Repositories.PayrollProcessing.Repository
         }
 
 
+        public async Task<IEnumerable<EOSAccrual>> GetEOSAccrualsByPayrollProcessingId(int payrollProcessingId)
+        {
+            var sql = @" select eosa.accrualdays, eosa.accrualamount, eosa.accrualdate, eosa.employeeid, emp.displayname
+                        from hrms.eosaccrual eosa
+                        left join hrms.jobfiling jf on jf.employeeid = eosa.employeeid
+                        left join hrms.hrmsemployee emp on emp.id = jf.employeeid
+                        where eosa.payrollprocessingid = @payrollProcessingId";
+            return await Connection.QueryAsync<EOSAccrual>(sql, new { payrollProcessingId });
+        }
     }
 }
