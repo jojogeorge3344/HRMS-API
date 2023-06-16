@@ -10,5 +10,6 @@ namespace Chef.HRMS.Repositories.Report
     public interface IPayrollStructureReportRepository : IGenericRepository<PayrollStructureReportView>
     {
         Task<IEnumerable<PayrollStructureReportView>> GetEmployeePayrollProcessDetails(DateTime fromDate, DateTime ToDate, string payrollStructureIds, string paygroupIds, string designationIds, string employeeIds);
+        Task<IEnumerable<PayrollComponentConfiguration>> GetHeaderPayrollComponentNameByStructureId(string payrollStructureIds);
     }
 }

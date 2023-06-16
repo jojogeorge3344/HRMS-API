@@ -277,7 +277,6 @@ export class PayrollProcessLeaveListComponent implements OnInit {
       modifiedDate: this.payGroupProcessLeave[i].modifiedDate,
       createdBy: this.payGroupProcessLeave[i].createdBy,
       modifiedBy: this.payGroupProcessLeave[i].modifiedBy,
-      isArchived: true,
       payrollProcessId: parseInt(this.payrollProcessId),
       payrollProcessDate: new Date(),
       employeeId: this.payGroupProcessLeave[i].employeeId,

@@ -22,11 +22,13 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollStuctureId(int payrollStructureId)
         {
-            var sql = @"SELECT pcc.*,bt.categoryid FROM hrms.payrollcomponentconfiguration pcc 
+            var sql = @"SELECT pcc.*,bt.categoryid,COALESCE(pc.ordernumber,0) as ordernumber FROM hrms.payrollcomponentconfiguration pcc 
                         INNER JOIN hrms.benefittypes bt
                         ON pcc.payrollcomponenttype = bt.id
+                        INNER JOIN hrms.payrollcomponent pc
+                        ON pcc.payrollcomponentid = pc.id
                         WHERE pcc.payrollstructureid = @payrollStructureId
-                        AND pcc.isarchived = false ORDER BY pcc.name ASC";
+                        AND pcc.isarchived = false ORDER BY ordernumber,pcc.name";
 
             return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollStructureId });
         }

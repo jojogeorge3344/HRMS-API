@@ -12,7 +12,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Interface
     {
         Task<IEnumerable<TicketAccrual>> GenerateTicketAccruals(int paygroupid);
         Task<int> GenerateTicketAvailed(TicketAccrual ticketAvailedDetails);
-        Task<int> SaveTicketAccruals(List<TicketAccrual> ticketAccruals);
         Task<int> InsertTicketAccruals(List<TicketAccrual> ticketAccruals);
+        Task<List<TicketAccrual>> GetGeneratedTicketAccruals(int payrollprocessid);
     }
 }

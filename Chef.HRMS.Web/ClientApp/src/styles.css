@@ -16,6 +16,9 @@ a {
 code {
   color: #e01a76;
 }
+.disabled{
+  pointer-events: none;
+}
 
 li#reportViewer_toolbar_li_refresh,
 li#reportViewer_toolbar_li_pagefit,

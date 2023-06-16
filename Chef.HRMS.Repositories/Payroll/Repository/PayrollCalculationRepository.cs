@@ -21,7 +21,8 @@
                                               ELSE true 
                                             END            AS isfixed, 
                                             pcalc.iscomputed,
-                                            pcalc.formula 
+                                            pcalc.formula ,
+                                            COALESCE(pcmp.ordernumber,0) as ordernumber
                             FROM   hrms.payrollstructure ps 
                                    INNER JOIN hrms.payrollcomponentconfiguration pc 
                                            ON ps.id = pc.payrollstructureid AND pc.isarchived= false
@@ -34,7 +35,7 @@
                                       pcmp.id, 
                                       pcalc.formula,
                                       pcalc.id
-                            ORDER  BY ps.id desc, pcmp.NAME";
+                            ORDER  BY ordernumber,pcmp.NAME";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
         }
@@ -54,7 +55,8 @@
                                             pcalc.iscomputed, 
                                             pcalc.formula, 
                                             pc.maximumlimit,
-                                            pg.currencycode AS currencycode
+                                            pg.currencycode AS currencycode, 
+                                            COALESCE(pcmp.ordernumber,0) as ordernumber
                             FROM   hrms.payrollstructure ps 
                                    INNER JOIN hrms.jobfiling jf 
                                            ON ps.id = jf.payrollstructureid 
@@ -73,7 +75,7 @@
                                       pcalc.formula, 
                                       pcalc.id,
                                       currencycode
-                            ORDER BY isfixed";
+                            ORDER BY ordernumber, isfixed";
 
                 return await Connection.QueryAsync<PayrollCalculationViewModel>(sql, new { employeeId });
         }
