@@ -12,5 +12,6 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<PayrollStructure>> GetAllPayrollStructure();
         Task<IEnumerable<PayslipSettingView>> GetPayslipSettingById(int id);
         Task<bool> IsPayslipSettingCodeExist(string code);
+        Task<IEnumerable<PayslipSetting>> GetAllPayslipSettingsDetails();
     }
 }

@@ -55,6 +55,11 @@ namespace Chef.HRMS.Services
             return await payslipSettingReposirory.GetAllPayrollStructure();
         }
 
+        public async Task<IEnumerable<PayslipSetting>> GetAllPayslipSettingsDetails()
+        {
+            return await payslipSettingReposirory.GetAllPayslipSettingsDetails();
+        }
+
         public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)
         {
             return await payslipSettingReposirory.GetComponentsByStructureId(structureId);

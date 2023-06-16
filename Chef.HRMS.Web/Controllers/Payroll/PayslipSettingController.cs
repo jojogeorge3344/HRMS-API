@@ -51,10 +51,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<PayslipSetting>>> GetAll()
+        [HttpGet("GetAllPayslipSettingsDetails")]
+        public async Task<ActionResult<IEnumerable<PayslipSetting>>> GetAllPayslipSettingsDetails()
         {
-            var payslipList = await payslipSettingService.GetAllAsync();
+            var payslipList = await payslipSettingService.GetAllPayslipSettingsDetails();
 
             return Ok(payslipList);
         }

@@ -28,6 +28,19 @@ namespace Chef.HRMS.Repositories.Payroll
             return await Connection.QueryAsync<PayrollStructure>(sql);
         }
 
+        public async Task<IEnumerable<PayslipSetting>> GetAllPayslipSettingsDetails()
+        {
+            var sql = @"SELECT
+                          ps.*,
+                          psr.name AS structurename
+                        FROM hrms.payslipsetting ps
+                        INNER JOIN hrms.payrollstructure psr
+                          ON ps.structureid = psr.id
+                        WHERE ps.isarchived = FALSE";
+
+            return await Connection.QueryAsync<PayslipSetting>(sql);
+        }
+
         public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)
         {
             var sql = @"SELECT
