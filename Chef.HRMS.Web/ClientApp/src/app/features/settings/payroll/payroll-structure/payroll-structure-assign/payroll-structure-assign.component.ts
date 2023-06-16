@@ -45,6 +45,7 @@ export class PayrollStructureAssignComponent implements OnInit {
     this.currentUserId = getCurrentUserId();
     this.addForm = this.createFormGroup();
     this.addCheckboxes();
+    this.allPayrollComponents= this.allPayrollComponents.sort((a, b) => a.orderNumber-b.orderNumber)
   }
 
   onSubmit() {
