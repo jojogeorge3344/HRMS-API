@@ -76,15 +76,17 @@ namespace Chef.HRMS.Repositories
 	                        esd.createddate   AS detailcreateddate, 
 	                        esd.modifieddate  AS detailmodifieddate, 
 	                        esd.createdby     AS detailcreatedby, 
-	                        esd.modifiedby    AS detailmodifiedby 
+	                        esd.modifiedby    AS detailmodifiedby ,
+                            COALESCE(pcmp.ordernumber,0) as ordernumber
 	                        FROM hrms.employeesalaryconfiguration es 
 	                        INNER JOIN hrms.employeesalaryconfigurationdetails esd ON esd.employeesalaryconfigurationid = es.id 
 	                        INNER JOIN hrms.payrollstructure ps ON ps.id = esd.payrollstructureid 
 	                        INNER JOIN hrms.payrollcomponentconfiguration pc ON pc.payrollstructureid = esd.payrollstructureid AND pc.payrollcomponentid = esd.payrollcomponentid 
-	                        LEFT JOIN hrms.payrollcalculation pcalc ON pcalc.payrollstructureid = ps.id 
+							INNER JOIN hrms.payrollcomponent pcmp  ON pc.payrollcomponentid = pcmp.id 	                        
+                            LEFT JOIN hrms.payrollcalculation pcalc ON pcalc.payrollstructureid = ps.id 
 		                        AND pcalc.payrollcomponentid = pc.payrollcomponentid	
 	                        WHERE  es.employeeid = @employeeid AND es.isarchived = false 
-	                        ORDER BY iscomputed";
+	                        ORDER BY ordernumber,iscomputed";
 
             return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { employeeId });
 
