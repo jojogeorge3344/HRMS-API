@@ -14,6 +14,7 @@ using Chef.Common.Models;
 using System.Drawing;
 using Chef.HRMS.Types;
 using Chef.Common.Exceptions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Chef.HRMS.Services.PayrollProcessing.Service
 {
@@ -113,12 +114,6 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
 
                 // Get previous accrual summary details for eligible employee
                 var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId);
-
-               // LeaveAccrualSummary leaveAccrualSummary = new LeaveAccrualSummary();
-                //leaveAccrualSummary.EmployeeId = eligibleEmployee.EmployeeId;
-                //leaveAccrualSummary.AvailDays = 0;
-                //leaveAccrualSummary.AvailAmount = 0;
-                //leaveAccrualSummary.LeaveId = 0;
                 var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
                                                                                             // leaveAccrualSummary.AccrualDate = firstDayNextMonth;
 
@@ -145,10 +140,6 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                     {
                         leaveAccrualEmployee.AccrualDays = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkingdaysInCalMonth;
                     }
-                    
-                    //Insert into Accrual summary table 
-                    //leaveAccrualSummary.AccrualDays = leaveAccrualEmployee.AccrualDays;
-                    //leaveAccrualSummary.AccrualAmount = leaveAccrualEmployee.AccrualAmount;
                 }
                 else 
                 {
@@ -179,13 +170,8 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                     }
                 }
                 leaveAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * leaveAccrualEmployee.AccrualDays;
-               // leaveAccrualSummary.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibilityBase) * leaveAccrualSummary.AccrualDays;
                 leaveAccruals.Add(leaveAccrualEmployee);
-              //  leaveAccrualSummaries.Add(leaveAccrualSummary);
             }
-
-           // var result = await leaveAccrualSummaryRepository.BulkInsertAsync(leaveAccrualSummaries);
-          //  result = await leaveAccrualRepository.BulkInsertAsync(leaveAccruals);
             return leaveAccruals;
         }
 
@@ -195,14 +181,15 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             return result;
         }
 
-        public async Task<List<LeaveAccrual>> GetGeneratedLeaveAccruals(int paygroupid)
+        public async Task<List<LeaveAccrual>> GetGeneratedLeaveAccruals(int payrollprocessid)
         {
+            // Get paygroupid and get employeeid for that paygroup and generated accruals based on that 
+            return (List<LeaveAccrual>)await leaveAccrualRepository.GetLeaveAccrualsByPayrollProcessingId(payrollprocessid);
+        }
 
-            //var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsByPayGroupId(paygroupid);
-            //List<int> employeeIds = new List<int>();
-            //employeeIds = employeeLeaveEligibilityDetails.Select(c => c.Id).ToList();
-            //Temporarily set datetime.now - TODO
-            return (List<LeaveAccrual>)await leaveAccrualRepository.GetProcessedLeaveAccruals(DateTime.Now);
+        public async Task<IEnumerable<AccrualsPrintViewModel>> GetAccrualsByPayrollProcessingId(int payrollProcessingId)
+        {
+            return await leaveAccrualRepository.GetAccrualsByPayrollProcessingId(payrollProcessingId);
         }
 
         public Task<int> DeleteAsync(int id)

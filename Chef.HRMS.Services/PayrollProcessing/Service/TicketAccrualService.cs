@@ -143,6 +143,11 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             return result;
         }
 
+        public async Task<List<TicketAccrual>> GetGeneratedTicketAccruals(int payrollprocessid)
+        {
+            // Get paygroupid and get employeeid for that paygroup and generated accruals based on that 
+            return (List<TicketAccrual>)await ticketAccrualRepository.GetTicketAccrualsByPayrollProcessingId(payrollprocessid);
+        }
 
         public Task<int> DeleteAsync(int id)
         {

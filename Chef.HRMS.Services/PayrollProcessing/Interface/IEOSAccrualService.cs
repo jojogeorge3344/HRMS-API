@@ -13,5 +13,6 @@ namespace Chef.HRMS.Services.PayrollProcessing.Interface
         Task<IEnumerable<EOSAccrual>> GenerateEndOfServiceAccruals(int paygroupid);
         Task<int> GenerateEndOfServiceAvailed(EOSAccrual eosAvailedDetails);
         Task<int> InsertEOSAccruals(List<EOSAccrual> endOfServiceAccruals);
+        Task<List<EOSAccrual>> GetGeneratedEOSAccruals(int payrollprocessid);
     }
 }
