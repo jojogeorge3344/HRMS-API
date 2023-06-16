@@ -76,17 +76,30 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(i);
         }
 
-        [HttpPost("GetProcessedAccruals/{paygroupId}")]
-        public async Task<ActionResult<Accruals>> GetProcessedAccruals(int paygroupId)
+        [HttpGet("GetProcessedAccruals/{payrollprocessid}")]
+        public async Task<ActionResult<Accruals>> GetProcessedAccruals(int payrollprocessid)
         {
             Accruals accruals = new Accruals();
-            accruals.LeaveAccruals = await leaveAccrualService.GetGeneratedLeaveAccruals(paygroupId); 
-
+            accruals.LeaveAccruals = await leaveAccrualService.GetGeneratedLeaveAccruals(payrollprocessid); 
+            accruals.EOSAccruals = await eosAccrualService.GetGeneratedEOSAccruals(payrollprocessid);
+            accruals.TicketAccruals = await ticketAccrualService.GetGeneratedTicketAccruals(payrollprocessid);
             if (accruals == null)
             {
                 return NotFound();
             }
             return Ok(accruals);
         }
+
+        [HttpGet("GetProcessedAccrualsPrint/{payrollprocessid}")]
+        public async Task<ActionResult<Accruals>> GetProcessedAccrualsPrint(int payrollprocessid)
+        {
+            var result = await leaveAccrualService.GetAccrualsByPayrollProcessingId(payrollprocessid);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
     }
 }
