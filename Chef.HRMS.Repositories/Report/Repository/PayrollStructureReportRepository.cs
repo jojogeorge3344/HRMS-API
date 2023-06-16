@@ -74,13 +74,70 @@ namespace Chef.HRMS.Repositories.Report
             return await Connection.QueryAsync<PayrollStructureReportView>(sql, new { fromDate, ToDate, payrollStructureIds, paygroupIds, designationIds, employeeIds });
         }
 
-        public async Task<IEnumerable<PayrollComponentConfiguration>> GetHeaderPayrollComponentNameByStructureId(string payrollStructureIds)
+        public async Task<IEnumerable<PayrollExcelReportView>> GetEmployeePayrollProcessDetailsForExcel(DateTime fromDate, DateTime ToDate, string designationIds, string employeeIds, string departmentIds)
         {
-            var sql = @"SELECT * FROM hrms.payrollcomponentconfiguration 
-                        WHERE payrollstructureid IN ("+ payrollStructureIds +@")
-                        AND isarchived = false";
+            int Month = fromDate.Month;
 
-            return await Connection.QueryAsync<PayrollComponentConfiguration>(sql, new { payrollStructureIds });
+            int Year = fromDate.Year;
+            var sql = @"SELECT DISTINCT 
+                          @Month AS Month,
+                          @Year AS Year,
+                          jd.employeenumber AS employeecode,
+                          CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname) AS employeefullname,
+                          jd.dateofjoin,
+                          jd.department,
+                          jt.name AS designationname,
+                          Max(laa.numberofworkeddays) AS totalworkeddays,
+                          pcd.payrollcomponentid,
+                          sum(pcd.earningsamt) as earningsamt,
+                          sum(pcd.deductionamt) as deductionamt
+                        FROM hrms.payrollcomponentdetails pcd
+                        INNER JOIN hrms.hrmsemployee e
+                          ON e.id = pcd.employeeid
+                        LEFT JOIN hrms.jobdetails jd
+                          ON jd.employeeid = pcd.employeeid
+                        LEFT JOIN hrms.jobtitle jt
+                          ON jt.id = jd.jobtitleid
+                        INNER JOIN hrms.leaveandattendance laa
+                          ON laa.employeeid = pcd.employeeid
+                        WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
+                        AND laa.createddate BETWEEN @fromDate AND @ToDate";
+                        
+            if(designationIds != string.Empty)
+            {
+                sql += " AND jd.jobtitleid IN("+ designationIds +")";
+            }
+            if (employeeIds != string.Empty)
+            {
+                sql += "AND pcd.employeeid IN ("+ employeeIds + ")";
+            }
+            if (departmentIds != string.Empty)
+            {
+                sql += "AND jd.department IN ("+ departmentIds + ")";
+            }
+                sql += @"AND pcd.isarchived = FALSE
+                           GROUP BY jd.employeenumber,
+                                CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),
+                                jd.dateofjoin,
+                                jd.department,
+                                jt.name,
+                                pcd.payrollcomponentid";
+
+            return await Connection.QueryAsync<PayrollExcelReportView>(sql, new { fromDate, ToDate, designationIds, employeeIds, departmentIds,Month,Year });
+        }
+
+        public async Task<IEnumerable<PayrollComponentExcelReportView>> GetHeaderPayrollComponentNameByDate(DateTime fromDate, DateTime ToDate)
+        {
+            var sql = @"SELECT DISTINCT
+                          pcd.payrollcomponentid,
+                          pc.shortcode as payrollcomponentcode
+                        FROM hrms.payrollcomponentdetails pcd
+                        INNER JOIN hrms.payrollcomponent pc
+                          ON pcd.payrollcomponentid = pc.id
+                        WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
+                        AND pcd.isarchived = FALSE";
+
+            return await Connection.QueryAsync<PayrollComponentExcelReportView>(sql, new { fromDate, ToDate });
         }
     }
 }

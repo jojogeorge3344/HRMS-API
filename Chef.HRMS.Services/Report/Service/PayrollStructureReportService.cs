@@ -1,8 +1,10 @@
-﻿using Chef.HRMS.Models;
+﻿using Castle.Core.Internal;
+using Chef.HRMS.Models;
 using Chef.HRMS.Models.Report;
 using Chef.HRMS.Repositories.Report;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -28,97 +30,103 @@ namespace Chef.HRMS.Services.Report
             return await payrollStructureReportRepository.GetEmployeePayrollProcessDetails(fromDate, ToDate, payrollStructureIds, paygroupIds, designationIds, employeeIds);
         }
 
-        public async Task<byte[]> PayrollStructureExcelReport(DateTime fromDate, DateTime ToDate, string payrollStructureIds, string paygroupIds, string designationIds, string employeeIds)
+        public async Task<byte[]> PayrollStructureExcelReport(DateTime fromDate, DateTime ToDate, string designationIds, string employeeIds,string departmentIds)
         {
             // create a new Excel package       
             using var excelPackage = new ExcelPackage();
 
             // add a new worksheet to the workbook
             var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
+
+            //Security provided for excel 
             worksheet.Protection.IsProtected = true;
             worksheet.Protection.AllowAutoFilter = true;
 
             // define the column headers
-            worksheet.Cells[3, 1].Value = "Salary Structure :";
-            worksheet.Cells[3, 4].Value = "Designation :";
-            worksheet.Cells[3, 7].Value = "Month :";
-            worksheet.Cells[5, 1].Value = "PayGroup :";
-            worksheet.Cells[5, 4].Value = "Employee :";
-            worksheet.Cells[5, 7].Value = "Year :";
-            worksheet.Cells[7, 1].Value = "Employee Code";
-            worksheet.Cells[7, 2].Value = "Employee Name";
-            worksheet.Cells[7, 3].Value = "Designation";
-            worksheet.Cells[7, 4].Value = "Salary Structure";
-            worksheet.Cells[7, 5].Value = "PayGroup";
+            worksheet.Cells[3, 1].Value = "Month :";
+            worksheet.Cells[3, 4].Value = "Year :";
+            worksheet.Cells[5, 1].Value = "Employee Code";
+            worksheet.Cells[5, 2].Value = "Employee Name";
+            worksheet.Cells[5, 3].Value = "Designation";
+            worksheet.Cells[5, 4].Value = "Worked Days";
+            worksheet.Cells[5, 5].Value = "Date of Join";
 
-            //components dynamic values setting
-            var headerComponent = await payrollStructureReportRepository.GetHeaderPayrollComponentNameByStructureId(payrollStructureIds);
-            var reportList = await payrollStructureReportRepository.GetEmployeePayrollProcessDetails(fromDate, ToDate, payrollStructureIds, paygroupIds, designationIds, employeeIds);
-            List<PayrollComponentConfiguration> headerData = headerComponent.ToList();
-            List<PayrollStructureReportView> rowData= reportList.ToList();
+            //Fetching data from DB
+            var allHeaderComponent = await payrollStructureReportRepository.GetHeaderPayrollComponentNameByDate(fromDate, ToDate);
+            List<PayrollComponentExcelReportView> headerData = allHeaderComponent.ToList();
+            var employeetList = await payrollStructureReportRepository.GetEmployeePayrollProcessDetailsForExcel(fromDate, ToDate, designationIds, employeeIds,departmentIds);
+            List<PayrollExcelReportView> rowData= employeetList.ToList();
 
+            //Header components setting dynamicly 
             int i = 0;
-            foreach (var item in headerComponent)
+            foreach (var header in allHeaderComponent)
             {
-                worksheet.Cells[7, 6 + i].Value = item.Name;
+                worksheet.Cells[5, 6 + i].Value = header.PayrollComponentCode;
                 i++;
             }
-            worksheet.Cells[7, 6+i].Value = "Net Amount";
+            worksheet.Cells[5, 6 + i].Value = "Total";
+            int MaxCol = 6 + i;
 
             //Assigning values to each rows
             int j = 0;
-            i= 0;
+            i = 0;
+            decimal Amount = 0;
             string EmployeeCode = string.Empty;
-            foreach(var item in reportList)
+
+            foreach(var employee in employeetList)
             {
-                if (item.EmployeeCode != EmployeeCode )//&& !IsNullOrEmpty(EmployeeCode))
-                { 
-                 j++;
-                }
-                EmployeeCode = item.EmployeeCode;
-                worksheet.Cells[3, 2].Value = item.SalaryStructureName;
-                worksheet.Cells[3, 5].Value = item.DesignationName;
-                DateTime test = item.PayrollProcessDate;
-                int month = test.Month;
-                worksheet.Cells[3, 8].Value = month;
-                worksheet.Cells[5, 2].Value = item.PaygroupName;
-                worksheet.Cells[5, 5].Value = item.EmployeeFullName;
-                int year = test.Year;
-                worksheet.Cells[5, 8].Value = year;
-                worksheet.Cells[8 + j, 1].Value = item.EmployeeCode;
-                worksheet.Cells[8 + j, 2].Value = item.EmployeeFullName;
-                worksheet.Cells[8 + j, 3].Value = item.DesignationName;
-                worksheet.Cells[8 + j, 4].Value = item.SalaryStructureName;
-                worksheet.Cells[8 + j, 5].Value = item.PaygroupName;
-                //worksheet.Cells[8 + j, 6].Value = item.EarningsAmt + item.DeductionAmt;
-                //i = 0;
-                foreach (var row in headerComponent)
+                EmployeeCode = employee.EmployeeCode;
+                int month = employee.Month;
+                worksheet.Cells[3, 2].Value = month;
+                int year = employee.Year;
+                worksheet.Cells[3, 5].Value = year;
+                worksheet.Cells[6 + j, 1].Value = employee.EmployeeCode;
+                worksheet.Cells[6 + j, 2].Value = employee.EmployeeFullName;
+                worksheet.Cells[6 + j, 3].Value = employee.DesignationName;
+                worksheet.Cells[6 + j, 4].Value = employee.TotalWorkedDays;
+                worksheet.Cells[6 + j, 5].Value = employee.DateOfJoin;
+                worksheet.Cells[6 + j, 5, worksheet.Dimension.End.Row, 5].Style.Numberformat.Format = "yyyy-mm-dd"; // Date column
+
+                //manage multiple emp
+                if (employee.EmployeeCode != EmployeeCode && !(EmployeeCode.IsNullOrEmpty()))
                 {
-                    if (row.Name == worksheet.Cells[7, 6 + i].Value)
+                    j++;
+                    //worksheet.Cells[6 + j, MaxCol].Value = Amount;
+                    Amount = 0;
+                }
+
+                //amt to each emp
+                foreach (var row in allHeaderComponent)
+                {
+                    if (row.PayrollComponentId == employee.PayrollComponentId)
                     {
-                        worksheet.Cells[8+j, 6 + i].Value = item.EarningsAmt+item.DeductionAmt;
+                        Amount += (employee.EarningsAmt - employee.DeductionAmt);
+                        worksheet.Cells[6 + j, 6 + i].Value = employee.EarningsAmt + employee.DeductionAmt;
                         break;
                     }                   
                 }
                 i++;
-                decimal netAmount = item.EarningsAmt - item.DeductionAmt;
-                worksheet.Cells[8 + j, 6 + i + 1].Value = netAmount;
+                worksheet.Cells[6 + j, MaxCol].Value = Amount;
             }
 
             // format the column headers
+            worksheet.Cells[6 + j + 1, 5].Value = "Total";
             worksheet.Cells[3, 1].Style.Font.Bold = true;
             worksheet.Cells[3, 4].Style.Font.Bold = true;
-            worksheet.Cells[3, 7].Style.Font.Bold = true;
-            worksheet.Cells[5, 1].Style.Font.Bold = true;
-            worksheet.Cells[5, 4].Style.Font.Bold = true;
-            worksheet.Cells[5, 7].Style.Font.Bold = true;
-            worksheet.Cells[7, 1, 7, 20].Style.Font.Bold = true;
+            worksheet.Cells[5, 1, 5, MaxCol].Style.Font.Bold = true;
 
-            // Merge the range of cells
-
+            //column wise sum for each components
+            int asciiValue = 70;
+            for (int Col = 0; Col < allHeaderComponent.ToList().Count; Col++)
+            {
+                 worksheet.Cells[6 + j + 1, 5+Col+1].Formula = $"SUM("+Convert.ToChar(asciiValue)+$"6:"+Convert.ToChar(asciiValue)+$"{6 + j})";
+                asciiValue++;
+            }
+            worksheet.Cells[6 + j + 1, 5, 6 + j + 1, MaxCol].Style.Font.Bold = true;
 
             // AutoFitColumns for all cells in the worksheet
             worksheet.Cells.AutoFitColumns();
+
             //worksheet.Cells[1, 1, 1, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             // save the Excel package to a file stream
