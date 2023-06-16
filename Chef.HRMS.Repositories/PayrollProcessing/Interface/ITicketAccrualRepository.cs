@@ -10,6 +10,6 @@ namespace Chef.HRMS.Repositories
 {
     public interface ITicketAccrualRepository : IGenericRepository<TicketAccrual>
     {
-
+        Task<IEnumerable<TicketAccrual>> GetTicketAccrualsByPayrollProcessingId(int payrollProcessingId);
     }
 }

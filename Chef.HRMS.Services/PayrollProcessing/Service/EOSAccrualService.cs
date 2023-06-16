@@ -179,7 +179,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             return result;
         }
 
-        public async Task<List<EOSAccrual>> GetGeneratedTicketAccruals(int payrollprocessid)
+        public async Task<List<EOSAccrual>> GetGeneratedEOSAccruals(int payrollprocessid)
         {
             // Get paygroupid and get employeeid for that paygroup and generated accruals based on that 
             return (List<EOSAccrual>)await eosAccrualRepository.GetEOSAccrualsByPayrollProcessingId(payrollprocessid);
