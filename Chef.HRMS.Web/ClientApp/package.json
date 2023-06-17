@@ -46,6 +46,7 @@
     "core-js": "^3.6.5",
     "downloadjs": "^1.4.7",
     "file-saver": "^2.0.2",
+    "git": "^0.1.5",
     "holderjs": "^2.9.7",
     "jquery": "^3.6.0",
     "jspdf": "^1.5.3",
@@ -70,7 +71,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.8",
+    "@angular-devkit/build-angular": "^0.901.15",
     "@angular/cli": "9.1.8",
     "@angular/compiler-cli": "9.1.11",
     "@angular/language-service": "9.1.11",
