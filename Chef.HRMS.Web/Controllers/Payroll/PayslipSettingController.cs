@@ -94,7 +94,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetPayslipSettingById/{id}")]
-        public async Task<ActionResult<IEnumerable<PayslipSettingView>>> GetPayslipSettingById(int id)
+        public async Task<ActionResult<PayslipSetting>> GetPayslipSettingById(int id)
         {
             var payslip = await payslipSettingService.GetPayslipSettingById(id);
 

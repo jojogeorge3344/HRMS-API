@@ -54,33 +54,6 @@ namespace Chef.HRMS.Repositories.Payroll
             return await Connection.QueryAsync<PayrollComponent>(sql, new { structureId });
         }
 
-        public async Task<IEnumerable<PayslipSettingView>> GetPayslipSettingById(int id)
-        {
-            var sql = @"SELECT
-                          ps.id,
-                          ps.code,
-                          ps.name,
-                          ps.structureid,
-                          ps.payslipordernumber,
-                          ps.isactive,
-                          psd.id AS payslipsettingdetailsid,
-                          psd.payrollcomponentid,
-                          pc.shortcode AS payrollcomponentcode,
-                          pc.name AS payrollcomponentname,
-                          prs.name AS payrollstructurename
-                        FROM hrms.payslipsetting ps
-                        INNER JOIN hrms.payslipsettingdetails psd
-                          ON ps.id = psd.payslipsettingid
-                        INNER JOIN hrms.payrollcomponent pc
-                          ON psd.payrollcomponentid = pc.id
-                        INNER JOIN hrms.payrollstructure prs
-                          ON ps.structureid = prs.id
-                        WHERE ps.id = @id
-                        AND ps.isarchived = FALSE";
-
-            return await Connection.QueryAsync<PayslipSettingView>(sql, new { id });
-        }
-
         public async Task<bool> IsPayslipSettingCodeExist(string code)
         {
             if (await QueryFactory

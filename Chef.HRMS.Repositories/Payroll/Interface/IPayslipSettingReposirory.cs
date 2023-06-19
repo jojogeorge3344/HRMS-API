@@ -10,7 +10,6 @@ namespace Chef.HRMS.Repositories
     {
         Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId);
         Task<IEnumerable<PayrollStructure>> GetAllPayrollStructure();
-        Task<IEnumerable<PayslipSettingView>> GetPayslipSettingById(int id);
         Task<bool> IsPayslipSettingCodeExist(string code);
         Task<IEnumerable<PayslipSetting>> GetAllPayslipSettingsDetails();
     }

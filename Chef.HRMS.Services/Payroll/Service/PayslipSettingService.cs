@@ -65,9 +65,14 @@ namespace Chef.HRMS.Services
             return await payslipSettingReposirory.GetComponentsByStructureId(structureId);
         }
 
-        public async Task<IEnumerable<PayslipSettingView>> GetPayslipSettingById(int id)
+        public async Task<PayslipSetting> GetPayslipSettingById(int id)
         {
-            return await payslipSettingReposirory.GetPayslipSettingById(id);
+            PayslipSetting payslipSetting = new PayslipSetting();
+            var payslip = await payslipSettingReposirory.GetAsync(id);
+            payslipSetting = payslip;
+            var payslipDetails = await payslipSettingDetailsRepository.GetPayslipSettingsDetailsByPayslipSettingsId(id);
+            payslipSetting.PayslipSettingDetails = payslipDetails.ToList();
+            return payslipSetting;
         }
 
         public async Task<int> InsertPayslipSetting(PayslipSetting payslipSetting)
