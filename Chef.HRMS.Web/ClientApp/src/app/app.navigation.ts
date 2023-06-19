@@ -257,6 +257,11 @@ export const NavigationItems = [
         routerLink: "/reports/employeepayslip",
       },
       {
+        title: "Employee Payroll Report",
+        tags: "report-employeelist",
+        routerLink: "/reports/employeepayroll",
+      },
+      {
         title: "Employee Register",
         tags: "report-employeelist",
         routerLink: "/reports/employeeList",

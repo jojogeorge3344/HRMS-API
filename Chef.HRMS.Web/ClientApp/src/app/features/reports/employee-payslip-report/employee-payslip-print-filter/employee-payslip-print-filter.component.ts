@@ -68,7 +68,7 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
     this.getPayGroup()
     this.getDesignation()
     this.getEmployeeList() 
-    this.getPayslipYears()
+    // this.getPayslipYears()
     this.addForm = this.createFormGroup();
     this.departmentTypeKeys = Object.keys(this.departmentType).filter(Number).map(Number);
 
@@ -111,7 +111,7 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
       { id:10, name: '2014' },
       { id:11, name: '2013' },
       { id:12, name: '2012' },
-    ];
+    ];    
   }
 
   getPayGroup() {
@@ -125,12 +125,12 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
       };      
     })
   }
-  getPayslipYears(){
-    this.reportService.getPaysipYears().subscribe(result=>{
-     this.yearList=result
+  // getPayslipYears(){
+  //   this.reportService.getPaysipYears().subscribe(result=>{
+  //    this.yearList=result
      
-    })
-  }
+  //   })
+  // }
   getEmployeeList() {
     this.employeeService.getAll()
       .subscribe((result) => {
