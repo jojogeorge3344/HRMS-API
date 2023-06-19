@@ -130,12 +130,14 @@ namespace Chef.HRMS.Repositories.Report
         {
             var sql = @"SELECT DISTINCT
                           pcd.payrollcomponentid,
-                          pc.shortcode as payrollcomponentcode
+                          pc.shortcode as payrollcomponentcode,
+                          pc.ordernumber
                         FROM hrms.payrollcomponentdetails pcd
                         INNER JOIN hrms.payrollcomponent pc
                           ON pcd.payrollcomponentid = pc.id
                         WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
-                        AND pcd.isarchived = FALSE";
+                        AND pcd.isarchived = FALSE
+                        ORDER BY pc.ordernumber ASC";
 
             return await Connection.QueryAsync<PayrollComponentExcelReportView>(sql, new { fromDate, ToDate });
         }
