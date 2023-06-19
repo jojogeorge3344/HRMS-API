@@ -21,7 +21,7 @@ export class PayslipComponentsService {
   }
 
   getAll() {
-    return this.http.get<PayslipComponents>(this.baseUrl + 'getAllPayslipSettingsDetails').pipe(map(response => { return response; }));
+    return this.http.get<PayslipComponents>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
   }
   getPayslipComponentById(id){
     return this.http.get<any>(this.baseUrl + 'GetPayslipSettingById/' + id).pipe(map(response => { return response; }));
