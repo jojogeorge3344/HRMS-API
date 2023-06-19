@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chef.HRMS.Models.Payroll;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,6 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId);
         Task<IEnumerable<PayrollStructure>> GetAllPayrollStructure();
         Task<bool> IsPayslipSettingCodeExist(string code);
+        Task<IEnumerable<PayslipSettingList>> GetAllPayslipSettings();
     }
 }

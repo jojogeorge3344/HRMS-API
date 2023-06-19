@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Payroll;
 using Chef.HRMS.Repositories;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,11 @@ namespace Chef.HRMS.Services
         public async Task<IEnumerable<PayrollStructure>> GetAllPayrollStructure()
         {
             return await payslipSettingReposirory.GetAllPayrollStructure();
+        }
+
+        public async Task<IEnumerable<PayslipSettingList>> GetAllPayslipSettings()
+        {
+            return await payslipSettingReposirory.GetAllPayslipSettings();
         }
 
         public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)

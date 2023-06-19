@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Core.Extensions;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Payroll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,19 @@ namespace Chef.HRMS.Repositories.Payroll
                         WHERE ps.isarchived = FALSE";
 
             return await Connection.QueryAsync<PayrollStructure>(sql);
+        }
+
+        public async Task<IEnumerable<PayslipSettingList>> GetAllPayslipSettings()
+        {
+            var sql = @"SELECT
+                          pss.*,
+                          prs.name AS payrollstructurename
+                        FROM hrms.payslipsetting pss
+                        INNER JOIN hrms.payrollstructure prs
+                          ON pss.structureid = prs.id
+                        WHERE pss.isarchived = FALSE";
+
+            return await Connection.QueryAsync<PayslipSettingList>(sql);
         }
 
         public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)
