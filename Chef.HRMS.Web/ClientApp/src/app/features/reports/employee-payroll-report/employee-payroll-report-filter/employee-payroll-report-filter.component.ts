@@ -8,6 +8,8 @@ import { EmployeeJobTitleService } from '@settings/employee/employee-job-title/e
 import { EmployeeService } from '@features/employee/employee.service';
 import { DepartmentType } from 'src/app/models/common/types/departmenttype';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import download from 'downloadjs';
+import * as XLSX from 'xlsx';  
 
 @Component({
   selector: 'hrms-employee-payroll-report-filter',
@@ -146,30 +148,40 @@ onSubmit(){
   this.noOfCalendarDays = new Date(this.addForm.get('year').value, this.addForm.get('month').value, 0).getDate();
   this.fromDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value > 9 ? this.addForm.get('month').value : 0 + this.addForm.get('month').value}-01`
   this.ToDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value}-${this.noOfCalendarDays}`
-
-      let departments:any=[]=this.addForm.get('departmentIds').value
-    let departmentVal=departments.map(({id}) =>id);
-    this.department=departmentVal.join()
-
+  this.department =null;
+  this.designation=null;
+  this.employeeId=null;
+      if(this.addForm.get('departmentIds').value){
+        let departments:any[]=this.addForm.get('departmentIds').value
+        let departmentVal=departments.map(({id}) =>id);
+        this.department=departmentVal.join();
+      }
+   
+      if(this.addForm.get('designationIds').value){
     let designations:any=[]=this.addForm.get('designationIds').value
     let desigVal=designations.map(({id}) =>id);
     this.designation=desigVal.join()
+      }
+
+      if(this.addForm.get('employeeIds').value){
     let employees:any=[]=this.addForm.get('employeeIds').value
     let emp=employees.map(({id}) =>id);
     this.employeeId=emp.join()
-
-  console.log('this.fromDate',this.fromDate);
-  console.log('this.ToDate',this.fromDate);
+      }
+    if(this.addForm.invalid){
+      return
+    }
+    this.empoloyeePayrollReportService.previewReport(this.fromDate,this.ToDate,this.designation,this.employeeId,this.department).subscribe((res:any)=>{
+  download(atob(res), 'data.xlsx', { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
+    })
+      
+    
 
 }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      fromDate:[null, [ 
-        Validators.required,
-      ]],
-      ToDate:[null, [
-        Validators.required,
-      ]],
+      fromDate:[null],
+      ToDate:[null],
       designationIds:[null],
       employeeIds:[null],
       departmentIds:[null],

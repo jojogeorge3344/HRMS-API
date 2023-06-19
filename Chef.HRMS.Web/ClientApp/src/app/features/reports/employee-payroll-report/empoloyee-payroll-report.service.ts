@@ -17,8 +17,7 @@ export class EmpoloyeePayrollReportService {
     this.baseUrl = baseUrl + "api/payrollStructureExcel/";
   }
 
-  previewReport() {
-    return this.http.get<any[]>(this.baseUrl + 'payrollStructureExcelReport').pipe(map(response => response));
+  previewReport(fromDate:string,toDate:string,designationIds:string,employeeIds:string,departmentIds:string) {
+    return this.http.get<any[]>(this.baseUrl + 'payrollStructureExcelReport/'+fromDate+"/"+toDate+"/"+designationIds+"/"+employeeIds+"/"+departmentIds).pipe(map(response => response));
   }
-
 }
