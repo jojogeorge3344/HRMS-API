@@ -196,8 +196,8 @@ export const NavigationItems = [
       },
       {
         title: "Employee Loan",
-        tags: "settings-expense",
-        routerLink: "/employee-loan",
+        tags: "me-loan",
+        routerLink: "/org-employee-loan",
       },
       {
         title: "Payroll Processing",
