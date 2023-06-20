@@ -65,7 +65,7 @@ namespace Chef.HRMS.Repositories
                                    LEFT JOIN hrms.leave l 
                                           ON ( lgs.leavestructureid = l.leavestructureid 
                                                AND lgs.leavecomponentid = l.leavecomponentid ) 
-                                             AND l.employeeid = @employeeId 
+                                             AND l.employeeid = @employeeId  and l.isarchived = false
                             GROUP  BY lslc.leavestructureid, 
                                       lslc.leavecomponentid, 
                                       lc.NAME, 
@@ -198,7 +198,7 @@ namespace Chef.HRMS.Repositories
                                       todate,
                                     approveddate
                                     FROM hrms.leave
-                                    WHERE employeeid = @employeeid";
+                                    WHERE employeeid = @employeeid and isarchived=false";
             return await Connection.QueryAsync<Leave>(sql, new { employeeId });
         }
 
