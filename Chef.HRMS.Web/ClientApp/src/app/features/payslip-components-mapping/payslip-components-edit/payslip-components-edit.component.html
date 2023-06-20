@@ -1,5 +1,4 @@
 <form [formGroup]="editForm" (submit)="onSubmit()">
-    {{editForm.value | json}}
     <div class="modal-header">
         <h4 class="modal-title">Edit Payslip Component</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -12,8 +11,11 @@
             <div class="form-group col-md-2">
                 <label class="col-form-label">Code<span class="required">*</span></label>
             </div>
-            <div class="form-group input-group col-md-4">
-                <input type="text" class="form-control" formControlName="code">
+            <div class="form-group input-group col-md-4" >
+                <input (blur)="codeExist()" type="text" class="form-control" formControlName="code">
+                <div *ngIf="isDuplicate" class="invalid-feedback d-block">
+                    Code already exists
+                  </div>
             </div>
             <div class="form-group col-md-2">
                 <label class="col-form-label">Name<span class="required">*</span></label>
@@ -60,9 +62,9 @@
             </div>
             <div class="form-group col-md-8">
 
-        <p-multiSelect dataKey="payrollComponentId" (onChange)="selectBenefitCode($event)"
-        formControlName="payslipSettingDetails"
+        <p-multiSelect  dataKey="payrollComponentId" (onChange)="selectBenefitCode($event)"
          [options]="benefitList" 
+         formControlName="payslipSettingDetails"
          defaultLabel="Select BenefitCode"
           optionLabel="name"
         class="multiselect-custom">
@@ -76,7 +78,7 @@
 </div>
 <div class="row">
     <div class="form-group col-md-4">
-        <label class="col-form-label">Payslip Order Number</label>
+        <label class="col-form-label">Payslip Order Number<span class="required">*</span></label>
     </div>
     <div class="form-group input-group col-md-8">
         <input type="text" class="form-control" formControlName="payslipOrderNumber">

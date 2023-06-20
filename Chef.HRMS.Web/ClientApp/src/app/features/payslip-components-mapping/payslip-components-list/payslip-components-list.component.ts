@@ -61,7 +61,7 @@ export class PayslipComponentsListComponent implements OnInit {
   }
   openView(listItem: PayslipComponents) {
     const modalRef = this.modalService.open(PayslipComponentsViewComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+      { centered: true, backdrop: 'static' });
 
     modalRef.componentInstance.listItem = listItem;
     // modalRef.componentInstance.code = this.Codes;

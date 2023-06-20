@@ -38,7 +38,7 @@
                     <td>{{ listItem.createdDate | date}}</td>
                     <td>{{ listItem.structureName}}</td>
                     <td>{{ listItem.payslipOrderNumber}}</td>
-                    <td>{{ listItem.isActive =='true'? 'Active' :'Inactive'}}</td>
+                    <td>{{ listItem.isActive ==true? 'Active' :'Inactive'}}</td>
                     <td>
                         <div class="btn-group" dropdown container="main">
                             <button id="button-basic" dropdownToggle type="button"

@@ -26,6 +26,8 @@ export class PayslipComponentsEditComponent implements OnInit {
   salaryStructureList;
   benefitList;
   selectedBenefitcode;
+  isDuplicate: boolean = false;
+  payslipComponentDetailsList;
   @Input() listItem;
   payslipComponentDetails:any=[];
   constructor(
@@ -39,36 +41,37 @@ export class PayslipComponentsEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.editForm = this.createFormGroup();
-    this.getSalaryStructure()
     this.getPayslipComponentById()
+    this.getAll()
+    //this.getSalaryStructure()
+
   }
 
 getPayslipComponentById(){
   debugger
   this.payslipComponentsService.getPayslipComponentById(this.listItem.id)
   .subscribe((result) => {
-    this.payslipComponentDetails = result[0];
+    this.payslipComponentDetails = result;
     this.editForm.patchValue(this.payslipComponentDetails);
-    
-
-
-    
-    this.editForm.patchValue({
-      // payslipSettingDetails:selectedIds
-    })
+    this.getSalaryStructure()
+  //  this.selectedBenefitcode= this.payslipComponentDetails.payslipSettingDetails
 
   })
 
 }
   getSalaryStructure() {
+    debugger
     this.isLoading=true;
     this.payslipComponentsService.getSalaryStructure()
       .subscribe((result) => {
+        this.isLoading=false;
         let temp = { id: undefined, name: 'test', isLastRow: true }
         // lastrow
         this.salaryStructureList = [...result, temp];
-        // this.salaryStructObj = this.salaryStructureList.find((item) => this.editForm.get('structureId').value == item.id)
-        this.isLoading=false;
+        this.salaryStructObj = this.salaryStructureList.find((item) => this.editForm.get('structureId').value == item.id)
+
+        this.getBenefitCode(this.editForm.get('structureId').value)
+
       })
   }
   getBenefitCode(id){
@@ -77,18 +80,39 @@ getPayslipComponentById(){
     .subscribe((result) => {
       result.map((element:any)=>{ element['payrollComponentId'] = element.id; element.id= 0 ;element['payslipSettingId'] = '0';} )
       this.benefitList=result
+      // this.editForm.patchValue({
+      //   payslipSettingDetails:this.payslipComponentDetails.payslipSettingDetails
+      // })
     })
   }
+  getAll() {
+    debugger
+    this.payslipComponentsService.getAll()
+      .subscribe((result) => {
+        this.payslipComponentDetailsList = result
+       
+      })
+  }
   onSubmit() {
-    if (this.editForm.invalid) {
+    debugger
+    if (this.editForm.invalid || this.isDuplicate) {
       return
     }
-      this.payslipComponentsService.add(this.editForm.value).subscribe((result) => {
-        if (result) {
-          this.toastr.showSuccessMessage('Paysli component added successfully!');
+    let item= this.payslipComponentDetailsList.find((item) => this.editForm.get('structureId').value == item.structureId)
+    if(item?.payslipOrderNumber==this.editForm.get('payslipOrderNumber').value){
+        this.toastr.showWarningMessage(" payslip order number already exist");
+        return
+    }
+
+      this.payslipComponentsService.update(this.editForm.value).subscribe((result) => {
+          this.toastr.showSuccessMessage('Payslip component details updated successfully!');
           this.activeModal.close('submit');
-        }
+     
       },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to Update Payslip component details');
+      }
       );
 
     }
@@ -97,19 +121,18 @@ getPayslipComponentById(){
     debugger
     this.editForm.patchValue({
       structureId: args.value.id,
+      
     })
-    this.salaryStructObj = this.salaryStructureList.find((item) => this.editForm.get('structureId').value == item.id)
-    this.getBenefitCode(this.salaryStructObj.id)
     this.editForm.patchValue({
       payslipSettingDetails:null 
     }
     )
+
+    this.salaryStructObj = this.salaryStructureList.find((item) => this.editForm.get('structureId').value == item.id)
+    this.getBenefitCode(this.salaryStructObj.id)
   }
   selectBenefitCode(args){
-    debugger
-    var data = args
-    var q = this.editForm.controls.payslipSettingDetails.value 
-    // this.addForm.patchValue({
+    // this.editForm.patchValue({
     //   payslipSettingDetails: args.value.id,
     // }) 
   }
@@ -118,9 +141,24 @@ getPayslipComponentById(){
     event.preventDefault();
     this.getSalaryStructure();
   }
-
+  codeExist(){
+    debugger
+    this.isCodeExists(this.editForm.get('code').value)
+  }
+  isCodeExists(code: string) {
+    this.payslipComponentsService
+      .isCodeExist(code)
+      .subscribe((result) => {
+        if (result) {
+          this.isDuplicate = true;
+        } else {
+          this.isDuplicate = false;
+        }
+      });
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
+      id:this.listItem.id,
       code: [null, [
         Validators.required,
       ]],
@@ -137,6 +175,7 @@ getPayslipComponentById(){
         Validators.required
       ]],
       payslipOrderNumber: [null, [
+        Validators.required
       ]],
     });
   }

@@ -21,13 +21,13 @@ export class PayslipComponentsService {
   }
 
   getAll() {
-    return this.http.get<PayslipComponents>(this.baseUrl + 'getAll').pipe(map(response => { return response; }));
+    return this.http.get<PayslipComponents>(this.baseUrl + 'getAllPayslipSettingsDetails').pipe(map(response => { return response; }));
   }
   getPayslipComponentById(id){
     return this.http.get<any>(this.baseUrl + 'GetPayslipSettingById/' + id).pipe(map(response => { return response; }));
   }
   update(payslipDetails: PayslipComponents) {
-    return this.http.put<PayslipComponents>(this.baseUrl + 'update', payslipDetails).pipe(map(response => { return response; }));
+    return this.http.post<PayslipComponents>(this.baseUrl + 'update', payslipDetails).pipe(map(response => { return response; }));
   }
 
   delete(id: number) {
@@ -40,9 +40,9 @@ export class PayslipComponentsService {
   getBenefitCode(id){
     return this.http.get<any>(this.baseUrl + 'getComponentsByStructureId/' + id).pipe(map(response => { return response; }));
   }
-
-  get(id) {
-    return this.http.get<PayslipComponents>(this.baseUrl + 'get/' + id).pipe(map(response => { return response; }));
+  isCodeExist(code: string) {
+    return this.http.get<boolean>(
+      this.baseUrl + "isPayslipSettingCodeExist/" + code
+    );
   }
-
 }

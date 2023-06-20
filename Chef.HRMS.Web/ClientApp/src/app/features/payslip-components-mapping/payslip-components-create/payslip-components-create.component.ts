@@ -27,7 +27,8 @@ export class PayslipComponentsCreateComponent implements OnInit {
   salaryStructureList;
   benefitList;
   selectedBenefitcode;
-
+  isDuplicate: boolean = false;
+  payslipComponentDetails;
   constructor(
     public activeModal: NgbActiveModal,
     private payslipComponentsService: PayslipComponentsService,
@@ -40,9 +41,17 @@ export class PayslipComponentsCreateComponent implements OnInit {
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
     this.getSalaryStructure()
+    this.getAll()
   }
 
-
+  getAll() {
+    debugger
+    this.payslipComponentsService.getAll()
+      .subscribe((result) => {
+        this.payslipComponentDetails = result
+       
+      })
+  }
   getSalaryStructure() {
     this.isLoading=true;
     this.payslipComponentsService.getSalaryStructure()
@@ -62,16 +71,28 @@ export class PayslipComponentsCreateComponent implements OnInit {
     })
   }
   onSubmit() {
-    if (this.addForm.invalid) {
+    debugger
+    if (this.addForm.invalid || this.isDuplicate) {
       return
     }
+    let item = this.payslipComponentDetails.find((item) => this.addForm.get('structureId').value == item.structureId)
+    if(item?.payslipOrderNumber==this.addForm.get('payslipOrderNumber').value){
+        this.toastr.showWarningMessage(" payslip order number already exist");
+        return
+    }else{
       this.payslipComponentsService.add(this.addForm.value).subscribe((result) => {
         if (result) {
-          this.toastr.showSuccessMessage('Paysli component added successfully!');
+          this.toastr.showSuccessMessage('Payslip component details added successfully!');
           this.activeModal.close('submit');
         }
       },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to Update Payslip component details');
+      }
       );
+    }
+     
 
     }
 
@@ -97,7 +118,20 @@ export class PayslipComponentsCreateComponent implements OnInit {
     event.preventDefault();
     this.getSalaryStructure();
   }
-
+  codeExist(){
+    this.isCodeExists(this.addForm.get('code').value)
+  }
+  isCodeExists(code: string) {
+    this.payslipComponentsService
+      .isCodeExist(code)
+      .subscribe((result) => {
+        if (result) {
+          this.isDuplicate = true;
+        } else {
+          this.isDuplicate = false;
+        }
+      });
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       code: [null, [
@@ -116,6 +150,7 @@ export class PayslipComponentsCreateComponent implements OnInit {
         Validators.required
       ]],
       payslipOrderNumber: [null, [
+        Validators.required
       ]],
     });
   }

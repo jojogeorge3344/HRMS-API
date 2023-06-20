@@ -1,1 +1,103 @@
-<p>payslip-components-view works!</p>
+<form [formGroup]="editForm" >
+    <div class="modal-header">
+        <h4 class="modal-title">View Payslip Component</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-md-2">
+                <label class="col-form-label">Code<span class="required">*</span></label>
+            </div>
+            <div class="form-group input-group col-md-4">
+                <input type="text" class="form-control" formControlName="code" readonly>
+            </div>
+            <div class="form-group col-md-2">
+                <label class="col-form-label">Name<span class="required">*</span></label>
+            </div>
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control" formControlName="name" readonly>
+            </div>
+        </div>
+        <div class="row">
+                <div class="with-input form-group col-md-4 ">
+                    <label class="col-form-label">Salary Structure<span class="required">*</span></label>
+                </div>
+                <div class="form-group col-md-8 ">
+                <p-dropdown [(ngModel)]="salaryStructObj" readonly="true"
+                    [ngModelOptions]="{standalone: true}" [filter]="true" class="pngCustomClass"
+                    [options]="salaryStructureList" optionValue="id"
+                     optionLabel="name" placeholder="Select Salary Structure" dataKey="id"
+                     name="structureId">
+                    <ng-template let-item pTemplate="item">
+                        <div class="dd-values" *ngIf="!(item?.value?.isLastRow)">
+                            {{item?.value.name}}
+                        </div>
+                        <div class="dd-values-refresh " *ngIf="item?.value?.isLastRow"
+                            (click)="refreshSalaryStructure($event)">
+                            <a class="link-primary ref"><u>Refresh</u></a>
+                            <div *ngIf="isLoading==true" class="spinner-border ml-1">
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div *ngIf="this.editForm.get('structureId').touched && this.editForm.get('structureId').invalid"
+                        class="invalid-feedback d-block">
+                        Salary Structure* is required
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class=" form-group col-md-4">
+                <label class="col-form-label">Benefit Code<span class="required">*</span></label>
+            </div>
+            <div class="form-group col-md-8">
+
+        <p-multiSelect readonly="true"  dataKey="payrollComponentId"
+         [options]="benefitList" 
+         formControlName="payslipSettingDetails"
+         defaultLabel="Select BenefitCode"
+          optionLabel="name"
+        class="multiselect-custom">
+        <ng-template let-item pTemplate="item">
+            <div >
+                {{item?.value.name}}
+            </div>
+        </ng-template>
+    </p-multiSelect>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-4">
+        <label class="col-form-label">Payslip Order Number</label>
+    </div>
+    <div class="form-group input-group col-md-8">
+        <input readonly type="text" class="form-control" formControlName="payslipOrderNumber">
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-4 d-inline">
+        <label class="col-form-label">Active Status</label>
+    </div>
+    <div class="form-group input-group col-md-6 d-inline ">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input"  formControlName="isActive" type="radio" name="exampleRadios" id="exampleRadio1" [value]="true"  >
+        <label class="form-check-label" for="exampleRadio1">
+          Yes
+        </label>
+      </div>
+      <div class="form-check form-check-inline ml-1">
+        <input readonly class="form-check-input"  formControlName="isActive" type="radio" name="exampleRadios" id="exampleRadio2" [value]="false">
+        <label class="form-check-label" for="exampleRadio2">
+          No
+        </label>
+      </div>
+    </div>
+
+</div>
+    </div>
+</form>
