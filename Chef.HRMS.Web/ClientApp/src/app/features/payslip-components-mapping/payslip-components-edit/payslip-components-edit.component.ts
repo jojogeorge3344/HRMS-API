@@ -27,6 +27,7 @@ export class PayslipComponentsEditComponent implements OnInit {
   benefitList;
   selectedBenefitcode;
   isDuplicate: boolean = false;
+  isOrderExist:boolean=false;
   payslipComponentDetailsList;
   @Input() listItem;
   payslipComponentDetails:any=[];
@@ -95,14 +96,14 @@ getPayslipComponentById(){
   }
   onSubmit() {
     debugger
-    if (this.editForm.invalid || this.isDuplicate) {
+    if (this.editForm.invalid || this.isDuplicate || this.isOrderExist) {
       return
     }
-    let item= this.payslipComponentDetailsList.find((item) => this.editForm.get('structureId').value == item.structureId)
-    if(item?.payslipOrderNumber==this.editForm.get('payslipOrderNumber').value){
-        this.toastr.showWarningMessage(" payslip order number already exist");
-        return
-    }
+    // let item= this.payslipComponentDetailsList.find((item) => this.editForm.get('structureId').value == item.structureId)
+    // if(item?.payslipOrderNumber==this.editForm.get('payslipOrderNumber').value){
+    //     this.toastr.showWarningMessage(" payslip order number already exist");
+    //     return
+    // }
 
       this.payslipComponentsService.update(this.editForm.value).subscribe((result) => {
           this.toastr.showSuccessMessage('Payslip component details updated successfully!');
@@ -130,6 +131,7 @@ getPayslipComponentById(){
 
     this.salaryStructObj = this.salaryStructureList.find((item) => this.editForm.get('structureId').value == item.id)
     this.getBenefitCode(this.salaryStructObj.id)
+    this.orderExist()
   }
   selectBenefitCode(args){
     // this.editForm.patchValue({
@@ -142,19 +144,24 @@ getPayslipComponentById(){
     this.getSalaryStructure();
   }
   codeExist(){
-    debugger
-    this.isCodeExists(this.editForm.get('code').value)
-  }
-  isCodeExists(code: string) {
     this.payslipComponentsService
-      .isCodeExist(code)
-      .subscribe((result) => {
-        if (result) {
-          this.isDuplicate = true;
-        } else {
-          this.isDuplicate = false;
-        }
-      });
+    .isCodeExist(this.editForm.get('code').value)
+    .subscribe((result) => {
+      if (result) {
+        this.isDuplicate = true;
+      } else {
+        this.isDuplicate = false;
+      }
+    });
+    }
+  orderExist(){
+    debugger
+    let item= this.payslipComponentDetailsList.find((item) => this.editForm.get('structureId').value == item.structureId)
+    if(item?.payslipOrderNumber==this.editForm.get('payslipOrderNumber').value){
+      this.isOrderExist=true;
+    }else{
+      this.isOrderExist=false;
+    }
   }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

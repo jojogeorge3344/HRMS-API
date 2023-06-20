@@ -119,11 +119,8 @@ export class PayslipComponentsCreateComponent implements OnInit {
     this.getSalaryStructure();
   }
   codeExist(){
-    this.isCodeExists(this.addForm.get('code').value)
-  }
-  isCodeExists(code: string) {
     this.payslipComponentsService
-      .isCodeExist(code)
+      .isCodeExist(this.addForm.get('code').value)
       .subscribe((result) => {
         if (result) {
           this.isDuplicate = true;

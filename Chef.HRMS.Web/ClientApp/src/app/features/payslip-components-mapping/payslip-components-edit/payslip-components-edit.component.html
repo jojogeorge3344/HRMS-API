@@ -81,7 +81,10 @@
         <label class="col-form-label">Payslip Order Number<span class="required">*</span></label>
     </div>
     <div class="form-group input-group col-md-8">
-        <input type="text" class="form-control" formControlName="payslipOrderNumber">
+        <input (blur)="orderExist()" type="text" class="form-control" formControlName="payslipOrderNumber">
+        <div *ngIf="isOrderExist" class="invalid-feedback d-block">
+            Payslip Order Number exists
+          </div>
     </div>
 </div>
 <div class="row">
