@@ -161,7 +161,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
         new Date(leave.fromDate).setHours(0, 0, 0, 0) ==
         new Date(leave.toDate).setHours(0, 0, 0, 0)
       ) {
-        if (leave.isfullday) {
+        if (leave.isFullDay) {
           this.fulldayLeaves = [...this.fulldayLeaves, leave.fromDate];
         } else if (leave.isFirstDayFirstHalf) {
           this.firsthalfLeaves = [...this.firsthalfLeaves, leave.fromDate];
@@ -426,7 +426,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
           this.taken[1] = "WFH";
           break;
         }
-        if (this.fulldayLeaves.includes(currentDate)) {
+        var test =  this.fulldayLeaves.map(dateValue => formatDate(dateValue, 'yyyy-MM-ddT00:00:00', 'en-Us'));
+        if (test.includes(currentDate)) {
           this.taken[0] = currentDate;
           this.taken[1] = "leave";
           this.flag = 1;
@@ -547,7 +548,6 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       }
     }
     if (!this.addForm.controls.numberOfDays.errors) {
-      debugger
       if (
         this.leaveSettings.maxConsecutiveDays < this.numberOfDays ||
         !this.leaveSettings.maxConsecutiveDays

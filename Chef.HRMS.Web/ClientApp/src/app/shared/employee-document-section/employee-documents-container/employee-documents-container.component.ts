@@ -28,7 +28,7 @@ export class EmployeeDocumentsContainerComponent implements OnInit {
       }else if(params.id){
         this.employeeId = params.id ? parseInt(params.id, 10) : currentUserId;
       }else{
-        this.employeeId=parseInt(this.passEmployeeId, 10);
+        this.employeeId=parseInt(currentUserId, 10);
       }
           
         });
