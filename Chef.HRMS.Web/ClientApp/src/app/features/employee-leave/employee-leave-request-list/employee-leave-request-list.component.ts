@@ -189,6 +189,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
           if(this.isEmployeeLeave==true){
             this.getAllRequestedLeave();
             this.getLeaveBalance();
+            this.getMarkedDates("leave", this.currentUserId);
             }
             else{
               this.getAllEmployeeDetailsLeave()
