@@ -173,6 +173,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   }
 
   delete(request) {
+    debugger
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true,
       backdrop: "static",
