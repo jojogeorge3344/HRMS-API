@@ -26,6 +26,12 @@ export class RolesAssigningComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+   
+    this.getUserDetails()
+
+  }
+  getUserDetails(){
+ 
     forkJoin([this.employeeService.getAll(), this.rolesService.getall(), this.userRolesService.getall()])
       .subscribe((response: any) => {
         this.employees = this.employeesOnSelection = response[0];
@@ -48,9 +54,7 @@ export class RolesAssigningComponent implements OnInit {
         //   (allAssignedEmployees.find(emp => emp.id === employee.id) === undefined)
         // );
       });
-
   }
-
   formatter = (employee) => employee.fullName;
 
   search = (text$: Observable<string>) => text$.pipe(
@@ -73,6 +77,7 @@ export class RolesAssigningComponent implements OnInit {
         this.employeesOnSelection = this.employeesOnSelection.filter(employee => employee.id !== $event.item.id);
         input.value = '';
         this.toasterDisplayService.showSuccessMessage('User roles updated successfully');
+        this.getUserDetails()
       }
     });
   }
@@ -91,8 +96,17 @@ export class RolesAssigningComponent implements OnInit {
             return role;
           });
           this.toasterDisplayService.showSuccessMessage('User role updated successfully');
+          this.getUserDetails()
         }
       });
 
+  }
+  removeEmployee(role,employee){
+    console.log(role,employee)
+    this.userRolesService.delete(employee.userRoleId).subscribe((res)=>{
+      console.log(res)
+      this.toasterDisplayService.showSuccessMessage('User role deleted successfully!');
+      this.getUserDetails()
+    })
   }
 }

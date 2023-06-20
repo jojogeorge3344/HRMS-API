@@ -24,4 +24,7 @@ export class UserRolesService {
   update(userRole) {
     return this.http.put(this.baseUrl + 'update', userRole).pipe(map(response => response));
   }
+  delete(id: number) {
+    return this.http.delete<any>(this.baseUrl + 'delete/' + id).pipe(map(response => { return response; }));
+  }
 }
