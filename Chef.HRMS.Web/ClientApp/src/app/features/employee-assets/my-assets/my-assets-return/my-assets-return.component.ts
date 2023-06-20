@@ -77,8 +77,8 @@ export class MyAssetsReturnComponent implements OnInit {
     
     forkJoin([
       this.myAssetService.updateStatus(this.assetData),
-      this.myAssetService.insertRequest(this.raiseRequestData)
-    ]).subscribe(([upRes, insRes]) => {
+      // this.myAssetService.insertRequest(this.raiseRequestData)
+    ]).subscribe(([upRes]) => {
       this.toastr.showSuccessMessage('Request submitted successfully!');
       this.activeModal.close('submit');
     },

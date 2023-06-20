@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.Payroll;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,9 @@ namespace Chef.HRMS.Services
         Task<int> UpdatePayslipSetting(PayslipSetting payslipSetting);
         Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId);
         Task<IEnumerable<PayrollStructure>> GetAllPayrollStructure();
-        Task<IEnumerable<PayslipSettingView>> GetPayslipSettingById(int id);
+        Task<PayslipSetting> GetPayslipSettingById(int id);
         Task<int> DeletePayslipSetting(int id);
         Task<bool> IsPayslipSettingCodeExist(string code);
+        Task<IEnumerable<PayslipSettingList>> GetAllPayslipSettings();
     }
 }

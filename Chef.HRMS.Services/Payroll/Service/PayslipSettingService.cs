@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Payroll;
 using Chef.HRMS.Repositories;
 using System;
 using System.Collections.Generic;
@@ -55,14 +56,24 @@ namespace Chef.HRMS.Services
             return await payslipSettingReposirory.GetAllPayrollStructure();
         }
 
+        public async Task<IEnumerable<PayslipSettingList>> GetAllPayslipSettings()
+        {
+            return await payslipSettingReposirory.GetAllPayslipSettings();
+        }
+
         public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)
         {
             return await payslipSettingReposirory.GetComponentsByStructureId(structureId);
         }
 
-        public async Task<IEnumerable<PayslipSettingView>> GetPayslipSettingById(int id)
+        public async Task<PayslipSetting> GetPayslipSettingById(int id)
         {
-            return await payslipSettingReposirory.GetPayslipSettingById(id);
+            PayslipSetting payslipSetting = new PayslipSetting();
+            var payslip = await payslipSettingReposirory.GetAsync(id);
+            payslipSetting = payslip;
+            var payslipDetails = await payslipSettingDetailsRepository.GetPayslipSettingsDetailsByPayslipSettingsId(id);
+            payslipSetting.PayslipSettingDetails = payslipDetails.ToList();
+            return payslipSetting;
         }
 
         public async Task<int> InsertPayslipSetting(PayslipSetting payslipSetting)

@@ -1,5 +1,6 @@
 ﻿using Chef.Common.Core.Extensions;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Payroll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,19 @@ namespace Chef.HRMS.Repositories.Payroll
             return await Connection.QueryAsync<PayrollStructure>(sql);
         }
 
+        public async Task<IEnumerable<PayslipSettingList>> GetAllPayslipSettings()
+        {
+            var sql = @"SELECT
+                          pss.*,
+                          prs.name AS payrollstructurename
+                        FROM hrms.payslipsetting pss
+                        INNER JOIN hrms.payrollstructure prs
+                          ON pss.structureid = prs.id
+                        WHERE pss.isarchived = FALSE";
+
+            return await Connection.QueryAsync<PayslipSettingList>(sql);
+        }
+
         public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)
         {
             var sql = @"SELECT
@@ -39,33 +53,6 @@ namespace Chef.HRMS.Repositories.Payroll
                         AND isarchived = FALSE";
 
             return await Connection.QueryAsync<PayrollComponent>(sql, new { structureId });
-        }
-
-        public async Task<IEnumerable<PayslipSettingView>> GetPayslipSettingById(int id)
-        {
-            var sql = @"SELECT
-                          ps.id,
-                          ps.code,
-                          ps.name,
-                          ps.structureid,
-                          ps.payslipordernumber,
-                          ps.isactive,
-                          psd.id AS payslipsettingdetailsid,
-                          psd.payrollcomponentid,
-                          pc.shortcode AS payrollcomponentcode,
-                          pc.name AS payrollcomponentname,
-                          prs.name AS payrollstructurename
-                        FROM hrms.payslipsetting ps
-                        INNER JOIN hrms.payslipsettingdetails psd
-                          ON ps.id = psd.payslipsettingid
-                        INNER JOIN hrms.payrollcomponent pc
-                          ON psd.payrollcomponentid = pc.id
-                        INNER JOIN hrms.payrollstructure prs
-                          ON ps.structureid = prs.id
-                        WHERE ps.id = @id
-                        AND ps.isarchived = FALSE";
-
-            return await Connection.QueryAsync<PayslipSettingView>(sql, new { id });
         }
 
         public async Task<bool> IsPayslipSettingCodeExist(string code)
