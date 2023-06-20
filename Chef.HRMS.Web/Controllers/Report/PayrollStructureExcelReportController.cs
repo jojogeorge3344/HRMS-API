@@ -18,10 +18,10 @@ namespace Chef.HRMS.Web.Controllers
             this.payrollStructureReportService = payrollStructureReportService;
         }
 
-        [HttpGet("PayrollStructureExcelReport/{fromDate}/{ToDate}/{payrollStructureIds}/{paygroupIds}/{designationIds}/{employeeIds}")]
-        public async Task<ActionResult<byte[]>> PayrollStructureExcelReport(DateTime fromDate, DateTime ToDate, string payrollStructureIds, string paygroupIds, string designationIds, string employeeIds)
+        [HttpGet("PayrollStructureExcelReport/{fromDate}/{ToDate}/{designationIds}/{employeeIds}/{departmentIds}")]
+        public async Task<ActionResult<byte[]>> PayrollStructureExcelReport(DateTime fromDate, DateTime ToDate, string designationIds, string employeeIds, string departmentIds)
         {
-            return await payrollStructureReportService.PayrollStructureExcelReport(fromDate, ToDate, payrollStructureIds, paygroupIds, designationIds, employeeIds);
+            return await payrollStructureReportService.PayrollStructureExcelReport(fromDate, ToDate, designationIds, employeeIds, departmentIds);
         }
     }
 }

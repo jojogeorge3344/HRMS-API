@@ -1,4 +1,5 @@
 ﻿using Chef.HRMS.Models;
+using Chef.HRMS.Models.Payroll;
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -52,9 +53,9 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<PayslipSetting>>> GetAll()
+        public async Task<ActionResult<IEnumerable<PayslipSettingList>>> GetAll()
         {
-            var payslipList = await payslipSettingService.GetAllAsync();
+            var payslipList = await payslipSettingService.GetAllPayslipSettings();
 
             return Ok(payslipList);
         }
@@ -94,7 +95,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("GetPayslipSettingById/{id}")]
-        public async Task<ActionResult<IEnumerable<PayslipSettingView>>> GetPayslipSettingById(int id)
+        public async Task<ActionResult<PayslipSetting>> GetPayslipSettingById(int id)
         {
             var payslip = await payslipSettingService.GetPayslipSettingById(id);
 
