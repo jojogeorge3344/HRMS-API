@@ -8,6 +8,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -32,17 +33,32 @@ namespace Chef.HRMS.Services.Report
 
         public async Task<byte[]> PayrollStructureExcelReport(DateTime fromDate, DateTime ToDate, string designationIds, string employeeIds,string departmentIds)
         {
-            // create a new Excel package       
+            
             using var excelPackage = new ExcelPackage();
 
-            // add a new worksheet to the workbook
             var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet1");
 
             //Security provided for excel 
             worksheet.Protection.IsProtected = true;
             worksheet.Protection.AllowAutoFilter = true;
 
-            // define the column headers
+            //Report Caption
+            int startColumn = 1; 
+            int endColumn = 16; 
+            int rowNo = 1; 
+
+            string caption = "PAYSLIP REPORT";
+            worksheet.Cells[rowNo, startColumn, rowNo, endColumn].Merge = true;
+            worksheet.Cells[rowNo, startColumn].Value = caption;
+
+            //Caption Format
+            var captionCell = worksheet.Cells[rowNo, startColumn];
+            captionCell.Style.Font.Size = 16;
+            captionCell.Style.Font.Bold = true;
+            captionCell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            captionCell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+            // Headers
             worksheet.Cells[3, 1].Value = "Month :";
             worksheet.Cells[3, 4].Value = "Year :";
             worksheet.Cells[5, 1].Value = "Employee Code";
@@ -57,7 +73,7 @@ namespace Chef.HRMS.Services.Report
             var employeetList = await payrollStructureReportRepository.GetEmployeePayrollProcessDetailsForExcel(fromDate, ToDate, designationIds, employeeIds,departmentIds);
             List<PayrollExcelReportView> rowData= employeetList.ToList();
 
-            //Header components setting dynamicly 
+            //Dynamic header 
             int i = 0;
             foreach (var header in allHeaderComponent)
             {
@@ -85,17 +101,16 @@ namespace Chef.HRMS.Services.Report
                 worksheet.Cells[6 + j, 3].Value = employee.DesignationName;
                 worksheet.Cells[6 + j, 4].Value = employee.TotalWorkedDays;
                 worksheet.Cells[6 + j, 5].Value = employee.DateOfJoin;
-                worksheet.Cells[6 + j, 5, worksheet.Dimension.End.Row, 5].Style.Numberformat.Format = "yyyy-mm-dd"; // Date column
+                worksheet.Cells[6 + j, 5, worksheet.Dimension.End.Row, 5].Style.Numberformat.Format = "yyyy-mm-dd";
 
-                //manage multiple emp
-                if (employee.EmployeeCode != EmployeeCode && !(EmployeeCode.IsNullOrEmpty()))
-                {
-                    j++;
-                    //worksheet.Cells[6 + j, MaxCol].Value = Amount;
-                    Amount = 0;
-                }
+                ////Manage multiple emp
+                //if (employee.EmployeeCode != EmployeeCode && !(EmployeeCode.IsNullOrEmpty()))
+                //{
+                //    j++;
+                //    Amount = 0;
+                //}
 
-                //amt to each emp
+                //Assigning Amt to each EMP
                 foreach (var row in allHeaderComponent)
                 {
                     if (row.PayrollComponentId == employee.PayrollComponentId)
@@ -109,25 +124,28 @@ namespace Chef.HRMS.Services.Report
                 worksheet.Cells[6 + j, MaxCol].Value = Amount;
             }
 
-            // format the column headers
+            // Format the column headers
             worksheet.Cells[6 + j + 1, 5].Value = "Total";
             worksheet.Cells[3, 1].Style.Font.Bold = true;
             worksheet.Cells[3, 4].Style.Font.Bold = true;
             worksheet.Cells[5, 1, 5, MaxCol].Style.Font.Bold = true;
+            var reportHeaders = worksheet.Cells[5, 1, 5, MaxCol];
+            reportHeaders.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            reportHeaders.Style.Fill.BackgroundColor.SetColor(Color.Gray);
 
-            //column wise sum for each components
+            //Column wise sum for each components
             int asciiValue = 70;
+
             for (int Col = 0; Col < allHeaderComponent.ToList().Count; Col++)
             {
-                 worksheet.Cells[6 + j + 1, 5+Col+1].Formula = $"SUM("+Convert.ToChar(asciiValue)+$"6:"+Convert.ToChar(asciiValue)+$"{6 + j})";
+                worksheet.Cells[6 + j + 1, 5 + Col + 1].Formula = $"SUM("+Convert.ToChar(asciiValue)+$"6:"+Convert.ToChar(asciiValue)+$"{6 + j})";
                 asciiValue++;
             }
-            worksheet.Cells[6 + j + 1, 5, 6 + j + 1, MaxCol].Style.Font.Bold = true;
+            worksheet.Cells[6 + j + 1, 5 + allHeaderComponent.ToList().Count + 1].Formula = $"SUM(" + Convert.ToChar(asciiValue) + $"6:" + Convert.ToChar(asciiValue) + $"{6 + j})";
+            worksheet.Cells[6 + j + 1, 5, 6 + j + 1, MaxCol + 1].Style.Font.Bold = true;
 
             // AutoFitColumns for all cells in the worksheet
             worksheet.Cells.AutoFitColumns();
-
-            //worksheet.Cells[1, 1, 1, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             // save the Excel package to a file stream
             using var stream = new MemoryStream();
