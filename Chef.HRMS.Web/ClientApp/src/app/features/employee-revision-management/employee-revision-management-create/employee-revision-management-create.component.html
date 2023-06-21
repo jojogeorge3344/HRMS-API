@@ -219,15 +219,17 @@
                             <table class="table m-0">
                                 <thead class="thead-themed">
                                     <tr>
-                                        <th colspan="2">Old Salary Details</th>
+                                        <th colspan="3">Old Salary Details</th>
                                     </tr>
                                     <tr>
+                                        <th>Sl No.</th>
                                         <th>Salary Component</th>
                                         <th>Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr  *ngFor="let employee of employeePayrollStructure; let i= index;">
+                                        <td>{{i+1}}</td>
                                        <td>{{employee.name}}</td>
                                        <td><input disabled value="{{employee.monthlyAmount | number : '1.0-2'}}" type="text" class="form-control"
                                         /></td>
@@ -239,15 +241,17 @@
                             <table class="table m-0">
                                 <thead class="thead-themed">
                                     <tr>
-                                        <th colspan="2">Revised Salary Details</th>
+                                        <th colspan="3">Revised Salary Details</th>
                                     </tr>
                                     <tr>
+                                        <th>Sl No.</th>
                                         <th>Salary Component</th>
                                         <th>Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr  *ngFor="let employee of employeePayrollStructure_rev; let i= index;">
+                                        <td>{{i+1}}</td>
                                        <td>{{employee.name}}</td>
                                        <td> 
                                         <input [disabled]="employee.formula == null ? false : true" 
