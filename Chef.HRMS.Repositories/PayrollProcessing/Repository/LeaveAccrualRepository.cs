@@ -37,11 +37,12 @@ namespace Chef.HRMS.Repositories.PayrollProcessing.Repository
             var sql = @"select la.accrualdays as leaveaccrualdays, la.accrualamount as leaveaccrualamount,
                                 eosa.accrualdays as eosaccrualdays, eosa.accrualamount as eosaccrualamount,
                                 0 as ticketaccrualdays, ta.accrualamount as ticketaccrualamount,
-                                emp.id as employeeid, emp.displayname as employeename
+                                emp.id as employeeid, emp.displayname as employeename, jd.employeenumber as employeecode
                                 from hrms.eosaccrual eosa 
 						        left join hrms.ticketaccrual ta on eosa.employeeid = ta.employeeid
 						        left join hrms.leaveaccrual la on ta.employeeid = la.employeeid
                                 left join hrms.jobfiling jf on jf.employeeid = eosa.employeeid
+                                left join hrms.jobdetails jd on jd.employeeid = jf.employeeid
                                 left join hrms.hrmsemployee emp on emp.id = jf.employeeid
                                 where eosa.payrollprocessingid = @payrollProcessingId 
                                 and ta.payrollprocessingid = @payrollProcessingId
