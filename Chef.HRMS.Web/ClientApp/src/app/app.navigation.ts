@@ -244,6 +244,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/generate-accruals'
       },
+      {
+        title: 'Payslip Components',
+        tags: 'settings-expense',
+        routerLink: '/payslip-components'
+      },
     ]
   },
   {

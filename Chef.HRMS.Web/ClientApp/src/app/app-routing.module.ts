@@ -346,6 +346,10 @@ const routes: Routes = [
         loadChildren: () => import('./features/generate-accruals/generate-accruals.module').then(m => m.GenerateAccrualsModule),
         canActivateChild: [AuthGuard]
       },
+      {
+        path: 'payslip-components',
+        loadChildren: () => import('./features/payslip-components-mapping/payslip-components.module').then(m => m.PayslipComponentsModule),
+      },
      
     ],
   },
