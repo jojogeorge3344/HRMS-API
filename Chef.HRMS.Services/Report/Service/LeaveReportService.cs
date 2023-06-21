@@ -1,6 +1,7 @@
 ﻿using Chef.Common.Core.Services;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.Report;
 using Chef.HRMS.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
 {
-    public class LeaveReportService : AsyncService<LeaveReportView>, ILeaveReportService
+    public class LeaveReportService : AsyncService<LeaveSummaryReportView>, ILeaveReportService
     {
         private readonly ILeaveReportRepository leaveReportRepository;
 
@@ -17,34 +18,14 @@ namespace Chef.HRMS.Services
             this.leaveReportRepository = leaveReportRepository;
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<IEnumerable<LeaveSummaryReportView>> GetLeaveSummaryReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategory, string leaveComponentIds, string employeeIds)
         {
-            throw new NotImplementedException();
+            return await leaveReportRepository.GetLeaveSummaryReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, leaveComponentIds, employeeIds);
         }
 
-        public Task<IEnumerable<LeaveReportView>> GetAllAsync()
+        public async Task<IEnumerable<LeaveDetailedReportView>> GetLeaveDetailedReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategory, string leaveComponentIds, string employeeIds)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<LeaveReportView>> GetLeaveReportDetails(int offSet)
-        {
-            return await leaveReportRepository.GetLeaveReportDetails(offSet);
-        }
-
-        public Task<LeaveReportView> GetAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<LeaveReportView> InsertAsync(LeaveReportView obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> UpdateAsync(LeaveReportView obj)
-        {
-            throw new NotImplementedException();
+            return await leaveReportRepository.GetLeaveDetailedReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, leaveComponentIds, employeeIds);
         }
     }
 }
