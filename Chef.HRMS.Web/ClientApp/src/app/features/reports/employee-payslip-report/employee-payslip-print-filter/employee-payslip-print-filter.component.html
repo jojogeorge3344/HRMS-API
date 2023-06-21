@@ -1,3 +1,4 @@
+<form [formGroup]="addForm" (submit)="openPrint()">
 <div class="subheader">
   <h1 class="subheader-title">
     <div>
@@ -15,8 +16,8 @@
       <div class="form-group col-md-5">
         <select class="form-control" formControlName="year" >
           <option [ngValue]="null" disabled>Select Payslip Year</option>
-          <option [ngValue]='year.name' *ngFor="let year of yearList">
-            {{year.name}}
+          <option [ngValue]='year' *ngFor="let year of yearList">
+            {{year}}
           </option>
         
         </select>
@@ -32,8 +33,8 @@
         <!-- <p-multiSelect formControlName="selectedCities"></p-multiSelect> -->
         <select class="form-control" formControlName="month">
           <option [ngValue]="null" disabled>Select Payslip Period</option>
-          <option [ngValue]='month.id' *ngFor="let month of monthList">
-            {{month.name}}
+          <option [ngValue]='month.monthNumber' *ngFor="let month of monthList">
+            {{month.monthName}}
           </option>
         </select>
       </div>
@@ -99,7 +100,7 @@
 <div class="row">
   <div class="col-md-6"></div>
   <div class="form-group col-md-3">
-    <button type="button" class="btn btn-primary ps-2 pe-2"(click)="openPrint()">Print</button>
+    <button type="submit" class="btn btn-primary ps-2 pe-2">Print</button>
 </div>
 <div class="col-md-3"></div>
 </div>
