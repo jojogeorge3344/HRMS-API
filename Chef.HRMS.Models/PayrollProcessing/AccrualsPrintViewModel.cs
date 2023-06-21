@@ -12,6 +12,7 @@ namespace Chef.HRMS.Models
     {
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
+        public int EmployeeCode { get; set; }
         public decimal LeaveAccrualDays { get; set; }
         public decimal LeaveAccrualAmount { get; set; }
         public decimal EOSAccrualDays { get; set; }
