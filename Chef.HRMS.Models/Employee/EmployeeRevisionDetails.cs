@@ -24,6 +24,15 @@ namespace Chef.HRMS.Models
         [Skip(true)]
         [SqlKata.Ignore]
         public string Name { get; set; }
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string ShortCode { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string Formula { get; set; }
     }
 
     public class EmployeeRevisionDetailsOld : EmployeeRevisionDetails
