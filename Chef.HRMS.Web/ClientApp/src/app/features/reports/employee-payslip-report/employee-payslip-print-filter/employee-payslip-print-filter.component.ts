@@ -35,7 +35,6 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
   departmentTypeKeys: number[];
   departmentType = DepartmentType;
   employeeList;
-  range = [];
   startYear = new Date().getFullYear();
   selectedPaygroups;
   noOfCalendarDays;
@@ -48,6 +47,7 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
   employeeId;
   fromDate;
   ToDate;
+  payslipYears;
   // selectedSourceLibs: any = [];
   constructor(
     private router: Router,
@@ -65,10 +65,10 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getPayslipYears()
     this.getPayGroup()
     this.getDesignation()
     this.getEmployeeList() 
-    // this.getPayslipYears()
     this.addForm = this.createFormGroup();
     this.departmentTypeKeys = Object.keys(this.departmentType).filter(Number).map(Number);
 
@@ -83,35 +83,6 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
       textField:'name',
       allowSearchFilter: true
     }; 
-
-    this.monthList=[
-      { id:1, name: 'January' },
-      { id:2, name: 'February' },
-      { id:3, name: 'March' },
-      { id:4, name: 'April' },
-      { id:5, name: 'May' },
-      { id:6, name: 'June' },
-      { id:7, name: 'July' },
-      { id:8, name: 'August' },
-      { id:9, name: 'September' },
-      { id:10, name: 'October' },
-      { id:11, name: 'November' },
-      { id:12, name: 'December' },
-    ];
-    this.yearList=[
-      { id:1, name:'2023' },
-      { id:2, name:'2022' },
-      { id:3, name: '2021' },
-      { id:4, name: '2020' },
-      { id:5, name: '2019' },
-      { id:6, name: '2018' },
-      { id:7, name: '2017' },
-      { id:8, name: '2016' },
-      { id:9, name: '2015' },
-      { id:10, name: '2014' },
-      { id:11, name: '2013' },
-      { id:12, name: '2012' },
-    ];    
   }
 
   getPayGroup() {
@@ -125,12 +96,35 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
       };      
     })
   }
-  // getPayslipYears(){
-  //   this.reportService.getPaysipYears().subscribe(result=>{
-  //    this.yearList=result
-     
-  //   })
-  // }
+  getPayslipYears(){
+    var monthNames = [ "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December" ];
+    this.reportService.getPaysipYears().subscribe(result=>{
+      this.payslipYears=result 
+      
+      console.log('payslip year',this.payslipYears);
+      let montharr=[]
+      let yeararr=[]
+      for(let i=0;i<this.payslipYears.length;i++){
+        var date = new Date(this.payslipYears[i].payrollProcessDate) 
+        var month = date.getMonth()
+        var year=date.getFullYear()
+        montharr.push({id: month+1,name: monthNames[month],monthNumber:month+1,})
+        yeararr. push({id: i+1,name: year})
+      }
+
+      let uniqueMonth=new Map();
+      let uniqueyear=new Map()
+      yeararr.forEach(ele=>{
+        uniqueyear.set(ele.name,ele.name)
+      });
+    this.yearList=[...uniqueyear.values()]
+      montharr.forEach(ele=>{
+        uniqueMonth.set(ele.name,{monthName:ele.name,monthNumber:ele.monthNumber})
+      });
+      this.monthList = [...uniqueMonth.values()] ;
+     }) 
+  }
   getEmployeeList() {
     this.employeeService.getAll()
       .subscribe((result) => {
@@ -141,10 +135,6 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
           allowSearchFilter: true
         }; 
       })
-  }
-  onChange(args){
-    debugger
-   let obj= this.addForm.get('myItems').value
   }
   getDesignation() {
     debugger

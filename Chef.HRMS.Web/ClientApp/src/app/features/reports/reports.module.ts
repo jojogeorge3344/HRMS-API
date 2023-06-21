@@ -47,7 +47,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     ReactiveFormsModule,
     HttpClientModule,
     PipesModule,
-    NgBootstrapFormValidationModule,
+    NgBootstrapFormValidationModule.forRoot(),
     BsDropdownModule,
     ReportViewerModule,
     BoldReportViewerModule,

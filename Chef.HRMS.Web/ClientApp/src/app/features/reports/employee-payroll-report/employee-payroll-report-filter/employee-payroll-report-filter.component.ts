@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmpoloyeePayrollReportService } from '../empoloyee-payroll-report.service';
 import { ReportsService } from '@features/reports/report.service';
 import { EmployeeJobTitleService } from '@settings/employee/employee-job-title/employee-job-title.service';
@@ -24,16 +23,13 @@ export class EmployeePayrollReportFilterComponent implements OnInit {
   employeeSettings:IDropdownSettings={};
   departmentSettings:IDropdownSettings={};
   designationSettings:IDropdownSettings={};
-  monthSettings:IDropdownSettings={};
   designationDetails;
   designation;
   departmentKeys;
   department;
   departmentType = DepartmentType;
   employeeList;
-  range = [];
   startYear = new Date().getFullYear();
-  selectedPaygroups;
   noOfCalendarDays;
   monthList=[];
   yearList:any=[];
@@ -45,7 +41,6 @@ export class EmployeePayrollReportFilterComponent implements OnInit {
   employeeId;
   fromDate;
   ToDate;
-  data;
   constructor(
     private formBuilder: FormBuilder,
     public modalService: NgbModal,
@@ -59,19 +54,7 @@ export class EmployeePayrollReportFilterComponent implements OnInit {
   ngOnInit(): void {
     this.addForm = this.createFormGroup();
     this.getPayslipYears()
-    this.data = [
-      { id: 1, name: 'Hanoi' },
-      { id: 2, name: 'Lang Son' },
-      { id: 3, name: 'Vung Tau' },
-      { id: 4, name: 'Hue' },
-      { id: 5, name: 'Cu Chi' },
-    ];
-    // setting and support i18n
-    this.monthSettings = {
-      idField:'id',
-      textField:'name',
-      allowSearchFilter: true
-    };
+   
     this.getDesignation()
     this.getEmployeeList() 
     this.departmentKeys = [
@@ -99,10 +82,8 @@ export class EmployeePayrollReportFilterComponent implements OnInit {
       })
   }
   getDesignation() {
-    debugger
     this.employeeJobTitleService.getAll().subscribe(result => {
       this.designationDetails = result;
-      console.log('this.designationDetails ',this.designationDetails );
       
       this.designationSettings = {
         idField:'id',
@@ -112,7 +93,6 @@ export class EmployeePayrollReportFilterComponent implements OnInit {
     })
   }
   getPayslipYears(){
-    debugger
     var monthNames = [ "January", "February", "March", "April", "May", "June", 
     "July", "August", "September", "October", "November", "December" ];
     this.reportService.getPaysipYears().subscribe(result=>{
@@ -128,7 +108,6 @@ export class EmployeePayrollReportFilterComponent implements OnInit {
         montharr.push({id: month+1,name: monthNames[month],monthNumber:month+1,})
         yeararr. push({id: i+1,name: year})
       }
-      console.log('monthList =========',this.monthList);
 
       let uniqueMonth=new Map();
       let uniqueyear=new Map()
@@ -140,11 +119,9 @@ export class EmployeePayrollReportFilterComponent implements OnInit {
         uniqueMonth.set(ele.name,{monthName:ele.name,monthNumber:ele.monthNumber})
       });
       this.monthList = [...uniqueMonth.values()] ;
-      console.log('monthList', this.monthList)
      }) 
   }
 onSubmit(){
-  debugger
   this.noOfCalendarDays = new Date(this.addForm.get('year').value, this.addForm.get('month').value, 0).getDate();
   this.fromDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value > 9 ? this.addForm.get('month').value : 0 + this.addForm.get('month').value}-01`
   this.ToDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value}-${this.noOfCalendarDays}`
@@ -174,13 +151,10 @@ onSubmit(){
     this.empoloyeePayrollReportService.previewReport(this.fromDate,this.ToDate,this.designation,this.employeeId,this.department).subscribe((res:any)=>{
   download(atob(res), 'data.xlsx', { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
     })
-      
-    
-
 }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      fromDate:[null],
+      fromDate:[null,],
       ToDate:[null],
       designationIds:[null],
       employeeIds:[null],
