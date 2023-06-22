@@ -43,6 +43,7 @@ export class EosSlabListComponent implements OnInit {
       {size: 'lg', centered: true, backdrop: 'static' });
     // modalRef.componentInstance.code = this.Codes;
     // modalRef.componentInstance.name= this.Names;
+    modalRef.componentInstance.eosSlabDetails= this.eosSlabDetails;
     modalRef.result.then((result) => {
         if (result == 'submit') {
           this.getEosSlablist()
@@ -53,6 +54,7 @@ export class EosSlabListComponent implements OnInit {
     const modalRef = this.modalService.open(EosSlabEditComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.relDetails= relDetails;
+    modalRef.componentInstance.eosSlabDetails= this.eosSlabDetails;
     // modalRef.componentInstance.code = this.Codes;
     // modalRef.componentInstance.name = this.Names;
 

@@ -7,12 +7,17 @@ import { AttendanceReportComponent } from './attendance-report/attendance-report
 import { LeaveReportComponent } from './leave-report/leave-report/leave-report.component';
 import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/employee-payslip-print-filter/employee-payslip-print-filter.component';
 import { EmployeePayslipPrintComponent } from './employee-payslip-report/employee-payslip-print/employee-payslip-print.component';
+import { EmployeePayrollReportFilterComponent } from './employee-payroll-report/employee-payroll-report-filter/employee-payroll-report-filter.component';
 
 
 const routes: Routes = [
   {
     path: 'employeepayslip', component: EmployeePayslipPrintFilterComponent,
     data: { breadcrumbs: ['Employee Report List', 'Employee Payslip'], name: 'report-employeelist' }
+  },
+  {
+    path: 'employeepayroll', component: EmployeePayrollReportFilterComponent,
+    data: { breadcrumbs: ['Employee Report List', 'Employee Payroll'], name: 'report-employeelist' }
   },
   {
     path: 'employeeList', component: EmployeeListReportComponent,

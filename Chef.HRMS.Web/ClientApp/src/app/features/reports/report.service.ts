@@ -52,7 +52,7 @@ export class ReportsService {
   }
 
   getPaysipYears(){
-    return this.http.get<any>( 'getPayslipYears' ).pipe(map(response => response));
+    return this.http.get<any>( this.apiUrl +'getPayslipYears' ).pipe(map(response => response));
   }
   getAttendanceListDetailsList(startDate, endDate) {
     return this.http.get<AttendanceReport[]>(this.baseUrl + 'AttendanceReport/GetAll/' + startDate + '/' + endDate).pipe(map(response => response));

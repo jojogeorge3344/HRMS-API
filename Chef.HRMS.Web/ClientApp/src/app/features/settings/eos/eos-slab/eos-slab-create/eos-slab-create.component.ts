@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,12 @@ export class EosSlabCreateComponent implements OnInit {
 
   addForm: FormGroup;
   BfDetails: any
+  @Input() eosSlabDetails
   checkLimitValue:boolean=false
+  upperLimitDetails=[]
+  bcode: any;
+  arrayValue: any;
+  checkSave: boolean=false;
 
 
   constructor( 
@@ -37,23 +42,14 @@ export class EosSlabCreateComponent implements OnInit {
   onSubmit() {
     this.addForm.value.valuetype = parseInt(this.addForm.value.valuetype)
     const eosForm = this.addForm.value;
-    if(this.addForm.value.upperLimit>this.addForm.value.lowerLimit){
-      this.checkLimitValue=true
-     }else{
-       this.checkLimitValue=false
-     }
-
-     if(this.checkLimitValue){
-      this.eosSlabService.add(eosForm).subscribe(result => {
-        this.toastr.showSuccessMessage('The EosSlab added successfully!');
-        this.activeModal.close('submit');
-      },
-        error => {
-          this.toastr.showErrorMessage('Unable to add the EosSlab');
-     });
-    }else{
-      this.toastr.showWarningMessage("The Upper Limit Should not be less than Lower Limit ")
-    }
+    if(this.checkSave && !this.checkLimitValue && (this.addForm.value.upperLimit>this.addForm.value.lowerLimit))
+    this.eosSlabService.add(eosForm).subscribe(result => {
+      this.toastr.showSuccessMessage('The EosSlab added successfully!');
+      this.activeModal.close('submit');
+    },
+      error => {
+        this.toastr.showErrorMessage('Unable to add the EosSlab');
+   });
 
     
   
@@ -102,8 +98,40 @@ export class EosSlabCreateComponent implements OnInit {
       eosId: ['', ],
     });
   }
+  checkLowerLimit(event){
+    this.eosSlabDetails.forEach((x)=>{
+      if(x.bfCode==this.bcode){
+        this.upperLimitDetails = [...this.upperLimitDetails, x.upperLimit];
+        this.arrayValue= this.upperLimitDetails[ this.upperLimitDetails.length-1]
+       
+      }
+    })
+    if(this.arrayValue==undefined){
+      this.arrayValue=0
+    }
+    if( event > this.arrayValue){
+    this.checkSave=true
+    }else{
+      this.toastr.showWarningMessage("Slab Value is Already Exist")
+      this.checkSave=false
+    }
+  }
+  checkBothLimit(event){
 
-
+    let changeToNumber=Number(event)
+    if(changeToNumber<=this.addForm.value.lowerLimit){
+       this.checkLimitValue=true
+    }else{
+     this.checkLimitValue=false
+    }
+    if(this.checkLimitValue){
+     this.toastr.showWarningMessage("Upper Limit Should be greater than Lower Limit")
+    }
+  }
+  getBenefitCode(event){
+    this.bcode=event
+  
+  }
 }
 
 
