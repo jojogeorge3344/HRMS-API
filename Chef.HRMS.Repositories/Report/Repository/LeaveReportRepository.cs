@@ -28,8 +28,7 @@ namespace Chef.HRMS.Repositories
                             lc.name AS leavecomponentname,
                             pg.name AS paygroupname,
                             jt.name AS designationname,
-                            a.currentcountry AS countryid,
-                            c.name AS countryname,
+                            hb.shortname AS locationname,
                             jd.department,
                             ca.name AS categoryname
                         FROM hrms.jobdetails jd
@@ -49,10 +48,8 @@ namespace Chef.HRMS.Repositories
                             ON pg.id = jf.paygroupid
                         LEFT JOIN hrms.jobtitle jt
                             ON jt.id = jd.jobtitleid
-                        LEFT JOIN hrms.address a
-                            ON a.employeeid = jd.employeeid
-                        LEFT JOIN hrms.country c
-                            ON c.id = a.currentcountry
+                        LEFT JOIN hrms.hrmsbranch hb
+						    ON hb.id = jd.location
                         LEFT JOIN hrms.category ca
                             ON jd.categoryid = ca.id
                         WHERE ld.leavedate BETWEEN @fromDate AND @toDate";
@@ -67,7 +64,7 @@ namespace Chef.HRMS.Repositories
             }
             if(locationIds != string.Empty)
             {
-                sql += "AND c.id IN (" + locationIds + ")";
+                sql += "AND hb.id IN (" + locationIds + ")";
             }
             if(departmentIds != string.Empty) 
             {
@@ -94,8 +91,7 @@ namespace Chef.HRMS.Repositories
                                  lc.name,
                                  pg.name,
                                  jt.name,
-                                 a.currentcountry,
-                                 c.name,
+                                 hb.shortname,
                                  jd.employeeid,
                                  jd.department,
                                  ca.name";
@@ -111,8 +107,7 @@ namespace Chef.HRMS.Repositories
                           @toDate AS todate,
                           pg.name AS paygroupname,
                           jt.name AS designationname,
-                          a.currentcountry AS countryid,
-                          c.name AS countryname,
+                          hb.shortname AS locationname,
                           lc.name AS leavecomponentname,
                           jd.department,
                           ca.name AS categoryname,
@@ -137,10 +132,8 @@ namespace Chef.HRMS.Repositories
                           ON pg.id = jf.paygroupid
                         LEFT JOIN hrms.jobtitle jt
                           ON jt.id = jd.jobtitleid
-                        LEFT JOIN hrms.address a
-                          ON a.employeeid = jd.employeeid
-                        LEFT JOIN hrms.country c
-                          ON c.id = a.currentcountry
+                        LEFT JOIN hrms.hrmsbranch hb
+						    ON hb.id = jd.location
                         LEFT JOIN hrms.category ca
                           ON jd.categoryid = ca.id
                         WHERE ld.leavedate BETWEEN @fromDate AND @toDate";
@@ -155,7 +148,7 @@ namespace Chef.HRMS.Repositories
             }
             if(locationIds != string.Empty)
             {
-                sql += "AND c.id IN (" + locationIds + ")";
+                sql += "AND hb.id IN (" + locationIds + ")";
             }
             if(departmentIds != string.Empty) 
             {
@@ -179,8 +172,7 @@ namespace Chef.HRMS.Repositories
                                  lc.name,
                                  pg.name,
                                  jt.name,
-                                 a.currentcountry,
-                                 c.name,
+                                 hb.shortname,
                                  jd.employeeid,
                                  jd.department,
                                  ca.name,
