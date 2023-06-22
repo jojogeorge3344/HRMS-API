@@ -9,7 +9,7 @@
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="bfCode">Benefit Code<span class="required">*</span></label>
-                <select class="form-control" formControlName="bfCode" (change)="getBfName($event.target.value)">
+                <select class="form-control" formControlName="bfCode" (change)="getBfName($event.target.value);getBenefitCode($event.target.value)">
                     <option [ngValue]="null" disabled>Select Benefit Code</option>
                     <option *ngFor="let key of BfDetails" value='{{key.bfCode}}'>{{key.bfCode}}</option>
                 </select>
@@ -22,11 +22,11 @@
         <div class="d-flex flex-wrap align-items-baseline">
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="lowerLimit">Lower Limit<span class="required">*</span></label>
-                <input type="number" class="form-control" id="lowerLimit" name="lowerLimit" formControlName="lowerLimit">
+                <input type="number" class="form-control" id="lowerLimit" name="lowerLimit" formControlName="lowerLimit" (change)="checkLowerLimit($event.target.value)">
             </div>
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="upperLimit">Upper Limit<span class="required">*</span></label>
-                <input type="number" class="form-control" id="upperLimit" name="upperLimit" formControlName="upperLimit">
+                <input type="number" class="form-control" id="upperLimit" name="upperLimit" formControlName="upperLimit" (change)="checkBothLimit($event.target.value)">
             </div>
             
            
