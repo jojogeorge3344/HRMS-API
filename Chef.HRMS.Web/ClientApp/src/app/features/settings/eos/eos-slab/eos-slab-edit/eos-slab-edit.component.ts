@@ -16,7 +16,12 @@ export class EosSlabEditComponent implements OnInit {
   addForm: FormGroup;
   BfDetails: any
   @Input() relDetails: EosSlabGroup;
+  @Input() eosSlabDetails
+  upperLimitDetails=[]
   checkLimitValue:boolean=false
+  bcode: any;
+  arrayValue: any;
+  checkSave :boolean=true
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -40,6 +45,7 @@ export class EosSlabEditComponent implements OnInit {
     });
   
     this.getBfDetails()
+    this.getBenefitCode(this.relDetails.bfCode)
   }
 
   getBfDetails() {
@@ -63,24 +69,15 @@ export class EosSlabEditComponent implements OnInit {
     this.addForm.value.id=this.relDetails.id
     this.addForm.value.valueType = parseInt(this.addForm.value.valueType)
     const eosForm = this.addForm.value;
-    if(this.addForm.value.upperLimit>this.addForm.value.lowerLimit){
-      this.checkLimitValue=true
-    }else{
-       this.checkLimitValue=false
-    }
-
-    if(this.checkLimitValue){
-      this.eosSlabService.update(eosForm).subscribe(result => {
-        this.toastr.showSuccessMessage('The EosSlab updated successfully!');
-        this.activeModal.close('submit');
-        },
-          error => {
-            console.error(error);
-            this.toastr.showErrorMessage('Unable to add the EosSlab');
-          });
-    }else{
-      this.toastr.showWarningMessage("The Upper Limit Should not be less than Lower Limit ")
-    }
+    if(this.checkSave && !this.checkLimitValue && (this.addForm.value.upperLimit>this.addForm.value.lowerLimit))
+    this.eosSlabService.update(eosForm).subscribe(result => {
+      this.toastr.showSuccessMessage('The EosSlab updated successfully!');
+      this.activeModal.close('submit');
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('Unable to add the EosSlab');
+        });
     
   }
   createFormGroup(): FormGroup {
@@ -107,7 +104,39 @@ export class EosSlabEditComponent implements OnInit {
       eosId: [0, ],
     });
   }
-
+  checkLowerLimit(event){
+    this.eosSlabDetails.forEach((x)=>{
+      if(x.bfCode==this.bcode){
+        this.upperLimitDetails = [...this.upperLimitDetails, x.upperLimit];
+        this.arrayValue= this.upperLimitDetails[ this.upperLimitDetails.length-1]
+       
+      }
+    })
+    if(this.arrayValue==undefined){
+      this.arrayValue=0
+    }
+    if( event > this.arrayValue){
+      this.checkSave =true
+    }else{
+      this.toastr.showWarningMessage("Slab Value is Already Exist")
+      this.checkSave =false
+    }
+  }
+  checkBothLimit(event){
+    let changeToNumber=Number(event)
+    if(changeToNumber<=this.addForm.value.lowerLimit){
+       this.checkLimitValue=true
+    }else{
+     this.checkLimitValue=false
+    }
+    if(this.checkLimitValue){
+     this.toastr.showWarningMessage("Upper Limit Should be greater than Lower Limit")
+    }
+  }
+  getBenefitCode(event){
+    this.bcode=event
+  
+  }
 }
 
 
