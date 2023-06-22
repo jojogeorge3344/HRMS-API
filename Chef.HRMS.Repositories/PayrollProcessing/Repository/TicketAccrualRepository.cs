@@ -17,7 +17,7 @@ namespace Chef.HRMS.Repositories.PayrollProcessing.Repository
 
         public async Task<IEnumerable<TicketAccrual>> GetTicketAccrualsByPayrollProcessingId(int payrollProcessingId)
         {
-            var sql = @" select ta.accrualdays, ta.accrualamount, ta.accrualdate, ta.employeeid, emp.displayname
+            var sql = @" select ta.accrualdate, ta.accrualamount, ta.accrualdate, ta.employeeid, emp.displayname
                         from hrms.ticketaccrual ta
                         left join hrms.jobfiling jf on jf.employeeid = ta.employeeid
                         left join hrms.hrmsemployee emp on emp.id = jf.employeeid
