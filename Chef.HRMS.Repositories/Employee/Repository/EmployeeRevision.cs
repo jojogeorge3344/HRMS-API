@@ -85,7 +85,7 @@ namespace Chef.HRMS.Repositories
                         LEFT JOIN hrms.payrollcalculation pc ON pcc.payrollstructureid = pc.payrollstructureid
                         AND pcc.payrollcomponentid = pc.payrollcomponentid
                         WHERE pcc.payrollstructureid = @payrollStructureId
-                        AND pcc.isarchived = false";
+                        AND pcc.isarchived = false ORDER BY pcc.payrollcomponentid ASC";
 
             return await Connection.QueryAsync<EmployeeRevisionPayrollStructureView>(sql, new { payrollStructureId });
         }

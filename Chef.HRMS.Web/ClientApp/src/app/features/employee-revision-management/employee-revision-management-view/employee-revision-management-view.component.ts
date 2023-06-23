@@ -149,10 +149,10 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       const details_req = this.employeeList.find(emp => emp.id === this.revisionRequest.requestedBy);
       this.reqBy = details_req.firstName
 
-      const details_old = this.employeeList.find(emp => emp.id === this.revisionRequest.employeeId);
-      this.employee_old = details_old.firstName
-      const details_req_old = this.employeeList.find(emp => emp.id === this.revisionRequest.requestedBy);
-      this.reqBy_old = details_req_old.firstName
+      const details_old = this.employeeList.find(emp => emp.id === this.emp_oldDetails?.employeeId);
+      this.employee_old = details_old?.firstName
+      const details_req_old = this.employeeList.find(emp => emp.id === this.emp_oldDetails?.requestedBy);
+      this.reqBy_old = details_req_old?.firstName
       this.getLeaveStructure()
     },
       error => {
@@ -161,12 +161,13 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
   }
 
   getLeaveStructure() {
+    debugger
     this.leaveStructureService.getConfiguredLeaveStructures().subscribe(result => {
       this.leaveStructureId = result;
       const details = this.leaveStructureId.find(leav => leav.id === this.revisionRequest.leavesStructureId);
       this.leaveStructure = details.description
 
-      const details_old = this.leaveStructureId.find(leav => leav.id === this.revisionRequest.leavesStructureId);
+      const details_old = this.leaveStructureId.find(leav => leav.id === this.emp_oldDetails?.leavesStructureId);
       this.leaveStructure_old = details_old.description
       this.getShiftList()
     },
@@ -180,7 +181,7 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.shiftId = result;
       const details = this.shiftId.find(leav => leav.id === this.revisionRequest.shiftId);
       this.shift = details.name
-      const details_old = this.shiftId.find(leav => leav.id === this.revisionRequest.shiftId);
+      const details_old = this.shiftId.find(leav => leav.id === this.emp_oldDetails?.shiftId);
       this.shift_old = details_old.name
       this.getHolidayList()
     },
@@ -194,8 +195,8 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
  
       const details = this.holidayCategoryId.find(hol => hol.id === this.revisionRequest.holidayCategoryId);
       this.holidayCategory = details.name
-      const details_old = this.holidayCategoryId.find(hol => hol.id === this.revisionRequest.holidayCategoryId);
-      this.holidayCategory_old = details.name
+      const details_old = this.holidayCategoryId.find(hol => hol.id === this.emp_oldDetails?.holidayCategoryId);
+      this.holidayCategory_old = details_old.name
       this.getEosDetails()
     },
       error => {
@@ -207,7 +208,7 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.jobTitleId = result;
       const details = this.jobTitleId.find(job => job.id === this.revisionRequest.jobTitleId);
       this.designation = details.name
-      const details_old = this.jobTitleId.find(job => job.id === this.revisionRequest.jobTitleId);
+      const details_old = this.jobTitleId.find(job => job.id === this.emp_oldDetails?.jobTitleId);
       this.designation_old = details_old.name
       this.getPayrollStructureList()
     },
@@ -222,7 +223,7 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.payrollStructureId = result;
       const details = this.payrollStructureId.find(pay => pay.id === this.revisionRequest.payrollStructureId);
       this.payrollstructure = details.description
-      const details_old = this.payrollStructureId.find(pay => pay.id === this.revisionRequest.payrollStructureId);
+      const details_old = this.payrollStructureId.find(pay => pay.id === this.emp_oldDetails?.payrollStructureId);
       this.payrollstructure_old = details_old.description
       this.getPayGroupList()
     },
@@ -237,7 +238,7 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.payGroupId = result;
       const details = this.payGroupId.find(grp => grp.id === this.revisionRequest.payGroupId);
       this.payGroup = details.name
-      const details_old = this.payGroupId.find(grp => grp.id === this.revisionRequest.payGroupId);
+      const details_old = this.payGroupId.find(grp => grp.id === this.emp_oldDetails?.payGroupId);
       this.payGroup_old = details_old.name
       this.getOverTimePolicyList()
     },
@@ -251,7 +252,7 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.overTimePolicyId = result;
       const details = this.overTimePolicyId.find(o => o.id === this.revisionRequest.overTimePolicyId);
       this.overTime = details.name
-      const details_old = this.overTimePolicyId.find(o => o.id === this.revisionRequest.overTimePolicyId);
+      const details_old = this.overTimePolicyId.find(o => o.id === this.emp_oldDetails?.overTimePolicyId);
       this.overTime_old = details_old.name
     },
       error => {
@@ -285,7 +286,7 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
 
 
     getOldDetails(){
-      this.EmployeeRevisionManagementService.get(this.reqId).subscribe(result => {
+      this.EmployeeRevisionManagementService.getOldDetails(this.reqId).subscribe(result => {
       this.emp_oldDetails = result;
       this.getEmployeeList()
         

@@ -17,11 +17,20 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<EmployeeRevisionDetails>> GetEmployeeRevisionSalaryDetail(int employeeRevisionId)
         {
-            var sql = @"SELECT erd.*,pc.name FROM hrms.employeerevisiondetails erd
+            var sql = @"SELECT
+                          erd.*,
+                          pc.name,
+                          pc.shortcode,
+                          pcn.formula
+                        FROM hrms.employeerevisiondetails erd
                         INNER JOIN hrms.payrollcomponent pc
-                        ON erd.payrollcomponentid = pc.id
-                        WHERE employeerevisionid = employeeRevisionId
-                        AND erd.isarchived = false";
+                          ON erd.payrollcomponentid = pc.id
+                        LEFT JOIN hrms.payrollcalculation pcn
+                          ON pc.id = pcn.payrollcomponentid
+                          AND erd.payrollstructureid = pcn.payrollstructureid
+                        WHERE employeerevisionid = @employeeRevisionId
+                        AND erd.isarchived = FALSE
+                        ORDER BY erd.payrollcomponentid ASC";
 
             return await Connection.QueryAsync<EmployeeRevisionDetails>(sql, new { employeeRevisionId });
         }

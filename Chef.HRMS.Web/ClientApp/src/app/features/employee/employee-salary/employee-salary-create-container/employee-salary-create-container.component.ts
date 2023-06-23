@@ -120,6 +120,7 @@ export class EmployeeSalaryCreateContainerComponent implements OnInit {
     this.payrollCalculationService.getByEmployeeId(this.employeeId).subscribe((payrollcalculation: EmployeeSalaryConfigurationView[]) => {
 
       this.salaryStructure = payrollcalculation;
+      console.log('this.salaryStructure',this.salaryStructure)
 
       if (this.salaryStructure.length && this.salaryStructure[0].payrollStructureName) {
         this.salaryStructureName = this.salaryStructure[0].payrollStructureName;
