@@ -36,7 +36,7 @@ import { ReportViewerModule } from "@shared/report-viewer/report-viewer.module";
         name: 'organization-generate-accruals' }
       },
       {
-        path: ":id/:IorV/generate",
+        path: ":id/:IorV/:payrollid/generate",
         component: GenerateAccrualsFinanceEntryComponent,
         data: {
           breadcrumbs: ["Organization", "Generate Accruals", "Generate"],
