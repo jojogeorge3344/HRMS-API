@@ -69,7 +69,8 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
   employeePayrollStructure:any=[]
   employeePayrollStructure_rev:any=[]
   currentUserId:any
- 
+  valueObject = {};
+
  
   constructor(
     // public activeModal: NgbActiveModal,
@@ -239,6 +240,48 @@ export class EmployeeRevisionManagementEditComponent implements OnInit {
       });
   }
 
+  calculateComponentValues(item,index){
+
+    // if(item.monthlyAmount > item.maximumLimit){
+    //   this.employeePayrollStructure_rev.forEach((x)=>{
+    //     x.monthlyAmount = ''
+    //   })
+     
+    //   return
+    // }
+    this.employeePayrollStructure_rev.map((x: any) => {
+      this.valueObject[`{${x.shortCode}}`] = x.monthlyAmount;
+     })
+    
+    // this.employeePayrollStructure_rev.map((res, i) => {
+    //   const keys = Object.keys(this.valueObject);
+    //   if (res.formula) {
+    //     let formula: string = res.formula;
+    //     keys.forEach((key) => {
+    //       formula = formula.replace(key, this.valueObject[key]);
+    //     });
+    //     formula = formula.replace("[", "");
+    //     formula = formula.replace("]", "");
+    //     res.monthlyAmount = eval(formula);
+
+    //   }
+    // })
+    const keys = Object.keys(this.valueObject);
+    this.employeePayrollStructure_rev.forEach((x)=>{
+      if (x.formula) {
+        let formula: string = x.formula;
+        keys.forEach((key) => {
+          formula = formula.replace(key, this.valueObject[key]);
+        });
+        formula = formula.replace("[", "");
+        formula = formula.replace("]", "");
+        x.monthlyAmount = eval(formula).toFixed(2)
+        this.valueObject[`{${x.shortCode}}`] = x.monthlyAmount;
+      }
+
+    })
+  console.log('employeePayrollStructure_rev',this.employeePayrollStructure_rev)
+  }
 
   getEmployeeOldSalaryDetails(id){
   this.employeePayrollStructure=[]

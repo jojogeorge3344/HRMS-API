@@ -257,7 +257,11 @@
                                 <tr  *ngFor="let employee of employeePayrollStructure_rev; let i= index;">
                                     <td>{{i+1}}</td>
                                    <td>{{employee.name}}</td>
-                                   <td><input  value="{{employee.monthlyAmount}}" type="text" class="form-control"
+                                   <td><input  
+                                    [disabled]="employee.formula == null ? false : true" 
+                                    (blur)="calculateComponentValues(employee,i)" 
+                                    [ngModelOptions]="{standalone: true}"  [(ngModel)]="employee.monthlyAmount" 
+                                    type="text" class="form-control"
                                     /></td>
                                 </tr>
                             </tbody>

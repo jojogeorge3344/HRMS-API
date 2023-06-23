@@ -150,9 +150,9 @@ export class EmployeeRevisionManagementViewComponent implements OnInit {
       this.reqBy = details_req.firstName
 
       const details_old = this.employeeList.find(emp => emp.id === this.emp_oldDetails?.employeeId);
-      this.employee_old = details_old.firstName
+      this.employee_old = details_old?.firstName
       const details_req_old = this.employeeList.find(emp => emp.id === this.emp_oldDetails?.requestedBy);
-      this.reqBy_old = details_req_old.firstName
+      this.reqBy_old = details_req_old?.firstName
       this.getLeaveStructure()
     },
       error => {
