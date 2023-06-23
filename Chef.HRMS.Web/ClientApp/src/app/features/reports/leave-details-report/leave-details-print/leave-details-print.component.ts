@@ -55,13 +55,13 @@ export class LeaveDetailsPrintComponent implements OnInit {
     debugger
     this.reportViewerService.loadReportOnInit = this.loadReportOnInit;
     this.reportViewerService.customData.reportType = this.data[0].reportType;
-    this.reportViewerService.customData.paygroupId = this.data[0].paygroupId;
-    this.reportViewerService.customData.departmentId = this.data[0].departmentId;
-    this.reportViewerService.customData.designationId = this.data[0].designationId;
-    this.reportViewerService.customData.employeeId = this.data[0].employeeId;
-    this.reportViewerService.customData.locationId = this.data[0].locationId;
-    this.reportViewerService.customData.employeeGroupId = this.data[0].employeeGroupId;
-    this.reportViewerService.customData.leaveComponentId = this.data[0].leaveComponentId;
+    this.reportViewerService.customData.paygroupId = this.data[0].paygroupIds;
+    this.reportViewerService.customData.departmentId = this.data[0].departmentIds;
+    this.reportViewerService.customData.designationId = this.data[0].designationIds;
+    this.reportViewerService.customData.employeeId = this.data[0].employeeIds;
+    this.reportViewerService.customData.locationId = this.data[0].locationIds;
+    this.reportViewerService.customData.employeeGroupId = this.data[0].employeeCategory;
+    this.reportViewerService.customData.leaveComponentId = this.data[0].leaveComponentIds;
     this.reportViewerService.customData.fromDate = this.data[0].fromDate;
     this.reportViewerService.customData.ToDate = this.data[0].ToDate;
   }
