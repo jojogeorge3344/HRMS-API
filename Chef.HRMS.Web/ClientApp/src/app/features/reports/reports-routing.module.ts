@@ -8,6 +8,8 @@ import { LeaveReportComponent } from './leave-report/leave-report/leave-report.c
 import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/employee-payslip-print-filter/employee-payslip-print-filter.component';
 import { EmployeePayslipPrintComponent } from './employee-payslip-report/employee-payslip-print/employee-payslip-print.component';
 import { EmployeePayrollReportFilterComponent } from './employee-payroll-report/employee-payroll-report-filter/employee-payroll-report-filter.component';
+import { LeaveDetailsReportFilterComponent } from './leave-details-report/leave-details-report-filter/leave-details-report-filter.component';
+import { LeaveDetailsPrintComponent } from './leave-details-report/leave-details-print/leave-details-print.component';
 
 
 const routes: Routes = [
@@ -18,6 +20,15 @@ const routes: Routes = [
   {
     path: 'employeepayroll', component: EmployeePayrollReportFilterComponent,
     data: { breadcrumbs: ['Employee Report List', 'Employee Payroll'], name: 'report-employeelist' }
+  },
+  {
+    path: 'leavedetails', component: LeaveDetailsReportFilterComponent,
+    data: { breadcrumbs: ['Employee Report List', 'Employee leave details'], name: 'report-employeelist' }
+  },
+  {
+    path: 'leavedetails/print', component: LeaveDetailsPrintComponent,
+    data: { breadcrumbs: ['Employee Report List', 'LeaveDetailsPrintComponent'],  name: 'report-employeelist' }
+    
   },
   {
     path: 'employeeList', component: EmployeeListReportComponent,
@@ -39,6 +50,7 @@ const routes: Routes = [
     path: 'leavelist', component: LeaveReportComponent,
     data: { breadcrumbs: ['Leave Report List', 'LeaveReportComponent'], name: 'report-leavereport' }
   },
+  
   // {
   //   path: 'print', component: EmployeePayslipPrintComponent,
   //   data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
