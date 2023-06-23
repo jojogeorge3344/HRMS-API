@@ -375,16 +375,30 @@ namespace Chef.HRMS.Repositories
 
         public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid)
         {
-            var sql = @"SELECT distinct ppm.employeeid,ppm.id as payrollprocessingid,le.*,esd.monthlyamount, emp.displayname as employeename, jd.employeenumber as employeecode
+            var sql = @"SELECT DISTINCT
+                          ppm.employeeid,
+                          ppm.id AS payrollprocessingid,
+                          le.*,
+                          esd.monthlyamount,
+                          emp.displayname AS employeename,
+                          jd.employeenumber AS employeecode
                         FROM hrms.payrollprocessingmethod ppm
-                        left join hrms.hrmsemployee emp on emp.id = ppm.employeeid 
-                        left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
-                        Left Join  hrms.jobfiling jf on jf.employeeid = ppm.employeeid
-                        Join hrms.leavestructureleavecomponent lslc on lslc.leavestructureid = jf.leavestructureid
-                        Join hrms.leaveeligibility le on le.leavecomponentid = lslc.leavecomponentid       
-                        Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
-                        WHERE ppm.paygroupid = @paygroupid and le.leavetype = 1";
+                        LEFT JOIN hrms.hrmsemployee emp
+                          ON emp.id = ppm.employeeid
+                        LEFT JOIN hrms.jobdetails jd
+                          ON jd.employeeid = ppm.employeeid
+                        LEFT JOIN hrms.jobfiling jf
+                          ON jf.employeeid = ppm.employeeid
+                        LEFT JOIN hrms.leavestructureleavecomponent lslc
+                          ON lslc.leavestructureid = jf.leavestructureid
+                        LEFT JOIN hrms.leaveeligibility le
+                          ON le.leavecomponentid = lslc.leavecomponentid
+                        LEFT JOIN hrms.employeesalaryconfigurationdetails esd
+                          ON le.leavecomponentid = esd.payrollcomponentid
+                        WHERE ppm.paygroupid = @paygroupid
+                        AND le.leavetype = 1";
             //, esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+
             return await Connection.QueryAsync<LeaveEligibility>(sql, new { paygroupid });
         }
 
