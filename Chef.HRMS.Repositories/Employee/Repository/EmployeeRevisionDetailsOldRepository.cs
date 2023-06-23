@@ -27,8 +27,8 @@ namespace Chef.HRMS.Repositories
             var sql = @"SELECT erdo.*,pc.name FROM hrms.employeerevisiondetailsold erdo
                         INNER JOIN hrms.payrollcomponent pc
                         ON erdo.payrollcomponentid = pc.id
-                        WHERE employeerevisionid = employeeRevisionId
-                        AND erdo.isarchived = false";
+                        WHERE employeerevisionid = @employeeRevisionId
+                        AND erdo.isarchived = false ORDER BY erdo.payrollcomponentid ASC";
 
             return await Connection.QueryAsync<EmployeeRevisionDetailsOld>(sql, new { employeeRevisionId });
         }
