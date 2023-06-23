@@ -19,8 +19,7 @@ namespace Chef.HRMS.Models.Report
         public string LeaveComponentName { get; set; }
         public string PaygroupName { get; set;}
         public string DesignationName { get; set; }
-        public int CountryId { get; set; }
-        public string CountryName { get; set; }
+        public string LocationName { get; set; }
         public DepartmentType Department { get; set; }
         public string DepartmentName => EnumExtension.GetDescription(Department);
         public string CategoryName { get; set; }

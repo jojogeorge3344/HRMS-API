@@ -17,35 +17,28 @@ namespace Chef.HRMS.Repositories
         {
 
                 var sql = @"SELECT DISTINCT
-                              ad.id AS deductionId,
-                              ad.employeeid AS employeeId,
-                              (Concat(e.firstname, ' ', e.lastname)) AS name,
-                              ad.employeecode AS employeeCode,
-                              PC.name AS deductionName,
-                              ad.description AS description,
-                              jf.paygroupid AS paygroupId,
-                              ad.payrollprocessingmethodid AS
-                              payrollProcessingMethodId,
-                              ad.amount AS amount,
-                              ad.currency AS currency,
-                              ad.createddate AS createddate,
-                              ad.modifieddate AS modifieddate,
-                              ad.createdby AS createdby,
-                              ad.modifiedby AS modifiedby,
-                              ad.isaddition,
-                              ad.payrollcomponentid AS ComponentId
+                                ad.id AS deductionId,
+                                ad.employeeid AS employeeId,
+                                (Concat(e.firstname, ' ', e.lastname)) AS name,
+                                ad.employeecode AS employeeCode,
+                                PC.name AS deductionName,
+                                ad.description AS description,
+                                jf.paygroupid AS paygroupId,
+                                ad.payrollprocessingmethodid AS payrollProcessingMethodId,
+                                ad.amount AS amount,
+                                ad.currency AS currency,
+                                ad.createddate AS createddate,
+                                ad.modifieddate AS modifieddate,
+                                ad.createdby AS createdby,
+                                ad.modifiedby AS modifiedby,
+                                ad.isaddition,
+                                ad.payrollcomponentid AS ComponentId
                             FROM hrms.adhocdeduction ad
-                            INNER JOIN hrms.HRMSEmployee e
-                              ON ad.employeeid = e.id
-                            INNER JOIN hrms.jobfiling jf
-                              ON ad.employeeid = jf.employeeid
-                            LEFT JOIN hrms.payrollcomponent PC
-                              ON PC.id = ad.payrollcomponentid
-                            --WHERE  (ad.payrollprocessingmethodid = @payrollProcessingMethodId 
-                            -- AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
-                            --WHERE  (ppm.month =@month AND  ppm.year=@year)))
-                            WHERE To_Date(CAST(COALESCE(ad.date) AS text), 'YYYY MM DD') BETWEEN To_Date(CAST(COALESCE(@fromDate) AS text), 'YYYY MM DD') AND To_Date(CAST(COALESCE(@toDate) AS text), 'YYYY MM DD')
-                            AND jf.paygroupid = @payGroupId";
+                            INNER JOIN hrms.HRMSEmployee e ON ad.employeeid = e.id
+                            INNER JOIN hrms.jobfiling jf ON ad.employeeid = jf.employeeid
+                            LEFT JOIN hrms.payrollcomponent PC ON PC.id = ad.payrollcomponentid
+                            WHERE ad.date::date BETWEEN CAST(@fromDate AS date) AND CAST(@toDate AS date)
+                                AND jf.paygroupid = @payGroupId";
 
                 return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payGroupId, fromDate, toDate });
 

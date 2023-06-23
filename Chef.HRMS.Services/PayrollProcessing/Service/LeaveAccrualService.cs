@@ -105,7 +105,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 leaveAccrualEmployee.MonthlyAmount = eligibleEmployee.MonthlyAmount;
 
                 var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
-                if (systemVariableValues != null)
+                if (systemVariableValues != null && systemVariableValues.Count() > 0)
                 {
                     leaveAccrualEmployee.EligibilityPerDay = (decimal)eligibleEmployee.EligibleDays /eligibleEmployee.EligibilityBase;
                     leaveAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
@@ -143,7 +143,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 }
                 else 
                 {
-                    if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+                    if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate && prevAccrualSummaryDetails.IsArchived == false)
                     {
                         throw new ResourceNotFoundException("Leave Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
                     }
@@ -192,25 +192,25 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
             return await leaveAccrualRepository.GetAccrualsByPayrollProcessingId(payrollProcessingId);
         }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public Task<int> DeleteAsync(int id)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
-        public Task<IEnumerable<LeaveAccrual>> GetAllAsync()
-        {
-            throw new System.NotImplementedException();
-        }
+        //public Task<IEnumerable<LeaveAccrual>> GetAllAsync()
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
-        public Task<LeaveAccrual> GetAsync(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public Task<LeaveAccrual> GetAsync(int id)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
-        public Task<int> InsertAsync(LeaveAccrual leave)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public Task<int> InsertAsync(LeaveAccrual leave)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
     }
 }
