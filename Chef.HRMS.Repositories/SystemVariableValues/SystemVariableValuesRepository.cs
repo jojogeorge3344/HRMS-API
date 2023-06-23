@@ -35,14 +35,17 @@ namespace Chef.HRMS.Repositories
 
 		public async Task<IEnumerable<SystemVariableValues>> GetSystemVariableValuesByEmployeeId(int employeeId)
 		{
-			DateTime nextMonth = DateTime.Now.AddMonths(1);
-			int month = nextMonth.Month;
-			int year = nextMonth.Year;
-            var sql = @"select sv.code,svv.transvalue from hrms.systemvariable sv
-						join hrms.systemvariablevalues svv 
-						on sv.id = svv.systemvariableid
-					    where  svv.employeeid = @employeeId
-						and EXTRACT(MONTH FROM svv.transdate) = @month AND EXTRACT(YEAR FROM svv.transdate) = @year";
+			DateTime currentMonth = DateTime.Now;
+			int month = currentMonth.Month;
+			int year = currentMonth.Year;
+
+            var sql = @"SELECT sv.code, svv.transvalue
+						FROM hrms.systemvariable sv
+						LEFT JOIN hrms.systemvariablevalues svv ON sv.id = svv.systemvariableid
+						WHERE svv.employeeid = @employeeId
+							AND EXTRACT(MONTH FROM svv.transdate) = @month
+							AND EXTRACT(YEAR FROM svv.transdate) = @year";
+
             return await Connection.QueryAsync<SystemVariableValues>(sql, new { employeeId, month, year });
         }
         public async Task<string> InsertSystemVariableDetails(int PayGroupId, int ppMId)//, PayrollProcessingMethod systemVariableValues)
