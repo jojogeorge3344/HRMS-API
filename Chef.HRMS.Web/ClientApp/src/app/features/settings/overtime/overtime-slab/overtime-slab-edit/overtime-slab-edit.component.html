@@ -10,11 +10,11 @@
             <div class="form-group form-input-line col-6">
                 <label class="col-form-label" for="overTimePolicyCode">Over Time Type<span
                         class="required">*</span></label>
-                <select class="form-control" formControlName="overtimetype" (change)="overTimeType($event)">
+                <select class="form-control" formControlName="overtimetype" (change)="overTimeType($event)" disabled>
                     <option [ngValue]="null" disabled>
                         Select Overtime type
                     </option>
-                    <option *ngFor="let key of overtimetypekeys" [ngValue]="key">
+                    <option disabled *ngFor="let key of overtimetypekeys" [ngValue]="key">
                         {{ overtimetype[key] }}
                     </option>
                 </select>

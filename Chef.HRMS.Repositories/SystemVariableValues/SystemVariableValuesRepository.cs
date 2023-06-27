@@ -57,12 +57,12 @@ namespace Chef.HRMS.Repositories
 
 			int intYear = processingMethod.Year;
 			int intleaveCutoff = Convert.ToInt32(payGroupDet.LeaveCutOff);
-			DateTime leaveStartDate = new DateTime(intYear, intMonth - 1, intleaveCutoff);
+			DateTime leaveStartDate = new DateTime(intYear, intMonth, intleaveCutoff);
 			DateTime leaveEndDate = new DateTime(intYear, intMonth , intleaveCutoff);
 
 
 			int intTimeSheetCutOff = Convert.ToInt32(payGroupDet.TimeSheetCutOff);
-			DateTime timeSheetStartDate = new DateTime(intYear, intMonth - 1, intTimeSheetCutOff);
+			DateTime timeSheetStartDate = new DateTime(intYear, intMonth, intTimeSheetCutOff);
 			DateTime timeSheetEndDate = new DateTime(intYear, intMonth, intTimeSheetCutOff);
 
 			DateTime monthStart = new DateTime(intYear, intMonth, 1);
