@@ -54,6 +54,11 @@
         </ng-template>
         </p-dropdown>
       </div>  
+      <div class="d-flex justify-content-between align-items-center">
+        <div *ngIf="this.editForm.get('documentTypeMasterId').touched && this.editForm.get('documentTypeMasterId').invalid" class="invalid-feedback d-block">
+            Document Type* is required
+        </div>
+    </div>
       </div>
       <div class="form-group col-6">
         <label for="issueDate">Date of Issue<span class="required">*</span></label>

@@ -68,6 +68,7 @@ export class OvertimeSlabCreateComponent implements OnInit {
 
 
   onSubmit() {
+    debugger
     const eosForm = this.addForm.value;
     if(this.checkSlabValue)
     this.overTimeSlabService.add(eosForm).subscribe(result => {
@@ -183,12 +184,27 @@ export class OvertimeSlabCreateComponent implements OnInit {
     debugger
     if(this.addForm.value.overtimetype==1 ){
       this.checkNormal=true
+      this.checkHoliday=false
+      this.checkSpecial=false
+      this.addForm.patchValue({
+        lowerLimit:''
+      })
       
     }else if(this.addForm.value.overtimetype==2){
       this.checkHoliday=true
+      this.checkNormal=false
+      this.checkSpecial=false
+      this.addForm.patchValue({
+        lowerLimit:''
+      })
 
     }else if(this.addForm.value.overtimetype==3){
       this.checkSpecial=true
+      this.checkNormal=false
+      this.checkHoliday=false
+      this.addForm.patchValue({
+        lowerLimit:''
+      })
     }
   }
 }
