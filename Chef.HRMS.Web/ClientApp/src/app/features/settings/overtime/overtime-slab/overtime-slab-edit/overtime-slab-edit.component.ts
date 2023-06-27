@@ -29,6 +29,7 @@ export class OvertimeSlabEditComponent implements OnInit {
   checkNormal:boolean=false
   checkSpecial:boolean=false
   checkHoliday:boolean=false
+  checkSlabValue: boolean=false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -102,14 +103,19 @@ export class OvertimeSlabEditComponent implements OnInit {
   onSubmit() {
     this.addForm.value.id=this.relDetails.id
     const eosForm = this.addForm.value;
-    this.overTimeSlabService.update(eosForm).subscribe(result => {
-    this.toastr.showSuccessMessage('The OvertimeSlab updated successfully!');
-    this.activeModal.close('submit');
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the OvertimeSlab');
-      });
+    if(this.addForm.value.upperLimit > this.addForm.value.lowerLimit && !this.checkSlabValue){
+      this.overTimeSlabService.update(eosForm).subscribe(result => {
+        this.toastr.showSuccessMessage('The OvertimeSlab updated successfully!');
+        this.activeModal.close('submit');
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to add the OvertimeSlab');
+          });
+    }else{
+      this.toastr.showWarningMessage("Upper Limit Should be greater than Lower Limit")
+    }
+
     
   }
   createFormGroup(): FormGroup {
@@ -147,16 +153,21 @@ export class OvertimeSlabEditComponent implements OnInit {
           array=0
        }
        if(changeToNumber>array){
+        this.checkSlabValue=false
        }else{
           this.toastr.showWarningMessage("NormalOverTimeSlab Value Already Exists")
+          this.checkSlabValue=true
           return
         }
     }else if(this.checkHoliday){
       let array=this.holidayOverTimeDetails[this.holidayOverTimeDetails.length-1]
       if(changeToNumber>array){
+        this.checkSlabValue=false
       }else{
         this.toastr.showWarningMessage("HolidayOverTimeSlab Value Already Exists")
+        this.checkSlabValue=true
         return
+        
        }
     }else if(this.checkSpecial){
        let array=this.specialOverTimeDetails[this.specialOverTimeDetails.length-1]
@@ -164,8 +175,10 @@ export class OvertimeSlabEditComponent implements OnInit {
         array=0
        }
        if(changeToNumber>array){
+        this.checkSlabValue=false
        }else{
         this.toastr.showWarningMessage("SpecialOverTimeSlab Value Already Exists")
+        this.checkSlabValue=true
         return
        }
     }
