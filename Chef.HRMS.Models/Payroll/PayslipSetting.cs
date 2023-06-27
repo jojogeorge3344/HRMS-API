@@ -18,6 +18,11 @@ namespace Chef.HRMS.Models
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
+        public string StructureName { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
         public List<PayslipSettingDetails> PayslipSettingDetails { get; set; }
     }
 }

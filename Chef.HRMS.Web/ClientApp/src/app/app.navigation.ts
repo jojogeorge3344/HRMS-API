@@ -244,6 +244,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/generate-accruals'
       },
+      {
+        title: 'Payslip Components',
+        tags: 'settings-expense',
+        routerLink: '/payslip-components'
+      },
     ]
   },
   {
@@ -255,6 +260,11 @@ export const NavigationItems = [
         title: "Employee Payslip",
         tags: "report-employeelist",
         routerLink: "/reports/employeepayslip",
+      },
+      {
+        title: "Employee Payroll Report",
+        tags: "report-employeelist",
+        routerLink: "/reports/employeepayroll",
       },
       {
         title: "Employee Register",

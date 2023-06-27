@@ -50,7 +50,7 @@ export class GenerateAccrualsService {
     return this.http.post(this.generateFinacialEntry + 'GenerateFinancialEntry/' + paygroupid,'').pipe(map(response => { return response; }));
   }
 
-  get_processedAccruals(paygroupid){
-    return this.http.post(this.generateFinacialEntry + 'GetProcessedAccruals/' + paygroupid,'').pipe(map(response => { return response; }));
+  get_processedAccruals(payrollprocessid){
+    return this.http.get(this.generateFinacialEntry + 'GetProcessedAccruals/' + payrollprocessid).pipe(map(response => { return response; }));
   }
 }

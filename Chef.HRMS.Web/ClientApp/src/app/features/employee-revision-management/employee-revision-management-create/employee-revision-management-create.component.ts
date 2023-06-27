@@ -29,6 +29,8 @@ import { OvertimePolicyService } from '@settings/overtime/overtime-policy/overti
 import { OvertimePolicy } from '@settings/overtime/overtime-policy/overtime-policy.model';
 import { EmployeeRevisionManagementService } from '../employee-revision-management.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { PayrollCalculationService } from '@settings/payroll/payroll-calculation/payroll-calculation.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'hrms-employee-revision-management-create',
   templateUrl: './employee-revision-management-create.component.html',
@@ -65,9 +67,10 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
   currentUserId:any
   employeePayrollStructure:any=[]
   employeeDetails_old:any={}
-  employeePayrollStructure_rev:any={}
+  employeePayrollStructure_rev:any=[]
   employeeRevisionId:any
   employeeSalaryRevId:any
+  valueObject = {};
 
   constructor(
     // public activeModal: NgbActiveModal,
@@ -84,6 +87,8 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
     private overtimePolicyService: OvertimePolicyService,
     private EmployeeRevisionManagementService:EmployeeRevisionManagementService,
     public modalService: NgbModal,
+    private payrollCalculationService: PayrollCalculationService,
+    private router: Router,
   ) {
     const current = new Date();
     this.minDate = {
@@ -205,7 +210,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
   getEmployeeDetails(id:number) {
     this.employeeDetails =[]
     this.EmployeeRevisionManagementService.getEmployeeDetailsById(id).subscribe(result => {
-      this.employeeDetails = result
+      this.employeeDetails =result
       this.employeeDetails_old = result
       this.employeeDetails_old.revStatus = 1
       this.employeeDetails_old.reqNum = 0
@@ -219,16 +224,16 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
 
   bindEmployeeDetails(id){
      this.addForm.patchValue({
-      leavesStructureId: this.employeeDetails.leaveStructureId,
+      leavesStructureId: this.employeeDetails.leavesStructureId,
       shiftId:this.employeeDetails.shiftId,
       weekOff:this.employeeDetails.weekOff,
       holidayCategoryId:this.employeeDetails.holidayCategoryId,
       eosId:this.employeeDetails.eosId,
-      jobTitleId:this.employeeDetails.designationId,
-      departmentId:this.employeeDetails.department,
+      jobTitleId:this.employeeDetails.jobTitleId,
+      departmentId:this.employeeDetails.departmentId,
       workerType:this.employeeDetails.workerType,
       timeType:this.employeeDetails.timeType,
-      attendanceTrackingId:this.employeeDetails.attendanceTracking,
+      attendanceTrackingId:this.employeeDetails.attendanceTrackingId,
       payrollStructureId:this.employeeDetails.payrollStructureId,
       payGroupId:this.employeeDetails.payGroupId,
       overTimePolicyId:this.employeeDetails.overTimePolicyId
@@ -236,7 +241,6 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
   // this.addForm.get("leavesStructureId").patchValue(this.employeeDetails.leaveStructureId);
   debugger
     this.getEmployeePayroll(id)
-
   }
 
   getLeaveStructure() {
@@ -291,11 +295,14 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
       });
   }
    getEmployeePayroll(id) {
+    debugger
     this.employeePayrollStructure=[]
-    this.employeePayrollStructure_rev ={}
-    this.EmployeeRevisionManagementService.getEmployeePayroll(this.addForm.value.payrollStructureId,id).subscribe(result => {
-      this.employeePayrollStructure = result;
-      this.employeePayrollStructure_rev = result
+    this.employeePayrollStructure_rev =[]
+    this.EmployeeRevisionManagementService.getEmployeePayroll(this.addForm.value.payrollStructureId,id).subscribe((result:any) => {
+      this.employeePayrollStructure =  result;
+      let data =JSON.stringify(result);
+      this.employeePayrollStructure_rev = JSON.parse(data);
+
     },
       error => {
         console.error(error);
@@ -305,7 +312,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
 
   getEmployeePayroll_rev() {
     debugger
-    this.employeePayrollStructure_rev ={}
+    this.employeePayrollStructure_rev =[]
     this.EmployeeRevisionManagementService.getpayrollComponents(this.addForm.value.payrollStructureId).subscribe(result => {
       this.employeePayrollStructure_rev = result
     },
@@ -341,6 +348,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
   selectionChanged_Employee(args){
     this.addForm.get("employeeId").patchValue(args.value.id);
     this.getEmployeeDetails(args.value.id)
+    
   }
   search = (text: Observable<string>) => {
     return text.pipe(
@@ -380,17 +388,16 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
           this.employeePayrollStructure[i].modifiedDate = new Date(Date.now())
           this.employeePayrollStructure[i].createdBy = details.firstName
           this.employeePayrollStructure[i].modifiedBy =  details.firstName
-          this.employeePayrollStructure[i].isArchived = true
+          this.employeePayrollStructure[i].isArchived = false
           this.employeePayrollStructure[i].employeeRevisionId = this.employeeRevisionId
-          this.employeePayrollStructure[i].payrollStructureId =
+          this.employeePayrollStructure[i].payrollStructureId =0
           this.employeePayrollStructure[i].employeeRevisionDetailId = this.employeeSalaryRevId
-          this.employeePayrollStructure[i].payrollStructureId= this.employeeDetails.payrollStructureId
-
-          
+          this.employeePayrollStructure[i].payrollStructureId= this.employeeDetails.payrollStructureId    
     }
      //this.employeePayrollStructure = {...this.employeePayrollStructure}
     this.EmployeeRevisionManagementService.save_oldSalaryDetails(this.employeePayrollStructure).subscribe((result: any) => {
       this.toastr.showSuccessMessage('Employee Salary Revision  Request Submitted Successfully.');
+      this.router.navigate(["/employee-revision-management"])
     },
       error => {
         console.error(error);
@@ -406,7 +413,7 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
           this.employeePayrollStructure_rev[i].modifiedDate = new Date(Date.now())
           this.employeePayrollStructure_rev[i].createdBy = details.firstName
           this.employeePayrollStructure_rev[i].modifiedBy =  details.firstName
-          this.employeePayrollStructure_rev[i].isArchived = true
+          this.employeePayrollStructure_rev[i].isArchived = false
           this.employeePayrollStructure_rev[i].employeeRevisionId = this.employeeRevisionId
           this.employeePayrollStructure_rev[i].payrollStructureId =this.addForm.value.payrollStructureId
 
@@ -423,6 +430,51 @@ export class EmployeeRevisionManagementCreateComponent implements OnInit {
         this.toastr.showErrorMessage('Unable to submit Employee Salary Revision  Request');
       });  
   }
+
+
+  calculateComponentValues(item,index){
+
+    // if(item.monthlyAmount > item.maximumLimit){
+    //   this.employeePayrollStructure_rev.forEach((x)=>{
+    //     x.monthlyAmount = ''
+    //   })
+     
+    //   return
+    // }
+    this.employeePayrollStructure_rev.map((x: any) => {
+      this.valueObject[`{${x.shortCode}}`] = x.monthlyAmount;
+     })
+    
+    // this.employeePayrollStructure_rev.map((res, i) => {
+    //   const keys = Object.keys(this.valueObject);
+    //   if (res.formula) {
+    //     let formula: string = res.formula;
+    //     keys.forEach((key) => {
+    //       formula = formula.replace(key, this.valueObject[key]);
+    //     });
+    //     formula = formula.replace("[", "");
+    //     formula = formula.replace("]", "");
+    //     res.monthlyAmount = eval(formula);
+
+    //   }
+    // })
+    const keys = Object.keys(this.valueObject);
+    this.employeePayrollStructure_rev.forEach((x)=>{
+      if (x.formula) {
+        let formula: string = x.formula;
+        keys.forEach((key) => {
+          formula = formula.replace(key, this.valueObject[key]);
+        });
+        formula = formula.replace("[", "");
+        formula = formula.replace("]", "");
+        x.monthlyAmount = eval(formula).toFixed(2)
+        this.valueObject[`{${x.shortCode}}`] = x.monthlyAmount;
+      }
+
+    })
+  console.log('employeePayrollStructure_rev',this.employeePayrollStructure_rev)
+  }
+
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({

@@ -1,9 +1,13 @@
 ﻿using Chef.Common.Core.Services;
+using Chef.Common.Repositories;
 using Chef.Common.Services;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.Loan;
 using Chef.HRMS.Repositories;
+using Chef.HRMS.Repositories.Loan;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services
@@ -11,20 +15,15 @@ namespace Chef.HRMS.Services
     public class LoanRequestService : AsyncService<LoanRequest>, ILoanRequestService
     {
         private readonly ILoanRequestRepository loanRequestRepository;
+        private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
+        private readonly ILoanRequestDetailRepository loanRequestDetailRepository; 
 
-        public LoanRequestService(ILoanRequestRepository loanRequestRepository)
+        public LoanRequestService(ILoanRequestRepository loanRequestRepository,ITenantSimpleUnitOfWork tenantSimpleUnitOfWork
+            ,ILoanRequestDetailRepository loanRequestDetailRepository)
         {
             this.loanRequestRepository = loanRequestRepository;
-        }
-
-        public async Task<int> DeleteAsync(int id)
-        {
-            return await loanRequestRepository.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<LoanRequest>> GetAllAsync()
-        {
-            return await loanRequestRepository.GetAllAsync();
+            this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
+            this.loanRequestDetailRepository = loanRequestDetailRepository;
         }
 
         public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
@@ -37,9 +36,16 @@ namespace Chef.HRMS.Services
             return await loanRequestRepository.GetAllLoanByPayrollProcessingMethodId(payrollProcessingMethodId);
         }
 
-        public async Task<LoanRequest> GetAsync(int id)
+        public async Task<LoanRequest> GetLoanDetails(int id)
         {
-            return await loanRequestRepository.GetAsync(id);
+            LoanRequest loanRequest = new LoanRequest();
+
+            var loanRequests = await loanRequestRepository.GetAsync(id);
+            loanRequest = loanRequests;
+            var loanDetails = await loanRequestDetailRepository.GetLoanDetailsByLoanRequestId(id);
+            loanRequest.LoanRequestDeatails = loanDetails.ToList();
+
+            return loanRequest;
         }
 
         public async Task<int> GetLoanLastRequestId()
@@ -57,14 +63,30 @@ namespace Chef.HRMS.Services
             return await loanRequestRepository.GetRequestedDateByEmployeeId(employeeId);
         }
 
-        public async Task<int> InsertAsync(LoanRequest loanRequest)
+        public async Task<int> InsertLoan(LoanRequest loanRequest)
         {
-            return await loanRequestRepository.InsertAsync(loanRequest);
-        }
+            tenantSimpleUnitOfWork.BeginTransaction();
+            int loanRequestId = 0;
 
-        public async Task<int> UpdateAsync(LoanRequest loanRequest)
-        {
-            return await loanRequestRepository.UpdateAsync(loanRequest);
+            try
+            {
+                loanRequestId = await loanRequestRepository.InsertAsync(loanRequest);
+
+                if(loanRequest.LoanRequestDeatails != null)
+                {
+                    loanRequest.LoanRequestDeatails.ForEach(x => x.LoanRequestId = loanRequestId);
+                    await loanRequestDetailRepository.BulkInsertAsync(loanRequest.LoanRequestDeatails);
+                }
+
+                tenantSimpleUnitOfWork.Commit();
+                return loanRequestId;
+            }
+
+            catch (Exception ex)
+            {
+                tenantSimpleUnitOfWork.Rollback();
+                return loanRequestId;
+            }
         }
     }
 }

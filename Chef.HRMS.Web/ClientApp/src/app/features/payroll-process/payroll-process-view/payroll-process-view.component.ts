@@ -208,6 +208,8 @@ export class PayrollProcessViewComponent implements OnInit, OnDestroy {
       this.toastr.showInfoMessage('This process has been created already');
 
     } else {
+      // assignPayrollProcess.PpMId = 0
+      // assignPayrollProcess.IsNew = true
       this.payrollProcessService.updateProcess(assignPayrollProcess).subscribe(res => {
         
         if (assignPayrollProcess.payGroupId) {

@@ -1,0 +1,11 @@
+// .ui-multiselect-item {
+//     display: flex !important;
+// }
+// .ui-multiselect-item .ui-corner-all{
+//     display: flex !important;
+
+// }
+
+::ng-deep .ui-multiselect-panel .ui-multiselect-item {
+display: flex !important;
+}

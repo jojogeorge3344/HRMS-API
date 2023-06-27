@@ -19,7 +19,15 @@ export class OvertimeSlabCreateComponent implements OnInit {
   overtimetypekeys: number[];
   @Input() code
   @Input() id
-
+  @Input() overtimeSlabDetails:any
+  normalOverTimeDetails=[]
+  holidayOverTimeDetails=[]
+  specialOverTimeDetails=[]
+  checkLimitValue:boolean=false
+  checkNormal:boolean=false
+  checkSpecial:boolean=false
+  checkHoliday:boolean=false
+  checkSlabValue:boolean=false
 
   constructor( 
     private formBuilder: FormBuilder,
@@ -43,6 +51,18 @@ export class OvertimeSlabCreateComponent implements OnInit {
         overTimePolicyId:this.id
       })
     }
+    this.overtimeSlabDetails.forEach((x)=>{
+      if(x.overTimeType==1){
+        this.normalOverTimeDetails = [...this.normalOverTimeDetails, x.upperLimit];
+      }else if(x.overTimeType==2){
+        this.holidayOverTimeDetails = [...this.holidayOverTimeDetails, x.upperLimit];
+      }else if(x.overTimeType==3){
+        this.specialOverTimeDetails = [...this.specialOverTimeDetails, x.upperLimit];
+      }
+      
+    })
+   console.log(this.normalOverTimeDetails,this.specialOverTimeDetails,this.holidayOverTimeDetails)
+      
   }
 
 
@@ -50,6 +70,7 @@ export class OvertimeSlabCreateComponent implements OnInit {
   onSubmit() {
     debugger
     const eosForm = this.addForm.value;
+    if(this.checkSlabValue)
     this.overTimeSlabService.add(eosForm).subscribe(result => {
           this.toastr.showSuccessMessage('The OvertimeSlab added successfully!');
           this.activeModal.close('submit');
@@ -107,7 +128,85 @@ export class OvertimeSlabCreateComponent implements OnInit {
       ]]
     });
   }
+  checkLowerLimit(event){
+    debugger
+    let changeToNumber=Number(event)
+    if(this.checkNormal){
+       let array=this.normalOverTimeDetails[this.normalOverTimeDetails.length-1]
+       if(array==undefined){
+         array=0
+       }
+       if(changeToNumber>array){
+          this.checkSlabValue=true
+       }else{
+          this.toastr.showWarningMessage("NormalOverTimeSlab Value Already Exists")
+          return
+        }
+    }else if(this.checkHoliday){
+          let array=this.holidayOverTimeDetails[this.holidayOverTimeDetails.length-1]
+          if(array==undefined){
+            array=0
+          }
+          if(changeToNumber>array){
+             this.checkSlabValue=true
+          }else{
+            this.toastr.showWarningMessage("HolidayOverTimeSlab Value Already Exists")
+            return
+          }
+    }else if(this.checkSpecial){
+          let array=this.specialOverTimeDetails[this.specialOverTimeDetails.length-1]
+          if(array==undefined){
+             array=0
+          }
+         if(changeToNumber>array){
+            this.checkSlabValue=true
+         }else{
+           this.toastr.showWarningMessage("SpecialOverTimeSlab Value Already Exists")
+           return
+          }
+    }
 
+ 
+  }
+
+  checkBothLimit(event){
+   let changeToNumber=Number(event)
+   if(changeToNumber<=this.addForm.value.lowerLimit){
+      this.checkLimitValue=true
+   }else{
+    this.checkLimitValue=false
+   }
+   if(this.checkLimitValue){
+    this.toastr.showWarningMessage("Upper Limit Should be greater than Lower Limit")
+   }
+  }
+  overTimeType(event){
+    debugger
+    if(this.addForm.value.overtimetype==1 ){
+      this.checkNormal=true
+      this.checkHoliday=false
+      this.checkSpecial=false
+      this.addForm.patchValue({
+        lowerLimit:''
+      })
+      
+    }else if(this.addForm.value.overtimetype==2){
+      this.checkHoliday=true
+      this.checkNormal=false
+      this.checkSpecial=false
+      this.addForm.patchValue({
+        lowerLimit:''
+      })
+
+    }else if(this.addForm.value.overtimetype==3){
+      this.checkSpecial=true
+      this.checkNormal=false
+      this.checkHoliday=false
+      this.addForm.patchValue({
+        lowerLimit:''
+      })
+    }
+  }
 }
 
 

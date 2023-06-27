@@ -24,10 +24,10 @@
                             <td>{{modeOfPayrollProcessType[item.modeOfProcessing]}}</td>
                             <td>{{item.payGroupOrEmployeeName}}</td>
                             <td>
-                                <span *ngIf="item.processedStep < 5">In Progress
+                                <span *ngIf="item.processedStep < 6">In Progress
                                     <button title="continue" class="border-0 btn btn-outline-primary btn-xs" (click)="processSetup(item)"><i
                                             class="fal fa-long-arrow-right fs-xl"></i></button></span>
-                                <span *ngIf="item.processedStep ==5">Completed
+                                <span *ngIf="item.processedStep ==6">Completed
                                     <button title="continue" class="border-0 btn btn-outline-primary btn-xs" (click)="viewAccruals(item)"><i
                                         class="fal fa-eye  fs-xl"></i></button></span>
                             </td>
