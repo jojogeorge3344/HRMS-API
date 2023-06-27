@@ -208,40 +208,35 @@ export class OvertimeRequestEditComponent implements OnInit {
           isarchived:false,
           id:0
         }));
-        if(this.alreadySelectedItem.length > 0 && this.selectedItems.length == 0){
-          const notifyPersonalRemove = this.notifyPersonList.map(notifyPerson => ({
-          overtimeId: this.overtimeRequest.id,
-          notifyPersonnel: notifyPerson.id,
-          isarchived:true,
-          id:notifyPerson.id
-        }));
-        notifyPersonnelForm.push(notifyPersonalRemove[0])
-      }
+        var removedNotifyPersons = this.alreadySelectedItem.filter(o=> !this.selectedItems.some(i=> i.id === o.id));
+        var addedNotifyPerson  = this.selectedItems.filter(o=> !this.alreadySelectedItem.some(i=> i.id === o.id));
+         const removeNotify  = removedNotifyPersons.map(notifyPerson => ({
+             overtimeId: this.overtimeRequest.id,
+             notifyPersonnel: notifyPerson.id,
+             isarchived:true,
+             id:notifyPerson.id
+           }));
+           removeNotify.forEach((x)=>{
+             var data = this.notifyPersonList.find(o => o.notifyPersonnel == x.id);
+             x.id = data.id
+           })
+           if(removeNotify.length > 0){
+             notifyPersonnelForm.push(removeNotify[0])
+           }
+         const addNotify = addedNotifyPerson.map(notifyPerson => ({
+         overtimeId: this.overtimeRequest.id,
+         notifyPersonnel: notifyPerson.id
+       }));
+ 
+       if(addNotify.length > 0){
+         this.overtimeRequestService.addNotifyPersonnel(addNotify).subscribe(() => {
+ 
+         },
+         error => {
+           this.toastr.showErrorMessage('Unable to add notify person.');
+         });
+       }
      
-        // this.selectedItems.forEach( array1Ttem => {
-
-        //   this.alreadySelectedItem.forEach( array2Item => {
-    
-        //      if(array1Ttem.id != array2Item.id){
-        //       var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true,id:0}
-        //       notifyPersonnelForm.push(data)
-        //     }
-           
-    
-        //   })
-        // })
-        
-
-
-        // notifyPersonnelForm.forEach(obj1 =>{
-        //   this.notifyPersonList.forEach(obj2 =>{
-        //     if(obj1.notifyPersonnel == obj2.notifyPersonnel){
-        //       obj1.id = obj2.id
-        //     }
-        //   })
-        // })
-        
-        
         this.overtimeRequestService.UpdateNotifyPersonal(notifyPersonnelForm).subscribe(() => {
           this.toastr.showSuccessMessage('Overtime request updated successfully!');
           this.activeModal.close('submit');
@@ -285,75 +280,35 @@ export class OvertimeRequestEditComponent implements OnInit {
           isarchived:false,
           id:0
         }));
-        if(this.alreadySelectedItem.length > 0 && this.selectedItems.length == 0){
-            const notifyPersonalRemove = this.notifyPersonList.map(notifyPerson => ({
+       var removedNotifyPersons = this.alreadySelectedItem.filter(o=> !this.selectedItems.some(i=> i.id === o.id));
+       var addedNotifyPerson  = this.selectedItems.filter(o=> !this.alreadySelectedItem.some(i=> i.id === o.id));
+        const removeNotify  = removedNotifyPersons.map(notifyPerson => ({
             overtimeId: this.overtimeRequest.id,
             notifyPersonnel: notifyPerson.id,
             isarchived:true,
             id:notifyPerson.id
           }));
-          notifyPersonnelForm.push(notifyPersonalRemove[0])
-        }
-      //   if(this.alreadySelectedItem.length > 0 || this.selectedItems.length == 0){
-      //      removedItems = this.alreadySelectedItem?.filter(function(o1){
-      //       return !this.selectedItems?.some(function(o2){
-      //           return o1.id === o2.id;  
-      //       });
-      //   })
-      //    if(removedItems.length > 0){
-      //     const notifyPersonalRemove = removedItems.map(notifyPerson => ({
-      //       overtimeId: this.overtimeRequest.id,
-      //       notifyPersonnel: notifyPerson.notifyPersonnel,
-      //       isarchived:true,
-      //       id:notifyPerson.id
-      //     }));
-      //     notifyPersonnelForm.push(notifyPersonalRemove[0])
-      //    }
-           
-      // }
+          removeNotify.forEach((x)=>{
+            var data = this.notifyPersonList.find(o => o.notifyPersonnel == x.id);
+            x.id = data.id
+          })
+          if(removeNotify.length > 0){
+            notifyPersonnelForm.push(removeNotify[0])
+          }
+        const addNotify = addedNotifyPerson.map(notifyPerson => ({
+        overtimeId: this.overtimeRequest.id,
+        notifyPersonnel: notifyPerson.id
+      }));
+
+      if(addNotify.length > 0){
+        this.overtimeRequestService.addNotifyPersonnel(addNotify).subscribe(() => {
+
+        },
+        error => {
+          this.toastr.showErrorMessage('Unable to add notify person.');
+        });
+      }
       
-        // }else if(this.alreadySelectedItem.length > 0 && this.selectedItems.length == 0){
-        //   removedItems = [...this.alreadySelectedItem]
-      
-        // }
-
-        // if(removedItems.length > 0){
-
-        //   const notifyPersonalRemove = removedItems.map(notifyPerson => ({
-        //     overtimeId: this.overtimeRequest.id,
-        //     notifyPersonnel: notifyPerson.id,
-        //     isarchived:true,
-        //     id:321
-        //   }));
-        //   notifyPersonnelForm.push(notifyPersonalRemove[0])
-        // }
-         
-
-     
-        // this.selectedItems.forEach( array1Ttem => {
-
-        //   this.alreadySelectedItem.forEach( array2Item => {
-    
-        //      if(array1Ttem.id != array2Item.id){
-        //       var data = {overtimeId: this.overtimeRequest.id,'notifyPersonnel':array2Item.id, isarchived: true,id:0}
-        //       notifyPersonnelForm.push(data)
-        //     }
-           
-    
-        //   })
-        // })
-        
-
-
-        // notifyPersonnelForm.forEach(obj1 =>{
-        //   this.notifyPersonList.forEach(obj2 =>{
-        //     if(obj1.notifyPersonnel == obj2.notifyPersonnel){
-        //       obj1.id = obj2.id
-        //     }
-        //   })
-        // })
-        
-        
         this.overtimeRequestService.UpdateNotifyPersonal(notifyPersonnelForm).subscribe(() => {
           this.toastr.showSuccessMessage('Overtime request updated successfully!');
           this.activeModal.close('submit');
