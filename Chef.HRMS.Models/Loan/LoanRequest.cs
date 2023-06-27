@@ -1,7 +1,9 @@
 ﻿using Chef.Common.Core;
 using Chef.Common.Models;
+using Chef.HRMS.Models.Loan;
 using Chef.HRMS.Types;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -89,5 +91,10 @@ namespace Chef.HRMS.Models
         public RequestStatusType Status { get; set; }
         public int ExtendedMonth { get; set; }
         public int RequestedBy { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public List<LoanRequestDetail> LoanRequestDeatails { get; set; }
     }
 }

@@ -38,7 +38,7 @@ namespace Chef.HRMS.Web.Controllers
         [HttpGet("Get/{id}")]
         public async Task<ActionResult<LoanRequest>> Get(int id)
         {
-            var loanRequest = await loanRequestServices.GetAsync(id);
+            var loanRequest = await loanRequestServices.GetLoanDetails(id);
 
             if (loanRequest == null)
             {
@@ -98,7 +98,7 @@ namespace Chef.HRMS.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var id = await loanRequestServices.InsertAsync(loanRequest);
+            var id = await loanRequestServices.InsertLoan(loanRequest);
 
             return Ok(id);
         }
