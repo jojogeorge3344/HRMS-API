@@ -228,32 +228,32 @@ getBranches() {
   }
   openPrint() {
     let selectedIds=this.selectedPaygroups
-    let arrValue = selectedIds.map(({id}) =>id);
-    this.paygroupIds = arrValue.join()
+    let arrValue = selectedIds?.map(({id}) =>id);
+    this.paygroupIds = arrValue?.join()
 
     let departments=this.selectedDepartment
-    let departmentVal=departments.map(({id}) =>id);
-    this.departmentIds=departmentVal.join()
+    let departmentVal=departments?.map(({id}) =>id);
+    this.departmentIds=departmentVal?.join()
 
     let designations=this.selectedDesignation
-    let desigVal=designations.map(({id}) =>id);
-    this.designationIds=desigVal.join()
+    let desigVal=designations?.map(({id}) =>id);
+    this.designationIds=desigVal?.join()
 
     let employees=this.selectedEmployee;
-    let emp=employees.map(({id}) =>id);
-    this.employeeIds=emp.join()
+    let emp=employees?.map(({id}) =>id);
+    this.employeeIds=emp?.join()
 
     let location=this.selectedLocation;
-    let loc=location.map(({id}) =>id);
-    this.locationIds=loc.join()
+    let loc=location?.map(({id}) =>id);
+    this.locationIds=loc?.join()
 
     let empCategory=this.selectedEmployeeGroup;
-    let category=empCategory.map(({id}) =>id);
-    this.employeeCategory=category.join()
+    let category=empCategory?.map(({id}) =>id);
+    this.employeeCategory=category?.join()
 
     let leaveComp=this.selectLeaveComponent;
-    let leav=leaveComp.map(({id}) =>id);
-    this.leaveComponentIds=leav.join()
+    let leav=leaveComp?.map(({id}) =>id);
+    this.leaveComponentIds=leav?.join()
 
 
   //   this.noOfCalendarDays = new Date(this.addForm.get('year').value, this.addForm.get('month').value, 0).getDate();
@@ -285,27 +285,13 @@ getBranches() {
       ]],
       isSummary:[null],
       isDetails:[null],
-      paygroupIds:[null, [
-        Validators.required,
-      ]],
-      designationIds:[null, [
-        Validators.required,
-      ]],
-      employeeIds:[null, [
-        Validators.required,
-      ]],
-      leaveComponentIds:[null, [
-        Validators.required,
-      ]],
-      departmentIds:[null, [
-        Validators.required,
-      ]],
-      employeeCategory:[null, [
-        Validators.required,
-      ]],
-      locationIds:[null, [
-        Validators.required,
-      ]],
+      paygroupIds:[null],
+      designationIds:[null,],
+      employeeIds:[null],
+      leaveComponentIds:[null],
+      departmentIds:[null],
+      employeeCategory:[null],
+      locationIds:[null ],
     });
   }
 }

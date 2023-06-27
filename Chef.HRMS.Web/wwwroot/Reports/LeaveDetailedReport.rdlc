@@ -12,10 +12,10 @@
         </Style>
         <ReportItems>
           <Tablix Name="Tablix1">
-            <Left>49.5pt</Left>
-            <Top>106.5pt</Top>
-            <Height>40.5pt</Height>
-            <Width>650.4pt</Width>
+            <Left>18.75pt</Left>
+            <Top>111.75pt</Top>
+            <Height>40.8pt</Height>
+            <Width>595.575pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -26,22 +26,22 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>125.4pt</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>120pt</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>123.6pt</Width>
-                </TablixColumn>
-                <TablixColumn>
                   <Width>97.2pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>102.6pt</Width>
+                  <Width>112.8pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>81.60001pt</Width>
+                  <Width>115.8pt</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>90pt</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>86.4pt</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>93pt</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -54,7 +54,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>125.4pt</Width>
+                          <Width>97.2pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -100,7 +100,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>120pt</Width>
+                          <Width>112.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -149,7 +149,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>123.6pt</Width>
+                          <Width>115.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -192,7 +192,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>97.2pt</Width>
+                          <Width>90pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -211,7 +211,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Eligible Leave</Value>
+                                  <Value>Leave Date</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -235,7 +235,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>102.6pt</Width>
+                          <Width>86.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -254,7 +254,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Availed Leave</Value>
+                                  <Value>Leave Type</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -278,7 +278,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>81.6pt</Width>
+                          <Width>93pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -300,7 +300,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Balance Days</Value>
+                                  <Value>Reason</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -329,7 +329,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>125.4pt</Width>
+                          <Width>97.2pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -372,7 +372,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>120pt</Width>
+                          <Width>112.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -415,7 +415,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>123.6pt</Width>
+                          <Width>115.8pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -458,7 +458,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>97.2pt</Width>
+                          <Width>90pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -477,9 +477,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!EligibleDays.Value</Value>
+                                  <Value>=Fields!LeaveDate.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
+                                    <Format>dd-MM-yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -497,11 +498,11 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox8">
+                        <Textbox Name="TextBox1">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>102.6pt</Width>
+                          <Width>86.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -520,7 +521,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!AvailedDays.Value</Value>
+                                  <Value>=Fields!LeaveTypeName.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -544,7 +545,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>20.4pt</Height>
-                          <Width>81.6pt</Width>
+                          <Width>93pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -563,7 +564,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!EligibleDays.Value - Fields!AvailedDays.Value</Value>
+                                  <Value>=Fields!Reason.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -607,10 +608,10 @@
             </TablixRowHierarchy>
           </Tablix>
           <Tablix Name="Tablix2">
-            <Left>66.89064pt</Left>
-            <Top>12.89062pt</Top>
+            <Left>18.75pt</Left>
+            <Top>14.3625pt</Top>
             <Height>90pt</Height>
-            <Width>603.75pt</Width>
+            <Width>649.05pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -624,16 +625,16 @@
                   <Width>139.8pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>159.6pt</Width>
+                  <Width>195.6pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>72.60001pt</Width>
+                  <Width>36.6pt</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>124.2pt</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>107.4pt</Width>
+                  <Width>152.4pt</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -690,10 +691,9 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>159.6pt</Width>
+                          <Width>195.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
-                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -715,13 +715,14 @@
                                   <Value>=Fields!FromDate.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
+                                    <Format>dd-MM-yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -736,7 +737,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72.6pt</Width>
+                          <Width>36.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -766,6 +767,7 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -804,12 +806,14 @@
                                   <Value>=Fields!ToDate.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
+                                    <Format>dd-MM-yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -824,7 +828,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>107.4pt</Width>
+                          <Width>152.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -917,7 +921,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>159.6pt</Width>
+                          <Width>195.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -948,7 +952,6 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -963,7 +966,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72.6pt</Width>
+                          <Width>36.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1051,7 +1054,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>107.4pt</Width>
+                          <Width>152.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -1082,7 +1085,6 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1146,7 +1148,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>159.6pt</Width>
+                          <Width>195.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -1177,7 +1179,6 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1192,7 +1193,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72.6pt</Width>
+                          <Width>36.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1280,7 +1281,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>107.4pt</Width>
+                          <Width>152.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -1308,7 +1309,6 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1370,7 +1370,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>159.6pt</Width>
+                          <Width>195.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -1401,7 +1401,6 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1416,7 +1415,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>72.6pt</Width>
+                          <Width>36.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1504,7 +1503,7 @@
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>107.4pt</Width>
+                          <Width>152.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <VerticalAlign>Middle</VerticalAlign>
@@ -1532,7 +1531,6 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
-                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1548,7 +1546,7 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox30">
+                        <Textbox Name="TextBox2">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
@@ -1590,11 +1588,56 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox35">
+                        <Textbox Name="TextBox7">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>159.6pt</Width>
+                          <Width>195.6pt</Width>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <RightBorder>
+                              <Style>None</Style>
+                            </RightBorder>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!LeaveComponentName.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <Color>black</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <FontFamily>Arial</FontFamily>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                        </Textbox>
+                        <ColSpan>1</ColSpan>
+                        <RowSpan>1</RowSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TextBox9">
+                          <Left>0in</Left>
+                          <Top>0in</Top>
+                          <Height>18pt</Height>
+                          <Width>36.6pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1634,51 +1677,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox43">
-                          <Left>0in</Left>
-                          <Top>0in</Top>
-                          <Height>18pt</Height>
-                          <Width>72.6pt</Width>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                          </Style>
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <Color>black</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <FontFamily>Arial</FontFamily>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                        </Textbox>
-                        <ColSpan>1</ColSpan>
-                        <RowSpan>1</RowSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TextBox70">
+                        <Textbox Name="TextBox10">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
@@ -1722,13 +1721,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox75">
+                        <Textbox Name="TextBox12">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
-                          <Width>107.4pt</Width>
+                          <Width>152.4pt</Width>
                           <Style>
                             <FontFamily>Arial</FontFamily>
+                            <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -1753,6 +1753,7 @@
                               </TextRuns>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1776,31 +1777,21 @@
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
               <TablixMembers>
-                <TablixMember>
-                  <KeepWithGroup>After</KeepWithGroup>
-                </TablixMember>
-                <TablixMember>
-                  <KeepWithGroup>After</KeepWithGroup>
-                </TablixMember>
-                <TablixMember>
-                  <KeepWithGroup>After</KeepWithGroup>
-                </TablixMember>
-                <TablixMember>
-                  <KeepWithGroup>After</KeepWithGroup>
-                </TablixMember>
-                <TablixMember>
-                  <Group Name="Details1" />
-                </TablixMember>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
           </Tablix>
         </ReportItems>
-        <Height>356.25pt</Height>
+        <Height>157.5pt</Height>
       </Body>
-      <Width>736.5pt</Width>
+      <Width>680.25pt</Width>
       <Page>
-        <PageHeight>595.4405pt</PageHeight>
-        <PageWidth>841.6807pt</PageWidth>
+        <PageHeight>841.6807pt</PageHeight>
+        <PageWidth>595.4405pt</PageWidth>
         <PageHeader>
           <Style>
             <FontFamily>Arial</FontFamily>
@@ -1815,15 +1806,15 @@
               <Width>1pt</Width>
             </BottomBorder>
           </Style>
-          <Height>43.5pt</Height>
+          <Height>57.9pt</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Textbox Name="TextBox1">
-              <Left>12.14062pt</Left>
-              <Top>14.4pt</Top>
-              <Height>19.5pt</Height>
-              <Width>615pt</Width>
+            <Textbox Name="TextBox13">
+              <Left>33.88125pt</Left>
+              <Top>22.65pt</Top>
+              <Height>18.75pt</Height>
+              <Width>147pt</Width>
               <Style>
                 <FontFamily>Arial</FontFamily>
                 <PaddingLeft>2pt</PaddingLeft>
@@ -1840,7 +1831,65 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Print Leave Summary Report                                                                                                                                             Company Name</Value>
+                      <Value>Print Leave Detail Report</Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>Black</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>﻿</Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>Black</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <FontFamily>Arial</FontFamily>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+            </Textbox>
+            <Textbox Name="TextBox14">
+              <Left>554.4pt</Left>
+              <Top>22.65pt</Top>
+              <Height>18pt</Height>
+              <Width>95.25pt</Width>
+              <Style>
+                <FontFamily>Arial</FontFamily>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value />
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <Color>Black</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>Company Name</Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>Black</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>﻿</Value>
                       <Style>
                         <FontFamily>Arial</FontFamily>
                         <FontWeight>Bold</FontWeight>
@@ -1869,354 +1918,393 @@
               <Width>1pt</Width>
             </TopBorder>
           </Style>
-          <Height>62.40001pt</Height>
+          <Height>72pt</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Textbox Name="TextBox80">
-              <Left>608.4pt</Left>
-              <Top>6.15001pt</Top>
-              <Height>14.25pt</Height>
-              <Width>27pt</Width>
+            <Rectangle Name="Rectangle1">
+              <Left>23.38125pt</Left>
+              <Top>18.75pt</Top>
+              <Height>41.25pt</Height>
+              <Width>636pt</Width>
+              <Visibility>
+                <Hidden>=Globals.PageNumber&lt;Globals.TotalPages</Hidden>
+              </Visibility>
               <Style>
                 <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
                 <Border>
                   <Style>None</Style>
                 </Border>
               </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>﻿</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>page</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>﻿</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>9.99975pt</FontSize>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
+              <ReportItems>
+                <Textbox Name="TextBox84">
+                  <Left>7.49063pt</Left>
+                  <Top>12.13126pt</Top>
+                  <Height>17.25pt</Height>
+                  <Width>51pt</Width>
+                  <Visibility>
+                    <Hidden>=Globals.PageNumber&lt;Globals.TotalPages</Hidden>
+                  </Visibility>
                   <Style>
                     <FontFamily>Arial</FontFamily>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
                   </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox81">
-              <Left>635.4pt</Left>
-              <Top>6.15001pt</Top>
-              <Height>14.25pt</Height>
-              <Width>15pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>﻿</Value>
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.24975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.24975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>Printed</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value> </Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>on:</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
                       <Style>
                         <FontFamily>Arial</FontFamily>
-                        <FontSize>9.99975pt</FontSize>
-                        <Color>black</Color>
                       </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Globals!PageNumber</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
+                    </Paragraph>
+                  </Paragraphs>
+                </Textbox>
+                <Textbox Name="TextBox93">
+                  <Left>64.5pt</Left>
+                  <Top>14.38126pt</Top>
+                  <Height>15pt</Height>
+                  <Width>72pt</Width>
+                  <Visibility>
+                    <Hidden>=Globals.PageNumber&lt;Globals.TotalPages</Hidden>
+                  </Visibility>
                   <Style>
                     <FontFamily>Arial</FontFamily>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
                   </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox82">
-              <Left>650.4pt</Left>
-              <Top>6.15001pt</Top>
-              <Height>13.5pt</Height>
-              <Width>12.75pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>of</Value>
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>=Format(Today(), "dd/MM/yyyy")</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
                       <Style>
                         <FontFamily>Arial</FontFamily>
-                        <FontSize>9.99998pt</FontSize>
-                        <Color>black</Color>
                       </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>﻿</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>9.99975pt</FontSize>
-                        <Color>black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
+                    </Paragraph>
+                  </Paragraphs>
+                </Textbox>
+                <Textbox Name="TextBox85">
+                  <Left>261pt</Left>
+                  <Top>14.38126pt</Top>
+                  <Height>17.25pt</Height>
+                  <Width>51.75pt</Width>
+                  <Visibility>
+                    <Hidden>=Globals.PageNumber&lt;Globals.TotalPages</Hidden>
+                  </Visibility>
                   <Style>
                     <FontFamily>Arial</FontFamily>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
                   </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox83">
-              <Left>663.15pt</Left>
-              <Top>6.15001pt</Top>
-              <Height>13.5pt</Height>
-              <Width>24pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>﻿</Value>
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.24975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.24975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>Printed</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value> </Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>by:</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
                       <Style>
                         <FontFamily>Arial</FontFamily>
-                        <FontSize>9.99975pt</FontSize>
-                        <Color>black</Color>
                       </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Globals!TotalPages</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
+                    </Paragraph>
+                  </Paragraphs>
+                </Textbox>
+                <Textbox Name="TextBox80">
+                  <Left>481.5094pt</Left>
+                  <Top>19.5pt</Top>
+                  <Height>14.25pt</Height>
+                  <Width>27pt</Width>
+                  <Visibility>
+                    <Hidden>=Globals.PageNumber&lt;Globals.TotalPages</Hidden>
+                  </Visibility>
                   <Style>
                     <FontFamily>Arial</FontFamily>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
                   </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox84">
-              <Left>38.39062pt</Left>
-              <Top>6.90001pt</Top>
-              <Height>17.25pt</Height>
-              <Width>45.75pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>﻿</Value>
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.24975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>page</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.99975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
                       <Style>
                         <FontFamily>Arial</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <Color>Black</Color>
                       </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>﻿</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>Printed</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>8.49975pt</FontSize>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> </Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>on:</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>8.49975pt</FontSize>
-                        <Color>Black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
+                    </Paragraph>
+                  </Paragraphs>
+                </Textbox>
+                <Textbox Name="TextBox81">
+                  <Left>508.5094pt</Left>
+                  <Top>19.5pt</Top>
+                  <Height>14.25pt</Height>
+                  <Width>15pt</Width>
+                  <Visibility>
+                    <Hidden>=Globals.PageNumber&lt;Globals.TotalPages</Hidden>
+                  </Visibility>
                   <Style>
                     <FontFamily>Arial</FontFamily>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
                   </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox85">
-              <Left>318.15pt</Left>
-              <Top>6.90001pt</Top>
-              <Height>17.25pt</Height>
-              <Width>51.75pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>﻿</Value>
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.99975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>=Globals!PageNumber</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
                       <Style>
                         <FontFamily>Arial</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <Color>black</Color>
                       </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>﻿</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>9.24975pt</FontSize>
-                        <Color>black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>Printed</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>8.49975pt</FontSize>
-                        <Color>black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> </Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <Color>black</Color>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>by</Value>
-                      <Style>
-                        <FontFamily>Arial</FontFamily>
-                        <FontSize>8.49975pt</FontSize>
-                        <Color>black</Color>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
+                    </Paragraph>
+                  </Paragraphs>
+                </Textbox>
+                <Textbox Name="TextBox82">
+                  <Left>523.5093pt</Left>
+                  <Top>19.5pt</Top>
+                  <Height>13.5pt</Height>
+                  <Width>12.75pt</Width>
+                  <Visibility>
+                    <Hidden>=Globals.PageNumber&lt;Globals.TotalPages</Hidden>
+                  </Visibility>
                   <Style>
                     <FontFamily>Arial</FontFamily>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
                   </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
-            <Textbox Name="TextBox93">
-              <Left>84.14999pt</Left>
-              <Top>8.40001pt</Top>
-              <Height>15pt</Height>
-              <Width>72pt</Width>
-              <Style>
-                <FontFamily>Arial</FontFamily>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Format(Today(), "dd/MM/yyyy")</Value>
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>of</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.99998pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.99975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
                       <Style>
                         <FontFamily>Arial</FontFamily>
-                        <FontSize>8.49975pt</FontSize>
-                        <Color>Black</Color>
                       </Style>
-                    </TextRun>
-                  </TextRuns>
+                    </Paragraph>
+                  </Paragraphs>
+                </Textbox>
+                <Textbox Name="TextBox83">
+                  <Left>536.2593pt</Left>
+                  <Top>19.5pt</Top>
+                  <Height>13.5pt</Height>
+                  <Width>24pt</Width>
+                  <Visibility>
+                    <Hidden>=Globals.PageNumber&lt;Globals.TotalPages</Hidden>
+                  </Visibility>
                   <Style>
                     <FontFamily>Arial</FontFamily>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
                   </Style>
-                </Paragraph>
-              </Paragraphs>
-            </Textbox>
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <FontSize>9.99975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>=Globals!TotalPages</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                      </Style>
+                    </Paragraph>
+                  </Paragraphs>
+                </Textbox>
+              </ReportItems>
+              <KeepTogether>true</KeepTogether>
+            </Rectangle>
           </ReportItems>
         </PageFooter>
         <InteractiveHeight>595.4405pt</InteractiveHeight>
@@ -2380,14 +2468,6 @@
           <DataField>EmployeeFullName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="EligibleDays">
-          <DataField>EligibleDays</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="AvailedDays">
-          <DataField>AvailedDays</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="LeaveComponentName">
           <DataField>LeaveComponentName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2431,6 +2511,10 @@
         <Field Name="LeaveDate">
           <DataField>LeaveDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Reason">
+          <DataField>Reason</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <Query>

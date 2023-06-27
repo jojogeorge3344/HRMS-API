@@ -28,5 +28,6 @@ namespace Chef.HRMS.Models.Report
         public LeaveType LeaveType { get; set; }
         public string LeaveTypeName => EnumExtension.GetDescription(LeaveType);
         public DateTime LeaveDate { get; set; }
+        public string Reason { get; set; }
     }
 }

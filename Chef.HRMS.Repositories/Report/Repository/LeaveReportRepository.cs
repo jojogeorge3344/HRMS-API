@@ -56,7 +56,7 @@ namespace Chef.HRMS.Repositories
 
             if(paygroupIds != string.Empty)
             {
-                sql += "AND pg.id IN ("+ paygroupIds + ")";
+                sql += " AND pg.id IN ("+ paygroupIds + ")";
             }
             if(designationIds != string.Empty) 
             {
@@ -78,7 +78,7 @@ namespace Chef.HRMS.Repositories
             {
                 sql += "AND ld.leavecomponentid IN ("+ leaveComponentIds + ")";
             }
-            if(employeeIds == string.Empty)
+            if(employeeIds != string.Empty)
             {
                 sql += "AND l.employeeid IN ("+ employeeIds + ")";
             }
@@ -115,7 +115,8 @@ namespace Chef.HRMS.Repositories
                           jd.employeenumber AS employeecode,
                           CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname) AS employeefullname,
                           lc.leavetype,
-                          ld.leavedate
+                          ld.leavedate,
+                          l.description AS reason
                         FROM hrms.jobdetails jd
                         INNER JOIN hrms.hrmsemployee e
                           ON jd.employeeid = e.id
@@ -140,7 +141,7 @@ namespace Chef.HRMS.Repositories
 
             if(paygroupIds != string.Empty)
             {
-                sql += "AND pg.id IN ("+ paygroupIds + ")";
+                sql += " AND pg.id IN ("+ paygroupIds + ")";
             }
             if(designationIds != string.Empty) 
             {
@@ -162,7 +163,7 @@ namespace Chef.HRMS.Repositories
             {
                 sql += "AND ld.leavecomponentid IN ("+ leaveComponentIds + ")";
             }
-            if(employeeIds == string.Empty)
+            if(employeeIds != string.Empty)
             {
                 sql += "AND l.employeeid IN ("+ employeeIds + ")";
             }
@@ -177,7 +178,8 @@ namespace Chef.HRMS.Repositories
                                  jd.department,
                                  ca.name,
                                  ld.leavedate,
-                                 lc.leavetype";
+                                 lc.leavetype,
+                                 l.description";
 
             return await Connection.QueryAsync<LeaveDetailedReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, leaveComponentIds, employeeIds });
 
