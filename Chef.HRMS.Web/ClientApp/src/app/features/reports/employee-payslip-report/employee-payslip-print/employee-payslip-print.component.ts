@@ -58,7 +58,5 @@ export class EmployeePayslipPrintComponent implements OnInit {
     this.reportViewerService.customData.employeeId = this.employeeId;
     this.reportViewerService.customData.fromDate = this.fromDate;
     this.reportViewerService.customData.ToDate = this.ToDate;
-
   }
-
 }

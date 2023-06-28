@@ -13,7 +13,7 @@ import { Months } from 'src/app/models/common/types/months';
   providedIn: 'root'
 })
 export class ReportsService {
-
+  private data = [];  
   public baseUrl: string;
   public http: HttpClient;
   public apiUrl:string;
@@ -75,5 +75,26 @@ export class ReportsService {
         toArray(),
       );
   }
+  setOption(reportType,paygroupIds,
+    departmentIds,
+    designationIds,
+    employeeIds,
+    locationIds,employeeCategory,leaveComponentIds,fromDate,ToDate) 
+    { 
+debugger
+this.data=[]
+    this.data.push({reportType:reportType,paygroupIds:paygroupIds,
+      departmentIds:departmentIds,
+      designationIds:designationIds,employeeIds:employeeIds,
+      locationIds:locationIds,
+      employeeCategory:employeeCategory,
+      leaveComponentIds:leaveComponentIds,
+      fromDate:fromDate,
+      ToDate:ToDate
+    });  
 
+  }  
+  getOption() {  
+    return this.data;  
+  } 
 }
