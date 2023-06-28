@@ -78,7 +78,8 @@
                                 <TextRun>
                                   <Value>Employee Code</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -127,7 +128,8 @@
                                 <TextRun>
                                   <Value>Name</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -170,7 +172,8 @@
                                 <TextRun>
                                   <Value>Leave</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -213,7 +216,8 @@
                                 <TextRun>
                                   <Value>Eligible Leave</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -256,7 +260,8 @@
                                 <TextRun>
                                   <Value>Availed Leave</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -302,7 +307,8 @@
                                 <TextRun>
                                   <Value>Balance Days</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -350,7 +356,8 @@
                                 <TextRun>
                                   <Value>=Fields!EmployeeCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -393,7 +400,8 @@
                                 <TextRun>
                                   <Value>=Fields!EmployeeFullName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -436,7 +444,8 @@
                                 <TextRun>
                                   <Value>=Fields!LeaveComponentName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -479,7 +488,8 @@
                                 <TextRun>
                                   <Value>=Fields!EligibleDays.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -522,7 +532,8 @@
                                 <TextRun>
                                   <Value>=Fields!AvailedDays.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -565,7 +576,8 @@
                                 <TextRun>
                                   <Value>=Fields!EligibleDays.Value - Fields!AvailedDays.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -617,7 +629,7 @@
                 <Style>None</Style>
               </Border>
             </Style>
-            <DataSetName>LeaveSummary</DataSetName>
+            <DataSetName>Header</DataSetName>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
@@ -666,7 +678,8 @@
                                 <TextRun>
                                   <Value>From Date</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -711,7 +724,8 @@
                                 <TextRun>
                                   <Value>=Fields!FromDate.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Format>dd-MM-yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
@@ -757,7 +771,8 @@
                                 <TextRun>
                                   <Value>To Date</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Format>dd-MM-yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
@@ -803,7 +818,8 @@
                                 <TextRun>
                                   <Value>=Fields!ToDate.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Format>dd-MM-yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
@@ -854,7 +870,8 @@
                                 <TextRun>
                                   <Value>Paygroup</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -897,9 +914,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PaygroupName.Value</Value>
+                                  <Value>=Fields!PaygroupCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -943,7 +961,8 @@
                                 <TextRun>
                                   <Value>Department</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -986,9 +1005,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DepartmentName.Value</Value>
+                                  <Value>=Fields!DepartmentCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1037,7 +1057,8 @@
                                 <TextRun>
                                   <Value>Designation</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1080,9 +1101,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DesignationName.Value</Value>
+                                  <Value>=Fields!DesignationCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1126,7 +1148,8 @@
                                 <TextRun>
                                   <Value>Employee Group</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1166,9 +1189,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CategoryName.Value</Value>
+                                  <Value>=Fields!CategoryCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1215,7 +1239,8 @@
                                 <TextRun>
                                   <Value>Location</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1258,9 +1283,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!LocationName.Value</Value>
+                                  <Value>=Fields!LocationCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1304,7 +1330,8 @@
                                 <TextRun>
                                   <Value>Employees</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1344,9 +1371,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!EmployeeFullName.Value</Value>
+                                  <Value>=Fields!EmployeeCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1393,7 +1421,8 @@
                                 <TextRun>
                                   <Value>Leave component</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1438,7 +1467,8 @@
                                 <TextRun>
                                   <Value>=Fields!LeaveComponentName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1608,9 +1638,9 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Print Leave Summary Report                                                                                                            Company Name</Value>
+                      <Value>Print Leave Summary Report                                                                                                                                    Company Name</Value>
                       <Style>
-                        <FontFamily>Arial</FontFamily>
+                        <FontFamily>Calibri</FontFamily>
                         <FontWeight>Bold</FontWeight>
                         <Color>black</Color>
                       </Style>
@@ -1679,40 +1709,48 @@
                         <TextRun>
                           <Value>﻿</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <FontSize>9.24975pt</FontSize>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
                             <Color>Black</Color>
                           </Style>
                         </TextRun>
                         <TextRun>
                           <Value>﻿</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>9.24975pt</FontSize>
-                            <Color>Black</Color>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>9.24975pt</FontSize>
+                            <Color>black</Color>
                           </Style>
                         </TextRun>
                         <TextRun>
                           <Value>Printed</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>8.49975pt</FontSize>
-                            <Color>Black</Color>
+                            <Color>black</Color>
                           </Style>
                         </TextRun>
                         <TextRun>
                           <Value> </Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <Color>Black</Color>
+                            <FontFamily>Calibri</FontFamily>
+                            <Color>black</Color>
                           </Style>
                         </TextRun>
                         <TextRun>
                           <Value>on:</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>8.49975pt</FontSize>
-                            <Color>Black</Color>
+                            <Color>black</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -1745,9 +1783,9 @@
                         <TextRun>
                           <Value>=Format(Today(), "dd/MM/yyyy")</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>8.49975pt</FontSize>
-                            <Color>Black</Color>
+                            <Color>black</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -1780,7 +1818,15 @@
                         <TextRun>
                           <Value>﻿</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>Black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>9.24975pt</FontSize>
                             <Color>black</Color>
                           </Style>
@@ -1788,7 +1834,7 @@
                         <TextRun>
                           <Value>﻿</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>9.24975pt</FontSize>
                             <Color>black</Color>
                           </Style>
@@ -1796,7 +1842,7 @@
                         <TextRun>
                           <Value>Printed</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>8.49975pt</FontSize>
                             <Color>black</Color>
                           </Style>
@@ -1804,14 +1850,14 @@
                         <TextRun>
                           <Value> </Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <Color>black</Color>
                           </Style>
                         </TextRun>
                         <TextRun>
                           <Value>by:</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>8.49975pt</FontSize>
                             <Color>black</Color>
                           </Style>
@@ -1846,24 +1892,32 @@
                         <TextRun>
                           <Value>﻿</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <FontSize>9.24975pt</FontSize>
-                            <Color>Black</Color>
-                          </Style>
-                        </TextRun>
-                        <TextRun>
-                          <Value>page</Value>
-                          <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
                             <Color>Black</Color>
                           </Style>
                         </TextRun>
                         <TextRun>
                           <Value>﻿</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
+                            <FontSize>9.24975pt</FontSize>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>page</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
+                            <Color>black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>9.99975pt</FontSize>
-                            <Color>Black</Color>
+                            <Color>black</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -1897,6 +1951,14 @@
                           <Value>﻿</Value>
                           <Style>
                             <FontFamily>Arial</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>Black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
                             <FontSize>9.99975pt</FontSize>
                             <Color>black</Color>
                           </Style>
@@ -1904,8 +1966,8 @@
                         <TextRun>
                           <Value>=Globals!PageNumber</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <Color>Black</Color>
+                            <FontFamily>Calibri</FontFamily>
+                            <Color>black</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -1936,9 +1998,17 @@
                     <Paragraph>
                       <TextRuns>
                         <TextRun>
-                          <Value>of</Value>
+                          <Value>﻿</Value>
                           <Style>
                             <FontFamily>Arial</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>Black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>of</Value>
+                          <Style>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>9.99998pt</FontSize>
                             <Color>black</Color>
                           </Style>
@@ -1946,7 +2016,7 @@
                         <TextRun>
                           <Value>﻿</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
+                            <FontFamily>Calibri</FontFamily>
                             <FontSize>9.99975pt</FontSize>
                             <Color>black</Color>
                           </Style>
@@ -1982,6 +2052,14 @@
                           <Value>﻿</Value>
                           <Style>
                             <FontFamily>Arial</FontFamily>
+                            <FontSize>8.49975pt</FontSize>
+                            <Color>Black</Color>
+                          </Style>
+                        </TextRun>
+                        <TextRun>
+                          <Value>﻿</Value>
+                          <Style>
+                            <FontFamily>Arial</FontFamily>
                             <FontSize>9.99975pt</FontSize>
                             <Color>black</Color>
                           </Style>
@@ -1989,8 +2067,8 @@
                         <TextRun>
                           <Value>=Globals!TotalPages</Value>
                           <Style>
-                            <FontFamily>Arial</FontFamily>
-                            <Color>Black</Color>
+                            <FontFamily>Calibri</FontFamily>
+                            <Color>black</Color>
                           </Style>
                         </TextRun>
                       </TextRuns>
@@ -2150,6 +2228,13 @@
       </ConnectionProperties>
       <rd:ImpersonateUser>false</rd:ImpersonateUser>
     </DataSource>
+    <DataSource Name="DataSource19">
+      <ConnectionProperties>
+        <DataProvider />
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:ImpersonateUser>false</rd:ImpersonateUser>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="LeaveSummary">
@@ -2220,6 +2305,60 @@
         <rd:DataSetName>DataSource18</rd:DataSetName>
         <rd:ObjectDataSourceType>JSONData</rd:ObjectDataSourceType>
         <rd:TableName>LeaveSummaryReportView</rd:TableName>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="Header">
+      <Fields>
+        <Field Name="EmployeeCode">
+          <DataField>EmployeeCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LeaveComponentCode">
+          <DataField>LeaveComponentCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PaygroupCode">
+          <DataField>PaygroupCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DesignationCode">
+          <DataField>DesignationCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LocationCode">
+          <DataField>LocationCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DepartmentCode">
+          <DataField>DepartmentCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CategoryCode">
+          <DataField>CategoryCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ReportType">
+          <DataField>ReportType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource19</DataSourceName>
+        <CommandType>Text</CommandType>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSource19</rd:DataSetName>
+        <rd:ObjectDataSourceType>JSONData</rd:ObjectDataSourceType>
+        <rd:TableName>Header</rd:TableName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
