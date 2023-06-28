@@ -14,7 +14,7 @@ namespace Chef.HRMS.Services
         private readonly IOverTimeReportRepository overTimeReportRepository;
 
 
-        public OverTimeReportService(IOverTimeReportRepository OverTimeReportRepository)
+        public OverTimeReportService(IOverTimeReportRepository overTimeReportRepository)
         {
             this.overTimeReportRepository = overTimeReportRepository;
         }

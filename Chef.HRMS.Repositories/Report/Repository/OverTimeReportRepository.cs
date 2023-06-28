@@ -56,39 +56,37 @@ namespace Chef.HRMS.Repositories.Report.Repository
 						    ON hb.id = jd.location
                         LEFT JOIN hrms.category ca
                             ON jd.categoryid = ca.id
-                        WHERE o.fromdate::date>= @fromDate AND o.todate::date <= @toDate";
+                        WHERE o.fromdate>= @fromDate AND o.todate<= @toDate and o.requeststatus = 4 ";
 
             if (paygroupIds != string.Empty)
             {
-                sql += "AND pg.id IN (" + paygroupIds + ")";
+                sql += " AND pg.id IN (" + paygroupIds + ")";
             }
             if (designationIds != string.Empty)
             {
-                sql += "AND jt.id IN (" + designationIds + ")";
+                sql += " AND jt.id IN (" + designationIds + ")";
             }
             if (locationIds != string.Empty)
             {
-                sql += "AND hb.id IN (" + locationIds + ")";
+                sql += " AND hb.id IN (" + locationIds + ")";
             }
             if (departmentIds != string.Empty)
             {
-                sql += "AND jd.department IN (" + departmentIds + ")";
+                sql += " AND jd.department IN (" + departmentIds + ")";
             }
             if (employeeCategory != string.Empty)
             {
-                sql += "AND ca.id IN (" + employeeCategory + ")";
+                sql += " AND ca.id IN (" + employeeCategory + ")";
             }
             if (overTimePolicyIds != string.Empty)
             {
-                sql += "AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
+                sql += " AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
             }
-            if (employeeIds == string.Empty)
+            if (employeeIds != string.Empty)
             {
-                sql += "AND l.employeeid IN (" + employeeIds + ")";
+                sql += " AND o.employeeid IN (" + employeeIds + ")";
             }
-            sql += @"AND l.isarchived = FALSE
-                        AND las.isarchived = FALSE
-                        GROUP BY jd.employeenumber,
+            sql += @" GROUP BY jd.employeenumber,
                                  CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),                                 
                                  o.normalovertime,
 							     o.holidayovertime,
@@ -121,7 +119,7 @@ namespace Chef.HRMS.Repositories.Report.Repository
                           o.normalovertime,
 						  o.holidayovertime,
 						  o.specialovertime,
-                          o.fromdate
+                          o.fromdate::date AS OverTimeDate
                         FROM hrms.jobdetails jd
                         INNER JOIN hrms.hrmsemployee e
                           ON jd.employeeid = e.id
@@ -143,39 +141,42 @@ namespace Chef.HRMS.Repositories.Report.Repository
 						    ON hb.id = jd.location
                         LEFT JOIN hrms.category ca
                           ON jd.categoryid = ca.id
-                        WHERE ld.leavedate BETWEEN @fromDate AND @toDate";
+                        WHERE o.fromdate>= @fromDate AND o.todate<= @toDate and o.requeststatus = 4 ";
 
             if (paygroupIds != string.Empty)
             {
-                sql += "AND pg.id IN (" + paygroupIds + ")";
+                sql += " AND pg.id IN (" + paygroupIds + ")";
             }
             if (designationIds != string.Empty)
             {
-                sql += "AND jt.id IN (" + designationIds + ")";
+                sql += " AND jt.id IN (" + designationIds + ")";
             }
             if (locationIds != string.Empty)
             {
-                sql += "AND hb.id IN (" + locationIds + ")";
+                sql += " AND hb.id IN (" + locationIds + ")";
             }
             if (departmentIds != string.Empty)
             {
-                sql += "AND jd.department IN (" + departmentIds + ")";
+                sql += " AND jd.department IN (" + departmentIds + ")";
             }
             if (employeeCategory != string.Empty)
             {
-                sql += "AND ca.id IN (" + employeeCategory + ")";
+                sql += " AND ca.id IN (" + employeeCategory + ")";
             }
             if (overTimePolicyIds != string.Empty)
             {
-                sql += "AND ld.overTimePolicyIds IN (" + overTimePolicyIds + ")";
+                sql += " AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
             }
-            if (employeeIds == string.Empty)
+            if (employeeIds != string.Empty)
             {
-                sql += "AND l.employeeid IN (" + employeeIds + ")";
+                sql += " AND o.employeeid IN (" + employeeIds + ")";
             }
-            sql += @"AND l.isarchived = FALSE 
+            sql += @" AND o.isarchived = FALSE 
                         GROUP BY jd.employeenumber,
                                  CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),
+                                 o.normalovertime,
+						         o.holidayovertime,
+						         o.specialovertime,
                                  op.name,
                                  pg.name,
                                  jt.name,

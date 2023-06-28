@@ -27,6 +27,8 @@ import { BoldReportViewerModule } from '@boldreports/angular-reporting-component
 import { EmployeePayrollReportFilterComponent } from './employee-payroll-report/employee-payroll-report-filter/employee-payroll-report-filter.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 
+import { EmployeeOvertimeReportComponent } from './employee-overtime/employee-overtime-report/employee-overtime-report.component';
+import { EmployeeOvertimeReportPrintComponent } from './employee-overtime/employee-overtime-report-print/employee-overtime-report-print.component'
  @NgModule({
   declarations: [
     EmployeeListReportComponent,
@@ -36,7 +38,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
     LeaveReportComponent,
     EmployeePayslipPrintFilterComponent,
     EmployeePayslipPrintComponent,
-    EmployeePayrollReportFilterComponent
+    EmployeePayrollReportFilterComponent,
+    EmployeeOvertimeReportComponent,
+    EmployeeOvertimeReportPrintComponent
   ],
   imports: [
     CommonModule,

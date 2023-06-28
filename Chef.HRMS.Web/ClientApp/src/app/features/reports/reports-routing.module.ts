@@ -8,6 +8,8 @@ import { LeaveReportComponent } from './leave-report/leave-report/leave-report.c
 import { EmployeePayslipPrintFilterComponent } from './employee-payslip-report/employee-payslip-print-filter/employee-payslip-print-filter.component';
 import { EmployeePayslipPrintComponent } from './employee-payslip-report/employee-payslip-print/employee-payslip-print.component';
 import { EmployeePayrollReportFilterComponent } from './employee-payroll-report/employee-payroll-report-filter/employee-payroll-report-filter.component';
+import { EmployeeOvertimeReportComponent } from './employee-overtime/employee-overtime-report/employee-overtime-report.component';
+import { EmployeeOvertimeReportPrintComponent } from './employee-overtime/employee-overtime-report-print/employee-overtime-report-print.component';
 
 
 const routes: Routes = [
@@ -43,7 +45,14 @@ const routes: Routes = [
   //   path: 'print', component: EmployeePayslipPrintComponent,
   //   data: { breadcrumbs: ['Me', 'Leave'], name: 'me-leave' }
   // }
-
+  {
+    path: 'employeeovertimelist', component: EmployeeOvertimeReportComponent,
+    data: { breadcrumbs: ['Employee Overtime Report List', 'EmployeeOvertimeReportComponent'], name: 'report-overtimereport' }
+  },
+  {
+    path: 'employeeovertimelist/print', component: EmployeeOvertimeReportPrintComponent,
+    data: { breadcrumbs: ['Employee Overtime Report List', 'EmployeeOvertimeReportPrintComponent'], name: 'report-overtimereport' }
+  },
 ];
 
 @NgModule({

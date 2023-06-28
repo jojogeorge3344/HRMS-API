@@ -291,6 +291,11 @@ export const NavigationItems = [
         tags: "report-leavereport",
         routerLink: "/reports/leavelist",
       },
+      {
+        title: "Overtime Report",
+        tags: "report-employeelist",
+        routerLink: "/reports/employeeovertimelist",
+      },
     ],
   },
 ];
