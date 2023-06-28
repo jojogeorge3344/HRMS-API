@@ -18,6 +18,7 @@ export class RolesAssigningComponent implements OnInit {
   selectedRole: string = null;
   employees: Employee[];
   employeesOnSelection: Employee[];
+  checkNameExist: boolean=false;
   constructor(
     private employeeService: EmployeeService,
     private rolesService: RolesService,
@@ -65,21 +66,33 @@ export class RolesAssigningComponent implements OnInit {
   )
 
   selected($event, input, selectrole) {
-    $event.preventDefault();
-    this.userRolesService.insert({ employeeId: $event.item.id, roleId: selectrole.id }).subscribe((res: any) => {
-      if (res) {
-        this.roles.map(role => {
-          if (role.id === selectrole.id) {
-            role.employeesAdded.push({ ...$event.item, userRoleId: res.id });
-            return role;
-          }
-        });
-        this.employeesOnSelection = this.employeesOnSelection.filter(employee => employee.id !== $event.item.id);
-        input.value = '';
-        this.toasterDisplayService.showSuccessMessage('User roles updated successfully');
-        this.getUserDetails()
-      }
-    });
+    let check=selectrole.employeesAdded.filter(x=>x.fullName==$event.item.fullName)
+    if(check.length){
+    this.checkNameExist=true
+    }else{
+      this.checkNameExist=false
+    }
+
+    if(this.checkNameExist){
+    this.toasterDisplayService.showWarningMessage("Name is Already Exist")
+    }else{
+      $event.preventDefault();
+      this.userRolesService.insert({ employeeId: $event.item.id, roleId: selectrole.id }).subscribe((res: any) => {
+        if (res) {
+          this.roles.map(role => {
+            if (role.id === selectrole.id) {
+              role.employeesAdded.push({ ...$event.item, userRoleId: res.id });
+              return role;
+            }
+          });
+          this.employeesOnSelection = this.employeesOnSelection.filter(employee => employee.id !== $event.item.id);
+          input.value = '';
+          this.toasterDisplayService.showSuccessMessage('User roles updated successfully');
+          this.getUserDetails()
+        }
+      });
+    }
+   
   }
   showInput(currentRole) {
     this.selectedRole = currentRole;
