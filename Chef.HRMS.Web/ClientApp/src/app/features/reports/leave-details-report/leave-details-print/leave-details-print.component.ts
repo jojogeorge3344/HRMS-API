@@ -55,13 +55,13 @@ export class LeaveDetailsPrintComponent implements OnInit {
     debugger
     this.reportViewerService.loadReportOnInit = this.loadReportOnInit;
     this.reportViewerService.customData.reportType = this.data[0].reportType;
-    this.reportViewerService.customData.paygroupId = this.data[0].paygroupIds;
-    this.reportViewerService.customData.departmentId = this.data[0].departmentIds;
-    this.reportViewerService.customData.designationId = this.data[0].designationIds;
-    this.reportViewerService.customData.employeeId = this.data[0].employeeIds;
-    this.reportViewerService.customData.locationId = this.data[0].locationIds;
-    this.reportViewerService.customData.employeeGroupId = this.data[0].employeeCategory;
-    this.reportViewerService.customData.leaveComponentId = this.data[0].leaveComponentIds;
+    this.reportViewerService.customData.paygroupId = this.data[0].paygroupIds ? this.data[0].paygroupIds : 0 ;
+    this.reportViewerService.customData.departmentId = this.data[0].departmentIds ? this.data[0].departmentIds : 0;
+    this.reportViewerService.customData.designationId = this.data[0].designationIds ?this.data[0].designationIds: 0;
+    this.reportViewerService.customData.employeeId = this.data[0].employeeIds?this.data[0].employeeIds:0;
+    this.reportViewerService.customData.locationId = this.data[0].locationIds?this.data[0].locationIds:0;
+    this.reportViewerService.customData.employeeGroupId = this.data[0].employeeCategory?this.data[0].employeeCategory:0;
+    this.reportViewerService.customData.leaveComponentId = this.data[0].leaveComponentIds?this.data[0].leaveComponentIds:0;
     this.reportViewerService.customData.fromDate = this.data[0].fromDate;
     this.reportViewerService.customData.ToDate = this.data[0].ToDate;
   }

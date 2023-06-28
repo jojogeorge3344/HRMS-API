@@ -15,7 +15,7 @@ namespace Chef.HRMS.Repositories
         }
 
         public async Task<IEnumerable<LeaveSummaryReportView>> GetLeaveSummaryReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategory, string leaveComponentIds, string employeeIds)
-        {
+                {
             var sql = @"SELECT
                             @reportType AS reporttype,
                             @fromDate AS fromdate,
@@ -54,35 +54,35 @@ namespace Chef.HRMS.Repositories
                             ON jd.categoryid = ca.id
                         WHERE ld.leavedate BETWEEN @fromDate AND @toDate";
 
-            if(paygroupIds != string.Empty)
+            if(paygroupIds != string.Empty && paygroupIds != "0")
             {
                 sql += " AND pg.id IN ("+ paygroupIds + ")";
             }
-            if(designationIds != string.Empty) 
+            if(designationIds != string.Empty && designationIds != "0") 
             {
-                sql += "AND jt.id IN ("+ designationIds + ")";
+                sql += " AND jt.id IN ("+ designationIds + ")";
             }
-            if(locationIds != string.Empty)
+            if(locationIds != string.Empty && locationIds != "0")
             {
-                sql += "AND hb.id IN (" + locationIds + ")";
+                sql += " AND hb.id IN (" + locationIds + ")";
             }
-            if(departmentIds != string.Empty) 
+            if(departmentIds != string.Empty && departmentIds != "0") 
             {
-                sql += "AND jd.department IN ("+ departmentIds + ")";
+                sql += " AND jd.department IN ("+ departmentIds + ")";
             }
-            if(employeeCategory != string.Empty)
+            if(employeeCategory != string.Empty && employeeCategory != "0")
             {
-                sql += "AND ca.id IN ("+ employeeCategory + ")";
+                sql += " AND ca.id IN ("+ employeeCategory + ")";
             }
-            if(leaveComponentIds != string.Empty)
+            if(leaveComponentIds != string.Empty && leaveComponentIds != "0")
             {
-                sql += "AND ld.leavecomponentid IN ("+ leaveComponentIds + ")";
+                sql += " AND ld.leavecomponentid IN ("+ leaveComponentIds + ")";
             }
-            if(employeeIds != string.Empty)
+            if(employeeIds != string.Empty && employeeIds != "0")
             {
-                sql += "AND l.employeeid IN ("+ employeeIds + ")";
+                sql += " AND l.employeeid IN ("+ employeeIds + ")";
             }
-            sql += @"AND l.isarchived = FALSE
+            sql += @" AND l.isarchived = FALSE
                         AND las.isarchived = FALSE
                         GROUP BY jd.employeenumber,
                                  CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),
@@ -139,35 +139,35 @@ namespace Chef.HRMS.Repositories
                           ON jd.categoryid = ca.id
                         WHERE ld.leavedate BETWEEN @fromDate AND @toDate";
 
-            if(paygroupIds != string.Empty)
+            if(paygroupIds != string.Empty && paygroupIds != "0")
             {
                 sql += " AND pg.id IN ("+ paygroupIds + ")";
             }
-            if(designationIds != string.Empty) 
+            if(designationIds != string.Empty && designationIds != "0") 
             {
-                sql += "AND jt.id IN ("+ designationIds + ")";
+                sql += " AND jt.id IN ("+ designationIds + ")";
             }
-            if(locationIds != string.Empty)
+            if(locationIds != string.Empty && locationIds != "0")
             {
-                sql += "AND hb.id IN (" + locationIds + ")";
+                sql += " AND hb.id IN (" + locationIds + ")";
             }
-            if(departmentIds != string.Empty) 
+            if(departmentIds != string.Empty && departmentIds != "0") 
             {
-                sql += "AND jd.department IN ("+ departmentIds + ")";
+                sql += " AND jd.department IN ("+ departmentIds + ")";
             }
-            if(employeeCategory != string.Empty)
+            if(employeeCategory != string.Empty && employeeCategory != "0")
             {
-                sql += "AND ca.id IN ("+ employeeCategory + ")";
+                sql += " AND ca.id IN ("+ employeeCategory + ")";
             }
-            if(leaveComponentIds != string.Empty)
+            if(leaveComponentIds != string.Empty && leaveComponentIds != "0")
             {
-                sql += "AND ld.leavecomponentid IN ("+ leaveComponentIds + ")";
+                sql += " AND ld.leavecomponentid IN ("+ leaveComponentIds + ")";
             }
-            if(employeeIds != string.Empty)
+            if(employeeIds != string.Empty && employeeIds != "0")
             {
-                sql += "AND l.employeeid IN ("+ employeeIds + ")";
+                sql += " AND l.employeeid IN ("+ employeeIds + ")";
             }
-            sql += @"AND l.isarchived = FALSE --and las.isarchived=false
+            sql += @" AND l.isarchived = FALSE --and las.isarchived=false
                         GROUP BY jd.employeenumber,
                                  CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),
                                  lc.name,
