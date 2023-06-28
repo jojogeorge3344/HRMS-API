@@ -1,0 +1,152 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+        <div>
+            Print Leave Details
+        </div>
+    </h1>
+</div>
+<div id="employee-list" class="panel" [formGroup]="addForm" id="leaveDetailsForm">
+    <div class="card p-3">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="with-input form-group col-md-1">
+                <span class="text-nowrap">Date From<span class="required">*</span></span>
+            </div>
+            <div class="form-group col-md-2">
+                <div class="input-group">
+                    <input class="form-control" ngbDatepicker #dob="ngbDatepicker" formControlName="fromDate">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"
+                            type="button"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="with-input form-group">
+                <span class="text-nowrap">To<span class="required">*</span></span>
+            </div>
+            <div class="form-group col-md-2">
+                <div class="input-group">
+                    <input class="form-control" ngbDatepicker #tt="ngbDatepicker" formControlName="ToDate"
+                      >
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="tt.toggle()"
+                            type="button"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="with-input form-group col-md-2">
+                <span class="text-nowrap">Paygroup</span>
+            </div>
+            <div class="form-group col-md-4">
+                <ng-multiselect-dropdown [(ngModel)]="selectedPaygroups" [placeholder]="'Select Paygroup'"
+                    [settings]="paygroupSettings" [data]="payGroupDetails" formControlName="paygroupIds">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="with-input form-group col-md-2">
+                <span class="text-nowrap">Designation</span>
+            </div>
+            <div class="form-group col-md-4">
+                <ng-multiselect-dropdown [placeholder]="'Select Designation'" [settings]="designationSettings"
+                    [(ngModel)]="selectedDesignation" [data]="designationDetails" formControlName="designationIds">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="with-input form-group col-md-2">
+                <span class="text-nowrap">Location</span>
+            </div>
+            <div class="form-group col-md-4">
+                <ng-multiselect-dropdown [(ngModel)]="selectedLocation" [placeholder]="'Select Location'"
+                    [settings]="locationSettings"[data]="location" formControlName="locationIds">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="with-input form-group col-md-2">
+                <span class="text-nowrap">Department</span>
+            </div>
+            <div class="form-group col-md-4">
+                <ng-multiselect-dropdown [(ngModel)]="selectedDepartment" [placeholder]="'Select Department'"
+                    [settings]="departmentSettings" [data]="departmentKeys" formControlName="departmentIds">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="with-input form-group col-md-2">
+                <span class="text-nowrap">Employee Group</span>
+            </div>
+            <div class="form-group col-md-4">
+                <ng-multiselect-dropdown [(ngModel)]="selectedEmployeeGroup" [placeholder]="'Select Employee Group'"
+                    [settings]="employeeGroupSettings" [data]="groupCategory" formControlName="employeeCategory">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="with-input form-group col-md-2">
+                <span class="text-nowrap">Leave Component</span>
+            </div>
+            <div class="form-group col-md-4">
+                <ng-multiselect-dropdown [(ngModel)]="selectLeaveComponent" [placeholder]="'Select Leave Component'"
+                    [settings]="leaveSettings" [data]="leaveComponents" formControlName="leaveComponentIds">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="with-input form-group col-md-2">
+                <span class="text-nowrap">Employees</span>
+            </div>
+            <div class="form-group col-md-4">
+                <ng-multiselect-dropdown [(ngModel)]="selectedEmployee" [placeholder]="'Select Employee'"
+                    [settings]="employeeSettings" [data]="employeeList" formControlName="employeeIds">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+            <div class="row"> 
+                <div class="col-md-3"></div> 
+                <div class="form-check form-check-inline col-md-3">
+                    Please Choose One Category
+                </div>  
+              </div>
+            <div class="row mt-1" >
+                <div class="col-md-3"></div>
+                <div class="form-check form-check-inline col-md-1">
+                  <input class="form-check-input"   formControlName="isSummary" type="radio" (change)="summaryChecked($event.target.value)" >
+                  <label class="form-check-label" >
+                    Summary
+                  </label>
+              </div>
+              <div class="form-check form-check-inline col-md-1">
+                <input class="form-check-input" formControlName="isDetails" type="radio" (change)="detailChecked($event.target.value)">
+                <label class="form-check-label" >
+                  Details
+                </label>
+              </div>
+              <div class="col-md-6"></div>
+            </div>
+        <div class="row mt-2">
+            <div class="col-md-6"></div>
+            <div class="form-group col-md-3">
+                <button type="button" class="btn btn-primary ps-2 pe-2" (click)="openPrint()">Print</button>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Chef.HRMS.Web.Controllers
@@ -58,20 +59,24 @@ namespace Chef.HRMS.Web.Controllers
                 string designationIds = CustomData["designationId"].ToString();
                 string locationIds = CustomData["locationId"].ToString();
                 string departmentIds = CustomData["departmentId"].ToString();
-                string employeeCategory = CustomData["employeeGroupId"].ToString();
+                string employeeCategoryIds = CustomData["employeeGroupId"].ToString();
                 string leaveComponentIds = CustomData["leaveComponentId"].ToString();
                 string employeeIds = (CustomData["employeeId"].ToString());
 
                 switch (reportType)
                 {
                     case "Summary":
-                        var employeeLeaveSummary = leaveReportService.GetLeaveSummaryReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, leaveComponentIds, employeeIds).Result;
+                        var employeeLeaveSummary = leaveReportService.GetLeaveSummaryReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds).Result;
                         reportOption.AddDataSource("LeaveSummary", employeeLeaveSummary);
+                        var headerSummary = leaveReportService.GetLeaveSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds).Result;
+                        reportOption.AddDataSource("Header", headerSummary);
                         break;
 
                     case "Detailed":
-                        var employeeLeaveDetail = leaveReportService.GetLeaveDetailedReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, leaveComponentIds, employeeIds).Result;
+                        var employeeLeaveDetail = leaveReportService.GetLeaveDetailedReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds).Result;
                         reportOption.AddDataSource("LeaveDetails", employeeLeaveDetail);
+                        var headerDetail = leaveReportService.GetLeaveSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds).Result;
+                        reportOption.AddDataSource("Header", headerDetail);
                         break;
                 }
             }
