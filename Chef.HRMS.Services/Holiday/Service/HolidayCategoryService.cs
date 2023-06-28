@@ -18,7 +18,7 @@ namespace Chef.HRMS.Services
 
         public async Task<int> DeleteAsync(int id)
         {
-            return await holidayCategoryRepository.DeleteAsync(id);
+            return await holidayCategoryRepository.DeletePermanentAsync(id);
         }
 
         public async Task<IEnumerable<int>> GetAllAssignedHolidayCategory()

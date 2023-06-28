@@ -45,6 +45,7 @@ export class LoanRequestEditComponent implements OnInit {
   disableRequestedBy=false
   isLoading=false;
   validateRequestedBy:boolean=true
+  reqDate: any;
     constructor(
     private employeeService: EmployeeService,
     private loanRequestService: LoanRequestService,
@@ -116,6 +117,7 @@ getLoanDetails(){
   this.loanRequestService.get(this.loanId).subscribe(result => {
     result.requestedDate = new Date(result.requestedDate);
     result.expectedOn = new Date(result.expectedOn);
+    this.reqDate=new Date(result.requestedDate);
     this.loanNo = result.loanNo;
     this.empLoanDetails=result
     this.editForm.patchValue(result);
@@ -173,6 +175,7 @@ getLoanDetails(){
     editloanRequestForm.status = this.requestTypes.Approved;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
+    editloanRequestForm.requestedDate = this.reqDate;
 
     this.loanRequestService.update(editloanRequestForm).subscribe(result => {
       this.toastr.showSuccessMessage('The loan request is updated successfully!');
@@ -202,6 +205,7 @@ getLoanDetails(){
     editloanRequestForm.status = this.requestTypes.Draft;
     editloanRequestForm.emiStartsFromMonth = parseInt(this.editForm.value.emiStartsFromMonth, 10);
     editloanRequestForm.emiStartsFromYear = parseInt(this.editForm.value.emiStartsFromYear, 10);
+    editloanRequestForm.requestedDate = this.reqDate;
     this.loanRequestService.update(editloanRequestForm).subscribe(result => {
       this.toastr.showSuccessMessage('The loan request is updated successfully!');
       this.activeModal.close('submit');
