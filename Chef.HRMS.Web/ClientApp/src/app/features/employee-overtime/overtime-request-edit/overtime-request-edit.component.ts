@@ -335,7 +335,6 @@ export class OvertimeRequestEditComponent implements OnInit {
         Validators.max(524)
       ]],
       reason: ['', [
-        Validators.required,
         Validators.maxLength(128),
       ]],
       employeeId: [],
