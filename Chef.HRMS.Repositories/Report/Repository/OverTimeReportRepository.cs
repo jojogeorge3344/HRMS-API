@@ -109,7 +109,7 @@ namespace Chef.HRMS.Repositories.Report.Repository
                           @toDate AS todate,
                           pg.name AS paygroupname,
                           jt.name AS designationname,
-                          hb.shortname,
+                          hb.shortname AS locationname,
                           op.name AS overtimepolicyname,
                           jd.department,
                           ca.name AS categoryname,
