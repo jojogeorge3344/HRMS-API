@@ -18,7 +18,8 @@ namespace Chef.HRMS.Services
 
         public async Task<int> DeleteAsync(int id)
         {
-            return await jobTitleRepository.DeleteAsync(id);
+            //return await jobTitleRepository.DeleteAsync(id);
+            return await jobTitleRepository.DeletePermanentAsync(id);
         }
 
         public async Task<IEnumerable<JobTitle>> GetAllAsync()
