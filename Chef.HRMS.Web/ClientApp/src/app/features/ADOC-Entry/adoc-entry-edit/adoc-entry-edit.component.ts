@@ -121,19 +121,7 @@ export class AdocEntryEditComponent implements OnInit {
        employeeCode:this.employee.employeeNumber
       })
  
-      if(this.editForm.get('status').value=='pending'){
-        this.editForm.patchValue({
-          status:1
-        })
-      }else if(this.editForm.get('status').value=='approved'){
-        this.editForm.patchValue({
-          status:2
-        })
-      }else{
-        this.editForm.patchValue({
-          status:3
-        })
-      }
+     
       if(this.editForm.value.adhocBFCode=='SE'){
         this.editForm.patchValue({
           isAddition:true,
