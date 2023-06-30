@@ -18,6 +18,7 @@ export class RolesAssigningComponent implements OnInit {
   selectedRole: string = null;
   employees: Employee[];
   employeesOnSelection: Employee[];
+  checkNameExist: boolean=false;
   constructor(
     private employeeService: EmployeeService,
     private rolesService: RolesService,
@@ -26,6 +27,12 @@ export class RolesAssigningComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+   
+    this.getUserDetails()
+
+  }
+  getUserDetails(){
+ 
     forkJoin([this.employeeService.getAll(), this.rolesService.getall(), this.userRolesService.getall()])
       .subscribe((response: any) => {
         this.employees = this.employeesOnSelection = response[0];
@@ -48,9 +55,7 @@ export class RolesAssigningComponent implements OnInit {
         //   (allAssignedEmployees.find(emp => emp.id === employee.id) === undefined)
         // );
       });
-
   }
-
   formatter = (employee) => employee.fullName;
 
   search = (text$: Observable<string>) => text$.pipe(
@@ -61,20 +66,33 @@ export class RolesAssigningComponent implements OnInit {
   )
 
   selected($event, input, selectrole) {
-    $event.preventDefault();
-    this.userRolesService.insert({ employeeId: $event.item.id, roleId: selectrole.id }).subscribe((res: any) => {
-      if (res) {
-        this.roles.map(role => {
-          if (role.id === selectrole.id) {
-            role.employeesAdded.push({ ...$event.item, userRoleId: res.id });
-            return role;
-          }
-        });
-        this.employeesOnSelection = this.employeesOnSelection.filter(employee => employee.id !== $event.item.id);
-        input.value = '';
-        this.toasterDisplayService.showSuccessMessage('User roles updated successfully');
-      }
-    });
+    let check=selectrole.employeesAdded.filter(x=>x.fullName==$event.item.fullName)
+    if(check.length){
+    this.checkNameExist=true
+    }else{
+      this.checkNameExist=false
+    }
+
+    if(this.checkNameExist){
+    this.toasterDisplayService.showWarningMessage("Name is Already Exist")
+    }else{
+      $event.preventDefault();
+      this.userRolesService.insert({ employeeId: $event.item.id, roleId: selectrole.id }).subscribe((res: any) => {
+        if (res) {
+          this.roles.map(role => {
+            if (role.id === selectrole.id) {
+              role.employeesAdded.push({ ...$event.item, userRoleId: res.id });
+              return role;
+            }
+          });
+          this.employeesOnSelection = this.employeesOnSelection.filter(employee => employee.id !== $event.item.id);
+          input.value = '';
+          this.toasterDisplayService.showSuccessMessage('User roles updated successfully');
+          this.getUserDetails()
+        }
+      });
+    }
+   
   }
   showInput(currentRole) {
     this.selectedRole = currentRole;
@@ -91,8 +109,16 @@ export class RolesAssigningComponent implements OnInit {
             return role;
           });
           this.toasterDisplayService.showSuccessMessage('User role updated successfully');
+          this.getUserDetails()
         }
       });
 
+  }
+  removeEmployee(role,employee){
+    this.userRolesService.delete(employee.userRoleId).subscribe((res)=>{
+      console.log(res)
+      this.toasterDisplayService.showSuccessMessage('User role deleted successfully!');
+      this.getUserDetails()
+    })
   }
 }
