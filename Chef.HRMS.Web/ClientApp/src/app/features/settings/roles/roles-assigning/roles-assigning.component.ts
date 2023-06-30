@@ -115,7 +115,6 @@ export class RolesAssigningComponent implements OnInit {
 
   }
   removeEmployee(role,employee){
-    console.log(role,employee)
     this.userRolesService.delete(employee.userRoleId).subscribe((res)=>{
       console.log(res)
       this.toasterDisplayService.showSuccessMessage('User role deleted successfully!');
