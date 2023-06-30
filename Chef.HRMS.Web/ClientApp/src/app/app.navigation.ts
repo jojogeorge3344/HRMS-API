@@ -267,6 +267,11 @@ export const NavigationItems = [
         routerLink: "/reports/employeepayroll",
       },
       {
+        title: "Leave Details",
+        tags: "report-employeelist",
+        routerLink: "/reports/leavedetails",
+      },
+      {
         title: "Employee Register",
         tags: "report-employeelist",
         routerLink: "/reports/employeeList",
