@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -17,6 +17,8 @@ export class HolidayCategoryCreateComponent implements OnInit {
   currentUserId: number;
   currentYear;
   years;
+  @Input() holiday;
+  nameExistCheck: boolean=false;
 
   constructor(
     private holidayCategoryService: HolidayCategoryService,
@@ -33,18 +35,23 @@ export class HolidayCategoryCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    this.holidayCategoryService.add(this.addForm.value).subscribe((result: any) => {
-      if (result.id === -1) {
-        this.toastr.showErrorMessage('Holiday category already exists!');
-      } else {
-        this.toastr.showSuccessMessage('Holiday category added successfully!');
-        this.activeModal.close('submit');
-      }
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('Unable to add the Holiday Category');
-      });
+    if(this.nameExistCheck){
+      this.toastr.showWarningMessage("Holiday Category Name already Exist")
+    }else{
+      this.holidayCategoryService.add(this.addForm.value).subscribe((result: any) => {
+        if (result.id === -1) {
+          this.toastr.showErrorMessage('Holiday category already exists!');
+        } else {
+          this.toastr.showSuccessMessage('Holiday category added successfully!');
+          this.activeModal.close('submit');
+        }
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('Unable to add the Holiday Category');
+        });
+    }
+   
   }
 
   createFormGroup(): FormGroup {
@@ -57,5 +64,12 @@ export class HolidayCategoryCreateComponent implements OnInit {
      });
   }
 
- 
+  checkName(event){
+  let check=this.holiday.filter(x=>x.name==event)
+    if(check.length){
+       this.nameExistCheck=true
+    }else{
+       this.nameExistCheck=false
+  }
+  }
 }

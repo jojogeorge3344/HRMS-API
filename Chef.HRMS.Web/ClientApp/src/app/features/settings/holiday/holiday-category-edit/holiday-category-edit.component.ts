@@ -17,9 +17,11 @@ export class HolidayCategoryEditComponent implements OnInit {
   currentUserId: number;
   currentYear;
   years;
+  @Input() holiday;
 
   @Input() category: HolidayCategory;
   @Input() isDisabled: boolean;
+  nameExistCheck: boolean=false;
 
   constructor(
     private holidayCategoryService: HolidayCategoryService,
@@ -36,18 +38,23 @@ export class HolidayCategoryEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.holidayCategoryService.update(this.editForm.getRawValue()).subscribe((result: any) => {
-      if (result === -1) {
-        this.toastr.showErrorMessage('Holiday category already exists!');
-      } else {
-        this.toastr.showSuccessMessage('Holiday category updated successfully!');
-        this.activeModal.close('submit');
-      }
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('There is an error in updating holiday category');
-      });
+    if(this.nameExistCheck){
+      this.toastr.showWarningMessage("Holiday Category Name already Exist")
+    }else{
+      this.holidayCategoryService.update(this.editForm.getRawValue()).subscribe((result: any) => {
+        if (result === -1) {
+          this.toastr.showErrorMessage('Holiday category already exists!');
+        } else {
+          this.toastr.showSuccessMessage('Holiday category updated successfully!');
+          this.activeModal.close('submit');
+        }
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('There is an error in updating holiday category');
+        });
+    }
+
   }
 
   createFormGroup(): FormGroup {
@@ -61,5 +68,13 @@ export class HolidayCategoryEditComponent implements OnInit {
       createdDate: [this.category.createdDate],
     });
   }
+  checkName(event){
+    let check=this.holiday.filter(x=>x.name==event)
+      if(check.length && (event!=this.category.name)){
+         this.nameExistCheck=true
+      }else{
+         this.nameExistCheck=false
+    }
+    }
 }
 
