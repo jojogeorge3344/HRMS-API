@@ -43,14 +43,15 @@
       [(ngModel)]="empObj"
        [disabled]="disableRequestedBy"
         [ngModelOptions]="{standalone: true}"
-         [filter]="true" class="pngCustomClass"
+         [filter]="true" 
+         class="pngCustomClass"
        [options]="employeeList" 
        optionValue="firstName"
       (onChange)="selectRequestedBy($event)"
        optionLabel="firstName"
         placeholder="Select Employee"
          dataKey="firstName"
-          name="employeeName">
+        name="employeeName">
         <ng-template let-item pTemplate="item" >  
           <div class="dd-values" *ngIf="!(item?.value?.isLastRow)" >
             {{item?.value.firstName}} 
@@ -66,7 +67,7 @@
     <div class="d-flex justify-content-between align-items-center">
       <div *ngIf="this.addForm.get('employeeName').touched && this.addForm.get('employeeName').invalid"
           class="invalid-feedback d-block">
-          Requested by* is required
+          Select Employee* is required
       </div>
   </div> 
 </div> 
@@ -159,6 +160,12 @@
         </div>
       </div>
     </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <div *ngIf="!validateDate" class="invalid-feedback d-block">
+          From date should be lesser than to date.
+      </div>
+  </div> 
 
     <div
       class="row"

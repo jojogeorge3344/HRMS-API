@@ -29,7 +29,7 @@
                         [dropZones]="['source-dropZone']" [dragData]="employee" class="badge border p-2 m-1 fs-sm">
                             <span style="min-width: 25px;min-height: 25px;" class="bg-primary-500 border-circle p-1">{{employee.shortForm}}</span>
                             {{employee.fullName}}
-                            <!-- <button (click)="removeEmployee(role,employee)" class="btn btn-outline-primary border-0 px-1 p-0">&times;</button> -->
+                            <button (click)="removeEmployee(role,employee)" class="btn btn-outline-primary border-0 px-1 p-0" style="font-size: 20px;">&times;</button>
                         </span>
                     </ng-container>
                     <button *ngIf="selectedRole !== role.name" type="button" class="btn btn-outline-primary p-2 ml-2"

@@ -22,7 +22,9 @@ export class HolidayEditComponent implements OnInit {
   @Input() holiday: Holiday;
   @Input() year: any;
   @Input() isDisabled: boolean;
-  @Input() holidayNames: string[];
+  @Input() holidayNames:any;
+  @Input() holidays;
+  nameExistCheck: boolean=false;
 
   constructor(
     private holidayService: HolidayService,
@@ -50,25 +52,30 @@ export class HolidayEditComponent implements OnInit {
   get name() { return this.editForm.get('name'); }
 
   onSubmit() { 
-    this.holidayService.update(this.editForm.value).subscribe((result: any) => {
-      if (result === -1) {
-        this.toastr.showErrorMessage('Holiday already exists!');
-      } else {
-        this.toastr.showSuccessMessage('Holiday updated successfully!');
-        this.activeModal.close('submit');
-      }
-    },
-      error => {
-        console.error(error);
-        this.toastr.showErrorMessage('There is an error in updating holiday');
-      });
+    if(this.nameExistCheck){
+     this.toastr.showWarningMessage("Holiday Name Already Exist")
+    }else{
+      this.holidayService.update(this.editForm.value).subscribe((result: any) => {
+        if (result === -1) {
+          this.toastr.showErrorMessage('Holiday already exists!');
+        } else {
+          this.toastr.showSuccessMessage('Holiday updated successfully!');
+          this.activeModal.close('submit');
+        }
+      },
+        error => {
+          console.error(error);
+          this.toastr.showErrorMessage('There is an error in updating holiday');
+        });
+    }
+   
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       name: [this.holiday.name, [
         Validators.required,
-        duplicateNameValidator(this.holidayNames)
+        duplicateNameValidator(this.holidays.name)
       ]],
       description: [this.holiday.description, [Validators.required]],
       date: [{value: new Date(this.holiday.date), disabled: this.isDisabled}, [Validators.required]],
@@ -78,4 +85,13 @@ export class HolidayEditComponent implements OnInit {
       createdDate: [this.holiday.createdDate],
      });
   }
+
+  checkName(event){
+    let check=this.holidays.filter(x=>x.name==event)
+      if(check.length && (event!=this.holiday.name)){
+         this.nameExistCheck=true
+      }else{
+         this.nameExistCheck=false
+    }
+    }
 }
