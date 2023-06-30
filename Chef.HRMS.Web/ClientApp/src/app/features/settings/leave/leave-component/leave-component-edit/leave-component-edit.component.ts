@@ -462,7 +462,7 @@ export class LeaveComponentEditComponent implements OnInit {
       eligibilityBase: [0, [Validators.required]],
       maxLeaveAtATime: [0],
       vacationSalaryFormula: [null],
-      encashBFCode: [null,{ disabled: this.isEncashBf }],
+      encashBFCode: [0,{ disabled: this.isEncashBf }],
       encashLimitDays: [{ value: 0, disabled: this.isEncashLimit }],
       cfLimitDays: [{ value: 0, disabled: this.isCfLimit }],
       baseType: [null, [Validators.required]],
@@ -476,7 +476,7 @@ export class LeaveComponentEditComponent implements OnInit {
       // leaveDeduction: [0,[Validators.required]],
       leaveComponentLopDetails:[],
       leaveEncashment: [{ value: 0, disabled: this.isEncash }],
-      annualLeave: [null,{ disabled: this.isAnnual }],
+      annualLeave: [0,{ disabled: this.isAnnual }],
       id: [0],
     });
   }
