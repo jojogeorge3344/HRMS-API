@@ -26,6 +26,8 @@ import { ReportViewerModule } from '@shared/report-viewer/report-viewer.module';
 import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
 import { EmployeePayrollReportFilterComponent } from './employee-payroll-report/employee-payroll-report-filter/employee-payroll-report-filter.component';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { LeaveDetailsReportFilterComponent } from './leave-details-report/leave-details-report-filter/leave-details-report-filter.component';
+import { LeaveDetailsPrintComponent } from './leave-details-report/leave-details-print/leave-details-print.component';
 
  @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
     LeaveReportComponent,
     EmployeePayslipPrintFilterComponent,
     EmployeePayslipPrintComponent,
-    EmployeePayrollReportFilterComponent
+    EmployeePayrollReportFilterComponent,
+    LeaveDetailsReportFilterComponent,
+    LeaveDetailsPrintComponent
   ],
   imports: [
     CommonModule,
@@ -52,12 +56,14 @@ import { MultiSelectModule } from 'primeng/multiselect';
     ReportViewerModule,
     BoldReportViewerModule,
     NgMultiSelectDropDownModule,
-    MultiSelectModule
+    MultiSelectModule,
+    
   ],
   providers: [{
     provide: CUSTOM_ERROR_MESSAGES,
     useValue: customErrorMessages,
     multi: true
+    
   },
   SplitByUpperCasePipe,
   NumberToWordsPipe,
