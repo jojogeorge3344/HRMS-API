@@ -96,7 +96,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   fileId: any;
   loginUserDetail:any
   isLoading=false;
-
+  validateDate:boolean=true;
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
     private employeeService: EmployeeService,
@@ -138,7 +138,8 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       day: current.getDate(),
     };
   }
-
+  alreadySelectedItem=[];
+  notifyPersonList=[]
   ngOnInit(): void {
     debugger
     console.log(this.leaves)
@@ -395,6 +396,8 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       res.some(({ notifyPersonnel: id2 }) => id2 === id1)
       
       );
+      this.alreadySelectedItem = [...this.selectedItems]
+      this.notifyPersonList = res
       console.log(this.selectedItems )
       // this.alreadySelectedItem = [...this.selectedItems]
       // this.notifyPersonList = res
@@ -445,12 +448,12 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   }
 
   remove(item) {
-    debugger
     this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
   }
 
   onFromDateSelection(date: NgbDate) {
     this.minDateTo = date;
+    this.validateDate =true
   }
 
   onToDateSelection(date: NgbDate) {
@@ -458,6 +461,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     this.addForm.patchValue({
       rejoinDate: new Date(date.year, date.month - 1, date.day + 1),
     });
+    this.validateDate =true;
   }
 
   checkDates() {
@@ -657,7 +661,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     });
 
     modalRef.componentInstance.confirmationMessage =
-      "Are you sure you want to delete this document";
+      "Are you sure you want to delete this document ?";
 
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
@@ -681,6 +685,10 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       return
          
        }
+       if(this.addForm.controls.fromDate.value > this.addForm.controls.toDate.value){
+        this.validateDate = false;
+        return;
+      }
     this.addForm.value.document.id=this.fileId
     let addForm = this.addForm.value;
     addForm.leaveStatus=this.requestTypes.Approved
@@ -743,6 +751,10 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
       return
          
        }
+       if(this.addForm.controls.fromDate.value > this.addForm.controls.toDate.value){
+        this.validateDate = false;
+        return;
+      }
     this.addForm.value.document.id=this.fileId
     let addForm = this.addForm.value;
     addForm.leaveStatus=this.requestTypes.Draft
@@ -801,9 +813,41 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   notify(leaveRequestId): void {
     debugger
     const notifyPersonnelForm = this.selectedItems.map((notifyPerson) => ({
-      leaveId: leaveRequestId,
-      notifyPersonnel: notifyPerson.id,
+      //leaveId: leaveRequestId,
+      leaveId : this.addForm.controls.id.value,
+      notifyPersonnel: notifyPerson.id
     }));
+    var removedNotifyPersons = this.alreadySelectedItem.filter(o=> !this.selectedItems.some(i=> i.id === o.id));
+    var addedNotifyPerson  = this.selectedItems.filter(o=> !this.alreadySelectedItem.some(i=> i.id === o.id));
+     const removeNotify  = removedNotifyPersons.map(notifyPerson => ({
+       // leaveId: leaveRequestId,
+        leaveId : this.addForm.controls.id.value,
+         notifyPersonnel: notifyPerson.id,
+         isarchived:true,
+         id:notifyPerson.id
+       }));
+       removeNotify.forEach((x)=>{
+         var data = this.notifyPersonList.find(o => o.notifyPersonnel == x.id);
+         x.id = data.id
+       })
+       if(removeNotify.length > 0){
+         notifyPersonnelForm.push(removeNotify[0])
+       }
+     const addNotify = addedNotifyPerson.map(notifyPerson => ({
+      //leaveId: leaveRequestId,
+      leaveId : this.addForm.controls.id.value,
+      notifyPersonnel: notifyPerson.id
+   }));
+
+   if(addNotify.length > 0){
+    this.employeeLeaveService.addNotifyPersonnel(addNotify).subscribe(() => {
+
+     },
+     error => {
+       this.toastr.showErrorMessage('Unable to add notify person.');
+     });
+   }
+
     this.signalrService
       .invokeConnection(leaveRequestId)
       .then(() => console.log("invoked"))

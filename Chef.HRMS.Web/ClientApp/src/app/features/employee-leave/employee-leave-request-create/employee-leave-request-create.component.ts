@@ -92,6 +92,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   loginUserDetail:any
   leaveObj;
   isLoading=false;
+  validateDate:boolean=true
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -146,7 +147,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     this.employeeId = this.requestId;
     this.addForm = this.createFormGroup();
     this.getLeaveBalance();
-    this.getEmployeeDetails();
+    this.getEmployeeDetails(this.requestId);
     this.getEmployeeList();
     this.subscribeToChanges();
     this.getEmployeeHoliday();
@@ -296,19 +297,32 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     });
   }
 
-  getEmployeeDetails() {
-    this.employeeService.getDetails(this.requestId).subscribe(
+  getEmployeeDetails(id) {
+    this.employeeService.getDetails(id).subscribe(
       (result) => {
         this.employeeDetails = result;
-        this.addForm.patchValue(
-          {
-            leaveStructureId: this.employeeDetails.leaveStructureId,
-            employeeName: this.employeeDetails.fullName,
-          },
-          {
-            emitEvent: false,
-          }
-        );
+        if(this.isEmployeeLeave){
+          this.addForm.patchValue(
+            {
+              leaveStructureId: this.employeeDetails.leaveStructureId,
+              employeeName: this.employeeDetails.fullName,
+            },
+            {
+              emitEvent: false,
+            }
+          );
+        }
+        else{
+          this.addForm.patchValue(
+            {
+              leaveStructureId: this.employeeDetails.leaveStructureId
+            },
+            {
+              emitEvent: false,
+            }
+          );
+        }
+       
       },
       (error) => {
         console.error(error);
@@ -317,19 +331,39 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   }
 
   getLeaveBalance() {
-    this.isLoading=true;
-    this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(
-      (result) => {
-        let temp = { id: undefined, leaveComponentName: 'test', isLastRow: true }
-        // lastrow
-        this.leaveBalance = [...result, temp]; 
-        this.isLoading=false;
-      },
-      (error) => {
-        console.error(error);
-        this.toastr.showErrorMessage("Unable to fetch the Leave Balance");
+    debugger
+    if(this.isEmployeeLeave){
+      this.isLoading=true;
+      this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(
+        (result) => {
+          let temp = { id: undefined, leaveComponentName: 'test', isLastRow: true }
+          // lastrow
+          this.leaveBalance = [...result, temp]; 
+          this.isLoading=false;
+        },
+        (error) => {
+          console.error(error);
+          this.toastr.showErrorMessage("Unable to fetch the Leave Balance");
+        }
+      );
+    }else {
+      if(this.addForm.controls.employeeName.value != null){
+        this.isLoading=true;
+      this.employeeLeaveService.getAllLeaveBalance(this.addForm.controls.employeeId.value).subscribe(
+        (result) => {
+          let temp = { id: undefined, leaveComponentName: 'test', isLastRow: true }
+          // lastrow
+          this.leaveBalance = [...result, temp]; 
+          this.isLoading=false;
+        },
+        (error) => {
+          console.error(error);
+          this.toastr.showErrorMessage("Unable to fetch the Leave Balance");
+        }
+      );
       }
-    );
+    }
+   
   }
 
   getEmployeeList() {
@@ -396,13 +430,16 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
 
   onFromDateSelection(date: NgbDate) {
     this.minDateTo = date;
+    this.validateDate = true;
   }
 
   onToDateSelection(date: NgbDate) {
+    this.validateDate = true;
     this.maxDateFrom = date;
     this.addForm.patchValue({
       rejoinDate: new Date(date.year, date.month - 1, date.day + 1),
     });
+      
   }
 
   checkDates() {
@@ -629,6 +666,11 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       return
          
        }
+
+       if(this.addForm.controls.fromDate.value > this.addForm.controls.toDate.value){
+        this.validateDate = false;
+        return;
+      }
     let addForm = this.addForm.value;
     addForm.leaveStatus=this.requestTypes.Approved
     addForm.numberOfDays = this.numberOfDays;
@@ -683,13 +725,18 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     }
   }
   draftSave() {
-    debugger
+   debugger
     console.log(this.addForm)
     if(this.addForm.invalid){
 
       return
          
        }
+       if(this.addForm.controls.fromDate.value > this.addForm.controls.toDate.value){
+        this.validateDate = false;
+        return;
+      }
+   
     let addForm = this.addForm.value;
     addForm.leaveStatus=this.requestTypes.Draft
     addForm.numberOfDays = this.numberOfDays;
@@ -800,8 +847,9 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
         ],
       ],
       leaveStructureId: [],
-      employeeId: [this.requestId, [Validators.required]],
-      employeeName: ["",[Validators.required]],
+      // employeeId: [this.requestId, [Validators.required]],
+      employeeId: [0, [Validators.required]],
+      employeeName: [null,[Validators.required]],
       // approvedBy: [1],
       // approvedDate: [new Date(Date.now())],
       description: ["", [Validators.required, Validators.maxLength(128)]],
@@ -850,6 +898,8 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       employeeName:args.value.firstName
 
     })
+    this.getEmployeeDetails(args.value.id)
+    this.getLeaveBalance()
   }
   refreshRequestedBy(event){
     event.stopPropagation();
