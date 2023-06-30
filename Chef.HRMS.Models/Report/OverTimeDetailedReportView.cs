@@ -25,9 +25,9 @@ namespace Chef.HRMS.Models.Report
         public string ReportType { get; set; }
         public DateTime ToDate { get; set; }
         public DateTime FromDate { get; set; }
-        public decimal NormalOverTimeHrs { get; set; }
-        public decimal HolidayOverTimeHrs { get; set; }
-        public decimal SpecialOverTimeHrs { get; set; }
+        public decimal NormalOverTime { get; set; }
+        public decimal HolidayOverTime { get; set; }
+        public decimal SpecialOverTime { get; set; }
         public DateTime OverTimeDate { get; set; }
     }
 }

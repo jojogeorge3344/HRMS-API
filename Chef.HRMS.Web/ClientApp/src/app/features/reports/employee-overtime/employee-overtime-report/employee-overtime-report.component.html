@@ -1,0 +1,217 @@
+<div class="subheader">
+    <h1 class="subheader-title">
+      <div>
+        Print Overtime Report
+      </div>
+    </h1>
+  </div>
+  <div id="employee-list" class="panel"  [formGroup]="addForm" id="leaveRequestForm">
+    <div class="card p-3">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="with-input form-group col-md-1">
+          <span class="text-nowrap">Date From<span class="required">*</span></span>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="input-group">
+                <input class="form-control" ngbDatepicker #dob="ngbDatepicker"
+                    formControlName="FromDate"  [minDate]="minDate"
+                    [maxDate]="maxDate">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="dob.toggle()"
+                        type="button"></button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-1"></div>
+        <div class="with-input form-group col-md-1">
+            <span class="text-nowrap">Date To<span class="required">*</span></span>
+          </div>
+          <div class="form-group col-md-4">
+              <div class="input-group">
+                  <input class="form-control" ngbDatepicker #tt="ngbDatepicker"
+                      formControlName="ToDate"  [minDate]="minDate"
+                      [maxDate]="maxDate">
+                  <div class="input-group-append">
+                      <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="tt.toggle()"
+                          type="button"></button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="with-input form-group col-md-1">
+          <span class="text-nowrap">Paygroup</span>
+        </div>
+        <div class="form-group col-md-4">
+         <ng-multiselect-dropdown [placeholder]="'Select Paygroup'"
+         [settings]="paygroupSettings"
+         [data]="payGroupDetails"
+         formControlName="PaygroupName">
+      </ng-multiselect-dropdown>
+      </div>
+  
+    </div>
+  
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="with-input form-group col-md-1">
+      <span class="text-nowrap">Designation</span>
+    </div>
+    <div class="form-group col-md-4">
+     <ng-multiselect-dropdown [placeholder]="'Select Designation'"
+     [settings]="designationSettings" 
+     [data]="designationDetails"
+     formControlName="DesignationName">
+  </ng-multiselect-dropdown>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="with-input form-group col-md-1">
+      <span class="text-nowrap">Location</span>
+    </div>
+    <div class="form-group col-md-4">
+     <ng-multiselect-dropdown  [placeholder]="'Select Location'"
+     [settings]="locationSettings"
+     [data]="locationList"
+     formControlName="LocationName">
+  </ng-multiselect-dropdown>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="with-input form-group col-md-1">
+      <span class="text-nowrap">Department</span>
+    </div>
+    <div class="form-group col-md-4">
+     <ng-multiselect-dropdown [placeholder]="'Select Department'"
+     [settings]="departmentSettings"
+     [data]="departmentKeys"
+     formControlName="Department">
+  </ng-multiselect-dropdown>
+  </div>
+</div>
+<div class="row">
+    
+    <div class="with-input form-group col-md-1">
+      <span class="text-nowrap" style="padding-left: 70px;">Employee Group</span>
+    </div>
+    <div class="form-group col-md-5" style="padding-left: 110px;">
+     <ng-multiselect-dropdown  [placeholder]="'Select Employee Group'"
+     [settings]="employeeGroupSettings"
+     [data]="employeeGroupdetails"
+     formControlName="employeeGroup">
+  </ng-multiselect-dropdown>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="with-input form-group col-md-1">
+      <span class="text-nowrap">Employee</span>
+    </div>
+    <div class="form-group col-md-4">
+     <ng-multiselect-dropdown  [placeholder]="'Select Employee'"
+     [settings]="employeeSettings" 
+     [data]="employeeList"
+     formControlName="EmployeeFullName">
+  </ng-multiselect-dropdown>
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="with-input form-group col-md-1">
+      <span class="text-nowrap">Overtime</span>
+    </div>
+    <div class="form-group col-md-4">
+     <ng-multiselect-dropdown  [placeholder]="'Select Overtime'"
+     [settings]="overtimeSettings" 
+     [data]="overtimePolicies"
+     formControlName="OverTimePolicyName">
+  </ng-multiselect-dropdown>
+  </div>
+  </div>
+
+
+  
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-md-1"></div>
+    <div class="col-2" style="margin-left: 5px;">
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          #NormalOverTimeHrs
+          id="NormalOverTimeHrs"
+          formControlName="NormalOverTimeHrs"
+        />
+        <label
+          class="custom-control-label"
+          for="NormalOverTimeHrs"
+          >Normal OT</label
+        >
+      </div>
+    </div>
+    <div class="col-2">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            #HolidayOverTimeHrs
+            id="HolidayOverTimeHrs"
+            formControlName="HolidayOverTimeHrs"
+          />
+          <label
+            class="custom-control-label"
+            for="HolidayOverTimeHrs"
+            >Holiday OT</label
+          >
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            #SpecialOverTimeHrs
+            id="SpecialOverTimeHrs"
+            formControlName="SpecialOverTimeHrs"
+          />
+          <label
+            class="custom-control-label"
+            for="SpecialOverTimeHrs"
+            >Special OT</label
+          >
+        </div>
+      </div>
+  </div>
+<div class="row" style="margin-top: 30px;margin-left: 20px;">
+  Please Choose One Category
+</div>
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-md-1" style="margin-left: 15px;"></div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" style=" width: 20px;height: 15px;"  formControlName="isSummary" type="radio" (change)="summaryChecked($event.target.value)" >
+        <label class="form-check-label" >
+          Summary
+        </label>
+    </div>
+    <div class="col-md-1" style="margin-left: 10px;"></div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" style=" width: 20px;height: 15px;"   formControlName="isDetails" type="radio" (change)="detailsChecked($event.target.value)">
+      <label class="form-check-label" >
+        Details
+      </label>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6"></div>
+    <div class="form-group col-md-3">
+      <button type="button" class="btn btn-primary ps-2 pe-2"(click)="openPrint()">Print</button>
+  </div>
+  <div class="col-md-3"></div>
+  </div>
+  </div>

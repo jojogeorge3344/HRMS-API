@@ -29,6 +29,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { LeaveDetailsReportFilterComponent } from './leave-details-report/leave-details-report-filter/leave-details-report-filter.component';
 import { LeaveDetailsPrintComponent } from './leave-details-report/leave-details-print/leave-details-print.component';
 
+import { EmployeeOvertimeReportComponent } from './employee-overtime/employee-overtime-report/employee-overtime-report.component';
+import { EmployeeOvertimeReportPrintComponent } from './employee-overtime/employee-overtime-report-print/employee-overtime-report-print.component'
  @NgModule({
   declarations: [
     EmployeeListReportComponent,
@@ -40,7 +42,9 @@ import { LeaveDetailsPrintComponent } from './leave-details-report/leave-details
     EmployeePayslipPrintComponent,
     EmployeePayrollReportFilterComponent,
     LeaveDetailsReportFilterComponent,
-    LeaveDetailsPrintComponent
+    LeaveDetailsPrintComponent,
+    EmployeeOvertimeReportComponent,
+    EmployeeOvertimeReportPrintComponent
   ],
   imports: [
     CommonModule,

@@ -17,12 +17,15 @@ export class ReportsService {
   public baseUrl: string;
   public http: HttpClient;
   public apiUrl:string;
+  public jobUrl:string;
+  overtimeData:any
 
   months = Months;
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + 'api/report/';
     this.apiUrl=baseUrl + 'api/payrollComponentDetails/'
+    this.jobUrl = baseUrl + "api/jobdetails/";
 
   }
 
@@ -97,4 +100,13 @@ this.data=[]
   getOption() {  
     return this.data;  
   } 
+  getCategory() {
+    return this.http.get<any>(this.jobUrl + 'getGroupCategory' ).pipe(map(response => { return response; }));
+  }
+  getOvertime(overtimeDetails){
+  this.overtimeData=overtimeDetails
+  }
+  setOvertime(){
+    return this.overtimeData
+  }
 }
