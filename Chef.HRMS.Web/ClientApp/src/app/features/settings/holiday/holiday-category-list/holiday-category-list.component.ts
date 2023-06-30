@@ -102,7 +102,7 @@ export class HolidayCategoryListComponent implements OnInit {
   openCreateCategory() {
     const modalRef = this.modalService.open(HolidayCategoryCreateComponent,
       { centered: true, backdrop: 'static' });
-
+      modalRef.componentInstance.holiday = this.holidayCategories;
     modalRef.result.then((result) => {
       if (result == 'submit') {
         this.getHolidayCategories();
@@ -116,6 +116,7 @@ export class HolidayCategoryListComponent implements OnInit {
 
     modalRef.componentInstance.category = category;
     modalRef.componentInstance.isDisabled = this.isDisabled(category);
+    modalRef.componentInstance.holiday = this.holidayCategories;
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
@@ -146,6 +147,7 @@ export class HolidayCategoryListComponent implements OnInit {
     modalRef.componentInstance.holiday = holiday;
     modalRef.componentInstance.year = category.year;
     modalRef.componentInstance.isDisabled = this.isDisabled(category);
+    modalRef.componentInstance.holidays = this.holidays;
 
     modalRef.result.then((result) => {
       if (result == 'submit') {

@@ -33,6 +33,7 @@ export class HolidayCreateComponent implements OnInit {
   forDate: any[];
   holidaydata: any;
   alldate: any[];
+  nameExistCheck: boolean=false;
   
   constructor(
     private datepipe: DatePipe,
@@ -81,24 +82,29 @@ export class HolidayCreateComponent implements OnInit {
     })
     if(this.userExists(date))
     {
-      this.toastr.showErrorMessage('Date already exists!');
+      this.toastr.showWarningMessage('Date already exists!');
     }
     else{
-      this.holidayService.add(this.addForm.value).subscribe((result: any) => {
+      if(this.nameExistCheck){
+       this.toastr.showWarningMessage("Holiday name already exists")
+      }else{
+        this.holidayService.add(this.addForm.value).subscribe((result: any) => {
      
-        if (result.id === -1) {
-          this.toastr.showErrorMessage('Holiday already exists!');
-        } 
+          if (result.id === -1) {
+            this.toastr.showErrorMessage('Holiday already exists!');
+          } 
+       
+          else {
+            this.toastr.showSuccessMessage('Holiday is created successfully!');
+            this.activeModal.close('submit');
+          }
+        },
+          error => {
+            console.error(error);
+            this.toastr.showErrorMessage('Unable to add the Holiday');
+          });
+      }
      
-        else {
-          this.toastr.showSuccessMessage('Holiday is created successfully!');
-          this.activeModal.close('submit');
-        }
-      },
-        error => {
-          console.error(error);
-          this.toastr.showErrorMessage('Unable to add the Holiday');
-        });
     }
     
     console.log("alter list",this.holiday);
@@ -127,7 +133,7 @@ export class HolidayCreateComponent implements OnInit {
     return this.formBuilder.group({
       name: ['', [
         Validators.required,
-        duplicateNameValidator(this.holidayNames)
+        duplicateNameValidator(this.holiday)
       ]],
       description: ['', [Validators.required,Validators.maxLength(128)]],
       date: [null, Validators.required],
@@ -135,6 +141,15 @@ export class HolidayCreateComponent implements OnInit {
       holidayCategoryId: this.holidayCategory.id,
      });
   }
+
+  checkName(event){
+    let check=this.holiday.filter(x=>x.name==event)
+      if(check.length){
+         this.nameExistCheck=true
+      }else{
+         this.nameExistCheck=false
+    }
+    }
 }
 0
 function valDate() {
