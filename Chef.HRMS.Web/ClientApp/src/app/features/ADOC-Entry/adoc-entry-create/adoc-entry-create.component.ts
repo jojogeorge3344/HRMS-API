@@ -86,19 +86,6 @@ export class AdocEntryCreateComponent implements OnInit {
       return
     }
     else {
-      if(this.addForm.get('status').value=='pending'){
-        this.addForm.patchValue({
-          status:1
-        })
-      }else if(this.addForm.get('status').value=='approved'){
-        this.addForm.patchValue({
-          status:2
-        })
-      }else{
-        this.addForm.patchValue({
-          status:3
-        })
-      }     
 
      let filterdata= this.adhoc.filter(x=>x.id==this.addForm.value.payrollComponentId)
      if(filterdata[0].code=='SE'){
@@ -110,6 +97,8 @@ export class AdocEntryCreateComponent implements OnInit {
         isAddition:false,
       })
     }
+   
+
       this.adocEntryService.add(this.addForm.value).subscribe((result) => {
         if (result) {
           this.toastr.showSuccessMessage('ADOC Entry added successfully!');
