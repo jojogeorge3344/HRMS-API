@@ -35,6 +35,7 @@ export class AdocEntryViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    debugger
     this.viewForm = this.createFormGroup();
     debugger
     this.viewForm.patchValue(this.listItem);
@@ -60,7 +61,10 @@ export class AdocEntryViewComponent implements OnInit {
   {
     this.adocEntryService.getAdhocBfCode()
     .subscribe((result) =>{
-      this.adhocObj=result.find((item)=>this.viewForm.get('adhocBFCode').value==item.id)
+      this.adhocObj=result.find((item)=>this.viewForm.get('payrollComponentId').value==item.id)
+      this.viewForm.patchValue({
+        payrollComponentId:this.adhocObj.name
+      })
     })
   }
   createFormGroup(): FormGroup {

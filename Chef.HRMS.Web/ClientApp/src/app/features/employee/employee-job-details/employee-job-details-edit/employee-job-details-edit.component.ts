@@ -283,6 +283,7 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
   }
 
   getEmployeeNumber() {
+    debugger
     this.isLoading=true;
     this.employeeNumbersService.getAllActiveNumberSeries().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
@@ -415,7 +416,8 @@ export class EmployeeJobDetailsEditComponent implements OnInit {
       this.employeeJobDetailsService.getCategory()
     ]).subscribe((res:any)=> {
       let temp = { id: undefined, name: 'test',shortName:'test',firstName:'test',isLastRow: true };
-      this.numberSeriesId = [...res[0], temp];
+      debugger
+      this.numberSeriesId = [...res[0].filter(item=>item.isActive==true), temp];
       this.jobTitleId = [...res[1], temp];
       this.location = [...res[2], temp];
       this.employeeList = [...res[3], temp];
