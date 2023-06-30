@@ -24,7 +24,7 @@ namespace Chef.HRMS.Repositories
                             CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname) AS employeefullname,
                             las.accrualdays AS eligibledays,
                             las.availdays AS availeddays,
-                            lc.name AS leavecomponentname,
+                            lc.name AS leavecomponentname
                         FROM
                             hrms.jobdetails jd
                             INNER JOIN hrms.hrmsemployee e ON jd.employeeid = e.id
