@@ -194,7 +194,7 @@ export class EmployeeJobDetailsCreateComponent implements OnInit {
     this.employeeNumbersService.getAllActiveNumberSeries().subscribe(result => {
       let temp = { id: undefined, name: 'test', isLastRow: true }
       // lastrow
-      this.numberSeriesId = [...result, temp];
+      this.numberSeriesId = [...result.filter(item=>item.isActive==true), temp];
       this.isLoading=false;
       this.seriesName = result.find((item) => this.addForm.get('numberSeriesId').value == item.id)
     },
