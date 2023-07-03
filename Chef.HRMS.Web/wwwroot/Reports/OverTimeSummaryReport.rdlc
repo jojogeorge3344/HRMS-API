@@ -14,7 +14,7 @@
           <Tablix Name="Tablix2">
             <Left>18.88125pt</Left>
             <Top>7.6125pt</Top>
-            <Height>70.5pt</Height>
+            <Height>70.2pt</Height>
             <Width>656.7pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
@@ -22,7 +22,7 @@
                 <Style>None</Style>
               </Border>
             </Style>
-            <DataSetName>OverTimeSummary</DataSetName>
+            <DataSetName>Header</DataSetName>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
@@ -91,7 +91,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox7">
+                        <Textbox Name="TextBox10">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
@@ -226,7 +226,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox661">
+                        <Textbox Name="TextBox11">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>18pt</Height>
@@ -321,7 +321,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox44">
+                        <Textbox Name="TextBox12">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>17.4pt</Height>
@@ -347,7 +347,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PaygroupName.Value</Value>
+                                  <Value>=Fields!PaygroupCode.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -455,7 +455,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox51">
+                        <Textbox Name="TextBox13">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>17.4pt</Height>
@@ -481,7 +481,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DepartmentName.Value</Value>
+                                  <Value>=Fields!DepartmentCode.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -550,7 +550,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox45">
+                        <Textbox Name="TextBox14">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>17.4pt</Height>
@@ -576,7 +576,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DesignationName.Value</Value>
+                                  <Value>=Fields!DesignationCode.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -684,7 +684,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox41">
+                        <Textbox Name="TextBox15">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>17.4pt</Height>
@@ -707,7 +707,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CategoryName.Value</Value>
+                                  <Value>=Fields!CategoryCode.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -774,7 +774,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox2">
+                        <Textbox Name="TextBox16">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>17.4pt</Height>
@@ -800,7 +800,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!LocationName.Value</Value>
+                                  <Value>=Fields!LocationCode.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <Color>black</Color>
@@ -908,7 +908,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="TextBox8">
+                        <Textbox Name="TextBox17">
                           <Left>0in</Left>
                           <Top>0in</Top>
                           <Height>17.4pt</Height>
@@ -1651,7 +1651,7 @@
             </TablixRowHierarchy>
           </Tablix>
         </ReportItems>
-        <Height>159.75pt</Height>
+        <Height>194.25pt</Height>
       </Body>
       <Width>687.15pt</Width>
       <Page>
@@ -2227,6 +2227,13 @@
       </ConnectionProperties>
       <rd:ImpersonateUser>false</rd:ImpersonateUser>
     </DataSource>
+    <DataSource Name="DataSource20">
+      <ConnectionProperties>
+        <DataProvider />
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:ImpersonateUser>false</rd:ImpersonateUser>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="OverTimeSummary">
@@ -2305,6 +2312,64 @@
         <rd:DataSetName>DataSource19</rd:DataSetName>
         <rd:ObjectDataSourceType>JSONData</rd:ObjectDataSourceType>
         <rd:TableName>Summary</rd:TableName>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="Header">
+      <Fields>
+        <Field Name="EmployeeCode">
+          <DataField>EmployeeCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Overtimepolicyname">
+          <DataField>Overtimepolicyname</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PaygroupCode">
+          <DataField>PaygroupCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DesignationCode">
+          <DataField>DesignationCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LocationCode">
+          <DataField>LocationCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Department">
+          <DataField>Department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DepartmentCode">
+          <DataField>DepartmentCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CategoryCode">
+          <DataField>CategoryCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportType">
+          <DataField>ReportType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource20</DataSourceName>
+        <CommandType>Text</CommandType>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSource20</rd:DataSetName>
+        <rd:ObjectDataSourceType>JSONData</rd:ObjectDataSourceType>
+        <rd:TableName>OverTimeReportHeader</rd:TableName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
