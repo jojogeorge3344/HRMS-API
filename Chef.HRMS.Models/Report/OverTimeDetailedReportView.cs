@@ -12,7 +12,7 @@ namespace Chef.HRMS.Models.Report
 {
     public class OverTimeDetailedReportView : Model
     {
-        public int EmployeeId { get; set; }
+        //public int EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
         public string EmployeeFullName { get; set; }
         public string OverTimePolicyName { get; set; }

@@ -64,10 +64,14 @@ namespace Chef.HRMS.Web.Controllers
                     case "Summary":
                         var employeeOverTimeSummary = overTimeReportService.GetOverTimeSummaryReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
                         reportOption.AddDataSource("OverTimeSummary", employeeOverTimeSummary);
+                        var headerSummary = overTimeReportService.GetOverTimeSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
+                        reportOption.AddDataSource("Header", headerSummary);
                         break;
                     case "Detailed":
                         var employeeOverTimeDetail = overTimeReportService.GetOverTimeDetailedReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
                         reportOption.AddDataSource("OverTimeDetails", employeeOverTimeDetail);
+                        var headerDetail = overTimeReportService.GetOverTimeSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
+                        reportOption.AddDataSource("Header", headerDetail);
                         break;
                 }
             }
