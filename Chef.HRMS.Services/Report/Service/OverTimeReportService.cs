@@ -14,7 +14,7 @@ namespace Chef.HRMS.Services
         private readonly IOverTimeReportRepository overTimeReportRepository;
 
 
-        public OverTimeReportService(IOverTimeReportRepository OverTimeReportRepository)
+        public OverTimeReportService(IOverTimeReportRepository overTimeReportRepository)
         {
             this.overTimeReportRepository = overTimeReportRepository;
         }
@@ -28,6 +28,11 @@ namespace Chef.HRMS.Services
         {
 
             return await overTimeReportRepository.GetOverTimeDetailedReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds);
+        }
+
+        public async Task<IEnumerable<OverTimeReportHeader>> GetOverTimeSummaryReportHeaderDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategory, string overTimePolicyIds, string employeeIds)
+        {
+            return await overTimeReportRepository.GetOverTimeSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds);
         }
     }
 }

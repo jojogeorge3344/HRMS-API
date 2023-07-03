@@ -50,24 +50,28 @@ namespace Chef.HRMS.Web.Controllers
             {
                 string reportType = CustomData["reportType"].ToString();
                 DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
-                DateTime toDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
-                string paygroupIds = (CustomData["paygroupId"].ToString());
-                string designationIds = CustomData["designationId"].ToString();
-                string locationIds = CustomData["locationId"].ToString();
-                string departmentIds = CustomData["departmentId"].ToString();
-                string employeeCategory = CustomData["employeeGroupId"].ToString();
-                string overTimePolicyIds = CustomData["overTimePolicyIds"].ToString();
-                string employeeIds = (CustomData["employeeId"].ToString());
+                DateTime toDate = Convert.ToDateTime(CustomData["ToDate"]);
+                string paygroupIds = Convert.ToString(CustomData["paygroupId"]);
+                string designationIds = Convert.ToString(CustomData["designationId"]);
+                string locationIds = Convert.ToString(CustomData["locationId"]);
+                string departmentIds = Convert.ToString(CustomData["departmentId"]);
+                string employeeCategory = Convert.ToString(CustomData["employeeGroupId"]);
+                string overTimePolicyIds = Convert.ToString(CustomData["overTimePolicyIds"]);
+                string employeeIds = Convert.ToString(CustomData["employeeId"]);
 
                 switch (reportType)
                 {
                     case "Summary":
                         var employeeOverTimeSummary = overTimeReportService.GetOverTimeSummaryReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
                         reportOption.AddDataSource("OverTimeSummary", employeeOverTimeSummary);
+                        var headerSummary = overTimeReportService.GetOverTimeSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
+                        reportOption.AddDataSource("Header", headerSummary);
                         break;
                     case "Detailed":
                         var employeeOverTimeDetail = overTimeReportService.GetOverTimeDetailedReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
                         reportOption.AddDataSource("OverTimeDetails", employeeOverTimeDetail);
+                        var headerDetail = overTimeReportService.GetOverTimeSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
+                        reportOption.AddDataSource("Header", headerDetail);
                         break;
                 }
             }
