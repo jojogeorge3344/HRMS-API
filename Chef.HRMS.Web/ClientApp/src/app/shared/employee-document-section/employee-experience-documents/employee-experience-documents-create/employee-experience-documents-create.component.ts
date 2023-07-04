@@ -15,11 +15,14 @@ import { EmployeeExperienceDocumentsService } from "../employee-experience-docum
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: "hrms-employee-experience-documents-create",
   templateUrl: "./employee-experience-documents-create.component.html",
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeExperienceDocumentsCreateComponent implements OnInit {
   @Input() employeeId: number;

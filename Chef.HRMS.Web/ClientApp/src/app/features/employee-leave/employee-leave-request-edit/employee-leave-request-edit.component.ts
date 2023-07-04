@@ -36,12 +36,15 @@ import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.service";
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-employee-leave-request-edit',
   templateUrl: './employee-leave-request-edit.component.html',
   styleUrls: ['./employee-leave-request-edit.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeLeaveRequestEditComponent implements OnInit {
 

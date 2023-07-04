@@ -13,11 +13,15 @@ import { ShiftService } from '@settings/attendance/shift/shift.service';
 import { Shift } from '@settings/attendance/shift/shift.model';
 import { WeekOff } from 'src/app/models/common/types/weekoff';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
+
 
 @Component({
   selector: 'hrms-employee-attendance-log',
   templateUrl: './employee-attendance-log.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 
 })
 export class EmployeeAttendanceLogComponent implements OnInit {

@@ -107,7 +107,7 @@ export class RaiseRequestEditComponent implements OnInit {
       let currentDepartment = _.find(result,['empid',this.currentUserId]).department;      
       this.employeeList = result.filter(employee => (employee.empid !== this.currentUserId && employee.department == currentDepartment)); 
       this.editForm.patchValue(this.raiseRequestDetails);    
-      this.editForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'yyyy-MM-dd')})
+      this.editForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'dd-MM-yyyy')})
       this.editForm.patchValue({nameOfTeamMemberId:_.find(this.employeeList,['empid',this.raiseRequestDetails.nameOfTeamMemberId])})
       this.editForm.patchValue({requestType: this.raiseRequestTypeList[this.raiseRequestDetails.requestType]}) 
     },

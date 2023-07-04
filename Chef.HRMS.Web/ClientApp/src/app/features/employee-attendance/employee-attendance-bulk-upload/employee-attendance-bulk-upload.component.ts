@@ -5,13 +5,16 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import {EmployeeAttendanceBulkUploadService} from '../employee-attendance-bulk-upload.service'
 import download from 'downloadjs';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 
 @Component({
   selector: 'hrms-employee-attendance-bulk-upload',
   templateUrl: './employee-attendance-bulk-upload.component.html',
   styleUrls: ['./employee-attendance-bulk-upload.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 
 })
 export class EmployeeAttendanceBulkUploadComponent implements OnInit {

@@ -31,11 +31,11 @@
             <tr *ngFor="let request of loanRequests; let i= index;">
                 <td>{{i+1}}</td>
                 <td>{{request.loanNo}}</td>
-                <td>{{request.requestedDate | date}}</td>
+                <td>{{request.requestedDate |  date: 'dd-MM-yyyy'}}</td>
                 <td>{{loanTypes[request.loanType]}}</td>
                 <td>{{request.loanAmount}}</td>
                 <td>{{paymentTypes[request.paymentType]}}</td>
-                <td>{{request.expectedOn | date}}</td>
+                <td>{{request.expectedOn |  date: 'dd-MM-yyyy'}}</td>
                 <td>{{request.emiStartsFromMonth}} / {{request.emiStartsFromYear}}</td>
                 <td>{{request.repaymentTerm}}</td>
                 <td>

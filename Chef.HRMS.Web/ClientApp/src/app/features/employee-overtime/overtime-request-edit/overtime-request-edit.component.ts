@@ -15,10 +15,13 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { OvertimePolicyConfiguration } from '@settings/overtime/overtime-policy-configuration/overtime-policy-configuration.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   templateUrl: './overtime-request-edit.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class OvertimeRequestEditComponent implements OnInit {
 

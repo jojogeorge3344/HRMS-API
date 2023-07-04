@@ -36,10 +36,13 @@ import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.service";
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   templateUrl: "./employee-leave-request-create.component.html",
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeLeaveRequestCreateComponent implements OnInit {
   addForm: FormGroup;

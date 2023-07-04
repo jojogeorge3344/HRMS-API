@@ -16,12 +16,15 @@ import { EmployeeIdentityDocumentsService } from "../employee-identity-documents
 import { result } from "lodash";
 import { DocumentType } from "src/app/models/common/types/documentType";
 import { getCurrentUserId } from "@shared/utils/utils.functions";
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: "hrms-employee-identity-documents-create",
   templateUrl: "./employee-identity-documents-create.component.html",
   styleUrls: ["./employee-identity-documents-create.component.scss"],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeIdentityDocumentsCreateComponent implements OnInit {
   @Input() employeeId: number;
