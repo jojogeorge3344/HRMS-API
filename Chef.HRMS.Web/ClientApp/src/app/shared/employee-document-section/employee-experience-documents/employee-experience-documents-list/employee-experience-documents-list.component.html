@@ -22,8 +22,8 @@
         <td>{{ i + 1 }}</td>
         <td class="text-capitalize">{{ previous.companyName }}</td>
         <td class="text-capitalize">{{ previous.jobTitle }}</td>
-        <td>{{ previous.dateOfJoining | date }}</td>
-        <td>{{ previous.dateOfRelieving | date }}</td>
+        <td>{{ previous.dateOfJoining | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ previous.dateOfRelieving | date: 'dd-MM-yyyy' }}</td>
         <td class="text-capitalize">{{ previous.location }}</td>
         <td title="Verified" *ngIf="previous.isApproved">
           <span><i class="fal fa-check-circle text-success"></i></span>

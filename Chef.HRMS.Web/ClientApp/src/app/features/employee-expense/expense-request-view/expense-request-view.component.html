@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label for="expenseDate">Expense Date</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" disabled name="expenseDate" value="{{ expenseRequest.expenseDate | date }}">
+                        <input type="text" class="form-control" disabled name="expenseDate" value="{{ expenseRequest.expenseDate | date: 'dd-MM-yyyy' }}">
                     </div>                    
                 </div>
                 <div class="form-row form-group">

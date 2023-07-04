@@ -8,11 +8,14 @@ import { EmployeeBasicDetailsService } from '@features/employee/employee-basic-d
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-employee-primary-details-edit',
   templateUrl: './employee-primary-details-edit.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeePrimaryDetailsEditComponent implements OnInit {
 

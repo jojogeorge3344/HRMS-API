@@ -10,12 +10,15 @@ import { RelationshipType } from '../../../../models/common/types/relationshipty
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { EmployeeDependentDetails } from '../employee-dependent-details.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-employee-dependent-details-view',
   templateUrl: './employee-dependent-details-view.component.html',
   styleUrls: ['./employee-dependent-details-view.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeDependentDetailsViewComponent implements OnInit {
 

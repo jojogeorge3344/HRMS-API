@@ -54,7 +54,7 @@
       <td>{{ i + 1 }}</td>
       <th *ngIf="!isEmployeeLeave">{{ history.employeeName }}</th>
       <td>
-        {{ history.fromDate | date }} -
+        {{ history.fromDate | date: 'dd-MM-yyyy' }} -
         <small style="color: #fb760d">{{ history.numberOfDays }} Days</small>
       </td>
       <td class="text-capitalize">
@@ -62,7 +62,7 @@
       </td>
       <td style="color: green">{{ leaveStatus[history.leaveStatus] }}</td>
       <td>{{ history.createdBy }}</td>
-      <td>{{ history.createdDate | date }}</td>
+      <td>{{ history.createdDate | date: 'dd-MM-yyyy' }}</td>
       <td title="{{ history.description }}" class="text-ellipsis">
         {{ history.description }}
       </td>

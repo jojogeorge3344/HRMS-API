@@ -14,11 +14,16 @@ import { EmployeeEducationalDetailsService } from "../employee-educational-detai
 import { DocumentService } from "@shared/services/document.service";
 import { DocumentUploadService } from "@shared/services/document-upload.service";
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: "hrms-employee-educational-documents-edit",
   templateUrl: "./employee-educational-documents-edit.component.html",
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {
+      provide: NgbDateParserFormatter, useClass: DateformaterService
+    }],
 })
 export class EmployeeEducationalDocumentsEditComponent implements OnInit {
   editForm: FormGroup;

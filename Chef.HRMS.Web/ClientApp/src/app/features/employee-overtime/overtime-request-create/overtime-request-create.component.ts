@@ -20,11 +20,14 @@ import { OvertimeRequest } from '../overtime-request.model';
 import { timeStamp } from 'console';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 
 @Component({
   templateUrl: './overtime-request-create.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class OvertimeRequestCreateComponent implements OnInit {
 

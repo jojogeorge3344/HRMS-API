@@ -10,10 +10,13 @@ import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 import { EmployeeService } from '@features/employee/employee.service';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   templateUrl: './loan-request-edit.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class LoanRequestEditComponent implements OnInit {
 

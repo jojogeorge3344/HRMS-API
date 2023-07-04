@@ -43,7 +43,7 @@ export class RaiseRequestViewComponent implements OnInit {
     this.getAllAssetTypes();
     this.raiseRequestKeys = Object.keys(this.raiseRequesttype).filter(Number).map(Number);
     this.viewForm.patchValue(this.raiseRequestDetails);
-    this.viewForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'yyyy-MM-dd')})
+    this.viewForm.patchValue({requestedDate : new DatePipe('en-US').transform(this.raiseRequestDetails.requestedDate, 'dd-MM-yyyy')})
     this.viewForm.patchValue({requestFor:this.raiseRequesttype[this.raiseRequestDetails.requestFor]});
     if(this.raiseRequestDetails.requestFor==1){
       this.viewForm.patchValue({nameOfTeamMember:null})

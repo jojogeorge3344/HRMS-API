@@ -17,12 +17,15 @@ import { EmployeeLeaveService } from '@features/employee-leave/employee-leave.se
 import { EmployeeService } from '@features/employee/employee.service';
 import { RequestFor } from 'src/app/models/common/types/requestfor';
 import { RequestType } from 'src/app/models/common/types/requesttype';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 
 @Component({
   selector: 'hrms-raise-request-create',
   templateUrl: './raise-request-create.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class RaiseRequestCreateComponent implements OnInit {
 

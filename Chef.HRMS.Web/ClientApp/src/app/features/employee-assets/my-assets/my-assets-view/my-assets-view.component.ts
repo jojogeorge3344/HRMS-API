@@ -67,7 +67,7 @@ export class MyAssetsViewComponent implements OnInit {
       this.myAssetViewForm.patchValue({
         ...this.myAsset,
         metadatas: mdatavalue,
-        allocatedDate: this.datepipe.transform(this.myAsset.allocatedDate, "yyyy-MM-dd")
+        allocatedDate: this.datepipe.transform(this.myAsset.allocatedDate, "dd-MM-yyyy")
       });
     })
   }

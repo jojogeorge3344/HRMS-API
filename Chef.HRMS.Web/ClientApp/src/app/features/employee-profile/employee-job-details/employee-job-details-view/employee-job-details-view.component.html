@@ -23,7 +23,7 @@
             <div class="text-muted"><i class="mr-2 text-primary fal  fa-envelope"></i> Email </div>
             <div class="ml-4 mb-2">{{jobDetailsInfo?.email || '--'}}</div>
             <div class="text-muted"><i class="mr-2 text-primary fal fa-calendar-alt"></i> Joined On </div>
-            <div class="ml-4 mb-2">{{(jobDetailsInfo?.dateOfJoin | date ) || '--'}}</div>
+            <div class="ml-4 mb-2">{{(jobDetailsInfo?.dateOfJoin | date: 'dd-MM-yyyy' ) || '--'}}</div>
             <div class="text-muted"><i class="mr-2 text-primary fal fa-calendar-exclamation"></i> Notice Period </div>
             <div class="ml-4 mb-2">{{(noticePeriodType[jobDetailsInfo?.noticePeriod] | splitByUpperCase) || '--'}}</div>
         </div>

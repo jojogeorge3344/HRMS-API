@@ -23,7 +23,7 @@
             <tr *ngFor="let items of raiseRequestList; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ items.requestNo }}</td>
-                <td class="text-ellipsis">{{ items.requestedDate | date: 'yyyy-MM-dd' }}</td>
+                <td class="text-ellipsis">{{ items.requestedDate | date: 'dd-MM-yyyy' }}</td>
                 <td class="text-ellipsis">{{ raiseRequesttype[items.requestFor] }}</td>
                 <td class="text-ellipsis">{{ raiseRequestTypeList[items.requestType] }}</td>
                 <td class="text-ellipsis">{{ items.assetTypeName }}</td>

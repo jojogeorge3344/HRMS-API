@@ -3,7 +3,7 @@
         <div class="text-muted">First Name</div>
         <div class="text-capitalize pb-2">{{primarydetails?.firstName || '--'}}</div>  
         <div class="text-muted">Date of Birth</div>
-        <div class="pb-2">{{(primarydetails?.dateOfBirth | date ) || '--'}}</div>      
+        <div class="pb-2">{{(primarydetails?.dateOfBirth | date: 'dd-MM-yyyy' ) || '--'}}</div>      
         <div class="text-muted">Display Name</div>
         <div>{{primarydetails?.displayName || '--'}}</div>         
     </div>

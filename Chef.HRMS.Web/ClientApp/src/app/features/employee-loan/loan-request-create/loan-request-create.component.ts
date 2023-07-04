@@ -14,10 +14,13 @@ import * as moment from 'moment';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 import { EmployeeService } from '@features/employee/employee.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   templateUrl: './loan-request-create.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
   styleUrls: ['./loan-request-create.component.scss'],
 })
 export class LoanRequestCreateComponent implements OnInit, OnDestroy {

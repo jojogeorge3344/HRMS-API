@@ -33,9 +33,9 @@
                                 <td>{{ i+1 }}</td>
                                 <td class="text-capitalize">{{ expenseRequest.name }}</td>
                                 <td>{{ expenseRequest.expenseTypeName }}</td>
-                                <td>{{ expenseRequest.expenseDate | date  }}</td>
+                                <td>{{ expenseRequest.expenseDate | date: 'dd-MM-yyyy'  }}</td>
                                 <td>{{ expenseRequest.currency }} {{ expenseRequest.amount }}</td>
-                                <td>{{ expenseRequest.createdDate | date  }}</td>
+                                <td>{{ expenseRequest.createdDate | date: 'dd-MM-yyyy'  }}</td>
                                 <td>{{expenseRequest.approvedBy}}</td>
                                 <td>{{expenseRequest.approvedDate}}</td>
                                 <td>{{ expenseRequestStatusTypes[expenseRequest.requestStatus] }}</td>

@@ -17,10 +17,14 @@ import { DocumentUploadService } from "@shared/services/document-upload.service"
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { add } from "lodash";
 
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 @Component({
   selector: "hrms-employee-educational-documents-create",
   templateUrl: "./employee-educational-documents-create.component.html",
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },{
+    provide: NgbDateParserFormatter, useClass: DateformaterService
+  }],
 })
 export class EmployeeEducationalDocumentsCreateComponent implements OnInit {
   @Input() employeeId: number;

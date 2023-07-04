@@ -17,7 +17,7 @@
             <td title="{{dependent.name}}" class="text-capitalize text-truncate" style="max-width: 150px;">{{dependent.name}}
             </td>
             <td>{{relationshipTypes[dependent.relationship]}}</td>
-            <td class="text-ellipsis">{{dependent.dateOfBirth | date }}</td>
+            <td class="text-ellipsis">{{dependent.dateOfBirth | date: 'dd-MM-yyyy' }}</td>
             <td>{{genderTypes[dependent.gender]}}</td>
             <td title="{{dependent.profession}}" class="text-capitalize text-truncate" style="max-width: 150px;">
                 {{dependent.profession? dependent.profession : "--"}}</td>
