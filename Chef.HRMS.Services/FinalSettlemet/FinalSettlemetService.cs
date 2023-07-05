@@ -30,15 +30,22 @@ namespace Chef.HRMS.Services
             this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
             this.finalSettlementDetailsRepository = finalSettlementDetailsRepository;
         }
-        public async Task<bool> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear, int employeeId)
+        public async Task<PreviousPayrollProcessDateView> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear, int employeeId)
         {
+            PreviousPayrollProcessDateView processDateView = new PreviousPayrollProcessDateView();
             bool isProcessed = await payrollProcessingMethodRepository.IsPreviousPayrollProcessed(PreviousMonth, previousYear, employeeId);
 
-            if (isProcessed == false)
+            if (isProcessed != false)
+            {
+                processDateView.IsProcessed = isProcessed;
+                var previousProcessDate = await finalSettlementRepository.GetPreviousProcessDate(employeeId);
+                processDateView.PreviousPayrollProcessDate = previousProcessDate;
+            }
+            else
             {
                 throw new Exception("Previous month Payroll not processed");
             }
-            return isProcessed;
+            return processDateView;
         }
         public async Task<FianlSettlementLeaveBalanceView> GetAllFinalLeaveBalance(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId)
         {

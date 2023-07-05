@@ -1105,5 +1105,16 @@ namespace Chef.HRMS.Repositories.FinalSettlement
             return overTimePayrollViewModel;
         }
 
+        public async Task<DateTime> GetPreviousProcessDate(int employeeId)
+        {
+            var sql = @"SELECT payrollprocessdate
+                        FROM hrms.payrollcomponentdetails
+                        WHERE employeeid = @employeeId
+                            AND isarchived = false
+                        ORDER BY payrollprocessdate DESC
+                        LIMIT 1";
+
+           return await Connection.QueryFirstAsync<DateTime>(sql, new { employeeId });
+        }
     }
 }

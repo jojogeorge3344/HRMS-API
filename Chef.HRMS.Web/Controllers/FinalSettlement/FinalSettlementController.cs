@@ -77,7 +77,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpGet("IsPreviousPayrollProcessed/{PreviousMonth}/{previousYear}/{employeeId}")]
-        public async Task<ActionResult<bool>> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear,int employeeId)
+        public async Task<ActionResult<PreviousPayrollProcessDateView>> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear,int employeeId)
         {
             return await finalSettlemetService.IsPreviousPayrollProcessed(PreviousMonth, previousYear, employeeId);
         }

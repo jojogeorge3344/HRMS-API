@@ -10,7 +10,7 @@ namespace Chef.HRMS.Services
 {
     public interface IFinalSettlemetService : IAsyncService<FinalSettlement>
     {
-        Task<bool> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear,int employeeId);
+        Task<PreviousPayrollProcessDateView> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear,int employeeId);
         Task<FianlSettlementLeaveBalanceView> GetAllFinalLeaveBalance(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId);
         Task<IEnumerable<FinalSettlementComponetsView>> GetPayrollComponents(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId);
         Task<int> FinalSettlementInsert(FinalSettlement finalSettlement);
