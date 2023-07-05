@@ -2,6 +2,8 @@
 using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -18,36 +20,39 @@ namespace Chef.HRMS.Web.Controllers
         {
             this.finalSettlemetService = finalSettlemetService;
         }
-        [HttpPost("Insert")]
+
+        [HttpPost("FinalSettlementInsert")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(FinalSettlement finalSettlement)
+        public async Task<IActionResult> FinalSettlementInsert(FinalSettlement finalSettlement)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var settlement = await finalSettlemetService.InsertAsync(finalSettlement);
+            var settlement = await finalSettlemetService.FinalSettlementInsert(finalSettlement);
 
             return Ok(settlement);
         }
+
         [HttpPost("Update")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(FinalSettlement finalSettlement)
+        public async Task<ActionResult<int>> FinalSettlementUpdate(FinalSettlement finalSettlement)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await finalSettlemetService.UpdateAsync(finalSettlement);
+            var result = await finalSettlemetService.FinalSettlementUpdate(finalSettlement);
 
             return Ok(result);
         }
+
         [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<FinalSettlement>>> GetAll()
         {
@@ -55,10 +60,11 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(settlementList);
         }
+
         [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        public async Task<ActionResult<int>> FinalSettlementDelete(int id)
         {
-            var finalSettlement = await finalSettlemetService.GetAsync(id);
+            var finalSettlement = await finalSettlemetService.FinalSettlementDelete(id);
 
             if (finalSettlement == null)
             {
@@ -68,6 +74,28 @@ namespace Chef.HRMS.Web.Controllers
             var result = await finalSettlemetService.DeleteAsync(id);
 
             return Ok(result);
+        }
+
+        [HttpGet("IsPreviousPayrollProcessed/{PreviousMonth}/{previousYear}/{employeeId}")]
+        public async Task<ActionResult<bool>> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear,int employeeId)
+        {
+            return await finalSettlemetService.IsPreviousPayrollProcessed(PreviousMonth, previousYear, employeeId);
+        }
+
+        [HttpGet("GetAllFinalLeaveBalance/{CutOffDateFrom}/{CutOffDateTo}/{employeeId}")]
+        public async Task<ActionResult<FianlSettlementLeaveBalanceView>> GetAllFinalLeaveBalance(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId)
+        {
+            var leaveBalance = await finalSettlemetService.GetAllFinalLeaveBalance(CutOffDateFrom, CutOffDateTo, employeeId);
+
+            return Ok(leaveBalance);
+        }
+
+        [HttpGet("GetPayrollComponents/{CutOffDateFrom}/{CutOffDateTo}/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<FinalSettlementComponetsView>>> GetPayrollComponents(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId)
+        {
+            var components = await finalSettlemetService.GetPayrollComponents(CutOffDateFrom, CutOffDateTo, employeeId);
+
+            return Ok(components);
         }
     }
 }
