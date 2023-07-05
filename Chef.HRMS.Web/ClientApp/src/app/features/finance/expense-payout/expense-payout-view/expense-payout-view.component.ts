@@ -4,11 +4,14 @@ import { NgbDateAdapter, NgbDateNativeAdapter, NgbActiveModal } from '@ng-bootst
 import { PaymentAccount } from 'src/app/models/common/types/paymentaccount';
 import { PaymentMode } from 'src/app/models/common/types/paymentmode';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-expense-payout-view',
   templateUrl: './expense-payout-view.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class ExpensePayoutViewComponent implements OnInit {
   @Input() expense;

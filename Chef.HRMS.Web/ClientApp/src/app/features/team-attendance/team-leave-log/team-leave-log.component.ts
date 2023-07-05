@@ -8,11 +8,14 @@ import { LeaveComponentService } from '@settings/leave/leave-component/leave-com
 import { TeamLeaveLog } from '../team-leave-log.model';
 import { LeaveComponent } from '@settings/leave/leave-component/leave-component.model';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-team-leave-log',
   templateUrl: './team-leave-log.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 
 })
 export class TeamLeaveLogComponent implements OnInit {

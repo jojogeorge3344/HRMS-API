@@ -84,7 +84,7 @@
                             <td>{{i+1}}</td>
                             <td class="text-capitalize">{{holiday.name}}</td>
                             <td class="text-ellipsis" title="{{holiday.description}}">{{holiday.description}}</td>
-                            <td>{{holiday.date| date}}</td>
+                            <td>{{holiday.date| date: 'dd-MM-yyyy'}}</td>
                             <td>
                                 <span *ngIf="holiday.isFloating">Yes</span>
                                 <span *ngIf="!holiday.isFloating">No</span>

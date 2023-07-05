@@ -12,12 +12,15 @@ import { UserVariableService } from '@settings/payroll/user-variable/user-variab
 import { UserVariableType } from '@settings/payroll/user-variable/user-variable.model';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-payroll-parameter-details-edit',
   templateUrl: './payroll-parameter-details-edit.component.html',
   styleUrls: ['./payroll-parameter-details-edit.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}]
 })
 export class PayrollParameterDetailsEditComponent implements OnInit {
 

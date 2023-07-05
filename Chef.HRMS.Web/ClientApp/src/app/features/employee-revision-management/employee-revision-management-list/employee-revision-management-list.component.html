@@ -27,7 +27,7 @@
                         <tr  *ngFor="let request of revisionRequest; let i= index;">
                             <td>{{i+1}}</td>
                             <td>{{request.reqNum}}</td>
-                            <td>{{request.reqDate | date}}</td>
+                            <td>{{request.reqDate | date: 'dd-MM-yyyy'}}</td>
                             <td>{{request.revStatus == 0 ? 'Pending' : 'Approved'}}</td>
                             <td>{{request.remark}}</td>
                             <td>

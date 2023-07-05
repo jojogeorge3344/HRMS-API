@@ -32,7 +32,7 @@
             <tbody>
                 <tr *ngFor="let listItem of adocEntryList; let i= index;">
                     <td>{{i+1}}</td>
-                    <td>{{ listItem.date | date }}</td>
+                    <td>{{ listItem.date | date: 'dd-MM-yyyy' }}</td>
                     <td>{{ listItem.employeeCode }}</td>
                     <td>{{ listItem.employeeName }}</td>
                     <td>{{ listItem.payrollComponentName}}</td>

@@ -11,13 +11,16 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { UserVariableService } from '@settings/payroll/user-variable/user-variable-list/user-variable.service';
 import { UserVariableType } from '@settings/payroll/user-variable/user-variable.model';
 import { Router } from '@angular/router';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 
 @Component({
   selector: 'hrms-payroll-parameter-details-view',
   templateUrl: './payroll-parameter-details-view.component.html',
   styleUrls: ['./payroll-parameter-details-view.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class PayrollParameterDetailsViewComponent implements OnInit {
 

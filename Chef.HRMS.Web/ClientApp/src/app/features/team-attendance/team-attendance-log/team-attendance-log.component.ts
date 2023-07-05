@@ -5,11 +5,14 @@ import { forkJoin } from 'rxjs';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { TeamAttendanceLog } from '../team-attendance-log.model';
 import { NgbActiveModal, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-team-attendance-log',
   templateUrl: './team-attendance-log.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 
 })
 export class TeamAttendanceLogComponent implements OnInit {

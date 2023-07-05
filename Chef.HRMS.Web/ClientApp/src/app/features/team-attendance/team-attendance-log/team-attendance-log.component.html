@@ -65,7 +65,7 @@
         <tr *ngFor="let attendance of attendanceLogOnDisplay; let i= index;">
             <td>{{i+1}}</td>
             <td class="text-capitalize">{{attendance.employeeName}}</td>
-            <td>{{attendance.clockIn | date }}</td>
+            <td>{{attendance.clockIn |  date: 'dd-MM-yyyy' }}</td>
             <td>{{attendance.clockIn | date: 'h:mm a'}}</td>
             <td>{{attendance.clockOut | date: 'h:mm a'}}</td>
             <td>{{"9hr 0m"}}</td>

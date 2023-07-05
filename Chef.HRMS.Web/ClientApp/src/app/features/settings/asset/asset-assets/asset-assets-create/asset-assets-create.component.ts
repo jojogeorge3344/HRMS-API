@@ -11,11 +11,13 @@ import { AssetMetadataService } from '@settings/asset/asset-metadata/asset-metad
 import { AssetAssetsService } from '../asset-assets.service';
 import { result } from 'lodash';
 import { strict } from 'assert';
-
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 @Component({
   selector: 'hrms-asset-assets-create',
   templateUrl: './asset-assets-create.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class AssetAssetsCreateComponent implements OnInit {
 

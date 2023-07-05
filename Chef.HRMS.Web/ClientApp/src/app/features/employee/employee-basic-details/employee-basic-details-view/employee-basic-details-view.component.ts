@@ -7,12 +7,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GenderType } from '../../../../models/common/types/gendertype';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-employee-basic-details-view',
   templateUrl: './employee-basic-details-view.component.html',
   styleUrls: ['./employee-basic-details-view.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 
 })
 export class EmployeeBasicDetailsViewComponent implements OnInit {

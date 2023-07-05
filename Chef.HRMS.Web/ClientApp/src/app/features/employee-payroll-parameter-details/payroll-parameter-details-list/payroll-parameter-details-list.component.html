@@ -33,7 +33,7 @@
                     <td>{{i+1}}</td>
                     <td>{{ detail.name }}</td>
                     <td>{{ UserVariableType[detail.type] }}</td>
-                    <td>{{ detail.transDate |date}}</td>
+                    <td>{{ detail.transDate |date: 'dd-MM-yyyy'}}</td>
                     <td>{{ detail.transValue }}</td>
                     <td>{{ detail.status==1? 'pending' : detail.status== 2 ? 'approved' : 'processed' }}</td>
                     <td>

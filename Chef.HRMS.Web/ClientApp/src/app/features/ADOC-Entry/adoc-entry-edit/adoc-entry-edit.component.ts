@@ -9,12 +9,15 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { AdocStatusType } from 'src/app/models/common/types/adocStatusType';
 import { DocumentType } from 'src/app/models/common/types/documentType';
 import { AdocEntryService } from '../adoc-entry-service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-adoc-entry-edit',
   templateUrl: './adoc-entry-edit.component.html',
   styleUrls: ['./adoc-entry-edit.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class AdocEntryEditComponent implements OnInit {
 

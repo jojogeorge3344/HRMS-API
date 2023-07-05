@@ -30,11 +30,14 @@ import { OvertimePolicy } from '@settings/overtime/overtime-policy/overtime-poli
 import { EmployeeRevisionManagementService } from '../employee-revision-management.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 @Component({
   selector: 'hrms-employee-revision-management-edit',
   templateUrl: './employee-revision-management-edit.component.html',
   styleUrls: ['./employee-revision-management-edit.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+      {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeRevisionManagementEditComponent implements OnInit {
   editForm: FormGroup;

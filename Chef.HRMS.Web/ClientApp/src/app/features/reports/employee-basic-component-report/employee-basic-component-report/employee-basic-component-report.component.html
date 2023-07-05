@@ -51,7 +51,7 @@
                         <td>{{i+1}}</td>
                         <td>{{employee.values[0].employeeCode}}</td>
                         <td>{{ employee.values[0].employeeName }}</td>
-                        <td>{{ employee.values[0].effectiveDate | date}} </td>
+                        <td>{{ employee.values[0].effectiveDate | date: 'dd-MM-yyyy'}} </td>
                         <ng-container *ngFor="let component of componentsArray">
                             <td>{{employee[component]| number : '1.0-2'}}</td>
                         </ng-container>

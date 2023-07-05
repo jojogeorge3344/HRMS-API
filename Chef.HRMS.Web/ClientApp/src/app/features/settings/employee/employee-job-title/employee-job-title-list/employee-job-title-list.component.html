@@ -45,8 +45,8 @@
                 <td *ngIf="jobTitle.numberOfEmployees > 0"> <a class="link text-primary mt-3"
                         (click)="openViewList(jobTitle)">{{ jobTitle.numberOfEmployees }}</a> </td>
                 <td *ngIf="jobTitle.numberOfEmployees === 0">-</td>
-                <td> {{ jobTitle.createdDate | date }} </td>
-                <td> {{ jobTitle.modifiedDate | date }} </td>
+                <td> {{ jobTitle.createdDate | date: 'dd-MM-yyyy' }} </td>
+                <td> {{ jobTitle.modifiedDate | date: 'dd-MM-yyyy' }} </td>
                 <td>
                     <div class="btn-group" dropdown container="main">
                         <button id="button-basic" dropdownToggle type="button"

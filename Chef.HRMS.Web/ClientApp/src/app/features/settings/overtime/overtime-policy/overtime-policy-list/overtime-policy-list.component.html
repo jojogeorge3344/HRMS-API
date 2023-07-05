@@ -36,8 +36,8 @@
                             <td class="text-ellipsis" title="{{ overtimePolicy.description }}">{{ overtimePolicy.description }}</td>
                             <td>{{ overtimePolicy.numberOfEmployees > 0 ? overtimePolicy.numberOfEmployees : "-" }}</td>
                             <td>{{ overtimePolicy.createdBy}}</td>
-                            <td>{{ overtimePolicy.createdDate | date }}</td>
-                            <td>{{ overtimePolicy.modifiedDate | date }}</td>
+                            <td>{{ overtimePolicy.createdDate |  date: 'dd-MM-yyyy' }}</td>
+                            <td>{{ overtimePolicy.modifiedDate |  date: 'dd-MM-yyyy' }}</td>
                             <td>
                                 <div class="btn-group" dropdown container="main">
                                     <button id="button-basic" dropdownToggle type="button"

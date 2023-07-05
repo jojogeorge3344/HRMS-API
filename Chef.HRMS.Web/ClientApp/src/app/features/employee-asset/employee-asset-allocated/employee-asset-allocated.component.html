@@ -24,7 +24,7 @@
                     <td class="text-capitalize">{{allocatedAsset.assetTypeName}}</td>
                     <td >{{ allocatedAsset.assetId }}</td>
                     <td class="primary mt-3">{{allocatedAsset.assetName }}</td>
-                    <td class="primary mt-3">{{allocatedAsset.allocatedDate | date: 'yyyy-MM-dd'}}</td>
+                    <td class="primary mt-3">{{allocatedAsset.allocatedDate | date: 'dd-MM-yyyy'}}</td>
                     <td class="primary mt-3">{{splitByUpperCase.transform(status[allocatedAsset.status])}}</td>
                     <td>
 

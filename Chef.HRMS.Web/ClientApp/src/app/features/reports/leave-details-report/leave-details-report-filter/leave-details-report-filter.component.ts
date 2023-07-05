@@ -15,12 +15,15 @@ import { LeaveComponentService } from '@settings/leave/leave-component/leave-com
 import { EmployeeJobDetailsService } from '@features/employee/employee-job-details/employee-job-details.service';
 import { BranchService } from '@settings/branch/branch.service';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-leave-details-report-filter',
   templateUrl: './leave-details-report-filter.component.html',
   styleUrls: ['./leave-details-report-filter.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class LeaveDetailsReportFilterComponent implements OnInit {
   addForm: FormGroup;

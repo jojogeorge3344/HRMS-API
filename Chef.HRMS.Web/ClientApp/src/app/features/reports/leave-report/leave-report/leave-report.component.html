@@ -78,13 +78,13 @@
                         <td>{{ leave.employeeCode }}</td>
                         <td>{{leave.employeeName}}</td>
                         <td>{{ (departmentType[leave.department]|splitByUpperCase) }}</td>
-                        <td>{{ leave.fromDate | date}} </td>
-                        <td>{{ leave.toDate | date}}</td>
+                        <td>{{ leave.fromDate | date: 'dd-MM-yyyy'}} </td>
+                        <td>{{ leave.toDate | date: 'dd-MM-yyyy'}}</td>
                         <td>{{ leave.leaveType }}</td>
                         <td>{{ leave.numberOfDays }}</td>
-                        <td>{{ leave.appliedOn | date }}</td>
+                        <td>{{ leave.appliedOn | date: 'dd-MM-yyyy' }}</td>
                         <td>{{ leave.approvedBy }}</td>
-                        <td>{{ leave.approvedOn | date}}</td>
+                        <td>{{ leave.approvedOn | date: 'dd-MM-yyyy'}}</td>
                     </tr>
                     <tr *ngIf="!leaveReportOnDisplay?.length">
                         <td colspan="18" class="text-center">
