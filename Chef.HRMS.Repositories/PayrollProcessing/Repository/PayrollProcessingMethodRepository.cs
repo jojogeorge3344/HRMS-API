@@ -508,5 +508,17 @@ namespace Chef.HRMS.Repositories
            .CountAsync<int>() > 0) return true;
             else return false;
         }
+
+        public async Task<bool> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear, int employeeId)
+        {
+            if (await QueryFactory
+            .Query<PayrollProcessingMethod>()
+           .Where("month", PreviousMonth)
+           .Where("year", previousYear)
+           .Where("employeeid", employeeId)
+           .WhereNotArchived()
+           .CountAsync<int>() > 0) return true;
+            else return false;
+        }
     }
 }
