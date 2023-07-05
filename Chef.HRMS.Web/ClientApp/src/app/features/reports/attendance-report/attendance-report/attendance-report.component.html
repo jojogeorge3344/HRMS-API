@@ -87,7 +87,7 @@
                         <td>{{ attendance.employeeNumber }}</td>
                         <td>{{attendance.employeeName}}</td>
                         <td>{{ (departmentType[attendance.department]|splitByUpperCase) }}</td>
-                        <td>{{ attendance.date | date}} </td>
+                        <td>{{ attendance.date | date: 'dd-MM-yyyy'}} </td>
                         <td>{{ attendance.day}} </td>
                         <td>{{ attendance.attendanceType}} </td>
                         <td>{{ attendance.shift }}</td>

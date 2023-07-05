@@ -6,11 +6,14 @@ import { LeaveStructureService } from '../leave-structure.service';
 import { duplicateNameValidator } from '@shared/utils/validators.functions';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-leave-structure-create',
   templateUrl: './leave-structure-create.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class LeaveStructureCreateComponent implements OnInit {
 

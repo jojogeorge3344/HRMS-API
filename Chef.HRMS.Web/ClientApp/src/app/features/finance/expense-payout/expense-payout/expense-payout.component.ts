@@ -8,11 +8,14 @@ import { PaymentAccount } from 'src/app/models/common/types/paymentaccount';
 import { ExpensePayoutService } from '../expense-payout.service';
 import { mergeMap } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-expense-payout',
   templateUrl: './expense-payout.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 
 })
 export class ExpensePayoutComponent implements OnInit {

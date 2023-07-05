@@ -73,9 +73,9 @@
                     <td>{{i+1}}</td>
                     <td>{{ employee.employeeNumber }}</td>
                     <td>{{employee.employeeName}}</td>
-                    <td>{{ employee.dateOfBirth | date}} </td>
+                    <td>{{ employee.dateOfBirth | date: 'dd-MM-yyyy'}} </td>
                     <td>{{ genderType[employee.gender] }}</td>
-                    <td>{{ employee.dateOfJoin | date}}</td>
+                    <td>{{ employee.dateOfJoin | date: 'dd-MM-yyyy'}}</td>
                     <td>{{ employee.companyExperience }}</td>
                     <td>{{ employee.jobTitle }}</td>
                     <td>{{ (departmentType[employee.department]) }}</td>

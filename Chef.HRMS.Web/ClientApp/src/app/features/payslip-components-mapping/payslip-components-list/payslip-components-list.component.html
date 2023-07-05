@@ -35,7 +35,7 @@
                     <td>{{i+1}}</td>
                     <td>{{ listItem.code}}</td>
                     <td>{{ listItem.name }}</td>
-                    <td>{{ listItem.createdDate | date}}</td>
+                    <td>{{ listItem.createdDate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{ listItem.payrollStructureName}}</td>
                     <td>{{ listItem.payslipOrderNumber}}</td>
                     <td>{{ listItem.isActive ==true? 'Active' :'Inactive'}}</td>

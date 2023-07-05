@@ -10,11 +10,14 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { constant, values } from 'lodash';
 import { DatePipe } from '@angular/common';
 import { EmployeeLeaveService } from '@features/employee-leave/employee-leave.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-holiday-create',
   templateUrl: './holiday-create.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class HolidayCreateComponent implements OnInit {
 

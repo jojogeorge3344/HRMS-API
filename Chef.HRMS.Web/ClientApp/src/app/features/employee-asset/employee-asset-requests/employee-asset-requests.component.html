@@ -25,7 +25,7 @@
                     <td>{{i+1}}</td>
                     <td>{{ emprequest.requestNo}}</td>
                     <td class="text-capitalize">{{emprequest.requestedBy}}</td>
-                    <td>{{ emprequest.requestedDate | date: 'yyyy-MM-dd'}}</td>
+                    <td>{{ emprequest.requestedDate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{splitByUpperCase.transform(reqForStatus[emprequest.requestFor])}}</td>
                     <td>{{splitByUpperCase.transform(raiseRequestTypeList[emprequest.requestType])}}</td>
                     <td> {{splitByUpperCase.transform(status[emprequest.status])}}</td>

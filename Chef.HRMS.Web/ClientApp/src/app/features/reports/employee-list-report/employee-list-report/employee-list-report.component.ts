@@ -14,11 +14,16 @@ import { EmployeeListReport } from '../employee-list-reports.model';
 import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { DatePipe } from '@angular/common';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
+import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'hrms-employee-list-report',
   templateUrl: './employee-list-report.component.html',
-  styleUrls: ['./employee-list-report.component.scss']
+  styleUrls: ['./employee-list-report.component.scss'],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeListReportComponent implements OnInit {
 

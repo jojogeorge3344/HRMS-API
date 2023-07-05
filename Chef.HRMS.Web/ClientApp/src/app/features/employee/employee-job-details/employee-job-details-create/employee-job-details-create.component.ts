@@ -23,12 +23,15 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmployeeJobDetailsService } from '../employee-job-details.service';
 import { EmployeeJobDetails } from '../employee-job-details.model';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-employee-job-details-create',
   templateUrl: './employee-job-details-create.component.html',
   styleUrls: ['./employee-job-details.create.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeJobDetailsCreateComponent implements OnInit {
 

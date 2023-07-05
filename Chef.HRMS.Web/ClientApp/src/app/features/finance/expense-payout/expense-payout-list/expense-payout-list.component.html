@@ -24,7 +24,7 @@
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{ expense.name }}</td>
                 <td>{{ expense.expenseTypeName}}</td>
-                <td>{{ expense.expenseDate |date }} </td>
+                <td>{{ expense.expenseDate |date: 'dd-MM-yyyy' }} </td>
                 <td>{{ expense.amount }}</td>
                 <td class="text-center">{{ (paymentMode[expense.paymentMode] |splitByUpperCase) || '--' }}</td>
                 <td>

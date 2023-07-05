@@ -22,12 +22,14 @@ import { EmployeeBasicDetailsService } from '@features/employee/employee-basic-d
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { padAtStrt } from '@shared/utils/utils.functions';
 import { forkJoin } from 'rxjs';
-
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 @Component({
   selector: 'hrms-employee-job-details-edit',
   templateUrl: './employee-job-details-edit.component.html',
   styleUrls: ['./employee-job-details.edit.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeJobDetailsEditComponent implements OnInit {
 

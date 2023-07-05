@@ -10,12 +10,15 @@ import { AdocStatusType } from 'src/app/models/common/types/adocStatusType';
 import { DocumentType } from 'src/app/models/common/types/documentType';
 import { AdocEntryService } from '../adoc-entry-service';
 import { result } from 'lodash';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-adoc-entry-create',
   templateUrl: './adoc-entry-create.component.html',
   styleUrls: ['./adoc-entry-create.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class AdocEntryCreateComponent implements OnInit {
 

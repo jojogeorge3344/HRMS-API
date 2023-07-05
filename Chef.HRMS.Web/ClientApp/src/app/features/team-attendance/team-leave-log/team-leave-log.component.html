@@ -62,9 +62,9 @@
             <tr *ngFor="let leaveLog of leaveLogsOnDisplay; let i= index;">
                 <td>{{i+1}}</td>
                 <td class="text-capitalize">{{leaveLog.employeeName}}</td>
-                <td>{{leaveLog.appliedDate | date }}</td>
-                <td>{{leaveLog.fromDate | date }}</td>
-                <td>{{leaveLog.toDate | date }}</td>
+                <td>{{leaveLog.appliedDate | date: 'dd-MM-yyyy' }}</td>
+                <td>{{leaveLog.fromDate | date: 'dd-MM-yyyy' }}</td>
+                <td>{{leaveLog.toDate | date: 'dd-MM-yyyy' }}</td>
                 <td>{{leaveLog.leaveType}}</td>
                 <td title="{{leaveLog.reason}}" class="text-ellipsis">{{leaveLog.reason}}</td>
 

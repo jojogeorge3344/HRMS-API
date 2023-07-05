@@ -8,12 +8,16 @@ import { AttendanceReport } from '../attendance-reports.model';
 import { DatePipe } from '@angular/common';
 import { SplitByUpperCasePipe } from 'src/app/pipes/split-by-upper-case.pipe';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
+
 
 @Component({
   selector: 'hrms-attendance-report',
   templateUrl: './attendance-report.component.html',
   styleUrls: ['./attendance-report.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 
 })
 export class AttendanceReportComponent implements OnInit {

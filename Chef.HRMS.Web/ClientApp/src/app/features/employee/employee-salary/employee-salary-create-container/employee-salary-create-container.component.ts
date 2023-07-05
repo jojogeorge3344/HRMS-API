@@ -13,11 +13,14 @@ import { EmployeeSalaryConfigurationDetailsService } from '../employee-salary-co
 import { ToastrService } from 'ngx-toastr';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { EmployeeService } from '@features/employee/employee.service';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-employee-salary-create',
   templateUrl: './employee-salary-create-container.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeSalaryCreateContainerComponent implements OnInit {
 

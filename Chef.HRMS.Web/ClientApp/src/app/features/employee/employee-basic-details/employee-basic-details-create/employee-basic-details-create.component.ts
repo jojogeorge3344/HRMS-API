@@ -11,12 +11,15 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { EmployeeBasicDetailsService } from '../employee-basic-details.service';
 import { result } from 'lodash';
 import { ActivatedRoute } from '@angular/router';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 
 @Component({
   selector: 'hrms-employee-basic-details-create',
   templateUrl: './employee-basic-details-create.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeBasicDetailsCreateComponent implements OnInit {
 

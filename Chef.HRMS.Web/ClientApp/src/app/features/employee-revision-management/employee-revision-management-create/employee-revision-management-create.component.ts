@@ -31,11 +31,14 @@ import { EmployeeRevisionManagementService } from '../employee-revision-manageme
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { PayrollCalculationService } from '@settings/payroll/payroll-calculation/payroll-calculation.service';
 import { Router } from '@angular/router';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 @Component({
   selector: 'hrms-employee-revision-management-create',
   templateUrl: './employee-revision-management-create.component.html',
   styleUrls: ['./employee-revision-management-create.component.scss'],
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
 })
 export class EmployeeRevisionManagementCreateComponent implements OnInit {
   addForm: FormGroup;

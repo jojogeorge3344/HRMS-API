@@ -15,11 +15,14 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 import { BranchService } from '@settings/branch/branch.service';
 import { OvertimePolicyService } from '@settings/overtime/overtime-policy/overtime-policy.service';
 import { formatDate, DatePipe } from "@angular/common";
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateformaterService } from "@shared/services/dateformater.service";
 
 @Component({
   selector: 'hrms-employee-overtime-report',
   templateUrl: './employee-overtime-report.component.html',
-  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {provide: NgbDateParserFormatter, useClass: DateformaterService}],
   styleUrls: ['./employee-overtime-report.component.scss']
 })
 export class EmployeeOvertimeReportComponent implements OnInit {
