@@ -74,7 +74,8 @@
                 <div class="form-group ">
                     <label for="loanAmount">Loan Amount<span class="required">*</span></label>
                     <input type="number" class="form-control" id="loanAmount" name="loanAmount"
-                        (keydown)="validateNumber($event)" formControlName="loanAmount">
+                        (keydown)="validateNumber($event)" formControlName="loanAmount" 
+                        (blur)="addForm.controls.loanType.value ===2 ? generateSchedule() : ''">
                 </div>
             </div>
             <div class="col-sm">

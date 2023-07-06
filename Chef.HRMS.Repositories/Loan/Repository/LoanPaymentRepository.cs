@@ -107,7 +107,7 @@ namespace Chef.HRMS.Repositories
                                                                    --  lr.emistartsfrommonth <= pm.month
                                                                    -- AND
 																   --  lr.emistartsfromyear <= pm.year 
-                                                            INNER JOIN hrms.loanrequestdetail lrd 
+                                                            LEFT JOIN hrms.loanrequestdetail lrd 
                                                                 ON lrd.loanrequestid = lr.id 
                                                                 AND lrd.month = @month AND lrd.year = @year
                                                             LEFT JOIN hrms.loanpayment lp 

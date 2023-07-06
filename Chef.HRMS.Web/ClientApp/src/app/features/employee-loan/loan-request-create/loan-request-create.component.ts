@@ -162,17 +162,37 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     if(this.router.url=='/my-loan'){
       addloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy
+      //addloanRequestForm.requestedBy = addloanRequestForm.requestedBy
+      addloanRequestForm.requestedBy = this.currentUserId;
+    }
+
+    if(this.router.url=='/my-loan'){
+      addloanRequestForm.employeeID = this.currentUserId;
+    }else{
+      addloanRequestForm.employeeID = this.empObj.id
     }
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
     
     //addloanRequestForm.isapproved = this.requestTypes.Approved;
-    addloanRequestForm.status =this.requestTypes.Approved;;
+    addloanRequestForm.status =this.requestTypes.Approved;
     addloanRequestForm.requestedDate = new Date();
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
     // addloanRequestForm.emiStartsFrom = `${addloanRequestForm.emiStartsFrom}-01`
+    if(this.addForm.controls.loanType.value == 2){
+      var loanReqDetails =[]
+      for(let i=0;i< this.scheduleArray.length ; i++){
+        loanReqDetails.push({
+          loanRequestId:0,
+          year:this.scheduleArray[i].Year,
+          month:this.scheduleArray[i].Month,
+          repaymentAmount:this.scheduleArray[i].Amount,
+          status:false
+        })
+      }
+      addloanRequestForm.loanRequestDeatails = loanReqDetails
+    }
 
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
@@ -200,7 +220,14 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     if(this.router.url=='/my-loan'){
       addloanRequestForm.requestedBy = this.currentUserId;
     }else{
-      addloanRequestForm.requestedBy = addloanRequestForm.requestedBy;
+      //addloanRequestForm.requestedBy = addloanRequestForm.requestedBy;
+      addloanRequestForm.requestedBy = this.currentUserId;
+    }
+    if(this.router.url=='/my-loan'){
+      addloanRequestForm.employeeID = this.currentUserId;
+    }else{
+      //addloanRequestForm.employeeID = addloanRequestForm.requestedBy;
+       addloanRequestForm.employeeID = this.empObj.id
     }
     addloanRequestForm.loanNo = this.loanNo;
     addloanRequestForm.loanSettingId = this.loanSettingId;
@@ -210,6 +237,20 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     addloanRequestForm.emiStartsFromMonth = parseInt(this.addForm.value.emiStartsFromMonth, 10);
     addloanRequestForm.emiStartsFromYear = parseInt(this.addForm.value.emiStartsFromYear, 10);
     // addloanRequestForm.emiStartsFrom = `${addloanRequestForm.emiStartsFrom}-01`
+
+    if(this.addForm.controls.loanType.value == 2){
+      var loanReqDetails =[]
+      for(let i=0;i< this.scheduleArray.length ; i++){
+        loanReqDetails.push({
+          loanRequestId:0,
+          year:this.scheduleArray[i].Year,
+          month:this.scheduleArray[i].Month,
+          repaymentAmount:this.scheduleArray[i].Amount,
+          status:false
+        })
+      }
+      addloanRequestForm.loanRequestDeatails = loanReqDetails
+    }
 
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
@@ -222,6 +263,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
           this.activeModal.close('submit');
         },
           error => {
+
             console.error(error);
             this.toastr.showErrorMessage('Unable to add the loan request');
           });
@@ -306,7 +348,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       employeeID: [this.currentUserId],
       loanSettingId: [this.loanSettingId],
       extendedmonth: [0],
-      requestedBy: [null,[Validators.required]]
+      requestedBy: [null,[Validators.required]],
+      loanRequestDeatails:[]
     });
   }
 }
