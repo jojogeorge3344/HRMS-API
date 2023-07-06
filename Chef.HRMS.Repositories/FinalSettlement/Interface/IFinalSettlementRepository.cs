@@ -18,5 +18,6 @@ namespace Chef.HRMS.Repositories
         Task<IEnumerable<LOPCalculationView>> GetLeaveComponents(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId);
         Task<IEnumerable<OverTimePayrollViewModel>> GetOverTimeComponents(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId);
         Task<DateTime> GetPreviousProcessDate(int employeeId);
+        Task<int> UpadteFinalSettlementStatus(int id, int approveStatus);
     }
 }

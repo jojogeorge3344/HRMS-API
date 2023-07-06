@@ -16,5 +16,8 @@ namespace Chef.HRMS.Services
         Task<int> FinalSettlementInsert(FinalSettlement finalSettlement);
         Task<int> FinalSettlementUpdate(FinalSettlement finalSettlement);
         Task<int> FinalSettlementDelete(int id);
+        Task<int> UpadteFinalSettlementStatus(int id, int approveStatus);
+        Task<int> FinalSettlementProcess(FinalSettlement finalSettlement);
+        Task<FinalSettlement> GetFinalSettlementById(int id);
     }
 }
