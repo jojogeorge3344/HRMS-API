@@ -39,7 +39,7 @@ export class LoanRequestPrintComponent implements OnInit {
     if(this.router.url.includes('/my-loan')){
      this.router.navigate(["/my-loan"])
     }else {
-      this.router.navigate(["/employee-loan"])
+      this.router.navigate(["/org-employee-loan"])
     }
    }
   load() {
