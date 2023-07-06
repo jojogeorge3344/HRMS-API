@@ -229,7 +229,7 @@ export class PayrollStructureListComponent implements OnInit {
   openPayrollComponentConfiguration(payrollComponentConfiguration: PayrollConfiguration, isDisabled: boolean) {
     if (isDisabled) {
       this.router.navigate(
-        ['../' + payrollComponentConfiguration.payrollStructureId + '/payroll-configuration/' + payrollComponentConfiguration.id + '/view'],
+        ['../' + payrollComponentConfiguration.payrollStructureId + '/payroll-configuration/' + payrollComponentConfiguration.payrollComponentId + '/view'],
         { relativeTo: this.route.parent });
     } else {
       this.router.navigate(

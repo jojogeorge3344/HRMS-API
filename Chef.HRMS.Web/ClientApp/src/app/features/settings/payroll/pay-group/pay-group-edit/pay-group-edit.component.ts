@@ -44,7 +44,7 @@ export class PayGroupEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToasterDisplayService) {
     const d = new Date();
-    this.years = [...Array(11).keys()].map(n => n + d.getFullYear());
+    this.years = [...Array(3).keys()].map(n => n + d.getFullYear());
     this.monthKeys = Object.keys(this.months).filter(Number).map(Number);
   }
 
