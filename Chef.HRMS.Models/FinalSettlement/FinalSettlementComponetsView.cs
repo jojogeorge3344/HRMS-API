@@ -12,7 +12,7 @@ namespace Chef.HRMS.Models
         public int PayrollComponentId { get; set; }
         public string ShortCode { get; set; }
         public string Name { get; set; }
-        public LOPCalculationView lOPCalculationView { get; set; }
-        public OverTimePayrollViewModel overTimePayrollViewModel { get; set; }
+        public LOPCalculationView LOPCalculationView { get; set; }
+        public OverTimePayrollViewModel OverTimePayrollViewModel { get; set; }
     }
 }

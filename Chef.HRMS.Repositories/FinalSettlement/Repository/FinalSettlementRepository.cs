@@ -1,6 +1,8 @@
-﻿using Chef.Common.Models;
+﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
 using Chef.HRMS.Models;
 using Chef.HRMS.Types;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Chef.HRMS.Repositories.FinalSettlement
 {
@@ -1115,6 +1117,17 @@ namespace Chef.HRMS.Repositories.FinalSettlement
                         LIMIT 1";
 
            return await Connection.QueryFirstAsync<DateTime>(sql, new { employeeId });
+        }
+
+        public async Task<int> UpadteFinalSettlementStatus(int id, int approveStatus)
+        {
+            return await QueryFactory
+                 .Query<Chef.HRMS.Models.FinalSettlement>()
+                 .Where("id", id)
+                 .UpdateAsync(new
+                 {
+                     processstatus = approveStatus
+                 });
         }
     }
 }

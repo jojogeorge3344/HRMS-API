@@ -17,18 +17,21 @@ namespace Chef.HRMS.Services
         private readonly ILeaveEligibilityRepository leaveEligibility;
         private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
         private readonly IFinalSettlementDetailsRepository finalSettlementDetailsRepository;
+        private readonly IPayrollComponentDetailsRepository payrollComponentDetailsRepository;
 
         public FinalSettlemetService(IFinalSettlementRepository finalSettlementRepository,
             IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
             ILeaveEligibilityRepository leaveEligibility,
             ITenantSimpleUnitOfWork tenantSimpleUnitOfWork,
-            IFinalSettlementDetailsRepository finalSettlementDetailsRepository)
+            IFinalSettlementDetailsRepository finalSettlementDetailsRepository,
+            IPayrollComponentDetailsRepository payrollComponentDetailsRepository)
         {
             this.finalSettlementRepository = finalSettlementRepository;
             this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
             this.leaveEligibility = leaveEligibility;
             this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
             this.finalSettlementDetailsRepository = finalSettlementDetailsRepository;
+            this.payrollComponentDetailsRepository = payrollComponentDetailsRepository;
         }
         public async Task<PreviousPayrollProcessDateView> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear, int employeeId)
         {
@@ -74,7 +77,7 @@ namespace Chef.HRMS.Services
                     {
                         if (final.PayrollComponentId == item.PayrollComponentId)
                         {
-                            final.lOPCalculationView = item;
+                            final.LOPCalculationView = item;
                         }
                     }
                 }
@@ -85,7 +88,7 @@ namespace Chef.HRMS.Services
                     {
                         if (finalSettlement.PayrollComponentId == otComponent.ComponentId)
                         {
-                            finalSettlement.overTimePayrollViewModel = otComponent;
+                            finalSettlement.OverTimePayrollViewModel = otComponent;
                         }
                     }
                 }
@@ -107,10 +110,10 @@ namespace Chef.HRMS.Services
                 finalSettlement.RequestNum = "REQ-" + finalSettlementId;
                 await finalSettlementRepository.UpdateAsync(finalSettlement);
 
-                if (finalSettlement.settlementDetails != null)
+                if (finalSettlement.SettlementDetails != null)
                 {
-                    finalSettlement.settlementDetails.ForEach(x => x.FinalSettlementId = finalSettlementId);
-                    await finalSettlementDetailsRepository.BulkInsertAsync(finalSettlement.settlementDetails);
+                    finalSettlement.SettlementDetails.ForEach(x => x.FinalSettlementId = finalSettlementId);
+                    await finalSettlementDetailsRepository.BulkInsertAsync(finalSettlement.SettlementDetails);
                 }
                 tenantSimpleUnitOfWork.Commit();
                 return finalSettlementId;
@@ -132,10 +135,10 @@ namespace Chef.HRMS.Services
 
                 await finalSettlementDetailsRepository.DeleteByFinalSettlementId(finalSettlement.Id);
 
-                if (finalSettlement.settlementDetails != null)
+                if (finalSettlement.SettlementDetails != null)
                 {
-                    finalSettlement.settlementDetails.ForEach(x => x.FinalSettlementId = finalSettlement.Id);
-                    await finalSettlementDetailsRepository.BulkInsertAsync(finalSettlement.settlementDetails);
+                    finalSettlement.SettlementDetails.ForEach(x => x.FinalSettlementId = finalSettlement.Id);
+                    await finalSettlementDetailsRepository.BulkInsertAsync(finalSettlement.SettlementDetails);
                 }
                 tenantSimpleUnitOfWork.Commit();
                 return finalSettlementId;
@@ -157,7 +160,7 @@ namespace Chef.HRMS.Services
                 if (finalSettlement != null)
                 {
                     int finalSettlementDelete = await finalSettlementRepository.DeleteAsync(id);
-                    var finalSettlementDetails = await finalSettlementDetailsRepository.GetFinalSettlementDetailsByFinalSettlementId(id);
+                    var finalSettlementDetails = await finalSettlementDetailsRepository.GetByFinalSettlementId(id);
 
                     foreach (FinalSettlementDetails settlementDetails in finalSettlementDetails)
                     {
@@ -172,6 +175,60 @@ namespace Chef.HRMS.Services
                 tenantSimpleUnitOfWork.Rollback();
                 return 0;
             }
+        }
+
+        public async Task<int> UpadteFinalSettlementStatus(int id, int approveStatus)
+        {
+            return await finalSettlementRepository.UpadteFinalSettlementStatus(id, approveStatus);
+        }
+
+        public async Task<int> FinalSettlementProcess(FinalSettlement finalSettlement)
+        {
+            tenantSimpleUnitOfWork.BeginTransaction();
+            try
+            {
+                if (finalSettlement != null)
+                {
+                    List<PayrollComponentDetails> payrollComponent = finalSettlement.SettlementDetails.Select(x => new PayrollComponentDetails()
+                    {
+                        PayrollProcessId = 0,
+                        PayrollProcessDate = finalSettlement.ProcessDate,
+                        ProcessStatus = (int)finalSettlement.ProcessStatus,
+                        CrAccount = 0,
+                        DrAccount = 0,
+                        DeductionAmt = x.DedudctionAmt,
+                        DocNum = "",
+                        EarningsAmt = x.EarningsAmt,
+                        EmployeeId = finalSettlement.EmployeeId,
+                        PayrollComponentId = x.PayrollComponentId,
+                        CreatedBy = x.CreatedBy,
+                        ModifiedBy = x.ModifiedBy,
+                        CreatedDate = x.CreatedDate,
+                        ModifiedDate = x.ModifiedDate,
+                        IsArchived = x.IsArchived,
+                        StepNo = 0,
+                        FinalSettlementId = x.FinalSettlementId
+                    }).ToList();
+                    await payrollComponentDetailsRepository.BulkInsertAsync(payrollComponent);                    
+                }
+                tenantSimpleUnitOfWork.Commit();
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                tenantSimpleUnitOfWork.Rollback();
+                return 0;
+            }
+        }
+
+        public async Task<FinalSettlement> GetFinalSettlementById(int id)
+        {
+            FinalSettlement final = new FinalSettlement();
+            var finalSettlement = await finalSettlementRepository.GetAsync(id);
+            final = finalSettlement;
+            var finalSettlementDetails = await finalSettlementDetailsRepository.GetDetailsByFinalSettlementId(id);
+            final.SettlementDetails = finalSettlementDetails.ToList();
+            return final;
         }
     }
 }
