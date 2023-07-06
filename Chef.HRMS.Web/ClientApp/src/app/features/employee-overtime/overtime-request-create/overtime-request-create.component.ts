@@ -22,6 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { DateformaterService } from "@shared/services/dateformater.service";
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -69,6 +70,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   overtimeValidated:boolean=true
   validateDate:boolean=true
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
+  @Input() overTimeApply;
 
   constructor(
     private overtimeRequestService: OvertimeRequestService,
@@ -99,6 +101,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
       this.employeeDetailsCheck=false  
     }
     this.getLoginEmployeeDetail()
+    this.subscribeTochanges()
   }
   getEmployeeList() {
     this.isLoading=true;
@@ -313,12 +316,19 @@ export class OvertimeRequestCreateComponent implements OnInit {
   // }
 
   checkDates() {
+    if (
+      this.fromDate &&
+      this.toDate &&
+      typeof this.fromDate !== "string" &&
+      typeof this.toDate !== "string"
+    ) {
     const d = new Date(this.fromDate);
     for (d; d <= this.toDate; d.setDate(d.getDate() + 1)) {
       const currentDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}T00:00:00`;
-      if (this.overtimeApplied.includes(currentDate)) {
+      var test =  this.overTimeApply.map(dateValue => formatDate(dateValue.fromDate, 'yyyy-MM-ddT00:00:00', 'en-Us'));
+      if (test.includes(currentDate)) {
         this.taken[0] = currentDate;
-        this.taken[1] = 'leave';
+        this.taken[1] = 'overtime';
         this.numberOfDays -= 1;
         //this.flag = 0;
         break;
@@ -329,6 +339,9 @@ export class OvertimeRequestCreateComponent implements OnInit {
     } else {
       return false;
     }
+  }else {
+    return true;
+  }
   }
 
   getOvertimeAppliedHour() {
