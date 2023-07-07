@@ -94,11 +94,13 @@ export class OvertimeRequestListComponent implements OnInit {
 
     modalRef.componentInstance.currentUserId = this.currentUserId;
     modalRef.componentInstance.policyId = this.overtimePolicyId;
+    modalRef.componentInstance.overTimeApply = this.overtimeRequests;
 
     modalRef.result.then((result) => {
       if (result == 'submit') {
         if(this.router.routerState.snapshot.url=="/my-overtime"){
         this.getOvertimeRequestsSelf();
+        this.getAssignedOverTimePolicyRequests()
         }else{
           this.getOvertimeRequestsAll()
         }

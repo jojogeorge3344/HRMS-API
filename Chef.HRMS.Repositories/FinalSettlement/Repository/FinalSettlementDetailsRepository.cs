@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Extensions;
+using Chef.Common.Models;
 using Chef.HRMS.Models;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,28 @@ namespace Chef.HRMS.Repositories.FinalSettlement
             .DeleteAsync();
         }
 
-        public async Task<IEnumerable<FinalSettlementDetails>> GetFinalSettlementDetailsByFinalSettlementId(int id)
+        public async Task<IEnumerable<FinalSettlementDetails>> GetByFinalSettlementId(int id)
         {
             return await QueryFactory
            .Query<FinalSettlementDetails>()
            .Where("finalsettlementid", id)
            .WhereNotArchived()
            .GetAsync<FinalSettlementDetails>();
+        }
+
+        public async Task<IEnumerable<FinalSettlementDetails>> GetDetailsByFinalSettlementId(int id)
+        {
+            var sql = @"SELECT
+                          fsd.*,
+                          pc.shortcode AS payrollcomponentcode,
+                          pc.name AS payrollcomponentname
+                        FROM hrms.finalsettlementdetails fsd
+                        INNER JOIN hrms.payrollcomponent pc
+                          ON fsd.payrollcomponentid = pc.id
+                        WHERE fsd.finalsettlementid = @id
+                        AND fsd.isarchived = FALSE";
+
+            return await Connection.QueryAsync<FinalSettlementDetails>(sql, new { id });
         }
     }
 }

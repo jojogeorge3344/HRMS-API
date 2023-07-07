@@ -26,6 +26,6 @@ namespace Chef.HRMS.Models
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
-        public List<FinalSettlementDetails> settlementDetails { get; set; }
+        public List<FinalSettlementDetails> SettlementDetails { get; set; }
     }
 }

@@ -97,5 +97,39 @@ namespace Chef.HRMS.Web.Controllers
 
             return Ok(components);
         }
+
+        [HttpPut("UpadteFinalSettlementStatus/{id}/{approveStatus}")]
+        public async Task<ActionResult<int>> UpadteFinalSettlementStatus(int id, int approveStatus)
+        {
+            var status = await finalSettlemetService.UpadteFinalSettlementStatus(id, approveStatus);
+
+            return Ok(status);
+        }
+
+        [HttpPost("FinalSettlementProcess")]
+        public async Task<IActionResult> FinalSettlementProcess(FinalSettlement finalSettlement)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var processFinalSettlement = await finalSettlemetService.FinalSettlementProcess(finalSettlement);
+
+            return Ok(processFinalSettlement);
+        }
+
+        [HttpGet("GetFinalSettlementById/{id}")]
+        public async Task<ActionResult<FinalSettlement>> GetFinalSettlementById(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var settlement = await finalSettlemetService.GetFinalSettlementById(id);
+
+            return Ok(settlement);
+        }
     }
 }
