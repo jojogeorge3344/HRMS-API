@@ -23,6 +23,12 @@ namespace Chef.HRMS.Models
         public decimal ApprovedTicketAmt { get; set; }
         public RequestStatusType ProcessStatus { get; set; }
         public decimal NetAmount { get; set; }
+
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string EmployeeName { get; set; }
+
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]

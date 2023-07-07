@@ -1129,5 +1129,18 @@ namespace Chef.HRMS.Repositories.FinalSettlement
                      processstatus = approveStatus
                  });
         }
+
+        public async Task<IEnumerable<Models.FinalSettlement>> GetFinalaSettlementList()
+        {
+            var sql = @"SELECT
+                          fs.*,
+                          CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname) AS employeename
+                        FROM hrms.finalsettlement fs
+                        INNER JOIN hrms.hrmsemployee e
+                          ON fs.employeeid = e.id
+                        WHERE fs.isarchived = FALSE";
+
+            return await Connection.QueryAsync<Models.FinalSettlement>(sql);
+        }
     }
 }
