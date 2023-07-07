@@ -491,7 +491,18 @@ namespace Chef.HRMS.Repositories
 									{
 										overtimepolicyid = emp.OverTimePolicyId
 									});
-									List<SystemVariableOTDto> systemVariableOTDto = (List<SystemVariableOTDto>)EmpSettings;
+									if(oTSlab != null || oTSlab.ToList().Count==0)
+									{
+										throw new Exception("Slab is not set");
+									}
+									//List<OTDetails> empSettings = (List<OTDetails>)EmpSettings;
+									//List<SystemVariableOTDto> systemVariableOTDto = empSettings.Select(item => new SystemVariableOTDto
+									//{
+									//	Nml_SystemVariableId = item.NOTComponentID,
+         //                               Sp_OtSystemVariableId = item.SOTComponentID,
+									//	Hd_OtSystemVariableId = item.HOTComponentID
+         //                           }).ToList();
+									List <SystemVariableOTDto> systemVariableOTDto = (List<SystemVariableOTDto>)EmpSettings;
 									if (empSett != null && empSett.NormalOverTime > 0)
 									{
 										decimal OTHrs = empSett.NormalOverTime;

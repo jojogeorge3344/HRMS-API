@@ -14,4 +14,5 @@ export interface LoanRequest extends Model {
     requestedDate:Date;
     loanSettingId: number;
     requestedBy:number;
+    loanRequestDeatails:[]
   }

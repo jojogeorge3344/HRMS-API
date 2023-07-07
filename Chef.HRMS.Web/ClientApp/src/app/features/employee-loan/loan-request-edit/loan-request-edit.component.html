@@ -74,7 +74,7 @@
                     <label for="expectedOn">Disbursement Expected On</label>
                     <div class="input-group">
                         <input [readonly]="isApproved" class="form-control" ngbDatepicker
-                            #expectedOn="ngbDatepicker" [minDate]="minDate" formControlName="expectedOn">
+                            #expectedOn="ngbDatepicker"  formControlName="expectedOn">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary fal fa-calendar-alt" (click)="expectedOn.toggle()"
                                 type="button"></button>
@@ -127,11 +127,11 @@
                 <tbody>
                     <tr *ngFor="let Schedule of scheduleArray; let i= index;">
                         <td>{{i+1}}</td>
-                        <td>{{Schedule.Year}}</td>
-                        <td>{{Schedule.Month}}</td>
-                        <td>{{Schedule.Amount}}</td>
+                        <td>{{Schedule.year}}</td>
+                        <td>{{Schedule.month}}</td>
+                        <td>{{Schedule.repaymentAmount}}</td>
                         <td></td>
-                        <td [ngStyle]="{'color': Schedule.Status == 'Processed' ? 'green': ''}">{{Schedule.Status}}</td>
+                        <td [ngStyle]="{'color': Schedule.Status == 'Processed' ? 'green': ''}">{{Schedule.status}}</td>
                     </tr>
                 </tbody>
             </table>

@@ -104,9 +104,9 @@
                 <tbody>
                     <tr *ngFor="let Schedule of scheduleArray; let i= index;">
                         <td>{{i+1}}</td>
-                        <td>{{Schedule.Year}}</td>
-                        <td>{{Schedule.Month}}</td>
-                        <td>{{Schedule.Amount}}</td>
+                        <td>{{Schedule.year}}</td>
+                        <td>{{Schedule.month}}</td>
+                        <td>{{Schedule.repaymentAmount}}</td>
                         <td></td>
                         <td [ngStyle]="{'color': Schedule.Status == 'Processed' ? 'green': ''}">{{Schedule.Status}}</td>
                     </tr>

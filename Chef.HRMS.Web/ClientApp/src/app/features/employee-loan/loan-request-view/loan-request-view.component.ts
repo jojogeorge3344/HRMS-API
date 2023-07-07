@@ -75,7 +75,13 @@ export class LoanRequestViewComponent implements OnInit {
       result.requestedDate = new Date(result.requestedDate);
       result.expectedOn = new Date(result.expectedOn);
       this.loanNo = result.loanNo;
+     
       this.viewForm.patchValue(result);
+      if(this.viewForm.controls.loanType.value === 2){debugger
+        //this.generateSchedule()
+        this.scheduleArray = result.loanRequestDeatails
+
+      }
     },
       error => {
         console.error(error);
@@ -122,9 +128,7 @@ export class LoanRequestViewComponent implements OnInit {
         //      this.editForm.patchValue({employeeId:details});
         //   }
         //  });
-        if(this.viewForm.controls.loanType.value === 2){
-          this.generateSchedule()
-        }
+       
         
       }
       )
@@ -171,42 +175,44 @@ export class LoanRequestViewComponent implements OnInit {
   }
 
 
-  generateSchedule(){
-    this.scheduleArray = []
+  generateSchedule(){debugger
+
+    this.scheduleArray = this.viewForm.controls.loanRequestDeatails.value
+    // this.scheduleArray = []
 
 
-    let totalperiod = this.viewForm.value.repaymentTerm
-    let amountperMonth
-    amountperMonth = this.viewForm.value.loanAmount / totalperiod
-    amountperMonth = parseInt(amountperMonth)
-    amountperMonth = parseFloat(amountperMonth)
-    amountperMonth = Math.round(amountperMonth)
-
-
-
-    var startingMonth = parseInt(this.viewForm.value.emiStartsFromMonth)
-    var startYear = this.viewForm.value.emiStartsFromYear
-    var startDate = new Date(startYear, startingMonth - 1);
+    // let totalperiod = this.viewForm.value.repaymentTerm
+    // let amountperMonth
+    // amountperMonth = this.viewForm.value.loanAmount / totalperiod
+    // amountperMonth = parseInt(amountperMonth)
+    // amountperMonth = parseFloat(amountperMonth)
+    // amountperMonth = Math.round(amountperMonth)
 
 
 
+    // var startingMonth = parseInt(this.viewForm.value.emiStartsFromMonth)
+    // var startYear = this.viewForm.value.emiStartsFromYear
+    // var startDate = new Date(startYear, startingMonth - 1);
 
-    for (var i = 1; i <= totalperiod; i++) {
-      if (i == 1) {
-        var month = startDate.getMonth() + 1
-        var year = startDate.getFullYear()
-        this.scheduleArray.push({ Year: year, Month: this.months[month - 1], Amount: amountperMonth, Status: 'Pending' })
-      } else {
-        var startingMonth = parseInt(this.viewForm.value.emiStartsFromMonth)
-        var startYear = this.viewForm.value.emiStartsFromYear
-        var startDate = new Date(startYear, startingMonth - 1);
-        var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i - 1));
-        month = upComingDate.getMonth() + 1
-        year = upComingDate.getFullYear()
-        this.scheduleArray.push({ Year: year, Month: this.months[month - 1], Amount: amountperMonth, Status: 'Pending' })
-      }
+
+
+
+    // for (var i = 1; i <= totalperiod; i++) {
+    //   if (i == 1) {
+    //     var month = startDate.getMonth() + 1
+    //     var year = startDate.getFullYear()
+    //     this.scheduleArray.push({ Year: year, Month: this.months[month - 1], Amount: amountperMonth, Status: 'Pending' })
+    //   } else {
+    //     var startingMonth = parseInt(this.viewForm.value.emiStartsFromMonth)
+    //     var startYear = this.viewForm.value.emiStartsFromYear
+    //     var startDate = new Date(startYear, startingMonth - 1);
+    //     var upComingDate = new Date(startDate.setMonth(startDate.getMonth() + i - 1));
+    //     month = upComingDate.getMonth() + 1
+    //     year = upComingDate.getFullYear()
+    //     this.scheduleArray.push({ Year: year, Month: this.months[month - 1], Amount: amountperMonth, Status: 'Pending' })
+    //   }
       
-    }
+    // }
 }
 
   createFormGroup(): FormGroup {
