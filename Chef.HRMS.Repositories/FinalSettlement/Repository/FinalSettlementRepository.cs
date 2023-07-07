@@ -2,6 +2,7 @@
 using Chef.Common.Models;
 using Chef.HRMS.Models;
 using Chef.HRMS.Types;
+using System.ComponentModel.Design;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Chef.HRMS.Repositories.FinalSettlement
@@ -1141,6 +1142,27 @@ namespace Chef.HRMS.Repositories.FinalSettlement
                         WHERE fs.isarchived = FALSE";
 
             return await Connection.QueryAsync<Models.FinalSettlement>(sql);
+        }
+
+        public async Task<bool> IsAssetPending(int employeeId)
+        {
+            if (await QueryFactory
+           .Query<AssetRaiseRequest>()
+          .Where("empid", employeeId)
+          .Where("status","=", 4)
+          .WhereNotArchived()
+          .CountAsync<int>() > 0) return true;
+            else return false;
+        }
+
+        public async Task<IEnumerable<AssetRaiseRequest>> GetPendingAssetList(int employeeId)
+        {
+            return await QueryFactory
+            .Query<AssetRaiseRequest>()
+            .Where("empid", employeeId)
+            .Where("status", 4)
+            .WhereNotArchived()
+            .GetAsync<AssetRaiseRequest>();
         }
     }
 }

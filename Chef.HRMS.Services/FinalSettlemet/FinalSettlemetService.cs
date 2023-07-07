@@ -182,42 +182,55 @@ namespace Chef.HRMS.Services
             return await finalSettlementRepository.UpadteFinalSettlementStatus(id, approveStatus);
         }
 
-        public async Task<int> FinalSettlementProcess(FinalSettlement finalSettlement)
+        public async Task<FinalSettlementProcessView> FinalSettlementProcess(FinalSettlement finalSettlement)
         {
             tenantSimpleUnitOfWork.BeginTransaction();
+            FinalSettlementProcessView settlementProcessView = new FinalSettlementProcessView();
             try
             {
                 if (finalSettlement != null)
                 {
-                    List<PayrollComponentDetails> payrollComponent = finalSettlement.SettlementDetails.Select(x => new PayrollComponentDetails()
+                    bool isAssetReturned = await finalSettlementRepository.IsAssetPending(finalSettlement.EmployeeId);
+                    if (isAssetReturned != true)
                     {
-                        PayrollProcessId = 0,
-                        PayrollProcessDate = finalSettlement.ProcessDate,
-                        ProcessStatus = (int)finalSettlement.ProcessStatus,
-                        CrAccount = 0,
-                        DrAccount = 0,
-                        DeductionAmt = x.DeductionAmt,
-                        DocNum = "",
-                        EarningsAmt = x.EarningsAmt,
-                        EmployeeId = finalSettlement.EmployeeId,
-                        PayrollComponentId = x.PayrollComponentId,
-                        CreatedBy = x.CreatedBy,
-                        ModifiedBy = x.ModifiedBy,
-                        CreatedDate = x.CreatedDate,
-                        ModifiedDate = x.ModifiedDate,
-                        IsArchived = x.IsArchived,
-                        StepNo = 0,
-                        FinalSettlementId = x.FinalSettlementId
-                    }).ToList();
-                    await payrollComponentDetailsRepository.BulkInsertAsync(payrollComponent);                    
+                        List<PayrollComponentDetails> payrollComponent = finalSettlement.SettlementDetails.Select(x => new PayrollComponentDetails()
+                        {
+                            PayrollProcessId = 0,
+                            PayrollProcessDate = finalSettlement.ProcessDate,
+                            ProcessStatus = (int)finalSettlement.ProcessStatus,
+                            CrAccount = 0,
+                            DrAccount = 0,
+                            DeductionAmt = x.DeductionAmt,
+                            DocNum = "",
+                            EarningsAmt = x.EarningsAmt,
+                            EmployeeId = finalSettlement.EmployeeId,
+                            PayrollComponentId = x.PayrollComponentId,
+                            CreatedBy = x.CreatedBy,
+                            ModifiedBy = x.ModifiedBy,
+                            CreatedDate = x.CreatedDate,
+                            ModifiedDate = x.ModifiedDate,
+                            IsArchived = x.IsArchived,
+                            StepNo = 0,
+                            FinalSettlementId = x.FinalSettlementId
+                        }).ToList();
+                        await payrollComponentDetailsRepository.BulkInsertAsync(payrollComponent);
+                    }
+                    else
+                    {
+                        var assetList = await finalSettlementRepository.GetPendingAssetList(finalSettlement.EmployeeId);
+                        settlementProcessView.PendingAssets = assetList.ToList();
+                        throw new Exception("Asset not returned");
+                    }
                 }
+                settlementProcessView.FinalSettlementProcessStatus = ("Success");
                 tenantSimpleUnitOfWork.Commit();
-                return 1;
+                return settlementProcessView;
             }
             catch (Exception ex)
             {
                 tenantSimpleUnitOfWork.Rollback();
-                return 0;
+                settlementProcessView.FinalSettlementProcessStatus = ("Faild!");
+                return settlementProcessView;
             }
         }
 

@@ -107,7 +107,7 @@ namespace Chef.HRMS.Web.Controllers
         }
 
         [HttpPost("FinalSettlementProcess")]
-        public async Task<IActionResult> FinalSettlementProcess(FinalSettlement finalSettlement)
+        public async Task<ActionResult<FinalSettlementProcessView>> FinalSettlementProcess(FinalSettlement finalSettlement)
         {
             if (!ModelState.IsValid)
             {

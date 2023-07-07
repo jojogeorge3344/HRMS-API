@@ -20,5 +20,7 @@ namespace Chef.HRMS.Repositories
         Task<DateTime> GetPreviousProcessDate(int employeeId);
         Task<int> UpadteFinalSettlementStatus(int id, int approveStatus);
         Task<IEnumerable<Chef.HRMS.Models.FinalSettlement>> GetFinalaSettlementList();
+        Task<bool> IsAssetPending(int employeeId); 
+        Task<IEnumerable<AssetRaiseRequest>> GetPendingAssetList(int employeeId);
     }
 }
