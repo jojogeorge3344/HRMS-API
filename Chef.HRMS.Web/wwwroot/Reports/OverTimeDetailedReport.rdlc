@@ -119,7 +119,8 @@
                                 <TextRun>
                                   <Value>=Fields!FromDate.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Format>dd/MM/yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
@@ -254,6 +255,7 @@
                                   <Value>=Fields!ToDate.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Format>dd/MM/yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
@@ -347,9 +349,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PaygroupCode.Value</Value>
+                                  <Value>=IIf(Len(Fields!PaygroupCode.Value )&gt;15,LSet(Fields!PaygroupCode.Value,15)+"...",Fields!PaygroupCode.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -481,9 +484,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DepartmentCode.Value</Value>
+                                  <Value>=IIf(Len(Fields!DepartmentCode.Value )&gt;15,LSet(Fields!DepartmentCode.Value,15)+"...",Fields!DepartmentCode.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -576,9 +580,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!DesignationCode.Value</Value>
+                                  <Value>=IIf(Len(Fields!DesignationCode.Value )&gt;15,LSet(Fields!DesignationCode.Value,15)+"...",Fields!DesignationCode.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -707,9 +712,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CategoryCode.Value</Value>
+                                  <Value>=IIf(Len(Fields!CategoryCode.Value )&gt;15,LSet(Fields!CategoryCode.Value,15)+"...",Fields!CategoryCode.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -802,7 +808,8 @@
                                 <TextRun>
                                   <Value>=Fields!LocationCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -931,9 +938,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!EmployeeCode.Value</Value>
+                                  <Value>=IIf(Len(Fields!EmployeeCode.Value )&gt;15,LSet(Fields!EmployeeCode.Value,15)+"...",Fields!EmployeeCode.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1024,9 +1032,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Overtimepolicyname.Value</Value>
+                                  <Value>=IIf(Len(Fields!Overtimepolicyname.Value )&gt;15,LSet(Fields!Overtimepolicyname.Value,15)+"...",Fields!Overtimepolicyname.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1543,7 +1552,8 @@
                                 <TextRun>
                                   <Value>=Fields!EmployeeCode.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1585,7 +1595,8 @@
                                 <TextRun>
                                   <Value>=Fields!EmployeeFullName.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1627,7 +1638,8 @@
                                 <TextRun>
                                   <Value>=Fields!OverTimeDate.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Format>dd/MM/yyyy</Format>
                                     <Color>black</Color>
                                   </Style>
@@ -1670,7 +1682,8 @@
                                 <TextRun>
                                   <Value>=Fields!NormalOverTime.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1712,7 +1725,8 @@
                                 <TextRun>
                                   <Value>=Fields!HolidayOverTime.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1754,7 +1768,8 @@
                                 <TextRun>
                                   <Value>=Fields!SpecialOverTime.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1847,7 +1862,8 @@
                                 <TextRun>
                                   <Value>=Sum(Fields!NormalOverTime.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1889,7 +1905,8 @@
                                 <TextRun>
                                   <Value>=Sum(Fields!HolidayOverTime.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
@@ -1931,7 +1948,8 @@
                                 <TextRun>
                                   <Value>=Sum(Fields!SpecialOverTime.Value)</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Calibri</FontFamily>
+                                    <FontSize>8.49975pt</FontSize>
                                     <Color>black</Color>
                                   </Style>
                                 </TextRun>
