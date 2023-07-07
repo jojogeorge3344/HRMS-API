@@ -189,7 +189,8 @@ export class OvertimeRequestEditComponent implements OnInit {
        this.editForm.patchValue({
         normalOverTime: this.editForm.controls.normalOverTime.value == null ? 0 : this.editForm.controls.normalOverTime.value,
         holidayOverTime:this.editForm.controls.holidayOverTime.value == null ? 0 : this.editForm.controls.holidayOverTime.value,
-        specialOverTime:this.editForm.controls.specialOverTime.value == null ? 0 : this.editForm.controls.specialOverTime.value
+        specialOverTime:this.editForm.controls.specialOverTime.value == null ? 0 : this.editForm.controls.specialOverTime.value,
+        createdBy:this.employeeLogin.firstName
       })
      
       this.overtimeValidated = this.editForm.controls.normalOverTime.value + this.editForm.controls.holidayOverTime.value + this.editForm.controls.specialOverTime.value == 0 ? false : true
@@ -261,7 +262,8 @@ export class OvertimeRequestEditComponent implements OnInit {
        this.editForm.patchValue({
         normalOverTime: this.editForm.controls.normalOverTime.value == null ? 0 : this.editForm.controls.normalOverTime.value,
         holidayOverTime:this.editForm.controls.holidayOverTime.value == null ? 0 : this.editForm.controls.holidayOverTime.value,
-        specialOverTime:this.editForm.controls.specialOverTime.value == null ? 0 : this.editForm.controls.specialOverTime.value
+        specialOverTime:this.editForm.controls.specialOverTime.value == null ? 0 : this.editForm.controls.specialOverTime.value,
+        createdBy:this.employeeLogin.firstName
       })
      
       this.overtimeValidated = this.editForm.controls.normalOverTime.value + this.editForm.controls.holidayOverTime.value + this.editForm.controls.specialOverTime.value == 0 ? false : true
@@ -346,7 +348,8 @@ export class OvertimeRequestEditComponent implements OnInit {
       normalOverTime:[null],
       holidayOverTime:[null],
       specialOverTime:[null],
-      employeeName:[null]
+      employeeName:[null],
+      createdBy:[null]
     });
   }
   getLoginEmployeeDetail(){
