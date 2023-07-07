@@ -12,7 +12,7 @@ namespace Chef.HRMS.Models
         public int FinalSettlementId { get; set; }
         public int PayrollComponentId { get; set; }
         public decimal PaidDays { get; set; }
-        public decimal DedudctionAmt { get; set; }
+        public decimal DeductionAmt { get; set; }
         public decimal EarningsAmt { get; set; }
 
         [Write(false)]

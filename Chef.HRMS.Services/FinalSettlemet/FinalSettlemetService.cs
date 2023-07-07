@@ -108,7 +108,7 @@ namespace Chef.HRMS.Services
             {
                 int finalSettlementId = await finalSettlementRepository.InsertAsync(finalSettlement);
                 finalSettlement.RequestNum = "REQ-" + finalSettlementId;
-                await finalSettlementRepository.UpdateAsync(finalSettlement);
+                var up = await finalSettlementRepository.UpdateAsync(finalSettlement);
 
                 if (finalSettlement.SettlementDetails != null)
                 {
@@ -196,7 +196,7 @@ namespace Chef.HRMS.Services
                         ProcessStatus = (int)finalSettlement.ProcessStatus,
                         CrAccount = 0,
                         DrAccount = 0,
-                        DeductionAmt = x.DedudctionAmt,
+                        DeductionAmt = x.DeductionAmt,
                         DocNum = "",
                         EarningsAmt = x.EarningsAmt,
                         EmployeeId = finalSettlement.EmployeeId,
@@ -229,6 +229,11 @@ namespace Chef.HRMS.Services
             var finalSettlementDetails = await finalSettlementDetailsRepository.GetDetailsByFinalSettlementId(id);
             final.SettlementDetails = finalSettlementDetails.ToList();
             return final;
+        }
+
+        public async Task<IEnumerable<FinalSettlement>> GetFinalaSettlementList()
+        {
+            return await finalSettlementRepository.GetFinalaSettlementList();
         }
     }
 }

@@ -53,10 +53,10 @@ namespace Chef.HRMS.Web.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<FinalSettlement>>> GetAll()
+        [HttpGet("GetFinalaSettlementList")]
+        public async Task<ActionResult<IEnumerable<FinalSettlement>>> GetFinalaSettlementList()
         {
-            var settlementList = await finalSettlemetService.GetAllAsync();
+            var settlementList = await finalSettlemetService.GetFinalaSettlementList();
 
             return Ok(settlementList);
         }

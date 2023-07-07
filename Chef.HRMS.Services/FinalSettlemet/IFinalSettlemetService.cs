@@ -19,5 +19,6 @@ namespace Chef.HRMS.Services
         Task<int> UpadteFinalSettlementStatus(int id, int approveStatus);
         Task<int> FinalSettlementProcess(FinalSettlement finalSettlement);
         Task<FinalSettlement> GetFinalSettlementById(int id);
+        Task<IEnumerable<FinalSettlement>> GetFinalaSettlementList();
     }
 }
