@@ -164,44 +164,49 @@ namespace Chef.HRMS.Repositories
 
         public async Task<EmployeeView> GetEmployeeEditLeaveDetails(int employeeId, int leaveId)
         {
-            var sql = @"SELECT  e.id, 
-                                    e.firstname, 
-                                    e.middlename, 
-                                    e.lastname, 
-                                    e.email, 
-                                    e.filenumber,
-                                    e.uidnumber,
-                                    e.languageknown,
-                                    jd.id                             AS jobdetailsid, 
-                                    jd.department, 
-                                    jd.location, 
-                                    jd.employeenumber                 AS employeenumber,
-                                    jf.id                             AS jobfilingid,
-									jf.leavestructureid               AS leavestructureid,
-									jf.shiftid                        AS shiftid,
-									jf.holidaycategoryid              AS holidaycategoryid,
-									jf.expensepolicyid                AS expensepolicyid,
-									jf.payrollstructureid             AS payrollstructureid,
-									jf.overtimepolicyid               AS overtimepolicyid,
-                                    jd.dateofjoin                     AS dateofjoin,
-									d.name                            AS documentname,
-									d.path                            AS documentpath,
-                                    d.id                              AS documentid
-                            FROM hrms.HRMSEmployee AS e 
-                            LEFT JOIN hrms.jobdetails AS jd 
-                                    ON e.id = jd.employeeid
-                            LEFT JOIN hrms.jobfiling AS jf 
-                                    ON e.id = jf.employeeid
-                            INNER JOIN hrms.leave l
-							        ON l.employeeid = e.id
-							LEFT JOIN hrms.leavedocument ld
-							        ON ld.leaveid = l.id
-							LEFT JOIN hrms.document d
-							        ON ld.documentid = d.id
-                            WHERE   e.id = @employeeId
-                            AND l.id = @leaveId
-                            ORDER BY e.id"
-            ;
+            var sql = @"SELECT
+                          e.id,
+                          e.firstname,
+                          e.middlename,
+                          e.lastname,
+                          e.email,
+                          e.filenumber,
+                          e.uidnumber,
+                          e.languageknown,
+                          jd.id AS jobdetailsid,
+                          jd.department,
+                          jd.location,
+                          jd.employeenumber AS employeenumber,
+                          jf.id AS jobfilingid,
+                          jf.leavestructureid AS leavestructureid,
+                          jf.shiftid AS shiftid,
+                          jf.holidaycategoryid AS holidaycategoryid,
+                          jf.expensepolicyid AS expensepolicyid,
+                          jf.payrollstructureid AS payrollstructureid,
+                          jf.overtimepolicyid AS overtimepolicyid,
+                          jd.dateofjoin AS dateofjoin,
+                          d.name AS documentname,
+                          d.path AS documentpath,
+                          d.id AS documentid,
+                          d.extension,
+                          ld.id AS leavedocumentid
+                        FROM hrms.HRMSEmployee AS e
+                        LEFT JOIN hrms.jobdetails AS jd
+                          ON e.id = jd.employeeid
+                        LEFT JOIN hrms.jobfiling AS jf
+                          ON e.id = jf.employeeid
+                        INNER JOIN hrms.leave l
+                          ON l.employeeid = e.id
+                        LEFT JOIN hrms.leavedocument ld
+                          ON ld.leaveid = l.id
+                          AND ld.isarchived = false
+                        LEFT JOIN hrms.document d
+                          ON ld.documentid = d.id
+                          AND d.isarchived = false
+                        WHERE e.id = @employeeId
+                        AND l.id = @leaveId
+                        AND l.isarchived = FALSE
+                        ORDER BY e.id";
 
             return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId, leaveId });
         }
