@@ -851,7 +851,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
       ],
       leaveStructureId: [],
       employeeId: [this.requestId, [Validators.required]],
-      // employeeId: [0, [Validators.required]],
+      //employeeId: [0, [Validators.required]],
       employeeName: [null,[Validators.required]],
       // approvedBy: [1],
       // approvedDate: [new Date(Date.now())],
