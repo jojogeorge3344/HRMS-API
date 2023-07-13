@@ -1,10 +1,5 @@
 ﻿using Chef.Common.Core;
-using Chef.HRMS.Types;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chef.HRMS.Models
 {
@@ -55,6 +50,9 @@ namespace Chef.HRMS.Models
         [SqlKata.Ignore]
         public int eosid { get; set; }
 
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
         public int payrollprocessingid { get; set; }
     }
 }

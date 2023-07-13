@@ -498,9 +498,9 @@ namespace Chef.HRMS.Repositories
                     {
                         sql = @"SELECT LD.leavecomponentid,COUNT(CASE WHEN LD.leavetype =1 THEN LD.leavetype END) + COUNT(CASE WHEN LD.leavetype =2 THEN LD.leavetype END)*.5 AS Days
                         FROM hrms.leavedetails LD 
-                        WHERE LD.employeeid =  @employeeid
-                        AND LD.isarchived = false
-                        AND LD.leavestatus = 4 AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate
+                        WHERE LD.leavestatus = 4 AND To_date(Cast(LD.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @fromDate AND @toDate
+                          AND LD.employeeid =  @employeeid
+                          AND LD.isarchived = false
                         GROUP BY LD.leavecomponentid ";
                         var LeaveDet = await Connection.QueryAsync<LOPDetails>(sql, new { employeeid = item.EmployeeId, fromDate, toDate });
                         if (LeaveDet != null && LeaveDet.ToList().Count > 0)
