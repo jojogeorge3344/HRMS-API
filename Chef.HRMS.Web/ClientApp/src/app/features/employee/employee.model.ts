@@ -18,4 +18,7 @@ export interface Employee extends Model {
     dateOfJoin:Date;
     documentName:any;
     documentId:any
+    leaveDocumentId:any
+    documentPath:any
+    extension:any
 }

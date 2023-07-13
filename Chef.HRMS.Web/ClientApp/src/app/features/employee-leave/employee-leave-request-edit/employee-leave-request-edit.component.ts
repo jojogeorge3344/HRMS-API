@@ -100,6 +100,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
   loginUserDetail:any
   isLoading=false;
   validateDate:boolean=true;
+  attachmentDetails: any;
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
     private employeeService: EmployeeService,
@@ -706,43 +707,101 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     };
 
     if (this.flag !== 1) {
-      if (this.addForm.get("document.name").value === null) {
+      // if (this.addForm.get("document.name").value === null) {
+        if (this.addForm.value.document.name === null) {
         this.employeeLeaveService.update(addForm).subscribe((result) => {
           this.notify(result);
+          this.leaveDocument = {
+            leaveId: this.leaveRequest.id,
+            documentId: this.attachmentDetails.documentId,
+            isArchived:true,
+            id:this.attachmentDetails.leaveDocumentId
+          };
+          this.employeeLeaveDocumentsService
+          .update(this.leaveDocument)
+          .subscribe(
+            (result: any) => {
+            },
+            (error) => {
+              console.error(error);
+              this.toastr.showErrorMessage(
+                "Unable to submit Leave Request"
+              );
+            }
+          );
         });
       } else {
-        forkJoin([
+        if(this.attachmentDetails.documentName==null){
+          if(this.addForm.value.document)
+          this.addForm.patchValue({
+            document:{id:0},
+          leaveStatus:this.requestTypes.Approved
+          })
+          forkJoin([
           this.employeeLeaveService.update(this.addForm.value),
-          this.documentService.update(this.addForm.value.document),
-          this.documentUploadService.upload(this.documentSave),
+          this.documentService.add(this.addForm.value.document),
+          this.documentUploadService.upload(this.documentSave)
         ]).subscribe(
-          ([leaveRequest, document]) => {
+          ([leaveRequest, document])=>{
             this.leaveDocument = {
-              leaveId: leaveRequest,
+              leaveId: this.leaveRequest.id,
               documentId: document,
             };
-            console.log("leaveRequest", leaveRequest);
-            console.log("document", document);
-
             this.employeeLeaveDocumentsService
-              .update(this.leaveDocument)
-              .subscribe(
-                (result: any) => {
-                  this.notify(leaveRequest);
-                },
-                (error) => {
-                  console.error(error);
-                  this.toastr.showErrorMessage(
-                    "Unable to submit Leave Request"
-                  );
-                }
-              );
+            .add(this.leaveDocument)
+            .subscribe(
+              (result: any) => {
+                this.notify(leaveRequest);
+              },
+              (error) => {
+                console.error(error);
+                this.toastr.showErrorMessage(
+                  "Unable to submit Leave Request"
+                );
+              }
+            );
           },
           (error) => {
             console.error(error);
             this.toastr.showErrorMessage("Unable to submit Leave Request");
           }
-        );
+        )
+          
+        }
+        else{
+          forkJoin([
+            this.employeeLeaveService.update(this.addForm.value),
+            this.documentService.update(this.addForm.value.document),
+          ]).subscribe(
+            ([leaveRequest, document]) => {
+              this.leaveDocument = {
+                leaveId: this.leaveRequest.id,
+                documentId: document,
+              };
+              console.log("leaveRequest", leaveRequest);
+              console.log("document", document);
+  
+              this.employeeLeaveDocumentsService
+                .update(this.leaveDocument)
+                .subscribe(
+                  (result: any) => {
+                    this.notify(leaveRequest);
+                  },
+                  (error) => {
+                    console.error(error);
+                    this.toastr.showErrorMessage(
+                      "Unable to submit Leave Request"
+                    );
+                  }
+                );
+            },
+            (error) => {
+              console.error(error);
+              this.toastr.showErrorMessage("Unable to submit Leave Request");
+            }
+          );
+        }
+   
       }
     }
   }
@@ -772,43 +831,100 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     };
 
     if (this.flag !== 1) {
-      if (this.addForm.get("document.name").value === null) {
+      // if (this.addForm.get("document.name").value === null) {
+        if (this.addForm.value.document.name === null) {
         this.employeeLeaveService.update(addForm).subscribe((result) => {
           this.notify(result);
+          this.leaveDocument = {
+            leaveId: this.leaveRequest.id,
+            documentId: this.attachmentDetails.documentId,
+            isArchived:true,
+            id:this.attachmentDetails.leaveDocumentId
+          };
+          this.employeeLeaveDocumentsService
+          .update(this.leaveDocument)
+          .subscribe(
+            (result: any) => {
+            },
+            (error) => {
+              console.error(error);
+              this.toastr.showErrorMessage(
+                "Unable to submit Leave Request"
+              );
+            }
+          );
         });
       } else {
-        forkJoin([
+        if(this.attachmentDetails.documentName==null){
+          if(this.addForm.value.document)
+          this.addForm.patchValue({
+            document:{id:0}
+          })
+          forkJoin([
           this.employeeLeaveService.update(this.addForm.value),
-          this.documentService.update(this.addForm.value.document),
-          this.documentUploadService.upload(this.documentSave),
+          this.documentService.add(this.addForm.value.document),
+          this.documentUploadService.upload(this.documentSave)
         ]).subscribe(
-          ([leaveRequest, document]) => {
+          ([leaveRequest, document])=>{
             this.leaveDocument = {
-              leaveId: leaveRequest,
+              leaveId: this.leaveRequest.id,
               documentId: document,
             };
-            console.log("leaveRequest", leaveRequest);
-            console.log("document", document);
-
             this.employeeLeaveDocumentsService
-              .update(this.leaveDocument)
-              .subscribe(
-                (result: any) => {
-                  this.notify(leaveRequest);
-                },
-                (error) => {
-                  console.error(error);
-                  this.toastr.showErrorMessage(
-                    "Unable to submit Leave Request"
-                  );
-                }
-              );
+            .add(this.leaveDocument)
+            .subscribe(
+              (result: any) => {
+                this.notify(leaveRequest);
+              },
+              (error) => {
+                console.error(error);
+                this.toastr.showErrorMessage(
+                  "Unable to submit Leave Request"
+                );
+              }
+            );
           },
           (error) => {
             console.error(error);
             this.toastr.showErrorMessage("Unable to submit Leave Request");
           }
-        );
+        )
+          
+        }else{
+          forkJoin([
+            this.employeeLeaveService.update(this.addForm.value),
+            this.documentService.update(this.addForm.value.document),
+            
+          ]).subscribe(
+            ([leaveRequest, document]) => {
+              this.leaveDocument = {
+                leaveId: this.leaveRequest.id,
+                documentId: document,
+              };
+              console.log("leaveRequest", leaveRequest);
+              console.log("document", document);
+  
+              this.employeeLeaveDocumentsService
+                .update(this.leaveDocument)
+                .subscribe(
+                  (result: any) => {
+                    this.notify(leaveRequest);
+                  },
+                  (error) => {
+                    console.error(error);
+                    this.toastr.showErrorMessage(
+                      "Unable to submit Leave Request"
+                    );
+                  }
+                );
+            },
+            (error) => {
+              console.error(error);
+              this.toastr.showErrorMessage("Unable to submit Leave Request");
+            }
+          );
+        }
+        
       }
     }
   }
@@ -955,6 +1071,11 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     this.employeeService.getDetailsByFile(this.requestId,this.leaveRequest.id).subscribe(
       (result) => {
         this.fileId=result.documentId
+        this.attachmentDetails=result
+        this.addForm.value.document.name=result.documentName
+        this.addForm.value.document.path=result.documentPath
+        this.addForm.value.document.extension=result.extension
+       
         if (result && result.documentName.length > 40) {
           this.fileName = result.documentName.substr(0, 40) + "...";
         } else {
@@ -980,6 +1101,10 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
     this.employeeService.getDetailsByFile(this.leaveRequest.employeeId,this.leaveRequest.id).subscribe(
       (result) => {
         this.fileId=result.documentId
+        this.attachmentDetails=result
+        this.addForm.value.document.name=result.documentName
+        this.addForm.value.document.path=result.documentPath
+        this.addForm.value.document.extension=result.extension
         if (result && result.documentName.length > 40) {
           this.fileName = result.documentName.substr(0, 40) + "...";
         } else {

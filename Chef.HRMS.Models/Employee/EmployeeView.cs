@@ -91,5 +91,7 @@ namespace Chef.HRMS.Models
         public string DocumentPath { get; set; }
         public int DocumentId { get; set; }
         public int NotifyPersonnelId { get; set; }
+        public int LeaveDocumentId { get; set; }
+        public string Extension { get; set; }
     }
 }
