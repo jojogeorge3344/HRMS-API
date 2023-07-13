@@ -59,7 +59,7 @@ namespace Chef.HRMS.Services.PayrollProcessing.Service
                 if (prevAccrualSummaryDetails != null)
                 {
                     leaveAccrualSummary.EmployeeId = leaveAvailedDetails.EmployeeId;
-                    leaveAccrualSummary.AvailDays = leaveAvailedDetails.AvailDays;
+                    leaveAccrualSummary.AvailDays = leaveAvailedDetails.AvailDays + prevAccrualSummaryDetails.AvailDays;
                     leaveAccrualSummary.AvailAmount = leaveAvailedDetails.AvailAmount;
                     leaveAccrualSummary.LeaveId = leaveAvailedDetails.LeaveId;
                     leaveAccrualSummary.AccrualDate = leaveAvailedDetails.AccrualDate;

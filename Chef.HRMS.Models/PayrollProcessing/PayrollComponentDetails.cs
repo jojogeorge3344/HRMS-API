@@ -40,5 +40,6 @@ namespace Chef.HRMS.Models
         public string DocNum { get; set; }
         public int StepNo { get; set; }
         public int FinalSettlementId { get; set; }
-	}
+        public int EmployeeEncashmentId { get; set; }
+    }
 }
