@@ -64,16 +64,9 @@ namespace Chef.HRMS.Web.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<ActionResult<int>> FinalSettlementDelete(int id)
         {
-            var finalSettlement = await finalSettlemetService.FinalSettlementDelete(id);
+            int finalSettlement = await finalSettlemetService.FinalSettlementDelete(id);
 
-            if (finalSettlement == null)
-            {
-                return NotFound();
-            }
-
-            var result = await finalSettlemetService.DeleteAsync(id);
-
-            return Ok(result);
+            return Ok(finalSettlement);
         }
 
         [HttpGet("IsPreviousPayrollProcessed/{PreviousMonth}/{previousYear}/{employeeId}")]

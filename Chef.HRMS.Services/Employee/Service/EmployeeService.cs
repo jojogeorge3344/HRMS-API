@@ -50,7 +50,7 @@ namespace Chef.HRMS.Services
                 FirstName = EmployeeTicket.FirstName,
                 IsActive = true,
                 LastName = EmployeeTicket.LastName,
-                Password = "FFFF1" + EmployeeTicket.FirstName + "@@@@",
+                Password = "HRMS@" + EmployeeTicket.FirstName + "123",
                 TimeZone = "5.30",
                 Username = EmployeeTicket.FirstName
             };
