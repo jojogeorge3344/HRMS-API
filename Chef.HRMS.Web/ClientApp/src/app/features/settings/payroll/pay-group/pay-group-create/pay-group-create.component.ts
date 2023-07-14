@@ -146,6 +146,15 @@ export class PayGroupCreateComponent implements OnInit {
       this.addForm.patchValue({
         payrollCalendarId: args.value.id
       })
+      if(args.value.periodType==1){
+        this.addForm.patchValue({
+          startingWeek: this.weeks[args.value.startsFrom] 
+        })
+      }else{
+        this.addForm.patchValue({
+          startingMonth:this.monthKeys[args.value.startsFrom] 
+        })
+      }
   }
   selectCurrency(args) {
     if (args.value && args.value.id) {
