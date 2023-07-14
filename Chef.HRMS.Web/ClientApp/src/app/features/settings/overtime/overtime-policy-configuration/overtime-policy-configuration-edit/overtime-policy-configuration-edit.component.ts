@@ -141,6 +141,7 @@ export class OvertimePolicyConfigurationEditComponent implements OnInit {
     this.editForm.get('isOvertimeSlab').valueChanges.subscribe(value => {
       if (value) {
         this.overtimeFlagCheck=true
+        this.isDisabled=false
         this.editForm.get('isMonthly').enable()
       } else {
         this.overtimeFlagCheck=false
