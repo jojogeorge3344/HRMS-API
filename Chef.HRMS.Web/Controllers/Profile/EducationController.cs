@@ -6,100 +6,99 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[ApiController]
+[Route("api/profile/[controller]")]
+public class EducationController : ControllerBase
 {
-    [ApiController]
-    [Route("api/profile/[controller]")]
-    public class EducationController : ControllerBase
+    private readonly IEducationService educationService;
+
+    public EducationController(IEducationService educationService)
     {
-        private readonly IEducationService educationService;
+        this.educationService = educationService;
+    }
 
-        public EducationController(IEducationService educationService)
+    [HttpDelete("Delete/{id}")]
+
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var education = await educationService.GetAsync(id);
+
+        if (education == null)
         {
-            this.educationService = educationService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
+        var result = await educationService.DeleteAsync(id);
 
-        public async Task<ActionResult<int>> Delete(int id)
+        return Ok(result);
+    }
+
+    [HttpGet("GetAllByEmployeeId/{id}")]
+    public async Task<ActionResult<EducationView>> GetAllByEmployeeId(int id)
+    {
+        var educationalDetails = await educationService.GetAllByEmployeeId(id);
+
+        if (educationalDetails==null)
         {
-            var education = await educationService.GetAsync(id);
-
-            if (education == null)
-            {
-                return NotFound();
-            }
-
-            var result = await educationService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("GetAllByEmployeeId/{id}")]
-        public async Task<ActionResult<EducationView>> GetAllByEmployeeId(int id)
+        return Ok(educationalDetails);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<Education>> Get(int id)
+    {
+        var educationalDetails = await educationService.GetAsync(id);
+
+        if (educationalDetails == null)
         {
-            var educationalDetails = await educationService.GetAllByEmployeeId(id);
-
-            if (educationalDetails==null)
-            {
-                return NotFound();
-            }
-
-            return Ok(educationalDetails);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<Education>> Get(int id)
+        return Ok(educationalDetails);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<Education>>> GetAll()
+    {
+        var educations = await educationService.GetAllAsync();
+
+        return Ok(educations);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(Education education)
+    {
+        if (!ModelState.IsValid)
         {
-            var educationalDetails = await educationService.GetAsync(id);
-
-            if (educationalDetails == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(educationalDetails);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Education>>> GetAll()
-        {
-            var educations = await educationService.GetAllAsync();
+        var id = await educationService.InsertAsync(education);
 
-            return Ok(educations);
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(Education education)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(Education education)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await educationService.UpdateAsync(education);
 
-            var id = await educationService.InsertAsync(education);
-
-            return Ok(id);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(Education education)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await educationService.UpdateAsync(education);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

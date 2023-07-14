@@ -1,16 +1,9 @@
-﻿using Chef.Common.Core;
-using Chef.Common.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chef.Common.Core.Services;
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public interface IUserVariableRepository : IAsyncService<Models.UserVariable>
 {
-    public interface IUserVariableRepository : IAsyncService<Models.UserVariable>
-    {
-        Task<bool> IsUserVariableExist(string code);
+    Task<bool> IsUserVariableExist(string code);
 
-    }
 }

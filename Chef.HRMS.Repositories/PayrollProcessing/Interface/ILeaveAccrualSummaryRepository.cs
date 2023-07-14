@@ -1,14 +1,6 @@
-﻿using Chef.HRMS.Models;
-using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public interface ILeaveAccrualSummaryRepository : IGenericRepository<LeaveAccrualSummary>
 {
-    public interface ILeaveAccrualSummaryRepository : IGenericRepository<LeaveAccrualSummary>
-    {
-        Task<LeaveAccrualSummary> GetPreviousAccrualSummary(int employeeId);
-    }
+    Task<LeaveAccrualSummary> GetPreviousAccrualSummary(int employeeId);
 }

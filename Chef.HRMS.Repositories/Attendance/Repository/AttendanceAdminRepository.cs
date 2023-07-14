@@ -1,22 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class AttendanceAdminRepository : TenantRepository<AttendanceAdminStatsView>, IAttendanceAdminRepository
 {
-    public class AttendanceAdminRepository : TenantRepository<AttendanceAdminStatsView>, IAttendanceAdminRepository
+    public AttendanceAdminRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public AttendanceAdminRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<AttendanceAdminStatsView>> GetTodaysAttendanceStats()
-        {
-                var sql = @" ( 
+    public async Task<IEnumerable<AttendanceAdminStatsView>> GetTodaysAttendanceStats()
+    {
+        var sql = @" ( 
                              SELECT 'WFH'                 AS attendancetype, 
                                     COALESCE(Count(1), 0) AS count 
                              FROM   hrms.workfromhome 
@@ -43,12 +35,12 @@ namespace Chef.HRMS.Repositories
                                             WHERE  fromdate::date = CURRENT_DATE) 
                             ORDER BY attendancetype";
 
-                return await Connection.QueryAsync<AttendanceAdminStatsView>(sql);
-        }
+        return await Connection.QueryAsync<AttendanceAdminStatsView>(sql);
+    }
 
-        public async Task<IEnumerable<AttendanceAdminLogsView>> GetAttendanceLogs(DateTime fromDate, DateTime toDate)
-        {
-                var sql = @"(SELECT DISTINCT e.id                                     AS employeeid, 
+    public async Task<IEnumerable<AttendanceAdminLogsView>> GetAttendanceLogs(DateTime fromDate, DateTime toDate)
+    {
+        var sql = @"(SELECT DISTINCT e.id                                     AS employeeid, 
                                              ( Concat(e.firstname, ' ', e.lastname) ) AS employeename, 
                                              jb.department, 
                                              wfh.fromdate                             AS clockin, 
@@ -107,12 +99,12 @@ namespace Chef.HRMS.Repositories
                                     AND od.todate :: date <= @todate) 
                             ORDER  BY clockin DESC ";
 
-                return await Connection.QueryAsync<AttendanceAdminLogsView>(sql, new { fromDate, toDate });
-        }
+        return await Connection.QueryAsync<AttendanceAdminLogsView>(sql, new { fromDate, toDate });
+    }
 
-        public async Task<IEnumerable<AttendanceAdminLeaveLogsView>> GetLeaveLogs(DateTime fromDate, DateTime toDate)
-        {
-                var sql = @"SELECT e.id                                              AS employeeid, 
+    public async Task<IEnumerable<AttendanceAdminLeaveLogsView>> GetLeaveLogs(DateTime fromDate, DateTime toDate)
+    {
+        var sql = @"SELECT e.id                                              AS employeeid, 
                                    ( Concat(e.firstname, ' ', e.lastname) )          AS employeename, 
                                    jb.department, 
                                    l.fromdate, 
@@ -133,57 +125,56 @@ namespace Chef.HRMS.Repositories
                                            ON l.leavecomponentid = lc.id 
                             WHERE  fromdate BETWEEN @fromDate AND @toDate ";
 
-                return await Connection.QueryAsync<AttendanceAdminLeaveLogsView>(sql, new { fromDate, toDate });
-        }
+        return await Connection.QueryAsync<AttendanceAdminLeaveLogsView>(sql, new { fromDate, toDate });
+    }
 
-        public async Task<int> AlreadyExistOrNot(DateTime fromDate, DateTime toDate, int employeeId)
+    public async Task<int> AlreadyExistOrNot(DateTime fromDate, DateTime toDate, int employeeId)
+    {
+        int result = 0;
+        var sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.leave')";
+        result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
+        if (result == 0)
         {
-            int result = 0;
-                var sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.leave')";
+            sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.ondyty')";
+            result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
+            if (result == 0)
+            {
+                sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.workfromhome')";
                 result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
                 if (result == 0)
                 {
-                    sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.ondyty')";
+                    sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeid,'hrms.regularlogin')";
                     result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
-                    if (result == 0)
+                    if (result != 0)
                     {
-                        sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeId,'hrms.workfromhome')";
-                        result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
-                        if (result == 0)
-                        {
-                            sql = @"SELECT hrms.get_date_exist_or_not(@fromDate,@toDate,@employeeid,'hrms.regularlogin')";
-                            result = await Connection.ExecuteAsync(sql, new { fromDate, toDate, employeeId });
-                            if (result != 0)
-                            {
-                                result = 5;
+                        result = 5;
 
-                            }
-                        }
-                        else
-                        {
-                            result = 4;
-                        }
-                    }
-                    else
-                    {
-                        result = 3;
                     }
                 }
                 else
                 {
-                    result = 2;
+                    result = 4;
                 }
-                return result;
+            }
+            else
+            {
+                result = 3;
+            }
         }
-
-        public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
+        else
         {
-                var sql = $@"WITH CTE (dates) AS (SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
+            result = 2;
+        }
+        return result;
+    }
+
+    public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
+    {
+        var sql = $@"WITH CTE (dates) AS (SELECT DISTINCT hrms.get_inbetween_workingdates(fromdate::date,todate::date) AS markeddates
                     FROM hrms.{tablename}
                     WHERE employeeid=@employeeId and isarchived=false)
                     SELECT dates FROM CTE WHERE date_trunc('year',dates)=date_trunc('year',NOW())";
-                return await Connection.QueryAsync<DateTime>(sql, new { tablename, employeeId });
+        return await Connection.QueryAsync<DateTime>(sql, new { tablename, employeeId });
 
-        }
     }
 }

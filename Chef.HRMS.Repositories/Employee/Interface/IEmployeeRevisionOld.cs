@@ -1,9 +1,8 @@
-﻿ 
+﻿
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public interface IEmployeeRevisionOldRepository : IGenericRepository<EmployeeRevisionOld>
 {
-    public interface IEmployeeRevisionOldRepository : IGenericRepository<EmployeeRevisionOld>
-    {
-        Task<EmployeeRevisionOld> GetEmployeeRevisionOld(int employeeRevisionId);
-    }
+    Task<EmployeeRevisionOld> GetEmployeeRevisionOld(int employeeRevisionId);
 }

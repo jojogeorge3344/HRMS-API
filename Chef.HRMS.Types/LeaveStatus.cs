@@ -1,25 +1,24 @@
 ﻿using System.ComponentModel;
 
-namespace Chef.HRMS.Types
+namespace Chef.HRMS.Types;
+
+/// <summary>
+/// Holds leave status types
+/// </summary>
+public enum LeaveStatus
 {
-    /// <summary>
-    /// Holds leave status types
-    /// </summary>
-    public enum LeaveStatus
-    {
-        [Description("Applied")]
-        Applied = 1,
+    [Description("Applied")]
+    Applied = 1,
 
-        [Description("Pending")]
-        Pending,
+    [Description("Pending")]
+    Pending,
 
-        [Description("Approved")]
-        Approved,
+    [Description("Approved")]
+    Approved,
 
-        [Description("Cancelled")]
-        Cancelled,
+    [Description("Cancelled")]
+    Cancelled,
 
-        [Description("Rejected")]
-        Rejected
-    }
+    [Description("Rejected")]
+    Rejected
 }

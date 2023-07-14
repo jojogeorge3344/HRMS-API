@@ -1,11 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IEmployeeBankAccountService : IAsyncService<EmployeeBankAccount>
 {
-    public interface IEmployeeBankAccountService : IAsyncService<EmployeeBankAccount>
-    {
-        Task<EmployeeBankAccount> GetBankAccountByEmployeeId(int employeeId);
-    }
+    Task<EmployeeBankAccount> GetBankAccountByEmployeeId(int employeeId);
 }

@@ -1,8 +1,7 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+public enum LeavePolicyStartPeriod
 {
-    public enum LeavePolicyStartPeriod
-    {
-        AfterJoining = 1,
-        AfterProbation
-    }
+    AfterJoining = 1,
+    AfterProbation
 }

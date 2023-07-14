@@ -1,13 +1,8 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Microsoft.AspNetCore.Http;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class BranchRepository : GenericRepository<HRMSBranch>, IBranchRepository
 {
-    public class BranchRepository : GenericRepository<HRMSBranch>, IBranchRepository
+    public BranchRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public BranchRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
     }
 }

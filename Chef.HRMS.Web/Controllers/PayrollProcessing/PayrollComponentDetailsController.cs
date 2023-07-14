@@ -6,24 +6,23 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class PayrollComponentDetailsController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PayrollComponentDetailsController : ControllerBase
+    private readonly IPayrollComponentDetailsService payrollComponentDetailsService;
+
+    public PayrollComponentDetailsController(IPayrollComponentDetailsService payrollComponentDetailsService)
     {
-        private readonly IPayrollComponentDetailsService payrollComponentDetailsService;
+        this.payrollComponentDetailsService = payrollComponentDetailsService;
+    }
+    [HttpGet("GetPayslipYears")]
+    public async Task<ActionResult<IEnumerable<PayrollComponentDetails>>> GetPayslipYears()
+    {
+        var year = await payrollComponentDetailsService.GetPayslipYears();
 
-        public PayrollComponentDetailsController(IPayrollComponentDetailsService payrollComponentDetailsService)
-        {
-            this.payrollComponentDetailsService = payrollComponentDetailsService;
-        }
-        [HttpGet("GetPayslipYears")]
-        public async Task<ActionResult<IEnumerable<PayrollComponentDetails>>> GetPayslipYears()
-        {
-            var year = await payrollComponentDetailsService.GetPayslipYears();
-
-            return Ok(year);
-        }
+        return Ok(year);
     }
 }

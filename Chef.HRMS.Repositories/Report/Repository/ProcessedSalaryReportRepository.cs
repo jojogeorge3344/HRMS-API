@@ -1,21 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class ProcessedSalaryReportRepository : GenericRepository<ProcessedSalaryDetailsView>, IProcessedSalaryReportRepository
 {
-    public class ProcessedSalaryReportRepository : GenericRepository<ProcessedSalaryDetailsView>, IProcessedSalaryReportRepository
+    public ProcessedSalaryReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public ProcessedSalaryReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<ProcessedSalaryDetailsView>> GetProcessedSalaryDetails(int offSet)
-        {
-                var sql = @$"SELECT pb.employeecode, 
+    public async Task<IEnumerable<ProcessedSalaryDetailsView>> GetProcessedSalaryDetails(int offSet)
+    {
+        var sql = @$"SELECT pb.employeecode, 
                                    pb.employeename, 
                                    pg.NAME                       paygroup, 
                                    ppm.month                     payrollmonth, 
@@ -62,7 +55,6 @@ namespace Chef.HRMS.Repositories
                             ORDER  BY pb.employeeid  
                             OFFSET {offSet} LIMIT 10";
 
-                return await Connection.QueryAsync<ProcessedSalaryDetailsView>(sql);
-        }
+        return await Connection.QueryAsync<ProcessedSalaryDetailsView>(sql);
     }
 }

@@ -1,43 +1,35 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class HolidayCategoryRepository : GenericRepository<HolidayCategory>, IHolidayCategoryRepository
 {
-    public class HolidayCategoryRepository : GenericRepository<HolidayCategory>, IHolidayCategoryRepository
+    public HolidayCategoryRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public HolidayCategoryRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<int>> GetAllAssignedHolidayCategory()
-        {
-                var sql = @"SELECT DISTINCT holidaycategoryid 
+    public async Task<IEnumerable<int>> GetAllAssignedHolidayCategory()
+    {
+        var sql = @"SELECT DISTINCT holidaycategoryid 
                                     FROM hrms.jobfiling
                                     ORDER  BY holidaycategoryid ASC";
 
-                return await Connection.QueryAsync<int>(sql);
-        }
+        return await Connection.QueryAsync<int>(sql);
+    }
 
-        public async Task<bool> UpdateHolidayCategory(int id, bool isConfigured)
-        {
-                var sql = @"UPDATE hrms.holidaycategory
+    public async Task<bool> UpdateHolidayCategory(int id, bool isConfigured)
+    {
+        var sql = @"UPDATE hrms.holidaycategory
                                    SET isconfigured=@isConfigured
                                     WHERE id=@id";
 
-                var result = await Connection.ExecuteAsync(sql, new { id, isConfigured });
-                if (result == 1)
-                {
-                    return true;
+        var result = await Connection.ExecuteAsync(sql, new { id, isConfigured });
+        if (result == 1)
+        {
+            return true;
 
-                }
-                else
-                {
-                    return false;
-                }
+        }
+        else
+        {
+            return false;
         }
     }
 }

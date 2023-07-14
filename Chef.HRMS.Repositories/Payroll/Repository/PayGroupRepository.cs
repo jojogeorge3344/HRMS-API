@@ -1,37 +1,29 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class PayGroupRepository : GenericRepository<PayGroup>, IPayGroupRepository
 {
-    public class PayGroupRepository : GenericRepository<PayGroup>, IPayGroupRepository
+    public PayGroupRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public PayGroupRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<int>> GetAllAssignedPayGroup()
-        {
-            
-                var sql = @"SELECT DISTINCT paygroupid 
+    public async Task<IEnumerable<int>> GetAllAssignedPayGroup()
+    {
+
+        var sql = @"SELECT DISTINCT paygroupid 
                                     FROM hrms.jobfiling
                                     ORDER  BY paygroupid ASC";
 
-                return await Connection.QueryAsync<int>(sql);
-            
-        }
+        return await Connection.QueryAsync<int>(sql);
 
-        public async Task<IEnumerable<EmployeeView>> GetAllEmployeeByPayGroupId(int paygroupId, int year, int month)
+    }
+
+    public async Task<IEnumerable<EmployeeView>> GetAllEmployeeByPayGroupId(int paygroupId, int year, int month)
+    {
+
+
+        try
         {
-                   
-           
-                    try
-                    {
-                        var sql = @"SELECT e.id              AS id, 
+            var sql = @"SELECT e.id              AS id, 
                                    jd.employeenumber AS employeenumber, 
                                    Concat (e.firstname, ' ', e.lastname)     AS FirstName 
                             FROM   hrms.HRMSEmployee e 
@@ -44,15 +36,14 @@ namespace Chef.HRMS.Repositories
                                                         AND
 													     ppm.year=@year)) )";
 
-                        return await Connection.QueryAsync<EmployeeView>(sql, new { paygroupId, year, month });
-                    }
-                    catch (Exception ex)
-                    {
-                        string msg = ex.Message;
-                        return null;
-                    }
-               
-            
+            return await Connection.QueryAsync<EmployeeView>(sql, new { paygroupId, year, month });
         }
+        catch (Exception ex)
+        {
+            string msg = ex.Message;
+            return null;
+        }
+
+
     }
 }

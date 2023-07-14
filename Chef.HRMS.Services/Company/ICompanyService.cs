@@ -1,15 +1,11 @@
 ﻿using Chef.Common.Models;
-using Chef.Common.Services;
 using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface ICompanyService : IAsyncService<HRMSCompany>
 {
-    public interface ICompanyService : IAsyncService<HRMSCompany>
-    {
-        Task<HRMSCompany> GetAsync();
+    Task<HRMSCompany> GetAsync();
 
-        Task<IEnumerable<KeyValue>> GetBusinessTypeAsync();
-    }
+    Task<IEnumerable<KeyValue>> GetBusinessTypeAsync();
 }

@@ -1,13 +1,8 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Microsoft.AspNetCore.Http;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class RoleRepository : GenericRepository<Role>, IRoleRepository
 {
-    public class RoleRepository : GenericRepository<Role>, IRoleRepository
+    public RoleRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public RoleRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
     }
 }

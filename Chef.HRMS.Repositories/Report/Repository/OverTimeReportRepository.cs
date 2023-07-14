@@ -1,26 +1,16 @@
-﻿using Chef.Common.Core;
-using Chef.HRMS.Models.Report;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
+﻿using Chef.HRMS.Models.Report;
 using Chef.HRMS.Repositories.Report.Interface;
 
-namespace Chef.HRMS.Repositories.Report.Repository
+namespace Chef.HRMS.Repositories.Report.Repository;
+
+public class OverTimeReportRepository : GenericRepository<OverTimeSummaryReportView>, IOverTimeReportRepository
 {
-    public class OverTimeReportRepository : GenericRepository<OverTimeSummaryReportView>, IOverTimeReportRepository
+    public OverTimeReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public OverTimeReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
-        public async Task<IEnumerable<OverTimeSummaryReportView>> GetOverTimeSummaryReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategory, string overTimePolicyIds, string employeeIds)
-        {
-            var sql = @"SELECT
+    }
+    public async Task<IEnumerable<OverTimeSummaryReportView>> GetOverTimeSummaryReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategory, string overTimePolicyIds, string employeeIds)
+    {
+        var sql = @"SELECT
                             @reportType AS reporttype,
                             @fromDate AS fromdate,
                             @toDate AS todate,
@@ -59,35 +49,35 @@ namespace Chef.HRMS.Repositories.Report.Repository
                             ON jd.categoryid = ca.id
                         WHERE o.fromdate>= @fromDate AND o.todate<= @toDate and o.requeststatus = 4 ";
 
-            if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != string.Empty)
-            {
-                sql += " AND pg.id IN (" + paygroupIds + ")";
-            }
-            if (!string.IsNullOrEmpty(designationIds) && designationIds != string.Empty)
-            {
-                sql += " AND jt.id IN (" + designationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(locationIds) && locationIds != string.Empty)
-            {
-                sql += " AND hb.id IN (" + locationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(departmentIds) && departmentIds != string.Empty)
-            {
-                sql += " AND jd.department IN (" + departmentIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeCategory) && employeeCategory != string.Empty)
-            {
-                sql += " AND ca.id IN (" + employeeCategory + ")";
-            }
-            if (!string.IsNullOrEmpty(overTimePolicyIds) && overTimePolicyIds != string.Empty)
-            {
-                sql += " AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeIds) && employeeIds != string.Empty)
-            {
-                sql += " AND o.employeeid IN (" + employeeIds + ")";
-            }
-            sql += @" GROUP BY jd.employeenumber,
+        if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != string.Empty)
+        {
+            sql += " AND pg.id IN (" + paygroupIds + ")";
+        }
+        if (!string.IsNullOrEmpty(designationIds) && designationIds != string.Empty)
+        {
+            sql += " AND jt.id IN (" + designationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(locationIds) && locationIds != string.Empty)
+        {
+            sql += " AND hb.id IN (" + locationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(departmentIds) && departmentIds != string.Empty)
+        {
+            sql += " AND jd.department IN (" + departmentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeCategory) && employeeCategory != string.Empty)
+        {
+            sql += " AND ca.id IN (" + employeeCategory + ")";
+        }
+        if (!string.IsNullOrEmpty(overTimePolicyIds) && overTimePolicyIds != string.Empty)
+        {
+            sql += " AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeIds) && employeeIds != string.Empty)
+        {
+            sql += " AND o.employeeid IN (" + employeeIds + ")";
+        }
+        sql += @" GROUP BY jd.employeenumber,
                                  CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),                                 
                                  o.normalovertime,
 							     o.holidayovertime,
@@ -100,12 +90,12 @@ namespace Chef.HRMS.Repositories.Report.Repository
                                  ca.name,
                           op.name ";
 
-            return await Connection.QueryAsync<OverTimeSummaryReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds });
-        }
+        return await Connection.QueryAsync<OverTimeSummaryReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds });
+    }
 
-        public async Task<IEnumerable<OverTimeDetailedReportView>> GetOverTimeDetailedReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategory, string overTimePolicyIds, string employeeIds)
-        {
-            var sql = @"SELECT
+    public async Task<IEnumerable<OverTimeDetailedReportView>> GetOverTimeDetailedReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategory, string overTimePolicyIds, string employeeIds)
+    {
+        var sql = @"SELECT
                           @reportType AS reporttype,
                           @fromDate AS fromdate,
                           @toDate AS todate,
@@ -145,35 +135,35 @@ namespace Chef.HRMS.Repositories.Report.Repository
                           ON jd.categoryid = ca.id
                         WHERE o.fromdate>= @fromDate AND o.todate<= @toDate and o.requeststatus = 4 ";
 
-            if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != string.Empty)
-            {
-                sql += " AND pg.id IN (" + paygroupIds + ")";
-            }
-            if (!string.IsNullOrEmpty(designationIds) && designationIds != string.Empty)
-            {
-                sql += " AND jt.id IN (" + designationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(locationIds) && locationIds != string.Empty)
-            {
-                sql += " AND hb.id IN (" + locationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(departmentIds) && departmentIds != string.Empty)
-            {
-                sql += " AND jd.department IN (" + departmentIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeCategory) && employeeCategory != string.Empty)
-            {
-                sql += " AND ca.id IN (" + employeeCategory + ")";
-            }
-            if (!string.IsNullOrEmpty(overTimePolicyIds) && overTimePolicyIds != string.Empty)
-            {
-                sql += " AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeIds) && employeeIds != string.Empty)
-            {
-                sql += " AND o.employeeid IN (" + employeeIds + ")";
-            }
-            sql += @" AND o.isarchived = FALSE 
+        if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != string.Empty)
+        {
+            sql += " AND pg.id IN (" + paygroupIds + ")";
+        }
+        if (!string.IsNullOrEmpty(designationIds) && designationIds != string.Empty)
+        {
+            sql += " AND jt.id IN (" + designationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(locationIds) && locationIds != string.Empty)
+        {
+            sql += " AND hb.id IN (" + locationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(departmentIds) && departmentIds != string.Empty)
+        {
+            sql += " AND jd.department IN (" + departmentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeCategory) && employeeCategory != string.Empty)
+        {
+            sql += " AND ca.id IN (" + employeeCategory + ")";
+        }
+        if (!string.IsNullOrEmpty(overTimePolicyIds) && overTimePolicyIds != string.Empty)
+        {
+            sql += " AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeIds) && employeeIds != string.Empty)
+        {
+            sql += " AND o.employeeid IN (" + employeeIds + ")";
+        }
+        sql += @" AND o.isarchived = FALSE 
                         GROUP BY jd.employeenumber,
                                  CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),
                                  o.normalovertime,
@@ -188,14 +178,14 @@ namespace Chef.HRMS.Repositories.Report.Repository
                                  ca.name,
                                  o.fromdate";
 
-            return await Connection.QueryAsync<OverTimeDetailedReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds });
+        return await Connection.QueryAsync<OverTimeDetailedReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds });
 
-        }
+    }
 
 
-        public async Task<IEnumerable<OverTimeReportHeader>> GetOverTimeSummaryReportHeaderDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategoryIds, string overTimePolicyIds, string employeeIds)
-        {
-            var sql = @"SELECT
+    public async Task<IEnumerable<OverTimeReportHeader>> GetOverTimeSummaryReportHeaderDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategoryIds, string overTimePolicyIds, string employeeIds)
+    {
+        var sql = @"SELECT
                           @reportType AS reporttype,
                           @fromDate AS fromdate,
                           @toDate AS todate,
@@ -229,37 +219,36 @@ namespace Chef.HRMS.Repositories.Report.Repository
                         LEFT JOIN hrms.category ca
                           ON jd.categoryid = ca.id
                           WHERE o.fromdate>= @fromDate AND o.todate<= @toDate and o.requeststatus = 4 ";
-            if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != string.Empty)
-            {
-                sql += " AND pg.id IN (" + paygroupIds + ")";
-            }
-            if (!string.IsNullOrEmpty(designationIds) && designationIds != string.Empty)
-            {
-                sql += " AND jt.id IN (" + designationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(locationIds) && locationIds != string.Empty)
-            {
-                sql += " AND hb.id IN (" + locationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(departmentIds) && departmentIds != string.Empty)
-            {
-                sql += " AND jd.department IN (" + departmentIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeCategoryIds) && employeeCategoryIds != string.Empty)
-            {
-                sql += " AND ca.id IN (" + employeeCategoryIds + ")";
-            }
-            if (!string.IsNullOrEmpty(overTimePolicyIds) && overTimePolicyIds != string.Empty)
-            {
-                sql += " AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeIds) && employeeIds != string.Empty)
-            {
-                sql += " AND o.employeeid IN (" + employeeIds + ")";
-            }
-
-            return await Connection.QueryAsync<OverTimeReportHeader>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, overTimePolicyIds, employeeIds });
+        if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != string.Empty)
+        {
+            sql += " AND pg.id IN (" + paygroupIds + ")";
         }
+        if (!string.IsNullOrEmpty(designationIds) && designationIds != string.Empty)
+        {
+            sql += " AND jt.id IN (" + designationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(locationIds) && locationIds != string.Empty)
+        {
+            sql += " AND hb.id IN (" + locationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(departmentIds) && departmentIds != string.Empty)
+        {
+            sql += " AND jd.department IN (" + departmentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeCategoryIds) && employeeCategoryIds != string.Empty)
+        {
+            sql += " AND ca.id IN (" + employeeCategoryIds + ")";
+        }
+        if (!string.IsNullOrEmpty(overTimePolicyIds) && overTimePolicyIds != string.Empty)
+        {
+            sql += " AND o.overtimepolicyid IN (" + overTimePolicyIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeIds) && employeeIds != string.Empty)
+        {
+            sql += " AND o.employeeid IN (" + employeeIds + ")";
+        }
+
+        return await Connection.QueryAsync<OverTimeReportHeader>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, overTimePolicyIds, employeeIds });
     }
 }
-    
+

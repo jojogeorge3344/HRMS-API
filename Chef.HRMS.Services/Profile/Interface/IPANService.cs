@@ -1,12 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IPANService : IAsyncService<PAN>
 {
-    public interface IPANService : IAsyncService<PAN>
-    {
-        Task<IEnumerable<PANView>> GetByEmployeeId(int employeeId);
-    }
+    Task<IEnumerable<PANView>> GetByEmployeeId(int employeeId);
 }

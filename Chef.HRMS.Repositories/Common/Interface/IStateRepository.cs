@@ -1,12 +1,6 @@
-﻿using Chef.Common.Models;
-using Chef.Common.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public interface IStateRepository : IGenericRepository<State>
 {
-    public interface IStateRepository : IGenericRepository<State>
-    {
-        Task<IEnumerable<State>> GetAllByCountry(int countryId);
-    }
+    Task<IEnumerable<State>> GetAllByCountry(int countryId);
 }

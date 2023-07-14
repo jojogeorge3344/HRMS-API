@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Types;
 
-namespace Chef.HRMS.Types
+public enum AttendanceHoursType
 {
-    public enum AttendanceHoursType
-    {
 
-        EffectiveHours = 1,
+    EffectiveHours = 1,
 
-        GrossHours,
-    }
+    GrossHours,
 }

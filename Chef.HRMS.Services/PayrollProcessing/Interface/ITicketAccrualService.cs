@@ -1,18 +1,11 @@
-﻿using Chef.HRMS.Models;
-using Chef.HRMS.Models.PayrollProcessing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models.PayrollProcessing;
 
-namespace Chef.HRMS.Services.PayrollProcessing.Interface
+namespace Chef.HRMS.Services.PayrollProcessing.Interface;
+
+public interface ITicketAccrualService : IAsyncService<TicketAccrual>
 {
-    public interface ITicketAccrualService : IAsyncService<TicketAccrual>
-    {
-        Task<IEnumerable<TicketAccrual>> GenerateTicketAccruals(int paygroupid);
-        Task<int> GenerateTicketAvailed(TicketAccrual ticketAvailedDetails);
-        Task<int> InsertTicketAccruals(List<TicketAccrual> ticketAccruals);
-        Task<List<TicketAccrual>> GetGeneratedTicketAccruals(int payrollprocessid);
-    }
+    Task<IEnumerable<TicketAccrual>> GenerateTicketAccruals(int paygroupid);
+    Task<int> GenerateTicketAvailed(TicketAccrual ticketAvailedDetails);
+    Task<int> InsertTicketAccruals(List<TicketAccrual> ticketAccruals);
+    Task<List<TicketAccrual>> GetGeneratedTicketAccruals(int payrollprocessid);
 }

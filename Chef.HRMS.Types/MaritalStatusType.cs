@@ -1,11 +1,10 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+/// <summary>
+/// Holds martial status
+/// </summary>
+public enum MaritalStatusType
 {
-    /// <summary>
-    /// Holds martial status
-    /// </summary>
-    public enum MaritalStatusType
-    {
-        Married = 1,
-        Unmarried = 2
-    }
+    Married = 1,
+    Unmarried = 2
 }

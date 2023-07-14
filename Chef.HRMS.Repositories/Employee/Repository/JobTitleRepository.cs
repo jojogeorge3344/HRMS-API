@@ -1,29 +1,22 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class JobTitleRepository : GenericRepository<JobTitle>, IJobTitleRepository
 {
-    public class JobTitleRepository : GenericRepository<JobTitle>, IJobTitleRepository
+    public JobTitleRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public JobTitleRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<JobTitle>> GetAllAsync()
-        {
-            var sql = @"SELECT * FROM hrms.jobtitle WHERE isarchived = false ORDER BY name ASC";
+    public async Task<IEnumerable<JobTitle>> GetAllAsync()
+    {
+        var sql = @"SELECT * FROM hrms.jobtitle WHERE isarchived = false ORDER BY name ASC";
 
-            return await Connection.QueryAsync<JobTitle>(sql);
-        }
+        return await Connection.QueryAsync<JobTitle>(sql);
+    }
 
-        public async Task<IEnumerable<JobTitleView>> GetAllJobTitleList()
-        {
+    public async Task<IEnumerable<JobTitleView>> GetAllJobTitleList()
+    {
 
-                var sql = @"SELECT DISTINCT jt.id, 
+        var sql = @"SELECT DISTINCT jt.id, 
                                             jt.name, 
                                             jt.description, 
                                             (SELECT Count(*) 
@@ -38,7 +31,6 @@ namespace Chef.HRMS.Repositories
                                    LEFT JOIN hrms.jobdetails AS jd 
                                           ON jt.id = jd.jobtitleid WHERE jt.isarchived=false order by jt.id desc ";   // Added WHERE jt.isarchived=false by Nir";
 
-                return await Connection.QueryAsync<JobTitleView>(sql);
-        }
+        return await Connection.QueryAsync<JobTitleView>(sql);
     }
 }

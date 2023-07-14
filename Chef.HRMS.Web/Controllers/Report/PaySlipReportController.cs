@@ -15,117 +15,116 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+
+[Route("api/hrms/[controller]/[action]")]
+[ApiController]
+public class PaySlipReportController : ReportViewerController
 {
+    private readonly IEmployeeService employeeService;
+    private readonly IPayslipReportService payslipReportService;
+    readonly IMasterDataService masterDataService;
+    private Currency currencyData;
+    private Company companyData;
+    private Country countryData;
 
-    [Route("api/hrms/[controller]/[action]")]
-    [ApiController]
-    public class PaySlipReportController : ReportViewerController
+    public PaySlipReportController(IPayslipReportService payslipReportService,
+           IMemoryCache memoryCache,
+           IWebHostEnvironment hostingEnvironment,
+           IEmployeeService employeeService,
+           IMasterDataService masterDataService
+           )
+      : base(memoryCache, hostingEnvironment)
     {
-        private readonly IEmployeeService employeeService;
-        private readonly IPayslipReportService payslipReportService;
-        readonly IMasterDataService masterDataService;
-        private Currency currencyData;
-        private Company companyData;
-        private Country countryData;
+        this.employeeService = employeeService;
+        this.payslipReportService = payslipReportService;
+        this.masterDataService = masterDataService;
+        this.ReportPath = @"Reports/PayAdviceReport.rdlc";
+    }
+    public override void OnInitReportOptions(ReportViewerOptions reportOption)
+    {
+        base.OnInitReportOptions(reportOption);
+    }
 
-        public PaySlipReportController(IPayslipReportService payslipReportService,
-               IMemoryCache memoryCache,
-               IWebHostEnvironment hostingEnvironment,
-               IEmployeeService employeeService,
-               IMasterDataService masterDataService
-               )
-          : base(memoryCache, hostingEnvironment)
+    public override void OnReportLoaded(ReportViewerOptions reportOption)
+    {
+        if (CustomData != null && CustomData.Count > 0)
         {
-            this.employeeService = employeeService;
-            this.payslipReportService = payslipReportService;
-            this.masterDataService = masterDataService;
-            this.ReportPath = @"Reports/PayAdviceReport.rdlc";
-        }
-        public override void OnInitReportOptions(ReportViewerOptions reportOption)
-        {
-            base.OnInitReportOptions(reportOption);
-        }
+            string employeeIds = (CustomData["employeeId"].ToString());
+            DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
+            DateTime ToDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
+            string paygroupIds = (CustomData["paygroupId"].ToString());
+            string departmentIds = CustomData["department"].ToString();
+            string designationIds = CustomData["designation"].ToString();
 
-        public override void OnReportLoaded(ReportViewerOptions reportOption)
-        {
-            if (CustomData != null && CustomData.Count > 0)
+            var header = payslipReportService.EmployeeHeaderDetails(employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds).Result;
+            var componentDetails = payslipReportService.EmployeeComponentDetails(employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds).Result;
+            var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeIds, fromDate, ToDate).Result;
+            var loanDetails = payslipReportService.EmployeeLoanDetails(employeeIds, fromDate, ToDate).Result;
+
+            List<PayrollHeaderView> payrollHeaderView = header.ToList();
+            List<PayrollComponentReportView> payrollComponentReportView = componentDetails.ToList();
+            foreach (PayrollHeaderView item in payrollHeaderView)
             {
-                string employeeIds = (CustomData["employeeId"].ToString());
-                DateTime fromDate = Convert.ToDateTime(CustomData["fromDate"].ToString());
-                DateTime ToDate = Convert.ToDateTime(CustomData["ToDate"].ToString());
-                string paygroupIds = (CustomData["paygroupId"].ToString());
-                string departmentIds = CustomData["department"].ToString();
-                string designationIds = CustomData["designation"].ToString();
-
-                var header = payslipReportService.EmployeeHeaderDetails(employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds).Result;
-                var componentDetails = payslipReportService.EmployeeComponentDetails(employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds).Result;
-                var overtimeDetails = payslipReportService.EmployeeOverTimeDetails(employeeIds, fromDate, ToDate).Result;
-                var loanDetails = payslipReportService.EmployeeLoanDetails(employeeIds, fromDate, ToDate).Result;
-
-                List<PayrollHeaderView> payrollHeaderView = header.ToList();
-                List<PayrollComponentReportView> payrollComponentReportView = componentDetails.ToList();
-                foreach (PayrollHeaderView item in payrollHeaderView)
+                if (item.BasicPay == 0)
                 {
-                    if (item.BasicPay == 0)
-                    {
-                        var row = payrollComponentReportView.Where(x => x.EmployeeId == item.EmployeeId).FirstOrDefault();
-                        item.BasicPay = row.EarningsAmt;
-                    }
-
-                    var country = this.GetCountryById(item.Currentcountry).Result;
-                    item.CountryName = country.Name;
-                }
-                //foreach (PayrollComponentReportView item in componentDetails)
-                //{
-                //    var row = overtimeDetails.FirstOrDefault(x => x.EmployeeId == item.EmployeeId);
-                //    item.NormalOverTimeHrs = row.NormalOverTimeHrs;
-                //    item.SpecialOverTimeHrs = row.SpecialOverTimeHrs;
-                //    item.HolidayOverTimeHrs = row.HolidayOverTimeHrs;
-                //}
-                //currency taking code
-                string currencyCode = string.Empty;
-
-                foreach (var items in header)
-                {
-                    currencyCode = items.CurrencyCode;
-                    Task.Run(() => this.GetByCurrency(currencyCode)).Wait();
-                    
+                    var row = payrollComponentReportView.Where(x => x.EmployeeId == item.EmployeeId).FirstOrDefault();
+                    item.BasicPay = row.EarningsAmt;
                 }
 
-                var currencylist = new List<Currency>();
-                currencylist.Add(currencyData);
-                Task.Run(() => this.GetCompany()).Wait();
-                if (companyData != null) Task.Run(() => this.GetByCurrency(companyData.CurrencyCode)).Wait();
-                var companyCurrencylist = new List<Currency>();
-                companyCurrencylist.Add(currencyData);
-
-
-                reportOption.AddDataSource("EmployeeHeader", header);
-                reportOption.AddDataSource("ComponentDetails", componentDetails);
-                reportOption.AddDataSource("OverTimeDetails", overtimeDetails);
-                reportOption.AddDataSource("LoanDetails", loanDetails);
-                reportOption.AddDataSource("CurrencyData", currencylist);
-                reportOption.AddDataSource("CompanyCurrencyData", companyCurrencylist);
+                var country = this.GetCountryById(item.Currentcountry).Result;
+                item.CountryName = country.Name;
             }
-        }
+            //foreach (PayrollComponentReportView item in componentDetails)
+            //{
+            //    var row = overtimeDetails.FirstOrDefault(x => x.EmployeeId == item.EmployeeId);
+            //    item.NormalOverTimeHrs = row.NormalOverTimeHrs;
+            //    item.SpecialOverTimeHrs = row.SpecialOverTimeHrs;
+            //    item.HolidayOverTimeHrs = row.HolidayOverTimeHrs;
+            //}
+            //currency taking code
+            string currencyCode = string.Empty;
 
-        public async Task<Currency> GetByCurrency(string currencyCode)
-        {
-            currencyData = await masterDataService.GetCurrencyByCode(currencyCode);
-            return (Currency)currencyData;
-        }
+            foreach (var items in header)
+            {
+                currencyCode = items.CurrencyCode;
+                Task.Run(() => this.GetByCurrency(currencyCode)).Wait();
+                
+            }
 
-        public async Task<Company> GetCompany()
-        {
-            companyData = await this.masterDataService.GetBaseCompany();
-            return (Company)companyData;
-        }
+            var currencylist = new List<Currency>();
+            currencylist.Add(currencyData);
+            Task.Run(() => this.GetCompany()).Wait();
+            if (companyData != null) Task.Run(() => this.GetByCurrency(companyData.CurrencyCode)).Wait();
+            var companyCurrencylist = new List<Currency>();
+            companyCurrencylist.Add(currencyData);
 
-        public async Task<Country> GetCountryById(int countryId)
-        {
-            var countryData = await masterDataService.GetCountryById(countryId);
-            return (Country)countryData;
+
+            reportOption.AddDataSource("EmployeeHeader", header);
+            reportOption.AddDataSource("ComponentDetails", componentDetails);
+            reportOption.AddDataSource("OverTimeDetails", overtimeDetails);
+            reportOption.AddDataSource("LoanDetails", loanDetails);
+            reportOption.AddDataSource("CurrencyData", currencylist);
+            reportOption.AddDataSource("CompanyCurrencyData", companyCurrencylist);
         }
+    }
+
+    public async Task<Currency> GetByCurrency(string currencyCode)
+    {
+        currencyData = await masterDataService.GetCurrencyByCode(currencyCode);
+        return (Currency)currencyData;
+    }
+
+    public async Task<Company> GetCompany()
+    {
+        companyData = await this.masterDataService.GetBaseCompany();
+        return (Company)companyData;
+    }
+
+    public async Task<Country> GetCountryById(int countryId)
+    {
+        var countryData = await masterDataService.GetCountryById(countryId);
+        return (Country)countryData;
     }
 }

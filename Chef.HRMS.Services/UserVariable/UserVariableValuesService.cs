@@ -1,30 +1,24 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public class UserVariableValuesService : AsyncService<UserVariableValues>, IUserVariableValuesService
 {
-    public class UserVariableValuesService : AsyncService<UserVariableValues>, IUserVariableValuesService
+    private readonly IUserVariableValuesRepository userVariableValuesRepository;
+
+    public UserVariableValuesService(IUserVariableValuesRepository userVariableValuesRepository)
     {
-        private readonly IUserVariableValuesRepository userVariableValuesRepository;
+        this.userVariableValuesRepository = userVariableValuesRepository;
+    }
 
-        public UserVariableValuesService(IUserVariableValuesRepository userVariableValuesRepository)
-        {
-            this.userVariableValuesRepository = userVariableValuesRepository;
-        }
+    public async Task<IEnumerable<UserVariable>> GetUserVariables()
+    {
+        return await userVariableValuesRepository.GetUserVariables();
+    }
 
-        public async Task<IEnumerable<UserVariable>> GetUserVariables()
-        {
-            return await userVariableValuesRepository.GetUserVariables();
-        }
-
-        public new async Task<IEnumerable<UserVariableValues>> GetAllAsync()
-        {
-            return await userVariableValuesRepository.GetAllAsync();
-        }
+    public new async Task<IEnumerable<UserVariableValues>> GetAllAsync()
+    {
+        return await userVariableValuesRepository.GetAllAsync();
     }
 }

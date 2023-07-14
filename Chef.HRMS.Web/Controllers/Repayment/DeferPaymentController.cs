@@ -6,86 +6,85 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/Repayment/[controller]")]
+[ApiController]
+public class DeferPaymentController : ControllerBase
 {
-    [Route("api/Repayment/[controller]")]
-    [ApiController]
-    public class DeferPaymentController : ControllerBase
+    private readonly IDeferPaymentService DeferPaymentService;
+
+    public DeferPaymentController(IDeferPaymentService DeferPaymentService)
     {
-        private readonly IDeferPaymentService DeferPaymentService;
+        this.DeferPaymentService = DeferPaymentService;
+    }
 
-        public DeferPaymentController(IDeferPaymentService DeferPaymentService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var DeferPayment = await DeferPaymentService.GetAsync(id);
+
+        if (DeferPayment == null)
         {
-            this.DeferPaymentService = DeferPaymentService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await DeferPaymentService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<DeferPayment>> Get(int id)
+    {
+        var DeferPayment = await DeferPaymentService.GetAsync(id);
+
+        if (DeferPayment == null)
         {
-            var DeferPayment = await DeferPaymentService.GetAsync(id);
-
-            if (DeferPayment == null)
-            {
-                return NotFound();
-            }
-
-            var result = await DeferPaymentService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<DeferPayment>> Get(int id)
+        return Ok(DeferPayment);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<DeferPayment>>> GetAll()
+    {
+        var DeferPayment = await DeferPaymentService.GetAllAsync();
+
+        return Ok(DeferPayment);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(DeferPayment DeferPayment)
+    {
+        if (!ModelState.IsValid)
         {
-            var DeferPayment = await DeferPaymentService.GetAsync(id);
-
-            if (DeferPayment == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(DeferPayment);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<DeferPayment>>> GetAll()
-        {
-            var DeferPayment = await DeferPaymentService.GetAllAsync();
+        var id = await DeferPaymentService.InsertAsync(DeferPayment);
 
-            return Ok(DeferPayment);
+        return Ok(id);
+    }
+
+    [HttpPut("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(DeferPayment DeferPayment)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(DeferPayment DeferPayment)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await DeferPaymentService.UpdateAsync(DeferPayment);
 
-            var id = await DeferPaymentService.InsertAsync(DeferPayment);
-
-            return Ok(id);
-        }
-
-        [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(DeferPayment DeferPayment)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await DeferPaymentService.UpdateAsync(DeferPayment);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

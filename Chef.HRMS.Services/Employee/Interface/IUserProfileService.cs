@@ -1,10 +1,7 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using Chef.Common.Core.Services;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IUserProfileService : IAsyncService<UserProfile>
 {
-    public interface IUserProfileService : IAsyncService<UserProfile>
-    {
-    }
 }

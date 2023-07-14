@@ -1,22 +1,16 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Chef.HRMS.Models.Report;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models.Report;
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public class LeaveReportRepository : GenericRepository<LeaveSummaryReportView>, ILeaveReportRepository
 {
-    public class LeaveReportRepository : GenericRepository<LeaveSummaryReportView>, ILeaveReportRepository
+    public LeaveReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public LeaveReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<LeaveSummaryReportView>> GetLeaveSummaryReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategoryIds, string leaveComponentIds, string employeeIds)
-        {
-            var sql = @"SELECT
+    public async Task<IEnumerable<LeaveSummaryReportView>> GetLeaveSummaryReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategoryIds, string leaveComponentIds, string employeeIds)
+    {
+        var sql = @"SELECT
                             @reportType AS reporttype,
                             @fromDate AS fromdate,
                             @toDate AS todate,
@@ -40,35 +34,35 @@ namespace Chef.HRMS.Repositories
                         WHERE
                             ld.leavedate BETWEEN @fromDate AND @toDate";
 
-                        if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != "0")
-                        {
-                            sql += " AND pg.id IN (" + paygroupIds + ")";
-                        }
-                        if (!string.IsNullOrEmpty(designationIds) && designationIds != "0")
-                        {
-                            sql += " AND jt.id IN (" + designationIds + ")";
-                        }
-                        if (!string.IsNullOrEmpty(locationIds) && locationIds != "0")
-                        {
-                            sql += " AND hb.id IN (" + locationIds + ")";
-                        }
-                        if (!string.IsNullOrEmpty(departmentIds) && departmentIds != "0")
-                        {
-                            sql += " AND jd.department IN (" + departmentIds + ")";
-                        }
-                        if (!string.IsNullOrEmpty(employeeCategoryIds) && employeeCategoryIds != "0")
-                        {
-                            sql += " AND ca.id IN (" + employeeCategoryIds + ")";
-                        }
-                        if (!string.IsNullOrEmpty(leaveComponentIds) && leaveComponentIds != "0")
-                        {
-                            sql += " AND ld.leavecomponentid IN (" + leaveComponentIds + ")";
-                        }
-                        if (!string.IsNullOrEmpty(employeeIds) && employeeIds != "0")
-                        {
-                            sql += " AND l.employeeid IN (" + employeeIds + ")";
-                        }
-                        sql += @"
+        if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != "0")
+        {
+            sql += " AND pg.id IN (" + paygroupIds + ")";
+        }
+        if (!string.IsNullOrEmpty(designationIds) && designationIds != "0")
+        {
+            sql += " AND jt.id IN (" + designationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(locationIds) && locationIds != "0")
+        {
+            sql += " AND hb.id IN (" + locationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(departmentIds) && departmentIds != "0")
+        {
+            sql += " AND jd.department IN (" + departmentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeCategoryIds) && employeeCategoryIds != "0")
+        {
+            sql += " AND ca.id IN (" + employeeCategoryIds + ")";
+        }
+        if (!string.IsNullOrEmpty(leaveComponentIds) && leaveComponentIds != "0")
+        {
+            sql += " AND ld.leavecomponentid IN (" + leaveComponentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeIds) && employeeIds != "0")
+        {
+            sql += " AND l.employeeid IN (" + employeeIds + ")";
+        }
+        sql += @"
                             AND l.isarchived = FALSE
                             --AND las.isarchived = FALSE
                         GROUP BY
@@ -78,12 +72,12 @@ namespace Chef.HRMS.Repositories
                             las.availdays,
                             lc.name";
 
-            return await Connection.QueryAsync<LeaveSummaryReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds });
-        }
+        return await Connection.QueryAsync<LeaveSummaryReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds });
+    }
 
-        public async Task<IEnumerable<LeaveDetailedReportView>> GetLeaveDetailedReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategoryIds, string leaveComponentIds, string employeeIds)
-        {
-            var sql = @"SELECT
+    public async Task<IEnumerable<LeaveDetailedReportView>> GetLeaveDetailedReportDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategoryIds, string leaveComponentIds, string employeeIds)
+    {
+        var sql = @"SELECT
                           @reportType AS reporttype,
                           @fromDate AS fromdate,
                           @toDate AS todate,
@@ -112,48 +106,48 @@ namespace Chef.HRMS.Repositories
                           ON jd.categoryid = ca.id
                         WHERE ld.leavedate BETWEEN @fromDate AND @toDate";
 
-            if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != "0")
-            {
-                sql += " AND pg.id IN (" + paygroupIds + ")";
-            }
-            if (!string.IsNullOrEmpty(designationIds) && designationIds != "0")
-            {
-                sql += " AND jt.id IN (" + designationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(locationIds) && locationIds != "0")
-            {
-                sql += " AND hb.id IN (" + locationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(departmentIds) && departmentIds != "0")
-            {
-                sql += " AND jd.department IN (" + departmentIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeCategoryIds) && employeeCategoryIds != "0")
-            {
-                sql += " AND ca.id IN (" + employeeCategoryIds + ")";
-            }
-            if (!string.IsNullOrEmpty(leaveComponentIds) && leaveComponentIds != "0")
-            {
-                sql += " AND ld.leavecomponentid IN (" + leaveComponentIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeIds) && employeeIds != "0")
-            {
-                sql += " AND l.employeeid IN (" + employeeIds + ")";
-            }
+        if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != "0")
+        {
+            sql += " AND pg.id IN (" + paygroupIds + ")";
+        }
+        if (!string.IsNullOrEmpty(designationIds) && designationIds != "0")
+        {
+            sql += " AND jt.id IN (" + designationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(locationIds) && locationIds != "0")
+        {
+            sql += " AND hb.id IN (" + locationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(departmentIds) && departmentIds != "0")
+        {
+            sql += " AND jd.department IN (" + departmentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeCategoryIds) && employeeCategoryIds != "0")
+        {
+            sql += " AND ca.id IN (" + employeeCategoryIds + ")";
+        }
+        if (!string.IsNullOrEmpty(leaveComponentIds) && leaveComponentIds != "0")
+        {
+            sql += " AND ld.leavecomponentid IN (" + leaveComponentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeIds) && employeeIds != "0")
+        {
+            sql += " AND l.employeeid IN (" + employeeIds + ")";
+        }
 
-            sql += @" AND l.isarchived = FALSE --and las.isarchived=false
+        sql += @" AND l.isarchived = FALSE --and las.isarchived=false
                         GROUP BY jd.employeenumber,
                                  CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname),
                                  lc.name,
                                  ld.leavedate,
                                  lc.leavetype";
 
-            return await Connection.QueryAsync<LeaveDetailedReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds });
-        }
+        return await Connection.QueryAsync<LeaveDetailedReportView>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds });
+    }
 
-        public async Task<IEnumerable<LeaveReportHeader>> GetLeaveSummaryReportHeaderDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategoryIds, string leaveComponentIds, string employeeIds)
-        {
-            var sql = @"SELECT
+    public async Task<IEnumerable<LeaveReportHeader>> GetLeaveSummaryReportHeaderDetails(string reportType, DateTime fromDate, DateTime toDate, string paygroupIds, string designationIds, string locationIds, string departmentIds, string employeeCategoryIds, string leaveComponentIds, string employeeIds)
+    {
+        var sql = @"SELECT
                           @reportType AS reporttype,
                           @fromDate AS fromdate,
                           @toDate AS todate,
@@ -186,36 +180,35 @@ namespace Chef.HRMS.Repositories
                           ON jd.categoryid = ca.id
                         WHERE ld.leavedate BETWEEN @fromDate AND @toDate";
 
-            if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != "0")
-            {
-                sql += " AND pg.id IN (" + paygroupIds + ")";
-            }
-            if (!string.IsNullOrEmpty(designationIds) && designationIds != "0")
-            {
-                sql += " AND jt.id IN (" + designationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(locationIds) && locationIds != "0")
-            {
-                sql += " AND hb.id IN (" + locationIds + ")";
-            }
-            if (!string.IsNullOrEmpty(departmentIds) && departmentIds != "0")
-            {
-                sql += " AND jd.department IN (" + departmentIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeCategoryIds) && employeeCategoryIds != "0")
-            {
-                sql += " AND ca.id IN (" + employeeCategoryIds + ")";
-            }
-            if (!string.IsNullOrEmpty(leaveComponentIds) && leaveComponentIds != "0")
-            {
-                sql += " AND ld.leavecomponentid IN (" + leaveComponentIds + ")";
-            }
-            if (!string.IsNullOrEmpty(employeeIds) && employeeIds != "0")
-            {
-                sql += " AND l.employeeid IN (" + employeeIds + ")";
-            }
-
-            return await Connection.QueryAsync<LeaveReportHeader>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds });
+        if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != "0")
+        {
+            sql += " AND pg.id IN (" + paygroupIds + ")";
         }
+        if (!string.IsNullOrEmpty(designationIds) && designationIds != "0")
+        {
+            sql += " AND jt.id IN (" + designationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(locationIds) && locationIds != "0")
+        {
+            sql += " AND hb.id IN (" + locationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(departmentIds) && departmentIds != "0")
+        {
+            sql += " AND jd.department IN (" + departmentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeCategoryIds) && employeeCategoryIds != "0")
+        {
+            sql += " AND ca.id IN (" + employeeCategoryIds + ")";
+        }
+        if (!string.IsNullOrEmpty(leaveComponentIds) && leaveComponentIds != "0")
+        {
+            sql += " AND ld.leavecomponentid IN (" + leaveComponentIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeIds) && employeeIds != "0")
+        {
+            sql += " AND l.employeeid IN (" + employeeIds + ")";
+        }
+
+        return await Connection.QueryAsync<LeaveReportHeader>(sql, new { reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategoryIds, leaveComponentIds, employeeIds });
     }
 }

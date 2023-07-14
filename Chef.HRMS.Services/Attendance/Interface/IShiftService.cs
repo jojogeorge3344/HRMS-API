@@ -1,13 +1,9 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IShiftService : IAsyncService<Shift>
 {
-    public interface IShiftService : IAsyncService<Shift>
-    {
-        Task<IEnumerable<int>> GetAllAssignedShift();
-        Task<Shift> GetShiftByEmployeeId(int employeeId);
-    }
+    Task<IEnumerable<int>> GetAllAssignedShift();
+    Task<Shift> GetShiftByEmployeeId(int employeeId);
 }

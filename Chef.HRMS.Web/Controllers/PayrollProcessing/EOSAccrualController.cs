@@ -10,34 +10,33 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/settings/payrollprocessing/[controller]")]
+[ApiController]
+public class EOSAccrualController : ControllerBase
 {
-    [Route("api/settings/payrollprocessing/[controller]")]
-    [ApiController]
-    public class EOSAccrualController : ControllerBase
+    private readonly ILeaveAccrualService leaveAccrualService;
+
+    public EOSAccrualController(ILeaveAccrualService leaveAccrualService)
     {
-        private readonly ILeaveAccrualService leaveAccrualService;
+        this.leaveAccrualService = leaveAccrualService;
+    }
 
-        public EOSAccrualController(ILeaveAccrualService leaveAccrualService)
-        {
-            this.leaveAccrualService = leaveAccrualService;
-        }
-
-        [AllowAnonymous]
-        [HttpPost("GenerateEOSAccruals/{paygroupid}")]
-        public async Task<ActionResult<IEnumerable<EOSAccrual>>> GenerateEOSAccruals(int paygroupid)
-        {
-            List<EOSAccrual> eosAccrual = new List<EOSAccrual>();            
-            
-            // var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
+    [AllowAnonymous]
+    [HttpPost("GenerateEOSAccruals/{paygroupid}")]
+    public async Task<ActionResult<IEnumerable<EOSAccrual>>> GenerateEOSAccruals(int paygroupid)
+    {
+        List<EOSAccrual> eosAccrual = new List<EOSAccrual>();            
+        
+        // var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
 
 
-            // if (leaveAccrualList == null)
-            // {
-            //     return NotFound();
-            // }
+        // if (leaveAccrualList == null)
+        // {
+        //     return NotFound();
+        // }
 
-            return Ok(eosAccrual);
-        }
+        return Ok(eosAccrual);
     }
 }

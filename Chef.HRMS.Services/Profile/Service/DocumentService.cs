@@ -1,44 +1,39 @@
-﻿using Chef.Common.Core.Services;
-using Chef.Common.Services;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public class DocumentService : AsyncService<Document>, IDocumentService
 {
-    public class DocumentService : AsyncService<Document>, IDocumentService
+    private readonly IDocumentRepository documentRepository;
+
+    public DocumentService(IDocumentRepository documentRepository)
     {
-        private readonly IDocumentRepository documentRepository;
+        this.documentRepository = documentRepository;
+    }
 
-        public DocumentService(IDocumentRepository documentRepository)
-        {
-            this.documentRepository = documentRepository;
-        }
+    public Task<int> DeleteAsync(int id)
+    {
+        return documentRepository.DeleteAsync(id);
+    }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            return documentRepository.DeleteAsync(id);
-        }
+    public Task<IEnumerable<Document>> GetAllAsync()
+    {
+        return documentRepository.GetAllAsync();
+    }
 
-        public Task<IEnumerable<Document>> GetAllAsync()
-        {
-            return documentRepository.GetAllAsync();
-        }
+    public Task<Document> GetAsync(int id)
+    {
+        return documentRepository.GetAsync(id);
+    }
 
-        public Task<Document> GetAsync(int id)
-        {
-            return documentRepository.GetAsync(id);
-        }
+    public Task<int> InsertAsync(Document document)
+    {
+        return documentRepository.InsertAsync(document);
+    }
 
-        public Task<int> InsertAsync(Document document)
-        {
-            return documentRepository.InsertAsync(document);
-        }
-
-        public Task<int> UpdateAsync(Document document)
-        {
-            return documentRepository.UpdateAsync(document);
-        }
+    public Task<int> UpdateAsync(Document document)
+    {
+        return documentRepository.UpdateAsync(document);
     }
 }

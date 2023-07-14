@@ -6,86 +6,85 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/WPS/[controller]")]
+[ApiController]
+public class WPSGroupController : ControllerBase
 {
-    [Route("api/WPS/[controller]")]
-    [ApiController]
-    public class WPSGroupController : ControllerBase
+    private readonly IWPSGroupService wpsGroupService;
+
+    public WPSGroupController(IWPSGroupService wpsGroupService)
     {
-        private readonly IWPSGroupService wpsGroupService;
+        this.wpsGroupService = wpsGroupService;
+    }
 
-        public WPSGroupController(IWPSGroupService wpsGroupService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var wpsGroup = await wpsGroupService.GetAsync(id);
+
+        if (wpsGroup == null)
         {
-            this.wpsGroupService = wpsGroupService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await wpsGroupService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<WPSGroup>> Get(int id)
+    {
+        var wpsGroup = await wpsGroupService.GetAsync(id);
+
+        if (wpsGroup == null)
         {
-            var wpsGroup = await wpsGroupService.GetAsync(id);
-
-            if (wpsGroup == null)
-            {
-                return NotFound();
-            }
-
-            var result = await wpsGroupService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<WPSGroup>> Get(int id)
+        return Ok(wpsGroup);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<WPSGroup>>> GetAll()
+    {
+        var wpsGroupes = await wpsGroupService.GetAllAsync();
+
+        return Ok(wpsGroupes);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(WPSGroup wpsGroup)
+    {
+        if (!ModelState.IsValid)
         {
-            var wpsGroup = await wpsGroupService.GetAsync(id);
-
-            if (wpsGroup == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(wpsGroup);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<WPSGroup>>> GetAll()
-        {
-            var wpsGroupes = await wpsGroupService.GetAllAsync();
+        var id = await wpsGroupService.InsertAsync(wpsGroup);
 
-            return Ok(wpsGroupes);
+        return Ok(id);
+    }
+
+    [HttpPut("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(WPSGroup wpsGroup)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(WPSGroup wpsGroup)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await wpsGroupService.UpdateAsync(wpsGroup);
 
-            var id = await wpsGroupService.InsertAsync(wpsGroup);
-
-            return Ok(id);
-        }
-
-        [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(WPSGroup wpsGroup)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await wpsGroupService.UpdateAsync(wpsGroup);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

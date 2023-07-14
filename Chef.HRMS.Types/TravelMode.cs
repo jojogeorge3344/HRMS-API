@@ -1,9 +1,8 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+public enum TravelMode
 {
-    public enum TravelMode
-    {
-        Bus = 1,
-        Train = 2,
-        Flight = 3
-    }
+    Bus = 1,
+    Train = 2,
+    Flight = 3
 }

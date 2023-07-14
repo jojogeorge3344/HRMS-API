@@ -1,12 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IDrivingLicenseService : IAsyncService<DrivingLicense>
 {
-    public interface IDrivingLicenseService : IAsyncService<DrivingLicense>
-    {
-        Task<IEnumerable<DrivingLicenseView>> GetByEmployeeId(int employeeId);
-    }
+    Task<IEnumerable<DrivingLicenseView>> GetByEmployeeId(int employeeId);
 }

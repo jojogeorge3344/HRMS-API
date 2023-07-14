@@ -16,7 +16,7 @@ public interface IAssetEmployeeWiseService : IAsyncService<AssetEmployeeWise>
     Task<IEnumerable<AssetAllocationViewModel>> GetAllocationDetails(int id);
     Task<IEnumerable<AssetAllocationViewModel>> GetMetadataDetailsById(int assettypeid);
     Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid);
-    Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid,int status,int assetid);
+    Task<IEnumerable<AssetReasonViewModel>> GetReasonAndDescription(int assetraiserequestid, int status, int assetid);
     Task<int> InsertAsync(IEnumerable<AssetAllocated> assetAllocated);
     Task<int> InsertAllocate(IEnumerable<AssetAllocated> assetAllocated);
     Task<int> UpdateStatus(int id, int status);

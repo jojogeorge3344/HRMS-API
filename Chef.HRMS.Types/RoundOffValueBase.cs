@@ -1,11 +1,10 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+/// <summary>
+/// Holds Round off  base
+/// </summary>
+public enum RoundOffValueBase
 {
-    /// <summary>
-    /// Holds Round off  base
-    /// </summary>
-    public enum RoundOffValueBase
-    {
-        Nearest = 1,
-        Lowest,
-    }
+    Nearest = 1,
+    Lowest,
 }

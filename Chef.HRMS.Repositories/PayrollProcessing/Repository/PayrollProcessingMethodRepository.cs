@@ -1,37 +1,27 @@
 ﻿using Chef.Common.Core.Extensions;
-using Chef.Common.Models;
-using Chef.HRMS.Models;
-using Chef.HRMS.Models.PayrollProcessing;
-using Chef.HRMS.Models.Slab;
-using Dapper.Contrib.Extensions;
-using Microsoft.AspNetCore.Http.HttpResults;
-using SqlKata;
-using System;
-using System.Runtime.CompilerServices;
-using System.Security.Principal;
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcessingMethod>, IPayrollProcessingMethodRepository
 {
-    public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcessingMethod>, IPayrollProcessingMethodRepository
+    public PayrollProcessingMethodRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public PayrollProcessingMethodRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno)
-        {
-            var sql = @"SELECT ppm.*, emp.displayname as employeename,jd.employeenumber as employeecode FROM hrms.payrollprocessingmethod ppm
+    public async Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno)
+    {
+        var sql = @"SELECT ppm.*, emp.displayname as employeename,jd.employeenumber as employeecode FROM hrms.payrollprocessingmethod ppm
                         left join hrms.hrmsemployee emp 
                         on emp.id = ppm.employeeid 
                         left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
                         WHERE processedstep >=@stepno and ppm.isarchived = false
                         ORDER BY id ASC ";
-            return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { stepno });
-        }
+        return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { stepno });
+    }
 
-        public async Task<IEnumerable<PayrollReview>> GetAllPayrollReviewByProcessingMethodId(int payrollProcessingMethodId)
-        {
-            var sql = @"SELECT Q1.*, 
+    public async Task<IEnumerable<PayrollReview>> GetAllPayrollReviewByProcessingMethodId(int payrollProcessingMethodId)
+    {
+        var sql = @"SELECT Q1.*, 
                                    COALESCE(Q2.bonus, 0)      bonus, 
                                    COALESCE(Q3.loanamount, 0) loanamount, 
                                    COALESCE(Q4.emi, 0)        emiamount, 
@@ -98,12 +88,12 @@ namespace Chef.HRMS.Repositories
 										   hrms.Calculate_lop(cte.employeeid, cte.ppm))Q6
 									ON Q1.employeeid=Q6.employeeid";
 
-            return await Connection.QueryAsync<PayrollReview>(sql, new { payrollProcessingMethodId });
-        }
+        return await Connection.QueryAsync<PayrollReview>(sql, new { payrollProcessingMethodId });
+    }
 
-        public async Task<IEnumerable<PayrollReviewBreakup>> GetPayBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId)
-        {
-            var sql = @"( 
+    public async Task<IEnumerable<PayrollReviewBreakup>> GetPayBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId)
+    {
+        var sql = @"( 
                                  WITH ctebasic 
                                       ( 
                                            type, 
@@ -218,23 +208,23 @@ namespace Chef.HRMS.Repositories
                                                              )SELECT * 
                                                       FROM   ctealrp)";
 
-            return await Connection.QueryAsync<PayrollReviewBreakup>(sql, new { employeeId, payrollProcessingMethodId });
-        }
+        return await Connection.QueryAsync<PayrollReviewBreakup>(sql, new { employeeId, payrollProcessingMethodId });
+    }
 
-        public async Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
+    public async Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
+    {
+        string result = "";
+        using (var transaction = Connection.BeginTransaction())
         {
-            string result = "";
-            using (var transaction = Connection.BeginTransaction())
+            try
             {
-                try
+                if (payrollProcessingMethod.PayGroupId == 0)
                 {
-                    if (payrollProcessingMethod.PayGroupId == 0)
-                    {
-                        var employeeId = payrollProcessingMethod.EmployeeId;
-                        var year = payrollProcessingMethod.Year;
-                        var month = payrollProcessingMethod.Month;
+                    var employeeId = payrollProcessingMethod.EmployeeId;
+                    var year = payrollProcessingMethod.Year;
+                    var month = payrollProcessingMethod.Month;
 
-                        var getEmp = @"SELECT distinct *
+                    var getEmp = @"SELECT distinct *
 							                            FROM hrms.payrollprocessingmethod  pm
 							                            INNER JOIN hrms.jobfiling jf
 							                            ON jf.paygroupid=pm.paygroupid
@@ -242,15 +232,15 @@ namespace Chef.HRMS.Repositories
                                                         WHERE  jf.employeeid=@employeeId
                                                         AND pm.processedstep=5";
 
-                        var data = await Connection.QueryFirstOrDefaultAsync<string>(getEmp, new { employeeId, year, month });
+                    var data = await Connection.QueryFirstOrDefaultAsync<string>(getEmp, new { employeeId, year, month });
 
-                        if (data != null)
-                        {
-                            return "Already Exist";
-                        }
-                        else
-                        {
-                            var get = @"SELECT Distinct  ppm.id
+                    if (data != null)
+                    {
+                        return "Already Exist";
+                    }
+                    else
+                    {
+                        var get = @"SELECT Distinct  ppm.id
 							                            FROM hrms.jobfiling  jf
 							                            INNER JOIN hrms.payrollprocessingmethod ppm
 							                            ON jf.employeeid=ppm.employeeid
@@ -258,124 +248,124 @@ namespace Chef.HRMS.Repositories
                                                         WHERE  jf.employeeid=@employeeId
                                                         AND ppm.processedstep=5";
 
-                            var info = await Connection.QueryFirstOrDefaultAsync<string>(get, new { employeeId, year, month });
-                            if (info != null)
-                            {
-                                return "Already Exist";
-                            }
-                            else
-                            {
-                                var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                                result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+                        var info = await Connection.QueryFirstOrDefaultAsync<string>(get, new { employeeId, year, month });
+                        if (info != null)
+                        {
+                            return "Already Exist";
+                        }
+                        else
+                        {
+                            var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
+                            result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
 
-
-
-                            }
 
 
                         }
 
-                    }
-                    else
-                    {
-
-                        var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                        result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
-
-
 
                     }
-                    transaction.Commit();
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    string msg = ex.Message;
-                    transaction.Rollback();
-                }
-                return result.ToString();
-            }
-        }
 
-        public async Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep)
-        {
-            var sql = @"UPDATE hrms.payrollprocessingmethod 
+                    var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
+                    result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
+
+
+
+                }
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                transaction.Rollback();
+            }
+            return result.ToString();
+        }
+    }
+
+    public async Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep)
+    {
+        var sql = @"UPDATE hrms.payrollprocessingmethod 
                             SET    processedstep = @completedStep 
                             WHERE  id = @payrollProcessingMethodId 
                                    AND processedstep < @completedStep";
 
-            return await Connection.ExecuteAsync(sql, new { payrollProcessingMethodId, completedStep });
-        }
+        return await Connection.ExecuteAsync(sql, new { payrollProcessingMethodId, completedStep });
+    }
 
-        public async Task<int> InsertLOPDeduction(IEnumerable<LOPDeduction> lopDeduction)
-        {
-            var sql = new QueryBuilder<LOPDeduction>().GenerateInsertQuery();
-            sql = sql.Replace("RETURNING id", "");
-            return await Connection.ExecuteAsync(sql, lopDeduction);
-        }
+    public async Task<int> InsertLOPDeduction(IEnumerable<LOPDeduction> lopDeduction)
+    {
+        var sql = new QueryBuilder<LOPDeduction>().GenerateInsertQuery();
+        sql = sql.Replace("RETURNING id", "");
+        return await Connection.ExecuteAsync(sql, lopDeduction);
+    }
 
-        public async Task<IEnumerable<HRMSEmployee>> GetAllUnProcessedEmployees(int year, int month)
-        {
-            var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.HRMSEmployee WHERE id NOT IN
+    public async Task<IEnumerable<HRMSEmployee>> GetAllUnProcessedEmployees(int year, int month)
+    {
+        var sql = @"SELECT id, ( Concat(e.firstname, ' ', e.lastname) ) AS name FROM hrms.HRMSEmployee WHERE id NOT IN
 						                              (SELECT DISTINCT jf.employeeid from hrms.payrollprocessingmethod PM		
 						                              INNER JOIN hrms.jobfiling jf
 						                              ON (jf.paygroupid=pm.paygroupid OR
 							                            jf.employeeid=pm.employeeid)
 						                              AND(pm.year=@year AND pm.month=@month))";
 
-            return await Connection.QueryAsync<HRMSEmployee>(sql, new { year, month });
-        }
+        return await Connection.QueryAsync<HRMSEmployee>(sql, new { year, month });
+    }
 
-        public async Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails()
-        {
-            var sql = @"SELECT * FROM hrms.payrollprocessingmethod PM
+    public async Task<IEnumerable<PayrollProcessingMethod>> GetPastSixMonthDetails()
+    {
+        var sql = @"SELECT * FROM hrms.payrollprocessingmethod PM
 		                             WHERE (pm.year=EXTRACT(YEAR FROM NOW())
 	                                 AND pm.month BETWEEN EXTRACT(MONTH FROM NOW() - INTERVAL '6 months')
                                      AND EXTRACT(MONTH FROM NOW()))
                                      ORDER BY pm.month";
 
-            return await Connection.QueryAsync<PayrollProcessingMethod>(sql);
-        }
+        return await Connection.QueryAsync<PayrollProcessingMethod>(sql);
+    }
 
-        public async Task<int> GetDetailsById(int employeeid, int month, int year)
-        {
-            int result = 0;
-            var sql = @"SELECT employeeid ,
+    public async Task<int> GetDetailsById(int employeeid, int month, int year)
+    {
+        int result = 0;
+        var sql = @"SELECT employeeid ,
 		                        month ,
 		                        year 
                         FROM   hrms.payrollprocessingmethod
                         WHERE processedstep = 5 AND employeeid=@employeeid AND month=@month AND year=@year";
-            result = await Connection.QueryFirstOrDefaultAsync<int>(sql, new { employeeid, month, year });
-            if (result == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return 1;
-            }
-        }
-
-        public async Task<IEnumerable<PayrollProcessingMethod>> GetDetailsByPaygroupId(int paygroupid, int prevmonth, int prevyear)
+        result = await Connection.QueryFirstOrDefaultAsync<int>(sql, new { employeeid, month, year });
+        if (result == 0)
         {
-            var sql = @"SELECT ppm.processedstep,ppm.name, ppm.month, 
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+    public async Task<IEnumerable<PayrollProcessingMethod>> GetDetailsByPaygroupId(int paygroupid, int prevmonth, int prevyear)
+    {
+        var sql = @"SELECT ppm.processedstep,ppm.name, ppm.month, 
                         ppm.year,pg.startingyear, pg.startingmonth FROM hrms.payrollprocessingmethod ppm 
                         right join hrms.paygroup pg on pg.id = ppm.paygroupid where pg.id = @paygroupid
                         and year = @prevyear and month = @prevmonth ORDER BY pg.id ASC ";
-            return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { paygroupid, prevmonth, prevyear });
-        }
+        return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { paygroupid, prevmonth, prevyear });
+    }
 
-        public async Task<IEnumerable<PayrollProcessingMethod>> GetEmployeeDetails(int employeeid, int paygroupid)
-        {
-            var sql = @"SELECT*FROM hrms.payrollprocessingmethod
+    public async Task<IEnumerable<PayrollProcessingMethod>> GetEmployeeDetails(int employeeid, int paygroupid)
+    {
+        var sql = @"SELECT*FROM hrms.payrollprocessingmethod
                         WHERE employeeid=@employeeid
                         AND paygroupid=@paygroupid";
 
-            return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
-        }
+        return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
+    }
 
-        public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid)
-        {
-            var sql = @"SELECT DISTINCT
+    public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid)
+    {
+        var sql = @"SELECT DISTINCT
                           ppm.employeeid,
                           ppm.id AS payrollprocessingid,
                           le.*,
@@ -397,14 +387,14 @@ namespace Chef.HRMS.Repositories
                           ON le.leavecomponentid = esd.payrollcomponentid
                         WHERE ppm.paygroupid = @paygroupid
                         AND le.leavetype = 1";
-            //, esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+        //, esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
 
-            return await Connection.QueryAsync<LeaveEligibility>(sql, new { paygroupid });
-        }
+        return await Connection.QueryAsync<LeaveEligibility>(sql, new { paygroupid });
+    }
 
-        public async Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid)
-        {
-            var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
+    public async Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid)
+    {
+        var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
                         jd.employeenumber as employeecode, jd.dateofjoin, jd.probationperiod, jf.eosid
                         FROM 
                         hrms.jobfiling jf
@@ -413,16 +403,16 @@ namespace Chef.HRMS.Repositories
 						Join hrms.endofservice eos on eos.id = jf.eosid
                         Join hrms.employeesalaryconfigurationdetails esd on eos.id = esd.payrollcomponentid
                         WHERE jf.paygroupid = @paygroupid";
-            // and eos.employeeeosaccrualtype = jf.eosid
-            //Join hrms.slab slb on slb.eosid = eos.id
-            //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
-            //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
-            return await Connection.QueryAsync<EndOfService>(sql, new { paygroupid });
-        }
+        // and eos.employeeeosaccrualtype = jf.eosid
+        //Join hrms.slab slb on slb.eosid = eos.id
+        //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
+        //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+        return await Connection.QueryAsync<EndOfService>(sql, new { paygroupid });
+    }
 
-        public async Task<IEnumerable<EmployeeTicket>> GetProcessedEmployeeDetailsForTicketAccrual(int paygroupid)
-        {
-            var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
+    public async Task<IEnumerable<EmployeeTicket>> GetProcessedEmployeeDetailsForTicketAccrual(int paygroupid)
+    {
+        var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
                         jd.employeenumber as employeecode, jd.dateofjoin, le.eligibledays, le.eligibilitybase, le.isincludelopdays
                         FROM 
                         hrms.jobfiling jf
@@ -433,25 +423,25 @@ namespace Chef.HRMS.Repositories
                         Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
 						Join hrms.employeeticket et on et.id = jf.employeeid
                         WHERE jf.paygroupid = @paygroupid and le.leavetype = 1";
-            //
-            //Join hrms.slab slb on slb.eosid = eos.id
-            //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
-            //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
-            return await Connection.QueryAsync<EmployeeTicket>(sql, new { paygroupid });
-        }
+        //
+        //Join hrms.slab slb on slb.eosid = eos.id
+        //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
+        //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+        return await Connection.QueryAsync<EmployeeTicket>(sql, new { paygroupid });
+    }
 
-        public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
-        {
-            var sql = @"SELECT (ppm.month)  as month ,ppm.year, pgc.processingday, pg.timesheetcutoff, pg.leavecutoff
+    public async Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId)
+    {
+        var sql = @"SELECT (ppm.month)  as month ,ppm.year, pgc.processingday, pg.timesheetcutoff, pg.leavecutoff
 	                    FROM hrms.payrollprocessingmethod ppm
 	                    LEFT JOIN hrms.paygroup pg ON ppm.paygroupid = pg.id
 	                    LEFT JOIN hrms.payrollcalendar pgc ON pg.payrollcalendarid = pgc.id
 	                    WHERE ppm.paygroupid=@paygroupId ORDER BY ppm.year DESC, ppm.month DESC LIMIT 1";
-            return await Connection.QueryAsync<PayrollMonth>(sql, new { paygroupId });
-        }
-        public async Task<IEnumerable<PayrollComponentDetails>> GetPayrollComponentsSummary(int payrollprocessid)
-        {
-            var sql = @"select pcd.payrollprocessid,pcd.payrollprocessdate,pcd.employeeid, emp.displayname as employeename,
+        return await Connection.QueryAsync<PayrollMonth>(sql, new { paygroupId });
+    }
+    public async Task<IEnumerable<PayrollComponentDetails>> GetPayrollComponentsSummary(int payrollprocessid)
+    {
+        var sql = @"select pcd.payrollprocessid,pcd.payrollprocessdate,pcd.employeeid, emp.displayname as employeename,
                         pcd.earningsamt, pcd.deductionamt, jd.employeenumber as employeecode,
                         pcd.payrollcomponentid,pc.name as payrollcomponentname
                         from hrms.payrollcomponentdetails pcd 
@@ -461,15 +451,15 @@ namespace Chef.HRMS.Repositories
                         left join hrms.jobdetails jd on jd.employeeid = pcd.employeeid
                         where payrollprocessid = @payrollprocessid and pcd.isarchived = false";
 
-            return await Connection.QueryAsync<PayrollComponentDetails>(sql, new { payrollprocessid });
-        }
+        return await Connection.QueryAsync<PayrollComponentDetails>(sql, new { payrollprocessid });
+    }
 
-        public async Task<int> InsertPayrollFixedComponentDetails(int payrollProcessId, DateTime payrollprocessDate, int paygroupId)
-        {
-            var deletedRowCount = await DeletePayrollFixedComponentDetails(paygroupId);
+    public async Task<int> InsertPayrollFixedComponentDetails(int payrollProcessId, DateTime payrollprocessDate, int paygroupId)
+    {
+        var deletedRowCount = await DeletePayrollFixedComponentDetails(paygroupId);
 
-            DateTime currentDate = DateTime.Now;
-            var sql = @"INSERT INTO hrms.payrollcomponentdetails(employeeid, payrollcomponentid, earningsamt,
+        DateTime currentDate = DateTime.Now;
+        var sql = @"INSERT INTO hrms.payrollcomponentdetails(employeeid, payrollcomponentid, earningsamt,
             deductionamt, processstatus, createdby, createddate,  isarchived, payrollprocessid,payrollprocessdate, stepno)
             (SELECT distinct esc.employeeid as employeeid, escd.payrollcomponentid as payrollcomponentid,
             escd.monthlyamount as earningsamt, 0 as deductionamt, 0 as processedStatus, 'system', @currentDate,false,@payrollProcessId,@payrollprocessDate,0 as stepno
@@ -480,12 +470,12 @@ namespace Chef.HRMS.Repositories
             left join hrms.paygroup pg on jf.paygroupid = pg.id
             where esc.isarchived = false and pg.id = @paygroupId and pc.payheadtype = 1)";
 
-            return await Connection.ExecuteAsync(sql, new { currentDate, payrollProcessId, paygroupId, payrollprocessDate });
-        }
+        return await Connection.ExecuteAsync(sql, new { currentDate, payrollProcessId, paygroupId, payrollprocessDate });
+    }
 
-        private async Task<int> DeletePayrollFixedComponentDetails(int paygroupId)
-        {
-            var sql = @"DELETE from hrms.payrollcomponentdetails where id in (
+    private async Task<int> DeletePayrollFixedComponentDetails(int paygroupId)
+    {
+        var sql = @"DELETE from hrms.payrollcomponentdetails where id in (
             (SELECT distinct pcd.id from hrms.payrollcomponentdetails pcd
              join
             hrms.employeesalaryconfiguration esc on pcd.employeeid = esc.employeeid
@@ -497,28 +487,27 @@ namespace Chef.HRMS.Repositories
             where esc.isarchived = false and pg.id = @paygroupId and pc.payheadtype = 1 and pcd.isarchived=false and pcd.stepno = 0))";
 
 
-            return await Connection.ExecuteAsync(sql, new { paygroupId });
-        }
-        public async Task<bool> IsPaygroupExistInPayrollProcessingMethod(int paygroupId)
-        {
-            if (await QueryFactory
-            .Query<PayrollProcessingMethod>()
-           .Where("paygroupid", paygroupId)
-           .WhereNotArchived()
-           .CountAsync<int>() > 0) return true;
-            else return false;
-        }
+        return await Connection.ExecuteAsync(sql, new { paygroupId });
+    }
+    public async Task<bool> IsPaygroupExistInPayrollProcessingMethod(int paygroupId)
+    {
+        if (await QueryFactory
+        .Query<PayrollProcessingMethod>()
+       .Where("paygroupid", paygroupId)
+       .WhereNotArchived()
+       .CountAsync<int>() > 0) return true;
+        else return false;
+    }
 
-        public async Task<bool> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear, int employeeId)
-        {
-            if (await QueryFactory
-            .Query<PayrollProcessingMethod>()
-           .Where("month", PreviousMonth)
-           .Where("year", previousYear)
-           .Where("employeeid", employeeId)
-           .WhereNotArchived()
-           .CountAsync<int>() > 0) return true;
-            else return false;
-        }
+    public async Task<bool> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear, int employeeId)
+    {
+        if (await QueryFactory
+        .Query<PayrollProcessingMethod>()
+       .Where("month", PreviousMonth)
+       .Where("year", previousYear)
+       .Where("employeeid", employeeId)
+       .WhereNotArchived()
+       .CountAsync<int>() > 0) return true;
+        else return false;
     }
 }

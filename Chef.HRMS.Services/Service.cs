@@ -1,11 +1,10 @@
-﻿namespace Chef.HRMS.Services
+﻿namespace Chef.HRMS.Services;
+
+public interface IService
 {
-    public interface IService
-    {
 
-    }
+}
 
-    public abstract class Service
-    {
-    }
+public abstract class Service
+{
 }

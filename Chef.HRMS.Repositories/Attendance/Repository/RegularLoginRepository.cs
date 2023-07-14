@@ -1,29 +1,21 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class RegularLoginRepository : GenericRepository<RegularLogin>, IRegularLoginRepository
 {
-    public class RegularLoginRepository : GenericRepository<RegularLogin>, IRegularLoginRepository
+    public RegularLoginRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public RegularLoginRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<RegularLogin>> GetAllAttendanceById(int employeeId)
-        {
-            var sql = "SELECT * FROM  hrms.regularlogin WHERE employeeid = @employeeId";
+    public async Task<IEnumerable<RegularLogin>> GetAllAttendanceById(int employeeId)
+    {
+        var sql = "SELECT * FROM  hrms.regularlogin WHERE employeeid = @employeeId";
 
-            return await Connection.QueryAsync<RegularLogin>(sql, new { employeeId });
-        }
-        public async Task<IEnumerable<UserAttendanceViewModel>> GetAttendanceLog(int employeeId, DateTime startDate, DateTime endDate)
-        {
+        return await Connection.QueryAsync<RegularLogin>(sql, new { employeeId });
+    }
+    public async Task<IEnumerable<UserAttendanceViewModel>> GetAttendanceLog(int employeeId, DateTime startDate, DateTime endDate)
+    {
 
-            var sql = string.Format(@"WITH shiftdetails 
+        var sql = string.Format(@"WITH shiftdetails 
                                          ( 
                                               effectivehours, 
                                               shiftstarttime, 
@@ -122,17 +114,17 @@ namespace Chef.HRMS.Repositories
                                     AND      checkintime BETWEEN symmetric '{0}' AND      '{1}' 
                                     ORDER BY clockin DESC ", startDate.ToString("yyyy/MM/dd"), endDate.ToString("yyyy/MM/dd"));
 
-            return await Connection.QueryAsync<UserAttendanceViewModel>(sql, new { employeeId });
-        }
+        return await Connection.QueryAsync<UserAttendanceViewModel>(sql, new { employeeId });
+    }
 
-        public async Task<decimal> GetAverageAttendanceById(int employeeId, int requestType)
+    public async Task<decimal> GetAverageAttendanceById(int employeeId, int requestType)
+    {
+        var sql = "";
+
+        // If it is weekly
+        if (requestType == 1)
         {
-            var sql = "";
-
-            // If it is weekly
-            if (requestType == 1)
-            {
-                sql = @"WITH shift 
+            sql = @"WITH shift 
                              ( 
                                   hours 
                              ) 
@@ -176,11 +168,11 @@ namespace Chef.HRMS.Repositories
                         SELECT round(cast(cast(actualdays*hours/actualdays AS float) AS numeric),2) 
                         FROM   cte1, 
                                shift";
-            }
-            // If it is monthly
-            else if (requestType == 2)
-            {
-                sql = @"WITH shift 
+        }
+        // If it is monthly
+        else if (requestType == 2)
+        {
+            sql = @"WITH shift 
                              ( 
                                   hours 
                              ) 
@@ -224,20 +216,20 @@ namespace Chef.HRMS.Repositories
                         SELECT round(cast(cast(actualdays*hours/actualdays AS float) AS numeric),2) 
                         FROM   cte1, 
                                shift";
-            }
-
-            return await Connection.QueryFirstOrDefaultAsync<decimal>(sql, new { Id = employeeId });
         }
 
-        public async Task<decimal> GetAverageOnTimeDetails(int employeeId, int requestType)
+        return await Connection.QueryFirstOrDefaultAsync<decimal>(sql, new { Id = employeeId });
+    }
+
+    public async Task<decimal> GetAverageOnTimeDetails(int employeeId, int requestType)
+    {
+
+        var sql = "";
+
+        // If it is weekly
+        if (requestType == 1)
         {
-
-            var sql = "";
-
-            // If it is weekly
-            if (requestType == 1)
-            {
-                sql = @"WITH cte1 
+            sql = @"WITH cte1 
                              ( 
                                   actualcount 
                              ) 
@@ -310,11 +302,11 @@ namespace Chef.HRMS.Repositories
                         SELECT ROUND(CAST((cast(actualcount AS float)/cast(totalcount AS float))*100 AS NUMERIC),2)
                         FROM   cte1, 
                                cte3";
-            }
-            // If it is monthly
-            else if (requestType == 2)
-            {
-                sql = @"WITH cte1 
+        }
+        // If it is monthly
+        else if (requestType == 2)
+        {
+            sql = @"WITH cte1 
                              ( 
                                   actualcount 
                              ) 
@@ -387,9 +379,8 @@ namespace Chef.HRMS.Repositories
                         SELECT ROUND(CAST((cast(actualcount AS float)/cast(totalcount AS float))*100 AS NUMERIC),2) 
                         FROM   cte1, 
                                cte3";
-            }
-
-            return await Connection.QueryFirstOrDefaultAsync<decimal>(sql, new { Id = employeeId });
         }
+
+        return await Connection.QueryFirstOrDefaultAsync<decimal>(sql, new { Id = employeeId });
     }
 }

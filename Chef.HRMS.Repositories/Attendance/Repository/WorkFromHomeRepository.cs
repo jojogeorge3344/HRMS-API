@@ -1,30 +1,23 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class WorkFromHomeRepository : GenericRepository<WorkFromHome>, IWorkFromHomeRepository
 {
-    public class WorkFromHomeRepository : GenericRepository<WorkFromHome>, IWorkFromHomeRepository
+    public WorkFromHomeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public WorkFromHomeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<WorkFromHome>> GetAllWorkFromHomeById(int employeeId)
-        {
+    public async Task<IEnumerable<WorkFromHome>> GetAllWorkFromHomeById(int employeeId)
+    {
 
-                var sql = "SELECT * FROM  hrms.workfromhome WHERE employeeid = @Id";
+        var sql = "SELECT * FROM  hrms.workfromhome WHERE employeeid = @Id";
 
-                return await Connection.QueryAsync<WorkFromHome>(sql, new { Id = employeeId });
-        }
+        return await Connection.QueryAsync<WorkFromHome>(sql, new { Id = employeeId });
+    }
 
-        public async Task<WorkFromHomeView> GetTotalRequestedDaysById(int employeeId)
-        {
+    public async Task<WorkFromHomeView> GetTotalRequestedDaysById(int employeeId)
+    {
 
-                var sql = @"SELECT periodtype, 
+        var sql = @"SELECT periodtype, 
                                    maximumlimit, 
                                    Coalesce(totalrequest, 0) AS totalRequest 
                             FROM   hrms.workfromhomesettings 
@@ -45,17 +38,16 @@ namespace Chef.HRMS.Repositories
                                                GROUP  BY periodtype)Q1 
                                           ON 1 = 1 ";
 
-                return await Connection.QueryFirstAsync<WorkFromHomeView>(sql, new { employeeId });
-        }
+        return await Connection.QueryFirstAsync<WorkFromHomeView>(sql, new { employeeId });
+    }
 
-        public async Task<int> InsertNotifyPersonnel(IEnumerable<WorkFromHomeNotifyPersonnel> workFromHomeNotifyPersonnel)
-        {
+    public async Task<int> InsertNotifyPersonnel(IEnumerable<WorkFromHomeNotifyPersonnel> workFromHomeNotifyPersonnel)
+    {
 
-                var sql = new QueryBuilder<WorkFromHomeNotifyPersonnel>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+        var sql = new QueryBuilder<WorkFromHomeNotifyPersonnel>().GenerateInsertQuery();
+        sql = sql.Replace("RETURNING id", "");
 
-                return await Connection.ExecuteAsync(sql, workFromHomeNotifyPersonnel);
+        return await Connection.ExecuteAsync(sql, workFromHomeNotifyPersonnel);
 
-        }
     }
 }

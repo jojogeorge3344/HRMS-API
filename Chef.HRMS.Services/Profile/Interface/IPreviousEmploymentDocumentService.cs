@@ -1,9 +1,7 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IPreviousEmploymentDocumentService : IAsyncService<PreviousEmploymentDocument>
 {
-    public interface IPreviousEmploymentDocumentService : IAsyncService<PreviousEmploymentDocument>
-    {
-    }
 }

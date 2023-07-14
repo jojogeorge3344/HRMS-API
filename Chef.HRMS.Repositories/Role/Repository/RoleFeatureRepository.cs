@@ -1,23 +1,15 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class RoleFeatureRepository : GenericRepository<RoleFeature>, IRoleFeatureRepository
 {
-    public class RoleFeatureRepository : GenericRepository<RoleFeature>, IRoleFeatureRepository
+    public RoleFeatureRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public RoleFeatureRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<int> AssignRoleFeature(IEnumerable<RoleFeature> roleFeature)
-        {
-                var sql = new QueryBuilder<RoleFeature>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
-                return await Connection.ExecuteAsync(sql, roleFeature);
-        }
+    public async Task<int> AssignRoleFeature(IEnumerable<RoleFeature> roleFeature)
+    {
+        var sql = new QueryBuilder<RoleFeature>().GenerateInsertQuery();
+        sql = sql.Replace("RETURNING id", "");
+        return await Connection.ExecuteAsync(sql, roleFeature);
     }
 }

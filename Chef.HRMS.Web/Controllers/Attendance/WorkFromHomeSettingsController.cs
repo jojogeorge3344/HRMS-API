@@ -5,69 +5,68 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[ApiController]
+[Route("api/settings/attendance/[controller]")]
+public class WorkFromHomeSettingsController : ControllerBase
 {
-    [ApiController]
-    [Route("api/settings/attendance/[controller]")]
-    public class WorkFromHomeSettingsController : ControllerBase
+    private readonly IWorkFromHomeSettingsService workFromHomeAdminSettingsService;
+
+    public WorkFromHomeSettingsController(IWorkFromHomeSettingsService workFromHomeAdminSettingsService)
     {
-        private readonly IWorkFromHomeSettingsService workFromHomeAdminSettingsService;
+        this.workFromHomeAdminSettingsService = workFromHomeAdminSettingsService;
+    }
 
-        public WorkFromHomeSettingsController(IWorkFromHomeSettingsService workFromHomeAdminSettingsService)
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<WorkFromHomeSettings>> Get(int id)
+    {
+        var workFromHomeAdminSettings = await workFromHomeAdminSettingsService.GetAsync(id);
+
+        if (workFromHomeAdminSettings == null)
         {
-            this.workFromHomeAdminSettingsService = workFromHomeAdminSettingsService;
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<WorkFromHomeSettings>> Get(int id)
+        return Ok(workFromHomeAdminSettings);
+    }
+    [HttpGet("Get")]
+    public async Task<ActionResult<WorkFromHomeSettings>> Get()
+    {
+        var workFromHomeAdminSettings = await workFromHomeAdminSettingsService.GetTopOneWorkFromHomeSettings();
+
+        return Ok(workFromHomeAdminSettings);
+    }
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(WorkFromHomeSettings workFromHomeAdminSettings)
+    {
+        if (!ModelState.IsValid)
         {
-            var workFromHomeAdminSettings = await workFromHomeAdminSettingsService.GetAsync(id);
-
-            if (workFromHomeAdminSettings == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(workFromHomeAdminSettings);
-        }
-        [HttpGet("Get")]
-        public async Task<ActionResult<WorkFromHomeSettings>> Get()
-        {
-            var workFromHomeAdminSettings = await workFromHomeAdminSettingsService.GetTopOneWorkFromHomeSettings();
-
-            return Ok(workFromHomeAdminSettings);
-        }
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(WorkFromHomeSettings workFromHomeAdminSettings)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var id = await workFromHomeAdminSettingsService.InsertAsync(workFromHomeAdminSettings);
-
-            return Ok(id);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(WorkFromHomeSettings workFromHomeAdminSettings)
+        var id = await workFromHomeAdminSettingsService.InsertAsync(workFromHomeAdminSettings);
+
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(WorkFromHomeSettings workFromHomeAdminSettings)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await workFromHomeAdminSettingsService.UpdateAsync(workFromHomeAdminSettings);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
+
+        var result = await workFromHomeAdminSettingsService.UpdateAsync(workFromHomeAdminSettings);
+
+        return Ok(result);
     }
 }

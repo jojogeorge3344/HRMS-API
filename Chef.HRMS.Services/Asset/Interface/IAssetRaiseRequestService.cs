@@ -1,34 +1,27 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IAssetRaiseRequestService : IAsyncService<AssetRaiseRequest>
 {
-   public  interface IAssetRaiseRequestService: IAsyncService<AssetRaiseRequest>
-    {
-        Task<int> InsertAsync(IEnumerable<AssetRaiseRequest> assetRaiseRequest);
+    Task<int> InsertAsync(IEnumerable<AssetRaiseRequest> assetRaiseRequest);
 
-        Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid);
+    Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid);
 
-        Task<IEnumerable<AssetRaiseRequest>> Get(int id);
+    Task<IEnumerable<AssetRaiseRequest>> Get(int id);
 
-        public Task<IEnumerable<AssetEmployeeViewModel>> GetEmployeeDetails();
+    public Task<IEnumerable<AssetEmployeeViewModel>> GetEmployeeDetails();
 
-        Task<int> UpdateRevoke(int id);
-        Task<string> GenerateNewDocumentNumberAsync(string code);
+    Task<int> UpdateRevoke(int id);
+    Task<string> GenerateNewDocumentNumberAsync(string code);
 
 
 
-        //Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id);
+    //Task<IEnumerable<AssetRaiseRequest>> GetEmployeeDepartmentDetails(int id);
 
 
 
 
 
 
-    }
 }

@@ -1,6 +1,5 @@
-﻿namespace Chef.HRMS.Models
+﻿namespace Chef.HRMS.Models;
+
+public class PAN : IdentityDocument
 {
-    public class PAN : IdentityDocument
-    {
-    }
 }

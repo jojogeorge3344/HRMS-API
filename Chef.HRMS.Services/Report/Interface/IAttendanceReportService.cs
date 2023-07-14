@@ -1,13 +1,9 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IAttendanceReportService : IAsyncService<AttendanceReportView>
 {
-    public interface IAttendanceReportService : IAsyncService<AttendanceReportView>
-    {
-        Task<IEnumerable<AttendanceReportView>> GetAttendanceLogReport(DateTime startDate, DateTime endDate);
-    }
+    Task<IEnumerable<AttendanceReportView>> GetAttendanceLogReport(DateTime startDate, DateTime endDate);
 }

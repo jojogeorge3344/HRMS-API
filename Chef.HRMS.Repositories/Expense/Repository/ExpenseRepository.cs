@@ -1,41 +1,33 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class ExpenseRepository : GenericRepository<Expense>, IExpenseRepository
 {
-    public class ExpenseRepository : GenericRepository<Expense>, IExpenseRepository
+    public ExpenseRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public ExpenseRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<Expense>> GetAllExpenseDetailsById(int employeeId)
-        {
+    public async Task<IEnumerable<Expense>> GetAllExpenseDetailsById(int employeeId)
+    {
 
-                var sql = "SELECT * FROM  hrms.expense WHERE employeeid = @employeeId and isarchived=false ORDER BY id desc";
+        var sql = "SELECT * FROM  hrms.expense WHERE employeeid = @employeeId and isarchived=false ORDER BY id desc";
 
-                return await Connection.QueryAsync<Expense>(sql, new { employeeId });
-        }
-        public async Task<IEnumerable<Expense>> GetAllUnApprovedExpenseById(int employeeId)
-        {
+        return await Connection.QueryAsync<Expense>(sql, new { employeeId });
+    }
+    public async Task<IEnumerable<Expense>> GetAllUnApprovedExpenseById(int employeeId)
+    {
 
-                var sql = @"SELECT e.* from hrms.expense e 
+        var sql = @"SELECT e.* from hrms.expense e 
 	                                        INNER JOIN hrms.jobdetails jd
                                             ON jd.employeeid = e.employeeid
                                             WHERE jd.reportingmanager = @employeeId
 	                                        AND e.requeststatus = 2 and e.ispaid=false";
 
-                return await Connection.QueryAsync<Expense>(sql, new { employeeId });
-        }
-        public async Task<ExpenseView> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int expensePeriodType, DateTime currentDate)
-        {
+        return await Connection.QueryAsync<Expense>(sql, new { employeeId });
+    }
+    public async Task<ExpenseView> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int expensePeriodType, DateTime currentDate)
+    {
 
-                var sql = @"SELECT expenseperiodtype, 
+        var sql = @"SELECT expenseperiodtype, 
                                    maximumexpenselimit, 
                                    CASE expenseperiodtype 
                                      WHEN 1 THEN (SELECT Sum(COALESCE(amount, 0)) AS totalAmount 
@@ -70,14 +62,14 @@ namespace Chef.HRMS.Repositories
                             GROUP  BY expenseperiodtype, 
                                       maximumexpenselimit";
 
-                return await Connection.QueryFirstOrDefaultAsync<ExpenseView>(sql, new { employeeId, expenseConfigurationId, expensePeriodType, currentDate });
+        return await Connection.QueryFirstOrDefaultAsync<ExpenseView>(sql, new { employeeId, expenseConfigurationId, expensePeriodType, currentDate });
 
-        }
+    }
 
-        public async Task<ExpenseView> GetMaximumInstancesById(int employeeId, int expenseConfigurationId, int instancesPeriodType)
-        {
+    public async Task<ExpenseView> GetMaximumInstancesById(int employeeId, int expenseConfigurationId, int instancesPeriodType)
+    {
 
-                var sql = @"SELECT instancesperiodtype, 
+        var sql = @"SELECT instancesperiodtype, 
                                    maximuminstanceslimit, 
                                    CASE instancesperiodtype 
                                      WHEN 1 THEN (SELECT Count(COALESCE(id, 0)) AS totalRequest 
@@ -112,8 +104,7 @@ namespace Chef.HRMS.Repositories
                             GROUP  BY instancesperiodtype, 
                                       maximuminstanceslimit";
 
-                return await Connection.QueryFirstOrDefaultAsync<ExpenseView>(sql, new { employeeId, expenseConfigurationId, instancesPeriodType });
+        return await Connection.QueryFirstOrDefaultAsync<ExpenseView>(sql, new { employeeId, expenseConfigurationId, instancesPeriodType });
 
-        }
     }
 }

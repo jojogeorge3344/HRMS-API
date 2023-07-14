@@ -1,12 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IUniqueIdentificationDetailService : IAsyncService<UniqueIdentificationDetail>
 {
-    public interface IUniqueIdentificationDetailService : IAsyncService<UniqueIdentificationDetail>
-    {
-        Task<IEnumerable<UniqueIdentificationDetailView>> GetByEmployeeId(int employeeId);
-    }
+    Task<IEnumerable<UniqueIdentificationDetailView>> GetByEmployeeId(int employeeId);
 }

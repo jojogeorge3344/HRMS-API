@@ -1,13 +1,9 @@
-﻿using Chef.Common.Models;
-using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IJobFilingService : IAsyncService<JobFiling>
 {
-    public interface IJobFilingService : IAsyncService<JobFiling>
-    {
-        Task<int> GetWeekendPolicyById(int employeeId);
-        Task<JobFiling> GetByEmployeeId(int employeeId);
-    }
+    Task<int> GetWeekendPolicyById(int employeeId);
+    Task<JobFiling> GetByEmployeeId(int employeeId);
 }

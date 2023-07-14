@@ -6,178 +6,177 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class OverTimeController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class OverTimeController : ControllerBase
+    private readonly IOverTimeService overTimeService;
+
+    public OverTimeController(IOverTimeService overTimeService)
     {
-        private readonly IOverTimeService overTimeService;
+        this.overTimeService = overTimeService;
+    }
 
-        public OverTimeController(IOverTimeService overTimeService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var overTime = await overTimeService.GetAsync(id);
+
+        if (overTime == null)
         {
-            this.overTimeService = overTimeService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await overTimeService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<OverTime>> Get(int id)
+    {
+        var overTime = await overTimeService.GetAsync(id);
+
+        if (overTime == null)
         {
-            var overTime = await overTimeService.GetAsync(id);
-
-            if (overTime == null)
-            {
-                return NotFound();
-            }
-
-            var result = await overTimeService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<OverTime>> Get(int id)
+        return Ok(overTime);
+    }
+    [HttpGet("GetAssignedOverTimePolicy/{employeeId}")]
+    public async Task<ActionResult<int>> GetAssignedOverTimePolicy(int employeeId)
+    {
+        var overTime = await overTimeService.GetAssignedOverTimePolicy(employeeId);
+
+        if (overTime == 0)
         {
-            var overTime = await overTimeService.GetAsync(id);
-
-            if (overTime == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(overTime);
-        }
-        [HttpGet("GetAssignedOverTimePolicy/{employeeId}")]
-        public async Task<ActionResult<int>> GetAssignedOverTimePolicy(int employeeId)
-        {
-            var overTime = await overTimeService.GetAssignedOverTimePolicy(employeeId);
-
-            if (overTime == 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(overTime);
+            return NotFound();
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<OverTime>>> GetAll()
-        {
-            var overTimes = await overTimeService.GetAllAsync();
+        return Ok(overTime);
+    }
 
-            return Ok(overTimes);
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<OverTime>>> GetAll()
+    {
+        var overTimes = await overTimeService.GetAllAsync();
+
+        return Ok(overTimes);
+    }
+
+    [HttpGet("GetAllOvertimeDetailsById/{id}")]
+    public async Task<ActionResult<IEnumerable<OverTime>>> GetAllOvertimeDetailsById(int id)
+    {
+        var overTimes = await overTimeService.GetAllOvertimeDetailsById(id);
+
+        return Ok(overTimes);
+    }
+
+
+
+    [HttpGet("GetOvertimeNotifyPersonnelByOvertimeId/{overtimeId}")]
+    public async Task<ActionResult<IEnumerable<OvertimeViewModel>>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId)
+    {
+        var overTimes = await overTimeService.GetOvertimeNotifyPersonnelByOvertimeId(overtimeId);
+
+        return Ok(overTimes);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(OverTime overTime)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAllOvertimeDetailsById/{id}")]
-        public async Task<ActionResult<IEnumerable<OverTime>>> GetAllOvertimeDetailsById(int id)
-        {
-            var overTimes = await overTimeService.GetAllOvertimeDetailsById(id);
+        var id = await overTimeService.InsertAsync(overTime);
 
-            return Ok(overTimes);
+        return Ok(id);
+
+    }
+
+    [HttpPut("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(OverTime overTime)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
+        var result = await overTimeService.UpdateAsync(overTime);
 
-
-        [HttpGet("GetOvertimeNotifyPersonnelByOvertimeId/{overtimeId}")]
-        public async Task<ActionResult<IEnumerable<OvertimeViewModel>>> GetOvertimeNotifyPersonnelByOvertimeId(int overtimeId)
+        return Ok(result);
+    }
+    [HttpPost("InsertNotifyPersonnel")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> InsertNotifyPersonnel([FromBody] IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
+    {
+        if (!ModelState.IsValid)
         {
-            var overTimes = await overTimeService.GetOvertimeNotifyPersonnelByOvertimeId(overtimeId);
-
-            return Ok(overTimes);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(OverTime overTime)
+        var result = await overTimeService.InsertNotifyPersonnel(overTimeNotifyPersonnel);
+
+        return Ok(result);
+    }
+
+    [HttpGet("GetCalenderDetails/{employeeId}")]
+    public async Task<ActionResult<IEnumerable<CalenderView>>> GetCalenderDetails(int employeeId)
+    {
+        var calender = await overTimeService.GetCalenderDetails(employeeId);
+
+        return Ok(calender);
+    }
+
+    [HttpPost("UpdateNotifyPersonnel")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> UpdateNotifyPersonnel([FromBody] IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var id = await overTimeService.InsertAsync(overTime);
-
-            return Ok(id);
-
+            return BadRequest(ModelState);
         }
 
-        [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(OverTime overTime)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await overTimeService.UpdateNotifyPersonnel(overTimeNotifyPersonnel);
 
-            var result = await overTimeService.UpdateAsync(overTime);
+        return Ok(result);
+    }
+    [HttpGet("GetOvertimeByPaygroupId/")]
+    public async Task<ActionResult<IEnumerable<OverTimePayrollViewModel>>> GetOvertimeByPaygroupId(int paygroupId, string fromDate, string toDate)
+    {
+        var overTimes = await overTimeService.GetOvertimeByPaygroupId(paygroupId, fromDate, toDate);
 
-            return Ok(result);
-        }
-        [HttpPost("InsertNotifyPersonnel")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> InsertNotifyPersonnel([FromBody] IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await overTimeService.InsertNotifyPersonnel(overTimeNotifyPersonnel);
-
-            return Ok(result);
-        }
-
-        [HttpGet("GetCalenderDetails/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<CalenderView>>> GetCalenderDetails(int employeeId)
-        {
-            var calender = await overTimeService.GetCalenderDetails(employeeId);
-
-            return Ok(calender);
-        }
-
-        [HttpPost("UpdateNotifyPersonnel")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> UpdateNotifyPersonnel([FromBody] IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await overTimeService.UpdateNotifyPersonnel(overTimeNotifyPersonnel);
-
-            return Ok(result);
-        }
-        [HttpGet("GetOvertimeByPaygroupId/")]
-        public async Task<ActionResult<IEnumerable<OverTimePayrollViewModel>>> GetOvertimeByPaygroupId(int paygroupId, string fromDate, string toDate)
-        {
-            var overTimes = await overTimeService.GetOvertimeByPaygroupId(paygroupId, fromDate, toDate);
-
-            return Ok(overTimes);
-        }
-        [HttpGet("OverTimeExcelTemplate")]
-        public async Task<ActionResult<byte[]>> OverTimeExcelTemplate()
-        {
-            return await overTimeService.OverTimeExcelTemplate();
-        }
-        [HttpPost("OverTimeBulkInsert")]
-        public async Task<ActionResult<int>> OverTimeBulkInsert([FromBody] IEnumerable<OverTime> overTimes)
-        {
-            return await overTimeService.OverTimeBulkInsert(overTimes);
-        }
-        [HttpPost("GetOverTimeValidation")]
-        public async Task<IEnumerable<OverTimeDetailsView>> GetOverTimeValidation([FromBody] IEnumerable<OverTimeDetailsView> overTimeDetailsViews)
-        {
-            return await overTimeService.GetOverTimeValidation(overTimeDetailsViews);
-        }
+        return Ok(overTimes);
+    }
+    [HttpGet("OverTimeExcelTemplate")]
+    public async Task<ActionResult<byte[]>> OverTimeExcelTemplate()
+    {
+        return await overTimeService.OverTimeExcelTemplate();
+    }
+    [HttpPost("OverTimeBulkInsert")]
+    public async Task<ActionResult<int>> OverTimeBulkInsert([FromBody] IEnumerable<OverTime> overTimes)
+    {
+        return await overTimeService.OverTimeBulkInsert(overTimes);
+    }
+    [HttpPost("GetOverTimeValidation")]
+    public async Task<IEnumerable<OverTimeDetailsView>> GetOverTimeValidation([FromBody] IEnumerable<OverTimeDetailsView> overTimeDetailsViews)
+    {
+        return await overTimeService.GetOverTimeValidation(overTimeDetailsViews);
     }
 }

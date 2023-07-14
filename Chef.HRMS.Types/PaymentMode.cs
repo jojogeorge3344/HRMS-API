@@ -1,19 +1,18 @@
 ﻿using System.ComponentModel;
 
-namespace Chef.HRMS.Types
+namespace Chef.HRMS.Types;
+
+/// <summary>
+/// Holds Payment mode
+/// </summary>
+public enum PaymentMode
 {
-    /// <summary>
-    /// Holds Payment mode
-    /// </summary>
-    public enum PaymentMode
-    {
-        [Description("Bank Transfer")]
-        BankTransfer = 1,
+    [Description("Bank Transfer")]
+    BankTransfer = 1,
 
-        [Description("Cheque Payment")]
-        ChequePayment,
+    [Description("Cheque Payment")]
+    ChequePayment,
 
-        [Description("Cash Payment")]
-        CashPayment,
-    }
+    [Description("Cash Payment")]
+    CashPayment,
 }

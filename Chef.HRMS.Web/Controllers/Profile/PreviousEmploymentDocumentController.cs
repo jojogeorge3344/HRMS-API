@@ -6,86 +6,85 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[ApiController]
+[Route("api/profile/[controller]")]
+public class PreviousEmploymentDocumentController : ControllerBase
 {
-    [ApiController]
-    [Route("api/profile/[controller]")]
-    public class PreviousEmploymentDocumentController : ControllerBase
+    private readonly IPreviousEmploymentDocumentService previousEmploymentDocumentService;
+
+    public PreviousEmploymentDocumentController(IPreviousEmploymentDocumentService previousEmploymentDocumentService)
     {
-        private readonly IPreviousEmploymentDocumentService previousEmploymentDocumentService;
+        this.previousEmploymentDocumentService = previousEmploymentDocumentService;
+    }
 
-        public PreviousEmploymentDocumentController(IPreviousEmploymentDocumentService previousEmploymentDocumentService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var previousEmploymentDocument = await previousEmploymentDocumentService.GetAsync(id);
+
+        if (previousEmploymentDocument == null)
         {
-            this.previousEmploymentDocumentService = previousEmploymentDocumentService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await previousEmploymentDocumentService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<PreviousEmploymentDocument>> Get(int id)
+    {
+        var previousEmploymentDocument = await previousEmploymentDocumentService.GetAsync(id);
+
+        if (previousEmploymentDocument == null)
         {
-            var previousEmploymentDocument = await previousEmploymentDocumentService.GetAsync(id);
-
-            if (previousEmploymentDocument == null)
-            {
-                return NotFound();
-            }
-
-            var result = await previousEmploymentDocumentService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<PreviousEmploymentDocument>> Get(int id)
+        return Ok(previousEmploymentDocument);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<PreviousEmploymentDocument>>> GetAll()
+    {
+        var previousEmploymentDocuments = await previousEmploymentDocumentService.GetAllAsync();
+
+        return Ok(previousEmploymentDocuments);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(PreviousEmploymentDocument previousEmploymentDocument)
+    {
+        if (!ModelState.IsValid)
         {
-            var previousEmploymentDocument = await previousEmploymentDocumentService.GetAsync(id);
-
-            if (previousEmploymentDocument == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(previousEmploymentDocument);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<PreviousEmploymentDocument>>> GetAll()
-        {
-            var previousEmploymentDocuments = await previousEmploymentDocumentService.GetAllAsync();
+        var id = await previousEmploymentDocumentService.InsertAsync(previousEmploymentDocument);
 
-            return Ok(previousEmploymentDocuments);
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(PreviousEmploymentDocument previousEmploymentDocument)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(PreviousEmploymentDocument previousEmploymentDocument)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await previousEmploymentDocumentService.UpdateAsync(previousEmploymentDocument);
 
-            var id = await previousEmploymentDocumentService.InsertAsync(previousEmploymentDocument);
-
-            return Ok(id);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(PreviousEmploymentDocument previousEmploymentDocument)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await previousEmploymentDocumentService.UpdateAsync(previousEmploymentDocument);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

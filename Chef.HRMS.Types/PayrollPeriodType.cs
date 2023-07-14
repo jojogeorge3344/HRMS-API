@@ -1,11 +1,10 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+/// <summary>
+/// Holds Period Types
+/// </summary>
+public enum PayrollPeriodType
 {
-    /// <summary>
-    /// Holds Period Types
-    /// </summary>
-    public enum PayrollPeriodType
-    {
-        Weekly = 1,
-        Monthly=2,
-    }
+    Weekly = 1,
+    Monthly = 2,
 }

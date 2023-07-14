@@ -1,15 +1,14 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Services
-{
-    public class EmployeeEncashmentDetailsService : AsyncService<EmployeeEncashmentDetails>, IEmployeeEncashmentDetailsService
-    {
-        private readonly IEmployeeEncashmentDetailsRepository employeeEncashmentDetailsRepository;
+namespace Chef.HRMS.Services;
 
-        public EmployeeEncashmentDetailsService(IEmployeeEncashmentDetailsRepository employeeEncashmentDetailsRepository)
-        {
-            this.employeeEncashmentDetailsRepository = employeeEncashmentDetailsRepository;
-        }
+public class EmployeeEncashmentDetailsService : AsyncService<EmployeeEncashmentDetails>, IEmployeeEncashmentDetailsService
+{
+    private readonly IEmployeeEncashmentDetailsRepository employeeEncashmentDetailsRepository;
+
+    public EmployeeEncashmentDetailsService(IEmployeeEncashmentDetailsRepository employeeEncashmentDetailsRepository)
+    {
+        this.employeeEncashmentDetailsRepository = employeeEncashmentDetailsRepository;
     }
 }

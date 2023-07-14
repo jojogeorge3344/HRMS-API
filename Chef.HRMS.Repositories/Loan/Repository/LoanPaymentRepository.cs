@@ -1,23 +1,16 @@
-﻿using Chef.Common.Repositories;
-using Chef.Common.Types;
-using Chef.HRMS.Models;
-using Chef.HRMS.Types;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Types;
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public class LoanPaymentRepository : GenericRepository<LoanPayment>, ILoanPaymentRepository
 {
-    public class LoanPaymentRepository : GenericRepository<LoanPayment>, ILoanPaymentRepository
+    public LoanPaymentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public LoanPaymentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByEmployeeId(int employeeId, int payrollProcessingMethodId)
-        {
-                var sql = @"SELECT 
+    public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByEmployeeId(int employeeId, int payrollProcessingMethodId)
+    {
+        var sql = @"SELECT 
                                                            lr.loantype                                   AS loantype, 
                                                            e.id                                          AS employeeid, 
                                                            lr.loanamount                                 AS amount, 
@@ -68,12 +61,12 @@ namespace Chef.HRMS.Repositories
                                                               lp.loanamount, 
                                                               lp.tenurenumber";
 
-                return await Connection.QueryAsync<EmployeeLoanView>(sql, new { employeeId, payrollProcessingMethodId });
-        }
+        return await Connection.QueryAsync<EmployeeLoanView>(sql, new { employeeId, payrollProcessingMethodId });
+    }
 
-        public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByPayrollProcessingMethodId(int payGroupId, int year, string month)
-        {
-                var sql = @"SELECT 
+    public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByPayrollProcessingMethodId(int payGroupId, int year, string month)
+    {
+        var sql = @"SELECT 
                                                            lr.loantype                                   AS loantype, 
                                                            e.id                                          AS employeeid,
                                                            lrd.repaymentamount                           AS amount, 
@@ -132,15 +125,14 @@ namespace Chef.HRMS.Repositories
                                                               lp.loanamount, 
                                                               lp.tenurenumber,ls.loanrepaymenttype";
 
-                return await Connection.QueryAsync<EmployeeLoanView>(sql, new { month,year,payGroupId, status = RequestStatusType.Approved });
-        }
+        return await Connection.QueryAsync<EmployeeLoanView>(sql, new { month, year, payGroupId, status = RequestStatusType.Approved });
+    }
 
-        public async Task<int> InsertAsync(IEnumerable<LoanPayment> loanPayment)
-        {
-                var sql = new QueryBuilder<LoanPayment>().GenerateInsertQuery();
-                sql = sql.Replace("RETURNING id", "");
+    public async Task<int> InsertAsync(IEnumerable<LoanPayment> loanPayment)
+    {
+        var sql = new QueryBuilder<LoanPayment>().GenerateInsertQuery();
+        sql = sql.Replace("RETURNING id", "");
 
-                return await Connection.ExecuteAsync(sql, loanPayment);
-        }
+        return await Connection.ExecuteAsync(sql, loanPayment);
     }
 }

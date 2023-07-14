@@ -1,10 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IBonusTypeService : IAsyncService<BonusType>
 {
-    public interface IBonusTypeService : IAsyncService<BonusType>
-    {
 
-    }
 }

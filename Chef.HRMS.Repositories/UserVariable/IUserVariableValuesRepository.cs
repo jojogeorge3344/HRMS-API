@@ -1,10 +1,9 @@
-﻿namespace Chef.HRMS.Repositories
+﻿namespace Chef.HRMS.Repositories;
+
+public interface IUserVariableValuesRepository : IGenericRepository<UserVariableValues>
 {
-    public interface IUserVariableValuesRepository : IGenericRepository<UserVariableValues>
-    {
-        Task<IEnumerable<UserVariable>> GetUserVariables();
+    Task<IEnumerable<UserVariable>> GetUserVariables();
 
-        new Task<IEnumerable<UserVariableValues>> GetAllAsync();
+    new Task<IEnumerable<UserVariableValues>> GetAllAsync();
 
-    }
 }

@@ -6,147 +6,146 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class EmployeeController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class EmployeeController : ControllerBase
+    private readonly IEmployeeService employeeService;
+
+    public EmployeeController(IEmployeeService employeeService)
     {
-        private readonly IEmployeeService employeeService;
+        this.employeeService = employeeService;
+    }
 
-        public EmployeeController(IEmployeeService employeeService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var employee = await employeeService.GetAsync(id);
+
+        if (employee == null)
         {
-            this.employeeService = employeeService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await employeeService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<HRMSEmployee>> Get(int id)
+    {
+        var employeeDetails = await employeeService.GetAsync(id);
+
+        if (employeeDetails == null)
         {
-            var employee = await employeeService.GetAsync(id);
-
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            var result = await employeeService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<HRMSEmployee>> Get(int id)
+        return Ok(employeeDetails);
+    }
+    [HttpGet("GetEmployeeDetailsById/{id}")]
+    public async Task<ActionResult<EmployeeView>> GetEmployeeDetailsById(int id)
+    {
+        var employeeDetails = await employeeService.GetEmployeeDetailsById(id);
+
+        if (employeeDetails == null)
         {
-            var employeeDetails = await employeeService.GetAsync(id);
-
-            if (employeeDetails == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(employeeDetails);
-        }
-        [HttpGet("GetEmployeeDetailsById/{id}")]
-        public async Task<ActionResult<EmployeeView>> GetEmployeeDetailsById(int id)
-        {
-            var employeeDetails = await employeeService.GetEmployeeDetailsById(id);
-
-            if (employeeDetails == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(employeeDetails);
-        }
-        [HttpGet("GetEmployeeEditLeaveDetails/{employeeId}/{leaveId}")]
-        public async Task<ActionResult<EmployeeView>> GetEmployeeEditLeaveDetails(int employeeId, int leaveId)
-        {
-            var employeeDetails = await employeeService.GetEmployeeEditLeaveDetails(employeeId, leaveId);
-
-            if (employeeDetails == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(employeeDetails);
+            return NotFound();
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<HRMSEmployee>>> GetAll()
-        {
-            var employeeList = await employeeService.GetAllAsync();
+        return Ok(employeeDetails);
+    }
+    [HttpGet("GetEmployeeEditLeaveDetails/{employeeId}/{leaveId}")]
+    public async Task<ActionResult<EmployeeView>> GetEmployeeEditLeaveDetails(int employeeId, int leaveId)
+    {
+        var employeeDetails = await employeeService.GetEmployeeEditLeaveDetails(employeeId, leaveId);
 
-            return Ok(employeeList);
+        if (employeeDetails == null)
+        {
+            return NotFound();
         }
 
-        [HttpGet("GetAllEmployeeDetails")]
-        public async Task<ActionResult<IEnumerable<EmployeeView>>> GetAllEmployeeDetails()
-        {
-            var employeeDetailsList = await employeeService.GetAllEmployeeDetails();
+        return Ok(employeeDetails);
+    }
 
-            return Ok(employeeDetailsList);
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<HRMSEmployee>>> GetAll()
+    {
+        var employeeList = await employeeService.GetAllAsync();
+
+        return Ok(employeeList);
+    }
+
+    [HttpGet("GetAllEmployeeDetails")]
+    public async Task<ActionResult<IEnumerable<EmployeeView>>> GetAllEmployeeDetails()
+    {
+        var employeeDetailsList = await employeeService.GetAllEmployeeDetails();
+
+        return Ok(employeeDetailsList);
+    }
+
+    [HttpGet("GetEmployeeDetailsByJobTile/{jobTitleId}")]
+    public async Task<ActionResult<IEnumerable<EmployeeView>>> GetEmployeeDetailsByJobTile(int jobTitleId)
+    {
+        var employeeDetailsList = await employeeService.GetEmployeeDetailsByJobTile(jobTitleId);
+
+        return Ok(employeeDetailsList);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(HRMSEmployee employee)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetEmployeeDetailsByJobTile/{jobTitleId}")]
-        public async Task<ActionResult<IEnumerable<EmployeeView>>> GetEmployeeDetailsByJobTile(int jobTitleId)
-        {
-            var employeeDetailsList = await employeeService.GetEmployeeDetailsByJobTile(jobTitleId);
+        var employeeDetails = await employeeService.InsertAsync(employee);
 
-            return Ok(employeeDetailsList);
+        return CreatedAtAction(nameof(Insert), employeeDetails);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(HRMSEmployee employee)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(HRMSEmployee employee)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await employeeService.UpdateAsync(employee);
 
-            var employeeDetails = await employeeService.InsertAsync(employee);
+        return Ok(result);
+    }
+    [HttpGet("GetAllNotificationById/{employeeId}")]
+    public async Task<ActionResult<IEnumerable<Notification>>> GetAllNotificationById(int employeeId)
+    {
+        var leaves = await employeeService.GetAllNotificationById(employeeId);
 
-            return CreatedAtAction(nameof(Insert), employeeDetails);
-        }
+        return Ok(leaves);
+    }
 
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(HRMSEmployee employee)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+    [HttpGet("IsNameExist/{name}")]
+    public async Task<bool> IsNameExist(string name)
+    {
+        return await employeeService.IsNameExist(name);
+    }
 
-            var result = await employeeService.UpdateAsync(employee);
+    [HttpGet("GetLoginEmployee/{employeeId}")]
+    public async Task<ActionResult<LoginEmployeeView>> GetLoginEmployee(int employeeId)
+    {
+        var employee = await employeeService.GetLoginEmployee(employeeId);
 
-            return Ok(result);
-        }
-        [HttpGet("GetAllNotificationById/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<Notification>>> GetAllNotificationById(int employeeId)
-        {
-            var leaves = await employeeService.GetAllNotificationById(employeeId);
-
-            return Ok(leaves);
-        }
-
-        [HttpGet("IsNameExist/{name}")]
-        public async Task<bool> IsNameExist(string name)
-        {
-            return await employeeService.IsNameExist(name);
-        }
-
-        [HttpGet("GetLoginEmployee/{employeeId}")]
-        public async Task<ActionResult<LoginEmployeeView>> GetLoginEmployee(int employeeId)
-        {
-            var employee = await employeeService.GetLoginEmployee(employeeId);
-
-            return Ok(employee);
-        }
+        return Ok(employee);
     }
 }

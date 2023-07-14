@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel;
 
-namespace Chef.HRMS.Types
+namespace Chef.HRMS.Types;
+
+public enum InterestMethod
 {
-    public enum InterestMethod
-    {
-        [Description("Reduction Rate")]
-        ReductionRate = 1,
-        [Description("Flat Rate")]
-        FlatRate,
-    }
+    [Description("Reduction Rate")]
+    ReductionRate = 1,
+    [Description("Flat Rate")]
+    FlatRate,
 }

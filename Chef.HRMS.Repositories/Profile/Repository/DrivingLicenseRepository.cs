@@ -1,21 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class DrivingLicenseRepository : GenericRepository<DrivingLicense>, IDrivingLicenseRepository
 {
-    public class DrivingLicenseRepository : GenericRepository<DrivingLicense>, IDrivingLicenseRepository
+    public DrivingLicenseRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public DrivingLicenseRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<DrivingLicenseView>> GetByEmployeeId(int employeeId)
-        {
-                var sql = @"SELECT a.id           AS drivinglicenseid, 
+    public async Task<IEnumerable<DrivingLicenseView>> GetByEmployeeId(int employeeId)
+    {
+        var sql = @"SELECT a.id           AS drivinglicenseid, 
                                    c.id           AS documentid, 
                                    b.id           AS drivinglicensedocumentid, 
                                    a.address      AS address, 
@@ -36,7 +29,6 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.document C 
                                            ON b.documentid = c.id  where C.isarchived=false";  // Added for  where C.isarchived=false by Nir
 
-            return await Connection.QueryAsync<DrivingLicenseView>(sql, new { employeeId });
-        }
+        return await Connection.QueryAsync<DrivingLicenseView>(sql, new { employeeId });
     }
 }

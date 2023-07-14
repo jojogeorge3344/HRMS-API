@@ -1,11 +1,10 @@
 ﻿using Chef.Common.Core;
 
-namespace Chef.HRMS.Models
-{
-    public class LossOfPayView : ViewModel
-    {
-        public int LossOfPay { get; set; }
+namespace Chef.HRMS.Models;
 
-        public decimal LOPDeduction { get; set; }
-    }
+public class LossOfPayView : ViewModel
+{
+    public int LossOfPay { get; set; }
+
+    public decimal LOPDeduction { get; set; }
 }

@@ -1,15 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface ILoanPrintBoldReportService : IBaseService
 {
-    public interface ILoanPrintBoldReportService: IBaseService
-    {
-        Task<IEnumerable<LoanPrintBoldReport>> GetLoanDetailsAsync(int id);
-    }
+    Task<IEnumerable<LoanPrintBoldReport>> GetLoanDetailsAsync(int id);
 }

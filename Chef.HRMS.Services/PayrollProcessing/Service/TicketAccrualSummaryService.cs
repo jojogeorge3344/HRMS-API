@@ -2,85 +2,79 @@
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Repositories;
-using Chef.HRMS.Repositories.PayrollProcessing.Repository;
 using Chef.HRMS.Services.PayrollProcessing.Interface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Services.PayrollProcessing.Service
+namespace Chef.HRMS.Services.PayrollProcessing.Service;
+
+public class TicketAccrualSummaryService : AsyncService<TicketAccrualSummary>, ITicketAccrualSummaryService
 {
-    public class TicketAccrualSummaryService : AsyncService<TicketAccrualSummary>, ITicketAccrualSummaryService
+    private readonly ITicketAccrualSummaryRepository ticketAccrualSummaryRepository;
+
+    public TicketAccrualSummaryService(ITicketAccrualSummaryRepository ticketAccrualSummaryRepository)
     {
-        private readonly ITicketAccrualSummaryRepository ticketAccrualSummaryRepository;
+        this.ticketAccrualSummaryRepository = ticketAccrualSummaryRepository;
+    }
 
-        public TicketAccrualSummaryService(ITicketAccrualSummaryRepository ticketAccrualSummaryRepository)
+    public async Task<int> GenerateAndInsertTicketAccrualSummary(List<TicketAccrual> ticketAccruals)
+    {
+        List<TicketAccrualSummary> ticketAccrualSummaries = new List<TicketAccrualSummary>();
+        foreach (var employeeTicketAccrual in ticketAccruals)
         {
-            this.ticketAccrualSummaryRepository = ticketAccrualSummaryRepository;
-        }
+            var now = DateTime.Now;
+            int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
 
-        public async Task<int> GenerateAndInsertTicketAccrualSummary(List<TicketAccrual> ticketAccruals)
-        {
-            List<TicketAccrualSummary> ticketAccrualSummaries = new List<TicketAccrualSummary>();
-            foreach (var employeeTicketAccrual in ticketAccruals)
+
+            // Get previous accrual summary details for eligible employee
+            var prevAccrualSummaryDetails = await ticketAccrualSummaryRepository.GetPreviousTicketAccrualSummary(employeeTicketAccrual.EmployeeId);
+
+            TicketAccrualSummary ticketAccrualSummary = new TicketAccrualSummary();
+            ticketAccrualSummary.EmployeeId = employeeTicketAccrual.EmployeeId;
+            var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - EOSSUmmary entered for next month
+            ticketAccrualSummary.AccrualDate = firstDayNextMonth;
+
+            if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
             {
-                var now = DateTime.Now;
-                int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
-
-
-                // Get previous accrual summary details for eligible employee
-                var prevAccrualSummaryDetails = await ticketAccrualSummaryRepository.GetPreviousTicketAccrualSummary(employeeTicketAccrual.EmployeeId);
-
-                TicketAccrualSummary ticketAccrualSummary = new TicketAccrualSummary();
-                ticketAccrualSummary.EmployeeId = employeeTicketAccrual.EmployeeId;
-                var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - EOSSUmmary entered for next month
-                ticketAccrualSummary.AccrualDate = firstDayNextMonth;
-
-                if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
-                {
-                    throw new ResourceNotFoundException("Ticket accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-                }
-
-                if (prevAccrualSummaryDetails == null) 
-                {
-                    //Insert into Accrual summary table 
-                    ticketAccrualSummary.AccrualDays = employeeTicketAccrual.AccrualDays;
-                    ticketAccrualSummary.AccrualAmount = employeeTicketAccrual.AccrualAmount;
-                }
-                else
-                {
-
-                    decimal currentAccrual = employeeTicketAccrual.EligibilityPerDay * employeeTicketAccrual.WorkeddaysInCalMonth;
-                    decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
-                    ticketAccrualSummary.AccrualDays = totalAccrualDays;
-                    ticketAccrualSummary.AccrualAmount = ((decimal)employeeTicketAccrual.MonthlyAmount / employeeTicketAccrual.EligibilityBase) * employeeTicketAccrual.AccrualDays;
-                }                
-                ticketAccrualSummaries.Add(ticketAccrualSummary);
+                throw new ResourceNotFoundException("Ticket accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
             }
 
-            var result = await ticketAccrualSummaryRepository.BulkInsertAsync(ticketAccrualSummaries);
-            return result;
-        }
-        public Task<int> DeleteAsync(int id)
-        {
-            throw new System.NotImplementedException();
+            if (prevAccrualSummaryDetails == null)
+            {
+                //Insert into Accrual summary table 
+                ticketAccrualSummary.AccrualDays = employeeTicketAccrual.AccrualDays;
+                ticketAccrualSummary.AccrualAmount = employeeTicketAccrual.AccrualAmount;
+            }
+            else
+            {
+
+                decimal currentAccrual = employeeTicketAccrual.EligibilityPerDay * employeeTicketAccrual.WorkeddaysInCalMonth;
+                decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
+                ticketAccrualSummary.AccrualDays = totalAccrualDays;
+                ticketAccrualSummary.AccrualAmount = (employeeTicketAccrual.MonthlyAmount / employeeTicketAccrual.EligibilityBase) * employeeTicketAccrual.AccrualDays;
+            }
+            ticketAccrualSummaries.Add(ticketAccrualSummary);
         }
 
-        public Task<IEnumerable<LeaveAndAttendance>> GetAllAsync()
-        {
-            throw new System.NotImplementedException();
-        }
+        var result = await ticketAccrualSummaryRepository.BulkInsertAsync(ticketAccrualSummaries);
+        return result;
+    }
+    public Task<int> DeleteAsync(int id)
+    {
+        throw new System.NotImplementedException();
+    }
 
-        public Task<LeaveAndAttendance> GetAsync(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+    public Task<IEnumerable<LeaveAndAttendance>> GetAllAsync()
+    {
+        throw new System.NotImplementedException();
+    }
 
-        public Task<int> InsertAsync(LeaveAndAttendance obj)
-        {
-            throw new System.NotImplementedException();
-        }
+    public Task<LeaveAndAttendance> GetAsync(int id)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Task<int> InsertAsync(LeaveAndAttendance obj)
+    {
+        throw new System.NotImplementedException();
     }
 }

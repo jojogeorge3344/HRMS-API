@@ -1,21 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class EmployeeBasicComponentBreakupRepository : GenericRepository<EmployeeBasicComponentBreakupView>, IEmployeeBasicComponentBreakupRepository
 {
-    public class EmployeeBasicComponentBreakupRepository : GenericRepository<EmployeeBasicComponentBreakupView>, IEmployeeBasicComponentBreakupRepository
+    public EmployeeBasicComponentBreakupRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public EmployeeBasicComponentBreakupRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<EmployeeBasicComponentBreakupView>> GetAllEmployeeBasicComponentBreakupView(int month, int year)
-        {
-                var sql = @$"SELECT      employeename, 
+    public async Task<IEnumerable<EmployeeBasicComponentBreakupView>> GetAllEmployeeBasicComponentBreakupView(int month, int year)
+    {
+        var sql = @$"SELECT      employeename, 
                                          employeecode, 
                                          json_object_agg(shortcode,total order BY shortcode) basiccomponents, 
                                          COALESCE(bonus,0)                                   bonus, 
@@ -51,7 +44,6 @@ namespace Chef.HRMS.Repositories
                                          effectivedate 
                                 ORDER BY employeename;";
 
-                return await Connection.QueryAsync<EmployeeBasicComponentBreakupView>(sql, new { month, year });
-        }
+        return await Connection.QueryAsync<EmployeeBasicComponentBreakupView>(sql, new { month, year });
     }
 }

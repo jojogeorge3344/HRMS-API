@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Types;
 
-namespace Chef.HRMS.Types
+public enum PayHeadType
 {
-    public enum PayHeadType
-    {
-        Fixed=1,
-        Variable=2
-    }
+    Fixed = 1,
+    Variable = 2
 }

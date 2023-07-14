@@ -1,14 +1,10 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IExpensePaymentService : IAsyncService<ExpensePayment>
 {
-    public interface IExpensePaymentService : IAsyncService<ExpensePayment>
-    {
-        Task<IEnumerable<ExpensePayment>> GetAllApprovedExpense();
-        Task<int> UpdateExpenseStatus(int expenseRequestId, int paymentMode);
-        Task<IEnumerable<ExpensePayment>> GetAllPaidOutExpense();
-    }
+    Task<IEnumerable<ExpensePayment>> GetAllApprovedExpense();
+    Task<int> UpdateExpenseStatus(int expenseRequestId, int paymentMode);
+    Task<IEnumerable<ExpensePayment>> GetAllPaidOutExpense();
 }

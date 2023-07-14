@@ -2,15 +2,14 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Chef.HRMS.Models
+namespace Chef.HRMS.Models;
+
+public class Role : Model
 {
-    public class Role : Model
-    {
-        /// <summary>
-        /// Holds role name
-        /// </summary>
-        [Required]
-        [Description("Name of role")]
-        public string Name { get; set; }
-    }
+    /// <summary>
+    /// Holds role name
+    /// </summary>
+    [Required]
+    [Description("Name of role")]
+    public string Name { get; set; }
 }

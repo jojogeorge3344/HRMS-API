@@ -1,12 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IEmployeeRevisionOldService : IAsyncService<EmployeeRevisionOld>
 {
-    public interface IEmployeeRevisionOldService : IAsyncService<EmployeeRevisionOld>
-    {
-        Task<EmployeeRevisionOld> GetEmployeeRevisionOld(int employeeRevisionId);
-    }
+    Task<EmployeeRevisionOld> GetEmployeeRevisionOld(int employeeRevisionId);
 }

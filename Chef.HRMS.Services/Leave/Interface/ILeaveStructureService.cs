@@ -1,14 +1,10 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface ILeaveStructureService : IAsyncService<LeaveStructure>
 {
-    public interface ILeaveStructureService : IAsyncService<LeaveStructure>
-    {
-        Task<IEnumerable<int>> GetAllAssignedLeaveStructure();
-        Task<IEnumerable<LeaveStructure>> GetAllConfiguredLeaveStructures();
-        Task<int> UpdateLeaveStructure(int id, bool isConfigured);
-    }
+    Task<IEnumerable<int>> GetAllAssignedLeaveStructure();
+    Task<IEnumerable<LeaveStructure>> GetAllConfiguredLeaveStructures();
+    Task<int> UpdateLeaveStructure(int id, bool isConfigured);
 }

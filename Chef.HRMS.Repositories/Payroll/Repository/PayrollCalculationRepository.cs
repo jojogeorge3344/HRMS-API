@@ -1,14 +1,14 @@
-﻿namespace Chef.HRMS.Repositories
-{
-    public class PayrollCalculationRepository : GenericRepository<PayrollCalculation>, IPayrollCalculationRepository
-    {
-        public PayrollCalculationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+﻿namespace Chef.HRMS.Repositories;
 
-        public async Task<IEnumerable<PayrollCalculationViewModel>> GetAllCalculationDetails()
-        {
-                var sql = @"SELECT DISTINCT ps.id          AS payrollstructureid, 
+public class PayrollCalculationRepository : GenericRepository<PayrollCalculation>, IPayrollCalculationRepository
+{
+    public PayrollCalculationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
+    {
+    }
+
+    public async Task<IEnumerable<PayrollCalculationViewModel>> GetAllCalculationDetails()
+    {
+        var sql = @"SELECT DISTINCT ps.id          AS payrollstructureid, 
                                             ps.NAME        AS PayrollStructureName, 
                                             pcmp.id        AS PayrollComponentId, 
                                             pcmp.NAME      AS payrollComponentName, 
@@ -37,12 +37,12 @@
                                       pcalc.id
                             ORDER  BY ordernumber,pcmp.NAME";
 
-                return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
-        }
+        return await Connection.QueryAsync<PayrollCalculationViewModel>(sql);
+    }
 
-        public async Task<IEnumerable<PayrollCalculationViewModel>> GetPayrollComponentsByEmployeeId(int employeeId)
-        {
-                var sql = @"SELECT DISTINCT ps.id          AS payrollstructureid, 
+    public async Task<IEnumerable<PayrollCalculationViewModel>> GetPayrollComponentsByEmployeeId(int employeeId)
+    {
+        var sql = @"SELECT DISTINCT ps.id          AS payrollstructureid, 
                                             ps.NAME        AS PayrollStructureName, 
                                             pcmp.id        AS PayrollComponentId, 
                                             pcmp.NAME      AS payrollComponentName, 
@@ -77,26 +77,25 @@
                                       currencycode
                             ORDER BY ordernumber, isfixed";
 
-                return await Connection.QueryAsync<PayrollCalculationViewModel>(sql, new { employeeId });
-        }
+        return await Connection.QueryAsync<PayrollCalculationViewModel>(sql, new { employeeId });
+    }
 
-        public async Task<IEnumerable<PayrollCalculation>> GetAllCalculationDetailsById(int id)
+    public async Task<IEnumerable<PayrollCalculation>> GetAllCalculationDetailsById(int id)
+    {
+        var sql = "SELECT * From hrms.payrollcalculation WHERE payrollstructureid=@id";
+
+        return await Connection.QueryAsync<PayrollCalculation>(sql, new { id });
+    }
+
+    public async Task<bool> IsSystemVariableExist(string code)
+    {
+        var sql = @"SELECT * FROM hrms.payrollcalculation WHERE formula LIKE '%" + code + "%' AND isarchived = false";
+
+        if ((await Connection.QueryFirstOrDefaultAsync<int>(sql, new { })) >= 1)
         {
-                var sql = "SELECT * From hrms.payrollcalculation WHERE payrollstructureid=@id";
-
-                return await Connection.QueryAsync<PayrollCalculation>(sql, new { id });
+            return true;
         }
 
-        public async Task<bool> IsSystemVariableExist(string code)
-        {
-            var sql = @"SELECT * FROM hrms.payrollcalculation WHERE formula LIKE '%"+code+"%' AND isarchived = false";
-
-            if ((await Connection.QueryFirstOrDefaultAsync<int>(sql, new {})) >= 1)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        return false;
     }
 }

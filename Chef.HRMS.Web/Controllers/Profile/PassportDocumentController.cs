@@ -6,86 +6,85 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[ApiController]
+[Route("api/profile/[controller]")]
+public class PassportDocumentController : ControllerBase
 {
-    [ApiController]
-    [Route("api/profile/[controller]")]
-    public class PassportDocumentController : ControllerBase
+    private readonly IPassportDocumentService passportDocumentService;
+
+    public PassportDocumentController(IPassportDocumentService passportDocumentService)
     {
-        private readonly IPassportDocumentService passportDocumentService;
+        this.passportDocumentService = passportDocumentService;
+    }
 
-        public PassportDocumentController(IPassportDocumentService passportDocumentService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var passportDocument = await passportDocumentService.GetAsync(id);
+
+        if (passportDocument == null)
         {
-            this.passportDocumentService = passportDocumentService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await passportDocumentService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<PassportDocument>> Get(int id)
+    {
+        var passportDocument = await passportDocumentService.GetAsync(id);
+
+        if (passportDocument == null)
         {
-            var passportDocument = await passportDocumentService.GetAsync(id);
-
-            if (passportDocument == null)
-            {
-                return NotFound();
-            }
-
-            var result = await passportDocumentService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<PassportDocument>> Get(int id)
+        return Ok(passportDocument);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<PassportDocument>>> GetAll()
+    {
+        var passportDocuments = await passportDocumentService.GetAllAsync();
+
+        return Ok(passportDocuments);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(PassportDocument passportDocument)
+    {
+        if (!ModelState.IsValid)
         {
-            var passportDocument = await passportDocumentService.GetAsync(id);
-
-            if (passportDocument == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(passportDocument);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<PassportDocument>>> GetAll()
-        {
-            var passportDocuments = await passportDocumentService.GetAllAsync();
+        var id = await passportDocumentService.InsertAsync(passportDocument);
 
-            return Ok(passportDocuments);
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(PassportDocument passportDocument)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(PassportDocument passportDocument)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await passportDocumentService.UpdateAsync(passportDocument);
 
-            var id = await passportDocumentService.InsertAsync(passportDocument);
-
-            return Ok(id);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(PassportDocument passportDocument)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await passportDocumentService.UpdateAsync(passportDocument);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

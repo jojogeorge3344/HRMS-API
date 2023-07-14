@@ -1,13 +1,9 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IEmployeeTicketService : IAsyncService<EmployeeTicket>
 {
-    public interface IEmployeeTicketService : IAsyncService<EmployeeTicket>
-    {
-        Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByEmployeeId(int employeeId);
-        Task<bool> IsTravelFromExist(string fromPlace);
-    }
+    Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByEmployeeId(int employeeId);
+    Task<bool> IsTravelFromExist(string fromPlace);
 }

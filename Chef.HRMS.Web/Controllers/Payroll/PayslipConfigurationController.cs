@@ -5,63 +5,62 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/settings/payroll/[controller]")]
+[ApiController]
+public class PayslipConfigurationController : ControllerBase
 {
-    [Route("api/settings/payroll/[controller]")]
-    [ApiController]
-    public class PayslipConfigurationController : ControllerBase
+    private readonly IPayslipConfigurationService payslipConfigurationService;
+
+    public PayslipConfigurationController(IPayslipConfigurationService payslipConfigurationService)
     {
-        private readonly IPayslipConfigurationService payslipConfigurationService;
+        this.payslipConfigurationService = payslipConfigurationService;
+    }
 
-        public PayslipConfigurationController(IPayslipConfigurationService payslipConfigurationService)
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<PayslipConfiguration>> Get(int id)
+    {
+        var payslipConfiguration = await payslipConfigurationService.GetAsync(id);
+
+        if (payslipConfiguration == null)
         {
-            this.payslipConfigurationService = payslipConfigurationService;
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<PayslipConfiguration>> Get(int id)
+        return Ok(payslipConfiguration);
+    }
+
+    [HttpPost("Insert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Insert(PayslipConfiguration payslipConfiguration)
+    {
+        if (!ModelState.IsValid)
         {
-            var payslipConfiguration = await payslipConfigurationService.GetAsync(id);
-
-            if (payslipConfiguration == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(payslipConfiguration);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(PayslipConfiguration payslipConfiguration)
+        var result = await payslipConfigurationService.InsertAsync(payslipConfiguration);
+
+        return CreatedAtAction(nameof(Insert), result);
+    }
+
+    [HttpPut]
+    [Route("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Update(PayslipConfiguration payslipConfiguration)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await payslipConfigurationService.InsertAsync(payslipConfiguration);
-
-            return CreatedAtAction(nameof(Insert), result);
+            return BadRequest(ModelState);
         }
 
-        [HttpPut]
-        [Route("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(PayslipConfiguration payslipConfiguration)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await payslipConfigurationService.UpdateAsync(payslipConfiguration);
 
-            var result = await payslipConfigurationService.UpdateAsync(payslipConfiguration);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

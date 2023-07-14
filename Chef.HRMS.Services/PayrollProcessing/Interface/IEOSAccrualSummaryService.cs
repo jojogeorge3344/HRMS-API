@@ -1,15 +1,8 @@
-﻿using Chef.HRMS.Models;
-using Chef.HRMS.Models.PayrollProcessing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models.PayrollProcessing;
 
-namespace Chef.HRMS.Services.PayrollProcessing.Interface
+namespace Chef.HRMS.Services.PayrollProcessing.Interface;
+
+public interface IEOSAccrualSummaryService : IAsyncService<EOSAccrualSummary>
 {
-    public interface IEOSAccrualSummaryService : IAsyncService<EOSAccrualSummary>
-    {
-        Task<int> GenerateAndInsertEOSAccrualSummary(List<EOSAccrual> eosAccruals);
-    }
+    Task<int> GenerateAndInsertEOSAccrualSummary(List<EOSAccrual> eosAccruals);
 }

@@ -1,23 +1,16 @@
-﻿using Chef.Common.Models;
-using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Chef.HRMS.Models.Loan;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models.Loan;
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public class LoanRequestRepository : GenericRepository<LoanRequest>, ILoanRequestRepository
 {
-    public class LoanRequestRepository : GenericRepository<LoanRequest>, ILoanRequestRepository
+    public LoanRequestRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public LoanRequestRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByPayrollProcessingMethodId(int payrollProcessingMethodId)
-        {
-                var sql = @"SELECT 
+    public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByPayrollProcessingMethodId(int payrollProcessingMethodId)
+    {
+        var sql = @"SELECT 
                                                            lr.loantype                                   AS loantype, 
                                                            e.id                                          AS employeeid, 
                                                            lr.loanamount                                 AS amount, 
@@ -55,12 +48,12 @@ namespace Chef.HRMS.Repositories
                                                               lr.loanno,
                                                               lr.expectedon";
 
-                return await Connection.QueryAsync<EmployeeLoanView>(sql, new { payrollProcessingMethodId });
-        }
+        return await Connection.QueryAsync<EmployeeLoanView>(sql, new { payrollProcessingMethodId });
+    }
 
-        public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
-        {
-                var sql = @"SELECT Distinct lr.employeeid                         AS employeeid, 
+    public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanByEmployeeId(int employeeId, int payrollProcessingMethodId)
+    {
+        var sql = @"SELECT Distinct lr.employeeid                         AS employeeid, 
                                    lr.loantype                           AS loantype, 
                                    lr.loanno                             AS loanNumber, 
                                    lr.loanamount                         AS amount, 
@@ -80,34 +73,33 @@ namespace Chef.HRMS.Repositories
                                    AND ( Extract(month FROM lr.expectedon) = pm.month 
                                          AND Extract(year FROM lr.expectedon) = pm.year )";
 
-                return await Connection.QueryAsync<EmployeeLoanView>(sql, new { employeeId, payrollProcessingMethodId });
-        }
-        public async Task<int> GetLoanLastRequestId()
-        {
-                var sql = @"SELECT id 
+        return await Connection.QueryAsync<EmployeeLoanView>(sql, new { employeeId, payrollProcessingMethodId });
+    }
+    public async Task<int> GetLoanLastRequestId()
+    {
+        var sql = @"SELECT id 
                             FROM   hrms.loanrequest 
 							ORDER BY id DESC
                             LIMIT  1";
 
-                return await Connection.QueryFirstOrDefaultAsync<int>(sql);
-        }
+        return await Connection.QueryFirstOrDefaultAsync<int>(sql);
+    }
 
-        public async Task<IEnumerable<LoanRequestedViewModel>> GetRequestedDateByEmployeeId(int employeeId)
-        {
-            var sql = @"SELECT requesteddate FROM hrms.loanrequest WHERE employeeid=@employeeid";
-            return await Connection.QueryAsync<LoanRequestedViewModel>(sql, new { employeeId = employeeId });
-        }
+    public async Task<IEnumerable<LoanRequestedViewModel>> GetRequestedDateByEmployeeId(int employeeId)
+    {
+        var sql = @"SELECT requesteddate FROM hrms.loanrequest WHERE employeeid=@employeeid";
+        return await Connection.QueryAsync<LoanRequestedViewModel>(sql, new { employeeId = employeeId });
+    }
 
-        public async Task<LoanRequestDetailsView> GetLoanRequestDetails(int loanId)
-        {
-            var sql = @"SELECT lr.*,lp.tenurenumber,lp.emiamount,lp.payrollprocessingmethodid,lp.balanceamount,
+    public async Task<LoanRequestDetailsView> GetLoanRequestDetails(int loanId)
+    {
+        var sql = @"SELECT lr.*,lp.tenurenumber,lp.emiamount,lp.payrollprocessingmethodid,lp.balanceamount,
                         lp.remainingtenure FROM hrms.loanrequest lr
                         INNER JOIN hrms.loanpayment lp
                         ON lr.id = lp.loanid
                         WHERE lr.id = @loanId
                         AND lr.isarchived = false";
 
-            return await Connection.QueryFirstOrDefaultAsync<LoanRequestDetailsView>(sql, new { loanId });
-        }
+        return await Connection.QueryFirstOrDefaultAsync<LoanRequestDetailsView>(sql, new { loanId });
     }
 }

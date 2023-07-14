@@ -6,92 +6,91 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class JobTitleController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class JobTitleController : ControllerBase
+    private readonly IJobTitleServices jobTitleServices;
+
+    public JobTitleController(IJobTitleServices jobTitleServices)
     {
-        private readonly IJobTitleServices jobTitleServices;
+        this.jobTitleServices = jobTitleServices;
+    }
 
-        public JobTitleController(IJobTitleServices jobTitleServices)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var JobTitle = await jobTitleServices.GetAsync(id);
+
+        if (JobTitle == null)
         {
-            this.jobTitleServices = jobTitleServices;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        var result = await jobTitleServices.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<JobTitle>> Get(int id)
+    {
+        var JobTitle = await jobTitleServices.GetAsync(id);
+
+        if (JobTitle == null)
         {
-            var JobTitle = await jobTitleServices.GetAsync(id);
-
-            if (JobTitle == null)
-            {
-                return NotFound();
-            }
-
-            var result = await jobTitleServices.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<JobTitle>> Get(int id)
+        return Ok(JobTitle);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<JobTitle>>> GetAll()
+    {
+        var JobTitles = await jobTitleServices.GetAllAsync();
+
+        return Ok(JobTitles);
+    }
+
+    [HttpGet("GetAllJobTitleList")]
+    public async Task<ActionResult<IEnumerable<JobTitleView>>> GetAllJobTitleList()
+    {
+        var JobTitleList = await jobTitleServices.GetAllJobTitleList();
+
+        return Ok(JobTitleList);
+    }
+
+    [HttpPost("Insert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Insert(JobTitle JobTitle)
+    {
+        if (!ModelState.IsValid)
         {
-            var JobTitle = await jobTitleServices.GetAsync(id);
-
-            if (JobTitle == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(JobTitle);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<JobTitle>>> GetAll()
-        {
-            var JobTitles = await jobTitleServices.GetAllAsync();
+        var jobTitle = await jobTitleServices.InsertAsync(JobTitle);
+        return CreatedAtAction(nameof(Insert), jobTitle);
+    }
 
-            return Ok(JobTitles);
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Update(JobTitle JobTitle)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAllJobTitleList")]
-        public async Task<ActionResult<IEnumerable<JobTitleView>>> GetAllJobTitleList()
-        {
-            var JobTitleList = await jobTitleServices.GetAllJobTitleList();
+        var result = await jobTitleServices.UpdateAsync(JobTitle);
 
-            return Ok(JobTitleList);
-        }
-
-        [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(JobTitle JobTitle)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var jobTitle = await jobTitleServices.InsertAsync(JobTitle);
-            return CreatedAtAction(nameof(Insert), jobTitle);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(JobTitle JobTitle)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await jobTitleServices.UpdateAsync(JobTitle);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

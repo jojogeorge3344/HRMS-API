@@ -6,58 +6,57 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/settings/[controller]")]
+[ApiController]
+public class EmployeeSalaryConfigurationDetailsController : ControllerBase
 {
-    [Route("api/settings/[controller]")]
-    [ApiController]
-    public class EmployeeSalaryConfigurationDetailsController : ControllerBase
+    private readonly IEmployeeSalaryConfigurationDetailsService employeeSalaryConfigurationDetailsService;
+
+    public EmployeeSalaryConfigurationDetailsController(IEmployeeSalaryConfigurationDetailsService employeeSalaryConfigurationDetailsService)
     {
-        private readonly IEmployeeSalaryConfigurationDetailsService employeeSalaryConfigurationDetailsService;
+        this.employeeSalaryConfigurationDetailsService = employeeSalaryConfigurationDetailsService;
+    }
 
-        public EmployeeSalaryConfigurationDetailsController(IEmployeeSalaryConfigurationDetailsService employeeSalaryConfigurationDetailsService)
+    [HttpPost("InsertEmployeeSalaryConfigDetails")]
+    //[Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> InsertEmployeeSalaryConfigDetails([FromBody]IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
+    {
+        if (!ModelState.IsValid)
         {
-            this.employeeSalaryConfigurationDetailsService = employeeSalaryConfigurationDetailsService;
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("InsertEmployeeSalaryConfigDetails")]
-        //[Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> InsertEmployeeSalaryConfigDetails([FromBody]IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
+        var result = await employeeSalaryConfigurationDetailsService.InsertEmployeeSalaryConfigDetails(employeeSalaryConfigurationDetails);
+
+        return Ok(result);
+    }
+
+    [HttpPut]
+    [Route("UpdateEmployeeSalaryConfigDetails")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> UpdateEmployeeSalaryConfigDetails(IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await employeeSalaryConfigurationDetailsService.InsertEmployeeSalaryConfigDetails(employeeSalaryConfigurationDetails);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
 
-        [HttpPut]
-        [Route("UpdateEmployeeSalaryConfigDetails")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UpdateEmployeeSalaryConfigDetails(IEnumerable<EmployeeSalaryConfigurationDetails> employeeSalaryConfigurationDetails)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await employeeSalaryConfigurationDetailsService.UpdateEmployeeSalaryConfigDetails(employeeSalaryConfigurationDetails);
 
-            var result = await employeeSalaryConfigurationDetailsService.UpdateEmployeeSalaryConfigDetails(employeeSalaryConfigurationDetails);
+        return Ok(result);
+    }
 
-            return Ok(result);
-        }
+    [HttpDelete("DeleteByEmployeeId/{employeeId}")]
+    public async Task<ActionResult<int>> DeleteByEmployeeId(int employeeId)
+    {
+        var result = await employeeSalaryConfigurationDetailsService.DeleteByEmployeeId(employeeId);
 
-        [HttpDelete("DeleteByEmployeeId/{employeeId}")]
-        public async Task<ActionResult<int>> DeleteByEmployeeId(int employeeId)
-        {
-            var result = await employeeSalaryConfigurationDetailsService.DeleteByEmployeeId(employeeId);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

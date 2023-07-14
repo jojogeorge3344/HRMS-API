@@ -1,17 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories.Report;
 
-namespace Chef.HRMS.Repositories.Report
+public class EmployeeRevisionBoldReportRepository : BaseRepository, IEmployeeRevisionBoldReportRepository
 {
-    public class EmployeeRevisionBoldReportRepository : BaseRepository, IEmployeeRevisionBoldReportRepository
+    public async Task<EmployeeRevisionOldDetailsBoldDto> GetemployeeOldDetailsAsync(int id)
     {
-        public async Task<EmployeeRevisionOldDetailsBoldDto> GetemployeeOldDetailsAsync(int id)
-        {
-            string query = @"SELECT ls.name AS leavestructurename,sh.name AS shiftname,er.weekoff,
+        string query = @"SELECT ls.name AS leavestructurename,sh.name AS shiftname,er.weekoff,
                              hc.name AS holidaycategoryname,eos.bfname AS eosname,jt.name AS jobtitlename,
                              er.departmentid,er.workertype,er.timetype,er.attendancetrackingid,
                              prs.name AS payrollstructurename,pg.name AS paygroupname,otp.name AS overtimepolicyname
@@ -36,12 +29,12 @@ namespace Chef.HRMS.Repositories.Report
                                 ON er.overtimepolicyid = otp.id
                             WHERE er.employeerevisionid = @id";
 
-            return await DatabaseSession.QueryFirstAsync<EmployeeRevisionOldDetailsBoldDto>(query, new { id });
+        return await DatabaseSession.QueryFirstAsync<EmployeeRevisionOldDetailsBoldDto>(query, new { id });
 
-        }
-        public async Task<EmployeeRevisionNewDetailsBoldDto> GetemployeeNewDetailsAsync(int id)
-        {
-            string query = @"SELECT ls.name AS leavestructurename,sh.name AS shiftname,er.weekoff,
+    }
+    public async Task<EmployeeRevisionNewDetailsBoldDto> GetemployeeNewDetailsAsync(int id)
+    {
+        string query = @"SELECT ls.name AS leavestructurename,sh.name AS shiftname,er.weekoff,
                               hc.name AS holidaycategoryname,eos.bfname AS eosname,jt.name AS jobtitlename,
                               er.departmentid,er.workertype,er.timetype,er.attendancetrackingid,
                               prs.name AS payrollstructurename,pg.name AS paygroupname,otp.name AS overtimepolicyname,
@@ -68,12 +61,12 @@ namespace Chef.HRMS.Repositories.Report
                               ON er.overtimepolicyid = otp.id
                             WHERE er.id = @id";
 
-            return await DatabaseSession.QueryFirstAsync<EmployeeRevisionNewDetailsBoldDto>(query, new { id });
-        }
+        return await DatabaseSession.QueryFirstAsync<EmployeeRevisionNewDetailsBoldDto>(query, new { id });
+    }
 
-        public async Task<IEnumerable<EmployeeSalarayDto>> GetSalaryOldDetailsAsync(int id)
-        {
-            string query = @"SELECT pc.name AS payrollcomponentname,erdo.monthlyamount AS amount
+    public async Task<IEnumerable<EmployeeSalarayDto>> GetSalaryOldDetailsAsync(int id)
+    {
+        string query = @"SELECT pc.name AS payrollcomponentname,erdo.monthlyamount AS amount
                              FROM hrms.employeerevisionold er
                              INNER JOIN hrms.employeerevisiondetailsold erdo
                                ON er.employeerevisionid = erdo.employeerevisionid
@@ -81,20 +74,19 @@ namespace Chef.HRMS.Repositories.Report
                                ON erdo.payrollcomponentid = pc.id
                              WHERE er.employeerevisionid = @id";
 
-            return await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query, new { id });
-        }
+        return await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query, new { id });
+    }
 
-        public async Task<IEnumerable<EmployeeSalarayDto>> GetSalaryNewDetailsAsync(int id)
-        {
-            string query = @"SELECT pc.name AS payrollcomponentname,erd.monthlyamount AS amount
+    public async Task<IEnumerable<EmployeeSalarayDto>> GetSalaryNewDetailsAsync(int id)
+    {
+        string query = @"SELECT pc.name AS payrollcomponentname,erd.monthlyamount AS amount
                              FROM hrms.employeerevision er
                              INNER JOIN hrms.employeerevisiondetails erd
                                ON er.id = erd.employeerevisionid
                              INNER JOIN hrms.payrollcomponent pc
                                ON erd.payrollcomponentid = pc.id
                              WHERE er.id = @id";
-            return await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query, new { id });
-        }
-
+        return await DatabaseSession.QueryAsync<EmployeeSalarayDto>(query, new { id });
     }
+
 }

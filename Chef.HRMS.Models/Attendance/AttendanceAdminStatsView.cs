@@ -1,17 +1,16 @@
 ﻿using Chef.Common.Core;
 
-namespace Chef.HRMS.Models
-{
-    public class AttendanceAdminStatsView : Model
-    {
-        /// <summary>
-        /// Holds type of attendance
-        /// </summary>
-        public string AttendanceType { get; set; }
+namespace Chef.HRMS.Models;
 
-        /// <summary>
-        /// Holds count
-        /// </summary>
-        public int Count { get; set; }
-    }
+public class AttendanceAdminStatsView : Model
+{
+    /// <summary>
+    /// Holds type of attendance
+    /// </summary>
+    public string AttendanceType { get; set; }
+
+    /// <summary>
+    /// Holds count
+    /// </summary>
+    public int Count { get; set; }
 }

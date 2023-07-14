@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Chef.HRMS.Models
+namespace Chef.HRMS.Models;
+
+public class PayrollComponentConfigurationInsert
 {
-    public class PayrollComponentConfigurationInsert
-    {
-        public IEnumerable<PayrollComponentConfiguration> PayrollComponentConfiguration { get; set; }
-        public IEnumerable<int> PayrollComponentConfigurationIds { get; set; }
-    }
+    public IEnumerable<PayrollComponentConfiguration> PayrollComponentConfiguration { get; set; }
+    public IEnumerable<int> PayrollComponentConfigurationIds { get; set; }
 }

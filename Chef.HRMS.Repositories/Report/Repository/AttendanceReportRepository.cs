@@ -1,22 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class AttendanceReportRepository : GenericRepository<AttendanceReportView>, IAttendanceReportRepository
 {
-    public class AttendanceReportRepository : GenericRepository<AttendanceReportView>, IAttendanceReportRepository
+    public AttendanceReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public AttendanceReportRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<AttendanceReportView>> GetAttendanceLogReport(DateTime fromDate, DateTime toDate)
-        {
-                var sql = @"(SELECT DISTINCT e.id                                     AS employeeid,
+    public async Task<IEnumerable<AttendanceReportView>> GetAttendanceLogReport(DateTime fromDate, DateTime toDate)
+    {
+        var sql = @"(SELECT DISTINCT e.id                                     AS employeeid,
                                               jb.employeenumber,
                                              ( Concat(e.firstname, ' ', e.lastname) )                AS employeename, 
                                              jb.department,
@@ -113,7 +105,6 @@ namespace Chef.HRMS.Repositories
                                     AND od.todate :: date <= @todate) 
                             ORDER  BY intime DESC ";
 
-                return await Connection.QueryAsync<AttendanceReportView>(sql, new { fromDate, toDate });
-        }
+        return await Connection.QueryAsync<AttendanceReportView>(sql, new { fromDate, toDate });
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+public enum LOPStatusType
 {
-    public enum LOPStatusType
-    {
-        Approved = 1,
-        Reversed
-    }
+    Approved = 1,
+    Reversed
 }

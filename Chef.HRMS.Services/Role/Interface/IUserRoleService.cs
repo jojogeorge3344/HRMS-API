@@ -1,14 +1,10 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IUserRoleService : IAsyncService<UserRole>
 {
-    public interface IUserRoleService : IAsyncService<UserRole>
-    {
-        Task<int> AssignRolesToUser(IEnumerable<UserRole> userRole);
-        Task<int> UpdateUserRoleGroup(int roleId, IEnumerable<UserRole> userRole);
-        Task<IEnumerable<UserRoleView>> GetUserRole(string userId);
-    }
+    Task<int> AssignRolesToUser(IEnumerable<UserRole> userRole);
+    Task<int> UpdateUserRoleGroup(int roleId, IEnumerable<UserRole> userRole);
+    Task<IEnumerable<UserRoleView>> GetUserRole(string userId);
 }

@@ -6,99 +6,98 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class JobFilingController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class JobFilingController : ControllerBase
+    private readonly IJobFilingService jobFilingService;
+
+    public JobFilingController(IJobFilingService jobFilingService)
     {
-        private readonly IJobFilingService jobFilingService;
+        this.jobFilingService = jobFilingService;
+    }
 
-        public JobFilingController(IJobFilingService jobFilingService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var jobFiling = await jobFilingService.GetAsync(id);
+
+        if (jobFiling == null)
         {
-            this.jobFilingService = jobFilingService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await jobFilingService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<JobFiling>> Get(int id)
+    {
+        var jobFilingDetails = await jobFilingService.GetAsync(id);
+
+        if (jobFilingDetails == null)
         {
-            var jobFiling = await jobFilingService.GetAsync(id);
-
-            if (jobFiling == null)
-            {
-                return NotFound();
-            }
-
-            var result = await jobFilingService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<JobFiling>> Get(int id)
+        return Ok(jobFilingDetails);
+    }
+
+    [HttpGet("GetWeekendPolicyById/{id}")]
+    public async Task<ActionResult<int>> GetWeekendPolicyById(int id)
+    {
+        if (!ModelState.IsValid)
         {
-            var jobFilingDetails = await jobFilingService.GetAsync(id);
-
-            if (jobFilingDetails == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(jobFilingDetails);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetWeekendPolicyById/{id}")]
-        public async Task<ActionResult<int>> GetWeekendPolicyById(int id)
+        var result = await jobFilingService.GetWeekendPolicyById(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<JobFiling>>> GetAll()
+    {
+        var jobFilingList = await jobFilingService.GetAllAsync();
+
+        return Ok(jobFilingList);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(JobFiling jobFiling)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await jobFilingService.GetWeekendPolicyById(id);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<JobFiling>>> GetAll()
-        {
-            var jobFilingList = await jobFilingService.GetAllAsync();
+        var jobFilings = await jobFilingService.InsertAsync(jobFiling);
 
-            return Ok(jobFilingList);
+        return CreatedAtAction(nameof(Insert), jobFilings);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(JobFiling jobFiling)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(JobFiling jobFiling)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await jobFilingService.UpdateAsync(jobFiling);
 
-            var jobFilings = await jobFilingService.InsertAsync(jobFiling);
-
-            return CreatedAtAction(nameof(Insert), jobFilings);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(JobFiling jobFiling)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await jobFilingService.UpdateAsync(jobFiling);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

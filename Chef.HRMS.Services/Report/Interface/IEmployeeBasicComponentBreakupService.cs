@@ -1,12 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IEmployeeBasicComponentBreakupService : IAsyncService<EmployeeBasicComponentBreakupView>
 {
-    public interface IEmployeeBasicComponentBreakupService : IAsyncService<EmployeeBasicComponentBreakupView>
-    {
-        Task<IEnumerable<EmployeeBasicComponentBreakupView>> GetAllEmployeeBasicComponentBreakupView(int month, int year);
-    }
+    Task<IEnumerable<EmployeeBasicComponentBreakupView>> GetAllEmployeeBasicComponentBreakupView(int month, int year);
 }

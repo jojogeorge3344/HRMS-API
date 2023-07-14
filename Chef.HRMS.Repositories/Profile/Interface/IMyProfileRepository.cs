@@ -1,11 +1,6 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public interface IMyProfileRepository : IGenericRepository<MyProfileView>
 {
-    public interface IMyProfileRepository : IGenericRepository<MyProfileView>
-    {
-        Task<MyProfileView> GetMyProfileDetailsAsync(int employeeId);
-    }
+    Task<MyProfileView> GetMyProfileDetailsAsync(int employeeId);
 }

@@ -1,12 +1,6 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public interface IJobTitleRepository : IGenericRepository<JobTitle>
 {
-    public interface IJobTitleRepository : IGenericRepository<JobTitle>
-    {
-        Task<IEnumerable<JobTitleView>> GetAllJobTitleList();
-    }
+    Task<IEnumerable<JobTitleView>> GetAllJobTitleList();
 }

@@ -1,12 +1,6 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public interface IEducationRepository : IGenericRepository<Education>
 {
-    public interface IEducationRepository : IGenericRepository<Education>
-    {
-        Task<IEnumerable<EducationView>> GetAllByEmployeeId(int employeeId);
-    }
+    Task<IEnumerable<EducationView>> GetAllByEmployeeId(int employeeId);
 }

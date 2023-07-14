@@ -7,54 +7,53 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[ApiController]
+[Route("api/settings/[controller]")]
+public class CompanyController : ControllerBase
 {
-    [ApiController]
-    [Route("api/settings/[controller]")]
-    public class CompanyController : ControllerBase
+    private readonly ICompanyService companyService;
+
+    public CompanyController(ICompanyService companyService)
     {
-        private readonly ICompanyService companyService;
+        this.companyService = companyService;
+    }
 
-        public CompanyController(ICompanyService companyService)
+    [HttpGet("Get")]
+    public async Task<ActionResult<HRMSCompany>> Get()
+    {
+        var company = await companyService.GetAsync();
+
+        if (company == null)
         {
-            this.companyService = companyService;
+            return NotFound();
         }
 
-        [HttpGet("Get")]
-        public async Task<ActionResult<HRMSCompany>> Get()
+        return Ok(company);
+    }
+
+    [HttpGet("GetBusinessType")]
+    public async Task<ActionResult<IEnumerable<BusinessType>>> GetBusinessType()
+    {
+        var typeofBusiness = await companyService.GetBusinessTypeAsync();
+
+        return Ok(typeofBusiness);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(HRMSCompany company)
+    {
+        if (!ModelState.IsValid)
         {
-            var company = await companyService.GetAsync();
-
-            if (company == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(company);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetBusinessType")]
-        public async Task<ActionResult<IEnumerable<BusinessType>>> GetBusinessType()
-        {
-            var typeofBusiness = await companyService.GetBusinessTypeAsync();
+        var result = await companyService.UpdateAsync(company);
 
-            return Ok(typeofBusiness);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(HRMSCompany company)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await companyService.UpdateAsync(company);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

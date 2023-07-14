@@ -1,12 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IBranchSignatoryService : IAsyncService<HRMSBranchSignatory>
 {
-    public interface IBranchSignatoryService : IAsyncService<HRMSBranchSignatory>
-    {
-        Task<IEnumerable<HRMSBranchSignatory>> GetAllByBranch(int branchId);
-    }
+    Task<IEnumerable<HRMSBranchSignatory>> GetAllByBranch(int branchId);
 }

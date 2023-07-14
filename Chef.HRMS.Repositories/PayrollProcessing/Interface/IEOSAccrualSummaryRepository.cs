@@ -1,15 +1,8 @@
-﻿using Chef.HRMS.Models;
-using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chef.HRMS.Models.PayrollProcessing;
+﻿using Chef.HRMS.Models.PayrollProcessing;
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public interface IEOSAccrualSummaryRepository : IGenericRepository<EOSAccrualSummary>
 {
-    public interface IEOSAccrualSummaryRepository : IGenericRepository<EOSAccrualSummary>
-    {
-        Task<EOSAccrualSummary> GetPreviousEOSAccrualSummary(int employeeId);
-    }
+    Task<EOSAccrualSummary> GetPreviousEOSAccrualSummary(int employeeId);
 }

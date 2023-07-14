@@ -1,12 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IEmployeeReportService : IAsyncService<EmployeeDetailView>
 {
-    public interface IEmployeeReportService : IAsyncService<EmployeeDetailView>
-    {
-        Task<IEnumerable<EmployeeDetailView>> GetAllEmployeeDetailView(int offSet);
-    }
+    Task<IEnumerable<EmployeeDetailView>> GetAllEmployeeDetailView(int offSet);
 }

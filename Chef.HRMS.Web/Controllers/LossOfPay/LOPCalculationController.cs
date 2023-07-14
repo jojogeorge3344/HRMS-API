@@ -7,100 +7,99 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/LossOfPay/[controller]")]
+[ApiController]
+public class LOPCalculationController : ControllerBase
 {
-    [Route("api/LossOfPay/[controller]")]
-    [ApiController]
-    public class LOPCalculationController : ControllerBase
+    private readonly ILOPCalculationService lopCalculationServices;
+
+    public LOPCalculationController(ILOPCalculationService lopCalculationServices)
     {
-        private readonly ILOPCalculationService lopCalculationServices;
+        this.lopCalculationServices = lopCalculationServices;
+    }
 
-        public LOPCalculationController(ILOPCalculationService lopCalculationServices)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var lopCalculation = await lopCalculationServices.GetAsync(id);
+
+        if (lopCalculation == null)
         {
-            this.lopCalculationServices = lopCalculationServices;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        var result = await lopCalculationServices.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<LOPCalculation>> Get(int id)
+    {
+        var lopCalculation = await lopCalculationServices.GetAsync(id);
+
+        if (lopCalculation == null)
         {
-            var lopCalculation = await lopCalculationServices.GetAsync(id);
-
-            if (lopCalculation == null)
-            {
-                return NotFound();
-            }
-
-            var result = await lopCalculationServices.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<LOPCalculation>> Get(int id)
+        return Ok(lopCalculation);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<LOPCalculation>>> GetAll()
+    {
+        var lopCalculations = await lopCalculationServices.GetAllAsync();
+
+        return Ok(lopCalculations);
+    }
+
+    [HttpPost("Insert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Insert(LOPCalculation lopCalculation)
+    {
+        if (!ModelState.IsValid)
         {
-            var lopCalculation = await lopCalculationServices.GetAsync(id);
+            return BadRequest(ModelState);
+        }
+        var calculationexist = await lopCalculationServices.GetAllAsync();
+        var result = 0;
 
-            if (lopCalculation == null)
+        if (calculationexist.Count() == 0)
+        {
+            var value = await lopCalculationServices.InsertAsync(lopCalculation);
+            if (value != null)
             {
-                return NotFound();
+                result = 1;
             }
-
-            return Ok(lopCalculation);
+        }
+        else
+        {
+            var lopid = calculationexist.Select(x => x.Id).FirstOrDefault();
+            lopCalculation.Id = lopid;
+            result = await lopCalculationServices.UpdateAsync(lopCalculation);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<LOPCalculation>>> GetAll()
-        {
-            var lopCalculations = await lopCalculationServices.GetAllAsync();
+        return Ok(result);
+    }
 
-            return Ok(lopCalculations);
+    [HttpPut("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Update(LOPCalculation lopCalculation)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Insert(LOPCalculation lopCalculation)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var calculationexist = await lopCalculationServices.GetAllAsync();
-            var result = 0;
+        var result = await lopCalculationServices.UpdateAsync(lopCalculation);
 
-            if (calculationexist.Count() == 0)
-            {
-                var value = await lopCalculationServices.InsertAsync(lopCalculation);
-                if (value != null)
-                {
-                    result = 1;
-                }
-            }
-            else
-            {
-                var lopid = calculationexist.Select(x => x.Id).FirstOrDefault();
-                lopCalculation.Id = lopid;
-                result = await lopCalculationServices.UpdateAsync(lopCalculation);
-            }
-
-            return Ok(result);
-        }
-
-        [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(LOPCalculation lopCalculation)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await lopCalculationServices.UpdateAsync(lopCalculation);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

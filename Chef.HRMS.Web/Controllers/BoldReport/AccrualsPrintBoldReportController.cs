@@ -12,44 +12,43 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Chef.HRMS.Web.Controllers.BoldReport
+namespace Chef.HRMS.Web.Controllers.BoldReport;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class AccrualsPrintBoldReportController : ReportViewerController
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class AccrualsPrintBoldReportController : ReportViewerController
+    private readonly ILeaveAccrualService accrualPrintBoldReportService;
+    private readonly ICommonDataService commonDataService;
+    public AccrualsPrintBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment,
+          ILeaveAccrualService accrualPrintBoldReportService) : base(memoryCache, hostingEnvironment)
     {
-        private readonly ILeaveAccrualService accrualPrintBoldReportService;
-        private readonly ICommonDataService commonDataService;
-        public AccrualsPrintBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment,
-              ILeaveAccrualService accrualPrintBoldReportService) : base(memoryCache, hostingEnvironment)
-        {
-            this.ReportPath = @"Reports\AccrualsPrintReport.rdlc";
-            this.accrualPrintBoldReportService = accrualPrintBoldReportService;
-            //this.commonDataService = commonDataService;
-        }
-        public override void OnInitReportOptions(ReportViewerOptions reportOption)
-        {
-            AssignReportPath();
-            base.OnInitReportOptions(reportOption);
-        }
-        private void AssignReportPath()
-        {
-            this.ReportPath = @"Reports\AccrualsPrintReport.rdlc";
-        }
-        public override void OnReportLoaded(ReportViewerOptions reportOption)
-        {
-            if (CustomData != null && CustomData.Count > 0)
-            {
-                // int id = Convert.ToInt32(CustomData["id"].ToString());
-
-                int id = Convert.ToInt32(CustomData["id"].ToString());
-                var LPData = accrualPrintBoldReportService.GetAccrualsByPayrollProcessingId(id).Result;
-                var myObject = LPData.FirstOrDefault();
-                reportOption.AddDataSource("AccrualsPrintDataSet", LPData);
-                reportOption.AddDataSource("AccrualsPrintHeaderDataSet", new[] { myObject });
-
-            }
-        }
-
+        this.ReportPath = @"Reports\AccrualsPrintReport.rdlc";
+        this.accrualPrintBoldReportService = accrualPrintBoldReportService;
+        //this.commonDataService = commonDataService;
     }
+    public override void OnInitReportOptions(ReportViewerOptions reportOption)
+    {
+        AssignReportPath();
+        base.OnInitReportOptions(reportOption);
+    }
+    private void AssignReportPath()
+    {
+        this.ReportPath = @"Reports\AccrualsPrintReport.rdlc";
+    }
+    public override void OnReportLoaded(ReportViewerOptions reportOption)
+    {
+        if (CustomData != null && CustomData.Count > 0)
+        {
+            // int id = Convert.ToInt32(CustomData["id"].ToString());
+
+            int id = Convert.ToInt32(CustomData["id"].ToString());
+            var LPData = accrualPrintBoldReportService.GetAccrualsByPayrollProcessingId(id).Result;
+            var myObject = LPData.FirstOrDefault();
+            reportOption.AddDataSource("AccrualsPrintDataSet", LPData);
+            reportOption.AddDataSource("AccrualsPrintHeaderDataSet", new[] { myObject });
+
+        }
+    }
+
 }

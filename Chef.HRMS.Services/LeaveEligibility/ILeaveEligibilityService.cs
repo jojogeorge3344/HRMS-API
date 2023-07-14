@@ -1,18 +1,12 @@
 ﻿using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface ILeaveEligibilityService : IAsyncService<LeaveEligibility>
 {
-    public interface ILeaveEligibilityService : IAsyncService<LeaveEligibility>
-    {
-        Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id);
-        Task<IEnumerable<BenefitTypes>> GetBenefitType();
-        new Task<int> InsertAsync(LeaveEligibility leaveEligibility);
-        new Task<int> UpdateAsync(LeaveEligibility leaveEligibility);
+    Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id);
+    Task<IEnumerable<BenefitTypes>> GetBenefitType();
+    new Task<int> InsertAsync(LeaveEligibility leaveEligibility);
+    new Task<int> UpdateAsync(LeaveEligibility leaveEligibility);
 
-    }
 }

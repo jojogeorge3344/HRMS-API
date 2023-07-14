@@ -1,14 +1,13 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+/// <summary>
+/// Holds relationship
+/// </summary>
+public enum RelationshipType
 {
-    /// <summary>
-    /// Holds relationship
-    /// </summary>
-    public enum RelationshipType
-    {
-        Wife = 1,
-        Husband,
-        Son,
-        Doughter,
-        Father
-    }
+    Wife = 1,
+    Husband,
+    Son,
+    Doughter,
+    Father
 }

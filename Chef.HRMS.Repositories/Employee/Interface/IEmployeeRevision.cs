@@ -1,13 +1,12 @@
 ﻿
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public interface IEmployeeRevisionRepository : IGenericRepository<EmployeeRevision>
 {
-    public interface IEmployeeRevisionRepository : IGenericRepository<EmployeeRevision>
-    {
-        Task<EmployeeRevisionOld> GetEmployeeDetail(int employeeId);
-        Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId);
-        Task<IEnumerable<EmployeeRevisionPayrollStructureView>> GetPayrollStructureComponent(int payrollStructureId);
-        Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid,int status);
-        Task<bool> IsEmployeeRevisionApproved(int employeeRevisionId);
-    }
+    Task<EmployeeRevisionOld> GetEmployeeDetail(int employeeId);
+    Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId);
+    Task<IEnumerable<EmployeeRevisionPayrollStructureView>> GetPayrollStructureComponent(int payrollStructureId);
+    Task<int> UpdateEmployeeRevisionStatus(int employeeRevisionid, int status);
+    Task<bool> IsEmployeeRevisionApproved(int employeeRevisionId);
 }

@@ -7,118 +7,117 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ExpenseController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ExpenseController : ControllerBase
+    private readonly IExpenseService expenseService;
+
+    public ExpenseController(IExpenseService expenseService)
     {
-        private readonly IExpenseService expenseService;
+        this.expenseService = expenseService;
+    }
 
-        public ExpenseController(IExpenseService expenseService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var expense = await expenseService.GetAsync(id);
+
+        if (expense == null)
         {
-            this.expenseService = expenseService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await expenseService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<Expense>> Get(int id)
+    {
+        var expense = await expenseService.GetAsync(id);
+
+        if (expense == null)
         {
-            var expense = await expenseService.GetAsync(id);
-
-            if (expense == null)
-            {
-                return NotFound();
-            }
-
-            var result = await expenseService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<Expense>> Get(int id)
+        return Ok(expense);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<Expense>>> GetAll()
+    {
+        var expensees = await expenseService.GetAllAsync();
+
+        return Ok(expensees);
+    }
+
+    [HttpGet("GetAllExpenseDetailsById/{id}")]
+    public async Task<ActionResult<IEnumerable<Expense>>> GetAllExpenseDetailsById(int id)
+    {
+        var expense = await expenseService.GetAllExpenseDetailsById(id);
+
+        return Ok(expense);
+    }
+    [HttpGet("GetAllUnApprovedExpenseById/{employeeId}")]
+    public async Task<ActionResult<IEnumerable<Expense>>> GetAllUnApprovedExpenseById(int employeeId)
+    {
+        var expense = await expenseService.GetAllUnApprovedExpenseById(employeeId);
+
+        return Ok(expense);
+    }
+
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(Expense expense)
+    {
+        if (!ModelState.IsValid)
         {
-            var expense = await expenseService.GetAsync(id);
-
-            if (expense == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(expense);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Expense>>> GetAll()
-        {
-            var expensees = await expenseService.GetAllAsync();
+        var id = await expenseService.InsertAsync(expense);
 
-            return Ok(expensees);
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(Expense expense)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAllExpenseDetailsById/{id}")]
-        public async Task<ActionResult<IEnumerable<Expense>>> GetAllExpenseDetailsById(int id)
-        {
-            var expense = await expenseService.GetAllExpenseDetailsById(id);
+        var result = await expenseService.UpdateAsync(expense);
 
-            return Ok(expense);
-        }
-        [HttpGet("GetAllUnApprovedExpenseById/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<Expense>>> GetAllUnApprovedExpenseById(int employeeId)
-        {
-            var expense = await expenseService.GetAllUnApprovedExpenseById(employeeId);
-
-            return Ok(expense);
-        }
+        return Ok(result);
+    }
 
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(Expense expense)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+    [HttpGet("GetMaximumExpenseAmountById/{employeeid}/{expenseconfigurationid}/{periodtype}/{currentDate}")]
+    public async Task<ActionResult<ExpenseView>> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int periodType, DateTime currentDate)
+    {
+        var result = await expenseService.GetMaximumExpenseAmountById(employeeId, expenseConfigurationId, periodType, currentDate);
 
-            var id = await expenseService.InsertAsync(expense);
+        return Ok(result);
+    }
+    [HttpGet("GetMaximumInstancesById/{employeeid}/{expenseconfigurationid}/{periodtype}")]
+    public async Task<ActionResult<ExpenseView>> GetMaximumInstancesById(int employeeId, int expenseConfigurationId, int periodType)
+    {
+        var result = await expenseService.GetMaximumInstancesById(employeeId, expenseConfigurationId, periodType);
 
-            return Ok(id);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(Expense expense)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await expenseService.UpdateAsync(expense);
-
-            return Ok(result);
-        }
-
-
-        [HttpGet("GetMaximumExpenseAmountById/{employeeid}/{expenseconfigurationid}/{periodtype}/{currentDate}")]
-        public async Task<ActionResult<ExpenseView>> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int periodType, DateTime currentDate)
-        {
-            var result = await expenseService.GetMaximumExpenseAmountById(employeeId, expenseConfigurationId, periodType, currentDate);
-
-            return Ok(result);
-        }
-        [HttpGet("GetMaximumInstancesById/{employeeid}/{expenseconfigurationid}/{periodtype}")]
-        public async Task<ActionResult<ExpenseView>> GetMaximumInstancesById(int employeeId, int expenseConfigurationId, int periodType)
-        {
-            var result = await expenseService.GetMaximumInstancesById(employeeId, expenseConfigurationId, periodType);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

@@ -9,44 +9,43 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/settings/payrollprocessing/[controller]")]
+[ApiController]
+public class LeaveAccrualController : ControllerBase
 {
-    [Route("api/settings/payrollprocessing/[controller]")]
-    [ApiController]
-    public class LeaveAccrualController : ControllerBase
+    private readonly ILeaveAccrualService leaveAccrualService;
+
+    public LeaveAccrualController(ILeaveAccrualService leaveAccrualService)
     {
-        private readonly ILeaveAccrualService leaveAccrualService;
+        this.leaveAccrualService = leaveAccrualService;
+    }
 
-        public LeaveAccrualController(ILeaveAccrualService leaveAccrualService)
+    [AllowAnonymous]
+    [HttpPost("GenerateLeaveAccruals/{paygroupid}")]
+    public async Task<ActionResult<IEnumerable<LeaveAccrual>>> GenerateLeaveAccruals(int paygroupid)
+    {
+        var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
+
+        if (leaveAccrualList == null)
         {
-            this.leaveAccrualService = leaveAccrualService;
+            return NotFound();
         }
 
-        [AllowAnonymous]
-        [HttpPost("GenerateLeaveAccruals/{paygroupid}")]
-        public async Task<ActionResult<IEnumerable<LeaveAccrual>>> GenerateLeaveAccruals(int paygroupid)
+        return Ok(leaveAccrualList);
+    }
+
+    [HttpPost("GenerateLeaveAccrualsAvailed")]
+    public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccrualsAvailed([FromBody]LeaveAccrual availedLeaveDetails)
+    {
+        var leaveAccrualList = await leaveAccrualService.GenerateLeaveAvailed(availedLeaveDetails);
+
+        if (leaveAccrualList == null)
         {
-            var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
-
-            if (leaveAccrualList == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(leaveAccrualList);
+            return NotFound();
         }
 
-        [HttpPost("GenerateLeaveAccrualsAvailed")]
-        public async Task<ActionResult<LeaveAccrual>> GenerateLeaveAccrualsAvailed([FromBody]LeaveAccrual availedLeaveDetails)
-        {
-            var leaveAccrualList = await leaveAccrualService.GenerateLeaveAvailed(availedLeaveDetails);
-
-            if (leaveAccrualList == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(leaveAccrualList);
-        }
+        return Ok(leaveAccrualList);
     }
 }

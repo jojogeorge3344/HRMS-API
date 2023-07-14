@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Chef.HRMS.Models
+namespace Chef.HRMS.Models;
+
+public class FinalSettlementProcessView
 {
-    public class FinalSettlementProcessView
-    {
-        public string FinalSettlementProcessStatus { get; set; }
-        public List<AssetRaiseRequest> PendingAssets { get; set; }
-    }
+    public string FinalSettlementProcessStatus { get; set; }
+    public List<AssetRaiseRequest> PendingAssets { get; set; }
 }

@@ -1,12 +1,6 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public interface IUniqueIdentificationDetailRepository : IGenericRepository<UniqueIdentificationDetail>
 {
-    public interface IUniqueIdentificationDetailRepository : IGenericRepository<UniqueIdentificationDetail>
-    {
-        Task<IEnumerable<UniqueIdentificationDetailView>> GetByEmployeeId(int employeeId);
-    }
+    Task<IEnumerable<UniqueIdentificationDetailView>> GetByEmployeeId(int employeeId);
 }

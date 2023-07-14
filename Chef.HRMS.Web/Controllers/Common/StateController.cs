@@ -4,46 +4,45 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class StateController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StateController : ControllerBase
+    private readonly IStateService stateService;
+
+    public StateController(IStateService stateService)
     {
-        private readonly IStateService stateService;
+        this.stateService = stateService;
+    }
 
-        public StateController(IStateService stateService)
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<State>> Get(int id)
+    {
+        var state = await stateService.GetAsync(id);
+
+        if (state == null)
         {
-            this.stateService = stateService;
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<State>> Get(int id)
-        {
-            var state = await stateService.GetAsync(id);
+        return Ok(state);
+    }
 
-            if (state == null)
-            {
-                return NotFound();
-            }
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<State>>> GetAll()
+    {
+        var states = await stateService.GetAllAsync();
 
-            return Ok(state);
-        }
+        return Ok(states);
+    }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<State>>> GetAll()
-        {
-            var states = await stateService.GetAllAsync();
+    [HttpGet("GetAllByCountry/{countryId}")]
+    public async Task<ActionResult<IEnumerable<State>>> GetAllByCountryId(int countryId)
+    {
+        var states = await stateService.GetAllByCountry(countryId);
 
-            return Ok(states);
-        }
-
-        [HttpGet("GetAllByCountry/{countryId}")]
-        public async Task<ActionResult<IEnumerable<State>>> GetAllByCountryId(int countryId)
-        {
-            var states = await stateService.GetAllByCountry(countryId);
-
-            return Ok(states);
-        }
+        return Ok(states);
     }
 }

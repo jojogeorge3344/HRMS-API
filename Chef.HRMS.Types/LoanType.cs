@@ -1,11 +1,10 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+/// <summary>
+/// Holds Loan Type
+/// </summary>
+public enum LoanType
 {
-    /// <summary>
-    /// Holds Loan Type
-    /// </summary>
-    public enum LoanType
-    {
-        Advance = 1,
-        Loan = 2
-    }
+    Advance = 1,
+    Loan = 2
 }

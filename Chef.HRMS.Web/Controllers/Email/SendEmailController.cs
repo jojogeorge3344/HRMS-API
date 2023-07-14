@@ -8,56 +8,55 @@ using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class SendEmailController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SendEmailController : ControllerBase
+    private readonly IEmailSendFactory emailSendFactory;
+    private readonly IWebHostEnvironment hostingEnvironment;
+
+    public SendEmailController(IEmailSendFactory emailSendFactory, IWebHostEnvironment hostingEnvironment)
     {
-        private readonly IEmailSendFactory emailSendFactory;
-        private readonly IWebHostEnvironment hostingEnvironment;
+        this.emailSendFactory = emailSendFactory;
+        this.hostingEnvironment = hostingEnvironment;
+    }
 
-        public SendEmailController(IEmailSendFactory emailSendFactory, IWebHostEnvironment hostingEnvironment)
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("sendrevertemployeeemail")]
+    public async Task<IActionResult> Insert(RevertEmployee RevertEmployee)
+    {
+        if (!ModelState.IsValid)
         {
-            this.emailSendFactory = emailSendFactory;
-            this.hostingEnvironment = hostingEnvironment;
+            return BadRequest(ModelState);
         }
-
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("sendrevertemployeeemail")]
-        public async Task<IActionResult> Insert(RevertEmployee RevertEmployee)
+        string logoUrl = string.Empty;
+        string ticks = DateTime.Now.ToString();
+        string banner = string.Empty;
+        string email = RevertEmployee.Email;
+        string subject = $"Revert Employee  {ticks}";
+        using (WebClient client = new WebClient())
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            string logoUrl = string.Empty;
-            string ticks = DateTime.Now.ToString();
-            string banner = string.Empty;
-            string email = RevertEmployee.Email;
-            string subject = $"Revert Employee  {ticks}";
-            using (WebClient client = new WebClient())
-            {
-                string rootPath = hostingEnvironment.WebRootPath;
-                string emailHtml = client.DownloadString(rootPath + "/RevertAttendanceEmail.html");
-                banner = "https://thomsun.s3.ap-south-1.amazonaws.com/ThomsunBanner.jpg";
-                logoUrl = "https://thomsun.s3.ap-south-1.amazonaws.com/logo.png";
+            string rootPath = hostingEnvironment.WebRootPath;
+            string emailHtml = client.DownloadString(rootPath + "/RevertAttendanceEmail.html");
+            banner = "https://thomsun.s3.ap-south-1.amazonaws.com/ThomsunBanner.jpg";
+            logoUrl = "https://thomsun.s3.ap-south-1.amazonaws.com/logo.png";
 
-                emailHtml = emailHtml.Replace("#Logo#", logoUrl);
-                emailHtml = emailHtml.Replace("#Department#", RevertEmployee.Department);
-                emailHtml = emailHtml.Replace("#BackgroundImg#", banner);
-                emailHtml = emailHtml.Replace("#Ticks#", ticks);
-                emailHtml = emailHtml.Replace("#Name#", RevertEmployee.EmployeeName);
-                emailHtml = emailHtml.Replace("#EmployeeNumber#", RevertEmployee.EmployeeNumber);
-                emailHtml = emailHtml.Replace("#Month#", RevertEmployee.Month);
+            emailHtml = emailHtml.Replace("#Logo#", logoUrl);
+            emailHtml = emailHtml.Replace("#Department#", RevertEmployee.Department);
+            emailHtml = emailHtml.Replace("#BackgroundImg#", banner);
+            emailHtml = emailHtml.Replace("#Ticks#", ticks);
+            emailHtml = emailHtml.Replace("#Name#", RevertEmployee.EmployeeName);
+            emailHtml = emailHtml.Replace("#EmployeeNumber#", RevertEmployee.EmployeeNumber);
+            emailHtml = emailHtml.Replace("#Month#", RevertEmployee.Month);
 
-                await emailSendFactory.SendEmailAsync(email, subject, emailHtml);
+            await emailSendFactory.SendEmailAsync(email, subject, emailHtml);
 
-            }
-            return Ok("Email send successfully.");
         }
+        return Ok("Email send successfully.");
     }
 }

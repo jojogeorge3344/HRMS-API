@@ -1,12 +1,8 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IContactService : IAsyncService<Contact>
 {
-    public interface IContactService : IAsyncService<Contact>
-    {
-        Task<IEnumerable<Contact>> GetAllByEmployeeId(int employeeId);
-    }
+    Task<IEnumerable<Contact>> GetAllByEmployeeId(int employeeId);
 }

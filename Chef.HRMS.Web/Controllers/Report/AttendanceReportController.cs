@@ -5,25 +5,24 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers.Report
+namespace Chef.HRMS.Web.Controllers.Report;
+
+[Route("api/Report/[controller]")]
+[ApiController]
+public class AttendanceReportController : ControllerBase
 {
-    [Route("api/Report/[controller]")]
-    [ApiController]
-    public class AttendanceReportController : ControllerBase
+    private readonly IAttendanceReportService attendanceReportService;
+
+    public AttendanceReportController(IAttendanceReportService attendanceReportService)
     {
-        private readonly IAttendanceReportService attendanceReportService;
+        this.attendanceReportService = attendanceReportService;
+    }
 
-        public AttendanceReportController(IAttendanceReportService attendanceReportService)
-        {
-            this.attendanceReportService = attendanceReportService;
-        }
+    [HttpGet("GetAll/{startDate}/{endDate}")]
+    public async Task<ActionResult<IEnumerable<AttendanceReportView>>> GetAttendanceLogReport(DateTime startDate, DateTime endDate)
+    {
+        var attendanceReportView = await attendanceReportService.GetAttendanceLogReport(startDate, endDate);
 
-        [HttpGet("GetAll/{startDate}/{endDate}")]
-        public async Task<ActionResult<IEnumerable<AttendanceReportView>>> GetAttendanceLogReport(DateTime startDate, DateTime endDate)
-        {
-            var attendanceReportView = await attendanceReportService.GetAttendanceLogReport(startDate, endDate);
-
-            return Ok(attendanceReportView);
-        }
+        return Ok(attendanceReportView);
     }
 }

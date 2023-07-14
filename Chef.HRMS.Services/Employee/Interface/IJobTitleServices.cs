@@ -1,12 +1,8 @@
-﻿using Chef.Common.Core.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IJobTitleServices : IAsyncService<JobTitle>
 {
-    public interface IJobTitleServices : IAsyncService<JobTitle>
-    {
-        Task<IEnumerable<JobTitleView>> GetAllJobTitleList();
-    }
+    Task<IEnumerable<JobTitleView>> GetAllJobTitleList();
 }

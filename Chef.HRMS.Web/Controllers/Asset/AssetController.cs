@@ -6,112 +6,111 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AssetController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AssetController : ControllerBase
+    private readonly IAssetService assetService;
+
+    public AssetController(IAssetService assetService)
     {
-        private readonly IAssetService assetService;
+        this.assetService = assetService;
+    }
 
-        public AssetController(IAssetService assetService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var assets = await assetService.GetAsync(id);
+
+        if (assets == null)
         {
-            this.assetService = assetService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        var result = await assetService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<Asset>>> GetAll()
+    {
+        var assets = await assetService.GetAllAsync();
+
+        return Ok(assets);
+    }
+
+    [HttpGet("GetAllMetadataValue")]
+    public async Task<ActionResult<IEnumerable<AssetMetadataValue>>> GetAllMetadataValue()
+    {
+        var assets = await assetService.GetAllMetadataValue();
+
+        return Ok(assets);
+    }
+
+    [HttpGet("GetAssetById/{id}")]
+    public async Task<ActionResult<Asset>> GetAssetById(int id)
+    {
+        var assets = await assetService.GetAssetById(id);
+
+        return Ok(assets);
+    }
+
+    [HttpGet("GetAllAssetList")]
+    public async Task<ActionResult<IEnumerable<Asset>>> GetAllAssetList()
+    {
+        var AssetList = await assetService.GetAllAssetList();
+
+        return Ok(AssetList);
+    }
+
+    [HttpPost("Insert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Insert(Asset asset)
+    {
+        if (!ModelState.IsValid)
         {
-            var assets = await assetService.GetAsync(id);
-
-            if (assets == null)
-            {
-                return NotFound();
-            }
-
-            var result = await assetService.DeleteAsync(id);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Asset>>> GetAll()
-        {
-            var assets = await assetService.GetAllAsync();
+        var result = await assetService.InsertAsync(asset);
 
-            return Ok(assets);
+        return Ok(result);
+    }
+
+    [HttpPut("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Update(Asset asset)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAllMetadataValue")]
-        public async Task<ActionResult<IEnumerable<AssetMetadataValue>>> GetAllMetadataValue()
-        {
-            var assets = await assetService.GetAllMetadataValue();
+        var result = await assetService.UpdateAsync(asset);
 
-            return Ok(assets);
+        return Ok(result);
+    }
+
+    [HttpPut("UpdateStatus/{id}/{status}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> UpdateStatus(int id, int status)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAssetById/{id}")]
-        public async Task<ActionResult<Asset>> GetAssetById(int id)
-        {
-            var assets = await assetService.GetAssetById(id);
+        var result = await assetService.UpdateStatus(id, status);
 
-            return Ok(assets);
-        }
-
-        [HttpGet("GetAllAssetList")]
-        public async Task<ActionResult<IEnumerable<Asset>>> GetAllAssetList()
-        {
-            var AssetList = await assetService.GetAllAssetList();
-
-            return Ok(AssetList);
-        }
-
-        [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Insert(Asset asset)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await assetService.InsertAsync(asset);
-
-            return Ok(result);
-        }
-
-        [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(Asset asset)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await assetService.UpdateAsync(asset);
-
-            return Ok(result);
-        }
-
-        [HttpPut("UpdateStatus/{id}/{status}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> UpdateStatus(int id, int status)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await assetService.UpdateStatus(id, status);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

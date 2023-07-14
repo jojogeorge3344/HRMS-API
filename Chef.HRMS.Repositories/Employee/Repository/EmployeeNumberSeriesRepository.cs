@@ -1,35 +1,27 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class EmployeeNumberSeriesRepository : GenericRepository<EmployeeNumberSeries>, IEmployeeNumberSeriesRepository
 {
-    public class EmployeeNumberSeriesRepository : GenericRepository<EmployeeNumberSeries>, IEmployeeNumberSeriesRepository
+    public EmployeeNumberSeriesRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public EmployeeNumberSeriesRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<EmployeeNumberSeries>> GetAllActiveNumberSeries()
-        {
+    public async Task<IEnumerable<EmployeeNumberSeries>> GetAllActiveNumberSeries()
+    {
 
-                string sql = @"SELECT * FROM hrms.employeenumberseries 
+        string sql = @"SELECT * FROM hrms.employeenumberseries 
                                         WHERE isarchived=false order by id desc";
 
-                return await Connection.QueryAsync<EmployeeNumberSeries>(sql);
+        return await Connection.QueryAsync<EmployeeNumberSeries>(sql);
 
-        }
+    }
 
-        public async Task<IEnumerable<int>> GetAllAssignedNumberSeries()
-        {
+    public async Task<IEnumerable<int>> GetAllAssignedNumberSeries()
+    {
 
-                string sql = @"SELECT DISTINCT numberseriesid FROM hrms.jobdetails";
+        string sql = @"SELECT DISTINCT numberseriesid FROM hrms.jobdetails";
 
-                return await Connection.QueryAsync<int>(sql);
+        return await Connection.QueryAsync<int>(sql);
 
-        }
     }
 }

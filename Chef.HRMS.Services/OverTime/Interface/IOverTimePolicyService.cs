@@ -1,18 +1,12 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chef.Common.Core.Services;
-using Chef.HRMS.Models.BenefitCategory;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IOverTimePolicyService : IAsyncService<OverTimePolicy>
 {
-    public interface IOverTimePolicyService : IAsyncService<OverTimePolicy>
-    {
-        Task<IEnumerable<int>> GetAllAssignedOverTimePolicy();
-        Task<IEnumerable<OverTimePolicy>> GetAllAssignedOverTimePolicyCount();
-        Task<IEnumerable<OverTimePolicy>> GetAllConfiguredOvertimePolicies();
-        Task<int> UpdateOverTimePolicy(int id);
-        Task<IEnumerable<BenefitTypes>> GetBenefitType();
-    }
+    Task<IEnumerable<int>> GetAllAssignedOverTimePolicy();
+    Task<IEnumerable<OverTimePolicy>> GetAllAssignedOverTimePolicyCount();
+    Task<IEnumerable<OverTimePolicy>> GetAllConfiguredOvertimePolicies();
+    Task<int> UpdateOverTimePolicy(int id);
+    Task<IEnumerable<BenefitTypes>> GetBenefitType();
 }

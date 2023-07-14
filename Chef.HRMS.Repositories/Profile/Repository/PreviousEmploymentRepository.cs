@@ -1,21 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class PreviousEmploymentRepository : GenericRepository<PreviousEmployment>, IPreviousEmploymentRepository
 {
-    public class PreviousEmploymentRepository : GenericRepository<PreviousEmployment>, IPreviousEmploymentRepository
+    public PreviousEmploymentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public PreviousEmploymentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<PreviousEmploymentView>> GetByEmployeeId(int employeeId)
-        {
-                var sql = @"SELECT p.id              AS previousemploymentid, 
+    public async Task<IEnumerable<PreviousEmploymentView>> GetByEmployeeId(int employeeId)
+    {
+        var sql = @"SELECT p.id              AS previousemploymentid, 
                                    d.id              AS documentid, 
                                    pd.id             AS previousemploymentdocumentid, 
                                    p.companyname     AS companyname, 
@@ -34,7 +27,6 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.document d 
                                            ON pd.documentid = d.id  where p.isarchived =false  order by p.id desc ";  //Added for where p.isarchived =false by Nir
 
-            return await Connection.QueryAsync<PreviousEmploymentView>(sql, new { employeeId });
-        }
+        return await Connection.QueryAsync<PreviousEmploymentView>(sql, new { employeeId });
     }
 }

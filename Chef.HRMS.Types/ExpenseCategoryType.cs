@@ -1,10 +1,9 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+public enum ExpenseCategoryType
 {
-    public enum ExpenseCategoryType
-    {
-        General = 1,
-        PerDiem,
-        Mileage,
-        CashAdvance
-    }
+    General = 1,
+    PerDiem,
+    Mileage,
+    CashAdvance
 }

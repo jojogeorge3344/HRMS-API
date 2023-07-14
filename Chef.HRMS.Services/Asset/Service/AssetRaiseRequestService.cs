@@ -1,17 +1,11 @@
-﻿using Chef.Common.Core.Services;
-using Chef.Common.Repositories;
-using Chef.Common.Services;
+﻿using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chef.HRMS.Services;
 
-public class AssetRaiseRequestService: AsyncService<AssetRaiseRequest>, IAssetRaiseRequestService
+public class AssetRaiseRequestService : AsyncService<AssetRaiseRequest>, IAssetRaiseRequestService
 {
     private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
     private readonly IAssetRaiseRequestRepository assetRaiseRequestRepository;
@@ -67,14 +61,14 @@ public class AssetRaiseRequestService: AsyncService<AssetRaiseRequest>, IAssetRa
         try
         {
             simpleUnitOfWork.BeginTransaction();
-            var result= await assetRaiseRequestRepository.InsertAsync(assetRaiseRequest);
+            var result = await assetRaiseRequestRepository.InsertAsync(assetRaiseRequest);
             assetRaiseRequest.RequestNo = "REQ-" + assetRaiseRequest.Id;
             await assetRaiseRequestRepository.UpdateAsync(assetRaiseRequest);
             simpleUnitOfWork.Commit();
             return assetRaiseRequest;
         }
 
-        catch(Exception ex)
+        catch (Exception ex)
         {
             simpleUnitOfWork.Rollback();
             string msg = ex.Message;

@@ -9,22 +9,21 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class PayrollLeaveDetailsController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PayrollLeaveDetailsController : ControllerBase
+    private readonly IPayrollLeaveDetailsService payrollLeaveDetailsService;
+    public PayrollLeaveDetailsController(IPayrollLeaveDetailsService payrollLeaveDetailsService)
     {
-        private readonly IPayrollLeaveDetailsService payrollLeaveDetailsService;
-        public PayrollLeaveDetailsController(IPayrollLeaveDetailsService payrollLeaveDetailsService)
-        {
-            this.payrollLeaveDetailsService = payrollLeaveDetailsService;
-        }
-        [HttpPost]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert([FromBody] List<PayrollLeaveDetails> payrollLeaveDetails)
-        {
-            return Ok(await payrollLeaveDetailsService.BulkInsertAsync(payrollLeaveDetails));
-        }
+        this.payrollLeaveDetailsService = payrollLeaveDetailsService;
+    }
+    [HttpPost]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert([FromBody] List<PayrollLeaveDetails> payrollLeaveDetails)
+    {
+        return Ok(await payrollLeaveDetailsService.BulkInsertAsync(payrollLeaveDetails));
     }
 }

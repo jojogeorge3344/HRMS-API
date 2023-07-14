@@ -6,93 +6,92 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers.LossOfPay
+namespace Chef.HRMS.Web.Controllers.LossOfPay;
+
+[Route("api/LossOfPay/[controller]")]
+[ApiController]
+public class LOPTrackerController : ControllerBase
 {
-    [Route("api/LossOfPay/[controller]")]
-    [ApiController]
-    public class LOPTrackerController : ControllerBase
+    private readonly ILOPTrackerService lopTrackerServices;
+
+    public LOPTrackerController(ILOPTrackerService lopTrackerServices)
     {
-        private readonly ILOPTrackerService lopTrackerServices;
+        this.lopTrackerServices = lopTrackerServices;
+    }
 
-        public LOPTrackerController(ILOPTrackerService lopTrackerServices)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var lopTracker = await lopTrackerServices.GetAsync(id);
+
+        if (lopTracker == null)
         {
-            this.lopTrackerServices = lopTrackerServices;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        var result = await lopTrackerServices.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<LOPTracker>> Get(int id)
+    {
+        var lopTracker = await lopTrackerServices.GetAsync(id);
+
+        if (lopTracker == null)
         {
-            var lopTracker = await lopTrackerServices.GetAsync(id);
-
-            if (lopTracker == null)
-            {
-                return NotFound();
-            }
-
-            var result = await lopTrackerServices.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<LOPTracker>> Get(int id)
+        return Ok(lopTracker);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<LOPTracker>>> GetAll()
+    {
+        var lopTrackers = await lopTrackerServices.GetAllAsync();
+
+        return Ok(lopTrackers);
+    }
+
+    [HttpPost("Insert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Insert(LOPTracker lopTracker)
+    {
+        if (!ModelState.IsValid)
         {
-            var lopTracker = await lopTrackerServices.GetAsync(id);
-
-            if (lopTracker == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(lopTracker);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<LOPTracker>>> GetAll()
-        {
-            var lopTrackers = await lopTrackerServices.GetAllAsync();
+        var id = await lopTrackerServices.InsertAsync(lopTracker);
 
-            return Ok(lopTrackers);
+        return Ok(id);
+    }
+
+    [HttpPut("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Update(LOPTracker lopTracker)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Insert(LOPTracker lopTracker)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        int result = await lopTrackerServices.UpdateAsync(lopTracker);
 
-            var id = await lopTrackerServices.InsertAsync(lopTracker);
+        return Ok(result);
+    }
 
-            return Ok(id);
-        }
+    [HttpGet("GetLossOfPayDeductionByEmployee/{employeeId}/{payrollProcessingMethodId}")]
+    public async Task<ActionResult<IEnumerable<EmployeeLoanView>>> GetLossOfPayDeductionByEmployee(int employeeId, int payrollProcessingMethodId)
+    {
+        LossOfPayView lossOfPayDeduction = await lopTrackerServices.GetLossOfPayDeductionByEmployee(employeeId, payrollProcessingMethodId);
 
-        [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(LOPTracker lopTracker)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            int result = await lopTrackerServices.UpdateAsync(lopTracker);
-
-            return Ok(result);
-        }
-
-        [HttpGet("GetLossOfPayDeductionByEmployee/{employeeId}/{payrollProcessingMethodId}")]
-        public async Task<ActionResult<IEnumerable<EmployeeLoanView>>> GetLossOfPayDeductionByEmployee(int employeeId, int payrollProcessingMethodId)
-        {
-            LossOfPayView lossOfPayDeduction = await lopTrackerServices.GetLossOfPayDeductionByEmployee(employeeId, payrollProcessingMethodId);
-
-            return Ok(lossOfPayDeduction);
-        }
+        return Ok(lossOfPayDeduction);
     }
 }

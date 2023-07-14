@@ -6,86 +6,85 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[ApiController]
+[Route("api/profile/[controller]")]
+public class UniqueIdentificationDocumentController : ControllerBase
 {
-    [ApiController]
-    [Route("api/profile/[controller]")]
-    public class UniqueIdentificationDocumentController : ControllerBase
+    private readonly IUniqueIdentificationDocumentService uniqueIdentificationDocumentService;
+
+    public UniqueIdentificationDocumentController(IUniqueIdentificationDocumentService uniqueIdentificationDocumentService)
     {
-        private readonly IUniqueIdentificationDocumentService uniqueIdentificationDocumentService;
+        this.uniqueIdentificationDocumentService = uniqueIdentificationDocumentService;
+    }
 
-        public UniqueIdentificationDocumentController(IUniqueIdentificationDocumentService uniqueIdentificationDocumentService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var uniqueIdentificationDocument = await uniqueIdentificationDocumentService.GetAsync(id);
+
+        if (uniqueIdentificationDocument == null)
         {
-            this.uniqueIdentificationDocumentService = uniqueIdentificationDocumentService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await uniqueIdentificationDocumentService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<UniqueIdentificationDocument>> Get(int id)
+    {
+        var uniqueIdentificationDocument = await uniqueIdentificationDocumentService.GetAsync(id);
+
+        if (uniqueIdentificationDocument == null)
         {
-            var uniqueIdentificationDocument = await uniqueIdentificationDocumentService.GetAsync(id);
-
-            if (uniqueIdentificationDocument == null)
-            {
-                return NotFound();
-            }
-
-            var result = await uniqueIdentificationDocumentService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<UniqueIdentificationDocument>> Get(int id)
+        return Ok(uniqueIdentificationDocument);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<UniqueIdentificationDocument>>> GetAll()
+    {
+        var uniqueIdentificationDocuments = await uniqueIdentificationDocumentService.GetAllAsync();
+
+        return Ok(uniqueIdentificationDocuments);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(UniqueIdentificationDocument uniqueIdentificationDocument)
+    {
+        if (!ModelState.IsValid)
         {
-            var uniqueIdentificationDocument = await uniqueIdentificationDocumentService.GetAsync(id);
-
-            if (uniqueIdentificationDocument == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(uniqueIdentificationDocument);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<UniqueIdentificationDocument>>> GetAll()
-        {
-            var uniqueIdentificationDocuments = await uniqueIdentificationDocumentService.GetAllAsync();
+        var id = await uniqueIdentificationDocumentService.InsertAsync(uniqueIdentificationDocument);
 
-            return Ok(uniqueIdentificationDocuments);
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(UniqueIdentificationDocument uniqueIdentificationDocument)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(UniqueIdentificationDocument uniqueIdentificationDocument)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await uniqueIdentificationDocumentService.UpdateAsync(uniqueIdentificationDocument);
 
-            var id = await uniqueIdentificationDocumentService.InsertAsync(uniqueIdentificationDocument);
-
-            return Ok(id);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(UniqueIdentificationDocument uniqueIdentificationDocument)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await uniqueIdentificationDocumentService.UpdateAsync(uniqueIdentificationDocument);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

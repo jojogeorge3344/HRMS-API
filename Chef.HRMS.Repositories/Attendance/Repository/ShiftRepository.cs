@@ -1,32 +1,25 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class ShiftRepository : GenericRepository<Shift>, IShiftRepository
 {
-    public class ShiftRepository : GenericRepository<Shift>, IShiftRepository
+    public ShiftRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public ShiftRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<int>> GetAllAssignedShift()
-        {
+    public async Task<IEnumerable<int>> GetAllAssignedShift()
+    {
 
-                var sql = @"SELECT DISTINCT shiftid 
+        var sql = @"SELECT DISTINCT shiftid 
                                     FROM hrms.jobfiling
                                     ORDER  BY shiftid ASC";
 
-                return await Connection.QueryAsync<int>(sql);
-        }
+        return await Connection.QueryAsync<int>(sql);
+    }
 
-        public async Task<Shift> GetShiftByEmployeeId(int employeeId)
-        {
+    public async Task<Shift> GetShiftByEmployeeId(int employeeId)
+    {
 
-                var sql = @"SELECT s.id, 
+        var sql = @"SELECT s.id, 
                                    s.NAME, 
                                    s.starttime, 
                                    s.endtime, 
@@ -36,7 +29,6 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.jobfiling jb 
                                            ON s.id = jb.shiftid AND jb.employeeid = @employeeid ";
 
-                return await Connection.QueryFirstAsync<Shift>(sql, new { employeeId });
-        }
+        return await Connection.QueryFirstAsync<Shift>(sql, new { employeeId });
     }
 }

@@ -1,24 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class BasicComponentRepository : GenericRepository<PayrollBasicComponent>, IPayrollBasicComponentRepository
 {
-    public class BasicComponentRepository : GenericRepository<PayrollBasicComponent>, IPayrollBasicComponentRepository
+    public BasicComponentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public BasicComponentRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId, int year, int month)
-        {
-                var sql = @"SELECT DISTINCT es.employeeid                         AS employeeid, 
+    public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetBasicComponentsByPaygroup(int paygoupId, int year, int month)
+    {
+        var sql = @"SELECT DISTINCT es.employeeid                         AS employeeid, 
                                             Concat (e.firstname, ' ', e.lastname) AS employeename, 
                                             jd.employeenumber                     AS employeecode, 
                                             es.id                                 AS 
@@ -60,35 +50,35 @@ namespace Chef.HRMS.Repositories
                                                         AND
 													     ppm.year=@year)) )";
 
-                return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { paygoupId, year, month });
-        }
+        return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { paygoupId, year, month });
+    }
 
-        public async Task<int> InsertPayrollBasicComponents(IEnumerable<PayrollBasicComponent> payrollBasicComponents)
-        {
-                var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
+    public async Task<int> InsertPayrollBasicComponents(IEnumerable<PayrollBasicComponent> payrollBasicComponents)
+    {
+        var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
 
-                return await Connection.ExecuteAsync(sql, payrollBasicComponents);
-        }
+        return await Connection.ExecuteAsync(sql, payrollBasicComponents);
+    }
 
-        public async Task<IEnumerable<PayrollBasicComponent>> GetPayrollBasicComponentByPayrollProcessingMethodId(int payrollProcessingMethodId)
-        {
-                var sql = @"SELECT * FROM hrms.payrollbasiccomponent WHERE payrollProcessingMethodId = @payrollProcessingMethodId ";
+    public async Task<IEnumerable<PayrollBasicComponent>> GetPayrollBasicComponentByPayrollProcessingMethodId(int payrollProcessingMethodId)
+    {
+        var sql = @"SELECT * FROM hrms.payrollbasiccomponent WHERE payrollProcessingMethodId = @payrollProcessingMethodId ";
 
-                return await Connection.QueryAsync<PayrollBasicComponent>(sql, new { payrollProcessingMethodId });
-        }
+        return await Connection.QueryAsync<PayrollBasicComponent>(sql, new { payrollProcessingMethodId });
+    }
 
-        public async Task<IEnumerable<PayrollBasicComponent>> GetPayrollBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId)
-        {
-                var sql = @"SELECT * 
+    public async Task<IEnumerable<PayrollBasicComponent>> GetPayrollBreakUpByEmployeeId(int employeeId, int payrollProcessingMethodId)
+    {
+        var sql = @"SELECT * 
                             FROM   hrms.payrollbasiccomponent 
                             WHERE  employeeId = @employeeId
                                    AND payrollProcessingMethodid=@payrollProcessingMethodId";
-                return await Connection.QueryAsync<PayrollBasicComponent>(sql, new { employeeId, payrollProcessingMethodId });
-        }
+        return await Connection.QueryAsync<PayrollBasicComponent>(sql, new { employeeId, payrollProcessingMethodId });
+    }
 
-        public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetPayrollBasicComponentByEmployeeId(int employeeId)
-        {
-                var sql = @"SELECT DISTINCT es.employeeid                         AS employeeid, 
+    public async Task<IEnumerable<EmployeeSalaryConfigurationView>> GetPayrollBasicComponentByEmployeeId(int employeeId)
+    {
+        var sql = @"SELECT DISTINCT es.employeeid                         AS employeeid, 
                                             Concat (e.firstname, ' ', e.lastname) AS employeename, 
                                             jd.employeenumber                     AS employeecode, 
                                             es.id                                 AS 
@@ -127,47 +117,28 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.jobdetails jd 
                                            ON jd.employeeid = e.id ";
 
-                return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { employeeId });
-        }
+        return await Connection.QueryAsync<EmployeeSalaryConfigurationView>(sql, new { employeeId });
+    }
 
-        public async Task<int> InsertOrUpdateAsync(IEnumerable<PayrollBasicComponent> payrollBasicComponents)
+    public async Task<int> InsertOrUpdateAsync(IEnumerable<PayrollBasicComponent> payrollBasicComponents)
+    {
+        int result = 0;
+
+        using (var transaction = Connection.BeginTransaction())
         {
-            int result = 0;
-
-            using (var transaction = Connection.BeginTransaction())
+            try
             {
-                try
+                if (payrollBasicComponents.Select(x => x.PayGroupId).FirstOrDefault() == 0)
                 {
-                    if (payrollBasicComponents.Select(x => x.PayGroupId).FirstOrDefault() == 0)
-                    {
-                        var employeeId = payrollBasicComponents.Select(x => x.EmployeeId).FirstOrDefault();
-                        var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
-                        int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
-                        if (data != 0)
-                        {
-                            (from pbc in payrollBasicComponents
-                             select pbc).ToList().ForEach((pbc) =>
-                             {
-                                 pbc.PayGroupId = data;
-                                 pbc.CreatedDate = pbc.ModifiedDate = DateTime.UtcNow;
-                                 pbc.IsArchived = false;
-                             });
-                            var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
-                            sql = sql.Replace("RETURNING Id", " ");
-                            sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
-                            sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
-                            return await Connection.ExecuteAsync(sql, payrollBasicComponents);
-                        }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
-                    else
+                    var employeeId = payrollBasicComponents.Select(x => x.EmployeeId).FirstOrDefault();
+                    var getEmp = "SELECT paygroupid from hrms.jobfiling where employeeid=@employeeId";
+                    int data = await Connection.QueryFirstOrDefaultAsync<int>(getEmp, new { employeeId });
+                    if (data != 0)
                     {
                         (from pbc in payrollBasicComponents
                          select pbc).ToList().ForEach((pbc) =>
                          {
+                             pbc.PayGroupId = data;
                              pbc.CreatedDate = pbc.ModifiedDate = DateTime.UtcNow;
                              pbc.IsArchived = false;
                          });
@@ -175,18 +146,36 @@ namespace Chef.HRMS.Repositories
                         sql = sql.Replace("RETURNING Id", " ");
                         sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
                         sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
-                        await Connection.ExecuteAsync(sql, payrollBasicComponents);
+                        return await Connection.ExecuteAsync(sql, payrollBasicComponents);
                     }
-                    transaction.Commit();
+                    else
+                    {
+                        return 0;
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    string msg = ex.Message;
-                    transaction.Rollback();
+                    (from pbc in payrollBasicComponents
+                     select pbc).ToList().ForEach((pbc) =>
+                     {
+                         pbc.CreatedDate = pbc.ModifiedDate = DateTime.UtcNow;
+                         pbc.IsArchived = false;
+                     });
+                    var sql = new QueryBuilder<PayrollBasicComponent>().GenerateInsertQuery();
+                    sql = sql.Replace("RETURNING Id", " ");
+                    sql += " ON CONFLICT ON CONSTRAINT payrollbasiccomponent_ukey_empid_ppmid_payrollcomponentid DO ";
+                    sql += new QueryBuilder<PayrollBasicComponent>().GenerateUpdateQueryOnConflict();
+                    await Connection.ExecuteAsync(sql, payrollBasicComponents);
                 }
+                transaction.Commit();
             }
-            return result;
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                transaction.Rollback();
+            }
         }
+        return result;
     }
 }
 

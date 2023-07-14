@@ -10,25 +10,24 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/settings/payrollprocessing/[controller]")]
+[ApiController]
+public class TicketAccrualController : ControllerBase
 {
-    [Route("api/settings/payrollprocessing/[controller]")]
-    [ApiController]
-    public class TicketAccrualController : ControllerBase
+    private readonly ILeaveAccrualService leaveAccrualService;
+
+    public TicketAccrualController(ILeaveAccrualService leaveAccrualService)
     {
-        private readonly ILeaveAccrualService leaveAccrualService;
+        this.leaveAccrualService = leaveAccrualService;
+    }
 
-        public TicketAccrualController(ILeaveAccrualService leaveAccrualService)
-        {
-            this.leaveAccrualService = leaveAccrualService;
-        }
-
-        [AllowAnonymous]
-        [HttpPost("GenerateTicketAccruals/{paygroupid}")]
-        public async Task<ActionResult<IEnumerable<TicketAccrual>>> GenerateTicketAccruals(int paygroupid)
-        {
-            List<TicketAccrual> ticketAccrual = new List<TicketAccrual>();            
-            return Ok(ticketAccrual);
-        }
+    [AllowAnonymous]
+    [HttpPost("GenerateTicketAccruals/{paygroupid}")]
+    public async Task<ActionResult<IEnumerable<TicketAccrual>>> GenerateTicketAccruals(int paygroupid)
+    {
+        List<TicketAccrual> ticketAccrual = new List<TicketAccrual>();            
+        return Ok(ticketAccrual);
     }
 }

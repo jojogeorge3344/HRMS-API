@@ -1,21 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class EducationRepository : GenericRepository<Education>, IEducationRepository
 {
-    public class EducationRepository : GenericRepository<Education>, IEducationRepository
+    public EducationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public EducationRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<EducationView>> GetAllByEmployeeId(int employeeId)
-        {
-                var sql = @"SELECT e.id               AS educationid, 
+    public async Task<IEnumerable<EducationView>> GetAllByEmployeeId(int employeeId)
+    {
+        var sql = @"SELECT e.id               AS educationid, 
                                    d.id               AS documentid, 
                                    ed.id              AS educationdocumentid, 
                                    e.employeeid       AS employeeId, 
@@ -35,7 +28,6 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.document d 
                                            ON ed.documentid = d.id where e.isarchived=false order by e.id desc";   // Added "where e.isarchived=false" for By Nir
 
-            return await Connection.QueryAsync<EducationView>(sql, new { employeeId });
-        }
+        return await Connection.QueryAsync<EducationView>(sql, new { employeeId });
     }
 }

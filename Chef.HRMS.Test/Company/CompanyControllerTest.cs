@@ -7,55 +7,54 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Chef.HRMS.Test
+namespace Chef.HRMS.Test;
+
+public class CompanyControllerTest : BaseTest
 {
-    public class CompanyControllerTest : BaseTest
+    private readonly Mock<ICompanyService> mockService;
+    private readonly CompanyController companyController;
+
+    public CompanyControllerTest()
     {
-        private readonly Mock<ICompanyService> mockService;
-        private readonly CompanyController companyController;
+        mockService = new Mock<ICompanyService>();
+        companyController = new CompanyController(mockService.Object);
+    }
 
-        public CompanyControllerTest()
+    [Fact]
+    public async void Get_WhenCalled_ReturnsOkResult()
+    {
+        //Arrange
+        _ = mockService.Setup(repo => repo.GetAsync()).Returns(await Task.FromResult(GetMockCompany()));
+
+        // Act
+        var okResult = await companyController.Get();
+
+        // Assert
+        Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+
+    [Fact]
+    public async void Get_WhenCalled_ReturnsNotFoundResult()
+    {
+        //Arrange
+        mockService.Setup(repo => repo.GetAsync());
+        // Act
+        var notFoundResult = await companyController.Get();
+
+        // Assert
+        Assert.IsType<NotFoundResult>(notFoundResult.Result);
+    }
+
+    private static HRMSCompany GetMockCompany()
+    {
+        return new HRMSCompany()
         {
-            mockService = new Mock<ICompanyService>();
-            companyController = new CompanyController(mockService.Object);
-        }
-
-        [Fact]
-        public async void Get_WhenCalled_ReturnsOkResult()
-        {
-            //Arrange
-            _ = mockService.Setup(repo => repo.GetAsync()).Returns( await Task.FromResult(GetMockCompany()));
-
-            // Act
-            var okResult = await companyController.Get();
-
-            // Assert
-            Assert.IsType<OkObjectResult>(okResult.Result);
-        }
-
-        [Fact]
-        public async void Get_WhenCalled_ReturnsNotFoundResult()
-        {
-            //Arrange
-            mockService.Setup(repo => repo.GetAsync());
-            // Act
-            var notFoundResult = await companyController.Get();
-
-            // Assert
-            Assert.IsType<NotFoundResult>(notFoundResult.Result);
-        }
-
-        private static HRMSCompany GetMockCompany()
-        {
-            return new HRMSCompany()
-            {
-                DateOfIncorporation = DateTime.UtcNow,
-                IdentificationNumber = "Chef Ltd - " + new Random().Next(100, 1000),
-                LegalName = "Chef Pvt. Ltd.",
-                LogoFilePath = "/cheflogo.jpg",
-                ShortName = "CHEF",
-                BusinessType = BusinessType.PrivateLimited
-            };
-        }
+            DateOfIncorporation = DateTime.UtcNow,
+            IdentificationNumber = "Chef Ltd - " + new Random().Next(100, 1000),
+            LegalName = "Chef Pvt. Ltd.",
+            LogoFilePath = "/cheflogo.jpg",
+            ShortName = "CHEF",
+            BusinessType = BusinessType.PrivateLimited
+        };
     }
 }

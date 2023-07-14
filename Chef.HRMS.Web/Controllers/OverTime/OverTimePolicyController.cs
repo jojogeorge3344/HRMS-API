@@ -7,132 +7,131 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[ApiController]
+[Route("api/Settings/OverTime/[controller]")]
+public class OverTimePolicyController : ControllerBase
 {
-    [ApiController]
-    [Route("api/Settings/OverTime/[controller]")]
-    public class OverTimePolicyController : ControllerBase
+    private readonly IOverTimePolicyService overTimePolicyService;
+
+    public OverTimePolicyController(IOverTimePolicyService overTimePolicyService)
     {
-        private readonly IOverTimePolicyService overTimePolicyService;
+        this.overTimePolicyService = overTimePolicyService;
+    }
 
-        public OverTimePolicyController(IOverTimePolicyService overTimePolicyService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var overTimePolicy = await overTimePolicyService.GetAsync(id);
+
+        if (overTimePolicy == null)
         {
-            this.overTimePolicyService = overTimePolicyService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await overTimePolicyService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<OverTimePolicy>> Get(int id)
+    {
+        var overTimePolicy = await overTimePolicyService.GetAsync(id);
+
+        if (overTimePolicy == null)
         {
-            var overTimePolicy = await overTimePolicyService.GetAsync(id);
-
-            if (overTimePolicy == null)
-            {
-                return NotFound();
-            }
-
-            var result = await overTimePolicyService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<OverTimePolicy>> Get(int id)
+        return Ok(overTimePolicy);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<OverTimePolicy>>> GetAll()
+    {
+        var overTimePolicy = await overTimePolicyService.GetAllAsync();
+
+        return Ok(overTimePolicy);
+    }
+
+    [HttpGet("GetAllAssignedOverTimePolicy")]
+    public async Task<ActionResult<IEnumerable<int>>> GetAllAssignedOverTimePolicy()
+    {
+        var overTimePolicy = await overTimePolicyService.GetAllAssignedOverTimePolicy();
+
+        return Ok(overTimePolicy);
+    }
+    [HttpGet("GetAllAssignedOverTimePolicyCount")]
+    public async Task<ActionResult<IEnumerable<OverTimePolicy>>> GetAllAssignedOverTimePolicyCount()
+    {
+        var overTimePolicy = await overTimePolicyService.GetAllAssignedOverTimePolicyCount();
+
+        return Ok(overTimePolicy);
+    }
+    [HttpGet("GetAllConfiguredOvertimePolicies")]
+    public async Task<ActionResult<IEnumerable<int>>> GetAllConfiguredOvertimePolicies()
+    {
+        var overTimePolicy = await overTimePolicyService.GetAllConfiguredOvertimePolicies();
+
+        return Ok(overTimePolicy);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(OverTimePolicy overTimePolicy)
+    {
+        if (!ModelState.IsValid)
         {
-            var overTimePolicy = await overTimePolicyService.GetAsync(id);
-
-            if (overTimePolicy == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(overTimePolicy);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<OverTimePolicy>>> GetAll()
-        {
-            var overTimePolicy = await overTimePolicyService.GetAllAsync();
+        var id = await overTimePolicyService.InsertAsync(overTimePolicy);
 
-            return Ok(overTimePolicy);
+        return Ok(id);
+
+    }
+
+    [HttpPut("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(OverTimePolicy overTimePolicy)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAllAssignedOverTimePolicy")]
-        public async Task<ActionResult<IEnumerable<int>>> GetAllAssignedOverTimePolicy()
-        {
-            var overTimePolicy = await overTimePolicyService.GetAllAssignedOverTimePolicy();
+        var result = await overTimePolicyService.UpdateAsync(overTimePolicy);
 
-            return Ok(overTimePolicy);
-        }
-        [HttpGet("GetAllAssignedOverTimePolicyCount")]
-        public async Task<ActionResult<IEnumerable<OverTimePolicy>>> GetAllAssignedOverTimePolicyCount()
-        {
-            var overTimePolicy = await overTimePolicyService.GetAllAssignedOverTimePolicyCount();
+        return Ok(result);
+    }
 
-            return Ok(overTimePolicy);
-        }
-        [HttpGet("GetAllConfiguredOvertimePolicies")]
-        public async Task<ActionResult<IEnumerable<int>>> GetAllConfiguredOvertimePolicies()
+    [HttpPut("UpdateOverTimePolicy/{id}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> UpdateOverTimePolicy(int id)
+    {
+        if (!ModelState.IsValid)
         {
-            var overTimePolicy = await overTimePolicyService.GetAllConfiguredOvertimePolicies();
-
-            return Ok(overTimePolicy);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(OverTimePolicy overTimePolicy)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await overTimePolicyService.UpdateOverTimePolicy(id);
 
-            var id = await overTimePolicyService.InsertAsync(overTimePolicy);
+        return Ok(result);
+    }
+    [HttpGet("GetBenefitType")]
+    public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType()
+    {
+        var benefitlist = await overTimePolicyService.GetBenefitType();
 
-            return Ok(id);
-
-        }
-
-        [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(OverTimePolicy overTimePolicy)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await overTimePolicyService.UpdateAsync(overTimePolicy);
-
-            return Ok(result);
-        }
-
-        [HttpPut("UpdateOverTimePolicy/{id}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> UpdateOverTimePolicy(int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await overTimePolicyService.UpdateOverTimePolicy(id);
-
-            return Ok(result);
-        }
-        [HttpGet("GetBenefitType")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType()
-        {
-            var benefitlist = await overTimePolicyService.GetBenefitType();
-
-            return Ok(benefitlist);
-        }
+        return Ok(benefitlist);
     }
 }

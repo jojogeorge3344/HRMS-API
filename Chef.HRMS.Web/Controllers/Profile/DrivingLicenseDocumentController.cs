@@ -6,86 +6,85 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers.Profile
+namespace Chef.HRMS.Web.Controllers.Profile;
+
+[ApiController]
+[Route("api/profile/[controller]")]
+public class DrivingLicenseDocumentController : ControllerBase
 {
-    [ApiController]
-    [Route("api/profile/[controller]")]
-    public class DrivingLicenseDocumentController : ControllerBase
+    private readonly IDrivingLicenseDocumentService drivingLicenseDocumentService;
+
+    public DrivingLicenseDocumentController(IDrivingLicenseDocumentService drivingLicenseDocumentService)
     {
-        private readonly IDrivingLicenseDocumentService drivingLicenseDocumentService;
+        this.drivingLicenseDocumentService = drivingLicenseDocumentService;
+    }
 
-        public DrivingLicenseDocumentController(IDrivingLicenseDocumentService drivingLicenseDocumentService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var drivingLicenseDocument = await drivingLicenseDocumentService.GetAsync(id);
+
+        if (drivingLicenseDocument == null)
         {
-            this.drivingLicenseDocumentService = drivingLicenseDocumentService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await drivingLicenseDocumentService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<DrivingLicenseDocument>> Get(int id)
+    {
+        var drivingLicenseDocument = await drivingLicenseDocumentService.GetAsync(id);
+
+        if (drivingLicenseDocument == null)
         {
-            var drivingLicenseDocument = await drivingLicenseDocumentService.GetAsync(id);
-
-            if (drivingLicenseDocument == null)
-            {
-                return NotFound();
-            }
-
-            var result = await drivingLicenseDocumentService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<DrivingLicenseDocument>> Get(int id)
+        return Ok(drivingLicenseDocument);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<DrivingLicenseDocument>>> GetAll()
+    {
+        var drivingLicenseDocuments = await drivingLicenseDocumentService.GetAllAsync();
+
+        return Ok(drivingLicenseDocuments);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(DrivingLicenseDocument drivingLicenseDocument)
+    {
+        if (!ModelState.IsValid)
         {
-            var drivingLicenseDocument = await drivingLicenseDocumentService.GetAsync(id);
-
-            if (drivingLicenseDocument == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(drivingLicenseDocument);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<DrivingLicenseDocument>>> GetAll()
-        {
-            var drivingLicenseDocuments = await drivingLicenseDocumentService.GetAllAsync();
+        var id = await drivingLicenseDocumentService.InsertAsync(drivingLicenseDocument);
 
-            return Ok(drivingLicenseDocuments);
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(DrivingLicenseDocument drivingLicenseDocument)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(DrivingLicenseDocument drivingLicenseDocument)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await drivingLicenseDocumentService.UpdateAsync(drivingLicenseDocument);
 
-            var id = await drivingLicenseDocumentService.InsertAsync(drivingLicenseDocument);
-
-            return Ok(id);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(DrivingLicenseDocument drivingLicenseDocument)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await drivingLicenseDocumentService.UpdateAsync(drivingLicenseDocument);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

@@ -7,79 +7,78 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Chef.HRMS.Test
+namespace Chef.HRMS.Test;
+
+public class WorkFromHomeSettingsControllerTest : BaseTest
 {
-    public class WorkFromHomeSettingsControllerTest : BaseTest
+    private readonly Mock<IWorkFromHomeSettingsService> mockService;
+    private readonly WorkFromHomeSettingsController workFromHomeAdminSettingsController;
+
+    public WorkFromHomeSettingsControllerTest()
     {
-        private readonly Mock<IWorkFromHomeSettingsService> mockService;
-        private readonly WorkFromHomeSettingsController workFromHomeAdminSettingsController;
+        mockService = new Mock<IWorkFromHomeSettingsService>();
+        workFromHomeAdminSettingsController = new WorkFromHomeSettingsController(mockService.Object);
+    }
 
-        public WorkFromHomeSettingsControllerTest()
+    [Fact]
+    public async void Get_WhenCalled_ReturnsOkResult()
+    {
+        //Arrange
+        var id = 2;
+        mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(await Task.FromResult(GetMockWorkFromHomeAdminSettings()));
+
+        // Act
+        var okResult = await workFromHomeAdminSettingsController.Get(id);
+
+        // Assert
+        Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+
+    [Fact]
+    public async void Get_WhenCalled_ReturnsNotFoundResult()
+    {
+        //Arrange
+        var id = -1;
+
+        // Act
+        var notFoundResult = await workFromHomeAdminSettingsController.Get(id);
+
+        // Assert
+        Assert.IsType<NotFoundResult>(notFoundResult.Result);
+    }
+
+    [Fact]
+    public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
+    {
+        WorkFromHomeSettings WorkFromHomeAdminSettings = GetMockWorkFromHomeAdminSettings();
+        mockService.Setup(service => service.InsertAsync(It.IsAny<WorkFromHomeSettings>())).Returns(await Task.FromResult(GetMockWorkFromHomeAdminSettings()));
+
+        // Act
+        var createdResponse = await workFromHomeAdminSettingsController.Insert(WorkFromHomeAdminSettings) as CreatedAtActionResult;
+        var item = createdResponse.Value as WorkFromHomeSettings; ;
+
+        // Assert
+        Assert.IsType<WorkFromHomeSettings>(item);
+        Assert.NotNull(createdResponse);
+    }
+
+    private static WorkFromHomeSettings GetMockWorkFromHomeAdminSettings()
+    {
+        return new WorkFromHomeSettings()
         {
-            mockService = new Mock<IWorkFromHomeSettingsService>();
-            workFromHomeAdminSettingsController = new WorkFromHomeSettingsController(mockService.Object);
-        }
+            Id = 1,
+        };
+    }
 
-        [Fact]
-        public async void Get_WhenCalled_ReturnsOkResult()
+    private static IEnumerable<WorkFromHomeSettings> GetMockWorkFromHomeAdminSettingsList()
+    {
+        List<WorkFromHomeSettings> WorkFromHomeAdminSettingsList = new List<WorkFromHomeSettings>();
+        WorkFromHomeSettings WorkFromHomeAdminSettings = new WorkFromHomeSettings
         {
-            //Arrange
-            var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockWorkFromHomeAdminSettings()));
+            Id = 1,
 
-            // Act
-            var okResult = await workFromHomeAdminSettingsController.Get(id);
-
-            // Assert
-            Assert.IsType<OkObjectResult>(okResult.Result);
-        }
-
-        [Fact]
-        public async void Get_WhenCalled_ReturnsNotFoundResult()
-        {
-            //Arrange
-            var id = -1;
-
-            // Act
-            var notFoundResult = await workFromHomeAdminSettingsController.Get(id);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(notFoundResult.Result);
-        }
-
-        [Fact]
-        public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
-        {
-            WorkFromHomeSettings WorkFromHomeAdminSettings = GetMockWorkFromHomeAdminSettings();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<WorkFromHomeSettings>())).Returns( await Task.FromResult(GetMockWorkFromHomeAdminSettings()));
-
-            // Act
-            var createdResponse = await workFromHomeAdminSettingsController.Insert(WorkFromHomeAdminSettings) as CreatedAtActionResult;
-            var item = createdResponse.Value as WorkFromHomeSettings; ;
-
-            // Assert
-            Assert.IsType<WorkFromHomeSettings>(item);
-            Assert.NotNull(createdResponse);
-        }
-
-        private static WorkFromHomeSettings GetMockWorkFromHomeAdminSettings()
-        {
-            return new WorkFromHomeSettings()
-            {
-                Id = 1,
-            };
-        }
-
-        private static IEnumerable<WorkFromHomeSettings> GetMockWorkFromHomeAdminSettingsList()
-        {
-            List<WorkFromHomeSettings> WorkFromHomeAdminSettingsList = new List<WorkFromHomeSettings>();
-            WorkFromHomeSettings WorkFromHomeAdminSettings = new WorkFromHomeSettings
-            {
-                Id = 1,
-
-            };
-            WorkFromHomeAdminSettingsList.Add(WorkFromHomeAdminSettings);
-            return WorkFromHomeAdminSettingsList;
-        }
+        };
+        WorkFromHomeAdminSettingsList.Add(WorkFromHomeAdminSettings);
+        return WorkFromHomeAdminSettingsList;
     }
 }

@@ -1,24 +1,17 @@
 ﻿using Chef.Common.Core.Extensions;
-using Chef.Common.Models;
-using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks; 
 
-namespace Chef.HRMS.Repositories
+namespace Chef.HRMS.Repositories;
+
+public class EmployeeRepository : GenericRepository<HRMSEmployee>, IEmployeeRepository
 {
-    public class EmployeeRepository : GenericRepository<HRMSEmployee>, IEmployeeRepository
+    public EmployeeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public EmployeeRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<EmployeeView>> GetAllEmployeeDetails()
-        {
+    public async Task<IEnumerable<EmployeeView>> GetAllEmployeeDetails()
+    {
 
-                var sql = @"SELECT  e.id, 
+        var sql = @"SELECT  e.id, 
                                     e.firstname, 
                                     e.middlename, 
                                     e.lastname, 
@@ -52,13 +45,13 @@ namespace Chef.HRMS.Repositories
                             WHERE e.isarchived=false
                             ORDER BY e.id desc";
 
-                return await Connection.QueryAsync<EmployeeView>(sql);
-        }
+        return await Connection.QueryAsync<EmployeeView>(sql);
+    }
 
-        public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId)
-        {
+    public async Task<EmployeeView> GetEmployeeDetailsById(int employeeId)
+    {
 
-                var sql = @"SELECT  e.id, 
+        var sql = @"SELECT  e.id, 
                                     e.firstname, 
                                     e.middlename, 
                                     e.lastname, 
@@ -94,26 +87,26 @@ namespace Chef.HRMS.Repositories
                             WHERE   e.id = @employeeId
                             ORDER BY e.id";
 
-                return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId });
-        }
+        return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId });
+    }
 
-        public async Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId)
-        {
+    public async Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId)
+    {
 
-                var sql = @"SELECT Concat (e.firstname, ' ', e.lastname) AS employeename, 
+        var sql = @"SELECT Concat (e.firstname, ' ', e.lastname) AS employeename, 
                                    jd.employeenumber                     AS employeenumber 
                             FROM   hrms.HRMSEmployee e 
                                    INNER JOIN hrms.jobdetails jd 
                                            ON e.id = jd.employeeid 
                             WHERE  jd.jobtitleid = @jobtitleid ";
 
-                return await Connection.QueryAsync<EmployeeView>(sql, new { jobTitleId });
+        return await Connection.QueryAsync<EmployeeView>(sql, new { jobTitleId });
 
-        }
-        public async Task<IEnumerable<Notification>> GetAllNotificationById(int employeeId)
-        {
+    }
+    public async Task<IEnumerable<Notification>> GetAllNotificationById(int employeeId)
+    {
 
-                var sql = @"(SELECT    j.reportingmanager     AS employeeid,
+        var sql = @"(SELECT    j.reportingmanager     AS employeeid,
                                       COUNT(l.id)      AS pendingrequest,
 				                      'Leave Request'  AS notificationtype  
 				                                       FROM hrms.jobdetails j
@@ -136,22 +129,22 @@ namespace Chef.HRMS.Repositories
 								                       GROUP BY e.employeeid,
 						                               j.reportingmanager)";
 
-                return await Connection.QueryAsync<Notification>(sql, new { employeeId });
+        return await Connection.QueryAsync<Notification>(sql, new { employeeId });
 
-        }
-        public async Task<bool> IsNameExist(string name)
-        {
-            if (await QueryFactory
-           .Query<HRMSEmployee>()
-           .Where("firstname", name)
-           .WhereNotArchived()
-           .CountAsync<int>() > 0) return true;
-            else return false;
-        }
+    }
+    public async Task<bool> IsNameExist(string name)
+    {
+        if (await QueryFactory
+       .Query<HRMSEmployee>()
+       .Where("firstname", name)
+       .WhereNotArchived()
+       .CountAsync<int>() > 0) return true;
+        else return false;
+    }
 
-        public async Task<LoginEmployeeView> GetLoginEmployee(int employeeId)
-        {
-            var sql = @"SELECT em.firstname,em.id,em.email,em.lastname,em.displayname,
+    public async Task<LoginEmployeeView> GetLoginEmployee(int employeeId)
+    {
+        var sql = @"SELECT em.firstname,em.id,em.email,em.lastname,em.displayname,
                         jd.employeenumber AS employeecode,em.middlename
                         FROM hrms.hrmsemployee em
                         INNER JOIN hrms.jobdetails jd
@@ -159,12 +152,12 @@ namespace Chef.HRMS.Repositories
                         WHERE em.id = @employeeId
                         AND em.isarchived = false";
 
-            return await Connection.QueryFirstOrDefaultAsync<LoginEmployeeView>(sql, new { employeeId });
-        }
+        return await Connection.QueryFirstOrDefaultAsync<LoginEmployeeView>(sql, new { employeeId });
+    }
 
-        public async Task<EmployeeView> GetEmployeeEditLeaveDetails(int employeeId, int leaveId)
-        {
-            var sql = @"SELECT
+    public async Task<EmployeeView> GetEmployeeEditLeaveDetails(int employeeId, int leaveId)
+    {
+        var sql = @"SELECT
                           e.id,
                           e.firstname,
                           e.middlename,
@@ -208,7 +201,6 @@ namespace Chef.HRMS.Repositories
                         AND l.isarchived = FALSE
                         ORDER BY e.id";
 
-            return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId, leaveId });
-        }
+        return await Connection.QueryFirstOrDefaultAsync<EmployeeView>(sql, new { employeeId, leaveId });
     }
 }

@@ -1,14 +1,10 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IExpensePolicyService : IAsyncService<ExpensePolicy>
 {
-    public interface IExpensePolicyService : IAsyncService<ExpensePolicy>
-    {
-        Task<IEnumerable<int>> GetAllAssignedExpensePolicy();
-        Task<IEnumerable<ExpensePolicy>> GetAllConfiguredExpensePolicies();
-        Task<bool> UpdateExpensePolicy(int id, bool isConfigured);
-    }
+    Task<IEnumerable<int>> GetAllAssignedExpensePolicy();
+    Task<IEnumerable<ExpensePolicy>> GetAllConfiguredExpensePolicies();
+    Task<bool> UpdateExpensePolicy(int id, bool isConfigured);
 }

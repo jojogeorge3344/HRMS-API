@@ -7,145 +7,144 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/settings/leave/[controller]")]
+[ApiController]
+public class LeaveComponentController : ControllerBase
 {
-    [Route("api/settings/leave/[controller]")]
-    [ApiController]
-    public class LeaveComponentController : ControllerBase
+    private readonly ILeaveComponentService leaveComponentService;
+
+    public LeaveComponentController(ILeaveComponentService leaveComponentService)
     {
-        private readonly ILeaveComponentService leaveComponentService;
+        this.leaveComponentService = leaveComponentService;
+    }
 
-        public LeaveComponentController(ILeaveComponentService leaveComponentService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var leaveComponent = await leaveComponentService.GetAsync(id);
+
+        if (leaveComponent == null)
         {
-            this.leaveComponentService = leaveComponentService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        var result = await leaveComponentService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<LeaveComponent>> Get(int id)
+    {
+        var leaveComponent = await leaveComponentService.GetAsync(id);
+
+        if (leaveComponent == null)
         {
-            var leaveComponent = await leaveComponentService.GetAsync(id);
-
-            if (leaveComponent == null)
-            {
-                return NotFound();
-            }
-
-            var result = await leaveComponentService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<LeaveComponent>> Get(int id)
+        return Ok(leaveComponent);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<LeaveComponent>>> GetAll()
+    {
+        var leaveComponents = await leaveComponentService.GetAllAsync();
+
+        return Ok(leaveComponents);
+    }
+    [HttpGet("GetAllAssignedLeaveComponents")]
+    public async Task<ActionResult<int>> GetAllAssignedLeaveComponents()
+    {
+        var leaveComponents = await leaveComponentService.GetAllAssignedLeaveComponents();
+
+        if (leaveComponents == null)
         {
-            var leaveComponent = await leaveComponentService.GetAsync(id);
-
-            if (leaveComponent == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(leaveComponent);
+            return NotFound();
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<LeaveComponent>>> GetAll()
+        return Ok(leaveComponents);
+    }
+
+
+    [HttpGet("GetAllByLeaveStructure/{leaveStructureId}")]
+    public async Task<ActionResult<IEnumerable<LeaveComponent>>> GetAllByLeaveStructure(int leaveStructureId)
+    {
+        var leaveComponents = await leaveComponentService.GetAllByLeaveStructure(leaveStructureId);
+
+        return Ok(leaveComponents);
+    }
+
+    [HttpPost("Insert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Insert(LeaveComponent leaveComponent)
+    {
+        if (!ModelState.IsValid)
         {
-            var leaveComponents = await leaveComponentService.GetAllAsync();
-
-            return Ok(leaveComponents);
-        }
-        [HttpGet("GetAllAssignedLeaveComponents")]
-        public async Task<ActionResult<int>> GetAllAssignedLeaveComponents()
-        {
-            var leaveComponents = await leaveComponentService.GetAllAssignedLeaveComponents();
-
-            if (leaveComponents == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(leaveComponents);
-        }
-
-
-        [HttpGet("GetAllByLeaveStructure/{leaveStructureId}")]
-        public async Task<ActionResult<IEnumerable<LeaveComponent>>> GetAllByLeaveStructure(int leaveStructureId)
-        {
-            var leaveComponents = await leaveComponentService.GetAllByLeaveStructure(leaveStructureId);
-
-            return Ok(leaveComponents);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(LeaveComponent leaveComponent)
+        var id = await leaveComponentService.InsertAsync(leaveComponent);
+
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Update(LeaveComponent leaveComponent)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var id = await leaveComponentService.InsertAsync(leaveComponent);
-
-            return Ok(id);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(LeaveComponent leaveComponent)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await leaveComponentService.UpdateAsync(leaveComponent);
 
-            var result = await leaveComponentService.UpdateAsync(leaveComponent);
+        return Ok(result);
+    }
 
-            return Ok(result);
-        }
+    [HttpGet("GetBenefitCategory")]
+    public async Task<ActionResult<IEnumerable<BenefitCategory>>> GetBenefitCategory()
+    {
+        var benefitlist = await leaveComponentService.GetBenefitCategory();
 
-        [HttpGet("GetBenefitCategory")]
-        public async Task<ActionResult<IEnumerable<BenefitCategory>>> GetBenefitCategory()
-        {
-            var benefitlist = await leaveComponentService.GetBenefitCategory();
+        return Ok(benefitlist);
+    }
 
-            return Ok(benefitlist);
-        }
+    [HttpGet("GetAccrualBenefitType")]
+    public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAccrualBenefitType()
+    {
+        var benefitlist = await leaveComponentService.GetAccrualBenefitType();
 
-        [HttpGet("GetAccrualBenefitType")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAccrualBenefitType()
-        {
-            var benefitlist = await leaveComponentService.GetAccrualBenefitType();
+        return Ok(benefitlist);
+    }
 
-            return Ok(benefitlist);
-        }
+    [HttpGet("GetAccrualType")]
+    public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAccrualType()
+    {
+        var benefitlist = await leaveComponentService.GetAccrualType();
 
-        [HttpGet("GetAccrualType")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAccrualType()
-        {
-            var benefitlist = await leaveComponentService.GetAccrualType();
+        return Ok(benefitlist); 
+    }
 
-            return Ok(benefitlist); 
-        }
+    [HttpGet("GetDeductionType")]
+    public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetDeductionType()
+    {
+        var benefitlist = await leaveComponentService.GetDeductionType();
 
-        [HttpGet("GetDeductionType")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetDeductionType()
-        {
-            var benefitlist = await leaveComponentService.GetDeductionType();
+        return Ok(benefitlist);
+    }
+    [HttpGet("GetBenefitType/{categoryid}")]
+    public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType(int categoryid)
+    {
+        var benefitlist = await leaveComponentService.GetBenefitType(categoryid);
 
-            return Ok(benefitlist);
-        }
-        [HttpGet("GetBenefitType/{categoryid}")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType(int categoryid)
-        {
-            var benefitlist = await leaveComponentService.GetBenefitType(categoryid);
-
-            return Ok(benefitlist);
-        }
+        return Ok(benefitlist);
     }
 }

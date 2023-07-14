@@ -1,11 +1,8 @@
-﻿using System;
+﻿namespace Chef.HRMS.Types;
 
-namespace Chef.HRMS.Types
+public enum AnnualQuotaRateType
 {
-    public enum AnnualQuotaRateType
-    {
-        Monthly = 1,
-        Quarterly,
-        HalfYearly
-    }
+    Monthly = 1,
+    Quarterly,
+    HalfYearly
 }

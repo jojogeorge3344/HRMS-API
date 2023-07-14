@@ -1,15 +1,8 @@
-﻿using Chef.Common.Models;
-using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface ISystemVariableValuesService : IAsyncService<SystemVariableValues>
 {
-    public interface ISystemVariableValuesService : IAsyncService<SystemVariableValues>
-    {
-        Task<string> InsertSystemVariableDetails(int PayGroupId,int ppMId);//, PayrollProcessingMethod systemVariableValues);
-    }
+    Task<string> InsertSystemVariableDetails(int PayGroupId, int ppMId);//, PayrollProcessingMethod systemVariableValues);
 }

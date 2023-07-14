@@ -1,14 +1,13 @@
-﻿namespace Chef.HRMS.Types
+﻿namespace Chef.HRMS.Types;
+
+/// <summary>
+/// Holds type of the worker
+/// </summary>
+public enum WorkerType
 {
-    /// <summary>
-    /// Holds type of the worker
-    /// </summary>
-    public enum WorkerType
-    {
-        Permanent = 1,
-        Contract = 2,
-        Intern = 3,
-        Resigned = 4,
-        OnProbation = 5
-    }
+    Permanent = 1,
+    Contract = 2,
+    Intern = 3,
+    Resigned = 4,
+    OnProbation = 5
 }

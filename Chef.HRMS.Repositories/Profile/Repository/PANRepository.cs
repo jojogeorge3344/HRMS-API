@@ -1,21 +1,14 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class PANRepository : GenericRepository<PAN>, IPANRepository
 {
-    public class PANRepository : GenericRepository<PAN>, IPANRepository
+    public PANRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public PANRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<PANView>> GetByEmployeeId(int employeeId)
-        {
-                var sql = @"SELECT p.id          AS panid, 
+    public async Task<IEnumerable<PANView>> GetByEmployeeId(int employeeId)
+    {
+        var sql = @"SELECT p.id          AS panid, 
                                    d.id          AS documentid, 
                                    pd.id         AS pandocumentid, 
                                    p.dateofbirth AS dateofbirth, 
@@ -33,7 +26,6 @@ namespace Chef.HRMS.Repositories
                                    INNER JOIN hrms.document d 
                                            ON pd.documentid = d.id where d.isarchived =false "; // Added for where d.isarchived =false by  Nir
 
-            return await Connection.QueryAsync<PANView>(sql, new { employeeId });
-        }
+        return await Connection.QueryAsync<PANView>(sql, new { employeeId });
     }
 }

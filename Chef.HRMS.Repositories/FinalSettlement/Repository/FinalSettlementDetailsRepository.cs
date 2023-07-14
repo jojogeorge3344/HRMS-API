@@ -1,41 +1,34 @@
 ﻿using Chef.Common.Core.Extensions;
-using Chef.Common.Models;
-using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Repositories.FinalSettlement
+namespace Chef.HRMS.Repositories.FinalSettlement;
+
+public class FinalSettlementDetailsRepository : TenantRepository<FinalSettlementDetails>, IFinalSettlementDetailsRepository
 {
-    public class FinalSettlementDetailsRepository : TenantRepository<FinalSettlementDetails>, IFinalSettlementDetailsRepository
+    public FinalSettlementDetailsRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public FinalSettlementDetailsRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
 
-        }
+    }
 
-        public async Task<int> DeleteByFinalSettlementId(int finalSettlementId)
-        {
-            return await QueryFactory
-            .Query<FinalSettlementDetails>()
-            .Where("finalsettlementid", finalSettlementId)
-            .DeleteAsync();
-        }
+    public async Task<int> DeleteByFinalSettlementId(int finalSettlementId)
+    {
+        return await QueryFactory
+        .Query<FinalSettlementDetails>()
+        .Where("finalsettlementid", finalSettlementId)
+        .DeleteAsync();
+    }
 
-        public async Task<IEnumerable<FinalSettlementDetails>> GetByFinalSettlementId(int id)
-        {
-            return await QueryFactory
-           .Query<FinalSettlementDetails>()
-           .Where("finalsettlementid", id)
-           .WhereNotArchived()
-           .GetAsync<FinalSettlementDetails>();
-        }
+    public async Task<IEnumerable<FinalSettlementDetails>> GetByFinalSettlementId(int id)
+    {
+        return await QueryFactory
+       .Query<FinalSettlementDetails>()
+       .Where("finalsettlementid", id)
+       .WhereNotArchived()
+       .GetAsync<FinalSettlementDetails>();
+    }
 
-        public async Task<IEnumerable<FinalSettlementDetails>> GetDetailsByFinalSettlementId(int id)
-        {
-            var sql = @"SELECT
+    public async Task<IEnumerable<FinalSettlementDetails>> GetDetailsByFinalSettlementId(int id)
+    {
+        var sql = @"SELECT
                           fsd.*,
                           pc.shortcode AS payrollcomponentcode,
                           pc.name AS payrollcomponentname
@@ -45,7 +38,6 @@ namespace Chef.HRMS.Repositories.FinalSettlement
                         WHERE fsd.finalsettlementid = @id
                         AND fsd.isarchived = FALSE";
 
-            return await Connection.QueryAsync<FinalSettlementDetails>(sql, new { id });
-        }
+        return await Connection.QueryAsync<FinalSettlementDetails>(sql, new { id });
     }
 }

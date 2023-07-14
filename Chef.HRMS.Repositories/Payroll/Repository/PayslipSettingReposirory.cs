@@ -1,23 +1,17 @@
 ﻿using Chef.Common.Core.Extensions;
-using Chef.HRMS.Models;
 using Chef.HRMS.Models.Payroll;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Repositories.Payroll
+namespace Chef.HRMS.Repositories.Payroll;
+
+public class PayslipSettingReposirory : GenericRepository<PayslipSetting>, IPayslipSettingReposirory
 {
-    public class PayslipSettingReposirory : GenericRepository<PayslipSetting>, IPayslipSettingReposirory
+    public PayslipSettingReposirory(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public PayslipSettingReposirory(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<PayrollStructure>> GetAllPayrollStructure()
-        {
-            var sql = @"SELECT DISTINCT
+    public async Task<IEnumerable<PayrollStructure>> GetAllPayrollStructure()
+    {
+        var sql = @"SELECT DISTINCT
                           ps.id,
                           ps.name,
                           ps.description
@@ -26,12 +20,12 @@ namespace Chef.HRMS.Repositories.Payroll
                           ON pcc.payrollstructureid = ps.id
                         WHERE ps.isarchived = FALSE";
 
-            return await Connection.QueryAsync<PayrollStructure>(sql);
-        }
+        return await Connection.QueryAsync<PayrollStructure>(sql);
+    }
 
-        public async Task<IEnumerable<PayslipSettingList>> GetAllPayslipSettings()
-        {
-            var sql = @"SELECT
+    public async Task<IEnumerable<PayslipSettingList>> GetAllPayslipSettings()
+    {
+        var sql = @"SELECT
                           pss.*,
                           prs.name AS payrollstructurename
                         FROM hrms.payslipsetting pss
@@ -39,12 +33,12 @@ namespace Chef.HRMS.Repositories.Payroll
                           ON pss.structureid = prs.id
                         WHERE pss.isarchived = FALSE";
 
-            return await Connection.QueryAsync<PayslipSettingList>(sql);
-        }
+        return await Connection.QueryAsync<PayslipSettingList>(sql);
+    }
 
-        public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)
-        {
-            var sql = @"SELECT
+    public async Task<IEnumerable<PayrollComponent>> GetComponentsByStructureId(int structureId)
+    {
+        var sql = @"SELECT
                           id,
                           shortcode,
                           name
@@ -52,17 +46,16 @@ namespace Chef.HRMS.Repositories.Payroll
                         WHERE payrollstructureid = @structureId
                         AND isarchived = FALSE";
 
-            return await Connection.QueryAsync<PayrollComponent>(sql, new { structureId });
-        }
+        return await Connection.QueryAsync<PayrollComponent>(sql, new { structureId });
+    }
 
-        public async Task<bool> IsPayslipSettingCodeExist(string code)
-        {
-            if (await QueryFactory
-           .Query<PayslipSetting>()
-          .Where("code", code)
-          .WhereNotArchived()
-          .CountAsync<int>() > 0) return true;
-            else return false;
-        }
+    public async Task<bool> IsPayslipSettingCodeExist(string code)
+    {
+        if (await QueryFactory
+       .Query<PayslipSetting>()
+      .Where("code", code)
+      .WhereNotArchived()
+      .CountAsync<int>() > 0) return true;
+        else return false;
     }
 }

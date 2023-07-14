@@ -1,16 +1,13 @@
-﻿using Chef.Common.Core.Services;
-using Chef.HRMS.Models;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IAuthenticationServices : IAsyncService<Authentication>
 {
-    public interface IAuthenticationServices : IAsyncService<Authentication>
-    {
-        Task<Authentication> GenerateLoginToken(Authentication credentials);
+    Task<Authentication> GenerateLoginToken(Authentication credentials);
 
-        Task<Authentication> Login(Authentication credentials);
+    Task<Authentication> Login(Authentication credentials);
 
 
-        Task<bool> ResetPassword(Authentication credentials);
-    }
+    Task<bool> ResetPassword(Authentication credentials);
 }

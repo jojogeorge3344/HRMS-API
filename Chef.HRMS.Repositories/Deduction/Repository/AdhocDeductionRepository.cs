@@ -1,22 +1,15 @@
-﻿using Chef.Common.Repositories;
-using Chef.HRMS.Models;
-using Dapper;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Chef.HRMS.Repositories;
 
-namespace Chef.HRMS.Repositories
+public class AdhocDeductionRepository : GenericRepository<AdhocDeduction>, IAdhocDeductionRepository
 {
-    public class AdhocDeductionRepository : GenericRepository<AdhocDeduction>, IAdhocDeductionRepository
+    public AdhocDeductionRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-        public AdhocDeductionRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate,string toDate)
-        {
+    public async Task<IEnumerable<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate, string toDate)
+    {
 
-                var sql = @"SELECT DISTINCT
+        var sql = @"SELECT DISTINCT
                                 ad.id AS deductionId,
                                 ad.employeeid AS employeeId,
                                 (Concat(e.firstname, ' ', e.lastname)) AS name,
@@ -40,13 +33,13 @@ namespace Chef.HRMS.Repositories
                             WHERE ad.date::date BETWEEN CAST(@fromDate AS date) AND CAST(@toDate AS date)
                                 AND jf.paygroupid = @payGroupId";
 
-                return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payGroupId, fromDate, toDate });
+        return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payGroupId, fromDate, toDate });
 
-        }
-        public async Task<IEnumerable<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId)
-        {
+    }
+    public async Task<IEnumerable<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int payrollProcessingMethodId)
+    {
 
-                var sql = @"SELECT DISTINCT
+        var sql = @"SELECT DISTINCT
                               ad.id AS deductionId,
                               ad.employeeid AS employeeId,
                               (Concat(e.firstname, ' ', e.lastname)) AS name,
@@ -69,24 +62,24 @@ namespace Chef.HRMS.Repositories
                               ON ad.employeeid = jf.employeeid
                             WHERE ad.payrollprocessingmethodid = @payrollProcessingMethodId";
 
-                return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId });
-        }
+        return await Connection.QueryAsync<AdhocDeductionView>(sql, new { payrollProcessingMethodId });
+    }
 
-        public async Task<IEnumerable<BenefitTypes>> GetBenefitTypes()
-        {
-            //var sql = @"SELECT * FROM hrms.benefittypes
-            //            WHERE isarchived=false AND id IN (17,25)";
+    public async Task<IEnumerable<BenefitTypes>> GetBenefitTypes()
+    {
+        //var sql = @"SELECT * FROM hrms.benefittypes
+        //            WHERE isarchived=false AND id IN (17,25)";
 
-            int bt1 = (int) Chef.HRMS.Types.BenefitType.SundryEarnings;
-            int bt2 = (int) Chef.HRMS.Types.BenefitType.SundryDeductions;
-            var sql = @"SELECT * FROM hrms.benefittypes
-                        WHERE isarchived=false AND id IN (" + bt1 +" , "+ bt2 + ")";
-            return await Connection.QueryAsync<BenefitTypes>(sql);
-        }
+        int bt1 = (int)Chef.HRMS.Types.BenefitType.SundryEarnings;
+        int bt2 = (int)Chef.HRMS.Types.BenefitType.SundryDeductions;
+        var sql = @"SELECT * FROM hrms.benefittypes
+                        WHERE isarchived=false AND id IN (" + bt1 + " , " + bt2 + ")";
+        return await Connection.QueryAsync<BenefitTypes>(sql);
+    }
 
-        public async Task<IEnumerable<BenefitTypes>> GetAdhocBfCode()
-        {
-                string sql = @"SELECT pc.id,
+    public async Task<IEnumerable<BenefitTypes>> GetAdhocBfCode()
+    {
+        string sql = @"SELECT pc.id,
                                        pc.NAME,
                                        bf.code
                                 FROM   hrms.payrollcomponent pc
@@ -95,19 +88,18 @@ namespace Chef.HRMS.Repositories
                                 WHERE  bf.NAME IN ( 'Sundry earnings', 'Sundry deductions' )
                                        AND bf.isarchived = false
                                        AND pc.isarchived = false;";
-            return await Connection.QueryAsync<BenefitTypes>(sql);
-        }
+        return await Connection.QueryAsync<BenefitTypes>(sql);
+    }
 
-        public async Task<IEnumerable<AdhocDeduction>> GetAllAdhocDeductionList()
-        {
-            var sql = @"SELECT ad.*,
+    public async Task<IEnumerable<AdhocDeduction>> GetAllAdhocDeductionList()
+    {
+        var sql = @"SELECT ad.*,
                                pc.name AS payrollcomponentname
                         FROM   hrms.adhocdeduction ad
                                INNER JOIN hrms.payrollcomponent pc
                                   ON ad.payrollcomponentid = pc.id
                         WHERE  ad.isarchived = false";
 
-            return await Connection.QueryAsync<AdhocDeduction>(sql);
-        }
+        return await Connection.QueryAsync<AdhocDeduction>(sql);
     }
 }

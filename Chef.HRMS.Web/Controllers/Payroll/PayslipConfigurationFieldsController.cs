@@ -6,41 +6,40 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/settings/payroll/[controller]")]
+[ApiController]
+public class PayslipConfigurationFieldsController : ControllerBase
 {
-    [Route("api/settings/payroll/[controller]")]
-    [ApiController]
-    public class PayslipConfigurationFieldsController : ControllerBase
+    private readonly IPayslipConfigurationFieldsService payslipConfigurationFieldsService;
+
+    public PayslipConfigurationFieldsController(IPayslipConfigurationFieldsService payslipConfigurationFieldsService)
     {
-        private readonly IPayslipConfigurationFieldsService payslipConfigurationFieldsService;
+        this.payslipConfigurationFieldsService = payslipConfigurationFieldsService;
+    }
 
-        public PayslipConfigurationFieldsController(IPayslipConfigurationFieldsService payslipConfigurationFieldsService)
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<PayslipConfigurationFields>>> GetAll()
+    {
+        var payslipConfigurationFields = await payslipConfigurationFieldsService.GetAllAsync();
+
+        return Ok(payslipConfigurationFields);
+    }
+
+    [HttpPost("UpdatePayslipConfigurationFieldsAsync")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> UpdatePayslipConfigurationFieldsAsync([FromBody]PayslipConfigurationFields[] payslipConfigurationFields)
+    {
+        if (!ModelState.IsValid)
         {
-            this.payslipConfigurationFieldsService = payslipConfigurationFieldsService;
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<PayslipConfigurationFields>>> GetAll()
-        {
-            var payslipConfigurationFields = await payslipConfigurationFieldsService.GetAllAsync();
+        var result = await payslipConfigurationFieldsService.UpdatePayslipConfigurationFieldsAsync(payslipConfigurationFields);
 
-            return Ok(payslipConfigurationFields);
-        }
-
-        [HttpPost("UpdatePayslipConfigurationFieldsAsync")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> UpdatePayslipConfigurationFieldsAsync([FromBody]PayslipConfigurationFields[] payslipConfigurationFields)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await payslipConfigurationFieldsService.UpdatePayslipConfigurationFieldsAsync(payslipConfigurationFields);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

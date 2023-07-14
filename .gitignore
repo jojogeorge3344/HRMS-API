@@ -41,6 +41,7 @@ TestResult.xml
 dlldata.c
 
 *_i.c
+node_modules
 *_p.c
 *_i.h
 *.ilk
@@ -230,6 +231,5 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
-Chef.HRMS.Web/internal-nlog.txt
-Chef.HRMS.Web/internal-nlog.txt
-Chef.HRMS.Web/internal-nlog.txt
+*.map
+/Chef.Common.Gateway/Logs

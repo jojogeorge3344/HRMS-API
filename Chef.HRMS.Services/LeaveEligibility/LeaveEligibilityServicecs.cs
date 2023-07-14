@@ -1,68 +1,62 @@
 ﻿using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public class LeaveEligibilityServicecs : AsyncService<LeaveEligibility>, ILeaveEligibilityService
 {
-    public class LeaveEligibilityServicecs : AsyncService<LeaveEligibility>, ILeaveEligibilityService
+    private readonly ILeaveEligibilityRepository leaveEligibilityRepository;
+    private readonly ILeaveComponentLopDetailsRepository leaveComponentLopDetails;
+
+    public LeaveEligibilityServicecs(ILeaveEligibilityRepository leaveEligibilityRepository,
+        ILeaveComponentLopDetailsRepository leaveComponentLopDetails)
     {
-        private readonly ILeaveEligibilityRepository leaveEligibilityRepository;
-        private readonly ILeaveComponentLopDetailsRepository leaveComponentLopDetails;
+        this.leaveEligibilityRepository = leaveEligibilityRepository;
+        this.leaveComponentLopDetails = leaveComponentLopDetails;
+    }
 
-        public LeaveEligibilityServicecs(ILeaveEligibilityRepository leaveEligibilityRepository,
-            ILeaveComponentLopDetailsRepository leaveComponentLopDetails)
-        {
-            this.leaveEligibilityRepository = leaveEligibilityRepository;
-            this.leaveComponentLopDetails =leaveComponentLopDetails;
-        }
+    public async Task<IEnumerable<BenefitTypes>> GetBenefitType()
+    {
+        return await leaveEligibilityRepository.GetBenefitType();
+    }
 
-        public async Task<IEnumerable<BenefitTypes>> GetBenefitType()
+    public async Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id)
+    {
+        var leaveEligibility = await leaveEligibilityRepository.GetLeaveConfiguration(id);
+        List<LeaveEligibility> leaveEligibilities = (List<LeaveEligibility>)leaveEligibility;
+        foreach (LeaveEligibility item in leaveEligibilities)
         {
-            return await leaveEligibilityRepository.GetBenefitType();
+            item.LeaveComponentLopDetails = (List<LeaveComponentLopDetails>)await leaveComponentLopDetails.GetDetailsByLeaveComponentId(id);
         }
-
-        public async Task<IEnumerable<LeaveEligibility>> GetLeaveConfiguration(int id)
+        return leaveEligibility;
+    }
+    public new async Task<int> InsertAsync(LeaveEligibility leaveEligibility)
+    {
+        int id = 0;
+        id = await leaveEligibilityRepository.InsertAsync(leaveEligibility);
+        if (leaveEligibility.LeaveComponentId > 0)
         {
-            var leaveEligibility = await leaveEligibilityRepository.GetLeaveConfiguration(id);
-            List<LeaveEligibility> leaveEligibilities = (List<LeaveEligibility>)leaveEligibility;
-            foreach (LeaveEligibility item in leaveEligibilities)
-            { 
-                item.LeaveComponentLopDetails = (List<LeaveComponentLopDetails>)await leaveComponentLopDetails.GetDetailsByLeaveComponentId(id);
-            }
-            return leaveEligibility;
-        }
-        public new async Task<int> InsertAsync(LeaveEligibility leaveEligibility)
-        {
-            int id = 0;
-            id = await leaveEligibilityRepository.InsertAsync(leaveEligibility);
-            if (leaveEligibility.LeaveComponentId > 0)
+            if (leaveEligibility.LeaveComponentLopDetails != null && leaveEligibility.LeaveComponentLopDetails.Count > 0)
             {
-                if (leaveEligibility.LeaveComponentLopDetails != null && leaveEligibility.LeaveComponentLopDetails.Count > 0)
-                {
-                    await leaveComponentLopDetails.BulkInsertAsync(leaveEligibility.LeaveComponentLopDetails);
-                }
-
+                await leaveComponentLopDetails.BulkInsertAsync(leaveEligibility.LeaveComponentLopDetails);
             }
-            return id;
-        }
 
-        public new async Task<int> UpdateAsync(LeaveEligibility leaveEligibility)
+        }
+        return id;
+    }
+
+    public new async Task<int> UpdateAsync(LeaveEligibility leaveEligibility)
+    {
+        int intReturn = await leaveEligibilityRepository.UpdateAsync(leaveEligibility);
+        if (leaveEligibility.LeaveComponentId > 0)
         {
-            int intReturn = await leaveEligibilityRepository.UpdateAsync(leaveEligibility);
-            if (leaveEligibility.LeaveComponentId > 0)
+            await leaveComponentLopDetails.DeleteByLeaveComponentId(leaveEligibility.LeaveComponentId);
+            if (leaveEligibility.LeaveComponentLopDetails != null && leaveEligibility.LeaveComponentLopDetails.Count > 0)
             {
-                await leaveComponentLopDetails.DeleteByLeaveComponentId(leaveEligibility.LeaveComponentId);
-                if (leaveEligibility.LeaveComponentLopDetails != null && leaveEligibility.LeaveComponentLopDetails.Count > 0)
-                {
-                    await leaveComponentLopDetails.BulkInsertAsync(leaveEligibility.LeaveComponentLopDetails);
-                }
-
+                await leaveComponentLopDetails.BulkInsertAsync(leaveEligibility.LeaveComponentLopDetails);
             }
-            return intReturn;
+
         }
+        return intReturn;
     }
 }

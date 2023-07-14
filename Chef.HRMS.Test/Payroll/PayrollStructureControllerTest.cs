@@ -8,116 +8,115 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Chef.HRMS.Test
+namespace Chef.HRMS.Test;
+
+public class PayrollStructureControllerTest : BaseTest
 {
-    public class PayrollStructureControllerTest : BaseTest
+    private readonly Mock<IPayrollStructureService> mockService;
+    private readonly PayrollStructureController payrollStructureController;
+    private readonly ILogger<PayrollStructureController> logger;
+
+    public PayrollStructureControllerTest()
     {
-        private readonly Mock<IPayrollStructureService> mockService;
-        private readonly PayrollStructureController payrollStructureController;
-        private readonly ILogger<PayrollStructureController> logger;
+        mockService = new Mock<IPayrollStructureService>();
+        payrollStructureController = new PayrollStructureController(mockService.Object, logger);
+        logger.LogDebug(1, "NLog injected into SalaryStructureController");
+    }
 
-        public PayrollStructureControllerTest()
+    [Fact(Skip = "Logger implementation pending")]
+    public async void Get_WhenCalled_ReturnsOkResult()
+    {
+        //Arrange
+        var id = 2;
+        mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(await Task.FromResult(GetMockPayrollStructure()));
+
+        // Act
+        var okResult = await payrollStructureController.Get(id);
+
+        // Assert
+        Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+
+    [Fact(Skip = "Logger implementation pending")]
+    public async void Get_WhenCalled_ReturnsNotFoundResult()
+    {
+        //Arrange
+        var id = -1;
+
+        // Act
+        var notFoundResult = await payrollStructureController.Get(id);
+
+        // Assert
+        Assert.IsType<NotFoundResult>(notFoundResult.Result);
+    }
+
+    [Fact(Skip = "Logger implementation pending")]
+    public async void GetAll_WhenCalled_ReturnsItems()
+    {
+        //Arrange
+        mockService.Setup(repo => repo.GetAllAsync()).Returns(await Task.FromResult(GetMockPayrollStructureList()));
+
+        // Act
+        var okResult = await payrollStructureController.GetAll();
+
+        // Assert
+        var result = okResult.Result as OkObjectResult;
+        var items = Assert.IsType<List<PayrollStructure>>(result.Value);
+
+        Assert.True(items.Count > 0);
+    }
+
+    [Fact(Skip = "Logger implementation pending")]
+    public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
+    {
+        PayrollStructure payrollStructure = GetMockPayrollStructure();
+        mockService.Setup(service => service.InsertAsync(It.IsAny<PayrollStructure>())).Returns(await Task.FromResult(GetMockPayrollStructure()));
+
+        // Act
+        var createdResponse = await payrollStructureController.Insert(payrollStructure) as CreatedAtActionResult;
+        var item = createdResponse.Value as PayrollStructure;
+
+        // Assert
+        Assert.IsType<PayrollStructure>(item);
+        Assert.NotNull(createdResponse);
+    }
+
+    [Fact(Skip = "Logger implementation pending")]
+    public async void Remove_ExistingLeave_ReturnsOkResult()
+    {
+        // Arrange
+        var existingId = 3;
+        mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns(await Task.FromResult(GetMockPayrollStructure()));
+        mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns(await Task.FromResult(1));
+
+        // Act
+        var okResult = await payrollStructureController.Delete(existingId);
+
+        // Assert
+        Assert.IsType<ActionResult<int>>(okResult);
+    }
+
+    private static PayrollStructure GetMockPayrollStructure()
+    {
+        return new PayrollStructure()
         {
-            mockService = new Mock<IPayrollStructureService>();
-            payrollStructureController = new PayrollStructureController(mockService.Object, logger);
-            logger.LogDebug(1, "NLog injected into SalaryStructureController");
-        }
+            Id = 1,
+            Name = "General payroll component",
 
-        [Fact(Skip = "Logger implementation pending")]
-        public async void Get_WhenCalled_ReturnsOkResult()
+        };
+    }
+
+    private static IEnumerable<PayrollStructure> GetMockPayrollStructureList()
+    {
+        List<PayrollStructure> payrollStructureList = new List<PayrollStructure>();
+        PayrollStructure payrollStructure = new PayrollStructure
         {
-            //Arrange
-            var id = 2;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayrollStructure()));
+            Id = 1,
+            Name = "General payroll component",
 
-            // Act
-            var okResult = await payrollStructureController.Get(id);
+        };
 
-            // Assert
-            Assert.IsType<OkObjectResult>(okResult.Result);
-        }
-
-        [Fact(Skip = "Logger implementation pending")]
-        public async void Get_WhenCalled_ReturnsNotFoundResult()
-        {
-            //Arrange
-            var id = -1;
-
-            // Act
-            var notFoundResult = await payrollStructureController.Get(id);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(notFoundResult.Result);
-        }
-
-        [Fact(Skip = "Logger implementation pending")]
-        public async void GetAll_WhenCalled_ReturnsItems()
-        {
-            //Arrange
-            mockService.Setup(repo => repo.GetAllAsync()).Returns( await Task.FromResult(GetMockPayrollStructureList()));
-
-            // Act
-            var okResult = await payrollStructureController.GetAll();
-
-            // Assert
-            var result = okResult.Result as OkObjectResult;
-            var items = Assert.IsType<List<PayrollStructure>>(result.Value);
-
-            Assert.True(items.Count > 0);
-        }
-
-        [Fact(Skip = "Logger implementation pending")]
-        public async void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
-        {
-            PayrollStructure payrollStructure = GetMockPayrollStructure();
-            mockService.Setup(service => service.InsertAsync(It.IsAny<PayrollStructure>())).Returns( await Task.FromResult(GetMockPayrollStructure()));
-
-            // Act
-            var createdResponse = await payrollStructureController.Insert(payrollStructure) as CreatedAtActionResult;
-            var item = createdResponse.Value as PayrollStructure;
-
-            // Assert
-            Assert.IsType<PayrollStructure>(item);
-            Assert.NotNull(createdResponse);
-        }
-
-        [Fact(Skip = "Logger implementation pending")]
-        public async void Remove_ExistingLeave_ReturnsOkResult()
-        {
-            // Arrange
-            var existingId = 3;
-            mockService.Setup(repo => repo.GetAsync(It.IsAny<int>())).Returns( await Task.FromResult(GetMockPayrollStructure()));
-            mockService.Setup(repo => repo.DeleteAsync(It.IsAny<int>())).Returns( await Task.FromResult(1));
-
-            // Act
-            var okResult = await payrollStructureController.Delete(existingId);
-
-            // Assert
-            Assert.IsType<ActionResult<int>>(okResult);
-        }
-
-        private static PayrollStructure GetMockPayrollStructure()
-        {
-            return new PayrollStructure()
-            {
-                Id = 1,
-                Name = "General payroll component",
-
-            };
-        }
-
-        private static IEnumerable<PayrollStructure> GetMockPayrollStructureList()
-        {
-            List<PayrollStructure> payrollStructureList = new List<PayrollStructure>();
-            PayrollStructure payrollStructure = new PayrollStructure
-            {
-                Id = 1,
-                Name = "General payroll component",
-
-            };
-
-            payrollStructureList.Add(payrollStructure);
-            return payrollStructureList;
-        }
+        payrollStructureList.Add(payrollStructure);
+        return payrollStructureList;
     }
 }

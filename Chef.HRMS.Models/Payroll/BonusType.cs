@@ -1,12 +1,11 @@
 ﻿using Chef.Common.Core;
 
-namespace Chef.HRMS.Models
+namespace Chef.HRMS.Models;
+
+public class BonusType : Model
 {
-    public class BonusType : Model
-    {
-        /// <summary>
-        /// Holds bonus type name
-        /// </summary>
-        public string Name { get; set; }
-    }
+    /// <summary>
+    /// Holds bonus type name
+    /// </summary>
+    public string Name { get; set; }
 }

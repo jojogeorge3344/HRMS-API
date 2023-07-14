@@ -1,23 +1,16 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IAssetService : IAsyncService<Asset>
 {
-    public interface IAssetService : IAsyncService<Asset>
-    {
-         Task<int> InsertAsync(Asset asset);
+    Task<int> InsertAsync(Asset asset);
 
-        
-        Task<IEnumerable<Asset>> GetAllAssetList();
-        Task<Asset> GetAssetById(int Id);
 
-        Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue();
+    Task<IEnumerable<Asset>> GetAllAssetList();
+    Task<Asset> GetAssetById(int Id);
 
-        Task<int> UpdateStatus(int id, int status);
-    }
+    Task<IEnumerable<AssetMetadataValue>> GetAllMetadataValue();
+
+    Task<int> UpdateStatus(int id, int status);
 }

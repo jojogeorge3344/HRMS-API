@@ -8,126 +8,125 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/Deduction/[controller]")]
+[ApiController]
+public class AdhocDeductionController : ControllerBase
 {
-    [Route("api/Deduction/[controller]")]
-    [ApiController]
-    public class AdhocDeductionController : ControllerBase
+    private readonly IAdhocDeductionService adhocDeductionService;
+
+    public AdhocDeductionController(IAdhocDeductionService adhocDeductionService)
     {
-        private readonly IAdhocDeductionService adhocDeductionService;
+        this.adhocDeductionService = adhocDeductionService;
+    }
 
-        public AdhocDeductionController(IAdhocDeductionService adhocDeductionService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var adhocDeduction = await adhocDeductionService.GetAsync(id);
+
+        if (adhocDeduction == null)
         {
-            this.adhocDeductionService = adhocDeductionService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        var result = await adhocDeductionService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Get/{id}")]
+    public async Task<ActionResult<AdhocDeduction>> Get(int id)
+    {
+        var adhocDeduction = await adhocDeductionService.GetAsync(id);
+
+        if (adhocDeduction == null)
         {
-            var adhocDeduction = await adhocDeductionService.GetAsync(id);
-
-            if (adhocDeduction == null)
-            {
-                return NotFound();
-            }
-
-            var result = await adhocDeductionService.DeleteAsync(id);
-
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("Get/{id}")]
-        public async Task<ActionResult<AdhocDeduction>> Get(int id)
+        return Ok(adhocDeduction);
+    }
+
+    [HttpGet("GetAllAdhocDeductionByPayrollProcessingMethodId/")]
+    public async Task<ActionResult<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate, string toDate)
+    {
+        var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionByPayrollProcessingMethodId(payGroupId,fromDate,toDate);
+
+        if (adhocDeduction == null)
         {
-            var adhocDeduction = await adhocDeductionService.GetAsync(id);
-
-            if (adhocDeduction == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(adhocDeduction);
+            return NotFound();
         }
 
-        [HttpGet("GetAllAdhocDeductionByPayrollProcessingMethodId/")]
-        public async Task<ActionResult<AdhocDeductionView>> GetAllAdhocDeductionByPayrollProcessingMethodId(int payGroupId, string fromDate, string toDate)
+        return Ok(adhocDeduction);
+    }
+
+    [HttpGet("GetEmployeeAdhocDeductionByPayrollProcessingMethodId/{id}")]
+    public async Task<ActionResult<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int id)
+    {
+        var adhocDeduction = await adhocDeductionService.GetEmployeeAdhocDeductionByPayrollProcessingMethodId(id);
+
+        if (adhocDeduction == null)
         {
-            var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionByPayrollProcessingMethodId(payGroupId,fromDate,toDate);
-
-            if (adhocDeduction == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(adhocDeduction);
+            return NotFound();
         }
 
-        [HttpGet("GetEmployeeAdhocDeductionByPayrollProcessingMethodId/{id}")]
-        public async Task<ActionResult<AdhocDeductionView>> GetEmployeeAdhocDeductionByPayrollProcessingMethodId(int id)
+        return Ok(adhocDeduction);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<AdhocDeduction>>> GetAll()
+    {
+        var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionList();
+
+        return Ok(adhocDeduction);
+    }
+
+    [HttpPost]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Insert")]
+    public async Task<IActionResult> Insert(AdhocDeduction adhocDeduction)
+    {
+        if (!ModelState.IsValid)
         {
-            var adhocDeduction = await adhocDeductionService.GetEmployeeAdhocDeductionByPayrollProcessingMethodId(id);
-
-            if (adhocDeduction == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(adhocDeduction);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<AdhocDeduction>>> GetAll()
-        {
-            var adhocDeduction = await adhocDeductionService.GetAllAdhocDeductionList();
+        var id = await adhocDeductionService.InsertAsync(adhocDeduction);
 
-            return Ok(adhocDeduction);
+        return Ok(id);
+    }
+
+    [HttpPut("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(AdhocDeduction adhocDeduction)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("Insert")]
-        public async Task<IActionResult> Insert(AdhocDeduction adhocDeduction)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await adhocDeductionService.UpdateAsync(adhocDeduction);
 
-            var id = await adhocDeductionService.InsertAsync(adhocDeduction);
+        return Ok(result);
+    }
 
-            return Ok(id);
-        }
+    [HttpGet("GetBenefitTypes")]
+    public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitTypes()
+    {
+        var benefitlist = await adhocDeductionService.GetBenefitTypes();
 
-        [HttpPut("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(AdhocDeduction adhocDeduction)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await adhocDeductionService.UpdateAsync(adhocDeduction);
-
-            return Ok(result);
-        }
-
-        [HttpGet("GetBenefitTypes")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitTypes()
-        {
-            var benefitlist = await adhocDeductionService.GetBenefitTypes();
-
-            return Ok(benefitlist);
-        }
-        [HttpGet("GetAdhocBfCode")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAdhocBfCode()
-        {
-            IEnumerable<BenefitTypes> details = await adhocDeductionService.GetAdhocBfCode();
-            return Ok(details);
-        }
+        return Ok(benefitlist);
+    }
+    [HttpGet("GetAdhocBfCode")]
+    public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetAdhocBfCode()
+    {
+        IEnumerable<BenefitTypes> details = await adhocDeductionService.GetAdhocBfCode();
+        return Ok(details);
     }
 }

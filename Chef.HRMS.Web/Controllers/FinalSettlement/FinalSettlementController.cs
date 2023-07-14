@@ -8,121 +8,120 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class FinalSettlementController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FinalSettlementController : ControllerBase
+    private readonly IFinalSettlemetService finalSettlemetService;
+
+    public FinalSettlementController(IFinalSettlemetService finalSettlemetService)
     {
-        private readonly IFinalSettlemetService finalSettlemetService;
+        this.finalSettlemetService = finalSettlemetService;
+    }
 
-        public FinalSettlementController(IFinalSettlemetService finalSettlemetService)
+    [HttpPost("FinalSettlementInsert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> FinalSettlementInsert(FinalSettlement finalSettlement)
+    {
+        if (!ModelState.IsValid)
         {
-            this.finalSettlemetService = finalSettlemetService;
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("FinalSettlementInsert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> FinalSettlementInsert(FinalSettlement finalSettlement)
+        var settlement = await finalSettlemetService.FinalSettlementInsert(finalSettlement);
+
+        return Ok(settlement);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> FinalSettlementUpdate(FinalSettlement finalSettlement)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var settlement = await finalSettlemetService.FinalSettlementInsert(finalSettlement);
-
-            return Ok(settlement);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> FinalSettlementUpdate(FinalSettlement finalSettlement)
+        var result = await finalSettlemetService.FinalSettlementUpdate(finalSettlement);
+
+        return Ok(result);
+    }
+
+    [HttpGet("GetFinalaSettlementList")]
+    public async Task<ActionResult<IEnumerable<FinalSettlement>>> GetFinalaSettlementList()
+    {
+        var settlementList = await finalSettlemetService.GetFinalaSettlementList();
+
+        return Ok(settlementList);
+    }
+
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> FinalSettlementDelete(int id)
+    {
+        int finalSettlement = await finalSettlemetService.FinalSettlementDelete(id);
+
+        return Ok(finalSettlement);
+    }
+
+    [HttpGet("IsPreviousPayrollProcessed/{PreviousMonth}/{previousYear}/{employeeId}")]
+    public async Task<ActionResult<PreviousPayrollProcessDateView>> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear,int employeeId)
+    {
+        return await finalSettlemetService.IsPreviousPayrollProcessed(PreviousMonth, previousYear, employeeId);
+    }
+
+    [HttpGet("GetAllFinalLeaveBalance/{CutOffDateFrom}/{CutOffDateTo}/{employeeId}")]
+    public async Task<ActionResult<FianlSettlementLeaveBalanceView>> GetAllFinalLeaveBalance(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId)
+    {
+        var leaveBalance = await finalSettlemetService.GetAllFinalLeaveBalance(CutOffDateFrom, CutOffDateTo, employeeId);
+
+        return Ok(leaveBalance);
+    }
+
+    [HttpGet("GetPayrollComponents/{CutOffDateFrom}/{CutOffDateTo}/{employeeId}")]
+    public async Task<ActionResult<IEnumerable<FinalSettlementComponetsView>>> GetPayrollComponents(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId)
+    {
+        var components = await finalSettlemetService.GetPayrollComponents(CutOffDateFrom, CutOffDateTo, employeeId);
+
+        return Ok(components);
+    }
+
+    [HttpPut("UpadteFinalSettlementStatus/{id}/{approveStatus}")]
+    public async Task<ActionResult<int>> UpadteFinalSettlementStatus(int id, int approveStatus)
+    {
+        var status = await finalSettlemetService.UpadteFinalSettlementStatus(id, approveStatus);
+
+        return Ok(status);
+    }
+
+    [HttpPost("FinalSettlementProcess")]
+    public async Task<ActionResult<FinalSettlementProcessView>> FinalSettlementProcess(FinalSettlement finalSettlement)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await finalSettlemetService.FinalSettlementUpdate(finalSettlement);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetFinalaSettlementList")]
-        public async Task<ActionResult<IEnumerable<FinalSettlement>>> GetFinalaSettlementList()
-        {
-            var settlementList = await finalSettlemetService.GetFinalaSettlementList();
+        var processFinalSettlement = await finalSettlemetService.FinalSettlementProcess(finalSettlement);
 
-            return Ok(settlementList);
+        return Ok(processFinalSettlement);
+    }
+
+    [HttpGet("GetFinalSettlementById/{id}")]
+    public async Task<ActionResult<FinalSettlement>> GetFinalSettlementById(int id)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> FinalSettlementDelete(int id)
-        {
-            int finalSettlement = await finalSettlemetService.FinalSettlementDelete(id);
+        var settlement = await finalSettlemetService.GetFinalSettlementById(id);
 
-            return Ok(finalSettlement);
-        }
-
-        [HttpGet("IsPreviousPayrollProcessed/{PreviousMonth}/{previousYear}/{employeeId}")]
-        public async Task<ActionResult<PreviousPayrollProcessDateView>> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear,int employeeId)
-        {
-            return await finalSettlemetService.IsPreviousPayrollProcessed(PreviousMonth, previousYear, employeeId);
-        }
-
-        [HttpGet("GetAllFinalLeaveBalance/{CutOffDateFrom}/{CutOffDateTo}/{employeeId}")]
-        public async Task<ActionResult<FianlSettlementLeaveBalanceView>> GetAllFinalLeaveBalance(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId)
-        {
-            var leaveBalance = await finalSettlemetService.GetAllFinalLeaveBalance(CutOffDateFrom, CutOffDateTo, employeeId);
-
-            return Ok(leaveBalance);
-        }
-
-        [HttpGet("GetPayrollComponents/{CutOffDateFrom}/{CutOffDateTo}/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<FinalSettlementComponetsView>>> GetPayrollComponents(DateTime CutOffDateFrom, DateTime CutOffDateTo, int employeeId)
-        {
-            var components = await finalSettlemetService.GetPayrollComponents(CutOffDateFrom, CutOffDateTo, employeeId);
-
-            return Ok(components);
-        }
-
-        [HttpPut("UpadteFinalSettlementStatus/{id}/{approveStatus}")]
-        public async Task<ActionResult<int>> UpadteFinalSettlementStatus(int id, int approveStatus)
-        {
-            var status = await finalSettlemetService.UpadteFinalSettlementStatus(id, approveStatus);
-
-            return Ok(status);
-        }
-
-        [HttpPost("FinalSettlementProcess")]
-        public async Task<ActionResult<FinalSettlementProcessView>> FinalSettlementProcess(FinalSettlement finalSettlement)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var processFinalSettlement = await finalSettlemetService.FinalSettlementProcess(finalSettlement);
-
-            return Ok(processFinalSettlement);
-        }
-
-        [HttpGet("GetFinalSettlementById/{id}")]
-        public async Task<ActionResult<FinalSettlement>> GetFinalSettlementById(int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var settlement = await finalSettlemetService.GetFinalSettlementById(id);
-
-            return Ok(settlement);
-        }
+        return Ok(settlement);
     }
 }

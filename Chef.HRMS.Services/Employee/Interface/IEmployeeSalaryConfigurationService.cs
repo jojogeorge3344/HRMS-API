@@ -1,14 +1,10 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IEmployeeSalaryConfigurationService : IAsyncService<EmployeeSalaryConfiguration>
 {
-    public interface IEmployeeSalaryConfigurationService : IAsyncService<EmployeeSalaryConfiguration>
-    {
-        Task<IEnumerable<EmployeeSalaryConfigurationView>> GetSalaryConfigurationByEmployeeId(int employeeId);
+    Task<IEnumerable<EmployeeSalaryConfigurationView>> GetSalaryConfigurationByEmployeeId(int employeeId);
 
-        Task<int> DeleteByEmployeeId(int employeeId);
-    }
+    Task<int> DeleteByEmployeeId(int employeeId);
 }

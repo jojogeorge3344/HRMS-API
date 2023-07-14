@@ -1,13 +1,9 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IWPSUserService : IAsyncService<WPSUser>
 {
-    public interface IWPSUserService : IAsyncService<WPSUser>
-    {
-        Task<IEnumerable<WPSUser>> GetAllByemployeeId(int employeeId);
-        Task<IEnumerable<HRMSBank>> GetBank();
-    }
+    Task<IEnumerable<WPSUser>> GetAllByemployeeId(int employeeId);
+    Task<IEnumerable<HRMSBank>> GetBank();
 }

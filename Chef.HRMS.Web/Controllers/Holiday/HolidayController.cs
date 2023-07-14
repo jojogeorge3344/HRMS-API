@@ -7,97 +7,96 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/settings/[controller]")]
+[ApiController]
+public class HolidayController : ControllerBase
 {
-    [Route("api/settings/[controller]")]
-    [ApiController]
-    public class HolidayController : ControllerBase
+    private readonly IHolidayService holidayService;
+
+    public HolidayController(IHolidayService holidayService)
     {
-        private readonly IHolidayService holidayService;
+        this.holidayService = holidayService;
+    }
 
-        public HolidayController(IHolidayService holidayService)
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var holidaye = await holidayService.GetAsync(id);
+
+        if (holidaye == null)
         {
-            this.holidayService = holidayService;
+            return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        var result = await holidayService.DeleteAsync(id);
+        return Ok(result);
+    }
+
+    [HttpGet("GetAllByCategory/{categoryId}")]
+    public async Task<ActionResult<IEnumerable<HolidayCategory>>> GetAllByCategory(int categoryId)
+    {
+        var holidays = await holidayService.GetAllByCategory(categoryId);
+
+        if (holidays == null)
         {
-            var holidaye = await holidayService.GetAsync(id);
-
-            if (holidaye == null)
-            {
-                return NotFound();
-            }
-
-            var result = await holidayService.DeleteAsync(id);
-            return Ok(result);
+            return NotFound();
         }
 
-        [HttpGet("GetAllByCategory/{categoryId}")]
-        public async Task<ActionResult<IEnumerable<HolidayCategory>>> GetAllByCategory(int categoryId)
+        return Ok(holidays);
+    }
+
+    [HttpGet("GetAllHolidaysByEmployee/{id}")]
+    public async Task<ActionResult<IEnumerable<DateTime>>> GetAllHolidaysByEmployee(int id)
+    {
+        var holidays = await holidayService.GetAllHolidaysByEmployee(id);
+
+        if (holidays == null)
         {
-            var holidays = await holidayService.GetAllByCategory(categoryId);
-
-            if (holidays == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(holidays);
+            return NotFound();
         }
 
-        [HttpGet("GetAllHolidaysByEmployee/{id}")]
-        public async Task<ActionResult<IEnumerable<DateTime>>> GetAllHolidaysByEmployee(int id)
+        return Ok(holidays);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<Holiday>>> GetAll()
+    {
+        var holidays = await holidayService.GetAllAsync();
+
+        return Ok(holidays);
+    }
+
+    [HttpPost("Insert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Insert(Holiday holiday)
+    {
+        if (!ModelState.IsValid)
         {
-            var holidays = await holidayService.GetAllHolidaysByEmployee(id);
-
-            if (holidays == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(holidays);
+            return BadRequest(ModelState);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Holiday>>> GetAll()
-        {
-            var holidays = await holidayService.GetAllAsync();
+        var id = await holidayService.InsertAsync(holiday);
 
-            return Ok(holidays);
+        return Ok(id);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Update(Holiday holiday)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(Holiday holiday)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        var result = await holidayService.UpdateAsync(holiday);
 
-            var id = await holidayService.InsertAsync(holiday);
-
-            return Ok(id);
-        }
-
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Update(Holiday holiday)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await holidayService.UpdateAsync(holiday);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

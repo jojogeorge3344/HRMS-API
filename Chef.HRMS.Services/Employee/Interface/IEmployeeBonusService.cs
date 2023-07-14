@@ -1,17 +1,12 @@
-﻿using Chef.Common.Services;
-using Chef.HRMS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chef.Common.Core.Services;
+﻿using Chef.HRMS.Models;
 
-namespace Chef.HRMS.Services
+namespace Chef.HRMS.Services;
+
+public interface IEmployeeBonusService : IAsyncService<EmployeeBonus>
 {
-    public interface IEmployeeBonusService : IAsyncService<EmployeeBonus>
-    {
-        Task<IEnumerable<EmployeeBonus>> GetAllBonusByEmployeeId(int employeeId);
-        Task<IEnumerable<EmployeeBonusView>> GetAllBonusByEmployeeIdAndPayrollProcessingMethodId(int employeeId, int payrollProcessingMethodId);
-        Task<IEnumerable<EmployeeBonusView>> GetAllBonusByPayGroupId(int payrollProcessingMethodId);
+    Task<IEnumerable<EmployeeBonus>> GetAllBonusByEmployeeId(int employeeId);
+    Task<IEnumerable<EmployeeBonusView>> GetAllBonusByEmployeeIdAndPayrollProcessingMethodId(int employeeId, int payrollProcessingMethodId);
+    Task<IEnumerable<EmployeeBonusView>> GetAllBonusByPayGroupId(int payrollProcessingMethodId);
 
-        Task<int> DeleteAllBonusByEmployeeId(int employeeId);
-    }
+    Task<int> DeleteAllBonusByEmployeeId(int employeeId);
 }

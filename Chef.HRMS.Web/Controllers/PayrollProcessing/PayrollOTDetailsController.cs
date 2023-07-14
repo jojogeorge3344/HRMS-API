@@ -9,8 +9,8 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
-{
+namespace Chef.HRMS.Web.Controllers;
+
 	[Route("api/settings/payrollprocessing/[controller]")]
 	[ApiController]
 	public class PayrollOTDetailsController :  ControllerBase
@@ -27,4 +27,3 @@ namespace Chef.HRMS.Web.Controllers
 			return Ok(await payrollOTSummaryService.BulkInsertAsync(payrollOTSummary));
 		}
 	}
-}

@@ -6,87 +6,86 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class LeaveEligibilityController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LeaveEligibilityController : ControllerBase
+    private readonly ILeaveEligibilityService leaveEligibilityService;
+
+    public LeaveEligibilityController(ILeaveEligibilityService leaveEligibilityService)
     {
-        private readonly ILeaveEligibilityService leaveEligibilityService;
-
-        public LeaveEligibilityController(ILeaveEligibilityService leaveEligibilityService)
+        this.leaveEligibilityService = leaveEligibilityService;
+    }
+    [HttpPost("Insert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Insert(LeaveEligibility leaveEligibility)
+    {
+        if (!ModelState.IsValid)
         {
-            this.leaveEligibilityService = leaveEligibilityService;
+            return BadRequest(ModelState);
         }
-        [HttpPost("Insert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Insert(LeaveEligibility leaveEligibility)
+
+        var leave = await leaveEligibilityService.InsertAsync(leaveEligibility);
+
+        return CreatedAtAction(nameof(Insert), leave);
+    }
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> Update(LeaveEligibility leaveEligibility)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var leave = await leaveEligibilityService.InsertAsync(leaveEligibility);
-
-            return CreatedAtAction(nameof(Insert), leave);
+            return BadRequest(ModelState);
         }
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> Update(LeaveEligibility leaveEligibility)
+
+        var result = await leaveEligibilityService.UpdateAsync(leaveEligibility);
+
+        return Ok(result);
+    }
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<LeaveEligibility>>> GetAll()
+    {
+        var leaveList = await leaveEligibilityService.GetAllAsync();
+
+        return Ok(leaveList);
+    }
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> Delete(int id)
+    {
+        var leave = await leaveEligibilityService.GetAsync(id);
+
+        if (leave == null)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await leaveEligibilityService.UpdateAsync(leaveEligibility);
-
-            return Ok(result);
+            return NotFound();
         }
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<LeaveEligibility>>> GetAll()
+
+        var result = await leaveEligibilityService.DeleteAsync(id);
+
+        return Ok(result);
+    }
+    [HttpGet("GetLeaveConfiguration/{id}")]
+    public async Task<ActionResult<IEnumerable<LeaveEligibility>>> GetLeaveConfiguration(int id)
+    {
+        var leaveConfig = await leaveEligibilityService.GetLeaveConfiguration(id);
+
+        if (leaveConfig == null)
         {
-            var leaveList = await leaveEligibilityService.GetAllAsync();
-
-            return Ok(leaveList);
+            return NotFound();
         }
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
-        {
-            var leave = await leaveEligibilityService.GetAsync(id);
 
-            if (leave == null)
-            {
-                return NotFound();
-            }
+        return Ok(leaveConfig);
+    }
+    [HttpGet("GetBenefitType")]
+    public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType()
+    {
+        var benefitlist = await leaveEligibilityService.GetBenefitType();
 
-            var result = await leaveEligibilityService.DeleteAsync(id);
-
-            return Ok(result);
-        }
-        [HttpGet("GetLeaveConfiguration/{id}")]
-        public async Task<ActionResult<IEnumerable<LeaveEligibility>>> GetLeaveConfiguration(int id)
-        {
-            var leaveConfig = await leaveEligibilityService.GetLeaveConfiguration(id);
-
-            if (leaveConfig == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(leaveConfig);
-        }
-        [HttpGet("GetBenefitType")]
-        public async Task<ActionResult<IEnumerable<BenefitTypes>>> GetBenefitType()
-        {
-            var benefitlist = await leaveEligibilityService.GetBenefitType();
-
-            return Ok(benefitlist);
-        }
+        return Ok(benefitlist);
     }
 }

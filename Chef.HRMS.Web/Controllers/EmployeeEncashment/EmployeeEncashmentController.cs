@@ -7,101 +7,100 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class EmployeeEncashmentController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class EmployeeEncashmentController : ControllerBase
+    private readonly IEmployeeEncashmentService employeeEncashmentService;
+
+    public EmployeeEncashmentController(IEmployeeEncashmentService employeeEncashmentService)
     {
-        private readonly IEmployeeEncashmentService employeeEncashmentService;
+        this.employeeEncashmentService = employeeEncashmentService;
+    }
 
-        public EmployeeEncashmentController(IEmployeeEncashmentService employeeEncashmentService)
+    [HttpPost("FinalSettlementInsert")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> EmployeeEncashmentInsert(EmployeeEncashment employeeEncashment)
+    {
+        if (!ModelState.IsValid)
         {
-            this.employeeEncashmentService = employeeEncashmentService;
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("FinalSettlementInsert")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> EmployeeEncashmentInsert(EmployeeEncashment employeeEncashment)
+        var encashment = await employeeEncashmentService.EmployeeEncashmentInsert(employeeEncashment);
+
+        return Ok(encashment);
+    }
+
+    [HttpPost("Update")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<int>> EmployeeEncashmentUpdate(EmployeeEncashment employeeEncashment)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var encashment = await employeeEncashmentService.EmployeeEncashmentInsert(employeeEncashment);
-
-            return Ok(encashment);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost("Update")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> EmployeeEncashmentUpdate(EmployeeEncashment employeeEncashment)
+        var result = await employeeEncashmentService.EmployeeEncashmentUpdate(employeeEncashment);
+
+        return Ok(result);
+    }
+
+    [HttpGet("GetFinalaSettlementList")]
+    public async Task<ActionResult<IEnumerable<EmployeeEncashment>>> GetEmployeeEncashmentList()
+    {
+        var encashment = await employeeEncashmentService.GetEmployeeEncashmentList();
+
+        return Ok(encashment);
+    }
+
+    [HttpDelete("Delete/{id}")]
+    public async Task<ActionResult<int>> EmployeeEncashmentDelete(int id)
+    {
+        int encashment = await employeeEncashmentService.EmployeeEncashmentDelete(id);
+
+        return Ok(encashment);
+    }
+
+    [HttpGet("GetLeaveBalanceDetails/{fromDate}/{toDate}/{employeeId}")]
+    public async Task<ActionResult<FianlSettlementLeaveBalanceView>> GetLeaveBalanceDetails(DateTime fromDate, DateTime toDate, int employeeId)
+    {
+        var balance = await employeeEncashmentService.GetLeaveBalanceDetails(fromDate, toDate, employeeId);
+
+        return Ok(balance);
+    }
+
+    [HttpGet("GetEmployeeEncashmentComponents{employeeId}")]
+    public async Task<ActionResult<EmployeeEncashmentComponentView>> GetEmployeeEncashmentComponents( int employeeId)
+    {
+        var components = await employeeEncashmentService.GetEmployeeEncashmentComponents( employeeId);
+
+        return Ok(components);
+    }
+
+    [HttpGet("GetEmployeeEncashmentById/{id}")]
+    public async Task<ActionResult<EmployeeEncashmentComponentView>> GetEmployeeEncashmentById(int id)
+    {
+        var components = await employeeEncashmentService.GetEmployeeEncashmentById(id);
+
+        return Ok(components);
+    }
+
+    [HttpPost("EmployeeEncashmentProcess")]
+    public async Task<IActionResult> EmployeeEncashmentProcess(EmployeeEncashment employeeEncashment)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await employeeEncashmentService.EmployeeEncashmentUpdate(employeeEncashment);
-
-            return Ok(result);
+            return BadRequest(ModelState);
         }
+        var process = await employeeEncashmentService.EmployeeEncashmentProcess(employeeEncashment);
 
-        [HttpGet("GetFinalaSettlementList")]
-        public async Task<ActionResult<IEnumerable<EmployeeEncashment>>> GetEmployeeEncashmentList()
-        {
-            var encashment = await employeeEncashmentService.GetEmployeeEncashmentList();
-
-            return Ok(encashment);
-        }
-
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<int>> EmployeeEncashmentDelete(int id)
-        {
-            int encashment = await employeeEncashmentService.EmployeeEncashmentDelete(id);
-
-            return Ok(encashment);
-        }
-
-        [HttpGet("GetLeaveBalanceDetails/{fromDate}/{toDate}/{employeeId}")]
-        public async Task<ActionResult<FianlSettlementLeaveBalanceView>> GetLeaveBalanceDetails(DateTime fromDate, DateTime toDate, int employeeId)
-        {
-            var balance = await employeeEncashmentService.GetLeaveBalanceDetails(fromDate, toDate, employeeId);
-
-            return Ok(balance);
-        }
-
-        [HttpGet("GetEmployeeEncashmentComponents{employeeId}")]
-        public async Task<ActionResult<EmployeeEncashmentComponentView>> GetEmployeeEncashmentComponents( int employeeId)
-        {
-            var components = await employeeEncashmentService.GetEmployeeEncashmentComponents( employeeId);
-
-            return Ok(components);
-        }
-
-        [HttpGet("GetEmployeeEncashmentById/{id}")]
-        public async Task<ActionResult<EmployeeEncashmentComponentView>> GetEmployeeEncashmentById(int id)
-        {
-            var components = await employeeEncashmentService.GetEmployeeEncashmentById(id);
-
-            return Ok(components);
-        }
-
-        [HttpPost("EmployeeEncashmentProcess")]
-        public async Task<IActionResult> EmployeeEncashmentProcess(EmployeeEncashment employeeEncashment)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var process = await employeeEncashmentService.EmployeeEncashmentProcess(employeeEncashment);
-
-            return Ok(process);
-        }
+        return Ok(process);
     }
 }

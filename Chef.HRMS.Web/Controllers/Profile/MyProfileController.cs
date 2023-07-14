@@ -3,30 +3,29 @@ using Chef.HRMS.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Chef.HRMS.Web.Controllers
+namespace Chef.HRMS.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class MyProfileController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MyProfileController : ControllerBase
+    private readonly IMyProfileService myProfileService;
+
+    public MyProfileController(IMyProfileService myProfileService)
     {
-        private readonly IMyProfileService myProfileService;
+        this.myProfileService = myProfileService;
+    }
 
-        public MyProfileController(IMyProfileService myProfileService)
+    [HttpGet("GetMyProfileDetails/{employeeId}")]
+    public async Task<ActionResult<MyProfileView>> GetMyProfileDetails(int employeeId)
+    {
+        var userProfileDetails = await myProfileService.GetMyProfileDetailsAsync(employeeId);
+
+        if (userProfileDetails == null)
         {
-            this.myProfileService = myProfileService;
+            return NotFound();
         }
 
-        [HttpGet("GetMyProfileDetails/{employeeId}")]
-        public async Task<ActionResult<MyProfileView>> GetMyProfileDetails(int employeeId)
-        {
-            var userProfileDetails = await myProfileService.GetMyProfileDetailsAsync(employeeId);
-
-            if (userProfileDetails == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(userProfileDetails);
-        }
+        return Ok(userProfileDetails);
     }
 }
