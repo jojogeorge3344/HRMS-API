@@ -125,6 +125,7 @@ export class AssetAssetsCreateComponent implements OnInit {
     Object.keys(this.metadataFormGroup.controls).forEach(key => { this.metadataFormGroup.removeControl(key)});
     this.typeMap.clear();
     this.typeKeys=[];
+    this.typeKeysForLabel=[]
     this.assetMetadataService.getAssetMetadataById(this.assetForm.get('assetTypeId').value).subscribe(res => {
       res.forEach((mdata: any)=> {
         console.log("data",mdata);
