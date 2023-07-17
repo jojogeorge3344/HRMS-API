@@ -12,8 +12,8 @@ public class OverTimeReportHeader : Model
     public string PaygroupCode { get; set; }
     public string DesignationCode { get; set; }
     public string LocationCode { get; set; }
-    public DepartmentType Department { get; set; }
-    public string DepartmentCode => EnumExtension.GetDescription(Department);
+    public DepartmentType DepartmentIds { get; set; }
+    public string DepartmentName => EnumExtension.GetDescription(DepartmentIds);
     public string CategoryCode { get; set; }
     public string ReportType { get; set; }
     public DateTime ToDate { get; set; }
