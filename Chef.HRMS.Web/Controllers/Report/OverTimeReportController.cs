@@ -58,6 +58,7 @@ public class OverTimeReportController : ReportViewerController
             string employeeCategory = Convert.ToString(CustomData["employeeGroupId"]);
             string overTimePolicyIds = Convert.ToString(CustomData["overTimePolicyIds"]);
             string employeeIds = Convert.ToString(CustomData["employeeId"]);
+            bool isSelect = Convert.ToBoolean(CustomData["isAllSelect"].ToString());
 
             switch (reportType)
             {
@@ -65,13 +66,50 @@ public class OverTimeReportController : ReportViewerController
                     var employeeOverTimeSummary = overTimeReportService.GetOverTimeSummaryReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
                     reportOption.AddDataSource("OverTimeSummary", employeeOverTimeSummary);
                     var headerSummary = overTimeReportService.GetOverTimeSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
-                    reportOption.AddDataSource("Header", headerSummary);
+                    if (isSelect == true)
+                    {
+                        OverTimeReportHeader OTHeader = new OverTimeReportHeader();
+                        OTHeader.PaygroupCode = "All";
+                        OTHeader.DesignationCode = "All";
+                        OTHeader.LocationCode = "All";
+                        OTHeader.CategoryCode = "All";
+                        OTHeader.EmployeeCode = "All";
+                        OTHeader.Overtimepolicyname = "All";
+                        OTHeader.FromDate = fromDate;
+                        OTHeader.ToDate = toDate;
+                        OTHeader.ReportType = reportType;
+                        List<OverTimeReportHeader> overTimes = new() { OTHeader };
+                        reportOption.AddDataSource("Header", overTimes);
+                    }
+                    else
+                    {
+                        reportOption.AddDataSource("Header", headerSummary);
+                    }
                     break;
+
                 case "Detailed":
                     var employeeOverTimeDetail = overTimeReportService.GetOverTimeDetailedReportDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
                     reportOption.AddDataSource("OverTimeDetails", employeeOverTimeDetail);
                     var headerDetail = overTimeReportService.GetOverTimeSummaryReportHeaderDetails(reportType, fromDate, toDate, paygroupIds, designationIds, locationIds, departmentIds, employeeCategory, overTimePolicyIds, employeeIds).Result;
-                    reportOption.AddDataSource("Header", headerDetail);
+                    if (isSelect == true)
+                    {
+                        OverTimeReportHeader OTHeader = new OverTimeReportHeader();
+                        OTHeader.PaygroupCode = "All";
+                        OTHeader.DesignationCode = "All";
+                        OTHeader.LocationCode = "All";
+                        OTHeader.CategoryCode = "All";
+                        OTHeader.EmployeeCode = "All";
+                        OTHeader.Overtimepolicyname = "All";
+                        OTHeader.FromDate = fromDate;
+                        OTHeader.ToDate = toDate;
+                        OTHeader.ReportType = reportType;
+                        List<OverTimeReportHeader> overTimes = new() { OTHeader };
+                        reportOption.AddDataSource("Header", overTimes);
+                    }
+                    else
+                    {
+                        reportOption.AddDataSource("Header", headerDetail);
+                    }
                     break;
             }
         }

@@ -189,12 +189,11 @@ public class OverTimeReportRepository : GenericRepository<OverTimeSummaryReportV
                           @reportType AS reporttype,
                           @fromDate AS fromdate,
                           @toDate AS todate,
-                            @departmentIds AS departmentIds,
+                          @departmentIds AS departmentids,
                           string_agg(DISTINCT pg.name,', ') AS paygroupcode,
                           string_agg(DISTINCT jt.name,', ') AS designationcode,
                           string_agg(DISTINCT hb.shortname,', ') AS locationcode,
                           string_agg(DISTINCT op.name,', ') AS overtimepolicyname,
-                          --string_agg(DISTINCT jd.department,', ') AS department,
                           string_agg(DISTINCT ca.name,', ') AS categorycode,
                           string_agg(DISTINCT jd.employeenumber,', ') AS employeecode
                         FROM hrms.jobdetails jd
