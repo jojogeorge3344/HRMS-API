@@ -10,30 +10,5 @@ public class CountryService : AsyncService<Country>, ICountryService
     public CountryService(ICountryRepository countryRepository)
     {
         this.countryRepository = countryRepository;
-    }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await countryRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<Country>> GetAllAsync()
-    {
-        return await countryRepository.GetAllAsync();
-    }
-
-    public async Task<Country> GetAsync(int id)
-    {
-        return await countryRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(Country obj)
-    {
-        return await countryRepository.InsertAsync(obj);
-    }
-
-    public async Task<int> UpdateAsync(Country obj)
-    {
-        return await countryRepository.UpdateAsync(obj);
-    }
+    } 
 }

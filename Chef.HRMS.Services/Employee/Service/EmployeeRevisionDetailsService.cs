@@ -13,22 +13,7 @@ public class EmployeeRevisionDetailsService : AsyncService<EmployeeRevisionDetai
     {
         this.employeeRevisionDetailsRepository = employeeRevisionDetailsRepository;
         this.authService = authService;
-    }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await employeeRevisionDetailsRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<EmployeeRevisionDetails>> GetAllAsync()
-    {
-        return await employeeRevisionDetailsRepository.GetAllAsync();
-    }
-
-    public async Task<EmployeeRevisionDetails> GetAsync(int id)
-    {
-        return await employeeRevisionDetailsRepository.GetAsync(id);
-    }
+    } 
 
     public async Task<IEnumerable<EmployeeRevisionDetails>> GetEmployeeRevisionSalaryDetail(int employeeRevisionId)
     {

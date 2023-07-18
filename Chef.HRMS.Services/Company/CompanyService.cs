@@ -16,24 +16,9 @@ public class CompanyService : AsyncService<HRMSCompany>, ICompanyService
         this.companyRepository = companyRepository;
     }
 
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<IEnumerable<HRMSCompany>> GetAllAsync()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public async Task<HRMSCompany> GetAsync()
     {
         return await companyRepository.GetAsync();
-    }
-
-    public Task<HRMSCompany> GetAsync(int id)
-    {
-        throw new System.NotImplementedException();
     }
 
     public async Task<IEnumerable<KeyValue>> GetBusinessTypeAsync()
@@ -43,15 +28,5 @@ public class CompanyService : AsyncService<HRMSCompany>, ICompanyService
             IEnumerable<KeyValue> enums = ((BusinessType[])Enum.GetValues(typeof(BusinessType))).Select(c => new KeyValue() { Key = (int)c, Value = (EnumExtensions.GetDisplayName(c)) }).AsEnumerable<KeyValue>();
             return enums;
         });
-    }
-
-    public Task<HRMSCompany> InsertAsync(HRMSCompany obj)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public async Task<int> UpdateAsync(HRMSCompany company)
-    {
-        return await companyRepository.UpdateAsync(company);
     }
 }

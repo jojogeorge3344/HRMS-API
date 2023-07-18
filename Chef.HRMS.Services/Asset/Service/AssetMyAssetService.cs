@@ -5,7 +5,7 @@ using System;
 
 namespace Chef.HRMS.Services;
 
-public class AssetMyAssetService : AsyncService<AssetEmployeeWise>, IAssetMyAssetService
+public class AssetMyAssetService : AsyncService<AssetMyAsset>, IAssetMyAssetService
 {
     private readonly IAssetMyAssetRepository assetMyAssetRepository;
     private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
@@ -16,10 +16,6 @@ public class AssetMyAssetService : AsyncService<AssetEmployeeWise>, IAssetMyAsse
         this.simpleUnitOfWork = simpleUnitOfWork;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await assetMyAssetRepository.DeleteAsync(id);
-    }
 
     public async Task<IEnumerable<AssetMyAsset>> GetAllAsync()
     {
@@ -77,10 +73,5 @@ public class AssetMyAssetService : AsyncService<AssetEmployeeWise>, IAssetMyAsse
             return 0;
         }
 
-    }
-
-    public Task<int> UpdateAsync(AssetMyAsset obj)
-    {
-        throw new NotImplementedException();
     }
 }
