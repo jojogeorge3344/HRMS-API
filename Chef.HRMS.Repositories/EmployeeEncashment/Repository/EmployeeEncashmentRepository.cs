@@ -122,12 +122,12 @@ public class EmployeeEncashmentRepository : TenantRepository<Chef.HRMS.Models.Em
     public async Task<IEnumerable<Chef.HRMS.Models.EmployeeEncashment>> GetEmployeeEncashmentList()
     {
         var sql = @"SELECT
-                          ee.*,
-                          CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname) AS employeename
-                        FROM hrms.employeeencashment ee
-                        INNER JOIN hrms.hrmsemployee e
-                          ON ee.employeeid = e.id
-                        WHERE ee.isarchived = FALSE";
+                        ee.*,
+                        CONCAT(e.firstname, ' ', e.middlename, ' ', e.lastname) AS employeename
+                    FROM hrms.employeeencashment ee
+                    INNER JOIN hrms.hrmsemployee e
+                        ON ee.employeeid = e.id
+                    WHERE ee.isarchived = FALSE";
 
         return await Connection.QueryAsync<Chef.HRMS.Models.EmployeeEncashment>(sql);
     }
