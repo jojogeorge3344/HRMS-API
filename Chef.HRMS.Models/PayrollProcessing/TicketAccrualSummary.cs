@@ -5,7 +5,6 @@ namespace Chef.HRMS.Models.PayrollProcessing;
 
 public class TicketAccrualSummary : Model
 {
-    public int Id { get; set; }
     public int EmployeeId { get; set; }
 
     public DateTime AccrualDate { get; set; }

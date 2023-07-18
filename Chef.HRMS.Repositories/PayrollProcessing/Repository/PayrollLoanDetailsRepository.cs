@@ -12,11 +12,6 @@ public class PayrollLoanDetailsRepository : GenericRepository<PayrollLoanDetails
         throw new NotImplementedException();
     }
 
-    //public Task<int> InsertAsync(PayrollLoanDetails obj)
-    //{
-    //	throw new NotImplementedException();
-    //}
-
     public Task<int> UpdateAsync(PayrollLoanDetails obj)
     {
         throw new NotImplementedException();
@@ -31,6 +26,7 @@ public class PayrollLoanDetailsRepository : GenericRepository<PayrollLoanDetails
     {
         throw new NotImplementedException();
     }
+
     public async Task<int> DeleteByPayrollProcessID(int payrollProcessID)
     {
         string sql = @"UPDATE hrms.payrollloandetails 
@@ -38,6 +34,5 @@ public class PayrollLoanDetailsRepository : GenericRepository<PayrollLoanDetails
 							WHERE payrollprocessid = @payrollProcessID 
 							AND processStatus != 1"; // PROCESS STATUS 1 IS PROCESSED
         return await Connection.ExecuteAsync(sql, new { payrollProcessID });
-
     }
 }
