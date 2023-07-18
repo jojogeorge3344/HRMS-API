@@ -20,30 +20,5 @@ public class EmployeeSalaryConfigurationService : AsyncService<EmployeeSalaryCon
     public async Task<int> DeleteByEmployeeId(int employeeId)
     {
         return await employeeSalaryConfigurationRepository.DeleteByEmployeeId(employeeId);
-    }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await employeeSalaryConfigurationRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<EmployeeSalaryConfiguration>> GetAllAsync()
-    {
-        return await employeeSalaryConfigurationRepository.GetAllAsync();
-    }
-
-    public async Task<EmployeeSalaryConfiguration> GetAsync(int id)
-    {
-        return await employeeSalaryConfigurationRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(EmployeeSalaryConfiguration employeeSalaryConfiguration)
-    {
-        return await employeeSalaryConfigurationRepository.InsertAsync(employeeSalaryConfiguration);
-    }
-
-    public async Task<int> UpdateAsync(EmployeeSalaryConfiguration employeeSalaryConfiguration)
-    {
-        return await employeeSalaryConfigurationRepository.UpdateAsync(employeeSalaryConfiguration);
-    }
+    } 
 }

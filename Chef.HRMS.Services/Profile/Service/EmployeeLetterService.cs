@@ -11,29 +11,4 @@ public class EmployeeLetterService : AsyncService<EmployeeLetter>, IEmployeeLett
     {
         this.employeeLetterRepository = employeeLetterRepository;
     }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await employeeLetterRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<EmployeeLetter>> GetAllAsync()
-    {
-        return await employeeLetterRepository.GetAllAsync();
-    }
-
-    public async Task<EmployeeLetter> GetAsync(int id)
-    {
-        return await employeeLetterRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(EmployeeLetter employeeLetter)
-    {
-        return await employeeLetterRepository.InsertAsync(employeeLetter);
-    }
-
-    public async Task<int> UpdateAsync(EmployeeLetter employeeLetter)
-    {
-        return await employeeLetterRepository.UpdateAsync(employeeLetter);
-    }
 }

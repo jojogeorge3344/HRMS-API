@@ -104,8 +104,7 @@ public class EmployeeEncashmentService : AsyncService<EmployeeEncashment>, IEmpl
             tenantSimpleUnitOfWork.Commit();
             return encashmentId;
         }
-
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return 0;
@@ -129,7 +128,7 @@ public class EmployeeEncashmentService : AsyncService<EmployeeEncashment>, IEmpl
             tenantSimpleUnitOfWork.Commit();
             return encashment;
         }
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return 0;
@@ -161,7 +160,7 @@ public class EmployeeEncashmentService : AsyncService<EmployeeEncashment>, IEmpl
             tenantSimpleUnitOfWork.Commit();
             return 1;
         }
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return 0;
@@ -255,7 +254,7 @@ public class EmployeeEncashmentService : AsyncService<EmployeeEncashment>, IEmpl
             tenantSimpleUnitOfWork.Commit();
             return processstatus;
         }
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return processstatus;

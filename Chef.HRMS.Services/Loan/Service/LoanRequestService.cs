@@ -78,7 +78,7 @@ public class LoanRequestService : AsyncService<LoanRequest>, ILoanRequestService
             return loanRequestId;
         }
 
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return loanRequestId;

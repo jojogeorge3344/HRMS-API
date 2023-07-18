@@ -13,16 +13,6 @@ public class ExpenseService : AsyncService<Expense>, IExpenseService
         this.expenseRepository = ExpenseRepository;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await expenseRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<Expense>> GetAllAsync()
-    {
-        return await expenseRepository.GetAllAsync();
-    }
-
     public async Task<IEnumerable<Expense>> GetAllExpenseDetailsById(int employeeId)
     {
         return await expenseRepository.GetAllExpenseDetailsById(employeeId);
@@ -33,11 +23,6 @@ public class ExpenseService : AsyncService<Expense>, IExpenseService
         return await expenseRepository.GetAllUnApprovedExpenseById(employeeId);
     }
 
-    public async Task<Expense> GetAsync(int id)
-    {
-        return await expenseRepository.GetAsync(id);
-    }
-
     public async Task<ExpenseView> GetMaximumExpenseAmountById(int employeeId, int expenseConfigurationId, int expensePeriodType, DateTime currentDate)
     {
         return await expenseRepository.GetMaximumExpenseAmountById(employeeId, expenseConfigurationId, expensePeriodType, currentDate);
@@ -46,15 +31,5 @@ public class ExpenseService : AsyncService<Expense>, IExpenseService
     public async Task<ExpenseView> GetMaximumInstancesById(int employeeId, int expenseConfigurationId, int instancesPeriodType)
     {
         return await expenseRepository.GetMaximumInstancesById(employeeId, expenseConfigurationId, instancesPeriodType);
-    }
-
-    public async Task<int> InsertAsync(Expense expense)
-    {
-        return await expenseRepository.InsertAsync(expense);
-    }
-
-    public async Task<int> UpdateAsync(Expense expense)
-    {
-        return await expenseRepository.UpdateAsync(expense);
     }
 }

@@ -9,26 +9,21 @@ public class LeaveComponentService : AsyncService<LeaveComponent>, ILeaveCompone
 {
     private readonly ILeaveComponentRepository leaveComponentRepository;
     private readonly ILeaveEligibilityRepository leaveEligibilityRepository;
-    private readonly ILeaveComponentLopDetailsRepository leaveComponentLopDetails;
-    private readonly ITenantConnectionFactory tenantConnectionFactory;
 
-    public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository, ILeaveEligibilityRepository leaveEligibilityRepository,
-        ILeaveComponentLopDetailsRepository leaveComponentLopDetails,
-        ITenantConnectionFactory tenantConnectionFactory)
+    public LeaveComponentService(ILeaveComponentRepository leaveComponentRepository,
+        ILeaveEligibilityRepository leaveEligibilityRepository )
     {
         this.leaveComponentRepository = leaveComponentRepository;
-        this.leaveEligibilityRepository = leaveEligibilityRepository;
-        this.leaveComponentLopDetails = leaveComponentLopDetails;
-        this.tenantConnectionFactory = tenantConnectionFactory;
+        this.leaveEligibilityRepository = leaveEligibilityRepository; 
     }
 
-    public async Task<int> DeleteAsync(int id)
+    public new async Task<int> DeleteAsync(int id)
     {
         await leaveComponentRepository.DeleteAsync(id);
         return await leaveEligibilityRepository.DeleteAsync(id);
     }
 
-    public async Task<IEnumerable<LeaveComponent>> GetAllAsync()
+    public new async Task<IEnumerable<LeaveComponent>> GetAllAsync()
     {
         return await leaveComponentRepository.GetAllAsync();
     }
@@ -38,24 +33,9 @@ public class LeaveComponentService : AsyncService<LeaveComponent>, ILeaveCompone
         return await leaveComponentRepository.GetAllByLeaveStructure(leaveStructureId);
     }
 
-    public async Task<LeaveComponent> GetAsync(int id)
-    {
-        return await leaveComponentRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(LeaveComponent leaveComponent)
-    {
-        return await leaveComponentRepository.InsertAsync(leaveComponent);
-    }
     public async Task<IEnumerable<int>> GetAllAssignedLeaveComponents()
     {
         return await leaveComponentRepository.GetAllAssignedLeaveComponents();
-    }
-
-    public async Task<int> UpdateAsync(LeaveComponent leaveComponent)
-    {
-
-        return await leaveComponentRepository.UpdateAsync(leaveComponent);
     }
 
     public async Task<IEnumerable<BenefitCategory>> GetBenefitCategory()

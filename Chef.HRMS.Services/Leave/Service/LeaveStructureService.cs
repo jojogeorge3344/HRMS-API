@@ -12,39 +12,14 @@ public class LeaveStructureService : AsyncService<LeaveStructure>, ILeaveStructu
         this.leaveStructureRepository = leaveStructureRepository;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await leaveStructureRepository.DeleteAsync(id);
-    }
-
     public async Task<IEnumerable<int>> GetAllAssignedLeaveStructure()
     {
         return await leaveStructureRepository.GetAllAssignedLeaveStructure();
     }
 
-    public async Task<IEnumerable<LeaveStructure>> GetAllAsync()
-    {
-        return await leaveStructureRepository.GetAllAsync();
-    }
-
     public async Task<IEnumerable<LeaveStructure>> GetAllConfiguredLeaveStructures()
     {
         return await leaveStructureRepository.GetAllConfiguredLeaveStructures();
-    }
-
-    public async Task<LeaveStructure> GetAsync(int id)
-    {
-        return await leaveStructureRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(LeaveStructure leaveStructure)
-    {
-        return await leaveStructureRepository.InsertAsync(leaveStructure);
-    }
-
-    public async Task<int> UpdateAsync(LeaveStructure leaveStructure)
-    {
-        return await leaveStructureRepository.UpdateAsync(leaveStructure);
     }
 
     public async Task<int> UpdateLeaveStructure(int id, bool isConfigured)

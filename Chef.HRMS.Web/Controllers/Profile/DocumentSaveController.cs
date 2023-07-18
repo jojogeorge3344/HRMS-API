@@ -23,7 +23,7 @@ public class DocumentSaveController : ControllerBase
             FileInfo fileInfo = new FileInfo(path);
             //fileInfo.Delete(); Commented by Nir
         }
-        catch (IOException e)
+        catch
         {
             throw;
         }

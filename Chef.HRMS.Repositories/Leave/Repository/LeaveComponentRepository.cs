@@ -69,12 +69,14 @@ public class LeaveComponentRepository : GenericRepository<LeaveComponent>, ILeav
                         AND pc.isarchived=false AND bt.id = " + bt + " ORDER BY pc.name";
         return await Connection.QueryAsync<BenefitTypes>(sql);
     }
+
     public new async Task<IEnumerable<LeaveComponent>> GetAllAsync()
     {
         var sql = @"SELECT * FROM hrms.leavecomponent WHERE isarchived = false ORDER BY name ASC";
 
         return await Connection.QueryAsync<LeaveComponent>(sql);
     }
+
     public async Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid)
     {
         string sql = string.Empty;

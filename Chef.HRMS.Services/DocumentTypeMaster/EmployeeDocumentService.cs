@@ -36,29 +36,4 @@ public class EmployeeDocumentService : AsyncService<EmployeeDocument>, IEmployee
     {
         return await employeeDocumentRepository.GetAllActiveDocumentsTypes();
     }
-
-    //public Task<string> ConvertPdfToHtml(byte[] pdfBytes)
-    //{
-    //    //PdfDocument pdfDoc = PdfReader.Open(new MemoryStream(pdfBytes));
-    //    //using (var ms = new MemoryStream())
-    //    //{
-    //    //    HtmlConverter.ConvertToHtml(pdfDoc, ms);
-    //    //    ms.Position = 0;
-    //    //    StreamReader sr = new StreamReader(ms);
-    //    //    return sr.ReadToEnd();
-    //    //}
-    //    using (var pdfReader = new iText.Kernel.Pdf.PdfReader(new MemoryStream(pdfBytes)))
-    //    {
-    //        using (var ms = new MemoryStream())
-    //        {
-    //            var writerProperties = new WriterProperties();
-    //            HtmlConverter.ConvertToPdf(pdfReader, ms, writerProperties);
-    //            ms.Position = 0;
-    //            using (var sr = new StreamReader(ms))
-    //            {
-    //                return sr.ReadToEnd();
-    //            }
-    //        }
-    //    }
-    //}
 }

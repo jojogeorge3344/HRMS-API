@@ -16,25 +16,10 @@ public class EmployeeService : AsyncService<HRMSEmployee>, IEmployeeService
         this.authService = authService;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await employeeRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<HRMSEmployee>> GetAllAsync()
-    {
-        return await employeeRepository.GetAllAsync();
-    }
-
     public async Task<IEnumerable<EmployeeView>> GetAllEmployeeDetails()
     {
         return await employeeRepository.GetAllEmployeeDetails();
-    }
-
-    public async Task<HRMSEmployee> GetAsync(int id)
-    {
-        return await employeeRepository.GetAsync(id);
-    }
+    } 
 
     public new async Task<int> InsertAsync(HRMSEmployee EmployeeTicket)
     {
@@ -60,12 +45,7 @@ public class EmployeeService : AsyncService<HRMSEmployee>, IEmployeeService
             EmployeeTicket.Id = await employeeRepository.InsertAsync(EmployeeTicket);
         }
         return EmployeeTicket.Id;
-    }
-
-    public async Task<int> UpdateAsync(HRMSEmployee EmployeeTicket)
-    {
-        return await employeeRepository.UpdateAsync(EmployeeTicket);
-    }
+    } 
 
     public async Task<IEnumerable<EmployeeView>> GetEmployeeDetailsByJobTile(int jobTitleId)
     {

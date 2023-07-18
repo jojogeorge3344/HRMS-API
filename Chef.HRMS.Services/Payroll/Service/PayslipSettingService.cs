@@ -41,7 +41,7 @@ public class PayslipSettingService : AsyncService<PayslipSetting>, IPayslipSetti
             tenantSimpleUnitOfWork.Commit();
             return 1;
         }
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return 0;
@@ -88,8 +88,7 @@ public class PayslipSettingService : AsyncService<PayslipSetting>, IPayslipSetti
             tenantSimpleUnitOfWork.Commit();
             return payslipSettingId;
         }
-
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return 0;
@@ -118,8 +117,7 @@ public class PayslipSettingService : AsyncService<PayslipSetting>, IPayslipSetti
             tenantSimpleUnitOfWork.Commit();
             return payslipUpdate;
         }
-
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return 0;

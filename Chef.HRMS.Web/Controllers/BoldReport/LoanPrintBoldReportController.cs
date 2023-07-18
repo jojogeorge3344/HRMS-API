@@ -18,14 +18,14 @@ namespace Chef.HRMS.Web.Controllers.BoldReport;
 public class LoanPrintBoldReportController : ReportViewerController
 {
     private readonly ILoanPrintBoldReportService loanPrintBoldReportService;
-    private readonly ICommonDataService commonDataService;
+ 
     public LoanPrintBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment,
           ILoanPrintBoldReportService loanPrintBoldReportService) : base(memoryCache, hostingEnvironment)
     {
         this.ReportPath = @"Reports\LoanPrintReport.rdlc";
         this.loanPrintBoldReportService = loanPrintBoldReportService;
-        //this.commonDataService = commonDataService;
     }
+
     public override void OnInitReportOptions(ReportViewerOptions reportOption)
     {
         AssignReportPath();

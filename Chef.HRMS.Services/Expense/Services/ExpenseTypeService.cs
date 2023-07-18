@@ -12,12 +12,6 @@ public class ExpenseTypeService : AsyncService<ExpenseType>, IExpenseTypeService
         this.expenseTypeRepository = expenseTypeRepository;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await expenseTypeRepository.DeleteAsync(id);
-    }
-
-
     public async Task<IEnumerable<ExpenseType>> GetAllByExpensePolicyId(int policyId)
     {
         return await expenseTypeRepository.GetAllByExpensePolicyId(policyId);
@@ -26,26 +20,6 @@ public class ExpenseTypeService : AsyncService<ExpenseType>, IExpenseTypeService
     public async Task<IEnumerable<int>> GetAllAssignedExpenseTypes()
     {
         return await expenseTypeRepository.GetAllAssignedExpenseTypes();
-    }
-
-    public async Task<IEnumerable<ExpenseType>> GetAllAsync()
-    {
-        return await expenseTypeRepository.GetAllAsync();
-    }
-
-    public async Task<ExpenseType> GetAsync(int id)
-    {
-        return await expenseTypeRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(ExpenseType expenseType)
-    {
-        return await expenseTypeRepository.InsertAsync(expenseType);
-    }
-
-    public async Task<int> UpdateAsync(ExpenseType expenseType)
-    {
-        return await expenseTypeRepository.UpdateAsync(expenseType);
     }
 
     public async Task<IEnumerable<ExpenseType>> GetAllByExpenseCategory(int expenseCategoryId)

@@ -48,31 +48,6 @@ public class LeaveAndAttendanceService : AsyncService<LeaveAndAttendanceViewMode
         return await leaveAndAttendanceRepository.GetLeaveAndAttendanceByPayrollProcessingMethodId(payrollProcessingMethodId);
     }
 
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<IEnumerable<LeaveAndAttendance>> GetAllAsync()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<LeaveAndAttendance> GetAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<int> InsertAsync(LeaveAndAttendance obj)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<int> UpdateAsync(LeaveAndAttendance obj)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public async Task<LeaveAndAttendance> GetLeaveAndAttendanceByEmployeeId(int employeeId, int payrollProcessingMethodId)
     {
         return await leaveAndAttendanceRepository.GetLeaveAndAttendanceByEmployeeId(employeeId, payrollProcessingMethodId);
@@ -90,5 +65,25 @@ public class LeaveAndAttendanceService : AsyncService<LeaveAndAttendanceViewMode
     public async Task<IEnumerable<LOPCalculationView>> GetLOPCalculationDetail(int payGroupId, DateTime fromDate, DateTime toDate)
     {
         return await leaveAndAttendanceRepository.GetLOPCalculationDetail(payGroupId, fromDate, toDate);
+    }
+
+    Task<LeaveAndAttendance> IAsyncService<LeaveAndAttendance>.GetAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<IEnumerable<LeaveAndAttendance>> IAsyncService<LeaveAndAttendance>.GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<int> InsertAsync(LeaveAndAttendance obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<int> UpdateAsync(LeaveAndAttendance obj)
+    {
+        throw new NotImplementedException();
     }
 }

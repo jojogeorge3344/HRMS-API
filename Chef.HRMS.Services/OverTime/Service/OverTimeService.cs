@@ -16,39 +16,14 @@ public class OverTimeService : AsyncService<OverTime>, IOverTimeService
         this.overTimeRepository = overTimeRepository;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await overTimeRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<OverTime>> GetAllAsync()
-    {
-        return await overTimeRepository.GetAllAsync();
-    }
-
-    public async Task<OverTime> GetAsync(int id)
-    {
-        return await overTimeRepository.GetAsync(id);
-    }
-
     public async Task<IEnumerable<OverTime>> GetAllOvertimeDetailsById(int employeeId)
     {
         return await overTimeRepository.GetAllOvertimeDetailsById(employeeId);
     }
 
-    public async Task<int> InsertAsync(OverTime overTime)
-    {
-        return await overTimeRepository.InsertAsync(overTime);
-    }
-
     public async Task<int> InsertNotifyPersonnel(IEnumerable<OverTimeNotifyPersonnel> overTimeNotifyPersonnel)
     {
         return await overTimeRepository.InsertNotifyPersonnel(overTimeNotifyPersonnel);
-    }
-
-    public async Task<int> UpdateAsync(OverTime overTime)
-    {
-        return await overTimeRepository.UpdateAsync(overTime);
     }
 
     public async Task<int> GetAssignedOverTimePolicy(int employeeId)

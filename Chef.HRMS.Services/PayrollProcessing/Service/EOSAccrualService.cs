@@ -64,7 +64,6 @@ public class EOSAccrualService : AsyncService<EOSAccrual>, IEOSAccrualService
         {
             throw new ResourceNotFoundException("EOS availed details is null.");
         }
-        return 0;
     }
 
     public async Task<IEnumerable<EOSAccrual>> GenerateEndOfServiceAccruals(int paygroupid)
@@ -173,24 +172,4 @@ public class EOSAccrualService : AsyncService<EOSAccrual>, IEOSAccrualService
         // Get paygroupid and get employeeid for that paygroup and generated accruals based on that 
         return (List<EOSAccrual>)await eosAccrualRepository.GetEOSAccrualsByPayrollProcessingId(payrollprocessid);
     }
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<IEnumerable<LeaveAndAttendance>> GetAllAsync()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<LeaveAndAttendance> GetAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<int> InsertAsync(LeaveAndAttendance obj)
-    {
-        throw new System.NotImplementedException();
-    }
-
 }

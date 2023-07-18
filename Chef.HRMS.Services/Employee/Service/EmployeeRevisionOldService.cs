@@ -7,41 +7,14 @@ namespace Chef.HRMS.Services;
 public class EmployeeRevisionOldService : AsyncService<EmployeeRevisionOld>, IEmployeeRevisionOldService
 {
     private readonly IEmployeeRevisionOldRepository employeeRevisionOldRepository;
-    private readonly IAuthService authService;
 
-    public EmployeeRevisionOldService(IEmployeeRevisionOldRepository employeeRevisionOldRepository, IAuthService authService)
+    public EmployeeRevisionOldService(IEmployeeRevisionOldRepository employeeRevisionOldRepository)
     {
         this.employeeRevisionOldRepository = employeeRevisionOldRepository;
-        this.authService = authService;
-    }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await employeeRevisionOldRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<EmployeeRevisionOld>> GetAllAsync()
-    {
-        return await employeeRevisionOldRepository.GetAllAsync();
-    }
-
-    public async Task<EmployeeRevisionOld> GetAsync(int id)
-    {
-        return await employeeRevisionOldRepository.GetAsync(id);
-    }
+    } 
 
     public async Task<EmployeeRevisionOld> GetEmployeeRevisionOld(int employeeRevisionId)
     {
         return await employeeRevisionOldRepository.GetEmployeeRevisionOld(employeeRevisionId);
-    }
-
-    public new async Task<int> InsertAsync(EmployeeRevisionOld employeeRevisionOld)
-    {
-        return await employeeRevisionOldRepository.InsertAsync(employeeRevisionOld);
-    }
-
-    public async Task<int> UpdateAsync(EmployeeRevisionOld employeeRevisionOld)
-    {
-        return await employeeRevisionOldRepository.UpdateAsync(employeeRevisionOld);
     }
 }

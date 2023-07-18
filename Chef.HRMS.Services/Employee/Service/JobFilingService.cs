@@ -12,21 +12,6 @@ public class JobFilingService : AsyncService<JobFiling>, IJobFilingService
         this.jobFilingRepository = jobFilingRepository;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await jobFilingRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<JobFiling>> GetAllAsync()
-    {
-        return await jobFilingRepository.GetAllAsync();
-    }
-
-    public async Task<JobFiling> GetAsync(int id)
-    {
-        return await jobFilingRepository.GetAsync(id);
-    }
-
     public async Task<JobFiling> GetByEmployeeId(int employeeId)
     {
         return await jobFilingRepository.GetByEmployeeId(employeeId);
@@ -35,15 +20,5 @@ public class JobFilingService : AsyncService<JobFiling>, IJobFilingService
     public async Task<int> GetWeekendPolicyById(int employeeId)
     {
         return await jobFilingRepository.GetWeekendPolicyById(employeeId);
-    }
-
-    public async Task<int> InsertAsync(JobFiling jobFiling)
-    {
-        return await jobFilingRepository.InsertAsync(jobFiling);
-    }
-
-    public async Task<int> UpdateAsync(JobFiling jobFiling)
-    {
-        return await jobFilingRepository.UpdateAsync(jobFiling);
     }
 }

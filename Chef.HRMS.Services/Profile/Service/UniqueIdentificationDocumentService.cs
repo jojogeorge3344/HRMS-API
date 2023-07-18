@@ -11,29 +11,4 @@ public class UniqueIdentificationDocumentService : AsyncService<UniqueIdentifica
     {
         this.uniqueIdentificationDocumentRepository = uniqueIdentificationDocumentRepository;
     }
-
-    public Task<int> DeleteAsync(int id)
-    {
-        return uniqueIdentificationDocumentRepository.DeleteAsync(id);
-    }
-
-    public Task<IEnumerable<UniqueIdentificationDocument>> GetAllAsync()
-    {
-        return uniqueIdentificationDocumentRepository.GetAllAsync();
-    }
-
-    public Task<UniqueIdentificationDocument> GetAsync(int id)
-    {
-        return uniqueIdentificationDocumentRepository.GetAsync(id);
-    }
-
-    public Task<int> InsertAsync(UniqueIdentificationDocument uniqueIdentificationDocument)
-    {
-        return uniqueIdentificationDocumentRepository.InsertAsync(uniqueIdentificationDocument);
-    }
-
-    public Task<int> UpdateAsync(UniqueIdentificationDocument uniqueIdentificationDocument)
-    {
-        return uniqueIdentificationDocumentRepository.UpdateAsync(uniqueIdentificationDocument);
-    }
 }

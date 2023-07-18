@@ -12,33 +12,8 @@ public class DrivingLicenseService : AsyncService<DrivingLicense>, IDrivingLicen
         this.drivingLicenseRepository = drivingLicenseRepository;
     }
 
-    public Task<int> DeleteAsync(int id)
-    {
-        return drivingLicenseRepository.DeleteAsync(id);
-    }
-
-    public Task<IEnumerable<DrivingLicense>> GetAllAsync()
-    {
-        return drivingLicenseRepository.GetAllAsync();
-    }
-
-    public Task<DrivingLicense> GetAsync(int id)
-    {
-        return drivingLicenseRepository.GetAsync(id);
-    }
-
     public Task<IEnumerable<DrivingLicenseView>> GetByEmployeeId(int employeeId)
     {
         return drivingLicenseRepository.GetByEmployeeId(employeeId);
-    }
-
-    public Task<int> InsertAsync(DrivingLicense drivingLicense)
-    {
-        return drivingLicenseRepository.InsertAsync(drivingLicense);
-    }
-
-    public Task<int> UpdateAsync(DrivingLicense drivingLicense)
-    {
-        return drivingLicenseRepository.UpdateAsync(drivingLicense);
-    }
+    } 
 }

@@ -30,31 +30,7 @@ public class AttendanceAdminService : AsyncService<AttendanceAdminStatsView>, IA
     public async Task<int> AlreadyExistOrNot(DateTime fromDate, DateTime toDate, int employeeId)
     {
         return await attendanceAdminRepository.AlreadyExistOrNot(fromDate, toDate, employeeId);
-    }
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<IEnumerable<AttendanceAdminStatsView>> GetAllAsync()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<AttendanceAdminStatsView> GetAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<AttendanceAdminStatsView> InsertAsync(AttendanceAdminStatsView obj)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<int> UpdateAsync(AttendanceAdminStatsView obj)
-    {
-        throw new System.NotImplementedException();
-    }
+    } 
 
     public async Task<IEnumerable<DateTime>> MarkedDates(string tablename, int employeeId)
     {

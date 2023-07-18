@@ -21,13 +21,5 @@ public class WPSUserRepository : GenericRepository<WPSUser>, IWPSUserRepository
         .Query<HRMSBank>()
         .WhereNotArchived()
         .GetAsync<HRMSBank>();
-    }
-
-    //public async Task<int> Update(WPSUser wpsUser)
-    //{
-    //    var sql = @"update hrms.WPSUser 
-    //                set wpsid=@wpsid,groupid=@groupid 
-    //                where employeeid=@employeeid";
-    //    return await Connection.ExecuteAsync(sql, wpsUser);
-    //}
+    } 
 }

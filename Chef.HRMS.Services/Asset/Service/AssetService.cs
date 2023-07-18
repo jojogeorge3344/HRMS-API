@@ -106,16 +106,12 @@ public class AssetService : IAsyncService<Asset>, IAssetService
             }
             simpleUnitOfWork.Commit();
         }
-        catch (Exception ex)
+        catch
         {
             simpleUnitOfWork.Rollback();
-            //string msg = ex.Message;
             asset.Id = 0;
             throw;
-
         }
-
-
         return asset.Id;
     }
 

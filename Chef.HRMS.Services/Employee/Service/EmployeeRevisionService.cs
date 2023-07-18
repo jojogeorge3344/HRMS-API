@@ -11,7 +11,6 @@ public class EmployeeRevisionService : AsyncService<EmployeeRevision>, IEmployee
 {
     private readonly IEmployeeRevisionRepository employeeRevisionRepository;
     private readonly IEmployeeRevisionOldRepository employeeRevisionOldRepository;
-    private readonly IAuthService authService;
     private readonly IJobFilingService jobFilingService;
     private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
 
@@ -20,24 +19,8 @@ public class EmployeeRevisionService : AsyncService<EmployeeRevision>, IEmployee
     {
         this.employeeRevisionRepository = employeeRevisionRepository;
         this.employeeRevisionOldRepository = employeeRevisionOldRepository;
-        this.authService = authService;
         this.jobFilingService = jobFilingService;
         this.simpleUnitOfWork = simpleUnitOfWork;
-    }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await employeeRevisionRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<EmployeeRevision>> GetAllAsync()
-    {
-        return await employeeRevisionRepository.GetAllAsync();
-    }
-
-    public async Task<EmployeeRevision> GetAsync(int id)
-    {
-        return await employeeRevisionRepository.GetAsync(id);
     }
 
     public async Task<EmployeeRevisionOld> GetEmployeeDetail(int employeeId)
@@ -45,7 +28,7 @@ public class EmployeeRevisionService : AsyncService<EmployeeRevision>, IEmployee
         return await employeeRevisionRepository.GetEmployeeDetail(employeeId);
     }
 
-    public new async Task<int> InsertAsync(EmployeeRevisionDTO employeeRevisionDTO)
+    public async Task<int> InsertAsync(EmployeeRevisionDTO employeeRevisionDTO)
     {
         try
         {
@@ -67,52 +50,12 @@ public class EmployeeRevisionService : AsyncService<EmployeeRevision>, IEmployee
             simpleUnitOfWork.Commit();
             return employeeRevisionDTO.employeeRevision.Id;
         }
-        catch (Exception ex)
+        catch
         {
             simpleUnitOfWork.Rollback();
             return 0;
         }
-    }
-
-    public async Task<int> UpdateAsync(EmployeeRevision employeeRevision)
-    {
-
-        //var empRevOld = await employeeRevisionRepository.GetAsync(employeeRevision.Id);
-        ////later we need to changes as auto mapper.
-        //EmployeeRevisionOld employeeRevisionOld = new()
-        //{
-        //    EmployeeRevisionId = empRevOld.Id,
-        //    AttendanceTrackingId = empRevOld.AttendanceTrackingId,
-        //    IsArchived = empRevOld.IsArchived,
-        //    Id = 0,
-        //    CreatedBy = empRevOld.CreatedBy,
-        //    CreatedDate = empRevOld.CreatedDate,
-        //    DepartmentId = empRevOld.DepartmentId,
-        //    EffectiveFrm = empRevOld.EffectiveFrm,
-        //    EmployeeId = empRevOld.EmployeeId,
-        //    EOSId = empRevOld.EOSId,
-        //    HolidayCategoryId = empRevOld.HolidayCategoryId,
-        //    JobTitleId = empRevOld.JobTitleId,
-        //    LeavesStructureId = empRevOld.LeavesStructureId,
-        //    ModifiedBy = empRevOld.ModifiedBy,
-        //    ModifiedDate = empRevOld.ModifiedDate,
-        //    OverTimePolicyId = empRevOld.OverTimePolicyId,
-        //    PayGroupId = empRevOld.PayGroupId,
-        //    PayrollStructureId = empRevOld.PayrollStructureId,
-        //    Remark = empRevOld.Remark,
-        //    ReqDate = empRevOld.ReqDate,
-        //    ReqNum = empRevOld.ReqNum,
-        //    RevStatus = empRevOld.RevStatus,
-        //    ShiftId = empRevOld.ShiftId,
-        //    TimeType = empRevOld.TimeType,
-        //    WeekOff = empRevOld.WeekOff,
-        //    WorkerType = empRevOld.WorkerType
-        //};
-
-        //await employeeRevisionOldService.InsertAsync(employeeRevisionOld);
-
-        return await employeeRevisionRepository.UpdateAsync(employeeRevision);
-    }
+    } 
 
     public async Task<IEnumerable<EmployeeRevisionStructureView>> GetPayrollComponent(int payrollStructureId)
     {

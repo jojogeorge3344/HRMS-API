@@ -115,8 +115,7 @@ public class FinalSettlemetService : AsyncService<FinalSettlement>, IFinalSettle
             tenantSimpleUnitOfWork.Commit();
             return finalSettlementId;
         }
-
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return 0;
@@ -140,7 +139,7 @@ public class FinalSettlemetService : AsyncService<FinalSettlement>, IFinalSettle
             tenantSimpleUnitOfWork.Commit();
             return finalSettlementId;
         }
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             return 0;
@@ -223,7 +222,7 @@ public class FinalSettlemetService : AsyncService<FinalSettlement>, IFinalSettle
             tenantSimpleUnitOfWork.Commit();
             return settlementProcessView;
         }
-        catch (Exception ex)
+        catch
         {
             tenantSimpleUnitOfWork.Rollback();
             settlementProcessView.FinalSettlementProcessStatus = ("Faild!");

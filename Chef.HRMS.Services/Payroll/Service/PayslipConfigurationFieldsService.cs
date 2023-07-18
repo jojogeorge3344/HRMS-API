@@ -16,29 +16,4 @@ public class PayslipConfigurationFieldsService : AsyncService<PayslipConfigurati
     {
         return await payslipConfigurationFieldsRepository.UpdatePayslipConfigurationFieldsAsync(payslipConfigurationFields);
     }
-
-    public async Task<IEnumerable<PayslipConfigurationFields>> GetAllAsync()
-    {
-        return await payslipConfigurationFieldsRepository.GetAllAsync();
-    }
-
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<PayslipConfigurationFields> GetAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<PayslipConfigurationFields> InsertAsync(PayslipConfigurationFields obj)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<int> UpdateAsync(PayslipConfigurationFields obj)
-    {
-        throw new System.NotImplementedException();
-    }
 }

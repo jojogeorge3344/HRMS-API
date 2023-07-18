@@ -67,23 +67,4 @@ public class EOSAccrualSummaryService : AsyncService<EOSAccrualSummary>, IEOSAcc
         var result = await eosAccrualSummaryRepository.BulkInsertAsync(eosAccrualSummaries);
         return result;
     }
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<IEnumerable<LeaveAndAttendance>> GetAllAsync()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<LeaveAndAttendance> GetAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<int> InsertAsync(LeaveAndAttendance obj)
-    {
-        throw new System.NotImplementedException();
-    }
 }

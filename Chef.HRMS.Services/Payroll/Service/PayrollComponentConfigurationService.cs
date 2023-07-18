@@ -14,12 +14,7 @@ public class PayrollComponentConfigurationService : AsyncService<PayrollComponen
         this.payrollComponentConfigurationRepository = payrollComponentConfigurationRepository;
         this.logPayrollComponentConfigurationRepository = logPayrollComponentConfigurationRepository;
     }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await payrollComponentConfigurationRepository.DeleteAsync(id);
-    }
-
+     
     public async Task<int> DeletePayrollComponent(int id)
     {
         int deleteValue = 0;
@@ -33,11 +28,6 @@ public class PayrollComponentConfigurationService : AsyncService<PayrollComponen
         return deleteValue;
     }
 
-    public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllAsync()
-    {
-        return await payrollComponentConfigurationRepository.GetAllAsync();
-    }
-
     public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollComponentId(int payrollComponentId)
     {
         return await payrollComponentConfigurationRepository.GetAllByPayrollComponentId(payrollComponentId);
@@ -48,24 +38,16 @@ public class PayrollComponentConfigurationService : AsyncService<PayrollComponen
         return await payrollComponentConfigurationRepository.GetAllByPayrollStuctureId(payrollStructureId);
     }
 
-    public async Task<PayrollComponentConfiguration> GetAsync(int id)
-    {
-        return await payrollComponentConfigurationRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(PayrollComponentConfiguration payrollComponentConfiguration)
-    {
-        return await payrollComponentConfigurationRepository.InsertAsync(payrollComponentConfiguration);
-    }
     public async Task<int> InsertAsync(IEnumerable<PayrollComponentConfiguration> payrollComponentConfiguration, IEnumerable<int> PayrollComponentConfigurationIds)
     {
         return await payrollComponentConfigurationRepository.InsertAsync(payrollComponentConfiguration, PayrollComponentConfigurationIds);
     }
 
-    public async Task<int> UpdateAsync(PayrollComponentConfiguration payrollComponentConfiguration)
+    public new async Task<int> UpdateAsync(PayrollComponentConfiguration payrollComponentConfiguration)
     {
 
         int data = await payrollComponentConfigurationRepository.UpdateAsync(payrollComponentConfiguration);
+
         var isFixed = payrollComponentConfiguration.PayrollComponentType;
         if (data != 0 && isFixed.ToString() == "Fixed")
         {
@@ -76,6 +58,7 @@ public class PayrollComponentConfigurationService : AsyncService<PayrollComponen
             data = await payrollComponentConfigurationRepository.InsertPayrollFixedCalculation(payrollCalculation);
 
         }
+
         var structureId = payrollComponentConfiguration.PayrollStructureId;
         await payrollComponentConfigurationRepository.SetPayrollStructureIsConfigured(structureId);
         return data;

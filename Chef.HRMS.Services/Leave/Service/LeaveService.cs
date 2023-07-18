@@ -14,30 +14,9 @@ public class LeaveService : AsyncService<Leave>, ILeaveService
     {
         this.leaveRepository = leaveRepository;
         this.leaveDetailsRepository = leaveDetailsRepository;
-
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await leaveRepository.DeleteAsync(id);
-    }
-
-    public async Task<Leave> GetAsync(int id)
-    {
-        return await leaveRepository.GetAsync(id);
-    }
-
-    public async Task<IEnumerable<Leave>> GetAllAsync()
-    {
-        return await leaveRepository.GetAllAsync();
-    }
-
-    public async Task<int> UpdateAsync(Leave leave)
-    {
-        return await leaveRepository.UpdateAsync(leave);
-    }
-
-    public async Task<int> InsertAsync(Leave leave)
+    public new async Task<int> InsertAsync(Leave leave)
     {
         int MaxDay = Convert.ToInt32(leave.NumberOfDays);
 
@@ -71,7 +50,6 @@ public class LeaveService : AsyncService<Leave>, ILeaveService
             leaveDetails.LeaveDate = startDate.AddDays(i - 1);
             leaveDetails.LeaveStatus = leave.LeaveStatus;
             await leaveDetailsRepository.InsertAsync(leaveDetails);
-
         }
         return leaveId;
     }

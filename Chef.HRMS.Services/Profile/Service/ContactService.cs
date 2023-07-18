@@ -12,33 +12,8 @@ public class ContactService : AsyncService<Contact>, IContactService
         this.contactRepository = contactRepository;
     }
 
-    public Task<int> DeleteAsync(int id)
-    {
-        return contactRepository.DeleteAsync(id);
-    }
-
-    public Task<IEnumerable<Contact>> GetAllAsync()
-    {
-        return contactRepository.GetAllAsync();
-    }
-
     public Task<IEnumerable<Contact>> GetAllByEmployeeId(int employeeId)
     {
         return contactRepository.GetAllByEmployeeId(employeeId);
-    }
-
-    public Task<Contact> GetAsync(int id)
-    {
-        return contactRepository.GetAsync(id);
-    }
-
-    public Task<int> InsertAsync(Contact contact)
-    {
-        return contactRepository.InsertAsync(contact);
-    }
-
-    public Task<int> UpdateAsync(Contact contact)
-    {
-        return contactRepository.UpdateAsync(contact);
     }
 }

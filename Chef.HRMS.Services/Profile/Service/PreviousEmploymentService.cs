@@ -12,33 +12,8 @@ public class PreviousEmploymentService : AsyncService<PreviousEmployment>, IPrev
         this.previousEmploymentRepository = previousEmploymentRepository;
     }
 
-    public Task<int> DeleteAsync(int id)
-    {
-        return previousEmploymentRepository.DeleteAsync(id);
-    }
-
-    public Task<IEnumerable<PreviousEmployment>> GetAllAsync()
-    {
-        return previousEmploymentRepository.GetAllAsync();
-    }
-
-    public Task<PreviousEmployment> GetAsync(int id)
-    {
-        return previousEmploymentRepository.GetAsync(id);
-    }
-
     public Task<IEnumerable<PreviousEmploymentView>> GetByEmployeeId(int employeeId)
     {
         return previousEmploymentRepository.GetByEmployeeId(employeeId);
-    }
-
-    public Task<int> InsertAsync(PreviousEmployment previousEmployment)
-    {
-        return previousEmploymentRepository.InsertAsync(previousEmployment);
-    }
-
-    public Task<int> UpdateAsync(PreviousEmployment previousEmployment)
-    {
-        return previousEmploymentRepository.UpdateAsync(previousEmployment);
     }
 }

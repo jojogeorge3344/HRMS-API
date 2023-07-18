@@ -15,21 +15,6 @@ public class EmployeeTicketService : AsyncService<EmployeeTicket>, IEmployeeTick
         this.authService = authService;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await EmployeeTicketRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<EmployeeTicket>> GetAllAsync()
-    {
-        return await EmployeeTicketRepository.GetAllAsync();
-    }
-
-    public async Task<EmployeeTicket> GetAsync(int id)
-    {
-        return await EmployeeTicketRepository.GetAsync(id);
-    }
-
     public async Task<IEnumerable<EmployeeTicket>> GetTicketDetailsByEmployeeId(int employeeId)
     {
         return await EmployeeTicketRepository.GetTicketDetailsByEmployeeId(employeeId);
@@ -43,10 +28,5 @@ public class EmployeeTicketService : AsyncService<EmployeeTicket>, IEmployeeTick
     public async Task<bool> IsTravelFromExist(string fromPlace)
     {
         return await EmployeeTicketRepository.IsTravelFromExist(fromPlace);
-    }
-
-    public async Task<int> UpdateAsync(EmployeeTicket EmployeeTicket)
-    {
-        return await EmployeeTicketRepository.UpdateAsync(EmployeeTicket);
     }
 }

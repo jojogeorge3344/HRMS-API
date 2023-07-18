@@ -19,14 +19,14 @@ namespace Chef.HRMS.Web.Controllers.BoldReport;
 public class AccrualsPrintBoldReportController : ReportViewerController
 {
     private readonly ILeaveAccrualService accrualPrintBoldReportService;
-    private readonly ICommonDataService commonDataService;
+
     public AccrualsPrintBoldReportController(IMemoryCache memoryCache, IWebHostEnvironment hostingEnvironment,
           ILeaveAccrualService accrualPrintBoldReportService) : base(memoryCache, hostingEnvironment)
     {
         this.ReportPath = @"Reports\AccrualsPrintReport.rdlc";
         this.accrualPrintBoldReportService = accrualPrintBoldReportService;
-        //this.commonDataService = commonDataService;
     }
+
     public override void OnInitReportOptions(ReportViewerOptions reportOption)
     {
         AssignReportPath();

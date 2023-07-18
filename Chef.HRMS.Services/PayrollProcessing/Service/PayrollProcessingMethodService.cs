@@ -11,20 +11,11 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
     private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
     private readonly IPayGroupRepository payGroupRepository;
 
-    public PayrollProcessingMethodService(IPayrollProcessingMethodRepository payrollProcessingMethodRepository, IPayGroupRepository payGroupRepository)
+    public PayrollProcessingMethodService(IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
+        IPayGroupRepository payGroupRepository)
     {
         this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
         this.payGroupRepository = payGroupRepository;
-    }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await payrollProcessingMethodRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<PayrollProcessingMethod>> GetAllAsync()
-    {
-        return await payrollProcessingMethodRepository.GetAllAsync();
     }
 
     public async Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno)
@@ -39,11 +30,6 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
     public async Task<IEnumerable<HRMSEmployee>> GetAllUnProcessedEmployees(int year, int month)
     {
         return await payrollProcessingMethodRepository.GetAllUnProcessedEmployees(year, month);
-    }
-
-    public async Task<PayrollProcessingMethod> GetAsync(int id)
-    {
-        return await payrollProcessingMethodRepository.GetAsync(id);
     }
 
     public async Task<int> GetDetailsById(int employeeid, int month, int year)
@@ -94,11 +80,6 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
         return await payrollProcessingMethodRepository.GetPayrollProcessingMonth(paygroupId);
     }
 
-    public async Task<int> InsertAsync(PayrollProcessingMethod payrollProcessingMethod)
-    {
-        return await payrollProcessingMethodRepository.InsertAsync(payrollProcessingMethod);
-    }
-
     public async Task<int> InsertLOPDeduction(IEnumerable<LOPDeduction> lopDeduction)
     {
         return await payrollProcessingMethodRepository.InsertLOPDeduction(lopDeduction);
@@ -112,11 +93,6 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
     public async Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep)
     {
         return await payrollProcessingMethodRepository.UpadtePayrollProcessingStep(payrollProcessingMethodId, completedStep);
-    }
-
-    public async Task<int> UpdateAsync(PayrollProcessingMethod payrollProcessingMethod)
-    {
-        return await payrollProcessingMethodRepository.UpdateAsync(payrollProcessingMethod);
     }
 
     public async Task<int> InsertPayrollFixedComponentDetaisl(int payrollProcessId, DateTime payrollprocessdate, int paygroupid)

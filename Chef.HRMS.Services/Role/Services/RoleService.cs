@@ -11,29 +11,4 @@ public class RoleService : AsyncService<Role>, IRoleService
     {
         this.roleRepository = roleRepository;
     }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await roleRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<Role>> GetAllAsync()
-    {
-        return await roleRepository.GetAllAsync();
-    }
-
-    public async Task<Role> GetAsync(int id)
-    {
-        return await roleRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(Role role)
-    {
-        return await roleRepository.InsertAsync(role);
-    }
-
-    public async Task<int> UpdateAsync(Role role)
-    {
-        return await roleRepository.UpdateAsync(role);
-    }
 }
