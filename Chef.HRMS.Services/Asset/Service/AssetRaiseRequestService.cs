@@ -16,29 +16,14 @@ public class AssetRaiseRequestService : AsyncService<AssetRaiseRequest>, IAssetR
         this.simpleUnitOfWork = simpleUnitOfWork;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await assetRaiseRequestRepository.DeleteAsync(id);
-    }
-
     public async Task<IEnumerable<AssetRaiseRequest>> Get(int id)
     {
         return await assetRaiseRequestRepository.Get(id);
     }
 
-    public async Task<IEnumerable<AssetRaiseRequest>> GetAllAsync()
-    {
-        return await assetRaiseRequestRepository.GetAllAsync();
-    }
-
     public async Task<IEnumerable<AssetRaiseRequest>> GetAllRaiseRequestList(int empid)
     {
         return await assetRaiseRequestRepository.GetAllRaiseRequestList(empid);
-    }
-
-    public async Task<AssetRaiseRequest> GetAsync(int id)
-    {
-        return await assetRaiseRequestRepository.GetAsync(id);
     }
 
     public async Task<IEnumerable<AssetEmployeeViewModel>> GetEmployeeDetails()
@@ -56,7 +41,7 @@ public class AssetRaiseRequestService : AsyncService<AssetRaiseRequest>, IAssetR
         return await assetRaiseRequestRepository.InsertAsync(assetRaiseRequest);
     }
 
-    public async Task<AssetRaiseRequest> InsertAsync(AssetRaiseRequest assetRaiseRequest)
+    public new async Task<AssetRaiseRequest> InsertAsync(AssetRaiseRequest assetRaiseRequest)
     {
         try
         {
@@ -79,11 +64,6 @@ public class AssetRaiseRequestService : AsyncService<AssetRaiseRequest>, IAssetR
     public async Task<int> UpdateRevoke(int id)
     {
         return await assetRaiseRequestRepository.UpdateRevoke(id);
-    }
-
-    public async Task<int> UpdateAsync(AssetRaiseRequest assetRaiseRequest)
-    {
-        return await assetRaiseRequestRepository.UpdateAsync(assetRaiseRequest);
     }
 
     public async Task<string> GenerateNewDocumentNumberAsync(string code)
