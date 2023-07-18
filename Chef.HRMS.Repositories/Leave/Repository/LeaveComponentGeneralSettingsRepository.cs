@@ -78,13 +78,10 @@ public class LeaveComponentGeneralSettingsRepository : GenericRepository<LeaveCo
             {
                 return 0;
             }
-
         }
-        catch (Exception ex)
+        catch
         {
-
-            throw ex;
+            throw;
         }
     }
-
 }

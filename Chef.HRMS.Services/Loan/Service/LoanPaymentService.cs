@@ -12,16 +12,6 @@ public class LoanPaymentService : AsyncService<LoanPayment>, ILoanPaymentService
         this.loanPaymentRepository = loanPaymentRepository;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await loanPaymentRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<LoanPayment>> GetAllAsync()
-    {
-        return await loanPaymentRepository.GetAllAsync();
-    }
-
     public async Task<IEnumerable<EmployeeLoanView>> GetAllLoanPaymentByEmployeeId(int employeeId, int payrollProcessingMethodId)
     {
         return await loanPaymentRepository.GetAllLoanPaymentByEmployeeId(employeeId, payrollProcessingMethodId);
@@ -32,24 +22,8 @@ public class LoanPaymentService : AsyncService<LoanPayment>, ILoanPaymentService
         return await loanPaymentRepository.GetAllLoanPaymentByPayrollProcessingMethodId(payGroupId, year, month);
     }
 
-    public async Task<LoanPayment> GetAsync(int id)
-    {
-        return await loanPaymentRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(LoanPayment loanPayment)
-    {
-        return await loanPaymentRepository.InsertAsync(loanPayment);
-    }
-
     public async Task<int> InsertAsync(IEnumerable<LoanPayment> loanPayment)
     {
         return await loanPaymentRepository.InsertAsync(loanPayment);
     }
-
-    public async Task<int> UpdateAsync(LoanPayment loanPayment)
-    {
-        return await loanPaymentRepository.UpdateAsync(loanPayment);
-    }
-
 }

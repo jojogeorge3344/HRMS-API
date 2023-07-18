@@ -12,12 +12,12 @@ public class BranchBankAccountService : AsyncService<HRMSBranchBankAccount>, IBr
         this.branchBankAccountRepository = branchBankAccountRepository;
     }
 
-    public async Task<int> DeleteAsync(int id)
+    public new async Task<int> DeleteAsync(int id)
     {
         return await branchBankAccountRepository.DeleteAsync(id);
     }
 
-    public async Task<IEnumerable<HRMSBranchBankAccount>> GetAllAsync()
+    public new async Task<IEnumerable<HRMSBranchBankAccount>> GetAllAsync()
     {
         return await branchBankAccountRepository.GetAllAsync();
     }
@@ -27,17 +27,17 @@ public class BranchBankAccountService : AsyncService<HRMSBranchBankAccount>, IBr
         return await branchBankAccountRepository.GetAllByBranchAsync(branchId);
     }
 
-    public async Task<HRMSBranchBankAccount> GetAsync(int id)
+    public new async Task<HRMSBranchBankAccount> GetAsync(int id)
     {
         return await branchBankAccountRepository.GetAsync(id);
     }
 
-    public async Task<int> InsertAsync(HRMSBranchBankAccount BranchBankAccount)
+    public new async Task<int> InsertAsync(HRMSBranchBankAccount BranchBankAccount)
     {
         return await branchBankAccountRepository.InsertAsync(BranchBankAccount);
     }
 
-    public async Task<int> UpdateAsync(HRMSBranchBankAccount BranchBankAccount)
+    public new async Task<int> UpdateAsync(HRMSBranchBankAccount BranchBankAccount)
     {
         return await branchBankAccountRepository.UpdateAsync(BranchBankAccount);
     }

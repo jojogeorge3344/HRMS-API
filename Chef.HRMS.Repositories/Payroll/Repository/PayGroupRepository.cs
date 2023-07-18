@@ -38,9 +38,8 @@ public class PayGroupRepository : GenericRepository<PayGroup>, IPayGroupReposito
 
             return await Connection.QueryAsync<EmployeeView>(sql, new { paygroupId, year, month });
         }
-        catch (Exception ex)
+        catch
         {
-            string msg = ex.Message;
             return null;
         }
 

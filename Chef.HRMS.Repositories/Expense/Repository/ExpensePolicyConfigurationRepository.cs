@@ -97,14 +97,10 @@ public class ExpensePolicyConfigurationRepository : GenericRepository<ExpensePol
             {
                 return 0;
             }
-
         }
-        catch (Exception ex)
+        catch
         {
-
-            throw ex;
+            throw;
         }
-
-
     }
 }

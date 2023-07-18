@@ -6,7 +6,7 @@ public class JobTitleRepository : GenericRepository<JobTitle>, IJobTitleReposito
     {
     }
 
-    public async Task<IEnumerable<JobTitle>> GetAllAsync()
+    public new async Task<IEnumerable<JobTitle>> GetAllAsync()
     {
         var sql = @"SELECT * FROM hrms.jobtitle WHERE isarchived = false ORDER BY name ASC";
 

@@ -6,6 +6,7 @@ public class PayrollAdhocDetailsRepository : GenericRepository<PayrollAdhocDetai
     {
 
     }
+
     public async Task<int> DeleteByPayrollProcessID(int payrollProcessID)
     {
         string sql = @"UPDATE hrms.payrolladhocdetails 
@@ -15,27 +16,5 @@ public class PayrollAdhocDetailsRepository : GenericRepository<PayrollAdhocDetai
 
         return await Connection.ExecuteAsync(sql, new { payrollProcessID });
 
-    }
-
-
-    public Task<int> BulkUpdateAsync(List<PayrollAdhocDetails> objs)
-    {
-        throw new NotImplementedException();
-    }
-
-
-    public Task<int> UpdateAsync(PayrollAdhocDetails obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<IEnumerable<PayrollAdhocDetails>> IGenericRepository<PayrollAdhocDetails>.GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<PayrollAdhocDetails> IGenericRepository<PayrollAdhocDetails>.GetAsync(int id)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -4,27 +4,7 @@ public class PayrollLoanDetailsRepository : GenericRepository<PayrollLoanDetails
 {
     public PayrollLoanDetailsRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-    }
 
-
-    public Task<int> BulkUpdateAsync(List<PayrollLoanDetails> objs)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<int> UpdateAsync(PayrollLoanDetails obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<IEnumerable<PayrollLoanDetails>> IGenericRepository<PayrollLoanDetails>.GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<PayrollLoanDetails> IGenericRepository<PayrollLoanDetails>.GetAsync(int id)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<int> DeleteByPayrollProcessID(int payrollProcessID)

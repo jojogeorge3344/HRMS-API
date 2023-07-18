@@ -11,6 +11,6 @@ public interface ILeaveComponentService : IAsyncService<LeaveComponent>
     Task<IEnumerable<BenefitTypes>> GetAccrualBenefitType();
     Task<IEnumerable<BenefitTypes>> GetAccrualType();
     Task<IEnumerable<BenefitTypes>> GetDeductionType();
-    Task<int> DeleteAsync(int id);
+    new Task<int> DeleteAsync(int id);
     Task<IEnumerable<BenefitTypes>> GetBenefitType(int categoryid);
 }
