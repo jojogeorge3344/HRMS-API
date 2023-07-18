@@ -1,8 +1,7 @@
-﻿using Chef.Common.Repositories;
+﻿using System.Linq;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
-using System;
-using System.Linq;
 
 namespace Chef.HRMS.Services;
 
@@ -17,59 +16,51 @@ public class AssetEmployeeWiseService : AsyncService<AssetEmployeeWise>, IAssetE
         this.simpleUnitOfWork = simpleUnitOfWork;
     }
 
-
     public async Task<IEnumerable<AssetEmployeeWise>> GetAll()
     {
         return await assetEmployeeWiseRepository.GetAll();
     }
-
 
     public async Task<IEnumerable<AssetCountViewModel>> GetAllCount()
     {
         return await assetEmployeeWiseRepository.GetAllCount();
     }
 
-
     public async Task<IEnumerable<AssetAllocated>> GetAllocatedAssetById(int empid)
     {
         return await assetEmployeeWiseRepository.GetAllocatedAssetById(empid);
     }
-
 
     public async Task<IEnumerable<AssetEmployeeWise>> GetEmployeeDetailsById(int employeeid)
     {
         return await assetEmployeeWiseRepository.GetEmployeeDetailsById(employeeid);
     }
 
-
     public async Task<IEnumerable<AssetRaiseRequest>> GetEmployeeRequestById(int empid)
     {
         return await assetEmployeeWiseRepository.GetEmployeeRequestById(empid);
     }
-
 
     public async Task<IEnumerable<AssetRaiseRequest>> GetRequestById(int id)
     {
         return await assetEmployeeWiseRepository.GetRequestById(id);
     }
 
-
     public async Task<IEnumerable<HRMSEmployee>> GetEmployeeNameById(int id)
     {
         return await assetEmployeeWiseRepository.GetEmployeeNameById(id);
     }
-
 
     public async Task<IEnumerable<Asset>> GetAssetDetailsById(int assettypeid)
     {
         return await assetEmployeeWiseRepository.GetAssetDetailsById(assettypeid);
     }
 
-
     public async Task<IEnumerable<AssetMetadataValue>> GetMetadatavaluesById(int assetid)
     {
         return await assetEmployeeWiseRepository.GetMetadatavaluesById(assetid);
     }
+
     public async Task<IEnumerable<AssetViewModel>> GetAssetId(int assetraiserequestid)
     {
         return await assetEmployeeWiseRepository.GetAssetId(assetraiserequestid);
@@ -84,7 +75,6 @@ public class AssetEmployeeWiseService : AsyncService<AssetEmployeeWise>, IAssetE
     {
         return await assetEmployeeWiseRepository.GetAllocationDetails(id);
     }
-
 
     public async Task<IEnumerable<AssetAllocationViewModel>> GetMetadataDetailsById(int assettypeid)
     {
@@ -108,14 +98,12 @@ public class AssetEmployeeWiseService : AsyncService<AssetEmployeeWise>, IAssetE
             simpleUnitOfWork.Commit();
             return result;
         }
-        catch (Exception ex)
+        catch
         {
             simpleUnitOfWork.Rollback();
-            string msg = ex.Message;
             return 0;
         }
     }
-
 
     public async Task<int> UpdateApproveReject(int id, int status)
     {
@@ -123,14 +111,12 @@ public class AssetEmployeeWiseService : AsyncService<AssetEmployeeWise>, IAssetE
 
     }
 
-
     public async Task<int> UpdateStatus(int id, int status)
     {
         var result = await assetEmployeeWiseRepository.UpdateStatus(id, status);
         result = await assetEmployeeWiseRepository.Delete(id);
         return result;
     }
-
 
     public async Task<int> UpdateStatusRecalled(int empid, int assetid, int status)
     {
@@ -146,33 +132,4 @@ public class AssetEmployeeWiseService : AsyncService<AssetEmployeeWise>, IAssetE
     {
         return await assetEmployeeWiseRepository.UpdateReturnStatus(assetid, status, assetraiserequestid);
     }
-
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<AssetEmployeeWise>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-
-    public Task<AssetEmployeeWise> GetAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-
-    public Task<AssetEmployeeWise> InsertAsync(AssetEmployeeWise obj)
-    {
-        throw new NotImplementedException();
-    }
-
-
-    public Task<int> UpdateAsync(AssetEmployeeWise obj)
-    {
-        throw new NotImplementedException();
-    }
-
 }

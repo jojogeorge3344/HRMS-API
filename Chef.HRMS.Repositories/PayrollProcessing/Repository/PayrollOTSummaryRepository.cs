@@ -4,14 +4,8 @@ public class PayrollOTSummaryRepository : GenericRepository<PayrollOTSummary>, I
 {
     public PayrollOTSummaryRepository(IHttpContextAccessor httpContextAccessor, ITenantConnectionFactory session) : base(httpContextAccessor, session)
     {
-    }
 
-
-
-    public Task<int> BulkUpdateAsync(List<PayrollOTSummary> objs)
-    {
-        throw new NotImplementedException();
-    }
+    } 
 
     public async Task<int> DeleteByPayrollProcessID(int payrollProcessID)
     {
@@ -28,22 +22,5 @@ public class PayrollOTSummaryRepository : GenericRepository<PayrollOTSummary>, I
 
         return await Connection.ExecuteAsync(sql, new { payrollProcessID });
 
-    }
-
-
-
-    public Task<int> UpdateAsync(PayrollOTSummary obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<IEnumerable<PayrollOTSummary>> IGenericRepository<PayrollOTSummary>.GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<PayrollOTSummary> IGenericRepository<PayrollOTSummary>.GetAsync(int id)
-    {
-        throw new NotImplementedException();
     }
 }

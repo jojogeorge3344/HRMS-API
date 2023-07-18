@@ -5,15 +5,18 @@ namespace Chef.HRMS.Models.PayrollProcessing;
 
 public class TicketAccrual : Model
 {
-    public int Id { get; set; }
-
     public int EmployeeId { get; set; }
 
     public DateTime AccrualDate { get; set; }
+
     public decimal AccrualDays { get; set; }
+
     public decimal AccrualAmount { get; set; }
+
     public decimal AvailDays { get; set; }
+
     public decimal AvailAmount { get; set; }
+
     public int AccrualStatus { get; set; }
 
     [Write(false)]

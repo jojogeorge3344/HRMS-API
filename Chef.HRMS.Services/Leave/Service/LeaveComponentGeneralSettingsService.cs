@@ -11,35 +11,16 @@ public class LeaveComponentGeneralSettingsService : AsyncService<LeaveComponentG
     {
         this.leaveComponentGeneralSettingsRepository = leaveComponentGeneralSettingsRepository;
     }
-
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
+ 
     public async Task<int> DeleteAsync(int leaveStructureId, int leaveComponentId)
     {
         return await leaveComponentGeneralSettingsRepository.DeleteAsync(leaveStructureId, leaveComponentId);
     }
-
-    public Task<IEnumerable<LeaveComponentGeneralSettings>> GetAllAsync()
-    {
-        throw new System.NotImplementedException();
-    }
+ 
 
     public async Task<LeaveComponentGeneralSettings> GetAsync(int leaveStructureId, int leaveComponentId)
     {
         return await leaveComponentGeneralSettingsRepository.GetAsync(leaveStructureId, leaveComponentId);
-    }
-
-    public Task<LeaveComponentGeneralSettings> GetAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<LeaveComponentGeneralSettings> InsertAsync(LeaveComponentGeneralSettings leaveComponentGeneralSettings)
-    {
-        throw new System.NotImplementedException();
     }
 
     public async Task<int> InsertOrUpdateAsync(LeaveComponentGeneralSettings leaveComponentGeneralSettings)
@@ -52,10 +33,5 @@ public class LeaveComponentGeneralSettingsService : AsyncService<LeaveComponentG
         }
 
         return data;
-    }
-
-    public Task<int> UpdateAsync(LeaveComponentGeneralSettings leaveComponentGeneralSettings)
-    {
-        throw new System.NotImplementedException();
     }
 }

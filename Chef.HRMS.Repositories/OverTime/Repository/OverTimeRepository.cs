@@ -83,7 +83,7 @@ public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeReposito
         return await Connection.ExecuteAsync(sql, overTimeNotifyPersonnel);
     }
 
-    public async Task<IEnumerable<OverTime>> GetAllAsync()
+    public new async Task<IEnumerable<OverTime>> GetAllAsync()
     {
         var sql = @"SELECT ot.*,jd.employeenumber FROM hrms.overtime ot
                         INNER JOIN hrms.jobdetails jd

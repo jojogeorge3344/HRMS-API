@@ -15,7 +15,7 @@ public class LeaveEligibilityRepository : TenantRepository<LeaveEligibility>, IL
 
         return await Connection.QueryAsync<LeaveEligibility>(sql, new { id });
     }
-    public async Task<int> DeleteAsync(int id)
+    public new async Task<int> DeleteAsync(int id)
     {
         return await QueryFactory
         .Query<LeaveEligibility>()

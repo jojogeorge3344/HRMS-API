@@ -294,23 +294,19 @@ public class AssetEmployeeWiseRepository : TenantRepository<AssetEmployeeWise>, 
         {
             try
             {
-                if (status == @status)
-                {
-                    var sql = @"UPDATE hrms.asset
+                var sql = @"UPDATE hrms.asset
                                             SET status=5 WHERE id=@id;
                                     UPDATE hrms.assetallocated 
                                             SET status=5 WHERE assetid=@id;
                                     UPDATE hrms.assetraiserequest 
                                             SET status=4 WHERE status=7 AND assetid=@id";
 
-                    result = await Connection.ExecuteAsync(sql, new { id, status });
-                }
+                result = await Connection.ExecuteAsync(sql, new { id, status });
+
                 transaction.Commit();
             }
-            catch (System.Exception ex)
+            catch
             {
-                string msg = ex.Message;
-                //return -1;
                 transaction.Rollback();
             }
         }
@@ -409,6 +405,4 @@ public class AssetEmployeeWiseRepository : TenantRepository<AssetEmployeeWise>, 
     {
         throw new NotImplementedException();
     }
-
-
 }

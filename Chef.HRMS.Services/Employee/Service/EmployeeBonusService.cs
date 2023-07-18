@@ -12,7 +12,7 @@ public class EmployeeBonusService : AsyncService<EmployeeBonus>, IEmployeeBonusS
         this.employeeBonusRepository = employeeBonusRepository;
     }
 
-    public async Task<int> DeleteAsync(int id)
+    public new async Task<int> DeleteAsync(int id)
     {
         return await employeeBonusRepository.DeleteAsync(id);
     }
@@ -27,22 +27,22 @@ public class EmployeeBonusService : AsyncService<EmployeeBonus>, IEmployeeBonusS
         return await employeeBonusRepository.GetAllBonusByEmployeeId(employeeId);
     }
 
-    public async Task<IEnumerable<EmployeeBonus>> GetAllAsync()
+    public new async Task<IEnumerable<EmployeeBonus>> GetAllAsync()
     {
         return await employeeBonusRepository.GetAllAsync();
     }
 
-    public async Task<EmployeeBonus> GetAsync(int id)
+    public new async Task<EmployeeBonus> GetAsync(int id)
     {
         return await employeeBonusRepository.GetAsync(id);
     }
 
-    public async Task<int> InsertAsync(EmployeeBonus employeeBonus)
+    public new async Task<int> InsertAsync(EmployeeBonus employeeBonus)
     {
         return await employeeBonusRepository.InsertAsync(employeeBonus);
     }
 
-    public async Task<int> UpdateAsync(EmployeeBonus employeeBonus)
+    public new async Task<int> UpdateAsync(EmployeeBonus employeeBonus)
     {
         return await employeeBonusRepository.UpdateAsync(employeeBonus);
     }

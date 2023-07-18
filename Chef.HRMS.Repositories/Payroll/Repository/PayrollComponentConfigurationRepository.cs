@@ -127,14 +127,13 @@ public class PayrollComponentConfigurationRepository : GenericRepository<Payroll
             {
                 return 0;
             }
-
         }
-        catch (Exception ex)
+        catch
         {
-
-            throw ex;
+            throw;
         }
     }
+
     public async Task<int> InsertPayrollFixedCalculation(PayrollCalculation payrollCalculation)
     {
         var sql = new QueryBuilder<PayrollCalculation>().GenerateInsertQuery();
@@ -142,6 +141,7 @@ public class PayrollComponentConfigurationRepository : GenericRepository<Payroll
         sql += " ON CONFLICT ON CONSTRAINT payrollcalculation_componentid_structureid_ukey DO NOTHING";
         return await Connection.ExecuteAsync(sql, payrollCalculation);
     }
+
     public async Task<IEnumerable<PayrollComponentConfiguration>> GetAllByPayrollComponentId(int payrollComponentId)
     {
         var sql = @"SELECT pcc.*,bt.categoryid FROM hrms.payrollcomponentconfiguration pcc 

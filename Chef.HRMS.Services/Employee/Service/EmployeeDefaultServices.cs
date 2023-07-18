@@ -11,29 +11,4 @@ public class EmployeeDefaultServices : AsyncService<EmployeeDefaults>, IEmployee
     {
         this.employeeDefaultRepository = employeeDefaultRepository;
     }
-
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await employeeDefaultRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<EmployeeDefaults>> GetAllAsync()
-    {
-        return await employeeDefaultRepository.GetAllAsync();
-    }
-
-    public async Task<EmployeeDefaults> GetAsync(int id)
-    {
-        return await employeeDefaultRepository.GetAsync(id);
-    }
-
-    public async Task<int> InsertAsync(EmployeeDefaults employeeDefaults)
-    {
-        return await employeeDefaultRepository.InsertAsync(employeeDefaults);
-    }
-
-    public async Task<int> UpdateAsync(EmployeeDefaults employeeDefaults)
-    {
-        return await employeeDefaultRepository.UpdateAsync(employeeDefaults);
-    }
 }

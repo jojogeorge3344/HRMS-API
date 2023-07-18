@@ -24,11 +24,7 @@ public class AssetTypeMetadataRepository : TenantRepository<AssetTypeMetadata>, 
     public async Task<int> InsertAsync(IEnumerable<AssetTypeMetadata> assetTypeMetadata)
     {
         var sql = new QueryBuilder<AssetTypeMetadata>().GenerateInsertQuery();
-
-
         return await Connection.ExecuteAsync(sql, assetTypeMetadata);
-
-        return 1;
     }
 
     public async Task<int> DeleteAsset(int assetTypeId)

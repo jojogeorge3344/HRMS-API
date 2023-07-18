@@ -43,27 +43,7 @@ public class AssetMyAssetRepository : GenericRepository<AssetMyAsset>, IAssetMyA
         return await Connection.ExecuteAsync(sql, assetmyasset);
     }
 
-    //public async Task<int> UpdateStatus(AssetMyAsset assetmyasset)
-    //{
-    //    if (assetmyasset.ChangeType != 0)
-    //    {
-    //        var sql = @"UPDATE hrms.assetraiserequest
-    //                SET status=7 WHERE assetid=@assetid";
-    //        var result = await Connection.ExecuteAsync(sql, assetmyasset);
-    //        return result;
-    //    }
-    //    else if(assetmyasset.ReturnType != 0)
-    //    {
-    //        var sql = @"UPDATE hrms.assetraiserequest
-    //                SET status=8 WHERE assetid=@assetid";
-    //        var result = await Connection.ExecuteAsync(sql, assetmyasset);
-    //        return result;
-    //    }
-    //    else
-    //    {
-    //        return 0;
-    //    }
-    //}
+    
 
     public async Task<int> Update(AssetMyAsset assetmyasset)
     {

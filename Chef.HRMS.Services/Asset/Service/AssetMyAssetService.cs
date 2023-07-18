@@ -5,7 +5,7 @@ using System;
 
 namespace Chef.HRMS.Services;
 
-public class AssetMyAssetService : AsyncService<AssetEmployeeWise>, IAssetMyAssetService
+public class AssetMyAssetService : AsyncService<AssetMyAsset>, IAssetMyAssetService
 {
     private readonly IAssetMyAssetRepository assetMyAssetRepository;
     private readonly ITenantSimpleUnitOfWork simpleUnitOfWork;
@@ -16,27 +16,10 @@ public class AssetMyAssetService : AsyncService<AssetEmployeeWise>, IAssetMyAsse
         this.simpleUnitOfWork = simpleUnitOfWork;
     }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        return await assetMyAssetRepository.DeleteAsync(id);
-    }
-
-    public async Task<IEnumerable<AssetMyAsset>> GetAllAsync()
-    {
-        return await assetMyAssetRepository.GetAllAsync();
-    }
-
     public async Task<IEnumerable<AssetAllocated>> GetMyAssetById(int empid)
     {
         return await assetMyAssetRepository.GetMyAssetById(empid);
     }
-
-
-    public async Task<AssetMyAsset> GetAsync(int id)
-    {
-        return await assetMyAssetRepository.GetAsync(id);
-    }
-
 
     public async Task<IEnumerable<AssetMyAsset>> GetAllMyAssetList()
     {
@@ -47,16 +30,6 @@ public class AssetMyAssetService : AsyncService<AssetEmployeeWise>, IAssetMyAsse
     {
         return await assetMyAssetRepository.InsertAsync(assetmyasset);
     }
-
-    public async Task<int> InsertAsync(AssetMyAsset assetmyasset)
-    {
-        return await assetMyAssetRepository.InsertAsync(assetmyasset);
-    }
-
-    //public async Task<int> UpdateStatus(int assetid)
-    //{
-    //    return await assetMyAssetRepository.UpdateStatus(assetid);
-    //}
 
     public async Task<int> Update(AssetMyAsset assetmyasset)
     {
@@ -77,10 +50,5 @@ public class AssetMyAssetService : AsyncService<AssetEmployeeWise>, IAssetMyAsse
             return 0;
         }
 
-    }
-
-    public Task<int> UpdateAsync(AssetMyAsset obj)
-    {
-        throw new NotImplementedException();
     }
 }
