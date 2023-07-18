@@ -22,7 +22,7 @@ public class BulkUploadService : AsyncService<Leave>, IBulkUploadService
         int intRtn = await ImportExcelValidation(regularLogins);
         if (intRtn > 0)
         {
-            int Result = await bulkUploadRepository.RegularLoginBulkInsert(regularLogins);
+            await bulkUploadRepository.RegularLoginBulkInsert(regularLogins);
         }
         else
         {
@@ -75,11 +75,6 @@ public class BulkUploadService : AsyncService<Leave>, IBulkUploadService
     public async Task<int> BulkInsertWorkFromHome(IEnumerable<WorkFromHome> workFromHome)
     {
         return await bulkUploadRepository.BulkInsertWorkFromHome(workFromHome);
-    }
-
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<byte[]> ExportExcelFormat()
