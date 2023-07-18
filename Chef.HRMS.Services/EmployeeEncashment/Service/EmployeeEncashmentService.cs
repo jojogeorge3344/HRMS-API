@@ -180,7 +180,6 @@ public class EmployeeEncashmentService : AsyncService<EmployeeEncashment>, IEmpl
     public async Task<int> EmployeeEncashmentProcess(EmployeeEncashment employeeEncashment)
     {
         tenantSimpleUnitOfWork.BeginTransaction();
-        int processstatus = 0;
         try
         {
             if (employeeEncashment != null)
@@ -200,10 +199,6 @@ public class EmployeeEncashmentService : AsyncService<EmployeeEncashment>, IEmpl
                     leaveAvailedDetails.LeaveId = previousAccrualLeave.LeaveId;
                     //Inserting to leaveaccrual table and leaveaccrualsummary table
                     int leaveAccrual = await leaveAccrualService.GenerateLeaveAvailed(leaveAvailedDetails);
-                }
-                else
-                {
-                    throw new Exception("Previous accrual leave details is null");
                 }
 
                 //Calculate EOS accrual days
@@ -252,12 +247,12 @@ public class EmployeeEncashmentService : AsyncService<EmployeeEncashment>, IEmpl
                 }
             }
             tenantSimpleUnitOfWork.Commit();
-            return processstatus;
+            return 1;
         }
         catch
         {
             tenantSimpleUnitOfWork.Rollback();
-            return processstatus;
+            return 0;
         }
     }
 }

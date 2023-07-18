@@ -30,7 +30,7 @@ public class EOSAccrualSummaryService : AsyncService<EOSAccrualSummary>, IEOSAcc
 
             EOSAccrualSummary eosAccrualSummary = new EOSAccrualSummary();
             eosAccrualSummary.EmployeeId = employeeEOSAccrual.EmployeeId;
-            eosAccrualSummary.AvaillDays = 0;
+            eosAccrualSummary.AvailDays = 0;
             eosAccrualSummary.AvailAmount = 0;
             var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - EOSSUmmary entered for next month
             eosAccrualSummary.AccrualDate = firstDayNextMonth;

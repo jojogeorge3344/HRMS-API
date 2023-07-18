@@ -51,7 +51,7 @@ public class EOSAccrualService : AsyncService<EOSAccrual>, IEOSAccrualService
             if (prevEOSAccrualSummaryDetails != null)
             {
                 eosAccrualSummary.EmployeeId = endOfServiceAvailed.EmployeeId;
-                eosAccrualSummary.AvaillDays = endOfServiceAvailed.AvailDays;
+                eosAccrualSummary.AvailDays = endOfServiceAvailed.AvailDays;
                 eosAccrualSummary.AvailAmount = endOfServiceAvailed.AvailAmount;
                 eosAccrualSummary.AccrualDate = endOfServiceAvailed.AccrualDate;
                 eosAccrualSummary.AccrualDays = prevEOSAccrualSummaryDetails.AccrualDays - endOfServiceAvailed.AvailDays;
