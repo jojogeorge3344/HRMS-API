@@ -20,7 +20,7 @@ public class EmployeeEncashmentController : ControllerBase
         this.employeeEncashmentService = employeeEncashmentService;
     }
 
-    [HttpPost("FinalSettlementInsert")]
+    [HttpPost("EmployeeEncashmentInsert")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,7 +36,7 @@ public class EmployeeEncashmentController : ControllerBase
         return Ok(encashment);
     }
 
-    [HttpPost("Update")]
+    [HttpPost("EmployeeEncashmentUpdate")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,7 +52,7 @@ public class EmployeeEncashmentController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("GetFinalaSettlementList")]
+    [HttpGet("GetEmployeeEncashmentList")]
     public async Task<ActionResult<IEnumerable<EmployeeEncashment>>> GetEmployeeEncashmentList()
     {
         var encashment = await employeeEncashmentService.GetEmployeeEncashmentList();
@@ -60,7 +60,7 @@ public class EmployeeEncashmentController : ControllerBase
         return Ok(encashment);
     }
 
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("EmployeeEncashmentDelete/{id}")]
     public async Task<ActionResult<int>> EmployeeEncashmentDelete(int id)
     {
         int encashment = await employeeEncashmentService.EmployeeEncashmentDelete(id);
