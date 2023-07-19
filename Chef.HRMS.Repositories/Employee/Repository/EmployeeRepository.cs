@@ -24,6 +24,7 @@ public class EmployeeRepository : GenericRepository<HRMSEmployee>, IEmployeeRepo
                                     jd.department, 
                                     jd.location, 
                                     jd.employeenumber   AS employeenumber,
+                                    jd.dateofjoin,
                                     jf.id               AS jobfilingid,
                                     a.currentaddressline1,
                                     a.currentaddressline2,

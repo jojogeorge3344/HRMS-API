@@ -45,7 +45,8 @@ export class LoanRequestEditComponent implements OnInit {
   employeeList;
   empObj;
   empLoanDetails;
-  disableRequestedBy=false
+  // disableRequestedBy=false
+  disableRequestedBy=true
   isLoading=false;
   validateRequestedBy:boolean=true
   reqDate: any;
@@ -134,7 +135,7 @@ getLoanDetails(){
       // this.editForm.get('requestedBy').disable()
       this.editForm.patchValue({ requestedBy: this.currentUserId });
       this.empObj=this.employeeList.find((item) => item.id == this.currentUserId)
-      this.disableRequestedBy=true
+      // this.disableRequestedBy=true
 
     }else{
       this.editForm.patchValue({ requestedBy:this.empLoanDetails.requestedBy });
