@@ -71,6 +71,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   validateDate:boolean=true
   @ViewChild('notifyPersonnel') notifyPersonnel: ElementRef;
   @Input() overTimeApply;
+  overtimeRequests:any=[]
 
   constructor(
     private overtimeRequestService: OvertimeRequestService,
@@ -91,7 +92,10 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.current = new Date();
     this.addForm = this.createFormGroup();
     this.getEmployeeList();
-    this.getOvertimeConfiguration();
+    if(this.router.url=='/my-loan'){
+      this.getOvertimeConfiguration(this.currentUserId);
+    }
+    
     this.getMarkedDates(this.currentUserId);
     // this.markDisabled = (date: NgbDate) => this.calendar.getWeekday(date) >= 6;
     let b=this.router.routerState.snapshot.url;
@@ -128,14 +132,14 @@ export class OvertimeRequestCreateComponent implements OnInit {
 
   //   })
   // }
-  getOvertimeConfiguration() {
-    debugger
-    this.overtimePolicyConfigurationService.getOvertimeConfiguration(this.currentUserId).subscribe(result => {
+  getOvertimeConfiguration(id) {
+  
+    this.overtimePolicyConfigurationService.getOvertimeConfiguration(id).subscribe(result => {
       this.overtimeConfiguration = result;
       if(result.isOvertimeSlab==true){
         this.addForm.get("normalOverTime").enable();
         this.addForm.get("holidayOverTime").enable();
-        this.addForm.get("specialOverTime").disable();
+        this.addForm.get("specialOverTime").enable();
       }else{
         this.addForm.get("normalOverTime").enable();
         this.addForm.get("holidayOverTime").enable();
@@ -149,6 +153,16 @@ export class OvertimeRequestCreateComponent implements OnInit {
     },
       error => {
         console.error(error);
+      });
+  }
+  getOvertimeRequestsSelf(id) {
+    this.overtimeRequestService.getAllOvertimeDetailsById(id).subscribe((result: OvertimeRequest[]) => {
+      this.overtimeRequests = result;
+     
+    },
+      error => {
+        console.error(error);
+        this.toastr.showErrorMessage('Unable to fetch the overtime requests');
       });
   }
 
@@ -292,6 +306,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   }
 
   validateRequest() {
+    debugger
     if (this.overtimeAvailable >= this.overtimeConfiguration.maximumLimit && (this.overtimeConfiguration.minimumOverTimeHour > this.overtimeAvailable)) {
       this.addForm.controls.numberOfHours.setErrors({ numberOfHours: true });
     } else {
@@ -316,6 +331,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
   // }
 
   checkDates() {
+    debugger
     if (
       this.fromDate &&
       this.toDate &&
@@ -325,7 +341,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
     const d = new Date(this.fromDate);
     for (d; d <= this.toDate; d.setDate(d.getDate() + 1)) {
       const currentDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}T00:00:00`;
-      var test =  this.overTimeApply.map(dateValue => formatDate(dateValue.fromDate, 'yyyy-MM-ddT00:00:00', 'en-Us'));
+      var test = this.router.url=='/my-overtime' ? this.overTimeApply.map(dateValue => formatDate(dateValue.fromDate, 'yyyy-MM-ddT00:00:00', 'en-Us')) :this.overtimeRequests.map(dateValue => formatDate(dateValue.fromDate, 'yyyy-MM-ddT00:00:00', 'en-Us')) ;
       if (test.includes(currentDate)) {
         this.taken[0] = currentDate;
         this.taken[1] = 'overtime';
@@ -573,12 +589,16 @@ selectEmployee(args){
       employeeName:args.value.firstName,
       employeeId:args.value.id
       })
+
+  this.getOvertimeRequestsSelf(args.value.id)
+  this.getOvertimeConfiguration(args.value.id);
   }else{
     this.addForm.patchValue({
       employeeName: null,
       employeeId:0
     })  
   }
+
 }
 refreshEmployee(event){
   debugger
