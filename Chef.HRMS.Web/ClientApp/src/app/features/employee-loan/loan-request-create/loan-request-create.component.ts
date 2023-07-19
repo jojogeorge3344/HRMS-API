@@ -16,6 +16,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { DateformaterService } from "@shared/services/dateformater.service";
+import { EmployeeSalaryConfigurationService } from '@features/employee/employee-salary/employee-salary-configuration.service';
 
 @Component({
   templateUrl: './loan-request-create.component.html',
@@ -55,6 +56,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   empObj;
   disableRequestedBy=false
   isLoading=false;
+  salaryRange: any;
   constructor(
     private loanRequestService: LoanRequestService,
     private loanSettingsService: LoanSettingsService,
@@ -64,7 +66,8 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
     public modalService: NgbModal,
     private toastr: ToasterDisplayService,
     private employeeService: EmployeeService,
-    private router: Router
+    private router: Router,
+    private employeeSalaryConfigurationService: EmployeeSalaryConfigurationService,
   ) {
     this.todaysDate = new Date();
     const current = new Date();
@@ -116,6 +119,7 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
        // this.addForm.patchValue({ emiStartsFromYear: this.years[0] }, { emitEvent: false });
       }
     });
+    this.getSalaryRange()
   }
   ngOnDestroy(): void {
     this.formSubscription.unsubscribe();
@@ -316,15 +320,40 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
   }
 
   selectRequestedBy(args){
-    if(args.value && args.value.id){
-      this.addForm.patchValue({
-        requestedBy:args.value.id,
-        })
-    }else{
-      this.addForm.patchValue({
-        requestedBy: null,
-      })  
+
+    let totalSalary=0
+
+    this.employeeSalaryConfigurationService.getSalaryConfigurationByEmployee(args.value.id).subscribe((res) => {
+      res.forEach(element => {
+
+        totalSalary = totalSalary + Number(element.yearlyAmount);
+
+      });
+
+      
+    const current = new Date();
+    
+    var myDate = new Date(new Date(args.value.dateOfJoin).getTime()+(25*24*60*60*1000));
+
+    if(new Date(current)<=new Date(myDate)){
+      this.toastr.showWarningMessage("Loan Is Eligible For Only After 25 days Of Joining Date")
     }
+    else if(this.salaryRange>totalSalary ){
+      this.toastr.showWarningMessage("Loan Is Eligible For Only Above" + ' ' + this.salaryRange)
+    }
+    else{
+      if(args.value && args.value.id){
+        this.addForm.patchValue({
+          requestedBy:args.value.id,
+          })
+      }else{
+        this.addForm.patchValue({
+          requestedBy: null,
+        })  
+      }
+    }
+    })
+
   }
   refreshRequestedBy(event){
     event.stopPropagation();
@@ -352,4 +381,12 @@ export class LoanRequestCreateComponent implements OnInit, OnDestroy {
       loanRequestDeatails:[]
     });
   }
+  getSalaryRange(){
+    this.loanSettingsService.get().subscribe(res=>{
+    
+      this.salaryRange=res.salaryFromRange
+  
+    })
+  }
+
 }

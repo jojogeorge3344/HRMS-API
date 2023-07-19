@@ -13,6 +13,10 @@ import { LoanRequestViewComponent } from '../loan-request-view/loan-request-view
 import { LoanRequestPrintComponent } from '../loan-request-print/loan-request-print.component';
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EmployeeService } from '@features/employee/employee.service';
+import { getCurrentUserId } from '@shared/utils/utils.functions';
+import { EmployeeSalaryConfigurationService } from '@features/employee/employee-salary/employee-salary-configuration.service';
+import { LoanSettingsService } from '@settings/loan/loan-settings.service';
 
 @Component({
   templateUrl: './loan-request-list.component.html',
@@ -27,6 +31,9 @@ export class LoanRequestListComponent implements OnInit {
   requestTypes = RequestStatus;
   minDate;
   nextLoanNumber: number;
+  employeeList: any[];
+  currentUserId: any;
+  salaryRange: any;
 
   constructor(
     http: HttpClient,
@@ -35,6 +42,9 @@ export class LoanRequestListComponent implements OnInit {
     private toastr: ToasterDisplayService,
     private router: Router,
     private route: ActivatedRoute,
+    private employeeService: EmployeeService,
+    private employeeSalaryConfigurationService: EmployeeSalaryConfigurationService,
+    private loanSettingsService: LoanSettingsService,
     ) {
       const current = new Date();
       this.minDate = {
@@ -45,7 +55,10 @@ export class LoanRequestListComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    this.currentUserId = getCurrentUserId();
     this.getloanRequests(); 
+    this.getEmployeeList()
+    this.getSalaryRange()
   }
 
   getloanRequests() {
@@ -62,18 +75,43 @@ export class LoanRequestListComponent implements OnInit {
   }
 
   openCreateLoanRequest() {
-    const modalRef = this.modalService.open(LoanRequestCreateComponent,
-      { size: 'lg', centered: true, backdrop: 'static' });
+    let totalSalary=0
 
-    modalRef.componentInstance.loanTypes = this.loanTypes;
-    modalRef.componentInstance.paymentTypes = this.paymentTypes;
-    modalRef.componentInstance.nextLoanNumber = this.nextLoanNumber;
-   
-    modalRef.result.then((result) => {
-      if (result == 'submit') {
-        this.getloanRequests();
-      }
+    this.employeeSalaryConfigurationService.getSalaryConfigurationByEmployee(this.currentUserId).subscribe((res) => {
+      res.forEach(element => {
+
+        totalSalary = totalSalary + Number(element.yearlyAmount);
+
     });
+
+    const current = new Date();
+    let loginUser=this.employeeList.filter(x=>x.id==this.currentUserId)
+    var myDate = new Date(new Date(loginUser[0].dateOfJoin).getTime()+(25*24*60*60*1000));
+
+    if( new Date(current)<=new Date(myDate) && this.router.url=='/my-loan'){
+      
+      this.toastr.showWarningMessage("Loan Is Eligible For Only After 25 days Of Joining Date")
+    }
+    else if(this.salaryRange>totalSalary && this.router.url=='/my-loan'){
+      this.toastr.showWarningMessage("Loan Is Eligible For Only Above" + ' ' + this.salaryRange)
+    }
+    else{
+    const modalRef = this.modalService.open(LoanRequestCreateComponent,
+          { size: 'lg', centered: true, backdrop: 'static' });
+    
+        modalRef.componentInstance.loanTypes = this.loanTypes;
+        modalRef.componentInstance.paymentTypes = this.paymentTypes;
+        modalRef.componentInstance.nextLoanNumber = this.nextLoanNumber;
+       
+        modalRef.result.then((result) => {
+          if (result == 'submit') {
+            this.getloanRequests();
+          }
+        });
+    }
+ 
+  })
+
   }
 
   openEditLoanRequest(id: number,isApproved:boolean) {
@@ -147,5 +185,18 @@ export class LoanRequestListComponent implements OnInit {
   }
   isApplied(request) {
     return request == this.requestTypes.Draft;
+  }
+  getEmployeeList(){
+    this.employeeService.getAll()
+      .subscribe((result) => {
+      this.employeeList = result;
+    })
+  }
+  getSalaryRange(){
+    this.loanSettingsService.get().subscribe(res=>{
+    
+      this.salaryRange=res.salaryFromRange
+  
+    })
   }
 }
