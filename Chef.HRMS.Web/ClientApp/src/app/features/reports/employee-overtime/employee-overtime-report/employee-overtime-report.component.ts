@@ -68,6 +68,7 @@ export class EmployeeOvertimeReportComponent implements OnInit {
   selectedOvertime
   OverTimePolicyName
   overtimeAllDetails: any;
+  isAllSelect: boolean=false;
   
   
   constructor(
@@ -201,6 +202,12 @@ export class EmployeeOvertimeReportComponent implements OnInit {
   }
 
   openPrint() {
+    if(this.addForm.value.FromDate!=null && this.addForm.value.ToDate!=null && this.addForm.value.PaygroupName==null && this.addForm.value.DesignationName==null &&
+      this.addForm.value.LocationName==null && this.addForm.value.Department==null && this.addForm.value.employeeGroup==null && this.addForm.value.EmployeeFullName==null && this.addForm.value.OverTimePolicyName==null){
+      this.isAllSelect=true
+      }else{
+        this.isAllSelect=false
+      }
     this.PaygroupName = this.addForm.value.PaygroupName;
     this.DesignationName=this.addForm.value.DesignationName
     this.LocationName=this.addForm.value.LocationName
@@ -224,7 +231,9 @@ export class EmployeeOvertimeReportComponent implements OnInit {
       reportType:this.addForm.value.ReportType,
       normalOT:this.addForm.value.NormalOverTimeHrs,
       holidayOT:this.addForm.value.HolidayOverTimeHrs,
-      specialOT:this.addForm.value.SpecialOverTimeHrs
+      specialOT:this.addForm.value.SpecialOverTimeHrs,
+      isAllSelect:this.isAllSelect
+
     }
     )
     this.reportService.getOvertime(this.OvertimeDetails)
@@ -244,7 +253,7 @@ export class EmployeeOvertimeReportComponent implements OnInit {
       ToDate:[null, [
         Validators.required,
       ]],
-      PaygroupName:[[]],
+      PaygroupName:[null],
       DesignationName:[null],
       EmployeeFullName:[null],
       Department:[null],
@@ -259,6 +268,7 @@ export class EmployeeOvertimeReportComponent implements OnInit {
       SpecialOverTimeHrs:[false,],
       isSummary:[false],
       isDetails:[false],
+      isAllSelect:[false]
     });
   }
   getGroupCategory() {
