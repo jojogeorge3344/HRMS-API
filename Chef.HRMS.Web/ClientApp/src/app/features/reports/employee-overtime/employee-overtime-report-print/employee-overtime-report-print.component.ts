@@ -117,6 +117,7 @@ export class EmployeeOvertimeReportPrintComponent implements OnInit {
       this.reportViewerService.customData.reportType=this.overtimeReportDetails[0].reportType
       this.reportViewerService.customData.fromDate=this.overtimeReportDetails[0].fromDate
       this.reportViewerService.customData.ToDate=this.overtimeReportDetails[0].ToDate
+      this.reportViewerService.customData.isAllSelect=this.overtimeReportDetails[0].isAllSelect
 
   }
 
