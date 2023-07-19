@@ -137,7 +137,7 @@ export class LoanRequestViewComponent implements OnInit {
   }
   getEmpDetails(){
     this.loanRequestService.get(this.loanId).subscribe(result => {
-      this.requestedBy = result.requestedBy
+      this.requestedBy = result.employeeID
       this.getEmployeeList()
     }
     );
