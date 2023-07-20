@@ -42,10 +42,10 @@ public class LoanPrintBoldReportController : ReportViewerController
             // int id = Convert.ToInt32(CustomData["id"].ToString());
 
             int id = Convert.ToInt32(CustomData["id"].ToString());
-            var LPData = loanPrintBoldReportService.GetLoanDetailsAsync(id).Result;
-            var myObject = LPData.FirstOrDefault();
-            reportOption.AddDataSource("PoPrintDataSet", LPData);
-            reportOption.AddDataSource("PoPrintHeaderDataSet", new[] { myObject });
+            var loan = loanPrintBoldReportService.GetLoanDetailsAsync(id).Result;
+            //var myObject = LPData.FirstOrDefault();
+            reportOption.AddDataSource("LoanDetails", loan);
+            //reportOption.AddDataSource("PoPrintHeaderDataSet", new[] { myObject });
 
         }
     }
