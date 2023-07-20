@@ -64,5 +64,9 @@ public class EmployeeTicket : Model
     [Skip(true)]
     [SqlKata.Ignore]
     public bool IncludeLOPDays { get; set; }
+
+    [Write(false)]
+    [Skip(true)]
+    [SqlKata.Ignore]
     public int PayrollProcessingId { get; set; }
 }

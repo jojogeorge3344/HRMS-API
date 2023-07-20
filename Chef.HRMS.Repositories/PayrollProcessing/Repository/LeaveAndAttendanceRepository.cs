@@ -18,34 +18,41 @@ public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance
 
     public async Task<IEnumerable<LeaveAndAttendanceViewModel>> GetAllLeaveAndAttendanceByPaygroup(int paygroupId, DateTime fromDate, DateTime toDate, int payrollProcessId)
     {
+        int fromMonth = fromDate.Month;
+        int fromYear = fromDate.Year;
+
         var sql = @"SELECT Q1.*, 
                                    Q2.total    numberofworkeddays, 
                                    Q3.applied  leaveapplied, 
                                    Q4.lop, 
                                    Q5.pending  unapprovedleaves, 
                                    Q6.approved approvedleaves 
-                            FROM   (SELECT e.id                                               employeeid, 
-                                           Concat (e.firstname, ' ', e.lastname)              AS 
-                                           employeename, 
-                                           jd.employeenumber                                  employeecode, 
-                                           jf.weekoff, 
-                                           Count(h.date) numberOfholidays 
-                                    FROM   hrms.HRMSEmployee e 
-                                           INNER JOIN hrms.jobfiling jf 
-                                                   ON e.id = jf.employeeid 
-                                                      AND jf.paygroupid = @paygroupId 
-                                           INNER JOIN hrms.jobdetails jd 
-                                                   ON e.id = jd.employeeid 
-                                           LEFT JOIN hrms.holiday h 
-                                                  ON jf.holidaycategoryid = h.holidaycategoryid 
-                                                     AND ( h.date BETWEEN @fromDate AND @toDate ) 
-                                          WHERE e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm where((extract(month FROM @fromDate) = ppm.month)
-                                                        AND
-													    (extract(year FROM @fromDate) = ppm.year)) )
-                                    GROUP  BY e.id, 
-                                              jd.employeenumber, 
-                                              jf.weekoff 
-                                    ORDER  BY e.id)Q1 
+                            FROM   
+                               (SELECT
+                                    e.id AS employeeid,
+                                    Concat(e.firstname, ' ', e.lastname) AS employeename,
+                                    jd.employeenumber AS employeecode,
+                                    jf.weekoff,
+                                    COUNT(h.date) AS numberOfholidays
+                                FROM hrms.HRMSEmployee e
+                                INNER JOIN hrms.jobfiling jf
+                                    ON e.id = jf.employeeid
+                                    AND jf.paygroupid = @paygroupId
+                                INNER JOIN hrms.jobdetails jd
+                                    ON e.id = jd.employeeid
+                                LEFT JOIN hrms.holiday h
+                                    ON jf.holidaycategoryid = h.holidaycategoryid
+                                    AND (h.date BETWEEN @fromDate AND @toDate)
+                                WHERE e.id NOT IN (SELECT
+                                    ppm.employeeid
+                                FROM hrms.payrollprocessingmethod ppm
+                                WHERE ppm.month = @fromMonth
+                                AND ppm.year = @fromYear)
+                                GROUP BY e.id,
+                                            jd.employeenumber,
+                                            jf.weekoff
+                                ORDER BY e.id
+                                )Q1 
                                    LEFT JOIN (SELECT jf.employeeid, 
                                                      Count(*) total 
                                               FROM   hrms.jobfiling jf 
@@ -131,7 +138,7 @@ public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance
                                               GROUP  BY jf.employeeid)Q6 
                                           ON Q1.employeeid = Q6.employeeid ";
 
-        return await Connection.QueryAsync<LeaveAndAttendanceViewModel>(sql, new { paygroupId, fromDate, toDate, payrollProcessId });
+        return await Connection.QueryAsync<LeaveAndAttendanceViewModel>(sql, new { paygroupId, fromDate, toDate, payrollProcessId, fromMonth, fromYear });
     }
 
     public async Task<IEnumerable<LeaveDetailsViewModel>> GetAllApprovedLeaveDetailsByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
