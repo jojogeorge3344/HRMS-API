@@ -92,7 +92,7 @@ export class OvertimeRequestCreateComponent implements OnInit {
     this.current = new Date();
     this.addForm = this.createFormGroup();
     this.getEmployeeList();
-    if(this.router.url=='/my-loan'){
+    if(this.router.url=='/my-overtime'){
       this.getOvertimeConfiguration(this.currentUserId);
     }
     
