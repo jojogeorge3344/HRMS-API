@@ -309,6 +309,11 @@ const routes: Routes = [
         canActivateChild: [AuthGuard]
       },
       {
+        path: 'org-employee-encashment',
+        loadChildren: () => import('./features/employee-encashment/employee-encashment-module').then(m => m.EmployeeEncashmentModule),
+        canActivateChild: [AuthGuard]
+      },
+      {
         path: 'employee-payroll-parameter-details',
         loadChildren: () => import('./features/employee-payroll-parameter-details/payroll-parameter-details.module').then(m => m.PayrollParameterDetailsModule),
       },

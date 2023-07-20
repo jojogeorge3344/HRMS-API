@@ -1,4 +1,5 @@
-﻿using Chef.HRMS.Types;
+﻿using Chef.Common.Core.Extensions;
+using Chef.HRMS.Types;
 
 namespace Chef.HRMS.Models;
 
@@ -13,8 +14,8 @@ public class LoanPrintBoldReport
     public string Comments { get; set; }
     public LoanType LoanType { get; set; }
     public int EMIStartsFromMonth { get; set; }
-    public string Status { get; set; }
-
+    public RequestStatusType Status { get; set; }
+    public string LoanStatus =>EnumExtension.GetDescription(Status);
     public string Year { get; set; }
     public string Month { get; set; }
     public decimal RepaymentAmount { get; set; }

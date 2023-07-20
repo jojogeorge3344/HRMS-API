@@ -76,7 +76,7 @@ public class EmployeeEncashmentController : ControllerBase
         return Ok(balance);
     }
 
-    [HttpGet("GetEmployeeEncashmentComponents{employeeId}")]
+    [HttpGet("GetEmployeeEncashmentComponents/{employeeId}")]
     public async Task<ActionResult<EmployeeEncashmentComponentView>> GetEmployeeEncashmentComponents( int employeeId)
     {
         var components = await employeeEncashmentService.GetEmployeeEncashmentComponents( employeeId);

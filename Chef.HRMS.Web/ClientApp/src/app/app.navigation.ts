@@ -249,6 +249,11 @@ export const NavigationItems = [
         tags: 'settings-expense',
         routerLink: '/payslip-components'
       },
+      {
+        title: 'Employee Encashment',
+        tags: 'settings-expense',
+        routerLink: '/org-employee-encashment'
+      },
     ]
   },
   {
