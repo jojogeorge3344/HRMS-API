@@ -93,10 +93,10 @@ public class EOSAccrualService : AsyncService<EOSAccrual>, IEOSAccrualService
             if (systemVariableValues != null)
             {
                 eosAccrualEmployee.EligibilityBase = 365;
-                WorkingDaysFromJoining = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Frm_Jng").TransValue;
-                eosAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
-                eosAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;
-                eosAccrualEmployee.LopDaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Lop_Dys_Cldr_mth").TransValue;
+                WorkingDaysFromJoining = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Frm_Jng").TransValue;
+                eosAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Cldr_Mth").TransValue;
+                eosAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkd_Dys_Cldr_Mth").TransValue;
+                eosAccrualEmployee.LopDaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Lop_Dys_Cldr_mth").TransValue;
                 eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkeddaysInCalMonth;
                 eosAccrualEmployee.EligibilityPerDay = eosAccrualEmployee.EligibleDays / eosAccrualEmployee.EligibilityBase;
             }

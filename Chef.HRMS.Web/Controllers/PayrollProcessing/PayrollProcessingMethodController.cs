@@ -71,24 +71,11 @@ public class PayrollProcessingMethodController : ControllerBase
     }
 
     [HttpPost("InsertOrAlreadyExist")]
-    public async Task<ActionResult<string>> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)//,string strPpMId,bool IsNew)
+    public async Task<ActionResult<int>> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
     {
-        var result ="";
-        //if (IsNew)
-        //{
-            result = await payrollProcessingMethodService.InsertOrAlreadyExist(payrollProcessingMethod);
-        //}
-        //result = strPpMId;
-        ///System Variable insert starts
-        var payrollProcessingData = await payrollProcessingMethodService.GetAsync(Convert.ToInt32(result));
-
-        if (payrollProcessingData != null)
-        {
-            int ppMId = Convert.ToInt32(result);
-            var dd = await variableValuesService.InsertSystemVariableDetails(payrollProcessingData.PayGroupId, ppMId);//, payrollProcessingMethod);
-        }
-        ///System Variable insert Ends
-        return Ok(result);
+        int payrollProcessingMethodId = await payrollProcessingMethodService.InsertOrAlreadyExist(payrollProcessingMethod); 
+        
+        return Ok(payrollProcessingMethodId);
     }
 
     [HttpPost("InsertLOPDeduction")]

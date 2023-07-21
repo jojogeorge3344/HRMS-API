@@ -38,9 +38,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
 
         return await Connection.QueryAsync<SystemVariableValues>(sql, new { employeeId, month, year });
     }
-    public async Task<string> InsertSystemVariableDetails(int PayGroupId, int ppMId)//, PayrollProcessingMethod systemVariableValues)
+    public async Task<string> InsertSystemVariableDetails(int PayGroupId, int ppMId)
     {
-
         var processingMethod = await payrollProcessingMethodRepository.GetAsync(ppMId);
         int intMonth = processingMethod.Month;
         var payGroupDet = await payGroupRepository.GetAsync(PayGroupId);
@@ -49,7 +48,6 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
         int intleaveCutoff = Convert.ToInt32(payGroupDet.LeaveCutOff);
         DateTime leaveStartDate = new DateTime(intYear, intMonth, intleaveCutoff);
         DateTime leaveEndDate = new DateTime(intYear, intMonth, intleaveCutoff);
-
 
         int intTimeSheetCutOff = Convert.ToInt32(payGroupDet.TimeSheetCutOff);
         DateTime timeSheetStartDate = new DateTime(intYear, intMonth, intTimeSheetCutOff);
@@ -87,7 +85,7 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
 							WHERE pg.id=@PayGroupId AND hm.isarchived=false AND jf.isarchived=false AND pg.isarchived=false
 						)
 						AND To_date(Cast(ld.leavedate AS TEXT), 'YYYY-MM-DD') BETWEEN @leaveStartDate AND @leaveEndDate
-						GROUP BY ld.employeeid;";
+						GROUP BY ld.employeeid";
 
         var Lop_Dys_Btw_Dte = await Connection.QueryAsync<SystemVariableDto>(sql, new
         {
@@ -100,14 +98,15 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId 
         }).ToList();
         var dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues);
         #endregion
 
         //NOT
         #region slabOT
-        tenantSimpleUnitOfWork.BeginTransaction();
+        //tenantSimpleUnitOfWork.BeginTransaction();
         try
         {
             sql = @"SELECT  hm.id,jf.overtimepolicyid,OTC.isovertimeslab,OTC.ismonthly
@@ -115,7 +114,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
 						INNER JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
 						INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = jf.overtimepolicyid
 						WHERE jf.paygroupid=@PayGroupId AND 
-						hm.isarchived=false AND jf.isarchived=false ";
+						hm.isarchived=false AND jf.isarchived=false";
+
             var empList = await Connection.QueryAsync<SystemVariableEmpId>(sql, new
             {
                 PayGroupId
@@ -123,6 +123,7 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             List<SystemVariableValues> systemVariableValues_not = new List<SystemVariableValues>();
             foreach (SystemVariableEmpId emp in empList)
             {
+                emp.PayrollProcessId = ppMId;
                 if (emp.IsOverTimeSlab)
                 {
                     if (emp.IsMonthly)
@@ -150,6 +151,7 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
 								WHERE OTS.overtimepolicyid = @overtimepolicyid
 								GROUP BY OTS.overtimetype 
 								ORDER BY OTS.overtimetype";
+
                         var oTSlab = await Connection.QueryAsync<OverTimeSlab>(sql, new
                         {
                             overtimepolicyid = emp.OverTimePolicyId
@@ -178,7 +180,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
                                                 SystemVariableId = empSetting.Nml_SystemVariableId,
                                                 TransValue = upperLimit,
                                                 EmployeeId = emp.Id,
-                                                TransDate = monthEnd
+                                                TransDate = monthEnd,
+                                                PayrollProcessId = ppMId
                                             };
                                             systemVariableValues_not.Add(systemVarValues);
                                         }
@@ -189,7 +192,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
                                                 SystemVariableId = empSetting.Nml_SystemVariableId,
                                                 TransValue = OTHrs,
                                                 EmployeeId = emp.Id,
-                                                TransDate = monthEnd
+                                                TransDate = monthEnd,
+                                                PayrollProcessId = ppMId
                                             };
                                             systemVariableValues_not.Add(systemVarValues);
                                         }
@@ -208,7 +212,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
                                                 SystemVariableId = empSetting.Sp_OtSystemVariableId,
                                                 TransValue = item.UpperLimit - upperLimit,
                                                 EmployeeId = emp.Id,
-                                                TransDate = monthEnd
+                                                TransDate = monthEnd,
+                                                PayrollProcessId = ppMId
                                             };
                                             systemVariableValues_not.Add(systemVarValues);
                                         }
@@ -219,7 +224,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
                                                 SystemVariableId = empSetting.Sp_OtSystemVariableId,
                                                 TransValue = OTHrs - upperLimit,
                                                 EmployeeId = emp.Id,
-                                                TransDate = monthEnd
+                                                TransDate = monthEnd,
+                                                PayrollProcessId = ppMId
                                             };
                                             systemVariableValues_not.Add(systemVarValues);
                                         }
@@ -255,6 +261,7 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
 								WHERE OTS.overtimepolicyid = @overtimepolicyid
 								GROUP BY OTS.overtimetype 
 								ORDER BY OTS.overtimetype";
+
                             var oTSlab = await Connection.QueryAsync<OverTimeSlab>(sql, new
                             {
                                 overtimepolicyid = emp.OverTimePolicyId
@@ -281,7 +288,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
                                                     SystemVariableId = empSett.Nml_SystemVariableId,
                                                     TransValue = upperLimit,
                                                     EmployeeId = emp.Id,
-                                                    TransDate = monthEnd
+                                                    TransDate = monthEnd,
+                                                    PayrollProcessId = ppMId
                                                 };
                                                 systemVariableValues_not.Add(systemVarValues);
                                             }
@@ -292,7 +300,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
                                                     SystemVariableId = empSett.Nml_SystemVariableId,
                                                     TransValue = OTHrs,
                                                     EmployeeId = emp.Id,
-                                                    TransDate = monthEnd
+                                                    TransDate = monthEnd,
+                                                    PayrollProcessId = ppMId
                                                 };
                                                 systemVariableValues_not.Add(systemVarValues);
                                             }
@@ -310,7 +319,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
                                                     SystemVariableId = empSett.Sp_OtSystemVariableId,
                                                     TransValue = item.UpperLimit - upperLimit,
                                                     EmployeeId = emp.Id,
-                                                    TransDate = monthEnd
+                                                    TransDate = monthEnd,
+                                                    PayrollProcessId = ppMId
                                                 };
                                                 systemVariableValues_not.Add(systemVarValues);
                                             }
@@ -321,37 +331,30 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
                                                     SystemVariableId = empSett.Sp_OtSystemVariableId,
                                                     TransValue = OTHrs - upperLimit,
                                                     EmployeeId = emp.Id,
-                                                    TransDate = monthEnd
+                                                    TransDate = monthEnd,
+                                                    PayrollProcessId = ppMId
                                                 };
                                                 systemVariableValues_not.Add(systemVarValues);
                                             }
                                         }
                                     }
-                                }
-
+                                }                               
                             }
                         }
                         //need to find sum of daily ot
                         systemVariableValues_not = systemVariableValues_not.GroupBy(x => x.EmployeeId)
-                           .Select(g => new SystemVariableValues { EmployeeId = g.Key, TransValue = g.Sum(x => x.TransValue) })
+                           .Select(g => new SystemVariableValues { EmployeeId = g.Key, PayrollProcessId = g.Key, TransValue = g.Sum(x => x.TransValue) })
                            .ToList();
                     }
-
                 }
-                else
-                {
-
-                }
-
             }
             //sum of system var values based on employeeid
-
             dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_not);
-            tenantSimpleUnitOfWork.Commit();
+            //tenantSimpleUnitOfWork.Commit();
         }
         catch (Exception)
         {
-            tenantSimpleUnitOfWork.Rollback();
+            //tenantSimpleUnitOfWork.Rollback();
             throw;
         }
         #endregion
@@ -459,7 +462,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_days);
         #endregion
@@ -504,7 +508,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkd_days);
         #endregion
@@ -542,7 +547,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_plc_Hd);
         #endregion
@@ -578,7 +584,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_No_Of_Dys_Btw_Dte_Rge);
         #endregion
@@ -616,7 +623,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Pbc_Hds_Cldr_yer);
 
@@ -655,7 +663,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_lop_cal);
         #endregion
@@ -696,7 +705,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_days_year);
         #endregion
@@ -742,15 +752,14 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkd_days_year);
         #endregion
 
         //Wkg_Dys_Dte_Rg
         #region Wkg_Dys_Dte_Rg
-
-
 
         sql = @"SELECT
 						(SELECT id FROM hrms.systemvariable WHERE code='Wkg_Dys_Dte_Rg' AND isarchived=false LIMIT 1)
@@ -782,7 +791,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_days_Dte_rg);
         #endregion
@@ -827,7 +837,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkd_days_Dte_Rge);
         #endregion
@@ -859,7 +870,8 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Wkg_Dys_Frm_Jng);
         #endregion
@@ -895,10 +907,10 @@ public class SystemVariableValuesRepository : GenericRepository<SystemVariableVa
             SystemVariableId = x.SystemVariableId,
             TransValue = x.TransValue,
             EmployeeId = x.EmployeeId,
-            TransDate = monthEnd
+            TransDate = monthEnd,
+            PayrollProcessId = ppMId
         }).ToList();
         dd = await bulkUploadRepository.BulkInsertSystemVariableValues(systemVariableValues_Lop_Dys_Frm_Jng);
         #endregion
-
     }
 }

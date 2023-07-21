@@ -8,7 +8,7 @@ public class SystemVariableValues : Model
     [Write(false)]
     [Skip(true)]
     [SqlKata.Ignore]
-    public string code { get; set; }
+    public string Code { get; set; }
     public int SystemVariableId { get; set; }
     public int EmployeeId { get; set; }
     public DateTime TransDate { get; set; }

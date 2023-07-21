@@ -21,124 +21,138 @@ public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance
         int fromMonth = fromDate.Month;
         int fromYear = fromDate.Year;
 
-        var sql = @"SELECT Q1.*, 
-                                   Q2.total    numberofworkeddays, 
-                                   Q3.applied  leaveapplied, 
-                                   Q4.lop, 
-                                   Q5.pending  unapprovedleaves, 
-                                   Q6.approved approvedleaves 
-                            FROM   
-                               (SELECT
-                                    e.id AS employeeid,
-                                    Concat(e.firstname, ' ', e.lastname) AS employeename,
-                                    jd.employeenumber AS employeecode,
-                                    jf.weekoff,
-                                    COUNT(h.date) AS numberOfholidays
-                                FROM hrms.HRMSEmployee e
-                                INNER JOIN hrms.jobfiling jf
-                                    ON e.id = jf.employeeid
-                                    AND jf.paygroupid = @paygroupId
-                                INNER JOIN hrms.jobdetails jd
-                                    ON e.id = jd.employeeid
-                                LEFT JOIN hrms.holiday h
-                                    ON jf.holidaycategoryid = h.holidaycategoryid
-                                    AND (h.date BETWEEN @fromDate AND @toDate)
-                                WHERE e.id NOT IN (SELECT
-                                    ppm.employeeid
-                                FROM hrms.payrollprocessingmethod ppm
-                                WHERE ppm.month = @fromMonth
-                                AND ppm.year = @fromYear)
-                                GROUP BY e.id,
-                                            jd.employeenumber,
-                                            jf.weekoff
-                                ORDER BY e.id
-                                )Q1 
-                                   LEFT JOIN (SELECT jf.employeeid, 
-                                                     Count(*) total 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.regularlogin rl 
-                                                            ON jf.employeeid = rl.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  rl.checkintime BETWEEN @fromDate AND @toDate 
-                                              GROUP  BY jf.employeeid 
-                                              UNION 
-                                              SELECT jf.employeeid, 
-                                                     Count(*) total 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.workfromhome wfh 
-                                                            ON jf.employeeid = wfh.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  wfh.fromdate >= @fromDate 
-                                                     AND wfh.todate <= @toDate 
-                                              GROUP  BY jf.employeeid 
-                                              UNION 
-                                              SELECT jf.employeeid, 
-                                                     Count(*) total 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.onduty od 
-                                                            ON jf.employeeid = od.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                              WHERE  od.fromdate >= @fromDate 
-                                                     AND od.todate <= @toDate 
-                                              GROUP  BY jf.employeeid)Q2 
-                                          ON Q1.employeeid = Q2.employeeid 
-                                   LEFT JOIN (SELECT jf.employeeid, 
-                                                     Count(*)applied,l.id AS leaveid,l.leavecomponentid 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.leave l 
-                                                            ON jf.employeeid = l.employeeid 
-                                                               AND jf.paygroupid = @paygroupId
-                                                     INNER JOIN hrms.leavecomponent lc 
-                                                             ON l.leavecomponentid = lc.id
-												     INNER JOIN hrms.systemvariablevalues svv
-                                                             ON l.employeeid = svv.employeeid
-													 INNER JOIN hrms.systemvariable sv
-													         ON svv.systemvariableid = sv.id
-															 AND sv.code = 'Lop_Dys_Btw_Dte'
-                                              WHERE  svv.payrollprocessid = @payrollProcessId
-                                              GROUP  BY jf.employeeid,l.id,l.leavecomponentid)Q3 
-                                          ON Q1.employeeid = Q3.employeeid 
-                                   LEFT JOIN (SELECT jf.employeeid, 
-                                                     Count(*)lop 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.leave l 
-                                                            ON jf.employeeid = l.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                                     INNER JOIN hrms.leavecomponent lc 
-                                                             ON l.leavecomponentid = lc.id 
-                                              WHERE  ( l.fromdate >= @fromDate 
-                                                       AND l.todate <= @toDate ) 
-                                                     AND lc.code = 'LOP' 
-                                              GROUP  BY jf.employeeid)Q4 
-                                          ON Q1.employeeid = Q4.employeeid 
-                                   LEFT JOIN (SELECT jf.employeeid, 
-                                                     Count(*)pending 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.leave l 
-                                                            ON jf.employeeid = l.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                                     INNER JOIN hrms.leavecomponent lc 
-                                                             ON l.leavecomponentid = lc.id 
-                                              WHERE  ( l.fromdate >= @fromDate 
-                                                       AND l.todate <= @toDate ) 
-                                                     AND l.leavestatus = 3 
-                                              GROUP  BY jf.employeeid)Q5 
-                                          ON Q1.employeeid = Q5.employeeid 
-                                   LEFT JOIN (SELECT jf.employeeid, 
-                                                     Count(*)approved 
-                                              FROM   hrms.jobfiling jf 
-                                                     LEFT JOIN hrms.leave l 
-                                                            ON jf.employeeid = l.employeeid 
-                                                               AND jf.paygroupid = @paygroupId 
-                                                     LEFT JOIN hrms.leavecomponent lc 
-                                                             ON l.leavecomponentid = lc.id 
-                                                     LEFT JOIN hrms.leavedetails ld
-                                                             ON ld.leaveid = l.id
-                                              WHERE  ( ld.leavedate >= @fromDate 
-                                                       AND ld.leavedate <= @toDate ) 
-                                                     AND l.leavestatus = 4 
-                                              GROUP  BY jf.employeeid)Q6 
-                                          ON Q1.employeeid = Q6.employeeid ";
+        var sql = @"SELECT
+                      Q1.*,
+                      Q2.total numberofworkeddays,
+                      Q3.applied leaveapplied,
+                      Q4.lop,
+                      Q5.pending unapprovedleaves,
+                      Q6.approved approvedleaves
+                    FROM (SELECT
+                      e.id AS employeeid,
+                      Concat(e.firstname, ' ', e.lastname) AS employeename,
+                      jd.employeenumber AS employeecode,
+                      jf.weekoff,
+                      COUNT(h.date) AS numberOfholidays
+                    FROM hrms.HRMSEmployee e
+                    INNER JOIN hrms.jobfiling jf
+                      ON e.id = jf.employeeid
+                      AND jf.paygroupid = @paygroupId
+                    INNER JOIN hrms.jobdetails jd
+                      ON e.id = jd.employeeid
+                    LEFT JOIN hrms.holiday h
+                      ON jf.holidaycategoryid = h.holidaycategoryid
+                      AND (h.date BETWEEN @fromDate AND @toDate)
+                    WHERE e.id NOT IN (SELECT
+                      ppm.employeeid
+                    FROM hrms.payrollprocessingmethod ppm
+                    WHERE ppm.month = @fromMonth
+                    AND ppm.year = @fromYear)
+                    GROUP BY e.id,
+                             jd.employeenumber,
+                             jf.weekoff
+                    ORDER BY e.id
+                    ) Q1
+                    LEFT JOIN (SELECT
+                      jf.employeeid,
+                      COUNT(*) total
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.regularlogin rl
+                      ON jf.employeeid = rl.employeeid
+                      AND jf.paygroupid = @paygroupId
+                    WHERE rl.checkintime BETWEEN @fromDate AND @toDate
+                    GROUP BY jf.employeeid
+                    UNION
+                    SELECT
+                      jf.employeeid,
+                      COUNT(*) total
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.workfromhome wfh
+                      ON jf.employeeid = wfh.employeeid
+                      AND jf.paygroupid = @paygroupId
+                    WHERE wfh.fromdate >= @fromDate
+                    AND wfh.todate <= @toDate
+                    GROUP BY jf.employeeid
+                    UNION
+                    SELECT
+                      jf.employeeid,
+                      COUNT(*) total
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.onduty od
+                      ON jf.employeeid = od.employeeid
+                      AND jf.paygroupid = @paygroupId
+                    WHERE od.fromdate >= @fromDate
+                    AND od.todate <= @toDate
+                    GROUP BY jf.employeeid
+                    ) Q2
+                      ON Q1.employeeid = Q2.employeeid
+                    LEFT JOIN (SELECT
+                      jf.employeeid,
+                      COUNT(*) applied,
+                      l.id AS leaveid,
+                      l.leavecomponentid
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.leave l
+                      ON jf.employeeid = l.employeeid
+                      AND jf.paygroupid = @paygroupId
+                    INNER JOIN hrms.leavecomponent lc
+                      ON l.leavecomponentid = lc.id
+                    INNER JOIN hrms.systemvariablevalues svv
+                      ON l.employeeid = svv.employeeid
+                    INNER JOIN hrms.systemvariable sv
+                      ON svv.systemvariableid = sv.id
+                      AND sv.code = 'Lop_Dys_Btw_Dte'
+                    WHERE svv.payrollprocessid = @payrollProcessId
+                    GROUP BY jf.employeeid,
+                             l.id,
+                             l.leavecomponentid
+                    ) Q3
+                      ON Q1.employeeid = Q3.employeeid
+                    LEFT JOIN (SELECT
+                      jf.employeeid,
+                      COUNT(*) lop
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.leave l
+                      ON jf.employeeid = l.employeeid
+                      AND jf.paygroupid = @paygroupId
+                    INNER JOIN hrms.leavecomponent lc
+                      ON l.leavecomponentid = lc.id
+                    WHERE (l.fromdate >= @fromDate
+                    AND l.todate <= @toDate)
+                    AND lc.code = 'LOP'
+                    GROUP BY jf.employeeid
+                   ) Q4
+                      ON Q1.employeeid = Q4.employeeid
+                    LEFT JOIN (SELECT
+                      jf.employeeid,
+                      COUNT(*) pending
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.leave l
+                      ON jf.employeeid = l.employeeid
+                      AND jf.paygroupid = @paygroupId
+                    INNER JOIN hrms.leavecomponent lc
+                      ON l.leavecomponentid = lc.id
+                    WHERE (l.fromdate >= @fromDate
+                    AND l.todate <= @toDate)
+                    AND l.leavestatus = 3
+                    GROUP BY jf.employeeid
+                   ) Q5
+                      ON Q1.employeeid = Q5.employeeid
+                    LEFT JOIN (SELECT
+                      jf.employeeid,
+                      COUNT(*) approved
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.leave l
+                      ON jf.employeeid = l.employeeid
+                      AND jf.paygroupid = @paygroupId
+                    INNER JOIN hrms.leavecomponent lc
+                      ON l.leavecomponentid = lc.id
+                    WHERE (l.fromdate >= @fromDate
+                    AND l.todate <= @toDate)
+                    AND l.leavestatus = 4
+                    GROUP BY jf.employeeid
+                   ) Q6
+                      ON Q1.employeeid = Q6.employeeid";
 
         return await Connection.QueryAsync<LeaveAndAttendanceViewModel>(sql, new { paygroupId, fromDate, toDate, payrollProcessId, fromMonth, fromYear });
     }

@@ -1,6 +1,8 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Repositories;
+using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Repositories;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Linq;
 
@@ -10,12 +12,19 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
 {
     private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
     private readonly IPayGroupRepository payGroupRepository;
+    private readonly ISystemVariableValuesRepository systemVariableValuesRepository;
+    private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
+
 
     public PayrollProcessingMethodService(IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
-        IPayGroupRepository payGroupRepository)
+        IPayGroupRepository payGroupRepository,
+        ISystemVariableValuesRepository systemVariableValuesRepository,
+        ITenantSimpleUnitOfWork tenantSimpleUnitOfWork)
     {
         this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
         this.payGroupRepository = payGroupRepository;
+        this.systemVariableValuesRepository = systemVariableValuesRepository;
+        this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
     }
 
     public async Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno)
@@ -85,9 +94,26 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
         return await payrollProcessingMethodRepository.InsertLOPDeduction(lopDeduction);
     }
 
-    public async Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
+    public async Task<int> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
     {
-        return await payrollProcessingMethodRepository.InsertOrAlreadyExist(payrollProcessingMethod);
+        int payrollProcessingMethodId = 0;
+        tenantSimpleUnitOfWork.BeginTransaction();
+        try
+        {
+            payrollProcessingMethodId = await payrollProcessingMethodRepository.InsertOrAlreadyExist(payrollProcessingMethod);
+            var payrollProcessingData = await payrollProcessingMethodRepository.GetAsync(payrollProcessingMethodId);
+            if (payrollProcessingData != null)
+            {
+                await systemVariableValuesRepository.InsertSystemVariableDetails(payrollProcessingData.PayGroupId, payrollProcessingMethodId);
+            }
+            tenantSimpleUnitOfWork.Commit();
+            return payrollProcessingMethodId;
+        }
+        catch
+        {
+            tenantSimpleUnitOfWork.Rollback();
+            return payrollProcessingMethodId;
+        }
     }
 
     public async Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep)

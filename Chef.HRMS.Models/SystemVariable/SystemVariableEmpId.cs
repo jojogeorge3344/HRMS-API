@@ -6,4 +6,5 @@ public class SystemVariableEmpId
     public int OverTimePolicyId { get; set; }
     public bool IsOverTimeSlab { get; set; }
     public bool IsMonthly { get; set; }
+    public int PayrollProcessId { get; set; }
 }

@@ -91,8 +91,8 @@ public class TicketAccrualService : AsyncService<TicketAccrual>, ITicketAccrualS
 
             if (systemVariableValues != null)
             {
-                ticketAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkg_Dys_Cldr_Mth").TransValue;
-                ticketAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.code == "Wkd_Dys_Cldr_Mth").TransValue;
+                ticketAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Cldr_Mth").TransValue;
+                ticketAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkd_Dys_Cldr_Mth").TransValue;
                 ticketAccrualEmployee.EligibilityPerDay = ticketAccrualEmployee.EligibleDays / ticketAccrualEmployee.EligibilityBase;
             }
 
