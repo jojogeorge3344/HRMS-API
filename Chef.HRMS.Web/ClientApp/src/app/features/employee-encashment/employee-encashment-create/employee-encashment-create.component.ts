@@ -118,7 +118,7 @@ export class EmployeeEncashmentCreateComponent implements OnInit {
     this.employeeEncashmentService.add(this.addForm.value).subscribe((result: any) => {
     console.log(result)
     this.toastr.showSuccessMessage('Employee Encashment added successfully');
-    this.router.navigate(["/employee-encashment"])
+    this.router.navigate(["/org-employee-encashment"])
     },
       error => {
         console.error(error);

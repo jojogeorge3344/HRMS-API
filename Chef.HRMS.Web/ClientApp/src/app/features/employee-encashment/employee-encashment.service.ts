@@ -31,8 +31,8 @@ export class EmployeeEncashmentService {
   delete(id:number){
     return this.http.delete(this.baseUrl + 'EmployeeEncashmentDelete/' + id).pipe(map(response => { return response; }));
   }
-  process(id){
-    return this.http.post<EmployeeEncashment>(this.baseUrl + 'EmployeeEncashmentProcess/',id).pipe(map(response => { return response; }));
+  process(request){
+    return this.http.post<EmployeeEncashment>(this.baseUrl + 'EmployeeEncashmentProcess',request).pipe(map(response => { return response; }));
   }
   getComponent(id:number){
     return this.http.get<EmployeeEncashment>(this.baseUrl + 'getEmployeeEncashmentComponents/' + id).pipe(map(response => { return response; }));

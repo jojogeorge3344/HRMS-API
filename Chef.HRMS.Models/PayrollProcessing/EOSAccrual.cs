@@ -75,6 +75,9 @@ public class EOSAccrual : Model
     [SqlKata.Ignore]
     public int MonthlyAmount { get; set; }
 
+    [Write(false)]
+    [Skip(true)]
+    [SqlKata.Ignore]
     public int PayrollProcessingId { get; set; }
 
     [Write(false)]
