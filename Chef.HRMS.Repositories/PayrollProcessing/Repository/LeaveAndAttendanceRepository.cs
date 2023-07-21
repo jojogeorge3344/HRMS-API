@@ -130,10 +130,12 @@ public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance
                                                      LEFT JOIN hrms.leave l 
                                                             ON jf.employeeid = l.employeeid 
                                                                AND jf.paygroupid = @paygroupId 
-                                                     INNER JOIN hrms.leavecomponent lc 
+                                                     LEFT JOIN hrms.leavecomponent lc 
                                                              ON l.leavecomponentid = lc.id 
-                                              WHERE  ( l.fromdate >= @fromDate 
-                                                       AND l.todate <= @toDate ) 
+                                                     LEFT JOIN hrms.leavedetails ld
+                                                             ON ld.leaveid = l.id
+                                              WHERE  ( ld.leavedate >= @fromDate 
+                                                       AND ld.leavedate <= @toDate ) 
                                                      AND l.leavestatus = 4 
                                               GROUP  BY jf.employeeid)Q6 
                                           ON Q1.employeeid = Q6.employeeid ";
@@ -143,25 +145,29 @@ public class LeaveAndAttendanceRepository : GenericRepository<LeaveAndAttendance
 
     public async Task<IEnumerable<LeaveDetailsViewModel>> GetAllApprovedLeaveDetailsByEmployeeId(int employeeId, DateTime fromDate, DateTime toDate)
     {
-        var sql = @"SELECT DISTINCT l.id           AS id, 
-                                            lc.id          AS leavecomponentid, 
-                                            l.fromdate, 
-                                            l.numberofdays, 
-                                            l.employeeid,
-                                            l.description, 
-                                            l.leavestatus, 
-                                            lc.description AS leavetype, 
-                                            l.approvedby   AS approvedby,
-                                            e.firstname    AS approver
-                            FROM            hrms.leave l 
-                            INNER JOIN      hrms.leavecomponent lc 
-                            ON              lc.id = l.leavecomponentid 
-                            INNER JOIN      hrms.HRMSEmployee e 
-                            ON              l.approvedby = e.id 
-                            WHERE           l.fromdate :: date >= @fromdate 
-                            AND             l.todate ::   date <= @todate 
-                            AND             l.employeeid = @employeeId 
-                            AND             l.leavestatus = 3";
+        var sql = @"SELECT DISTINCT
+                      l.id AS id,
+                      lc.id AS leavecomponentid,
+                      ld.leavedate AS fromdate,
+                      l.numberofdays,
+                      l.employeeid,
+                      l.description,
+                      l.leavestatus,
+                      lc.description AS leavetype,
+                      l.approvedby AS approvedby,
+                      e.firstname AS approver
+                    FROM hrms.leave l
+                    LEFT JOIN hrms.leavecomponent lc
+                      ON lc.id = l.leavecomponentid
+                    LEFT JOIN hrms.HRMSEmployee e
+                      ON l.approvedby = e.id
+                    LEFT JOIN hrms.leavedetails ld
+                      ON ld.leaveid = l.id
+                    WHERE ld.leavedate ::date >= @fromdate
+                    AND ld.leavedate ::date <= @todate
+                    AND ld.employeeid = @employeeId
+                    AND l.leavestatus = 4    
+                    AND ld.isarchived = false";
 
         return await Connection.QueryAsync<LeaveDetailsViewModel>(sql, new { employeeId, fromDate, toDate });
     }

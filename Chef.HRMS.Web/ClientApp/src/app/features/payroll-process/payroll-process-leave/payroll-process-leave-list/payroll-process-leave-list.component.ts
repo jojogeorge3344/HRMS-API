@@ -128,8 +128,20 @@ export class PayrollProcessLeaveListComponent implements OnInit {
   }
 
   openApprovedLeave(employeeId, employeeName) {
-    this.fromDate = `${this.selectedYear}-${this.selectedMonth}-01`;
-    this.toDate = `${this.selectedYear}-${this.selectedMonth}-${this.noOfCalendarDays}`;
+
+    var month = parseInt(this.payrollmonth)
+    var year = parseInt(this.payrollyear)
+    var day = parseInt(this.payrollcutoff)
+    var todate = new Date(year,month-1, day)
+    var previous = new Date(todate.getTime());
+    previous.setMonth(previous.getMonth() - 1);
+
+
+   // this.fromDate = `${this.selectedYear}-${this.selectedMonth}-01`;
+   this.fromDate = this.datePipe.transform(previous,"yyyy-MM-dd")
+
+    //this.toDate = `${this.selectedYear}-${this.selectedMonth}-${this.noOfCalendarDays}`;
+    this.toDate = this.datePipe.transform(todate,"yyyy-MM-dd")
     const modalRef = this.modalService.open(ApprovedLeaveComponent,
       { size: 'lg', centered: true, backdrop: 'static' });
     modalRef.componentInstance.employeeId = employeeId;
