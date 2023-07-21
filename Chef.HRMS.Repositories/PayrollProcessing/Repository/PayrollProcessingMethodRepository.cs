@@ -211,11 +211,11 @@ public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcess
         return await Connection.QueryAsync<PayrollReviewBreakup>(sql, new { employeeId, payrollProcessingMethodId });
     }
 
-    public async Task<string> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
+    public async Task<int> InsertOrAlreadyExist(PayrollProcessingMethod payrollProcessingMethod)
     {
-        string result = "";
-        using (var transaction = Connection.BeginTransaction())
-        {
+        int payrollProcessingMethodId = 0;
+        //using (var transaction = Connection.BeginTransaction())
+        //{
             try
             {
                 if (payrollProcessingMethod.PayGroupId == 0)
@@ -236,7 +236,7 @@ public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcess
 
                     if (data != null)
                     {
-                        return "Already Exist";
+                        throw new Exception("Already Exist");
                     }
                     else
                     {
@@ -251,39 +251,29 @@ public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcess
                         var info = await Connection.QueryFirstOrDefaultAsync<string>(get, new { employeeId, year, month });
                         if (info != null)
                         {
-                            return "Already Exist";
+                            throw new Exception("Already Exist");
                         }
                         else
                         {
                             var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                            result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
-
-
-
+                            payrollProcessingMethodId = await Connection.QueryFirstOrDefaultAsync<int>(sql, payrollProcessingMethod);
                         }
-
-
                     }
-
                 }
                 else
                 {
-
                     var sql = new QueryBuilder<PayrollProcessingMethod>().GenerateInsertQuery();
-                    result = await Connection.QueryFirstOrDefaultAsync<string>(sql, payrollProcessingMethod);
-
-
-
+                    payrollProcessingMethodId = await Connection.QueryFirstOrDefaultAsync<int>(sql, payrollProcessingMethod);
                 }
-                transaction.Commit();
+                //transaction.Commit();
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
-                transaction.Rollback();
+                //transaction.Rollback();
             }
-            return result.ToString();
-        }
+            return payrollProcessingMethodId;
+        //}
     }
 
     public async Task<int> UpadtePayrollProcessingStep(int payrollProcessingMethodId, int completedStep)
