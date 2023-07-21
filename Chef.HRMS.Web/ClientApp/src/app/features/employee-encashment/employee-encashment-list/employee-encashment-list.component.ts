@@ -7,6 +7,7 @@ import { ToasterDisplayService } from 'src/app/core/services/toaster-service.ser
 
 import { ActivatedRoute, Router } from '@angular/router';
 import {EmployeeEncashmentService} from 'src/app/features/employee-encashment/employee-encashment.service'
+import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 
 @Component({
   selector: 'hrms-employee-encashment-list',
@@ -17,6 +18,7 @@ export class EmployeeEncashmentListComponent implements OnInit {
 
   currentUserId: number;
   encashmentRequest:any=[]
+  requestStatusType=RequestStatus
   constructor(
     public modalService: NgbModal,
     private EmployeeEncashmentService:EmployeeEncashmentService,
@@ -72,7 +74,7 @@ export class EmployeeEncashmentListComponent implements OnInit {
       }
     });
   }
-  process(id) {
+  process(request) {
     const modalRef = this.modalService.open(ConfirmModalComponent,
       { centered: true, backdrop: 'static' });
 
@@ -80,10 +82,14 @@ export class EmployeeEncashmentListComponent implements OnInit {
 
     modalRef.result.then((userResponse) => {
       if (userResponse == true) {
-        this.EmployeeEncashmentService.process(id).subscribe(() => {
+        request.processStatus=this.requestStatusType.Processed
+        this.EmployeeEncashmentService.process(request).subscribe((res) => {
           this.toastr.showSuccessMessage('The Employee Encashment request is processed successfully!');
            this.getEmployeeEncashmentList()
           
+        },error => {
+          console.error(error);
+          this.toastr.showErrorMessage('Unable to process Employee Encashment');
         });
      
       }

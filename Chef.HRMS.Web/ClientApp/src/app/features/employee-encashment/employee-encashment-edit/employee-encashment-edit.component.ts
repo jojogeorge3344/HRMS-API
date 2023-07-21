@@ -67,10 +67,10 @@ export class EmployeeEncashmentEditComponent implements OnInit {
       searchOnKey: "firstName",
       clearOnSelection: false,
     };
-    const current = new Date();
-    this.editForm.patchValue({
-      processDate:new Date(new Date(current).getTime()+(1*24*60*60*1000))
-    })
+    // const current = new Date();
+    // this.editForm.patchValue({
+    //   processDate:new Date(new Date(current).getTime()+(1*24*60*60*1000))
+    // })
     this.route.params.subscribe((params: any) => {
       let a= params.id;
       this.encashmentId  = parseInt(a, 10);
@@ -157,7 +157,7 @@ export class EmployeeEncashmentEditComponent implements OnInit {
     this.employeeEncashmentService.update(this.editForm.value).subscribe((result: any) => {
     console.log(result)
     this.toastr.showSuccessMessage('Employee Encashment updated successfully');
-    this.router.navigate(["/employee-encashment"])
+    this.router.navigate(["/org-employee-encashment"])
     },
       error => {
         console.error(error);

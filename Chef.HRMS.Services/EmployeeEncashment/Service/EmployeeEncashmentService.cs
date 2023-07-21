@@ -137,8 +137,17 @@ public class EmployeeEncashmentService : AsyncService<EmployeeEncashment>, IEmpl
 
     public async Task<IEnumerable<EmployeeEncashment>> GetEmployeeEncashmentList()
     {
-        return await encashmentRepository.GetEmployeeEncashmentList();
+        IEnumerable<EmployeeEncashment> employeeEncashments = await encashmentRepository.GetEmployeeEncashmentList();
+
+        foreach (EmployeeEncashment employeeEncashment in employeeEncashments)
+        {
+            var encashmentDetails = await encashmentDetailsRepository.GetByEncashmentId(employeeEncashment.Id);
+            employeeEncashment.EmployeeEncashmentDetails = encashmentDetails.ToList();
+        }
+
+        return employeeEncashments;
     }
+
 
     public async Task<int> EmployeeEncashmentDelete(int encashmentId)
     {
