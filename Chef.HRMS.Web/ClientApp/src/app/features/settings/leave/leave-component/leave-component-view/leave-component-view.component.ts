@@ -26,6 +26,7 @@ import { LeaveEligiblityService } from "../leave-eligiblity.service";
 import { OvertimePolicyCalculationComponent } from "@settings/overtime/overtime-policy-configuration/overtime-policy-calculation/overtime-policy-calculation.component";
 import { LeaveSlabService } from "../leave-slab-service";
 import { valueTypeOff } from "src/app/models/common/types/leaveSlabOff";
+import { IDropdownSettings } from "ng-multiselect-dropdown";
 
 
 @Component({
@@ -81,6 +82,8 @@ export class LeaveComponentViewComponent implements OnInit {
   valueSlabOffType = valueTypeOff;
   isMandatoryAccruel:boolean
   isAccurel:boolean=true
+  selectedLeaveDetection:any[] = [];
+  leaveDetectionSettings: IDropdownSettings={};;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -169,6 +172,12 @@ export class LeaveComponentViewComponent implements OnInit {
       } else {
         this.ViewForm2.get("cfLimitDays").disable();
       }
+      if(result){
+        for(let i=0;i<result.leaveComponentLopDetails.length;i++){
+          this.selectedLeaveDetection.push({id:result.leaveComponentLopDetails[i].payrollComponentId,
+          name:result.leaveComponentLopDetails[i].payrollComponentName})
+        }
+      }
     });
   }
 
@@ -211,6 +220,11 @@ export class LeaveComponentViewComponent implements OnInit {
   getDetectionListType() {
     this.leaveComponentService.getDetectiontype().subscribe((res) => {
       this.detectionTypeList = res;
+      this.leaveDetectionSettings = {
+        idField:'id',
+        textField:'name',
+        allowSearchFilter: true
+      };  
     });
   }
 
