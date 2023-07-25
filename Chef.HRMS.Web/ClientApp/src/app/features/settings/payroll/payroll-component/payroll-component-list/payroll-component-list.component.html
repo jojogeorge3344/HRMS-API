@@ -2,6 +2,25 @@
 
 
     <div class="button-right-wrapper">
+        <div class="form-outline col-4" style="margin-right: 2px;">
+            <input
+              class="form-control"
+              id="searchKey"
+              name="searchKey"
+              [(ngModel)]="searchKey"
+              type="search"
+              placeholder="Search"
+              (search)="searchPayrollComponent()"
+            />
+        </div>
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-sm ml-3"
+            style="margin-right: 43%;font-size: 14px"
+            (click)="searchPayrollComponent()"
+          >
+            <i class="fal fa-search"></i>
+          </button>
         <button (click)="openCreatePayrollComponent()" class="btn btn-success btn-add">
             <i class="fa fal fa-plus fa-plus mr-1"></i>Add Payroll Component
         </button>

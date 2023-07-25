@@ -40,7 +40,7 @@ export class EmployeeLeaveRequestViewComponent implements OnInit {
       "en"
     );
 
-    this.employeeLeaveService.getAllLeaveBalance(this.currentUserId).subscribe(
+    this.employeeLeaveService.getAllLeaveBalance(this.leaveRequest.employeeId).subscribe(
       (leaveComponents) => {
         this.leaveComponentName = leaveComponents.find(
           (key) => key.leaveComponentId === this.leaveRequest.leaveComponentId

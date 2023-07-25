@@ -31,6 +31,8 @@ export class LeaveStructureListComponent implements OnInit {
   leaveStructureNames: string[];
 
   firstOpen: number;
+  searchKey: any;
+  searchLeaveStructures: any;
 
   constructor(
     private leaveStructureService: LeaveStructureService,
@@ -62,6 +64,8 @@ export class LeaveStructureListComponent implements OnInit {
       this.getLeaveComponents(this.firstOpen);
 
       this.leaveStructures = result;
+      this.searchLeaveStructures = result;
+
       this.leaveStructureNames = this.leaveStructures.map(a => a.name.toLowerCase());
     },
       error => {
@@ -242,5 +246,10 @@ export class LeaveStructureListComponent implements OnInit {
       }
     });
   }
-
+  searchLeaveStructure(): void {
+    this.leaveStructures = this.searchLeaveStructures.filter(
+      (x) =>
+        x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) 
+    );
+  }
 }
