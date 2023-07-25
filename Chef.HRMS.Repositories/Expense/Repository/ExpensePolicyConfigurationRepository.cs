@@ -1,4 +1,7 @@
-﻿namespace Chef.HRMS.Repositories;
+﻿using Chef.Common.Core.Extensions;
+using System.Xml.Linq;
+
+namespace Chef.HRMS.Repositories;
 
 public class ExpensePolicyConfigurationRepository : GenericRepository<ExpensePolicyConfiguration>, IExpensePolicyConfigurationRepository
 {
@@ -17,6 +20,17 @@ public class ExpensePolicyConfigurationRepository : GenericRepository<ExpensePol
 
     }
 
+    public async Task<bool> IsExpensePolicyById(int expensePolicyId, int expensePolicyTypeId)
+    {
+        if (await QueryFactory
+      .Query<ExpensePolicyConfiguration>()
+      .Where("expensepolicyid", expensePolicyId)
+      .Where("expensetypeid", expensePolicyTypeId)
+      .WhereNotArchived()
+      .CountAsync<int>() > 0) return true;
+        else return false;
+    }
+
     public async Task<IEnumerable<ExpensePolicyConfiguration>> GetExpenseTypesById(int employeeid)
     {
 
@@ -28,57 +42,6 @@ public class ExpensePolicyConfigurationRepository : GenericRepository<ExpensePol
 
         return await Connection.QueryAsync<ExpensePolicyConfiguration>(sql, new { employeeid });
 
-    }
-
-    public async Task<int> InsertAsync(IEnumerable<ExpensePolicyConfiguration> expensePolicyConfiguration, IEnumerable<int> expensePolicyConfigurationIds)
-    {
-        int result = 0;
-
-        using (var transaction = Connection.BeginTransaction())
-        {
-
-            try
-            {
-                if (expensePolicyConfiguration.Count() > 0)
-                {
-                    (from pbc in expensePolicyConfiguration
-                     select pbc).ToList().ForEach((pbc) =>
-                     {
-                         pbc.CreatedDate = pbc.ModifiedDate = DateTime.UtcNow;
-                         pbc.IsArchived = false;
-                     });
-                    var sql = new QueryBuilder<ExpensePolicyConfiguration>().GenerateInsertQuery();
-                    sql = sql.Replace("RETURNING Id", " ");
-                    sql += " ON CONFLICT ON CONSTRAINT expensepolicyconfiguration_policy_type_ukey DO NOTHING";
-                    result = await Connection.ExecuteAsync(sql, expensePolicyConfiguration);
-                    if (result != 0)
-                    {
-                        var policyId = expensePolicyConfiguration.Select(x => x.ExpensePolicyId).FirstOrDefault();
-                        var sqlnew = @"UPDATE hrms.expensepolicy
-	                                              SET isconfigured=false
-	                                               WHERE id=@policyId";
-                        await Connection.ExecuteAsync(sqlnew, new { policyId });
-
-                    }
-
-                }
-                if (expensePolicyConfigurationIds.Count() > 0)
-                {
-                    string expensePolicyConfigurationId = string.Join(",", expensePolicyConfigurationIds.ToList().Select(l => l.ToString()).ToArray());
-                    var sql = "DELETE FROM hrms.expensepolicyconfiguration WHERE id IN (" + expensePolicyConfigurationId + ")";
-                    await Connection.ExecuteAsync(sql, new { expensePolicyConfigurationId });
-                }
-                transaction.Commit();
-                //return 0;
-            }
-            catch (System.Exception ex)
-            {
-                string msg = ex.Message;
-                //return -1;
-                transaction.Rollback();
-            }
-        }
-        return result;
     }
 
     public async Task<int> SetExpensePolicyIsConfigured(int expensePolicyId)
