@@ -445,10 +445,10 @@ export class LeaveComponentCreateComponent implements OnInit {
   onSubmit2() {
     debugger
     let selectedIds=this.selectedLeaveDetection
-    let arrValue = selectedIds.map(({id}) =>id);
-    this.leaveDeduction = arrValue.join()
+    let arrValue = selectedIds?.map(({id}) =>id);
+    this.leaveDeduction = arrValue?.join()
     var payrollcomponet =[]
-    selectedIds.forEach((key) => {
+    selectedIds?.forEach((key) => {
       payrollcomponet.push({id:0,leaveComponentId:this.leaveComponentId,payrollComponentId : key.id})
     });
     this.addForm2.patchValue({
