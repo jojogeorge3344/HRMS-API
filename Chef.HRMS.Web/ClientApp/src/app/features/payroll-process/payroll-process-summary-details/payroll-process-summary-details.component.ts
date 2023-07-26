@@ -66,7 +66,9 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
   }
 
    getPayrollProcessingSummaryDetails(){
+    debugger
     this.summaryDetails=[]
+    var finalData =[]
     this.payrollProcessService.getPayrollProcessingSummaryDetails(parseInt(this.payrollProcessId))
     .subscribe(result => {
       this.summaryDetails = result
@@ -98,11 +100,12 @@ export class PayrollProcessSummaryDetailsComponent implements OnInit {
            
 
           }
+          if(data){
+            finalData.push({data:data[0],children:childdata})
+          }
       }
-      var finalData =[]
-      if(data){
-        finalData.push({data:data[0],children:childdata})
-      }
+     // var finalData =[]
+      
       
       
       this.summaryDetailsTreeData = finalData
