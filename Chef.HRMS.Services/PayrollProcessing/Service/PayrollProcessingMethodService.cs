@@ -2,7 +2,6 @@
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Repositories;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Linq;
 
@@ -14,7 +13,6 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
     private readonly IPayGroupRepository payGroupRepository;
     private readonly ISystemVariableValuesRepository systemVariableValuesRepository;
     private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
-
 
     public PayrollProcessingMethodService(IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
         IPayGroupRepository payGroupRepository,
@@ -70,7 +68,9 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
     {
         bool count = await payrollProcessingMethodRepository.IsPaygroupExistInPayrollProcessingMethod(paygroupId);
         List<PayrollMonth> listMonth = new List<PayrollMonth>();
-
+        
+        //if paygroup first time processing,should go to inside the if condition. 
+        //if already processed, take else condition.
         if (count == false)
         {
             var paygroupDate = await payGroupRepository.GetAsync(paygroupId);
@@ -84,9 +84,31 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
                 listMonth.Add(payrollMonth);
             }
             return listMonth;
-
         }
-        return await payrollProcessingMethodRepository.GetPayrollProcessingMonth(paygroupId);
+        else
+        {
+            var lastProcessDetails = await payrollProcessingMethodRepository.GetPayrollProcessingMonth(paygroupId);
+            //passing next payroll processing month
+            foreach(var payrollMonth in lastProcessDetails)
+            {
+                int nextMonth = 0;
+                int nextYear = 0;
+
+                if(payrollMonth.Month == 12)
+                {
+                    nextMonth = payrollMonth.Month = 1;
+                    nextYear = payrollMonth.Year + 1;
+                    listMonth.Add(payrollMonth);
+                }
+                else
+                {
+                    nextMonth = payrollMonth.Month + 1;
+                    payrollMonth.Month = nextMonth;
+                    listMonth.Add(payrollMonth);
+                }
+            }
+            return listMonth;
+        }
     }
 
     public async Task<int> InsertLOPDeduction(IEnumerable<LOPDeduction> lopDeduction)
