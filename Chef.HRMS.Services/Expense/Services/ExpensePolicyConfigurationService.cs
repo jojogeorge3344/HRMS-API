@@ -1,15 +1,21 @@
-﻿using Chef.HRMS.Models;
+﻿using Chef.Common.Repositories;
+using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
+using System.Linq;
 
 namespace Chef.HRMS.Services;
 
 public class ExpensePolicyConfigurationService : AsyncService<ExpensePolicyConfiguration>, IExpensePolicyConfigurationService
 {
     private readonly IExpensePolicyConfigurationRepository expensePolicyConfigurationRepository;
+    private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
 
-    public ExpensePolicyConfigurationService(IExpensePolicyConfigurationRepository expensePolicyConfigurationRepository)
+    public ExpensePolicyConfigurationService(
+        IExpensePolicyConfigurationRepository expensePolicyConfigurationRepository,
+        ITenantSimpleUnitOfWork tenantSimpleUnitOfWork)
     {
         this.expensePolicyConfigurationRepository = expensePolicyConfigurationRepository;
+        this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
     }
 
     public async Task<IEnumerable<ExpensePolicyConfiguration>> GetAllAsync(int expensePolicyId)
@@ -24,7 +30,33 @@ public class ExpensePolicyConfigurationService : AsyncService<ExpensePolicyConfi
 
     public async Task<int> InsertAsync(IEnumerable<ExpensePolicyConfiguration> expensePolicyConfiguration, IEnumerable<int> expensePolicyConfigurationIds)
     {
-        return await expensePolicyConfigurationRepository.InsertAsync(expensePolicyConfiguration, expensePolicyConfigurationIds);
+        tenantSimpleUnitOfWork.BeginTransaction();
+        try
+        {          
+            List<ExpensePolicyConfiguration> configurationsDetails = new();
+
+            var configurations = expensePolicyConfiguration.ToList();
+
+            foreach (var expense in configurations)
+            {
+                bool details = await expensePolicyConfigurationRepository.IsExpensePolicyById(expense.ExpensePolicyId,expense.ExpenseTypeId);
+                if(details)
+                {
+                    await expensePolicyConfigurationRepository.UpdateAsync(expense);
+                }
+                else
+                {
+                    await expensePolicyConfigurationRepository.InsertAsync(expense);
+                }
+            }
+            tenantSimpleUnitOfWork.Commit();
+            return 1;
+        }
+        catch
+        {
+            tenantSimpleUnitOfWork.Rollback();
+            return 0;
+        }
     }
 
     public new async Task<int> UpdateAsync(ExpensePolicyConfiguration expensePolicyConfiguration)

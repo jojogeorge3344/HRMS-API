@@ -75,12 +75,22 @@
             <label class="col-12 col-form-label px-0" for="metadata">{{
               mdata.name
             }}</label>
-            <input
-            class="form-control w-100"
+            <!-- <input
+              class="form-control w-100"
               type="text"
               formControlName="{{ mdata.name}}"
               [placeholder]="mdata.isdate==3 ? 'dd-mm-yyyy':''"
+            /> -->
+            <input *ngIf="mdata.isdate==3"
+            class="form-control w-100"
+            type="date"
+            formControlName="{{ mdata.name}}"
             />
+          <input *ngIf="mdata.isdate!=3"
+          class="form-control w-100"
+          type="text"
+          formControlName="{{ mdata.name}}"
+           />
             <!-- <div *ngIf="{{mdata}}.errors?.required"></div> -->
             <!-- </div>
             <div *ngSwitchCase="mdata.assetdatatype == 'date'">
