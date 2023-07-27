@@ -182,7 +182,9 @@ export class AssetAssetsEditComponent implements OnInit {
               break;
               }
               case 3:{
-                (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required,Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)],
+              //   (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.required,Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)],
+              // ));
+              (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('',[Validators.required],
               ));
               break;
               }
@@ -206,7 +208,9 @@ export class AssetAssetsEditComponent implements OnInit {
               break;
               }
               case 3:{
-                (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)],
+              //   (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('', [Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)],
+              // ));
+              (this.assetEditForm.get('metadatas')as FormGroup).addControl(mdata['metadata'], new FormControl('',[Validators.required],
               ));
               break;
               }
