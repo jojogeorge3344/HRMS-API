@@ -1,4 +1,25 @@
 <div id="panel-2" class="p-3">
+    <div class="input-group">
+        <div class="form-outline col-4" style="margin-bottom: 15px;">
+          <input
+            class="form-control"
+            id="searchKey"
+            name="searchKey"
+            [(ngModel)]="searchKey"
+            type="search"
+            placeholder="Search"
+            (search)="searchPayrollCalculation()"
+          />
+        </div>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm ml-3"
+          style="margin-bottom: 15px;"
+          (click)="searchPayrollCalculation()"
+        >
+          <i class="fal fa-search"></i>
+        </button>
+    </div>
 
     <ngb-accordion [closeOthers]="true" activeIds="static-{{this.firstOpen}}" class="accordion accordion-outline">
         <ngb-panel *ngFor="let payroll of payrollCalculation;" id="static-{{payroll.structureId}}"

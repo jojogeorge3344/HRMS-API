@@ -11,6 +11,7 @@ import { AssetAssetsEditComponent } from '../asset-assets-edit/asset-assets-edit
 import { AssetAssetsViewComponent } from '../asset-assets-view/asset-assets-view.component';
 import { AssetAssets } from '../asset-assets.model';
 import { AssetAssetsService } from '../asset-assets.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'hrms-asset-assets-list',
@@ -25,6 +26,8 @@ export class AssetAssetsListComponent implements OnInit {
   assetTypes: AssetType[];
   assetMetaDataNames : string[];
   assetMetadata:AssetTypeMetadata[];
+  searchKey: any;
+  searchAssets: any;
 
 
   constructor(
@@ -119,6 +122,7 @@ export class AssetAssetsListComponent implements OnInit {
     this.assetassetService.getAllAssetList().subscribe(result => {
       console.log("res",result);
       this.assetList = result; 
+      this.searchAssets=result
       console.log(this.assetList);
       
       //this.assetTypeNames = this.assetTypes.map(a => a.assettypename.toLocaleLowerCase());
@@ -147,5 +151,17 @@ export class AssetAssetsListComponent implements OnInit {
         });
       }
     });
+  }
+  searchAsset(): void {
+    debugger
+    this.assetList = this.searchAssets.filter(
+      (x) =>
+        x.assetName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.description?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (formatDate(x.date, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        this.getAssetTypeName(x)?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        this.assetStatus[x.status]?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (x.isActive==true?"Yes" : "No")?.toLowerCase().includes(this.searchKey.toLowerCase()) 
+    );
   }
 }

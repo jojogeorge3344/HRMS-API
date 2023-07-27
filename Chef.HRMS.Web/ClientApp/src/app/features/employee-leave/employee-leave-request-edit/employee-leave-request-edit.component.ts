@@ -346,7 +346,7 @@ export class EmployeeLeaveRequestEditComponent implements OnInit {
 
   getLeaveBalance() {
     this.isLoading=true;
-    this.employeeLeaveService.getAllLeaveBalance(this.requestId).subscribe(
+    this.employeeLeaveService.getAllLeaveBalance(this.leaveRequest.employeeId).subscribe(
       (result) => {
         let temp = { id: undefined, leaveComponentName: 'test', isLastRow: true }
         // lastrow

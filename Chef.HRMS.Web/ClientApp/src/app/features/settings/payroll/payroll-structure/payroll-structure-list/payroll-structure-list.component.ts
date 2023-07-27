@@ -29,6 +29,8 @@ export class PayrollStructureListComponent implements OnInit {
   payrollStructureNames: string[];
 
   firstOpen: number;
+  searchKey: any;
+  searchPayrollStructures: any;
 
   constructor(
     private payrollStructureService: PayrollStructureService,
@@ -60,6 +62,7 @@ export class PayrollStructureListComponent implements OnInit {
       this.getPayrollComponents(this.firstOpen);
      debugger
       this.payrollStructures = result;
+      this.searchPayrollStructures=result
       this.payrollStructureNames = this.payrollStructures.map(a => a.name.toLowerCase());
     },
       error => {
@@ -237,5 +240,11 @@ export class PayrollStructureListComponent implements OnInit {
         { relativeTo: this.route.parent });
     }
 
+  }
+  searchPayrollStructure(): void {
+    this.payrollStructures = this.searchPayrollStructures.filter(
+      (x) =>
+        x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) 
+    );
   }
 }

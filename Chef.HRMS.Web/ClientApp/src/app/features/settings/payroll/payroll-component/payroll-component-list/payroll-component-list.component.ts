@@ -24,6 +24,8 @@ export class PayrollComponentListComponent implements OnInit {
   payrollComponentNames: string[];
   payrollComponentCodes: string[];
   payrollComponentTypesKey:any
+  searchPayrollComponents: any;
+  searchKey: any;
 
   constructor(
     private payrollComponentService: PayrollComponentService,
@@ -46,6 +48,7 @@ export class PayrollComponentListComponent implements OnInit {
     this.payrollComponentService.getAll().subscribe(
       (result) => {
         this.payrollComponents = result;
+        this.searchPayrollComponents=result
         // this.payrollComponents = result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
         this.payrollComponents = result.sort((a, b) => a.orderNumber-b.orderNumber) 
         console.log("comp", this.payrollComponents);
@@ -191,5 +194,15 @@ export class PayrollComponentListComponent implements OnInit {
           });
       }
     });
+  }
+  searchPayrollComponent(): void {
+    this.payrollComponents = this.searchPayrollComponents.filter(
+      (x) =>
+        x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.shortCode?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.typeName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.description?.toLowerCase().includes(this.searchKey.toLowerCase()) 
+       
+    );
   }
 }
