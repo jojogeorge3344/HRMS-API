@@ -8,4 +8,5 @@ public class OTEmployeeDetails
     public bool IsMonthly { get; set; }
     public string EmployeeCode { get; set; }
     public string EmployeeName { get; set; }
+    public int PayrollStructureId { get; set; }
 }
