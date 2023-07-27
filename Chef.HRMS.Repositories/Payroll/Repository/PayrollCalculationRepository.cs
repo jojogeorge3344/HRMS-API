@@ -31,6 +31,7 @@ public class PayrollCalculationRepository : GenericRepository<PayrollCalculation
                                    LEFT JOIN hrms.payrollcalculation pcalc 
                                           ON pcmp.id = pcalc.payrollcomponentid 
                                           AND ps.id=pcalc.payrollstructureid  
+                            WHERE ps.isarchived = false
                             GROUP  BY ps.id, 
                                       pcmp.id, 
                                       pcalc.formula,

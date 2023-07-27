@@ -23,6 +23,8 @@ export class LeaveComponentListComponent implements OnInit {
   leaveComponentCodes: string[];
   basetype = BaseType;
   basetypes: number[];
+  searchLeavecomponents: any;
+  searchKey: any;
 
   constructor(
     private leaveComponentService: LeaveComponentService,
@@ -40,6 +42,7 @@ export class LeaveComponentListComponent implements OnInit {
     this.leaveComponentService.getAll().subscribe(
       (res) => {
         this.leaveComponents = res;
+        this.searchLeavecomponents=res
         this.leaveComponents = res.sort((a, b) =>
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
@@ -163,5 +166,12 @@ export class LeaveComponentListComponent implements OnInit {
         });
       }
     });
+  }
+  searchLeave(): void {
+    this.leaveComponents = this.searchLeavecomponents.filter(
+      (x) =>
+        x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.code?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
   }
 }

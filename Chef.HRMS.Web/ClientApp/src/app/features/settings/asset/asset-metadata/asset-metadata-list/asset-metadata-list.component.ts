@@ -25,6 +25,8 @@ export class AssetMetadataListComponent implements OnInit {
   assetMetadataNames: string[];
   assignedAssetTypeId: number[] = [];
   selectValueRelation: any[];
+  searchKey: any;
+  searchAssetMetaDatas: any;
 
   constructor(
     private assetMetadataService: AssetMetadataService,
@@ -41,6 +43,7 @@ export class AssetMetadataListComponent implements OnInit {
 
   getAssetTypeWithMetadata() {
     this.assetTypeWithMetadata = this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
+    this.searchAssetMetaDatas=this.assetType?.filter(({ id: id1 }) => this.assetMetadata.some(({ assettypeId: id2 }) => id2 === id1));
     console.log("assetType",this.assetType);
     this.selectValueRelation = [];
     this.assetAssetService.setListDetails(this.assetTypeWithMetadata)
@@ -146,6 +149,13 @@ export class AssetMetadataListComponent implements OnInit {
         });
       }
     });
+  }
+  searchAssetMetaData(): void {
+    this.assetTypeWithMetadata = this.searchAssetMetaDatas.filter(
+      (x) =>
+        x.assettypename?.toLowerCase().includes(this.searchKey.toLowerCase())||
+        this.displayMetadata(x)?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
   }
 }
 

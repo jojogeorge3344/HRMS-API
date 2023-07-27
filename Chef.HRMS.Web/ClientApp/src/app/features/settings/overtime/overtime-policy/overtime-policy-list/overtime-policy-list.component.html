@@ -9,11 +9,30 @@
     <div class="panel-container show">
         <div class="panel-content">
             <div class="row">
-                <div class="col-md">
-                  <button (click)="openCreate()" class="btn btn-success mb-2 float-right"  >
+                
+                        <div class="form-outline col-4" style="margin-top: 15px;">
+                          <input
+                            class="form-control"
+                            id="searchKey"
+                            name="searchKey"
+                            [(ngModel)]="searchKey"
+                            type="search"
+                            placeholder="Search"
+                            (search)="searchOvertimePolicy()"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary btn-sm ml-3"
+                          style="font-size: 12px;margin-top: 15px;margin-bottom: 10px;"
+                          (click)="searchOvertimePolicy()"
+                        >
+                          <i class="fal fa-search"></i>
+                        </button>
+                  <button (click)="openCreate()" class="btn btn-success mb-2 float-right" style="margin-left: 45%;margin-top: 15px;" >
                       <i class="fa fal fa-plus fa-plus mr-1"></i>Add Overtime Policy
                   </button>
-                </div>
+                
             </div> 
             <div class="frame-wrap">
                 <table class="table m-0">

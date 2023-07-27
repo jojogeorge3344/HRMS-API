@@ -1,6 +1,24 @@
 <div id="leaveComponent" class="p-3">
-
     <div class="button-right-wrapper">
+        <div class="form-outline col-4" style="margin-right: 2px;">
+            <input
+              class="form-control"
+              id="searchKey"
+              name="searchKey"
+              [(ngModel)]="searchKey"
+              type="search"
+              placeholder="Search"
+              (search)="searchLeave()"
+            />
+        </div>
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-sm ml-3"
+            style="margin-right: 43%;font-size: 14px"
+            (click)="searchLeave()"
+          >
+            <i class="fal fa-search"></i>
+          </button>
         <button (click)="openCreateLeaveComponent()" class="btn btn-success btn-add">
             <i class="fa fal fa-plus fa-plus mr-1"></i>Add Leave Component
         </button>

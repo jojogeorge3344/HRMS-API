@@ -22,6 +22,9 @@ export class UserVariableListComponent implements OnInit {
   Names: string[];
   systemVariableDetails: UserVariableGroup[];
   userVariableTypeOf = UserVariableType;
+  searchUserVariables: any;
+  searchKey: any;
+  searchSystemVariables: any;
 
   constructor(
     public modalService: NgbModal,
@@ -38,6 +41,7 @@ export class UserVariableListComponent implements OnInit {
   getUserlist() {
     this.userVariableService.getAll().subscribe(result => {
       this.userVariableDetails = result;
+      this.searchUserVariables=result
       this.userVariableDetails=this.userVariableDetails.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
       this.Codes = this.userVariableDetails.map(a => a.code.toLowerCase());
       this.Names = this.userVariableDetails.map(a => a.name.toLowerCase());
@@ -52,6 +56,7 @@ export class UserVariableListComponent implements OnInit {
   getSystemlist() {
     this.systemVariableService.getAll().subscribe(result => {
       this.systemVariableDetails = result;
+      this.searchSystemVariables=result
       this.systemVariableDetails=this.systemVariableDetails.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
       // this.Codes = this.systemVariableDetails.map(a => a.code.toLowerCase());
       // this.Names = this.systemVariableDetails.map(a => a.name.toLowerCase());
@@ -129,7 +134,23 @@ openEditSystem(systemDetails: UserVariableGroup) {
     }
   });
 }
-
+searchUserVariable(): void {
+  this.userVariableDetails = this.searchUserVariables.filter(
+    (x) =>
+      x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+      x.code?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+      (x.status == true ? "Active" : "Inactive")?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+      this.userVariableTypeOf[x.type]?.toLowerCase().includes(this.searchKey.toLowerCase()) 
+  );
+}
+searchSystemVariable(): void {
+  this.systemVariableDetails = this.searchSystemVariables.filter(
+    (x) =>
+    x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+    x.code?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+    (x.status == true ? "Active" : "Inactive")?.toLowerCase().includes(this.searchKey.toLowerCase()) 
+  );
+}
 }
 
 

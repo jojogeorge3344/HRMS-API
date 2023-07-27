@@ -94,7 +94,7 @@ public class LoanPaymentRepository : GenericRepository<LoanPayment>, ILoanPaymen
                                                                                                   --  AND e.id NOT IN(Select ppm.employeeid from hrms.payrollprocessingmethod ppm
                                                                                                   --  WHERE  (pm.month = ppm.month
                                                                                                   --  AND pm.year = ppm.year))) 	   
-                                                            INNER JOIN hrms.loanrequest lr 
+                                                            LEFT JOIN hrms.loanrequest lr 
                                                                    ON e.id = lr.employeeid 
 																   --AND
                                                                    --  lr.emistartsfrommonth <= pm.month
@@ -106,7 +106,7 @@ public class LoanPaymentRepository : GenericRepository<LoanPayment>, ILoanPaymen
                                                             LEFT JOIN hrms.loanpayment lp 
                                                                   ON lr.id = lp.loanid
                                                                   AND lp.balanceamount !=0
-                                                            INNER JOIN hrms.loansetting ls 
+                                                            LEFT JOIN hrms.loansetting ls 
                                                                    ON ls.id = lr.loansettingid  
                                                             WHERE jf.paygroupid = @payGroupId 
                                                                 AND lr.status = @status

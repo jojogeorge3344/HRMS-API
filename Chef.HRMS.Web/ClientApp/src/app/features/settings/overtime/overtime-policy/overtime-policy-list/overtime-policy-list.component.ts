@@ -10,6 +10,7 @@ import { OvertimePolicyViewComponent } from '../overtime-policy-view/overtime-po
 import { AttendanceHoursType } from '../../../../../models/common/types/attendancehourstype';
 import { OvertimePolicy } from '../overtime-policy.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'hrms-overtime-policy-list',
@@ -23,6 +24,8 @@ export class OvertimePolicyListComponent implements OnInit {
 
   attendanceHoursTypes = AttendanceHoursType;
   attendanceHoursTypeKeys: number[];
+  searchOvertimePolicies: any;
+  searchKey: any;
 
   constructor(
     private overtimePolicyService: OvertimePolicyService,
@@ -41,6 +44,7 @@ export class OvertimePolicyListComponent implements OnInit {
   getOvertimePolicies() {
     this.overtimePolicyService.getAllAssignedOverTimePolicyCount().subscribe((result: OvertimePolicy[]) => {
       this.overtimePolicies = result;
+      this.searchOvertimePolicies=result
       // this.overtimePolicies=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.overtimePolicyNames = this.overtimePolicies.map(a => a.name.toLowerCase());
     },
@@ -132,5 +136,16 @@ export class OvertimePolicyListComponent implements OnInit {
         });
       }
     });
+  }
+  searchOvertimePolicy(): void {
+    this.overtimePolicies = this.searchOvertimePolicies.filter(
+      (x) =>
+        x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.description?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (formatDate(x.createdDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        (formatDate(x.modifiedDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        x.createdBy?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (x.numberOfEmployees > 0 ? x.numberOfEmployees : "-" ).toString()?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
   }
 }

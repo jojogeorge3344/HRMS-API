@@ -18,6 +18,8 @@ export class AssetTypeListComponent implements OnInit {
   assetType: AssetType[];
   assetTypeNames: string[];
   assignedAssetType : number[] = [];
+  searchKey: any;
+  searchAssetTypes: any;
 
   constructor(
     private assetTypeService: AssetTypeService,
@@ -37,6 +39,7 @@ export class AssetTypeListComponent implements OnInit {
       this.assetType = result.sort(function(a, b) {
         return (a.id - b.id);
       });
+      this.searchAssetTypes=result
       this.assetType=result.sort((a, b) => a.assettypename.toLowerCase().localeCompare(b.assettypename.toLowerCase())) 
       this.assetTypeNames = this.assetType.map(a => a.assettypename.toLowerCase());
     },
@@ -114,5 +117,12 @@ export class AssetTypeListComponent implements OnInit {
           });
         }
     });
+  }
+  searchAssetType(): void {
+    this.assetType = this.searchAssetTypes.filter(
+      (x) =>
+        x.assettypename?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.description?.toLowerCase().includes(this.searchKey.toLowerCase()) 
+    );
   }
 }

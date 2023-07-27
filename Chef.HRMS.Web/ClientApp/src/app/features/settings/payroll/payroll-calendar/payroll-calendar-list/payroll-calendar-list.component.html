@@ -1,6 +1,25 @@
 <div id="payrollCalendar" class="p-3">
 
     <div class="button-right-wrapper">
+        <div class="form-outline col-4" style="margin-right: 2px;">
+            <input
+              class="form-control"
+              id="searchKey"
+              name="searchKey"
+              [(ngModel)]="searchKey"
+              type="search"
+              placeholder="Search"
+              (search)="searchPayrollCalendar()"
+            />
+        </div>
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-sm ml-3"
+            style="margin-right: 44.5%;font-size: 14px"
+            (click)="searchPayrollCalendar()"
+          >
+            <i class="fal fa-search"></i>
+          </button>
         <button (click)="openCreate()" class="btn btn-success btn-add">
             <i class="fa fal fa-plus fa-plus mr-1"></i>Add Payroll Calendar
         </button>

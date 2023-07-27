@@ -27,6 +27,8 @@ export class PayGroupListComponent implements OnInit {
   months = Months;
 
   calenders: PayrollCalendar[] = [];
+  searchPayGroups: any;
+  searchKey: any;
   constructor(
     private payGroupService: PayGroupService,
     private payrollCalendarService: PayrollCalendarService,
@@ -65,6 +67,7 @@ export class PayGroupListComponent implements OnInit {
     this.payGroupService.getAll()
       .subscribe(res => {
         this.payGroups = res;
+        this.searchPayGroups=res
         this.payGroups= res.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
         this.payGroupNames = this.payGroups.map(a => a.name.toLowerCase());
         this.payGroupCodes = this.payGroups.map(a => a.code.toLowerCase());
@@ -149,5 +152,16 @@ export class PayGroupListComponent implements OnInit {
       }
     });
   }
+  searchPayGroup(): void {
+    debugger
+    this.payGroups = this.searchPayGroups.filter(
+      (x) =>
+        x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.code?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        this.getCalendar(x.payrollCalendarId)?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (x.startingMonth===0? "Week " + x.startingWeek : this.months[x.startingMonth])?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.startingYear.toString()?.includes(this.searchKey)
 
+    );
+  }
 }

@@ -19,6 +19,8 @@ export class PayrollCalculationListComponent implements OnInit {
   firstOpen: number;
   assignedPayrollStructures: number[] = [ ];
   payHeadBaseUnitType = PayHeadBaseUnitType;
+  searchKey: any;
+  searchPayrollCalculations: any;
 
   constructor(
     private toastr: ToasterDisplayService,
@@ -54,6 +56,10 @@ export class PayrollCalculationListComponent implements OnInit {
     .groupBy('payrollStructureName')
     .map((value: any, key) => ({ structure: key, structureId: value[0].payrollStructureId, components: value }))
     .value();
+    this.searchPayrollCalculations=_.chain(result)
+      .groupBy('payrollStructureName')
+      .map((value: any, key) => ({ structure: key, structureId: value[0].payrollStructureId, components: value }))
+      .value();
     },
     error => {
       console.error(error);
@@ -77,5 +83,11 @@ export class PayrollCalculationListComponent implements OnInit {
         this.getPayrollCalculationDetails();
       }
     });
+  }
+  searchPayrollCalculation(): void {
+    this.payrollCalculation = this.searchPayrollCalculations.filter(
+      (x) =>
+        x.structure?.toLowerCase().includes(this.searchKey.toLowerCase()) 
+    );
   }
 }

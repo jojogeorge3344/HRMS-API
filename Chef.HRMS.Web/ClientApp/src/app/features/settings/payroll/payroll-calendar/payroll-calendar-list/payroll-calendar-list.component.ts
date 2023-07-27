@@ -9,6 +9,7 @@ import { PayrollPeriodType } from '../../../../../models/common/types/payrollper
 import { PayrollCalendar } from '../payroll-calendar.model';
 import { ToasterDisplayService } from 'src/app/core/services/toaster-service.service';
 import { PayrollCalenderViewComponent } from '../payroll-calender-view/payroll-calender-view.component';
+import { debounce } from 'lodash';
 
 @Component({
   templateUrl: './payroll-calendar-list.component.html'
@@ -26,6 +27,8 @@ export class PayrollCalendarListComponent implements OnInit {
   weekDayLabels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   monthDayLabels = Array.from({ length: 31 }, (x, i) => (i + 1) + this.nth(i + 1) + ' Day of the Month');
   weekLabels = Array.from({ length: 52 }, (x, i) => 'Week ' + (i + 1));
+  searchKey: any;
+  searchPayrollCalendars: any;
 
   constructor(
     private payrollCalendarService: PayrollCalendarService,
@@ -46,6 +49,7 @@ export class PayrollCalendarListComponent implements OnInit {
   getPayrollCalendars() {
     this.payrollCalendarService.getAll().subscribe((result: PayrollCalendar[]) => {
       this.payrollCalendars = result;
+      this.searchPayrollCalendars=result
       this.payrollCalendars=result.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase())) 
       this.payrollCalendarNames = this.payrollCalendars.map(a => a.name.toLowerCase());
       console.log(result);
@@ -133,5 +137,14 @@ export class PayrollCalendarListComponent implements OnInit {
       }
     });
   }
-
+  searchPayrollCalendar(): void {
+    debugger
+    this.payrollCalendars = this.searchPayrollCalendars.filter(
+      (x) =>
+        x.name?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+      this.payrollPeriodTypes[x.periodType]?.toLowerCase().includes(this.searchKey.toLowerCase())||
+      (this.payrollPeriodTypes[x.periodType] == "Weekly"? this.weekLabels[x.startsFrom] : this.monthLabels[x.startsFrom])?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+      (this.payrollPeriodTypes[x.periodType] == "Weekly"? this.weekDayLabels[x.processingDay] : this.monthDayLabels[x.processingDay])?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
+  }
 }

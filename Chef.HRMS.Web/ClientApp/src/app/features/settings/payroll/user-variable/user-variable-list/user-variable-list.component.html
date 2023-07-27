@@ -5,7 +5,26 @@
         <ngb-tab title="User Variable">
           <ng-template ngbTabContent>
             <div class="row">
-              <div class="col-md">
+              <div class="form-outline col-4" style="margin-right: 2px;margin-top: 10px;">
+                <input
+                  class="form-control"
+                  id="searchKey"
+                  name="searchKey"
+                  [(ngModel)]="searchKey"
+                  type="search"
+                  placeholder="Search"
+                  (search)="searchUserVariable()"
+                />
+            </div>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm ml-3"
+                style="margin-right: 44.5%;font-size: 14px;margin-top: 10px;margin-bottom: 8px;"
+                (click)="searchUserVariable()"
+              >
+                <i class="fal fa-search"></i>
+              </button>
+              <div class="col-md" style="margin-top: 10px;">
                 <button
                   (click)="openCreate()"
                   class="btn btn-success btn-add mb-2 float-right"
@@ -80,6 +99,27 @@
                             </button> -->
               </div>
             </div>
+            <div class="input-group">
+              <div class="form-outline col-4" style="margin-bottom: 15px;margin-top: 10px;">
+                <input
+                  class="form-control"
+                  id="searchKey"
+                  name="searchKey"
+                  [(ngModel)]="searchKey"
+                  type="search"
+                  placeholder="Search"
+                  (search)="searchSystemVariable()"
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm ml-3"
+                style="font-size: 14px;margin-top: 13px;margin-bottom: 15px;"
+                (click)="searchSystemVariable()"
+              >
+                <i class="fal fa-search"></i>
+              </button>
+          </div>
             <div class="frame-wrap">
               <table class="table m-0">
                 <thead class="thead-themed">

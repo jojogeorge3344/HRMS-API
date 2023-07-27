@@ -179,8 +179,8 @@ public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeReposito
         #region slabOT
         try
         {
-            sql = @"SELECT  hm.id,jf.overtimepolicyid,OTC.isovertimeslab,OTC.ismonthly,
-						JD.employeenumber AS EmployeeCode,hm.firstname AS EmployeeName
+            sql = @"SELECT hm.id,jf.overtimepolicyid,OTC.isovertimeslab,OTC.ismonthly,
+						JD.employeenumber AS EmployeeCode,hm.firstname AS EmployeeName,jf.payrollstructureid
 						FROM hrms.hrmsemployee hm
 						INNER JOIN hrms.jobfiling jf ON hm.id=jf.employeeid
 						INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = jf.overtimepolicyid
@@ -204,18 +204,19 @@ public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeReposito
 							OTC.specialovertime AS SOTComponentID,
 							OTC.holidayovertime AS HOTComponentID,
 							SUM(OT.normalovertime) AS normalovertime,SUM(OT.specialovertime) AS specialovertime,
-							SUM(OT.holidayovertime) AS holidayovertime,escd.monthlyamount AS notrate,escd1.monthlyamount AS sotrate,escd2.monthlyamount AS hotrate
+							SUM(OT.holidayovertime) AS holidayovertime
+                             --,escd.monthlyamount AS notrate,escd1.monthlyamount AS sotrate,escd2.monthlyamount AS hotrate
 							FROM hrms.overtime OT
 							INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
 
 							LEFT JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
-		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id AND escd.payrollstructureid = @payrollstructureid
 
 							LEFT JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
-		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id AND escd1.payrollstructureid = @payrollstructureid
 
 							LEFT JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
-		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id AND escd2.payrollstructureid = @payrollstructureid
 
 							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
 							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN To_date(Cast(@fromDate AS TEXT), 'YYYY-MM-DD') AND To_date(Cast(@toDate AS TEXT), 'YYYY-MM-DD')
@@ -228,7 +229,8 @@ public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeReposito
                                 fromDate,
                                 toDate,
                                 employeeid = emp.Id,
-                                overtimepolicyid = emp.OverTimePolicyId
+                                overtimepolicyid = emp.OverTimePolicyId,
+                                payrollstructureid = emp.PayrollStructureId
                             });
                             sql = @"SELECT OTS.lowerlimit, OTS.upperlimit,OTS.overtimetype,OTS.valuetype,OTS.valuevariable 
 								FROM hrms.overtimeslab OTS 
@@ -443,26 +445,27 @@ public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeReposito
                         }
                         else
                         {
-                            sql = @"SELECT
+                            sql = @"SELECT DISTINCT
 							
 							OTC.normalovertime AS NOTComponentID ,
 							OTC.specialovertime AS SOTComponentID,
 							OTC.holidayovertime AS HOTComponentID,
 							OT.normalovertime AS normalovertime,OT.specialovertime AS specialovertime,
-							OT.holidayovertime AS holidayovertime,escd.monthlyamount AS notrate,escd1.monthlyamount AS sotrate,escd2.monthlyamount AS hotrate
+							OT.holidayovertime AS holidayovertime
+                            --,escd.monthlyamount AS notrate,escd1.monthlyamount AS sotrate,escd2.monthlyamount AS hotrate
 							FROM hrms.overtime OT
 							INNER JOIN hrms.overtimepolicyconfiguration OTC ON OTC.overtimepolicyid = OT.overtimepolicyid
 
 							LEFT JOIN hrms.payrollcomponent PC ON PC.id = OTC.normalovertime
-		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd ON escd.payrollcomponentid = PC.id AND escd.payrollstructureid = @payrollstructureid
 
 							LEFT JOIN hrms.payrollcomponent PC1 ON PC1.id = OTC.specialovertime
-		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd1 ON escd1.payrollcomponentid = PC1.id AND escd1.payrollstructureid = @payrollstructureid
 
 							LEFT JOIN hrms.payrollcomponent PC2 ON PC2.id = OTC.holidayovertime
-		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id
+		                    LEFT JOIN hrms.employeesalaryconfigurationdetails escd2 ON escd2.payrollcomponentid = PC2.id AND escd2.payrollstructureid = @payrollstructureid
 
-							WHERE  OT.requeststatus=4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
+							WHERE  OT.requeststatus = 4  AND OT.employeeid = @employeeid AND OT.overtimepolicyid = @overtimepolicyid
 							AND To_date(Cast(OT.todate AS TEXT), 'YYYY-MM-DD') BETWEEN To_date(Cast(@fromDate AS TEXT), 'YYYY-MM-DD') AND To_date(Cast(@toDate AS TEXT), 'YYYY-MM-DD')";
 
                             var EmpSettings = await Connection.QueryAsync<OTDetails>(sql, new
@@ -470,7 +473,8 @@ public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeReposito
                                 fromDate,
                                 toDate,
                                 employeeid = emp.Id,
-                                overtimepolicyid = emp.OverTimePolicyId
+                                overtimepolicyid = emp.OverTimePolicyId,
+                                payrollstructureid = emp.PayrollStructureId
                             });
                             foreach (OTDetails empSett in EmpSettings)
                             {
