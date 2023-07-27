@@ -96,7 +96,7 @@ export class LoanSettingsEditComponent implements OnInit {
       })
   }
 
-  getLoanSettings() {
+  getLoanSettings() {debugger
     this.loanSettingsService.get().subscribe((result: LoanSettings) => {
       this.editForm.patchValue(result);
       this.loanDetails = result
@@ -222,7 +222,7 @@ export class LoanSettingsEditComponent implements OnInit {
       loanAdvanceType: [0],
       loanRepaymentType: [0],
       interestCalcutationMethod: [this.interestMethod['ReductionRate']],
-      createdDate: []
+      createdDate: [new Date()]
     }, { validators: rangeValidator });
   }
 }

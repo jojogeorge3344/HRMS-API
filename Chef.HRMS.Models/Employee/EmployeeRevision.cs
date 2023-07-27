@@ -16,7 +16,7 @@ public class EmployeeRevision : Model
 
     public DateTime EffectiveFrm { get; set; }
 
-    public EmployeeRevisionStatus RevStatus { get; set; }
+    public RequestStatusType RevStatus { get; set; }
 
     public int JobTitleId { get; set; }
 

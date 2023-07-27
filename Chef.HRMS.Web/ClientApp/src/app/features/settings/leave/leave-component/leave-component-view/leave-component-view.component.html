@@ -289,15 +289,19 @@
                   <label class="col-form-label" for="leaveDeduction"
                     >Deduction Type</label
                   >
-                  <select class="form-control" formControlName="leaveDeduction" disabled>
-                    <option [ngValue]="null" disabled>Select</option>
+                  <!-- <select class="form-control" formControlName="leaveDeduction" disabled>
+                    <option [ngValue]="0" disabled>Select</option>
                     <option
                       *ngFor="let key of detectionTypeList"
                       [ngValue]="key.id"
                     >
                       {{ key.name }}
                     </option>
-                  </select>
+                  </select> -->
+                  <ng-multiselect-dropdown [disabled]="true" [(ngModel)]="selectedLeaveDetection" [placeholder]="'Select LOP BF Code'"
+                  [settings]="leaveDetectionSettings"
+                  [data]="detectionTypeList"  [ngModelOptions]="{standalone: true}">
+                 </ng-multiselect-dropdown>
                 </div>
               </div>
               <div class="col-md-3">

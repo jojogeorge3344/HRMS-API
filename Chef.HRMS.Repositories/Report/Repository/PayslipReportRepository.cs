@@ -17,7 +17,7 @@ public class PayslipReportRepository : GenericRepository<PayrollComponentDetails
                          ON e.id = jf.employeeid
                          LEFT JOIN hrms.paygroup pg
 						 ON jf.paygroupid = pg.id
-                         INNER JOIN hrms.address a
+                         LEFT JOIN hrms.address a
 	                     ON e.id = a.employeeid
                          LEFT JOIN hrms.payrollcomponentdetails pcd
                          ON pcd.employeeid = e.id
