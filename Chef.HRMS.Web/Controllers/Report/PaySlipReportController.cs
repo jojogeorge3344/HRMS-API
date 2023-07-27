@@ -76,30 +76,21 @@ public class PaySlipReportController : ReportViewerController
                 var country = this.GetCountryById(item.Currentcountry).Result;
                 item.CountryName = country.Name;
             }
-            //foreach (PayrollComponentReportView item in componentDetails)
-            //{
-            //    var row = overtimeDetails.FirstOrDefault(x => x.EmployeeId == item.EmployeeId);
-            //    item.NormalOverTimeHrs = row.NormalOverTimeHrs;
-            //    item.SpecialOverTimeHrs = row.SpecialOverTimeHrs;
-            //    item.HolidayOverTimeHrs = row.HolidayOverTimeHrs;
-            //}
-            //currency taking code
-            string currencyCode = string.Empty;
+            int currencyId = 0;
 
             foreach (var items in header)
             {
-                currencyCode = items.CurrencyCode;
-                Task.Run(() => this.GetByCurrency(currencyCode)).Wait();
+                currencyId = items.CurrencyId;
+                Task.Run(() => this.GetByCurrency(currencyId)).Wait();
                 
             }
 
             var currencylist = new List<Currency>();
             currencylist.Add(currencyData);
             Task.Run(() => this.GetCompany()).Wait();
-            if (companyData != null) Task.Run(() => this.GetByCurrency(companyData.CurrencyCode)).Wait();
+            if (companyData != null) Task.Run(() => this.GetByCurrency(companyData.CurrencyId)).Wait();
             var companyCurrencylist = new List<Currency>();
             companyCurrencylist.Add(currencyData);
-
 
             reportOption.AddDataSource("EmployeeHeader", header);
             reportOption.AddDataSource("ComponentDetails", componentDetails);
@@ -110,9 +101,9 @@ public class PaySlipReportController : ReportViewerController
         }
     }
 
-    public async Task<Currency> GetByCurrency(string currencyCode)
+    public async Task<Currency> GetByCurrency(int currencyId)
     {
-        currencyData = await masterDataService.GetCurrencyByCode(currencyCode);
+        currencyData = await masterDataService.GetCurrency(currencyId);
         return (Currency)currencyData;
     }
 
