@@ -259,4 +259,4 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   isApplied(request) {
     return request == this.leaveStatus.Draft;
   }
-}
+} 
