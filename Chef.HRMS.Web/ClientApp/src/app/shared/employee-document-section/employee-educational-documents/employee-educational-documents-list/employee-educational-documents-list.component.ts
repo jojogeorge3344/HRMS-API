@@ -12,6 +12,7 @@ import { EmployeeEducationalDetailsService } from "../employee-educational-detai
 import { EmployeeEducationalDocumentsCreateComponent } from "../employee-educational-documents-create/employee-educational-documents-create.component";
 import { EmployeeEducationalDocumentsEditComponent } from "../employee-educational-documents-edit/employee-educational-documents-edit.component";
 import { EmployeeEducationalDocumentsViewComponent } from "../employee-educational-documents-view/employee-educational-documents-view.component";
+import { formatDate } from "@angular/common";
 
 @Component({
   selector: "hrms-employee-educational-documents-list",
@@ -22,6 +23,8 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
   @Input() isView: boolean;
 
   educationDetails: EmployeeEducationalDetails[];
+  searchEducationDetails: any;
+  searchKey: any;
 
   constructor(
     private employeeEducationalDetailsService: EmployeeEducationalDetailsService,
@@ -44,6 +47,7 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
         (result: any) => {
           if (result.length) {
             this.educationDetails = result;
+            this.searchEducationDetails=result
           }
         },
         (error) => {
@@ -133,5 +137,16 @@ export class EmployeeEducationalDocumentsListComponent implements OnInit {
         );
       }
     });
+  }
+  searchEducationalDocuments(): void {
+    this.educationDetails = this.searchEducationDetails.filter(
+      (x) =>
+        x.degree?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.specialization?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (formatDate(x.yearOfJoining, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        (formatDate(x.yearOfCompletion, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        x.percentage.toString().includes(this.searchKey)||
+        x.university?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
   }
 }

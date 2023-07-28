@@ -8,12 +8,52 @@
         <div class="panel-content">
 
             <div class="row" *ngIf="employeeDetailsCheck">
+                <div class="form-outline col-4"  style="margin-right: 2px;">
+                    <input
+                      class="form-control"
+                      id="searchKey"
+                      name="searchKey"
+                      [(ngModel)]="searchKey"
+                      type="search"
+                      placeholder="Search"
+                      (search)="searchLoan()"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm ml-3"
+                    style="margin-right: 45%;font-size: 14px;margin-bottom: 8px;"
+                    (click)="searchLoan()"
+                  >
+                    <i class="fal fa-search"></i>
+                  </button>
                 <div class="col-md">
                     <button (click)="openAdd()" class="btn btn-success mb-2 float-right"><i class="fa fal fa-plus fa-plus mr-1"></i>Request Overtime</button>
                 </div>
             </div>  
             <div class="row" *ngIf="!employeeDetailsCheck">
                 <div class="col-md-6">
+                    <div class="row">
+                        <div class="form-outline col-8"  style="margin-right: 2px;">
+                            <input
+                              class="form-control"
+                              id="searchKey"
+                              name="searchKey"
+                              [(ngModel)]="searchKey"
+                              type="search"
+                              placeholder="Search"
+                              (search)="searchLoan()"
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary btn-sm ml-3"
+                            style="margin-right: 22%;font-size: 14px"
+                            (click)="searchLoan()"
+                          >
+                            <i class="fal fa-search"></i>
+                          </button>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row">
