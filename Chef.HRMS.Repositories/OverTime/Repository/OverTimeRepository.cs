@@ -504,6 +504,7 @@ public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeReposito
                                 {
                                     decimal OTHrs = empSett.NormalOverTime;
                                     decimal HOTHrs = empSett.HolidayOverTime;
+                                    decimal SOTHrs = empSett.SpecialOverTime;
                                     decimal lowerLimit = 0;
                                     decimal upperLimit = 0;
                                     foreach (OverTimeSlab item in oTSlab)
@@ -573,10 +574,10 @@ public class OverTimeRepository : GenericRepository<OverTime>, IOverTimeReposito
                                         }
                                         if (item.OverTimeType == (int)OverTimeType.SpecialOvertime)
                                         {
-                                            if (OTHrs > item.LowerLimit)
+                                            if (SOTHrs > item.LowerLimit)
                                             {
 
-                                                if (OTHrs > item.UpperLimit)
+                                                if (SOTHrs > item.UpperLimit)
                                                 {
                                                     decimal Amt = 0;
                                                     decimal Hrs = upperLimit - lowerLimit + 1;
