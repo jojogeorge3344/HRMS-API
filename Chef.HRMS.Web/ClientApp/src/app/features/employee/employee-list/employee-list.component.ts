@@ -23,6 +23,7 @@ export class EmployeeListComponent implements OnInit {
   departmentType = DepartmentType;
   branches: Branch[] = [];
   searchKey: string = "";
+  fullName: any=[];
 
   constructor(
     private router: Router,
@@ -127,11 +128,17 @@ export class EmployeeListComponent implements OnInit {
   }
 
   searchEmployee(): void {
+    debugger
     this.filteredEmployees = this.employees.filter(
       (emp) =>
         emp.firstName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
         emp.lastName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
-        emp.employeeNumber?.toLowerCase().includes(this.searchKey.toLowerCase())
+        emp.employeeNumber?.toLowerCase().includes(this.searchKey.toLowerCase())||
+        (this.departmentType[emp.department])?.toLowerCase().includes(this.searchKey.toLowerCase())||
+        emp.email?.toLowerCase().includes(this.searchKey.toLowerCase())||
+        this.showLocation(emp.location)?.toLowerCase().includes(this.searchKey.toLowerCase())||
+       (emp.firstName?.toLowerCase() + " " + emp.lastName?.toLowerCase()).includes(this.searchKey.toLowerCase())
     );
+  
   }
 }

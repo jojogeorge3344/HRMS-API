@@ -15,6 +15,7 @@ import { EmployeeIdentityDocumentsCreateComponent } from "../employee-identity-d
 import { EmployeeIdentityDocumentsEditComponent } from "../employee-identity-documents-edit/employee-identity-documents-edit.component";
 import { EmployeeIdentityDocumentsViewComponent } from "../employee-identity-documents-view/employee-identity-documents-view.component";
 import { DocumentViewModalComponent } from "@shared/document-view-modal/document-view-modal.component";
+import { formatDate } from "@angular/common";
 
 @Component({
   selector: "hrms-employee-identity-documents-list",
@@ -27,6 +28,8 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
   identityDetails: EmployeeIdentityDetails[];
   documentTypeKeys: any[] = [];
   documentTypeName
+  searchIdentityDetails: any;
+  searchKey: any;
   constructor(
     private identityDetailsService: EmployeeIdentityDetailsService,
     private documentService: DocumentService,
@@ -52,6 +55,7 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
             docList.push(data)
           });
           this.identityDetails = docList
+          this.searchIdentityDetails=docList
 
         }
       },
@@ -190,5 +194,14 @@ export class EmployeeIdentityDocumentsListComponent implements OnInit {
       }
     });
     return nameValue ? nameValue : "";
+  }
+  searchIdentityDocuments(): void {
+    this.identityDetails = this.searchIdentityDetails.filter(
+      (x) =>
+        x.documentName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.placeOfIssue?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (formatDate(x.issueDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        (x.active === true ? "Active" : "Inactive").includes(this.searchKey) 
+    );
   }
 }

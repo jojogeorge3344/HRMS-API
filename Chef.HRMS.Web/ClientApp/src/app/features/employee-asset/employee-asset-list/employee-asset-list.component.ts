@@ -17,6 +17,8 @@ export class EmployeeAssetListComponent implements OnInit {
   requestedByName:string;
   list: any;
   empStatus=WorkerType;
+  searchEmployees: any;
+  searchKey: any;
 
   constructor(private employeeAsset:EmployeAssetService,
               public modalService: NgbModal,
@@ -46,6 +48,7 @@ getAll() {
           })
           console.log("vvv",employees);
           this.employees=employees;
+          this.searchEmployees=employees
       })
         
      
@@ -89,7 +92,18 @@ getAll() {
       this.employeeAsset.setListDetails({data: employees})
   }
 
-
+  searchAsset(): void {
+    this.employees = this.searchEmployees.filter(
+      (x) =>
+        x.employeeNumber?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.firstName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        // (this.empStatus[x.employeeStatus]).toLowerCase().includes(this.searchKey.toLowerCase())||
+        x.allocatedAsset.toString().includes(this.searchKey)||
+        x.requests.toString().includes(this.searchKey)||
+        x.lastName?.toLowerCase().includes(this.searchKey.toLowerCase())||
+        (x.firstName?.toLowerCase() + " " + x.lastName?.toLowerCase()).includes(this.searchKey.toLowerCase())
+    );
+  }
 
 
 
