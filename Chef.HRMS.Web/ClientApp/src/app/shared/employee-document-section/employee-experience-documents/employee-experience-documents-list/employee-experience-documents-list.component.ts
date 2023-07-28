@@ -12,6 +12,7 @@ import { EmployeeExperienceDetailsService } from "../employee-experience-details
 import { EmployeeExperienceDocumentsCreateComponent } from "../employee-experience-documents-create/employee-experience-documents-create.component";
 import { EmployeeExperienceDocumentsEditComponent } from "../employee-experience-documents-edit/employee-experience-documents-edit.component";
 import { EmployeeExperienceDocumentsViewComponent } from "../employee-experience-documents-view/employee-experience-documents-view.component";
+import { formatDate } from "@angular/common";
 
 @Component({
   selector: "hrms-employee-experience-documents-list",
@@ -22,6 +23,8 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
   @Input() isView: boolean;
 
   previousEmployment: EmployeeExperienceDetails[];
+  searchKey: any;
+  searchPreviousEmployment: any;
 
   constructor(
     private previousEmploymentService: EmployeeExperienceDetailsService,
@@ -42,6 +45,7 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
       (result: any) => {
         if (result.length) {
           this.previousEmployment = result;
+          this.searchPreviousEmployment=result
         }
       },
       (error) => {
@@ -131,5 +135,15 @@ export class EmployeeExperienceDocumentsListComponent implements OnInit {
         );
       }
     });
+  }
+  searchExperienceDocuments(): void {
+    this.previousEmployment = this.searchPreviousEmployment.filter(
+      (x) =>
+        x.companyName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.jobTitle?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (formatDate(x.dateOfJoining, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        (formatDate(x.dateOfRelieving, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        x.location?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
   }
 }

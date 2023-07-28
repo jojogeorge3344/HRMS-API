@@ -7,6 +7,28 @@
 </div>
 <div id="employee-list" class="panel">
     <div class="card p-3">
+        <div class="d-flex justify-content-end my-2">
+            <div class="form-outline col-4"  style="margin-right: 2px;">
+                <input
+                  class="form-control"
+                  id="searchKey"
+                  name="searchKey"
+                  [(ngModel)]="searchKey"
+                  type="search"
+                  placeholder="Search"
+                  (search)="searchAsset()"
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm ml-3"
+                style="margin-right: 61.5%;font-size: 14px"
+                (click)="searchAsset()"
+              >
+                <i class="fal fa-search"></i>
+              </button>
+           
+        </div>
         <table class="table m-0">
             <thead class="thead-themed">
                 <tr class="text-center">

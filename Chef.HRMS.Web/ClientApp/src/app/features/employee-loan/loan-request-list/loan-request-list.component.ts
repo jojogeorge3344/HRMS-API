@@ -17,6 +17,7 @@ import { EmployeeService } from '@features/employee/employee.service';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { EmployeeSalaryConfigurationService } from '@features/employee/employee-salary/employee-salary-configuration.service';
 import { LoanSettingsService } from '@settings/loan/loan-settings.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   templateUrl: './loan-request-list.component.html',
@@ -34,6 +35,8 @@ export class LoanRequestListComponent implements OnInit {
   employeeList: any[];
   currentUserId: any;
   salaryRange: any;
+  searchKey: any;
+  searchloanRequests: any;
 
   constructor(
     http: HttpClient,
@@ -67,6 +70,7 @@ export class LoanRequestListComponent implements OnInit {
     });
     this.loanRequestService.getAll().subscribe(result => {
       this.loanRequests = result;
+      this.searchloanRequests=result
     },
       error => {
         console.error(error);
@@ -198,5 +202,21 @@ export class LoanRequestListComponent implements OnInit {
       this.salaryRange=res.salaryFromRange
   
     })
+  }
+  searchLoan(): void {
+    this.loanRequests = this.searchloanRequests.filter(
+      (x) =>
+        x.loanNo?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (formatDate(x.requestedDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        (formatDate(x.expectedOn, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        x.loanAmount.toString().includes(this.searchKey)||
+        (this.loanTypes[x.loanType]).toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (this.paymentTypes[x.paymentType]).toLowerCase().includes(this.searchKey.toLowerCase())||
+        (this.requestTypes[x.status]).toLowerCase().includes(this.searchKey.toLowerCase())||
+         x.repaymentTerm.toString().includes(this.searchKey)||
+         x.emiStartsFromMonth.toString().includes(this.searchKey)||
+         x.emiStartsFromYear.toString().includes(this.searchKey) ||
+         (x.emiStartsFromMonth?.toString() + " / " + x.emiStartsFromYear?.toString()).includes(this.searchKey)
+    );
   }
 }

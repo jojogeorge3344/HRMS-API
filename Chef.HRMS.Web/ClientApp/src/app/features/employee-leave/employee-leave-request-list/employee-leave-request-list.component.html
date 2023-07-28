@@ -1,6 +1,28 @@
 <div class="header-button-wrapper">
   <div class="content-header">Leave Requests</div>
 </div>
+<div class="d-flex justify-content-end my-2">
+  <div class="form-outline col-4"  style="margin-right: 2px;">
+      <input
+        class="form-control"
+        id="searchKey"
+        name="searchKey"
+        [(ngModel)]="searchKey"
+        type="search"
+        placeholder="Search"
+        (search)="searchLeave()"
+      />
+    </div>
+    <button
+      type="button"
+      class="btn btn-outline-primary btn-sm ml-3"
+      style="margin-right: 62.5%;font-size: 14px"
+      (click)="searchLeave()"
+    >
+      <i class="fal fa-search"></i>
+    </button>
+ 
+</div>
 <div class="d-flex justify-content-start border border-bottom-0">
   <div class="d-flex justify-content-start">
     <div class="border-right">

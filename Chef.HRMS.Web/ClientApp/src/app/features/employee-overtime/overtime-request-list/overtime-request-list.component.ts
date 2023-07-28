@@ -12,7 +12,7 @@ import { OvertimeRequestViewComponent } from '../overtime-request-view/overtime-
 import { ActivatedRoute, Router } from '@angular/router';
 import { getCurrentUserId } from '@shared/utils/utils.functions';
 import { ExcelService } from '@features/reports/excel.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import download from 'downloadjs';
 @Component({
   templateUrl: './overtime-request-list.component.html'
@@ -25,6 +25,8 @@ export class OvertimeRequestListComponent implements OnInit {
   overtimePolicyId: number;
   employeeDetailsCheck: boolean;
   excel = [];
+  searchovertimeRequests: any;
+  searchKey: any;
   
 
   constructor(
@@ -62,6 +64,7 @@ export class OvertimeRequestListComponent implements OnInit {
   getOvertimeRequestsSelf() {
     this.overtimeRequestService.getAllOvertimeDetailsById(this.currentUserId).subscribe((result: OvertimeRequest[]) => {
       this.overtimeRequests = result;
+      this.searchovertimeRequests=result
     },
       error => {
         console.error(error);
@@ -71,6 +74,7 @@ export class OvertimeRequestListComponent implements OnInit {
   getOvertimeRequestsAll() {
     this.overtimeRequestService.getAll().subscribe((result: OvertimeRequest[]) => {
       this.overtimeRequests = result.sort((a, b) => a.employeeName.toLowerCase().localeCompare(b.employeeName.toLowerCase())) ;
+      this.searchovertimeRequests=result.sort((a, b) => a.employeeName.toLowerCase().localeCompare(b.employeeName.toLowerCase()))
     },
       error => {
         console.error(error);
@@ -188,5 +192,18 @@ export class OvertimeRequestListComponent implements OnInit {
 
   openUpload(){
     this.router.navigate(["./upload/"], { relativeTo: this.route.parent });
+  }
+  searchLoan(): void {
+    debugger
+    this.overtimeRequests = this.searchovertimeRequests.filter(
+      (x) =>
+      x.employeeNumber?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.employeeName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (this.overtimeRequestStatusTypes[x.requestStatus]).toLowerCase().includes(this.searchKey.toLowerCase())||
+        (formatDate(x.fromDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        (formatDate(x.toDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        (formatDate(x.createdDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        x.createdBy?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
   }
 }

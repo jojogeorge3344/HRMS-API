@@ -11,6 +11,7 @@ import { TeamAttendanceService } from "@features/team-attendance/team-attendance
 import { ToasterDisplayService } from "src/app/core/services/toaster-service.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { EmployeeLeaveRequestEditComponent } from "../employee-leave-request-edit/employee-leave-request-edit.component";
+import { formatDate } from "@angular/common";
 
 @Component({
   selector: "hrms-employee-leave-request-list",
@@ -33,6 +34,8 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   wfhApplied = "";
   onDutyApplied = "";
   leaveInfo: EmployeeLeaveRequest[];
+  searchleaveLogsOnDisplay: any;
+  searchKey: any;
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -70,6 +73,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     this.employeeLeaveService.getAllLeaveDetails().subscribe(
       (result) => {
         this.leave = this.leaveLogsOnDisplay = result;
+        this.searchleaveLogsOnDisplay=result
         console.log(this.leaveLogsOnDisplay);
       },
       (error) => {
@@ -84,6 +88,7 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
     this.employeeLeaveService.getAllByID(this.currentUserId).subscribe(
       (result) => {
         this.leave = this.leaveLogsOnDisplay = result;
+        this.searchleaveLogsOnDisplay=result
         console.log(this.leaveLogsOnDisplay);
       },
       (error) => {
@@ -258,5 +263,18 @@ export class EmployeeLeaveRequestListComponent implements OnInit {
   }
   isApplied(request) {
     return request == this.leaveStatus.Draft;
+  }
+  searchLeave(): void {
+    debugger
+    this.leaveLogsOnDisplay = this.searchleaveLogsOnDisplay.filter(
+      (x) =>
+        x.employeeName?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        x.description?.toLowerCase().includes(this.searchKey.toLowerCase()) ||
+        (this.leaveStatus[x.leaveStatus]).toLowerCase().includes(this.searchKey.toLowerCase())||
+        this.getLeaveBalanceName(x.leaveComponentId)?.toLowerCase().includes(this.searchKey.toLowerCase())||
+        (formatDate(x.fromDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        (formatDate(x.createdDate, 'dd-MM-yyyy', 'en-Us')).includes(this.searchKey) ||
+        x.createdBy?.toLowerCase().includes(this.searchKey.toLowerCase())
+    );
   }
 } 
