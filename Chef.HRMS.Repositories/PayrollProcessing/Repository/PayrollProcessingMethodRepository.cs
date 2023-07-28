@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core.Extensions;
+using Chef.HRMS.Models.PayrollProcessing;
 
 namespace Chef.HRMS.Repositories;
 
@@ -10,12 +11,19 @@ public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcess
 
     public async Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno)
     {
-        var sql = @"SELECT ppm.*, emp.displayname as employeename,jd.employeenumber as employeecode FROM hrms.payrollprocessingmethod ppm
-                        left join hrms.hrmsemployee emp 
-                        on emp.id = ppm.employeeid 
-                        left join hrms.jobdetails jd on jd.employeeid = ppm.employeeid
-                        WHERE processedstep >=@stepno and ppm.isarchived = false
-                        ORDER BY id ASC ";
+        var sql = @"SELECT
+                      ppm.*,
+                      emp.displayname AS employeename,
+                      jd.employeenumber AS employeecode
+                    FROM hrms.payrollprocessingmethod ppm
+                    LEFT JOIN hrms.hrmsemployee emp
+                      ON emp.id = ppm.employeeid
+                    LEFT JOIN hrms.jobdetails jd
+                      ON jd.employeeid = ppm.employeeid
+                    WHERE processedstep >= @stepno
+                    AND ppm.isarchived = FALSE
+                    ORDER BY id ASC";
+
         return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { stepno });
     }
 
@@ -499,5 +507,31 @@ public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcess
        .WhereNotArchived()
        .CountAsync<int>() > 0) return true;
         else return false;
+    }
+
+    public async Task<IEnumerable<PayrollProcessCompletedView>> GetPayrollProcessSalaryDetails(int payrollProcessId)
+    {
+        var sql = @"SELECT
+                      pcd.payrollprocessid,
+                      pcd.payrollprocessdate,
+                      pcd.employeeid,
+                      pcd.earningsamt,
+                      pcd.deductionamt,
+                      pcd.payrollcomponentid,
+                      pc.name AS payrollcomponentname,
+                      pc.payheadbaseunittype,
+                      emp.displayname AS employeename,
+                      jd.employeenumber AS employeecode
+                    FROM hrms.payrollcomponentdetails pcd
+                    LEFT JOIN hrms.hrmsemployee emp
+                      ON emp.id = pcd.employeeid
+                    JOIN hrms.payrollcomponent pc
+                      ON pc.id = pcd.payrollcomponentid
+                    LEFT JOIN hrms.jobdetails jd
+                      ON jd.employeeid = pcd.employeeid
+                    WHERE payrollprocessid = @payrollProcessId
+                    AND pcd.isarchived = FALSE";
+
+        return await Connection.QueryAsync<PayrollProcessCompletedView>(sql, new { payrollProcessId });
     }
 }
