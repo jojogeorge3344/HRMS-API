@@ -204,4 +204,11 @@ public class PayrollProcessingMethodController : ControllerBase
         var result = await payrollProcessingMethodService.InsertPayrollFixedComponentDetaisl(payrollprocessid, payrollprocessdate,paygroupid);
         return Ok(result);
     }
+
+    [HttpGet("GetPayrollProcessView/{payrollProcessId}")]
+    public async Task<ActionResult<List<PayrollProcessSummaryView>>> GetPayrollProcessView(int payrollProcessId)
+    {
+        var payrollProcess = await payrollProcessingMethodService.GetPayrollProcessView(payrollProcessId);
+        return Ok(payrollProcess);
+    }
 }

@@ -168,4 +168,25 @@ public class PayrollProcessingMethodService : AsyncService<PayrollProcessingMeth
         }
         return payrollSummaries;
     }
+
+    public async Task<IEnumerable<PayrollProcessSummaryView>> GetPayrollProcessView(int payrollProcessId)
+    {
+        List<PayrollProcessSummaryView> payrollSummaryView = new List<PayrollProcessSummaryView>();
+        var salaryDetails = await payrollProcessingMethodRepository.GetPayrollProcessSalaryDetails(payrollProcessId);
+        var empIdList = salaryDetails.Select(e => e.EmployeeId).Distinct();
+        foreach (var empId in empIdList)
+        {
+            PayrollProcessSummaryView payrollSummary = new PayrollProcessSummaryView();
+
+            payrollSummary.CompletedViews = salaryDetails.Where(x => x.EmployeeId == empId).ToList();
+            payrollSummary.TotalDeductions = payrollSummary.CompletedViews.Sum(c => c.DeductionAmt);
+            payrollSummary.EmployeeName = payrollSummary.CompletedViews.First().EmployeeName;
+            payrollSummary.EmployeeCode = payrollSummary.CompletedViews.First().EmployeeCode;
+            payrollSummary.EmployeeId = empId;
+            payrollSummary.TotalEarnings = payrollSummary.CompletedViews.Sum(c => c.EarningsAmt);
+            payrollSummary.NetSalaryAmount = payrollSummary.TotalEarnings - payrollSummary.TotalDeductions;
+            payrollSummaryView.Add(payrollSummary);
+        }
+        return payrollSummaryView;
+    }
 }

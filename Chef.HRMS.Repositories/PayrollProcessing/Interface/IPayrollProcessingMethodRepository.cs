@@ -1,4 +1,6 @@
-﻿namespace Chef.HRMS.Repositories;
+﻿using Chef.HRMS.Models.PayrollProcessing;
+
+namespace Chef.HRMS.Repositories;
 
 public interface IPayrollProcessingMethodRepository : IGenericRepository<PayrollProcessingMethod>
 {
@@ -21,4 +23,5 @@ public interface IPayrollProcessingMethodRepository : IGenericRepository<Payroll
     Task<bool> IsPaygroupExistInPayrollProcessingMethod(int paygroupId);
     Task<IEnumerable<EmployeeTicket>> GetProcessedEmployeeDetailsForTicketAccrual(int paygroupid);
     Task<bool> IsPreviousPayrollProcessed(int PreviousMonth, int previousYear, int employeeId);
+    Task<IEnumerable<PayrollProcessCompletedView>> GetPayrollProcessSalaryDetails(int payrollProcessId);
 }

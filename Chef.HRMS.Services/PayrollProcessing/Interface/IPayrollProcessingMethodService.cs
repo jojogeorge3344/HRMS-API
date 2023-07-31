@@ -20,4 +20,5 @@ public interface IPayrollProcessingMethodService : IAsyncService<PayrollProcessi
     Task<int> InsertPayrollFixedComponentDetaisl(int payrollProcessId, DateTime payrollprocessdate, int paygroupid);
     Task<IEnumerable<PayrollSummary>> GetPayrollComponentsSummary(int payrollprocessid);
     Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno);
+    Task<IEnumerable<PayrollProcessSummaryView>> GetPayrollProcessView(int payrollprocessid);
 }
