@@ -11,10 +11,12 @@ public class TicketAccrualSummaryRepository : TenantRepository<TicketAccrualSumm
 
     public async Task<TicketAccrualSummary> GetPreviousTicketAccrualSummary(int employeeId)
     {
-        var sql = @"select * from hrms.ticketaccrualsummary 
-                        where employeeid = @employeeId 
-                        order by id desc
-                        limit 1";
+        var sql = @"SELECT 
+                       * 
+                    FROM hrms.ticketaccrualsummary 
+                    WHERE employeeid = @employeeId 
+                    ORDER BY id DESC
+                    LIMIT 1";
 
         return await Connection.QueryFirstOrDefaultAsync<TicketAccrualSummary>(sql, new { employeeId });
     }

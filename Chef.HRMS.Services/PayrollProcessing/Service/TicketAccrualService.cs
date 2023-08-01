@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Exceptions;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Repositories;
@@ -14,14 +15,21 @@ public class TicketAccrualService : AsyncService<TicketAccrual>, ITicketAccrualS
     private readonly ITicketAccrualSummaryRepository ticketAccrualSummaryRepository;
     private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
     private readonly ISystemVariableValuesRepository systemVariableValuesRepository;
+    private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
 
-    public TicketAccrualService(ITicketAccrualRepository ticketAccrualRepository, IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
-        ITicketAccrualSummaryRepository ticketAccrualSummaryRepository, ISystemVariableValuesRepository systemVariableValuesRepository)
+
+    public TicketAccrualService(
+        ITicketAccrualRepository ticketAccrualRepository,
+        IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
+        ITicketAccrualSummaryRepository ticketAccrualSummaryRepository, 
+        ISystemVariableValuesRepository systemVariableValuesRepository,
+        ITenantSimpleUnitOfWork tenantSimpleUnitOfWork)
     {
         this.ticketAccrualRepository = ticketAccrualRepository;
         this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
         this.ticketAccrualSummaryRepository = ticketAccrualSummaryRepository;
         this.systemVariableValuesRepository = systemVariableValuesRepository;
+        this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
     }
 
     public async Task<int> GenerateTicketAvailed(TicketAccrual ticketAvailedDetails)
@@ -70,6 +78,9 @@ public class TicketAccrualService : AsyncService<TicketAccrual>, ITicketAccrualS
         List<TicketAccrual> ticketAccruals = new List<TicketAccrual>();
         List<TicketAccrualSummary> ticketAccrualSummaries = new List<TicketAccrualSummary>();
 
+        tenantSimpleUnitOfWork.BeginTransaction();
+        try
+        {
         var employeeTicketEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForTicketAccrual(paygroupid);
         foreach (var eligibleEmployee in employeeTicketEligibilityDetails)
         {
@@ -85,31 +96,31 @@ public class TicketAccrualService : AsyncService<TicketAccrual>, ITicketAccrualS
             ticketAccrualEmployee.AvailDays = 0;
             ticketAccrualEmployee.EligibilityBase = eligibleEmployee.EligibilityBase;
             ticketAccrualEmployee.EligibleDays = eligibleEmployee.EligibleDays;
+            ticketAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
+            ticketAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
 
             var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
-
 
             if (systemVariableValues != null)
             {
                 ticketAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Cldr_Mth").TransValue;
                 ticketAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkd_Dys_Cldr_Mth").TransValue;
                 ticketAccrualEmployee.EligibilityPerDay = ticketAccrualEmployee.EligibleDays / ticketAccrualEmployee.EligibilityBase;
-            }
-
+            }  
             // Get previous accrual summary details for eligible employee
             var prevAccrualSummaryDetails = await ticketAccrualSummaryRepository.GetPreviousTicketAccrualSummary(eligibleEmployee.EmployeeId);
 
             var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
             ticketAccrualEmployee.AccrualDate = firstDayNextMonth;
 
-
-            if (prevAccrualSummaryDetails == null)
+            if (prevAccrualSummaryDetails != null)
             {
                 if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
                 {
                     throw new ResourceNotFoundException("Ticket Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
                 }
             }
+
             if (eligibleEmployee.IncludeLOPDays)
             {
                 ticketAccrualEmployee.AccrualDays = ticketAccrualEmployee.EligibilityPerDay * ticketAccrualEmployee.WorkeddaysInCalMonth;
@@ -118,12 +129,19 @@ public class TicketAccrualService : AsyncService<TicketAccrual>, ITicketAccrualS
             {
                 ticketAccrualEmployee.AccrualDays = ticketAccrualEmployee.EligibilityPerDay * ticketAccrualEmployee.WorkingdaysInCalMonth;
             }
-            ticketAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * ticketAccrualEmployee.AccrualDays;
-            ticketAccruals.Add(ticketAccrualEmployee);
+                ticketAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.Amount / eligibleEmployee.EligibleDays) * ticketAccrualEmployee.AccrualDays;
+                ticketAccruals.Add(ticketAccrualEmployee);
         }
-
-        var result = await ticketAccrualRepository.BulkInsertAsync(ticketAccruals);
-        return ticketAccruals;
+        //var result = await ticketAccrualRepository.BulkInsertAsync(ticketAccruals);
+            
+            tenantSimpleUnitOfWork.Commit();
+            return ticketAccruals;
+        }
+        catch
+        {
+            tenantSimpleUnitOfWork.Rollback();
+            return ticketAccruals;
+        }
     }
 
     public async Task<int> InsertTicketAccruals(List<TicketAccrual> ticketAccruals)
@@ -137,25 +155,4 @@ public class TicketAccrualService : AsyncService<TicketAccrual>, ITicketAccrualS
         // Get paygroupid and get employeeid for that paygroup and generated accruals based on that 
         return (List<TicketAccrual>)await ticketAccrualRepository.GetTicketAccrualsByPayrollProcessingId(payrollprocessid);
     }
-
-    public Task<int> DeleteAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<IEnumerable<LeaveAndAttendance>> GetAllAsync()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<LeaveAndAttendance> GetAsync(int id)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<int> InsertAsync(LeaveAndAttendance obj)
-    {
-        throw new System.NotImplementedException();
-    }
-
 }

@@ -392,39 +392,58 @@ public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcess
 
     public async Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid)
     {
-        var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
-                        jd.employeenumber as employeecode, jd.dateofjoin, jd.probationperiod, jf.eosid
-                        FROM 
-                        hrms.jobfiling jf
-                        left join hrms.hrmsemployee emp on emp.id = jf.employeeid 
-                        left join hrms.jobdetails jd on jd.employeeid = jf.employeeid
-						Join hrms.endofservice eos on eos.id = jf.eosid
-                        Join hrms.employeesalaryconfigurationdetails esd on eos.id = esd.payrollcomponentid
-                        WHERE jf.paygroupid = @paygroupid";
-        // and eos.employeeeosaccrualtype = jf.eosid
-        //Join hrms.slab slb on slb.eosid = eos.id
-        //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
-        //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+        var sql = @"SELECT DISTINCT
+                      jf.employeeid,
+                      jf.paygroupid,
+                      eos.*,
+                      esd.monthlyamount,
+                      emp.displayname AS employeename,
+                      jd.employeenumber AS employeecode,
+                      jd.dateofjoin,
+                      jd.probationperiod,
+                      jf.eosid
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.hrmsemployee emp
+                      ON emp.id = jf.employeeid
+                    LEFT JOIN hrms.jobdetails jd
+                      ON jd.employeeid = jf.employeeid
+                    LEFT JOIN hrms.endofservice eos
+                      ON eos.id = jf.eosid
+                    LEFT JOIN hrms.employeesalaryconfigurationdetails esd
+                      ON eos.id = esd.payrollcomponentid
+                    WHERE jf.paygroupid = @paygroupid";
+
         return await Connection.QueryAsync<EndOfService>(sql, new { paygroupid });
     }
 
     public async Task<IEnumerable<EmployeeTicket>> GetProcessedEmployeeDetailsForTicketAccrual(int paygroupid)
     {
-        var sql = @"SELECT distinct jf.employeeid,jf.paygroupid,eos.*,esd.monthlyamount, emp.displayname as employeename, 
-                        jd.employeenumber as employeecode, jd.dateofjoin, le.eligibledays, le.eligibilitybase, le.isincludelopdays
-                        FROM 
-                        hrms.jobfiling jf
-                        left join hrms.hrmsemployee emp on emp.id = jf.employeeid 
-                        left join hrms.jobdetails jd on jd.employeeid = jf.employeeid
-                        Join hrms.leavestructureleavecomponent lslc on lslc.leavestructureid = jf.leavestructureid
-                        Join hrms.leaveeligibility le on le.leavecomponentid = lslc.leavecomponentid       
-                        Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
-						Join hrms.employeeticket et on et.id = jf.employeeid
-                        WHERE jf.paygroupid = @paygroupid and le.leavetype = 1";
-        //
-        //Join hrms.slab slb on slb.eosid = eos.id
-        //WHERE ppm.paygroupid = @paygroupid and le.employeeeosaccrualtype = 30";
-        //esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+        var sql = @"SELECT DISTINCT
+                      jf.employeeid,
+                      jf.paygroupid,
+                      et.amount,
+                      emp.displayname AS employeename,
+                      jd.employeenumber AS employeecode,
+                      jd.dateofjoin,
+                      le.eligibledays,
+                      le.eligibilitybase,
+                      le.isincludelopdays
+                    FROM hrms.jobfiling jf
+                    LEFT JOIN hrms.hrmsemployee emp
+                      ON emp.id = jf.employeeid
+                    LEFT JOIN hrms.jobdetails jd
+                      ON jd.employeeid = jf.employeeid
+                    JOIN hrms.leavestructureleavecomponent lslc
+                      ON lslc.leavestructureid = jf.leavestructureid
+                    JOIN hrms.leaveeligibility le
+                      ON le.leavecomponentid = lslc.leavecomponentid
+                    JOIN hrms.employeesalaryconfigurationdetails esd
+                      ON le.leavecomponentid = esd.payrollcomponentid
+                    JOIN hrms.employeeticket et
+                      ON et.id = jf.employeeid
+                    WHERE jf.paygroupid = @paygroupid
+                    AND le.leavetype = 1";
+
         return await Connection.QueryAsync<EmployeeTicket>(sql, new { paygroupid });
     }
 

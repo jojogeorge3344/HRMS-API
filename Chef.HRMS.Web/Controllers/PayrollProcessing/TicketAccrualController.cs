@@ -3,6 +3,7 @@ using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Services;
 using Chef.HRMS.Services.PayrollProcessing.Interface;
+using Chef.HRMS.Services.PayrollProcessing.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,18 +17,23 @@ namespace Chef.HRMS.Web.Controllers;
 [ApiController]
 public class TicketAccrualController : ControllerBase
 {
-    private readonly ILeaveAccrualService leaveAccrualService;
+    private readonly ITicketAccrualService ticketAccrualService;
 
-    public TicketAccrualController(ILeaveAccrualService leaveAccrualService)
+    public TicketAccrualController(ITicketAccrualService ticketAccrualService)
     {
-        this.leaveAccrualService = leaveAccrualService;
+        this.ticketAccrualService = ticketAccrualService;
     }
 
     [AllowAnonymous]
     [HttpPost("GenerateTicketAccruals/{paygroupid}")]
     public async Task<ActionResult<IEnumerable<TicketAccrual>>> GenerateTicketAccruals(int paygroupid)
     {
-        List<TicketAccrual> ticketAccrual = new List<TicketAccrual>();            
-        return Ok(ticketAccrual);
+        var ticketAccrualList = await ticketAccrualService.GenerateTicketAccruals(paygroupid);
+
+        if (ticketAccrualList == null)
+        {
+            return NotFound();
+        }
+        return Ok(ticketAccrualList);
     }
 }
