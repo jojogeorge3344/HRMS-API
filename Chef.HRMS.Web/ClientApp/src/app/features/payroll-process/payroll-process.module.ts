@@ -63,6 +63,7 @@ import { PayrollProcessEmployeeSummarydetailsComponent } from './payroll-process
 import { TreeModule } from 'primeng/tree';
 import { TreeTableModule } from 'primeng/treetable';
 import { TableModule } from 'primeng/table';
+import { PayrollProcessSalarydetailsViewComponent } from './payroll-process-salarydetails-view/payroll-process-salarydetails-view.component';
 
 
 
@@ -121,6 +122,7 @@ import { TableModule } from 'primeng/table';
     PayrollProcessOvertimeListComponent,
     PayrollProcessSummaryDetailsComponent,
     PayrollProcessEmployeeSummarydetailsComponent,
+    PayrollProcessSalarydetailsViewComponent,
 
 
   ],
