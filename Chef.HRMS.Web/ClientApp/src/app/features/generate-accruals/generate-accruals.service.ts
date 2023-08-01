@@ -33,8 +33,8 @@ export class GenerateAccrualsService {
    getAccrualsList() {
     return this.http.get(this.getAccrualsListUrl + 'GetAllByProcessingStep/' + 5).pipe(map(response => { return response; }));
   }
-  getLeaveAccrualsList(paygroupid) {
-    return this.http.post(this.getLeaveAccruals + 'GenerateLeaveAccruals/' + paygroupid,'').pipe(map(response => { return response; }));
+  getLeaveAccrualsList(paygroupid,month,year) {
+    return this.http.post(this.getLeaveAccruals + 'GenerateLeaveAccruals/' + paygroupid + '/' + month + '/' +year,'').pipe(map(response => { return response; }));
   }
   getEOSAccrualList(paygroupid) {
     return this.http.post(this.getEOSAccrual + 'GenerateEOSAccruals/' + paygroupid,'').pipe(map(response => { return response; }));
