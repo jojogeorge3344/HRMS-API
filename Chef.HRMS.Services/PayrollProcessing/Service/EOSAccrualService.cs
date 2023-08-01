@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Exceptions;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Repositories;
@@ -15,16 +16,22 @@ public class EOSAccrualService : AsyncService<EOSAccrual>, IEOSAccrualService
     private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
     private readonly ISystemVariableValuesRepository systemVariableValuesRepository;
     private readonly ISlabRepository slabRepository;
+    private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
 
-
-    public EOSAccrualService(IEOSAccrualRepository eosAccrualRepository, IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
-        IEOSAccrualSummaryRepository eosAccrualSummaryRepository, ISystemVariableValuesRepository systemVariableValuesRepository, ISlabRepository slabRepository)
+    public EOSAccrualService(
+        IEOSAccrualRepository eosAccrualRepository, 
+        IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
+        IEOSAccrualSummaryRepository eosAccrualSummaryRepository, 
+        ISystemVariableValuesRepository systemVariableValuesRepository, 
+        ISlabRepository slabRepository,
+        ITenantSimpleUnitOfWork tenantSimpleUnitOfWork)
     {
         this.eosAccrualRepository = eosAccrualRepository;
         this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
         this.eosAccrualSummaryRepository = eosAccrualSummaryRepository;
         this.systemVariableValuesRepository = systemVariableValuesRepository;
         this.slabRepository = slabRepository;
+        this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
     }
 
     public async Task<int> GenerateEndOfServiceAvailed(EOSAccrual endOfServiceAvailed)
@@ -69,96 +76,107 @@ public class EOSAccrualService : AsyncService<EOSAccrual>, IEOSAccrualService
     public async Task<IEnumerable<EOSAccrual>> GenerateEndOfServiceAccruals(int paygroupid)
     {
         List<EOSAccrual> eosAccruals = new List<EOSAccrual>();
-
-        var employeeEOSEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForEOSAccrual(paygroupid);
-        foreach (var eligibleEmployee in employeeEOSEligibilityDetails)
+        tenantSimpleUnitOfWork.BeginTransaction();
+        try
         {
-            var now = DateTime.Now;
-            int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
-
-            EOSAccrual eosAccrualEmployee = new EOSAccrual();
-            eosAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
-            eosAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
-            eosAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
-            eosAccrualEmployee.PayrollProcessingId = eligibleEmployee.payrollprocessingid;
-            eosAccrualEmployee.AccrualStatus = 0; //Pending
-            eosAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
-            eosAccrualEmployee.IsArchived = false;
-            eosAccrualEmployee.AvailAmount = 0;
-            eosAccrualEmployee.AvailDays = 0;
-            eosAccrualEmployee.IsIncludeLOPDays = eligibleEmployee.IncludeLOPDays;
-            eosAccrualEmployee.MonthlyAmount = eligibleEmployee.MonthlyAmount;
-            decimal WorkingDaysFromJoining = 0;
-            var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
-            if (systemVariableValues != null)
+            var employeeEOSEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForEOSAccrual(paygroupid);
+            foreach (var eligibleEmployee in employeeEOSEligibilityDetails)
             {
-                eosAccrualEmployee.EligibilityBase = 365;
-                WorkingDaysFromJoining = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Frm_Jng").TransValue;
-                eosAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Cldr_Mth").TransValue;
-                eosAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkd_Dys_Cldr_Mth").TransValue;
-                eosAccrualEmployee.LopDaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Lop_Dys_Cldr_mth").TransValue;
-                eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkeddaysInCalMonth;
-                eosAccrualEmployee.EligibilityPerDay = eosAccrualEmployee.EligibleDays / eosAccrualEmployee.EligibilityBase;
-            }
+                var now = DateTime.Now;
+                int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
 
-            //Check if the employee is in probation period and if includeProbationdays no - then no accrual to be generated
-            int employeeDurationInOrganization = DateTime.Now.Subtract(eligibleEmployee.DateOfJoin).Days;
-            var slab = await slabRepository.GetSlabByEOS(eligibleEmployee.eosid, employeeDurationInOrganization);
+                EOSAccrual eosAccrualEmployee = new EOSAccrual();
+                eosAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
+                eosAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
+                eosAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
+                eosAccrualEmployee.PayrollProcessingId = eligibleEmployee.payrollprocessingid;
+                eosAccrualEmployee.AccrualStatus = 0; //Pending
+                eosAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
+                eosAccrualEmployee.IsArchived = false;
+                eosAccrualEmployee.AvailAmount = 0;
+                eosAccrualEmployee.AvailDays = 0;
+                eosAccrualEmployee.IsIncludeLOPDays = eligibleEmployee.IncludeLOPDays;
+                eosAccrualEmployee.MonthlyAmount = eligibleEmployee.MonthlyAmount;
+                decimal WorkingDaysFromJoining = 0;
+                var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
 
-            DateTime empProbationEndDate = eligibleEmployee.DateOfJoin.AddDays(eligibleEmployee.ProbationPeriod);
-            if (!eligibleEmployee.IncludeProbationDays && (DateTime.Now < empProbationEndDate))
-            {
-                eosAccrualEmployee.AccrualAmount = 0;
-                eosAccrualEmployee.AccrualDays = 0;
-            }
-            else
-            {
-                eosAccrualEmployee.EligibilityPerDay = eosAccrualEmployee.EligibleDays / eosAccrualEmployee.EligibilityBase;
-                var prevAccrualSummaryDetails = await eosAccrualSummaryRepository.GetPreviousEOSAccrualSummary(eligibleEmployee.EmployeeId);
-                decimal accrualDaysWithSlab = 0;
-                if (eligibleEmployee.RetrospectiveAccrual && prevAccrualSummaryDetails != null)
+                if (systemVariableValues.ToList().Count != 0)
                 {
-                    //if salary increased, then if retrospective check prev entrys and find the amount difference
-                    // Get previous accrual summary details for eligible employee
-                    eosAccrualEmployee.IsRetrospectiveAccrual = true;
-                    if (eligibleEmployee.IncludeLOPDays)
-                    {
-                        eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkeddaysInCalMonth;
-                        accrualDaysWithSlab = slab.ValueVariable - eosAccrualEmployee.LopDaysInCalMonth;
-                    }
-                    else
-                    {
-                        eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkingdaysInCalMonth;
-                        accrualDaysWithSlab = slab.ValueVariable;
-                    }
-
+                    eosAccrualEmployee.EligibilityBase = 365;
+                    WorkingDaysFromJoining = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Frm_Jng").TransValue;
+                    eosAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Cldr_Mth").TransValue;
+                    eosAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkd_Dys_Cldr_Mth").TransValue;
+                    eosAccrualEmployee.LopDaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Lop_Dys_Cldr_mth").TransValue;
+                    eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkeddaysInCalMonth;
                     eosAccrualEmployee.EligibilityPerDay = eosAccrualEmployee.EligibleDays / eosAccrualEmployee.EligibilityBase;
-                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * accrualDaysWithSlab;
-                    eosAccrualEmployee.AccrualAmount = ((eligibleEmployee.MonthlyAmount / eosAccrualEmployee.EligibleDays)
-                                * (eosAccrualEmployee.AccrualDays + prevAccrualSummaryDetails.AccrualDays)) - prevAccrualSummaryDetails.AccrualAmount;
+                }
+
+                //Check if the employee is in probation period and if includeProbationdays no - then no accrual to be generated
+                int employeeDurationInOrganization = DateTime.Now.Subtract(eligibleEmployee.DateOfJoin).Days;
+                var slab = await slabRepository.GetSlabByEOS(eligibleEmployee.eosid, employeeDurationInOrganization);
+
+                DateTime empProbationEndDate = eligibleEmployee.DateOfJoin.AddDays(eligibleEmployee.ProbationPeriod);
+                if (!eligibleEmployee.IncludeProbationDays && (DateTime.Now < empProbationEndDate))
+                {
+                    eosAccrualEmployee.AccrualAmount = 0;
+                    eosAccrualEmployee.AccrualDays = 0;
                 }
                 else
                 {
-                    //Eligibilityperday is based on workeddayincalmonth from system variable o
-                    if (eligibleEmployee.IncludeLOPDays)
+                    eosAccrualEmployee.EligibilityPerDay = eosAccrualEmployee.EligibleDays / eosAccrualEmployee.EligibilityBase;
+                    var prevAccrualSummaryDetails = await eosAccrualSummaryRepository.GetPreviousEOSAccrualSummary(eligibleEmployee.EmployeeId);
+                    decimal accrualDaysWithSlab = 0;
+                    if (eligibleEmployee.RetrospectiveAccrual && prevAccrualSummaryDetails != null)
                     {
-                        eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkeddaysInCalMonth;
-                        accrualDaysWithSlab = slab.ValueVariable - eosAccrualEmployee.LopDaysInCalMonth;
+                        //if salary increased, then if retrospective check prev entrys and find the amount difference
+                        // Get previous accrual summary details for eligible employee
+                        eosAccrualEmployee.IsRetrospectiveAccrual = true;
+
+                        if (eligibleEmployee.IncludeLOPDays)
+                        {
+                            eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkeddaysInCalMonth;
+                            accrualDaysWithSlab = slab.ValueVariable - eosAccrualEmployee.LopDaysInCalMonth;
+                        }
+                        else
+                        {
+                            eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkingdaysInCalMonth;
+                            accrualDaysWithSlab = slab.ValueVariable;
+                        }
+
+                        eosAccrualEmployee.EligibilityPerDay = eosAccrualEmployee.EligibleDays / eosAccrualEmployee.EligibilityBase;
+                        eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * accrualDaysWithSlab;
+                        eosAccrualEmployee.AccrualAmount = ((eligibleEmployee.MonthlyAmount / eosAccrualEmployee.EligibleDays)
+                                    * (eosAccrualEmployee.AccrualDays + prevAccrualSummaryDetails.AccrualDays)) - prevAccrualSummaryDetails.AccrualAmount;
                     }
                     else
                     {
-                        eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkingdaysInCalMonth;
-                        accrualDaysWithSlab = slab.ValueVariable;
+                        //Eligibilityperday is based on workeddayincalmonth from system variable o
+                        if (eligibleEmployee.IncludeLOPDays)
+                        {
+                            eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkeddaysInCalMonth;
+                            accrualDaysWithSlab = slab.ValueVariable - eosAccrualEmployee.LopDaysInCalMonth;
+                        }
+                        else
+                        {
+                            eosAccrualEmployee.EligibleDays = eosAccrualEmployee.WorkingdaysInCalMonth;
+                            accrualDaysWithSlab = slab.ValueVariable;
+                        }
+                        eosAccrualEmployee.EligibilityPerDay = eosAccrualEmployee.EligibleDays / eosAccrualEmployee.EligibilityBase;
+                        eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * accrualDaysWithSlab;
+                        eosAccrualEmployee.AccrualAmount = (eligibleEmployee.MonthlyAmount / eosAccrualEmployee.EligibleDays) * eosAccrualEmployee.AccrualDays;
                     }
-                    eosAccrualEmployee.EligibilityPerDay = eosAccrualEmployee.EligibleDays / eosAccrualEmployee.EligibilityBase;
-                    eosAccrualEmployee.AccrualDays = eosAccrualEmployee.EligibilityPerDay * accrualDaysWithSlab;
-                    eosAccrualEmployee.AccrualAmount = (eligibleEmployee.MonthlyAmount / eosAccrualEmployee.EligibleDays) * eosAccrualEmployee.AccrualDays;
                 }
-            }
 
-            eosAccruals.Add(eosAccrualEmployee);
+                eosAccruals.Add(eosAccrualEmployee);
+            }
+            tenantSimpleUnitOfWork.Commit();
+            return eosAccruals;
         }
-        return eosAccruals;
+        catch
+        {
+            tenantSimpleUnitOfWork.Rollback();
+            return eosAccruals;
+        }
     }
 
     public async Task<int> InsertEOSAccruals(List<EOSAccrual> endOfServiceAccruals)

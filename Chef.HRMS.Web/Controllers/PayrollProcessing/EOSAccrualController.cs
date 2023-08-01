@@ -16,27 +16,24 @@ namespace Chef.HRMS.Web.Controllers;
 [ApiController]
 public class EOSAccrualController : ControllerBase
 {
-    private readonly ILeaveAccrualService leaveAccrualService;
+    private readonly IEOSAccrualService eOSAccrualService;
 
-    public EOSAccrualController(ILeaveAccrualService leaveAccrualService)
+    public EOSAccrualController(IEOSAccrualService eOSAccrualService)
     {
-        this.leaveAccrualService = leaveAccrualService;
+        this.eOSAccrualService = eOSAccrualService;
     }
 
     [AllowAnonymous]
     [HttpPost("GenerateEOSAccruals/{paygroupid}")]
     public async Task<ActionResult<IEnumerable<EOSAccrual>>> GenerateEOSAccruals(int paygroupid)
     {
-        List<EOSAccrual> eosAccrual = new List<EOSAccrual>();            
-        
-        // var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
+        var eosAccrualList = await eOSAccrualService.GenerateEndOfServiceAccruals(paygroupid);
 
+        if (eosAccrualList == null)
+        {
+            return NotFound();
+        }
 
-        // if (leaveAccrualList == null)
-        // {
-        //     return NotFound();
-        // }
-
-        return Ok(eosAccrual);
+        return Ok(eosAccrualList);
     }
 }
