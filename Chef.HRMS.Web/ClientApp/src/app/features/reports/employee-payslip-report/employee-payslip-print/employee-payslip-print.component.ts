@@ -4,6 +4,7 @@ import { ReportViewerComponent } from '@shared/report-viewer/report-viewer.compo
 import { ReportViewerService } from '@shared/report-viewer/report-viewer.service';
 import { EmployeePayslipPrintFilterComponent } from '../employee-payslip-print-filter/employee-payslip-print-filter.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReportsService } from '@features/reports/report.service'
 
 @Component({
   selector: 'hrms-employee-payslip-print',
@@ -16,26 +17,29 @@ export class EmployeePayslipPrintComponent implements OnInit {
   loadReportOnInit: boolean;
   @ViewChild(ReportViewerComponent)
   reportViewerComponent: ReportViewerComponent;
-  @Input() paygroupId;
-  @Input() department;
-  @Input() designation;
-  @Input() employeeId;
-  @Input() fromDate;
-  @Input() ToDate;
+  // @Input() paygroupId;
+  // @Input() department;
+  // @Input() designation;
+  // @Input() employeeId;
+  // @Input() fromDate;
+  // @Input() ToDate;
+
+  payslipReportDetails: any;
 
 
   readonly serviceUrl = "/api/hrms/PaySlipReport";
 
   constructor(
-    public activeModal: NgbActiveModal,
     private reportViewerService: ReportViewerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private reportService:ReportsService
   ) {
     this.reportViewerService.serviceUrl = this.serviceUrl;
   }
 
   ngOnInit(): void {
     this.loadReportOnInit = true;
+    this.payslipReportDetails=this.reportService.getPaySlip()
     this.route.params.subscribe((params: any) => {
       this.id = params["id"];
       this.updateReportViewerService();
@@ -51,12 +55,13 @@ export class EmployeePayslipPrintComponent implements OnInit {
 
 
   private updateReportViewerService() {
+    debugger
     this.reportViewerService.loadReportOnInit = this.loadReportOnInit;
-    this.reportViewerService.customData.paygroupId = this.paygroupId;
-    this.reportViewerService.customData.department = this.department;
-    this.reportViewerService.customData.designation = this.designation;
-    this.reportViewerService.customData.employeeId = this.employeeId;
-    this.reportViewerService.customData.fromDate = this.fromDate;
-    this.reportViewerService.customData.ToDate = this.ToDate;
+    this.reportViewerService.customData.paygroupId = this.payslipReportDetails[0].paygroupId ?  this.payslipReportDetails[0].paygroupId : 0;
+    this.reportViewerService.customData.department =  this.payslipReportDetails[0].department ?  this.payslipReportDetails[0].department : 0;
+    this.reportViewerService.customData.designation =  this.payslipReportDetails[0].designation ?  this.payslipReportDetails[0].designation : 0;
+    this.reportViewerService.customData.employeeId =  this.payslipReportDetails[0].employeeId ?  this.payslipReportDetails[0].employeeId : 0;
+    this.reportViewerService.customData.fromDate = this.payslipReportDetails[0].fromDate;
+    this.reportViewerService.customData.ToDate = this.payslipReportDetails[0].ToDate;
   }
 }

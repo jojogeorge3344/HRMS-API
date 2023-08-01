@@ -14,8 +14,8 @@
           <Rectangle Name="Rectangle1">
             <Left>2.99063pt</Left>
             <Top>77.23125pt</Top>
-            <Height>346.5pt</Height>
-            <Width>751.95pt</Width>
+            <Height>340.5pt</Height>
+            <Width>762pt</Width>
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -47,7 +47,7 @@
                 <Left>0pt</Left>
                 <Top>77.98125pt</Top>
                 <Height>111.6pt</Height>
-                <Width>747.6pt</Width>
+                <Width>760.95pt</Width>
                 <Style>
                   <FontFamily>Arial</FontFamily>
                   <Border>
@@ -70,7 +70,7 @@
                       <Width>307.8pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>87.60001pt</Width>
+                      <Width>96.60001pt</Width>
                     </TablixColumn>
                   </TablixColumns>
                   <TablixRows>
@@ -83,7 +83,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
-                              <Width>751.8pt</Width>
+                              <Width>760.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
@@ -197,7 +197,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
-                              <Width>395.4pt</Width>
+                              <Width>404.4pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
@@ -415,7 +415,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
-                              <Width>87.6pt</Width>
+                              <Width>96.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
@@ -541,6 +541,7 @@
                                   </TextRuns>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
+                                    <TextAlign>Center</TextAlign>
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
@@ -626,7 +627,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Name.Value</Value>
+                                      <Value>=IIf(Fields!DeductionAmt.Value &gt; 0,Fields!Name.Value,"")</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Color>black</Color>
@@ -649,7 +650,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
-                              <Width>87.6pt</Width>
+                              <Width>96.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -672,7 +673,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!DeductionAmt.Value</Value>
+                                      <Value>=IIf(Fields!DeductionAmt.Value &gt; 0,Fields!DeductionAmt.Value,"")</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Format>n2</Format>
@@ -830,7 +831,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
-                              <Width>87.6pt</Width>
+                              <Width>96.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1001,7 +1002,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
-                              <Width>87.6pt</Width>
+                              <Width>96.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1078,7 +1079,7 @@
                 <Left>0pt</Left>
                 <Top>0pt</Top>
                 <Height>79.2pt</Height>
-                <Width>751.95pt</Width>
+                <Width>761.7pt</Width>
                 <Style>
                   <FontFamily>Arial</FontFamily>
                   <Border>
@@ -1089,16 +1090,16 @@
                 <TablixBody>
                   <TablixColumns>
                     <TablixColumn>
-                      <Width>64.8pt</Width>
+                      <Width>81.60001pt</Width>
                     </TablixColumn>
                     <TablixColumn>
                       <Width>295.2pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>77.4pt</Width>
+                      <Width>97.2pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>314.4pt</Width>
+                      <Width>287.4pt</Width>
                     </TablixColumn>
                   </TablixColumns>
                   <TablixRows>
@@ -1111,7 +1112,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>64.8pt</Width>
+                              <Width>81.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1139,7 +1140,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>EMP NO  -</Value>
+                                      <Value>EMP NO          -</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <FontWeight>Bold</FontWeight>
@@ -1214,7 +1215,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>77.4pt</Width>
+                              <Width>97.2pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1242,7 +1243,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>MONTH  -</Value>
+                                      <Value>MONTH                 - </Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <FontWeight>Bold</FontWeight>
@@ -1266,7 +1267,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>314.4pt</Width>
+                              <Width>287.4pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1324,7 +1325,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>64.8pt</Width>
+                              <Width>81.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1344,7 +1345,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>EMP NAME  -</Value>
+                                      <Value>EMP NAME     -</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <FontWeight>Bold</FontWeight>
@@ -1414,7 +1415,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>77.4pt</Width>
+                              <Width>97.2pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1434,7 +1435,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>BASIC PAY  -</Value>
+                                      <Value>BASIC PAY              -</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <FontWeight>Bold</FontWeight>
@@ -1458,7 +1459,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>314.4pt</Width>
+                              <Width>287.4pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1512,7 +1513,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>64.8pt</Width>
+                              <Width>81.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1532,7 +1533,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>PROJECT  -</Value>
+                                      <Value>PROJECT          -</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <FontWeight>Bold</FontWeight>
@@ -1602,7 +1603,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>77.4pt</Width>
+                              <Width>97.2pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1622,7 +1623,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>EXCHANGE RATE -</Value>
+                                      <Value>EXCHANGE RATE  -</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <FontWeight>Bold</FontWeight>
@@ -1646,7 +1647,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>314.4pt</Width>
+                              <Width>287.4pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1700,7 +1701,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>64.8pt</Width>
+                              <Width>81.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1796,7 +1797,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>77.4pt</Width>
+                              <Width>97.2pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1819,7 +1820,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>CURRENCY  -</Value>
+                                      <Value>CURRENCY            -</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <FontWeight>Bold</FontWeight>
@@ -1839,11 +1840,11 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox16">
+                            <Textbox Name="TextBox53">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
-                              <Width>314.4pt</Width>
+                              <Width>287.4pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -1870,7 +1871,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=First(Fields!Code.Value,"CurrencyData")</Value>
+                                      <Value />
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Color>black</Color>
@@ -1913,7 +1914,7 @@
                 <Left>0pt</Left>
                 <Top>222pt</Top>
                 <Height>90pt</Height>
-                <Width>293.1pt</Width>
+                <Width>381.75pt</Width>
                 <Style>
                   <FontFamily>Arial</FontFamily>
                   <Border>
@@ -1924,19 +1925,19 @@
                 <TablixBody>
                   <TablixColumns>
                     <TablixColumn>
-                      <Width>61.2pt</Width>
+                      <Width>75.60001pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>72.60001pt</Width>
+                      <Width>87pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>43.2pt</Width>
+                      <Width>57.6pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>56.4pt</Width>
+                      <Width>64.8pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>59.4pt</Width>
+                      <Width>96.60001pt</Width>
                     </TablixColumn>
                   </TablixColumns>
                   <TablixRows>
@@ -1949,7 +1950,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>292.8pt</Width>
+                              <Width>381.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
@@ -2001,7 +2002,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>61.2pt</Width>
+                              <Width>75.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2042,7 +2043,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>72.6pt</Width>
+                              <Width>87pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2083,7 +2084,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>43.2pt</Width>
+                              <Width>57.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
@@ -2126,7 +2127,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>56.4pt</Width>
+                              <Width>64.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2168,7 +2169,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>59.4pt</Width>
+                              <Width>96.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2215,7 +2216,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>61.2pt</Width>
+                              <Width>75.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2256,7 +2257,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>72.6pt</Width>
+                              <Width>87pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2296,7 +2297,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>43.2pt</Width>
+                              <Width>57.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2343,7 +2344,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>56.4pt</Width>
+                              <Width>64.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2384,7 +2385,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>59.4pt</Width>
+                              <Width>96.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2430,7 +2431,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>61.2pt</Width>
+                              <Width>75.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2471,7 +2472,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>72.6pt</Width>
+                              <Width>87pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2511,7 +2512,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>43.2pt</Width>
+                              <Width>57.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2558,7 +2559,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>56.4pt</Width>
+                              <Width>64.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2599,7 +2600,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>59.4pt</Width>
+                              <Width>96.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2645,7 +2646,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>61.2pt</Width>
+                              <Width>75.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2686,7 +2687,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>72.6pt</Width>
+                              <Width>87pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2726,7 +2727,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>43.2pt</Width>
+                              <Width>57.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2773,7 +2774,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>56.4pt</Width>
+                              <Width>64.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2814,7 +2815,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>59.4pt</Width>
+                              <Width>96.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2873,10 +2874,10 @@
                 </TablixRowHierarchy>
               </Tablix>
               <Tablix Name="Tablix3">
-                <Left>301.5pt</Left>
-                <Top>221.25pt</Top>
-                <Height>36pt</Height>
-                <Width>448.35pt</Width>
+                <Left>424.5pt</Left>
+                <Top>222.7406pt</Top>
+                <Height>41.25pt</Height>
+                <Width>336.75pt</Width>
                 <Style>
                   <FontFamily>Arial</FontFamily>
                   <Border>
@@ -2887,35 +2888,35 @@
                 <TablixBody>
                   <TablixColumns>
                     <TablixColumn>
-                      <Width>102.6pt</Width>
+                      <Width>79.2pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>68.4pt</Width>
+                      <Width>46.8pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>75pt</Width>
+                      <Width>45.6pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>75.60001pt</Width>
+                      <Width>60.6pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>49.2pt</Width>
+                      <Width>40.8pt</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>77.4pt</Width>
+                      <Width>61.8pt</Width>
                     </TablixColumn>
                   </TablixColumns>
                   <TablixRows>
                     <TablixRow>
-                      <Height>18pt</Height>
+                      <Height>23.4pt</Height>
                       <TablixCells>
                         <TablixCell>
                           <CellContents>
                             <Textbox Name="TextBox51">
                               <Left>0in</Left>
                               <Top>0in</Top>
-                              <Height>18pt</Height>
-                              <Width>448.2pt</Width>
+                              <Height>23.4pt</Height>
+                              <Width>334.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <VerticalAlign>Middle</VerticalAlign>
@@ -2968,7 +2969,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>102.6pt</Width>
+                              <Width>79.2pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -2988,6 +2989,7 @@
                                       <Value>TOTAL LOAN AMOUNT</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
+                                        <FontSize>7.74975pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
                                         <Color>black</Color>
                                       </Style>
@@ -3009,7 +3011,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>68.4pt</Width>
+                              <Width>46.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -3029,6 +3031,7 @@
                                       <Value>=Fields!LoanAmount.Value</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
+                                        <FontSize>7.74975pt</FontSize>
                                         <FontWeight>Light</FontWeight>
                                         <Format>n2</Format>
                                         <Color>black</Color>
@@ -3052,7 +3055,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>75pt</Width>
+                              <Width>45.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -3072,6 +3075,7 @@
                                       <Value>DEDUCTION</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
+                                        <FontSize>7.74975pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
                                         <Color>black</Color>
                                       </Style>
@@ -3093,7 +3097,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>75.6pt</Width>
+                              <Width>60.6pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -3113,6 +3117,7 @@
                                       <Value>=Fields!RepaymentAmount.Value</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
+                                        <FontSize>7.74975pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
                                         <Color>black</Color>
                                       </Style>
@@ -3134,7 +3139,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>49.2pt</Width>
+                              <Width>40.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -3154,6 +3159,7 @@
                                       <Value>BALANCE</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
+                                        <FontSize>7.74975pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
                                         <Color>black</Color>
                                       </Style>
@@ -3175,7 +3181,7 @@
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18pt</Height>
-                              <Width>77.4pt</Width>
+                              <Width>61.8pt</Width>
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -3195,6 +3201,7 @@
                                       <Value>=Fields!LoanAmount.Value-Fields!RepaymentAmount.Value</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
+                                        <FontSize>7.74975pt</FontSize>
                                         <FontWeight>Light</FontWeight>
                                         <Format>n2</Format>
                                         <Color>black</Color>
@@ -3328,9 +3335,9 @@
             </Paragraphs>
           </Textbox>
         </ReportItems>
-        <Height>423.7313pt</Height>
+        <Height>423.75pt</Height>
       </Body>
-      <Width>759pt</Width>
+      <Width>775.5pt</Width>
       <Page>
         <PageHeight>595.4405pt</PageHeight>
         <PageWidth>841.6807pt</PageWidth>

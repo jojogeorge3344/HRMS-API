@@ -21,6 +21,7 @@ export class ReportsService {
   overtimeData:any
 
   months = Months;
+  payslipData: any;
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http = http;
     this.baseUrl = baseUrl + 'api/report/';
@@ -108,5 +109,19 @@ this.data=[]
   }
   setOvertime(){
     return this.overtimeData
+  }
+  getPaySlip(){
+    return this.payslipData
+  }
+  setPaySlip(paygroupId,department,designation,employeeId,fromDate,ToDate){
+    this.payslipData=[]
+    this.payslipData.push({
+      paygroupId:paygroupId,
+      department:department,
+      designation:designation,
+      employeeId:employeeId,
+      fromDate:fromDate,
+      ToDate:ToDate
+    })
   }
 }

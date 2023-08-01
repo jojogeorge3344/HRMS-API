@@ -153,52 +153,58 @@ export class EmployeePayslipPrintFilterComponent implements OnInit {
   openPrint() {
     debugger
     let selectedIds=this.selectedPaygroups
-    let arrValue = selectedIds.map(({id}) =>id);
-    this.paygroupId = arrValue.join()
+    let arrValue = selectedIds?.map(({id}) =>id);
+    this.paygroupId = arrValue?.join()
 
     let departments=this.selectedDepartment
-    let departmentVal=departments.map(({id}) =>id);
-    this.department=departmentVal.join()
+    let departmentVal=departments?.map(({id}) =>id);
+    this.department=departmentVal?.join()
 
     let designations=this.selectedDesignation
-    let desigVal=designations.map(({id}) =>id);
-    this.designation=desigVal.join()
+    let desigVal=designations?.map(({id}) =>id);
+    this.designation=desigVal?.join()
+
     let employees=this.selectedEmployee;
-    let emp=employees.map(({id}) =>id);
-    this.employeeId=emp.join()
+    let emp=employees?.map(({id}) =>id);
+    this.employeeId=emp?.join()
+
     this.noOfCalendarDays = new Date(this.addForm.get('year').value, this.addForm.get('month').value, 0).getDate();
    this.fromDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value > 9 ? this.addForm.get('month').value : 0 + this.addForm.get('month').value}-01`
    this.ToDate= `${this.addForm.get('year').value}-${this.addForm.get('month').value}-${this.noOfCalendarDays}`
 
-   const modalRef = this.modalService.open(EmployeePayslipPrintComponent,
-    { size: 'xl', centered: true, backdrop: 'static' });
-  modalRef.componentInstance.paygroupId = this.paygroupId;
-  modalRef.componentInstance.department = this.department;
-  modalRef.componentInstance.designation = this.designation;
-  modalRef.componentInstance.employeeId = this.employeeId;
-  modalRef.componentInstance.fromDate = this.fromDate;
-  modalRef.componentInstance.ToDate = this.ToDate;
+  //  const modalRef = this.modalService.open(EmployeePayslipPrintComponent,
+  //   { size: 'xl', centered: true, backdrop: 'static' });
+  // modalRef.componentInstance.paygroupId = this.paygroupId;
+  // modalRef.componentInstance.department = this.department;
+  // modalRef.componentInstance.designation = this.designation;
+  // modalRef.componentInstance.employeeId = this.employeeId;
+  // modalRef.componentInstance.fromDate = this.fromDate;
+  // modalRef.componentInstance.ToDate = this.ToDate;
 
  
-    // this.reportViewerService.customData.paygroupId = paygroupId;
-    // this.reportViewerService.customData.department = department;
-    // this.reportViewerService.customData.designation = designation;
-    // this.reportViewerService.customData.employeeId = employeeId;
-    // this.reportViewerService.customData.fromDate = fromDate;
-    // this.reportViewerService.customData.ToDate = ToDate;
+  //   // this.reportViewerService.customData.paygroupId = paygroupId;
+  //   // this.reportViewerService.customData.department = department;
+  //   // this.reportViewerService.customData.designation = designation;
+  //   // this.reportViewerService.customData.employeeId = employeeId;
+  //   // this.reportViewerService.customData.fromDate = fromDate;
+  //   // this.reportViewerService.customData.ToDate = ToDate;
 
-    this.router.navigate(["./print/"  ], {
-      relativeTo: this.route.parent,
-  })
-    }
+  //   this.router.navigate(["./print/"  ], {
+  //     relativeTo: this.route.parent,
+  // })
+
+  this.reportService.setPaySlip(this.paygroupId,this.department,this.designation,this.employeeId,this.fromDate,this.ToDate)
+if(this.addForm.valid)
+  this.router.navigate(["./employeepayslip/print"], {
+  
+     relativeTo: this.route.parent,
+ 
+  });
+  }
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      fromDate:[null, [ 
-        Validators.required,
-      ]],
-      ToDate:[null, [
-        Validators.required,
-      ]],
+      fromDate:[null],
+      ToDate:[null],
       paygroupId:[null, [
         Validators.required,
       ]],

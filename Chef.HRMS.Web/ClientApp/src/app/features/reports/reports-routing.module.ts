@@ -20,6 +20,11 @@ const routes: Routes = [
     data: { breadcrumbs: ['Employee Report List', 'Employee Payslip'], name: 'report-employeelist' }
   },
   {
+    path: 'employeepayslip/print', component: EmployeePayslipPrintComponent,
+    data: { breadcrumbs: ['Employee Report List', 'Employee Payslip'], name: 'report-employeelist' }
+  },
+  
+  {
     path: 'employeepayroll', component: EmployeePayrollReportFilterComponent,
     data: { breadcrumbs: ['Employee Report List', 'Employee Payroll'], name: 'report-employeelist' }
   },

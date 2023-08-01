@@ -21,19 +21,22 @@ public class PayslipReportRepository : GenericRepository<PayrollComponentDetails
 	                     ON e.id = a.employeeid
                          LEFT JOIN hrms.payrollcomponentdetails pcd
                          ON pcd.employeeid = e.id
-                         WHERE (To_Date(cast(coalesce(pcd.payrollprocessdate) as TEXT),'YYYY MM DD') BETWEEN @fromDate AND @ToDate)
-                         AND e.id IN (" + employeeIds + ")";
-        if (paygroupIds != string.Empty)
+                         WHERE (To_Date(cast(coalesce(pcd.payrollprocessdate) as TEXT),'YYYY MM DD') BETWEEN @fromDate AND @ToDate)";
+        if (!string.IsNullOrEmpty(paygroupIds) && paygroupIds != "0")
         {
             sql += "AND jf.paygroupid IN (" + paygroupIds + ")";
         }
-        if (departmentIds != string.Empty)
+        if (!string.IsNullOrEmpty(departmentIds) && departmentIds != "0")
         {
             sql += "AND jd.department IN (" + departmentIds + ")";
         }
-        if (designationIds != string.Empty)
+        if (!string.IsNullOrEmpty(designationIds) && designationIds != "0")
         {
             sql += "AND jd.jobtitleid IN (" + designationIds + ")";
+        }
+        if (!string.IsNullOrEmpty(employeeIds) && employeeIds != "0")
+        {
+            sql += "AND e.id IN (" + employeeIds + ")";
         }
         sql += @"AND e.isarchived = false
                          GROUP BY e.id,e.firstname,e.middlename,e.lastname,jd.employeenumber,pcd.payrollcomponentid,

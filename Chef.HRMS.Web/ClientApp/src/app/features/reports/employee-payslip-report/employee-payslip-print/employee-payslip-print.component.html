@@ -2,12 +2,17 @@
     <h1 class="subheader-title">
       <div>Print Employee Payslip Report</div>
     </h1>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-  </button>
   </div>
   
   <div class="card p-3" id="printEmployeePayslip">
+    <div>
+      <button
+        routerLink="/reports/employeepayslip"
+        class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right"
+      >
+        <i class="fal fa-arrow-left mr-2"></i> Back to Overtime Reports
+      </button>
+    </div>
     <div style="height: 100vh" class="pt-6">
       <app-reportviewer  id="employee-payslip-view"> </app-reportviewer>
     </div>
