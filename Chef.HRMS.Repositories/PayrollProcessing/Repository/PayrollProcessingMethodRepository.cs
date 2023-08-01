@@ -361,33 +361,38 @@ public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcess
         return await Connection.QueryAsync<PayrollProcessingMethod>(sql, new { employeeid, paygroupid });
     }
 
-    public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid)
+    public async Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid,int month,int year)
     {
         var sql = @"SELECT DISTINCT
-                          ppm.employeeid,
-                          ppm.id AS payrollprocessingid,
-                          le.*,
-                          esd.monthlyamount,
-                          emp.displayname AS employeename,
-                          jd.employeenumber AS employeecode
-                        FROM hrms.payrollprocessingmethod ppm
-                        LEFT JOIN hrms.hrmsemployee emp
-                          ON emp.id = ppm.employeeid
-                        LEFT JOIN hrms.jobdetails jd
-                          ON jd.employeeid = ppm.employeeid
-                        LEFT JOIN hrms.jobfiling jf
-                          ON jf.employeeid = ppm.employeeid
-                        LEFT JOIN hrms.leavestructureleavecomponent lslc
-                          ON lslc.leavestructureid = jf.leavestructureid
-                        LEFT JOIN hrms.leaveeligibility le
-                          ON le.leavecomponentid = lslc.leavecomponentid
-                        LEFT JOIN hrms.employeesalaryconfigurationdetails esd
-                          ON le.leavecomponentid = esd.payrollcomponentid
-                        WHERE ppm.paygroupid = @paygroupid
-                        AND le.leavetype = 1";
-        //, esd.monthlyamount Join hrms.employeesalaryconfigurationdetails esd on le.leavecomponentid = esd.payrollcomponentid
+                      ppm.employeeid,
+                      jd.employeenumber AS employeecode,
+                      emp.displayname AS employeename,
+                      ppm.id AS payrollprocessingid,
+                      pcd.earningsamt AS monthlyamount,
+                      le.*
+                    FROM hrms.payrollprocessingmethod ppm
+                    INNER JOIN hrms.hrmsemployee emp
+                      ON emp.id = ppm.employeeid
+                    INNER JOIN hrms.jobdetails jd
+                      ON jd.employeeid = ppm.employeeid
+                    INNER JOIN hrms.jobfiling jf
+                      ON jf.employeeid = ppm.employeeid
+                    INNER JOIN hrms.leavestructureleavecomponent lslc
+                      ON lslc.leavestructureid = jf.leavestructureid
+                    INNER JOIN hrms.leaveeligibility le
+                      ON le.leavecomponentid = lslc.leavecomponentid
+                    INNER JOIN hrms.employeesalaryconfigurationdetails esd
+                      ON le.leavecomponentid = esd.payrollcomponentid
+                    INNER JOIN hrms.payrollcomponentdetails pcd
+                      ON pcd.employeeid = ppm.employeeid
+                      AND pcd.payrollcomponentid = le.leavecomponentid
+                    WHERE ppm.month = @month
+                    AND ppm.year = @year
+                    AND ppm.paygroupid = @paygroupid
+                    AND le.leavetype = 1
+                    AND ppm.isarchived = FALSE";
 
-        return await Connection.QueryAsync<LeaveEligibility>(sql, new { paygroupid });
+        return await Connection.QueryAsync<LeaveEligibility>(sql, new { paygroupid,month,year });
     }
 
     public async Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid)

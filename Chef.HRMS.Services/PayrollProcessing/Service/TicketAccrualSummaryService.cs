@@ -33,24 +33,23 @@ public class TicketAccrualSummaryService : AsyncService<TicketAccrualSummary>, I
             var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - EOSSUmmary entered for next month
             ticketAccrualSummary.AccrualDate = firstDayNextMonth;
 
-            if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+            //if previous data is available for this employee
+            if (prevAccrualSummaryDetails != null)
             {
-                throw new ResourceNotFoundException("Ticket accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-            }
-
-            if (prevAccrualSummaryDetails == null)
-            {
-                //Insert into Accrual summary table 
-                ticketAccrualSummary.AccrualDays = employeeTicketAccrual.AccrualDays;
-                ticketAccrualSummary.AccrualAmount = employeeTicketAccrual.AccrualAmount;
-            }
-            else
-            {
-
+                if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
+                {
+                    throw new ResourceNotFoundException("Ticket accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                }
                 decimal currentAccrual = employeeTicketAccrual.EligibilityPerDay * employeeTicketAccrual.WorkeddaysInCalMonth;
                 decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
                 ticketAccrualSummary.AccrualDays = totalAccrualDays;
                 ticketAccrualSummary.AccrualAmount = (employeeTicketAccrual.MonthlyAmount / employeeTicketAccrual.EligibilityBase) * employeeTicketAccrual.AccrualDays;
+            }
+            //if first time processing payroll for this employee
+            else
+            {
+                ticketAccrualSummary.AccrualDays = employeeTicketAccrual.AccrualDays;
+                ticketAccrualSummary.AccrualAmount = employeeTicketAccrual.AccrualAmount;
             }
             ticketAccrualSummaries.Add(ticketAccrualSummary);
         }

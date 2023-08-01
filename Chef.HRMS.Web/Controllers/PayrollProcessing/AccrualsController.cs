@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Authentication;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Services;
 using Chef.HRMS.Services.PayrollProcessing.Interface;
@@ -18,46 +19,25 @@ public class AccrualsController : ControllerBase
     private readonly ILeaveAccrualService leaveAccrualService;
     private readonly IEOSAccrualService eosAccrualService;
     private readonly ITicketAccrualService ticketAccrualService;
+    private readonly IAccrualService accrualService;
 
-    private readonly ILeaveAccrualSummaryService leaveAccrualSummaryService;
-    private readonly IEOSAccrualSummaryService eosAccrualSummaryService;
-    private readonly ITicketAccrualSummaryService ticketAccrualSummaryService;
-
-    public AccrualsController(ILeaveAccrualService leaveAccrualService,ILeaveAccrualSummaryService leaveAccrualSummaryService,
-        IEOSAccrualService eosAccrualService, ITicketAccrualService ticketAccrualService)
+    public AccrualsController(
+        ILeaveAccrualService leaveAccrualService,
+        IEOSAccrualService eosAccrualService,
+        ITicketAccrualService ticketAccrualService,
+        IAccrualService accrualService)
     {
         this.leaveAccrualService = leaveAccrualService;
         this.eosAccrualService = eosAccrualService;
         this.ticketAccrualService = ticketAccrualService;
-
-        this.leaveAccrualSummaryService = leaveAccrualSummaryService;
-        this.leaveAccrualSummaryService = leaveAccrualSummaryService;
-        this.leaveAccrualSummaryService = leaveAccrualSummaryService;
+        this.accrualService = accrualService;
     }
 
     [AllowAnonymous]
     [HttpPost("SaveAccruals")]
     public async Task<ActionResult<int>> SaveAccruals([FromBody]Accruals accrualsList)
     {
-        int result = 0;
-        result = await leaveAccrualService.InsertLeaveAccruals(accrualsList.LeaveAccruals);
-
-        if (result > 0)
-        {
-            result = await leaveAccrualSummaryService.GenerateAndInsertLeaveAccrualSummary(accrualsList.LeaveAccruals);
-        }
-
-        result = await eosAccrualService.InsertEOSAccruals(accrualsList.EOSAccruals);
-        if (result > 0)
-        {
-            result = await eosAccrualSummaryService.GenerateAndInsertEOSAccrualSummary(accrualsList.EOSAccruals);
-        }
-
-        result = await ticketAccrualService.InsertTicketAccruals(accrualsList.TicketAccruals);
-        if (result > 0)
-        {
-            result = await ticketAccrualSummaryService.GenerateAndInsertTicketAccrualSummary(accrualsList.TicketAccruals);
-        }
+        var result = await accrualService.SaveAccruals(accrualsList);
         return Ok(result);
     }
 
