@@ -537,6 +537,7 @@ public class PayrollProcessingMethodRepository : TenantRepository<PayrollProcess
                       pcd.earningsamt,
                       pcd.deductionamt,
                       pcd.payrollcomponentid,
+                      pc.shortcode AS payrollcomponentcode,
                       pc.name AS payrollcomponentname,
                       pc.payheadbaseunittype,
                       emp.displayname AS employeename,
