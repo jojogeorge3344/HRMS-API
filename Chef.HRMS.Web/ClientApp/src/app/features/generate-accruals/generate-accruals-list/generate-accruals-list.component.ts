@@ -37,11 +37,12 @@ export class GenerateAccrualsListComponent implements OnInit {
       });
   }
   processSetup(item){
+    debugger
     let id = item.payGroupId
     let payrollid = item.id
     let IorV = 'I'
     this.router.navigate([ "./" +
-    id +'/'+ IorV +'/'+ payrollid +
+    id +'/'+ IorV +'/'+ payrollid + '/' + item.month + '/' + item.year +
     "/generate/"], { relativeTo: this.route.parent });
   }
 

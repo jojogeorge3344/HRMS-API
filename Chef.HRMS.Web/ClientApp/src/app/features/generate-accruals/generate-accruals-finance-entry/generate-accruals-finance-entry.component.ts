@@ -20,6 +20,8 @@ export class GenerateAccrualsFinanceEntryComponent implements OnInit {
   saveAccrualsDetails:any=[]
   Action:string  
   payrollid:any
+  month:any
+  year :any
   constructor(
     public modalService: NgbModal,
     private generateAccrualsService:GenerateAccrualsService,
@@ -33,6 +35,8 @@ export class GenerateAccrualsFinanceEntryComponent implements OnInit {
       this.paygroupId = params['id'];
       this.Action = params['IorV'];
       this.payrollid = params['payrollid']
+      this.month = params['month']
+      this.year = params['year']
     });
    if(this.Action == 'I'){
     this.getLeaveAccruals()
@@ -47,7 +51,7 @@ export class GenerateAccrualsFinanceEntryComponent implements OnInit {
   getLeaveAccruals() {
     debugger
     this.leaveAccrualsList =[]
-    this.generateAccrualsService.getLeaveAccrualsList(this.paygroupId).subscribe(result => {
+    this.generateAccrualsService.getLeaveAccrualsList(this.paygroupId,this.month,this.year).subscribe(result => {
       this.leaveAccrualsList = result;
       
     },
