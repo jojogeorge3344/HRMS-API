@@ -24,7 +24,6 @@ export class PayrollProcessSalarydetailsViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     console.log(this.process)
   }
 
