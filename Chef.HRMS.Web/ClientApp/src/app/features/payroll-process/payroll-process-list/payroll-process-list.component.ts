@@ -49,9 +49,13 @@ export class PayrollProcessListComponent implements OnInit {
   }
 
   viewSummary(process) {
-    const modalRef = this.modalService.open(PayrollProcessCompletedViewComponent,
-      { size: 'xl', centered: true, backdrop: 'static' });
-    modalRef.componentInstance.id = process.id;
+    // const modalRef = this.modalService.open(PayrollProcessCompletedViewComponent,
+    //   { size: 'xl', centered: true, backdrop: 'static' });
+    // modalRef.componentInstance.id = process.id;
+
+    this.router.navigate( [
+     "./payroll-process-complete-view/" + process.id
+    ],{ relativeTo: this.route.parent });
   }
 
   processSetup(process) {
