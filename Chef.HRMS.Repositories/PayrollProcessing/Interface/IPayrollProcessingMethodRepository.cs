@@ -18,7 +18,7 @@ public interface IPayrollProcessingMethodRepository : IGenericRepository<Payroll
     Task<IEnumerable<PayrollProcessingMethod>> GetDetailsByPaygroupId(int paygroupid, int prevmonth, int prevyear);
     Task<IEnumerable<PayrollMonth>> GetPayrollProcessingMonth(int paygroupId);
     Task<IEnumerable<PayrollProcessingMethod>> GetAllByProcessignStep(int stepno);
-    Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid);
+    Task<IEnumerable<LeaveEligibility>> GetProcessedEmployeeDetailsForLeaveAccrual(int paygroupid, int month, int year);
     Task<IEnumerable<EndOfService>> GetProcessedEmployeeDetailsForEOSAccrual(int paygroupid);
     Task<bool> IsPaygroupExistInPayrollProcessingMethod(int paygroupId);
     Task<IEnumerable<EmployeeTicket>> GetProcessedEmployeeDetailsForTicketAccrual(int paygroupid);

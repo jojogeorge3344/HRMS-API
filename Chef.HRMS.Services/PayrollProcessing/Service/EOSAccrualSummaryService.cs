@@ -39,7 +39,7 @@ public class EOSAccrualSummaryService : AsyncService<EOSAccrualSummary>, IEOSAcc
             {
                 if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate)
                 {
-                    throw new ResourceNotFoundException("Accrual summary already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                    throw new ResourceNotFoundException("Accrual summary already generated for the month ");
                 }
                 //Insert into Accrual summary table 
                 eosAccrualSummary.AccrualDays = employeeEOSAccrual.AccrualDays;
@@ -47,10 +47,10 @@ public class EOSAccrualSummaryService : AsyncService<EOSAccrualSummary>, IEOSAcc
             }
             else
             {
-                //decimal currentAccrual = employeeEOSAccrual.EligibilityPerDay * employeeEOSAccrual.WorkeddaysInCalMonth;
-                //decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + employeeEOSAccrual.AccrualDays;
-                eosAccrualSummary.AccrualDays = employeeEOSAccrual.AccrualDays + prevAccrualSummaryDetails.AccrualDays;
-                eosAccrualSummary.AccrualAmount = employeeEOSAccrual.AccrualAmount;
+                    //decimal currentAccrual = employeeEOSAccrual.EligibilityPerDay * employeeEOSAccrual.WorkeddaysInCalMonth;
+                    //decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + employeeEOSAccrual.AccrualDays;
+                    eosAccrualSummary.AccrualDays = employeeEOSAccrual.AccrualDays + prevAccrualSummaryDetails.AccrualDays;
+                    eosAccrualSummary.AccrualAmount = employeeEOSAccrual.AccrualAmount;
             }
             if (employeeEOSAccrual.IsRetrospectiveAccrual)
             {
