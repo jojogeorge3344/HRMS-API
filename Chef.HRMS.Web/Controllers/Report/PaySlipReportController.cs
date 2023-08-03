@@ -2,6 +2,7 @@
 using Chef.Common.Data.Services;
 using Chef.Common.Models;
 using Chef.HRMS.Models;
+using Chef.HRMS.Models.PayrollProcessing;
 using Chef.HRMS.Services;
 using Chef.HRMS.Services.Report;
 using Chef.HRMS.Web.Controllers;
@@ -81,8 +82,7 @@ public class PaySlipReportController : ReportViewerController
             foreach (var items in header)
             {
                 currencyId = items.CurrencyId;
-                Task.Run(() => this.GetByCurrency(currencyId)).Wait();
-                
+                Task.Run(() => this.GetByCurrency(currencyId)).Wait();                
             }
 
             var currencylist = new List<Currency>();

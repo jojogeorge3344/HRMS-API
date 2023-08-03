@@ -7,9 +7,10 @@ namespace Chef.HRMS.Models;
 
 public class PayrollComponentReportView : ViewModel
 {
-    public string ShortCode { get; set; }
-    public string Name { get; set; }
-    public int PayrollComponentId { get; set; }
+    public int EarningComponentId { get; set; }
+    public int DeductionComponentId { get; set; }
+    public string EarningComponentName { get; set; }
+    public string DeductionComponentName { get; set; }
     public decimal EarningsAmt { get; set; }
     public decimal DeductionAmt { get; set; }
     public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }

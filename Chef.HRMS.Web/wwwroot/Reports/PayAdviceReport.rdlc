@@ -16,6 +16,7 @@
             <Top>77.23125pt</Top>
             <Height>340.5pt</Height>
             <Width>762pt</Width>
+            <Visibility />
             <Style>
               <FontFamily>Arial</FontFamily>
               <Border>
@@ -459,11 +460,12 @@
                       <TablixCells>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox19">
+                            <Textbox Name="TextBox63">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
                               <Width>211.8pt</Width>
+                              <Visibility />
                               <Style>
                                 <FontFamily>Arial</FontFamily>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -486,7 +488,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Name.Value</Value>
+                                      <Value>=IIf(Fields!EarningsAmt.Value &gt; 0,Fields!EarningComponentName.Value,"")</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Color>black</Color>
@@ -505,7 +507,7 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox22">
+                            <Textbox Name="TextBox64">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
@@ -532,7 +534,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!PayHeadType.Value</Value>
+                                      <Value>=IIf(Fields!EarningsAmt.Value &gt; 0,Fields!PayHeadType.Value,"")</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Color>black</Color>
@@ -552,7 +554,7 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox24">
+                            <Textbox Name="TextBox65">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
@@ -579,7 +581,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!EarningsAmt.Value</Value>
+                                      <Value>=IIf(Fields!EarningsAmt.Value &gt; 0,Fields!EarningsAmt.Value,"")</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Format>n2</Format>
@@ -600,7 +602,7 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox25">
+                            <Textbox Name="TextBox23">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
@@ -627,7 +629,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=IIf(Fields!DeductionAmt.Value &gt; 0,Fields!Name.Value,"")</Value>
+                                      <Value>=IIf(Fields!DeductionAmt.Value&gt; 0,Fields!DeductionComponentName.Value,"")</Value>
                                       <Style>
                                         <FontFamily>Calibri Light</FontFamily>
                                         <Color>black</Color>
@@ -646,7 +648,7 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox30">
+                            <Textbox Name="TextBox24">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
@@ -742,7 +744,7 @@
                         <TablixCell />
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox38">
+                            <Textbox Name="TextBox66">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
@@ -827,7 +829,7 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox37">
+                            <Textbox Name="TextBox19">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
@@ -998,7 +1000,7 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox23">
+                            <Textbox Name="TextBox22">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>18.6pt</Height>
@@ -1160,7 +1162,7 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="TextBox1">
+                            <Textbox Name="TextBox72">
                               <Left>0in</Left>
                               <Top>0in</Top>
                               <Height>19.8pt</Height>
@@ -3556,6 +3558,13 @@
       </ConnectionProperties>
       <rd:ImpersonateUser>false</rd:ImpersonateUser>
     </DataSource>
+    <DataSource Name="DataSource29">
+      <ConnectionProperties>
+        <DataProvider />
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:ImpersonateUser>false</rd:ImpersonateUser>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="EmployeeHeader">
@@ -3614,17 +3623,21 @@
     </DataSet>
     <DataSet Name="ComponentDetails">
       <Fields>
-        <Field Name="ShortCode">
-          <DataField>ShortCode</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Name">
-          <DataField>Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="PayrollComponentId">
-          <DataField>PayrollComponentId</DataField>
+        <Field Name="EarningComponentId">
+          <DataField>EarningComponentId</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DeductionComponentId">
+          <DataField>DeductionComponentId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="EarningComponentName">
+          <DataField>EarningComponentName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DeductionComponentName">
+          <DataField>DeductionComponentName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="EarningsAmt">
           <DataField>EarningsAmt</DataField>
@@ -3636,7 +3649,11 @@
         </Field>
         <Field Name="PayHeadBaseUnitType">
           <DataField>PayHeadBaseUnitType</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PayHeadType">
+          <DataField>PayHeadType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="MinimumLimit">
           <DataField>MinimumLimit</DataField>
@@ -3650,20 +3667,12 @@
           <DataField>PayrollProcessDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="PayHeadType">
-          <DataField>PayHeadType</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="EmployeeId">
+          <DataField>EmployeeId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="NormalOverTimeHrs">
-          <DataField>NormalOverTimeHrs</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="HolidayOverTimeHrs">
-          <DataField>HolidayOverTimeHrs</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="SpecialOverTimeHrs">
-          <DataField>SpecialOverTimeHrs</DataField>
+        <Field Name="BasicPay">
+          <DataField>BasicPay</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>

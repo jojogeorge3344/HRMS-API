@@ -47,14 +47,34 @@ public class PayslipReportRepository : GenericRepository<PayrollComponentDetails
 
     public async Task<IEnumerable<PayrollComponentReportView>> EmployeeComponentDetails(string employeeIds, DateTime fromDate, DateTime ToDate, string paygroupIds, string departmentIds, string designationIds)
     {
-        var sql = @"select pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
-                        pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate,pcd.employeeid
-                        FROM hrms.payrollcomponentdetails pcd
-                        INNER JOIN hrms.payrollcomponent pc
+        var sql = @"SELECT 
+                        --seperating earnings conponentid and deduction componentid
+                        CASE WHEN earningsamt >= 0 THEN pcd.payrollcomponentid ELSE NULL END AS earningcomponentid,
+                        CASE WHEN deductionamt >= 0 THEN pcd.payrollcomponentid ELSE NULL END AS deductioncomponentid,
+                            -- Corresponding component name for earning_componentid
+                        CASE WHEN earningsamt >= 0 THEN pc_earning.name ELSE NULL END AS earningcomponentname,
+                        -- Corresponding component name for deduction_componentid
+                        CASE WHEN deductionamt >= 0 THEN pc_deduction.name ELSE NULL END AS deductioncomponentname,
+                        -- Separate the earningsamt and deductionamt based on their types
+                        CASE WHEN earningsamt >= 0 THEN earningsamt ELSE 0 END AS earningsamt,
+                        CASE WHEN deductionamt >= 0 THEN deductionamt ELSE 0 END AS deductionamt,
+                        pc.payheadbaseunittype,
+                        pc.minimumlimit,
+                        pc.maximumlimit,
+                        pcd.payrollprocessdate,
+                        pcd.employeeid
+                    FROM hrms.payrollcomponentdetails pcd
+                    INNER JOIN hrms.payrollcomponent pc
                         ON pcd.payrollcomponentid = pc.id
-                        INNER JOIN hrms.jobdetails jd
+                    LEFT JOIN hrms.payrollcomponent pc_earning
+                        ON pcd.payrollcomponentid = pc_earning.id
+                        AND earningsamt > 0
+                    LEFT JOIN hrms.payrollcomponent pc_deduction
+                        ON pcd.payrollcomponentid = pc_deduction.id
+                        AND deductionamt > 0
+                    INNER JOIN hrms.jobdetails jd
                         ON pcd.employeeid = jd.employeeid
-                        INNER JOIN hrms.jobfiling jf
+                    INNER JOIN hrms.jobfiling jf
                         ON pcd.employeeid = jf.employeeid
                         WHERE pcd.payrollprocessdate BETWEEN @fromDate AND @ToDate
                         AND pcd.employeeid IN (" + employeeIds + @")";
@@ -71,8 +91,18 @@ public class PayslipReportRepository : GenericRepository<PayrollComponentDetails
             sql += "AND jd.jobtitleid IN (" + designationIds + ")";
         }
         sql += @"AND pcd.isarchived = false
-                        GROUP BY pc.shortcode,pc.name,pcd.payrollcomponentid,pcd.earningsamt,pcd.deductionamt,
-                        pc.payheadbaseunittype,pc.minimumlimit,pc.maximumlimit,pcd.payrollprocessdate,pcd.employeeid";
+                        GROUP BY pc.shortcode,
+                                 pc.name,
+                                 pcd.payrollcomponentid,
+                                 pcd.earningsamt,
+                                 pcd.deductionamt,
+                                 pc.payheadbaseunittype,
+                                 pc.minimumlimit,
+                                 pc.maximumlimit,
+                                 pcd.payrollprocessdate,
+                                 pcd.employeeid,
+                                 pc_earning.name,
+                                 pc_deduction.name";
 
         return await Connection.QueryAsync<PayrollComponentReportView>(sql, new { employeeIds, fromDate, ToDate, paygroupIds, departmentIds, designationIds });
 
