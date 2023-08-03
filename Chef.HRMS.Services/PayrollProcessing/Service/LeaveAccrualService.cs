@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Exceptions;
+using Chef.Common.Repositories;
 using Chef.HRMS.Models;
 using Chef.HRMS.Repositories;
 using Chef.HRMS.Services.PayrollProcessing.Interface;
@@ -14,14 +15,21 @@ public class LeaveAccrualService : AsyncService<LeaveAccrual>, ILeaveAccrualServ
     private readonly ILeaveAccrualSummaryRepository leaveAccrualSummaryRepository;
     private readonly IPayrollProcessingMethodRepository payrollProcessingMethodRepository;
     private readonly ISystemVariableValuesRepository systemVariableValuesRepository;
+    private readonly ITenantSimpleUnitOfWork tenantSimpleUnitOfWork;
 
-    public LeaveAccrualService(ILeaveAccrualRepository leaveAccrualRepository, IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
-        ILeaveAccrualSummaryRepository leaveAccrualSummaryRepository, ISystemVariableValuesRepository systemVariableValuesRepository)
+    public LeaveAccrualService(
+        ILeaveAccrualRepository leaveAccrualRepository, 
+        IPayrollProcessingMethodRepository payrollProcessingMethodRepository,
+        ILeaveAccrualSummaryRepository leaveAccrualSummaryRepository,
+        ISystemVariableValuesRepository systemVariableValuesRepository,
+        ITenantSimpleUnitOfWork tenantSimpleUnitOfWork)
     {
         this.leaveAccrualRepository = leaveAccrualRepository;
         this.payrollProcessingMethodRepository = payrollProcessingMethodRepository;
         this.leaveAccrualSummaryRepository = leaveAccrualSummaryRepository;
         this.systemVariableValuesRepository = systemVariableValuesRepository;
+        this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
+        this.tenantSimpleUnitOfWork = tenantSimpleUnitOfWork;
     }
 
     public async Task<int> GenerateLeaveAvailed(LeaveAccrual leaveAvailedDetails)
@@ -66,103 +74,119 @@ public class LeaveAccrualService : AsyncService<LeaveAccrual>, ILeaveAccrualServ
 
     }
 
-    public async Task<IEnumerable<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid)
+    public async Task<IEnumerable<LeaveAccrual>> GenerateLeaveAccruals(int paygroupid, int month, int year)
     {
         List<LeaveAccrual> leaveAccruals = new List<LeaveAccrual>();
-        //  List<LeaveAccrualSummary> leaveAccrualSummaries = new List<LeaveAccrualSummary>();
-
-        var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForLeaveAccrual(paygroupid);
-        foreach (var eligibleEmployee in employeeLeaveEligibilityDetails)
+        tenantSimpleUnitOfWork.BeginTransaction();
+        try
         {
-            var now = DateTime.Now;
-            int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
+            //  List<LeaveAccrualSummary> leaveAccrualSummaries = new List<LeaveAccrualSummary>();
 
-            LeaveAccrual leaveAccrualEmployee = new LeaveAccrual();
-            leaveAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
-            leaveAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
-            leaveAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
-            leaveAccrualEmployee.PayrollProcessingId = eligibleEmployee.PayrollProcessingId;
-            leaveAccrualEmployee.AccrualStatus = 0; //Pending
-            leaveAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
-            leaveAccrualEmployee.IsArchived = false;
-            leaveAccrualEmployee.AvailAmount = 0;
-            leaveAccrualEmployee.AvailDays = 0;
-            leaveAccrualEmployee.LeaveId = 0;
-            leaveAccrualEmployee.EligibilityBase = eligibleEmployee.EligibilityBase;
-            leaveAccrualEmployee.CFLimitDays = eligibleEmployee.CFLimitDays;
-            leaveAccrualEmployee.IsIncludeLOPDays = eligibleEmployee.IsIncludeLOPDays;
-            leaveAccrualEmployee.LeaveCutOffType = eligibleEmployee.LeaveCutOffType;
-            leaveAccrualEmployee.MonthlyAmount = eligibleEmployee.MonthlyAmount;
-
-            var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
-            if (systemVariableValues != null && systemVariableValues.Count() > 0)
+            var employeeLeaveEligibilityDetails = await payrollProcessingMethodRepository.GetProcessedEmployeeDetailsForLeaveAccrual(paygroupid, month, year);
+            foreach (var eligibleEmployee in employeeLeaveEligibilityDetails)
             {
-                leaveAccrualEmployee.EligibilityPerDay = (decimal)eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase;
-                leaveAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Cldr_Mth").TransValue;
-                leaveAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkd_Dys_Cldr_Mth").TransValue;
-            }
+                var now = DateTime.Now;
+                int daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
 
-            // Get previous accrual summary details for eligible employee
-            var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId);
-            var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
-                                                                                        // leaveAccrualSummary.AccrualDate = firstDayNextMonth;
+                LeaveAccrual leaveAccrualEmployee = new LeaveAccrual();
+                leaveAccrualEmployee.EmployeeId = eligibleEmployee.EmployeeId;
+                leaveAccrualEmployee.EmployeeCode = eligibleEmployee.EmployeeCode;
+                leaveAccrualEmployee.EmployeeName = eligibleEmployee.EmployeeName;
+                leaveAccrualEmployee.PayrollProcessingId = eligibleEmployee.PayrollProcessingId;
+                leaveAccrualEmployee.AccrualStatus = 0; //Pending
+                leaveAccrualEmployee.AccrualDate = new DateTime(now.Year, now.Month, daysInMonth); // Insert accrual date as end of month eg : 31/05/2023
+                leaveAccrualEmployee.IsArchived = false;
+                leaveAccrualEmployee.AvailAmount = 0;
+                leaveAccrualEmployee.AvailDays = 0;
+                leaveAccrualEmployee.LeaveId = 0;
+                leaveAccrualEmployee.EligibilityBase = eligibleEmployee.EligibilityBase;
+                leaveAccrualEmployee.CFLimitDays = eligibleEmployee.CFLimitDays;
+                leaveAccrualEmployee.IsIncludeLOPDays = eligibleEmployee.IsIncludeLOPDays;
+                leaveAccrualEmployee.LeaveCutOffType = eligibleEmployee.LeaveCutOffType;
+                leaveAccrualEmployee.MonthlyAmount = eligibleEmployee.MonthlyAmount;
 
-
-            bool isLeaveCutOff = false;
-            if ((LeaveCutOffType.YearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
-                || (LeaveCutOffType.HalfYearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 6)
-                || (LeaveCutOffType.QuarterEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 3)
-                || (LeaveCutOffType.MonthEnd == eligibleEmployee.LeaveCutOffType)
-                )
-            {
-                isLeaveCutOff = true;
-            }
-
-            if (prevAccrualSummaryDetails == null || isLeaveCutOff)
-            {
-                //No need to check cutoff or carry forward as there is no previous entry for this employee
-
-                if (eligibleEmployee.IsIncludeLOPDays)
+                var systemVariableValues = await systemVariableValuesRepository.GetSystemVariableValuesByEmployeeId(eligibleEmployee.EmployeeId);
+                if (systemVariableValues != null && systemVariableValues.Count() > 0)
                 {
-                    leaveAccrualEmployee.AccrualDays = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkeddaysInCalMonth;
+                    leaveAccrualEmployee.EligibilityPerDay = (decimal)eligibleEmployee.EligibleDays / eligibleEmployee.EligibilityBase;
+                    leaveAccrualEmployee.WorkingdaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkg_Dys_Cldr_Mth").TransValue;
+                    leaveAccrualEmployee.WorkeddaysInCalMonth = systemVariableValues.FirstOrDefault(x => x.Code == "Wkd_Dys_Cldr_Mth").TransValue;
                 }
                 else
                 {
-                    leaveAccrualEmployee.AccrualDays = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkingdaysInCalMonth;
-                }
-            }
-            else
-            {
-                if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate && prevAccrualSummaryDetails.IsArchived == false)
-                {
-                    throw new ResourceNotFoundException("Leave Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
-                }
-                if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays)
-                {
-                    //no entry to be made into both tables - LeaveAccrual and LeaveSummary
+                    //if previous accrual details is null
                     continue;
                 }
-                else
-                {
-                    decimal currentAccrual = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkeddaysInCalMonth;
-                    decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
 
-                    if (totalAccrualDays > eligibleEmployee.CFLimitDays)
+                // Get previous accrual summary details for eligible employee
+                var prevAccrualSummaryDetails = await leaveAccrualSummaryRepository.GetPreviousAccrualSummary(eligibleEmployee.EmployeeId);
+                var firstDayNextMonth = new DateTime(now.Year, now.Month, 1).AddMonths(+1); // First day next month - LeaveSUmmary entered for next month
+                                                                                            // leaveAccrualSummary.AccrualDate = firstDayNextMonth;
+
+
+                bool isLeaveCutOff = false;
+                if ((LeaveCutOffType.YearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Year != now.Year)
+                    || (LeaveCutOffType.HalfYearEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 6)
+                    || (LeaveCutOffType.QuarterEnd == eligibleEmployee.LeaveCutOffType && firstDayNextMonth.Month > 3)
+                    || (LeaveCutOffType.MonthEnd == eligibleEmployee.LeaveCutOffType)
+                    )
+                {
+                    isLeaveCutOff = true;
+                }
+
+                if (prevAccrualSummaryDetails == null || isLeaveCutOff)
+                {
+                    //No need to check cutoff or carry forward as there is no previous entry for this employee
+
+                    if (eligibleEmployee.IsIncludeLOPDays)
                     {
-                        leaveAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
-                        // leaveAccrualSummary.AccrualDays = eligibleEmployee.CFLimitDays;
+                        leaveAccrualEmployee.AccrualDays = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkeddaysInCalMonth;
                     }
                     else
                     {
-                        leaveAccrualEmployee.AccrualDays = currentAccrual;
-                        //leaveAccrualSummary.AccrualDays = totalAccrualDays;
+                        leaveAccrualEmployee.AccrualDays = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkingdaysInCalMonth;
                     }
                 }
+                else
+                {
+                    if (firstDayNextMonth <= prevAccrualSummaryDetails.AccrualDate && prevAccrualSummaryDetails.IsArchived == false)
+                    {
+                        throw new ResourceNotFoundException("Leave Accrual already generated for the month " + prevAccrualSummaryDetails.AccrualDate);
+                    }
+                    //if accrual days are greater or equal to carryforward limt, it will take the carryforward limit.
+                    if (prevAccrualSummaryDetails.AccrualDays >= eligibleEmployee.CFLimitDays)
+                    {
+                        //no entry to be made into both tables - LeaveAccrual and LeaveSummary
+                        prevAccrualSummaryDetails.AccrualDays = eligibleEmployee.CFLimitDays;
+                    }
+                    else
+                    {
+                        decimal currentAccrual = leaveAccrualEmployee.EligibilityPerDay * leaveAccrualEmployee.WorkeddaysInCalMonth;
+                        decimal totalAccrualDays = prevAccrualSummaryDetails.AccrualDays + currentAccrual;
+
+                        if (totalAccrualDays > eligibleEmployee.CFLimitDays)
+                        {
+                            leaveAccrualEmployee.AccrualDays = eligibleEmployee.CFLimitDays - prevAccrualSummaryDetails.AccrualDays;
+                            // leaveAccrualSummary.AccrualDays = eligibleEmployee.CFLimitDays;
+                        }
+                        else
+                        {
+                            leaveAccrualEmployee.AccrualDays = currentAccrual;
+                            //leaveAccrualSummary.AccrualDays = totalAccrualDays;
+                        }
+                    }
+                }
+                leaveAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * leaveAccrualEmployee.AccrualDays;
+                leaveAccruals.Add(leaveAccrualEmployee);
             }
-            leaveAccrualEmployee.AccrualAmount = ((decimal)eligibleEmployee.MonthlyAmount / eligibleEmployee.EligibleDays) * leaveAccrualEmployee.AccrualDays;
-            leaveAccruals.Add(leaveAccrualEmployee);
+            tenantSimpleUnitOfWork.Commit();
+            return leaveAccruals;
         }
-        return leaveAccruals;
+        catch
+        {
+            tenantSimpleUnitOfWork.Rollback();
+            return leaveAccruals;
+        }
     }
 
     public async Task<int> InsertLeaveAccruals(List<LeaveAccrual> leaveAccruals)
