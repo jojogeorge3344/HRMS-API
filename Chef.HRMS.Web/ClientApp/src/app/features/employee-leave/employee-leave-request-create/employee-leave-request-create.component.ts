@@ -38,6 +38,7 @@ import { EmployeeLeaveDocumentsService } from "../employee-leave-documents.servi
 import { RequestStatus } from 'src/app/models/common/types/requeststatustype';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { DateformaterService } from "@shared/services/dateformater.service";
+import { Router } from "@angular/router";
 
 @Component({
   templateUrl: "./employee-leave-request-create.component.html",
@@ -96,6 +97,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
   leaveObj;
   isLoading=false;
   validateDate:boolean=true
+  private router: Router
 
   constructor(
     private employeeLeaveService: EmployeeLeaveService,
@@ -839,6 +841,19 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
 
     return holidays.indexOf(d.getTime()) != -1; // return date.month !== current.month;  };
   };
+  getLeaveSettings(id) {debugger
+    this.employeeLeaveService.getAllLeaveSettings(id).subscribe(
+      (result) => {
+        this.leaveSettings = result[0];
+       // this.canApplyLeave = this.leaveCriteria();
+       this.validateRequest()
+      },
+      (error) => {
+        console.error(error);
+        this.toastr.showErrorMessage("Unable to fetch the Leave Settings");
+      }
+    );
+  }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
@@ -903,6 +918,7 @@ export class EmployeeLeaveRequestCreateComponent implements OnInit {
     })
     this.getEmployeeDetails(args.value.id)
     this.getLeaveBalance()
+    this.getLeaveSettings(args.value.id)
   }
   refreshRequestedBy(event){
     event.stopPropagation();
