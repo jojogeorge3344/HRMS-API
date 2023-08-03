@@ -1,4 +1,5 @@
 ﻿using Chef.Common.Core;
+using Chef.Common.Core.Extensions;
 using Chef.HRMS.Types;
 using System;
 using System.Collections.Generic;
@@ -23,12 +24,18 @@ namespace Chef.HRMS.Models.PayrollProcessing
         public string EmployeeName { get; set; }
         public int PayrollProcessId { get; set; }
         public DateTime PayrollProcessDate { get; set; }
-
+        
+        [Write(false)]
+        [Skip(true)]
+        [SqlKata.Ignore]
+        public string PayrollComponentCode { get; set; }
         [Write(false)]
         [Skip(true)]
         [SqlKata.Ignore]
         public string PayrollComponentName { get; set; }
+
         public PayHeadBaseUnitType PayHeadBaseUnitType { get; set; }
+        public string PayHeadUnitTypeName => EnumExtension.GetDescription(PayHeadBaseUnitType);
         public decimal EarningsAmt { get; set; }
         public decimal DeductionAmt { get; set; }
     }

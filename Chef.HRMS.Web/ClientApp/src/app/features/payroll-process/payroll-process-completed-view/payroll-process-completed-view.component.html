@@ -1,4 +1,4 @@
-<div class="modal-header">
+<!-- <div class="modal-header">
     <h4 class="modal-title">Completed Payroll Process</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
@@ -49,4 +49,59 @@
             </tr>
         </tbody>
     </table>
+</div> -->
+
+<div class="card p-3">   
+        <div class="header-button-wrapper">
+            <div class="form-outline col-4"  style="margin-right: 2px;">
+                <input
+                  class="form-control"
+                  id="searchKey"
+                  name="searchKey"
+                  [(ngModel)]="searchKey"
+                  type="search"
+                  placeholder="Search"
+                  (search)="searchEmployee()"
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm ml-3"
+                style="margin-right: 62%;font-size: 14px"
+                (click)="searchEmployee()"
+              >
+                <i class="fal fa-search"></i>
+              </button>
+              <button class="btn btn-outline-primary btn-sm btn-redirect btn-tab-right" routerLink="/payroll-processing"><i
+                class="fal fa-arrow-left mr-2"></i> Back to Payroll</button>
+        </div>
+        <table class="table m-0">
+            <thead class="thead-themed">
+                <tr>
+                    <th>Sl No.</th>
+                    <th>Employee Code</th>
+                    <th>Name</th>
+                    <th>Total Earnings</th>
+                    <th>Total Deduction</th>
+                    <th>Net Salary Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let payroll of payrollProcessViewDetails; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{payroll.employeeCode}}</td>
+                    <td>{{payroll.employeeName}}</td>
+                    <td>{{payroll.totalEarnings}}</td>
+                    <td>{{payroll.totalDeductions}}</td>
+                    <td>{{payroll.netSalaryAmount}}</td>
+                    <td (click)="viewSalaryDetails(payroll)">Details</td>
+                </tr>
+                <tr *ngIf="!payrollProcessViewDetails?.length">
+                    <td colspan="5" class="text-center">
+                        No rows found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 </div>
