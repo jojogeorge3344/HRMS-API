@@ -23,10 +23,10 @@ public class LeaveAccrualController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("GenerateLeaveAccruals/{paygroupid}")]
-    public async Task<ActionResult<IEnumerable<LeaveAccrual>>> GenerateLeaveAccruals(int paygroupid)
+    [HttpPost("GenerateLeaveAccruals/{paygroupid}/{month}/{year}")]
+    public async Task<ActionResult<IEnumerable<LeaveAccrual>>> GenerateLeaveAccruals(int paygroupid, int month, int year)
     {
-        var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid);
+        var leaveAccrualList = await leaveAccrualService.GenerateLeaveAccruals(paygroupid, month, year);
 
         if (leaveAccrualList == null)
         {
