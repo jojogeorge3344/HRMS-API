@@ -9,6 +9,7 @@ import { PayrollProcessSalaryListComponent } from './payroll-process-salary/payr
 import { PayrollProcessAdhocContainerComponent } from './payroll-process-adhoc/payroll-process-adhoc-container/payroll-process-adhoc-container.component';
 import { PayrollProcessEmployeeContainerComponent } from './payroll-process-employee-container/payroll-process-employee-container.component';
 import { PayrollProcessPreviewListComponent } from './payroll-process-preview/payroll-process-preview-list/payroll-process-preview-list.component';
+import { PayrollProcessCompletedViewComponent } from './payroll-process-completed-view/payroll-process-completed-view.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
   },
   {
     path: 'payroll-process-employee', component: PayrollProcessEmployeeContainerComponent,
+    data: { breadcrumbs: ['Organisation', 'Payroll Processing'], name: 'organization-payrollprocessing' }
+  },
+  {
+    path: 'payroll-process-complete-view/:id', component: PayrollProcessCompletedViewComponent,
     data: { breadcrumbs: ['Organisation', 'Payroll Processing'], name: 'organization-payrollprocessing' }
   }
 ];

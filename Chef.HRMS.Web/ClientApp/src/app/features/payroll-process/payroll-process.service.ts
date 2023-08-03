@@ -108,6 +108,8 @@ InsertPayrollLeaveDetails(leavedetails){
   return this.http.post<PayrollProcess>(this.baseUrl_overtimedetails + 'insert', overtimedetails).pipe(map(response => response));
 
  }
-
+getPayrollProcessView(payrollProcessId){
+  return this.http.get<PayrollProcess[]>(this.baseUrl + 'GetPayrollProcessView/' + payrollProcessId).pipe(map(response => response));
+}
 
 }
