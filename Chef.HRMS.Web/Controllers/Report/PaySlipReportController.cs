@@ -3,6 +3,8 @@ using Chef.Common.Data.Services;
 using Chef.Common.Models;
 using Chef.HRMS.Models;
 using Chef.HRMS.Models.PayrollProcessing;
+using Chef.HRMS.Models.Report;
+using Chef.HRMS.Repositories;
 using Chef.HRMS.Services;
 using Chef.HRMS.Services.Report;
 using Chef.HRMS.Web.Controllers;
@@ -66,6 +68,7 @@ public class PaySlipReportController : ReportViewerController
 
             List<PayrollHeaderView> payrollHeaderView = header.ToList();
             List<PayrollComponentReportView> payrollComponentReportView = componentDetails.ToList();
+            List<DeductionAmountView> deductionList = new List<DeductionAmountView>();
             foreach (PayrollHeaderView item in payrollHeaderView)
             {
                 if (item.BasicPay == 0)
@@ -77,6 +80,25 @@ public class PaySlipReportController : ReportViewerController
                 var country = this.GetCountryById(item.Currentcountry).Result;
                 item.CountryName = country.Name;
             }
+            //adding seperate data set for deduction and also deleting the details from the earnings list
+            foreach (var deductions in payrollComponentReportView)
+            {
+                if (deductions.DeductionAmt > 0)
+                {
+                    DeductionAmountView deduction = new DeductionAmountView
+                    {
+                        EmployeeId = deductions.EmployeeId,
+                        DeductionComponentId = deductions.DeductionComponentId,
+                        DeductionComponentName = deductions.DeductionComponentName,
+                        DeductionAmt = deductions.DeductionAmt
+                    };
+
+                    deductionList.Add(deduction);
+                }
+            }
+            // Remove items from the payrollComponentReportView list where deduction amount is zero
+            payrollComponentReportView.RemoveAll(x => x.EarningsAmt == 0);
+
             int currencyId = 0;
 
             foreach (var items in header)
@@ -93,11 +115,12 @@ public class PaySlipReportController : ReportViewerController
             companyCurrencylist.Add(currencyData);
 
             reportOption.AddDataSource("EmployeeHeader", header);
-            reportOption.AddDataSource("ComponentDetails", componentDetails);
+            reportOption.AddDataSource("ComponentDetails", payrollComponentReportView);
             reportOption.AddDataSource("OverTimeDetails", overtimeDetails);
             reportOption.AddDataSource("LoanDetails", loanDetails);
             reportOption.AddDataSource("CurrencyData", currencylist);
             reportOption.AddDataSource("CompanyCurrencyData", companyCurrencylist);
+            reportOption.AddDataSource("DeductionDetails", deductionList);
         }
     }
 
